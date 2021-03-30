@@ -3,7 +3,7 @@
 html, body {
     margin: 0;
     padding: 0;
-    background: #fff9f9;
+    background: #fbf6f6;
     color: #5C5F78;
 }
 
@@ -11,6 +11,17 @@ html, body {
     width: 100%;
     height: auto;
     box-sizing: border-box;
+}
+
+body::-webkit-scrollbar {
+    background: #fbf6f6;
+    width: 8px;
+}
+
+body::-webkit-scrollbar-thumb {
+    background: lightgray;
+    border-radius: 5px;
+    border: 2px solid transparent;
 }
 
 .main-nav {
