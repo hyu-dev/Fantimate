@@ -19,6 +19,12 @@
 	<jsp:include page="navbar.jsp"></jsp:include>
 	<section>
 		<!-- 여기다 메인페이지 작업해주시면 되요! -->
+		
+<!-- 		재우 테스트 -->
+		<button class="indexbtn" onclick="javascript:location.href='mypage/user/feed';">마이페이지</button>
+		<button ></button>
+<%-- 		<jsp:forward page="main"></jsp:forward> --%>
+<!-- 재우테스트 -->
 	</section>
 </body>
 </html>
