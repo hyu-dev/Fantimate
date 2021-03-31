@@ -1,0 +1,433 @@
+@charset "UTF-8";
+
+
+html, body {
+    margin: 0;
+    padding: 0;
+    background: #ebebeb !important;
+    color: #5C5F78 !important;
+}
+
+body::-webkit-scrollbar {
+    background: #ebebeb !important;
+    width: 8px;
+}
+
+body::-webkit-scrollbar-thumb {
+    background: #5C5F78 !important;
+    border-radius: 5px;
+    border: 2px solid transparent;
+}
+
+.main-nav {
+    width: 100%;
+    height: 90px;
+ 	background: #ebebeb !important;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 35px;
+    box-sizing: border-box;
+}
+
+
+
+/* 본문 시작 */
+
+.main-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    /* border: 2px solid red; */
+    box-sizing: border-box;
+}
+
+.pay-text {
+    font-family: Wemakeprice;
+    font-style: normal;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #5C5F78;
+    text-shadow: 0px 4px 10px rgba(160, 160, 160, 0.7);
+}
+
+.pay-title {
+    font-size: 64px;
+    line-height: 72px;
+    margin-top: 150px;
+}
+
+.pay-images-area {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pay-image {
+    width: 512px;
+    height: 512px;
+    border-radius: 50%;
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.25);
+    margin-top: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+.img-text {
+    color: white;
+    font-size: 36px;
+    line-height: 100px;
+    margin: 30px 0 70px;
+    
+}
+
+.color-red {
+    background: rgba(250, 82, 82, 0.8);
+    transform: translateX(10%);
+}
+
+.color-red img {
+    transform: translateX(10%);
+}
+
+.color-yellow {
+    background: rgba(255, 224, 102, 0.8);
+    transform: translateX(-10%);
+}
+
+.pay-comment {
+    margin: 150px 0 50px;
+    font-size: 48px;
+    line-height: 100px;
+}
+
+#selectSubscription {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 0 150px;
+}
+
+.pay-rec {
+    width: 400px;
+    height: 300px;
+    box-shadow: 0px 4px 25px rgba(0, 0, 0, 0.25);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* transition: all 0.5s; */
+}
+.pay-one-month {
+    position: relative;
+    top: 0;
+    z-index: 3;
+    transform: translateX(25%);
+    background: rgba(192, 235, 117, 0.9);
+}
+
+.pay-six-month {
+    position: relative;
+    top: 0;
+    z-index: 2;
+    background: rgba(116, 192, 252, 0.9);
+}
+
+.pay-subscription {
+    position: relative;
+    top: 0;
+    z-index: 1;
+    transform: translateX(-25%);
+    background: rgba(145, 167, 255, 0.9);
+}
+
+.pay-date {
+    margin: 0;
+    color: white;
+    font-family: Wemakeprice;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    /* line-height: 100px; */
+}
+
+.pay-date.date {
+    font-family: Wemakeprice;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 36px;
+    line-height: 100px;
+}
+
+.pay-icon {
+    width: 58px;
+    height: 58px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: white;
+}
+
+.pay-icon2 {
+    height: 77px;
+}
+
+
+#confirmSubscription {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 1000px;
+    height: 300px;
+    background: rgba(116, 192, 252, 0.9);
+    box-shadow: 0px 4px 25px rgba(0, 0, 0, 0.25);
+    margin: 0;
+    color: white;
+    position: relative;
+}
+
+#confirmSubscription img {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+#confirmSubscription h1 {
+    font-size: 48px;
+    font-family: Wemakeprice;
+    font-style: normal;
+    font-weight: bold;
+    margin: 100px 0 0;
+}
+
+#confirmSubscription h1 sub {
+    font-size: 24px;
+    color: #ededed;
+    font-family: Wemakeprice;
+    font-style: normal;
+    font-weight: normal;
+    margin: 0 0 0 80px;
+}
+
+#confirmSubscription h2 {
+    color: white;
+    font-family: Wemakeprice;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 36px;
+}
+
+#confirmSubscription h2:nth-of-type(1) {
+    margin: 30px auto;
+    /* border: 2px solid red; */
+}
+
+#confirmSubscription h2:nth-of-type(2) {
+    margin: 0 0 100px 450px;
+    /* border: 2px solid red; */
+    font-size: 36px;
+    font-style: normal;
+    font-weight: normal;
+}
+
+.subscription-btn-area {
+    position: relative;
+    width: 1000px;
+    height: 200px;
+    /* border: 2px solid red; */
+}
+
+.subscription-btn {
+    width: 300px;
+    min-height: 80px;
+    background: #EDF2FF;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+    border-radius: 100px;
+    border: none;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: Wemakeprice;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 36px;
+    color: #5C5F78;
+    padding: 0 0 0 30px;
+    box-sizing: border-box;
+    outline: none;
+}
+
+.subscription-btn:active {
+    box-shadow: none;
+    top: 5px;
+}
+
+.subscription-btn::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 20px;
+    width: 0;
+    height: 0;
+    border-top: 25px solid transparent;
+    border-left: 40px solid #4C6EF5;
+    border-bottom: 25px solid transparent;
+    margin: 0;
+    padding: 0;
+    transform: translate(50%, -50%);
+    transition: all 0.5s;
+}
+
+.subscription-btn:hover::after {
+    animation: shake 1s infinite;
+}
+
+@keyframes shake {
+    from {transform:  translate(50%, -50%);}
+    30% {transform: translate(60%, -50%);}
+    40% {transform: translate(65%, -50%);}
+    50% {transform: translate(70%, -50%);}
+    65% {transform: translate(65%, -50%);}
+    75% {transform: translate(60%, -50%);}
+    to {transform: translate(50%, -50%);}
+}
+
+.moveCenter {
+    animation: moveCenter 0.6s ease-in;
+}
+
+@keyframes moveCenter {
+    from {transform: translateX(0);}
+    30% {transform: translateX(15%);}
+    40% {transform: translateX(20%);}
+    50% {transform: translateX(25%);}
+    60% {transform: translateX(20%); z-index: 3;}
+    70% {transform: translateX(15%); z-index: 3;}
+    to {transform: translateX(0); z-index: 3;}
+}
+
+
+#paymentInformation {
+    display: none;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    width: 1000px;
+    height: 688px;
+    background: #FBF6F6;
+    box-shadow: 0px 0px 25px rgba(204, 204, 204, 0.7);
+    margin: 0 0 100px;
+    transition: all 0.3s;
+}
+
+.payment-info {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.payment-info table {
+    width: 650px;
+}
+
+.payment-info td {
+    font-size: 32px;
+    line-height: 100px;
+    padding: 0 30px;
+}
+
+.payment-info aside {
+    width: 300px;
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.payment-info aside p {
+    font-family: Wemakeprice;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 36px;
+    color: #5C5F78;
+}
+
+.payment-info aside b {
+    font-family: Wemakeprice;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 48px;
+    color: #5C5F78;
+}
+
+.payment-choice {
+    width: 100%;
+    height: 100px;
+    /* border: 2px solid red; */
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.payment-btn {
+    width: 300px;
+    height: 80px;
+    background: #f4d4d4;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+    outline: none;
+    border: none;
+    border-radius: 40px;
+    font-family: Wemakeprice;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 36px;
+    color: #5C5F78;
+    margin: 0 20px;
+    position: relative;
+}
+
+.payment-btn:active {
+    box-shadow: none;
+    top: 5px;
+}
+
+
+.payment-cancel-btn {
+    width: 300px;
+    height: 80px;
+    background: #5C5F78;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.4);
+    outline: none;
+    border: none;
+    border-radius: 40px;
+    font-family: Wemakeprice;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 36px;
+    color: white;
+    margin: 0 20px;
+    position: relative;
+}
+
+.payment-cancel-btn:active {
+    box-shadow: none;
+    top: 5px;
+}
+
+/* js 적용을 위한 css */
+.hideme {
+    opacity:0;
+}
