@@ -118,23 +118,6 @@
         </nav>
     </header>
     
-    <header class="main-header">
-        <nav class="main-nav">
-            <p class="main-logo">FANTIMATE</p>
-            <div class="main-menu">
-                <input type="checkbox" id="check">
-                <div class="search-box">
-                    <input type="text" placeholder="아티스트 검색" id="search-input">
-                    <label for="check"><img src="${ contextPath }/resources/icon/search-icon.svg" alt="" class="nav-icon"></label>
-                </div>
-                <img src="${ contextPath }/resources/icon/user.svg" alt="" class="nav-icon">
-                <img src="${ contextPath }/resources/icon/alarm.svg" alt="" class="nav-icon" id="alarm-icon" onclick="alarmList()">
-                <img src="${ contextPath }/resources/icon/cart.svg" alt="" class="nav-icon">
-                <img src="${ contextPath }/resources/icon/email.svg" alt="" class="nav-icon" id="mail-icon" onclick="mailList()">
-                <img src="${ contextPath }/resources/icon/more.svg" alt="" class="nav-icon" onclick="etcList()">
-            </div>
-        </nav>
-    </header>
       <!-- 알람 구간 -->
     <div class="alarm-hide-show">
         <section class="alarm-section">
