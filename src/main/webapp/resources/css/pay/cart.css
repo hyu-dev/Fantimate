@@ -1,0 +1,268 @@
+@charset "UTF-8";
+
+/* 본문 시작 */
+
+.main-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    min-width: 900px;
+    
+    /* border: 2px solid red; */
+    box-sizing: border-box;
+}
+
+.cart-title {
+    font-family: Wemakeprice;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 50px;
+    line-height: 56px;
+    margin-top: 100px;
+}
+
+.cart-table {
+    width: 90%;
+    max-width: 1500px;
+    margin: 30px auto 0 ;
+}
+
+
+.cart-table th {
+    font-family: Yoon Minguk;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 20px;
+    line-height: 40px;
+    text-align: center;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+.cart-table td {
+    text-align: center;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+
+.jelly-checkbox input {
+    display: none;
+}
+.jelly-checkbox span {
+    display: inline-block;
+    vertical-align: middle;
+    cursor: pointer;
+}
+.jelly-checkbox .jelly-icon {
+    position: relative;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #c8ccd4;
+    border-radius: 3px;
+    transition: background 0.1s ease;
+}
+.jelly-checkbox .jelly-icon::after {
+    content: '';
+    position: absolute;
+    top: 1px;
+    left: 6px;
+    width: 6px;
+    height: 13px;
+    border-right: 2px solid #fff;
+    border-bottom: 2px solid #fff;
+    transform: rotate(45deg) scale(0);
+    transition: all 0.3s ease;
+    transition-delay: 0.15s;
+    opacity: 0;
+}
+
+.jelly-checkbox input:checked ~ .jelly-icon {
+    border-color: transparent;
+    background: #5C5F78;
+    animation: jelly 0.6s ease;
+}
+.jelly-checkbox input:checked ~ .jelly-icon::after {
+    opacity: 1;
+    transform: rotate(45deg) scale(1);
+}
+@keyframes jelly {
+    from {transform: scale(1, 1);}
+    30% {transform: scale(1.25, 0.75);}
+    40% {transform: scale(0.75, 1.25);}
+    50% {transform: scale(1.15, 0.85);}
+    65% {transform: scale(0.95, 1.05);}
+    75% {transform: scale(1.05, 0.95);}
+    to {transform: scale(1, 1);}
+}
+
+.product-area {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin: 20px;
+}
+
+.product-img {
+    width: 200px;
+    height: 200px;
+    background: #ebebeb;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 20px;
+}
+
+.product-img img {
+    width: 150px;
+    height: 150px;
+}
+
+.product-area p {
+    text-align: left;
+    margin: 0;
+    font-family: Yoon Minguk;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.product-area p sub {
+    text-align: left;
+    margin: 0;
+    font-family: Yoon Minguk;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 15px;
+    color: #aaa;
+}
+
+.quantity {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.quantity button {
+    outline: none;
+    border: none;
+    box-shadow: 0px 3px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    text-align: center;
+    background-color: white;
+    font-size: 20px;
+    margin: 0 20px;
+    color: #5C5F78;
+}
+
+.delete-product {
+    width: 30px;
+    height: 35px;
+}
+
+.cart-guidance {
+    width: 90%;
+    max-width: 1500px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px;
+    box-sizing: border-box;
+}
+
+.delete-select-product {
+    width: 150px;
+    height: 40px;
+    background: #5C5F78;
+    border-radius: 50px;
+    outline: none;
+    border: none;
+    font-family: Yoon Minguk;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    color: white;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.4);
+    position: relative;
+}
+
+.delete-select-product:active {
+    box-shadow: none;
+    top: 4px;
+}
+
+.cart-guidance p {
+    font-family: Yoon Minguk;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+}
+
+
+.cart-total-table {
+    width: 90%;
+    max-width: 1500px;
+    margin: 60px auto 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.15);
+    box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.15);
+    /* border: 2px solid red; */
+}
+
+.cart-total-table td {
+    /* width: 90%;
+    margin: 0 auto; */
+    text-align: center;
+    padding: 40px 0;
+    /* border: 2px solid red; */
+    font-family: Yoon Minguk;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 30px;
+}
+
+.cart-total-table td sub {
+    font-family: Yoon Minguk;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;    
+}
+
+.cart-total-table td:nth-of-type(6) {
+    font-size: 32px;
+    color: #F08787;
+}
+
+.cart-payment {
+    width: 90%;
+    max-width: 1500px;
+    padding: 60px 0 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.cart-payment-btn {
+    width: 250px;
+    height: 60px;
+    background: #F4D4D4;
+    border-radius: 50px;
+    outline: none;
+    border: none;
+    font-family: Wemakeprice;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 24px;
+    color: #5C5F78;
+    box-shadow: 0px 5px 8px rgba(0, 0, 0, 0.2);
+    position: relative;
+}
+
+.cart-payment-btn:active {
+    box-shadow: none;
+    top: 8px;
+}
