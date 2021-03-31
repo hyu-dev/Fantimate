@@ -1,0 +1,343 @@
+@charset "UTF-8";
+
+html, body {
+    margin: 0;
+    padding: 0;
+    color: #5C5F78;
+    background: rgba(0,0,0,0.5);
+}
+.main-template {
+    width: 800px;
+    height: 980px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #fbf6f6;
+    box-sizing: border-box;
+    overflow-y: auto;
+}
+
+.main-template::-webkit-scrollbar {
+    background: #ebebeb;
+    width: 8px;
+}
+
+.main-template::-webkit-scrollbar-thumb {
+    background: #5C5F78;
+    border-radius: 5px;
+    border: 2px solid transparent;
+}
+
+.store-write-title {
+    padding: 30px 20px;
+    margin: 0;
+    font-family: Wemakeprice;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 30px;
+}
+
+.store-write {
+    width: 95%;
+    margin: 0 auto;
+    /* border: 2px solid red; */
+}
+
+.store-write > tbody > tr > th {
+    width: 150px;
+    /* border: 2px solid red; */
+}
+
+.store-write > tbody > tr > td {
+    height: 50px;
+    /* border: 2px solid red; */
+}
+
+.select {
+    width: 90%;
+    height: 100%;
+    font-family: Yoon Minguk;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 18px;
+    outline: none;
+    color: #5C5F78;
+    padding: 0 30px;
+    box-sizing: border-box;
+    border: 1px solid lightgrey;
+}
+
+.input-data {
+    width: 90%;
+    height: 100%;
+    font-family: Yoon Minguk;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 18px;
+    outline: none;
+    color: #5C5F78;
+    padding: 0 0 0 30px;
+    box-sizing: border-box;
+    border: 1px solid lightgrey;
+    background: white;
+}
+
+.input-data:focus {
+    outline: 1px solid #c92a2a;
+    border-radius: 3px;
+}
+
+.input-data::placeholder {
+    color: lightgray;
+}
+
+.input-area {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.input-area p {
+    position: absolute;
+    right: 90px;
+    bottom: 15px;
+    margin: 0;
+    font-family: Yoon Minguk;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 20px;
+    color: darkgray;
+}
+
+.product-info {
+    width: 90%;
+    /* border: 2px solid red; */
+}
+
+.product-info th {
+    width: 140px;
+    font-family: Wemakeprice;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 13px;
+    line-height: 30px;
+}
+
+.product-info td input{
+    width: 100%;
+    font-family: Yoon Minguk;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 13px;
+    line-height: 30px;
+    box-sizing: border-box;
+    border: 1px solid lightgrey;
+    padding: 0 10px;
+}
+
+.product-info td input::placeholder {
+    color: darkgray;
+}
+
+
+.product-info td input:focus {
+    outline: 1px solid #c92a2a;
+    border-radius: 3px;
+}
+
+.guide-text {
+    width: 90%;
+    resize: none;
+    border: 1px solid lightgray;
+    outline: none;
+    padding: 5px;
+    box-sizing: border-box;
+    color: #5C5F78;
+}
+
+.guide-text::-webkit-scrollbar {
+    background: white;
+    width: 7px;
+}
+
+.guide-text::-webkit-scrollbar-thumb {
+    background: #5C5F78;
+    border-radius: 4px;
+    border: 3px solid transparent;
+}
+
+
+.my-photo {
+    width: 95%;
+    /* border: 2px solid red; */
+    margin: 0 auto;
+    height: auto;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: no-wrap;
+    box-sizing: border-box;
+    overflow-x: scroll;
+    overflow-y: hidden;
+}
+
+.my-photo::-webkit-scrollbar {
+    background: #fbf6f6;
+    width: 8px;
+    height: 8px;
+}
+
+.my-photo::-webkit-scrollbar-thumb {
+    background: #5C5F78;
+    border-radius: 5px;
+    border: 3px solid transparent;
+}
+
+.my-photo label {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 30px 40px 0;
+    flex: 0 0 auto;
+}
+
+.main-photo {
+    width: 132px;
+    height: 132px;
+    background: #ebebeb;
+    position: relative;
+}
+
+.main-photo-img {
+    width: 132px;
+    height: 132px;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.add-photo {
+    width: 110px;
+    height: 110px;
+    background: #ebebeb;
+    position: relative;
+}
+
+.add-photo-img {
+    width: 110px;
+    height: 110px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border: none;
+}
+
+.click-btn {
+    font-size: 30px;
+}
+
+
+.jelly-checkbox input {
+    display: none;
+}
+.jelly-checkbox span {
+    display: inline-block;
+    vertical-align: middle;
+    cursor: pointer;
+}
+.jelly-checkbox .jelly-icon {
+    position: relative;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #c8ccd4;
+    border-radius: 3px;
+    transition: background 0.1s ease;
+}
+.jelly-checkbox .jelly-icon::after {
+    content: '';
+    position: absolute;
+    top: 1px;
+    left: 6px;
+    width: 6px;
+    height: 13px;
+    border-right: 2px solid #fff;
+    border-bottom: 2px solid #fff;
+    transform: rotate(45deg) scale(0);
+    transition: all 0.3s ease;
+    transition-delay: 0.15s;
+    opacity: 0;
+}
+.jelly-checkbox .jelly-text {
+    margin-left: 5px;
+}
+.jelly-checkbox input:checked ~ .jelly-icon {
+    border-color: transparent;
+    background: #5C5F78;
+    animation: jelly 0.6s ease;
+}
+.jelly-checkbox input:checked ~ .jelly-icon::after {
+    opacity: 1;
+    transform: rotate(45deg) scale(1);
+}
+@keyframes jelly {
+    from {transform: scale(1, 1);}
+    30% {transform: scale(1.25, 0.75);}
+    40% {transform: scale(0.75, 1.25);}
+    50% {transform: scale(1.15, 0.85);}
+    65% {transform: scale(0.95, 1.05);}
+    75% {transform: scale(1.05, 0.95);}
+    to {transform: scale(1, 1);}
+}
+
+.phrases {
+    width: 90%;
+    height: 40px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn-area {
+    width: 100%;
+    height: 100px;
+    /* border: 2px solid red; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn-area button {
+    width: 160px;
+    height: 50px;
+    outline: none;
+    border: none;
+    margin: 15px 30px 0;
+    font-family: Yoon Minguk;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.enroll-btn {
+    background-color: #F4D4D4;
+    color: #5C5F78;
+}
+
+.cancel-btn {
+    background-color: #5C5F78;
+    color: white;
+}
+
+.store-write tr:last-of-type td {
+    position: relative;
+}
+
+.limit-text {
+    position: absolute;
+    bottom: 10px;
+    right: 68px;
+    font-size: 13px;
+    color: lightgray;
+}
