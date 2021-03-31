@@ -14,7 +14,7 @@
     <title>Fantimate</title>
 </head>
 <body>
-	<jsp:include page="navbar.jsp"></jsp:include>
+	<jsp:include page="navSearch.jsp"></jsp:include>
 	<section>
 		<!-- 여기다 메인페이지 작업해주시면 되요! -->
 	</section>
