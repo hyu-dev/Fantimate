@@ -146,17 +146,17 @@
     <div class="mail-hide-show">
         <section class="mail-section">
             <div style="overflow:auto" id="mailList">
-                <!-- 토클 -->
-                    <div class="toggle-area">
-                        <div class="toggle-switch" tabindex="0">
+                  <!-- 토클 -->
+                    <div class="toggle-place">
+                        <div class="toggle-change" tabindex="0">
                             <input type="checkbox" name="my_checkbox" value="yes" id="checkbox-id" onclick="toggleChange()"/>
                             <label for="checkbox-id">
-                              <div class="area" aria-hidden="true">
-                                <div class="background">
-                                    <div class="handle"></div>
+                              <div class="toggle-section" aria-hidden="true">
+                                <div class="toggle-back">
+                                    <div class="handling"></div>
                                 </div>
                                 <p class="toggle-friend">친구</p>
-                                <p class="toggle-default">전체</p>
+                                <p class="toggle-whole">전체</p>
                               </div>
                             </label>
                           </div>
