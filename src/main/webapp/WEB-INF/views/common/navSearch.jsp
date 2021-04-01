@@ -72,7 +72,7 @@
 	     function toggleChange() {
 	
 	    // Get the checkbox
-	    var checkBox = document.getElementById("checkbox-id");
+	    var checkBox = document.getElementById("check-toggle");
 	
 	    // If the checkbox is checked, display the output text
 	    if (checkBox.checked == true){
@@ -144,8 +144,8 @@
                 <!-- 토클 -->
                     <div class="toggle-place">
                         <div class="toggle-change" tabindex="0">
-                            <input type="checkbox" name="my_checkbox" value="yes" id="checkbox-id" onclick="toggleChange()"/>
-                            <label for="checkbox-id">
+                            <input type="checkbox" name="my_checkbox" value="yes" id="check-toggle" onclick="toggleChange()"/>
+                            <label for="check-toggle">
                               <div class="toggle-section" aria-hidden="true">
                                 <div class="toggle-back">
                                     <div class="handling"></div>
