@@ -323,7 +323,7 @@ input[type="checkbox"]{
 
 /* 토클 스위치 (쪽지) */
 
-.toggle-area {
+.toggle-place{
     width: auto;
     height: auto;
     display: inline-block;
@@ -332,7 +332,7 @@ input[type="checkbox"]{
     top:40px;
 }
 
-.toggle-switch {
+.toggle-change {
     --width: 80px;
     --height: 40px;
     --padding: 3px;
@@ -341,7 +341,7 @@ input[type="checkbox"]{
     outline-width: 0;
   }
   
-  .toggle-switch > input {
+  .toggle-change > input {
     position: absolute;
     clip: rect(1px, 1px, 1px, 1px);
     clip-path: inset(50%);
@@ -351,7 +351,7 @@ input[type="checkbox"]{
     overflow: hidden;
   }
   
-  .area {
+  .toggle-section {
     padding: 4px;
     margin: -4px;
     position: relative;
@@ -360,7 +360,7 @@ input[type="checkbox"]{
     /* border: 2px solid red; */
   }
 
-  .area p{
+  .toggle-section p{
       margin: 0;
       padding: 1px 3px 0;
       font-size: 13px;
@@ -369,18 +369,18 @@ input[type="checkbox"]{
      font-family: "Wemakeprice-bold";
   }
 
-  .area p.toggle-friend{
+  .toggle-section p.toggle-friend{
       display: none; /* 디폴트 일때 "친구" 글자 가리기 */
   }
 
   
-  .background,
-  .handle,
-  .area p {
+  .toggle-back,
+  .handling,
+  .toggle-section p {
     transition: all 0.3s ease;
   }
   
-  .background {
+  .toggle-back {
     display: inline-flex;
     flex-direction: row;
     align-items: center;
@@ -398,7 +398,7 @@ input[type="checkbox"]{
   }
 
   
-  .handle {
+  .handling {
     width: var(--handle-size);
     height: var(--handle-size);
     background-color: white;
@@ -408,23 +408,23 @@ input[type="checkbox"]{
       inset 0 2px 4px rgba(0, 0, 0, 0.15);
   }
 
-  input:checked + label .area .background {
+  input:checked + label .toggle-section .toggle-back {
     background-color: #5C5F78;
   }
   
-  input:checked + label .area .handle {
+  input:checked + label .toggle-section .handling {
     /* background-color: white; */
     transform: translateX(calc(var(--width) - var(--handle-size)));
   }
 
-  input:checked + label .area p.toggle-friend {
+  input:checked + label .toggle-section p.toggle-friend {
     display: block; /* "친구" 글자 보이게 */
     position: absolute;
     left: 12px;
     color: white;
   }
 
-  input:checked + label .area p.toggle-default {
+  input:checked + label .toggle-section p.toggle-whole{
     display: none;
   }
 
