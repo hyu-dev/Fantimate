@@ -25,11 +25,11 @@ public class mypageUserController {
 		}
 		
 		@GetMapping("/dibs")
-		public ModelAndView userMydibs(ModelAndView mv) {
-//			List<Feed> feed = nService.selelctList();
+		public ModelAndView userMyDibs(ModelAndView mv) {
+//			List<Feed> dibs = nService.selelctList();
 			
-//			if(feed != null) {
-//				mv.addObject("feed", feed);
+//			if(dibs != null) {
+//				mv.addObject("dibs", dibs);
 				mv.setViewName("mypage/user/dibs");
 //			}else{
 //				mv.addObject("msg", "피드 조회에 실패하였습니다.");
@@ -38,6 +38,23 @@ public class mypageUserController {
 			return mv;
 		}
 		
+//		여기서부턴 상세조건 생략, 구현부터
+		@GetMapping("/friends")
+		public ModelAndView userMyFriends(ModelAndView mv) {
+			
+			mv.setViewName("mypage/user/dibs");
+			
+			return mv;
+		}
+		
+		
+		@GetMapping("/friends")
+		public ModelAndView userMyFriends(ModelAndView mv) {
+			
+			mv.setViewName("mypage/user/dibs");
+			
+			return mv;
+		}
 		
 		
 		
