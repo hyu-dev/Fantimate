@@ -16,7 +16,10 @@
 <title>My Dibs</title>
 </head>
 <body>
-	<jsp:include page="../../common/navbar.jsp"></jsp:include>
+<%-- 		<jsp:include page="../../common/navbar.jsp"></jsp:include> --%>
+	<jsp:include page="${ contextPath }/common/navbar.jsp"/>
+<%-- 	<jsp:include page="${ contextPath }/WEB-INF/views/common/navbar.jsp"/> --%>
+	
 	<!-- 	상단 -->
 	<section id="mypageUserProfile">
 	

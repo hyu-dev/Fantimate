@@ -22,6 +22,7 @@
 		
 <!-- 		재우 테스트 -->
 		<button class="indexbtn" onclick="javascript:location.href='mypage/user/feed';">마이페이지</button>
+<%-- 	<button class="indexbtn" onclick="javascript:location.href='mypage/${유저타입}/feed';">마이페이지</button> -->
 		<button ></button>
 <%-- 		<jsp:forward page="main"></jsp:forward> --%>
 <!-- 재우테스트 -->

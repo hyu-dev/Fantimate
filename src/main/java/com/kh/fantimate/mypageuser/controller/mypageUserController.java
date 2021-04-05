@@ -24,6 +24,14 @@ public class mypageUserController {
 			return mv;
 		}
 		
+		@GetMapping("/subscribes")
+		public ModelAndView userMysubscribes(ModelAndView mv) {
+			
+			mv.setViewName("mypage/user/subscribes");
+			
+			return mv;
+		}
+		
 		@GetMapping("/dibs")
 		public ModelAndView userMyDibs(ModelAndView mv) {
 //			List<Feed> dibs = nService.selelctList();
@@ -42,19 +50,45 @@ public class mypageUserController {
 		@GetMapping("/friends")
 		public ModelAndView userMyFriends(ModelAndView mv) {
 			
-			mv.setViewName("mypage/user/dibs");
+			mv.setViewName("mypage/user/friends");
+			
+			return mv;
+		}
+		
+		@GetMapping("/comments")
+		public ModelAndView userMycomments(ModelAndView mv) {
+			
+			mv.setViewName("mypage/user/comments");
+			
+			return mv;
+		}
+		
+		@GetMapping("/bookmarks")
+		public ModelAndView userMybookmarks(ModelAndView mv) {
+			
+			mv.setViewName("mypage/user/bookmarks");
+			
+			return mv;
+		}
+		
+		@GetMapping("/fanstore")
+		public ModelAndView userMyfanstore(ModelAndView mv) {
+			
+			mv.setViewName("mypage/user/fanstore");
+			
+			return mv;
+		}
+		
+		@GetMapping("/payments")
+		public ModelAndView userMypayments(ModelAndView mv) {
+			
+			mv.setViewName("mypage/user/payments");
 			
 			return mv;
 		}
 		
 		
-		@GetMapping("/friends")
-		public ModelAndView userMyFriends(ModelAndView mv) {
-			
-			mv.setViewName("mypage/user/dibs");
-			
-			return mv;
-		}
+		
 		
 		
 		
