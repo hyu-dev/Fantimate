@@ -3,5 +3,16 @@
 PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="memberMapper">
-
+	<resultMap type="artistgroup" id="artistgroupResultSet">
+		<id property = "artNameEn" column="ARTI_NAME_EN"/>
+		<result property="artNameKr" column="ARTI_NAME_KR"/>
+		<result property="agId" column="AG_ID"/>
+	</resultMap>
+	
+	<select id="selectArtistList" parameterType="ArtistGroup" resultMap="artistgroupResultSet">
+		SELECT
+			  ARTI_NAME_EN
+		 FROM
+		 	  ART_MAIN
+	</select>
 </mapper>
