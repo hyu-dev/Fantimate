@@ -1,5 +1,7 @@
 package com.kh.fantimate.store.model.vo;
 
+import org.springframework.stereotype.Component;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,6 +13,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
+@Component
 public class Store {
 	private int pcode; 			// 상품코드
 	private String pname; 		// 상품명
