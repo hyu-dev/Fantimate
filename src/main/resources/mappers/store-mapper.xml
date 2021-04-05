@@ -3,6 +3,11 @@
 PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="storeMapper">
+	<resultMap type="StoreCategory" id="category">
+		<id property="cateCode" column="C_CODE"/>
+		<result property="cateName" column="C_NAME"/>
+		<result property="artiNameEn" column="ANTI_NAME_EN"/>
+	</resultMap>
 	<resultMap type="Store" id="storeResultSet">
 		<id property="pcode" column="P_CODE"/>
 		<result property="pname" column="P_NAME"/>
@@ -25,17 +30,146 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<result property="attMain" column="IS_MAIN_ATT"/>
 		<result property="refId" column="P_CODE"/>
 	</resultMap>
+	<resultMap type="Wish" id="wishResultSet">
+		<id property="code" column="P_CODE"/>
+		<result property="wishDate" column="WISH_DATE"/>
+		<result property="isWish" column="IS_WISH"/>
+		<result property="id" column="ID"/>
+	</resultMap>
 	<resultMap type="StoreCollection" id="storeCollResultSet">
 		<collection property="store" resultMap="storeResultSet" />
 		<collection property="att"  resultMap="attResultSet" />
+		<collection property="wish"  resultMap="wishResultSet" />
 	</resultMap>
-	<select id="testList" resultMap="storeCollResultSet">
-		SELECT *
+	<select id="selectCategoryList" parameterType="string" resultMap="category">
+		SELECT
+				C_CODE
+			  , C_NAME
+			  , ARTI_NAME_EN
+		  FROM
+		  		S_CATEGORY
+		 WHERE
+		 		ARTI_NAME_EN = #{arti}
+	</select>
+	<select id="selectStoreList" resultMap="storeCollResultSet">
+		SELECT 
+				P_CODE
+			  , P_NAME
+			  , SALES_Q
+			  , Q_PRICE
+			  , DISCOUNT
+			  , INFORMATION
+			  , IS_VIEW
+			  , VIEWCOUNT
+			  , IS_SOLDOUT
+			  , IS_ACTIVE
+			  , C_CODE
+			  , ATT_CODE
+			  , ATT_ROOT
+			  , ATT_CL_NAME
+			  , ATT_SV_NAME
+			  , ATT_STATUS
+			  , IS_MAIN_ATT
+			  , WISH_DATE
+              , IS_WISH
+              , ID
 		  FROM 
 		  		STORE
 		  JOIN 
 		  		ATT_STORE USING(P_CODE)
+		  LEFT JOIN
+		  		S_WISH USING(P_CODE)
 		 WHERE
 		 		C_CODE = #{cateCode}
+		   AND
+		   		IS_MAIN_ATT = 'Y'
+	  ORDER BY  P_CODE DESC
 	</select>
+	<select id="selectStoreListByCate" parameterType="hashMap" resultMap="storeCollResultSet">
+		SELECT
+				P_CODE
+			  , P_NAME
+			  , SALES_Q
+			  , Q_PRICE
+			  , DISCOUNT
+			  , INFORMATION
+			  , IS_VIEW
+			  , VIEWCOUNT
+			  , IS_SOLDOUT
+			  , IS_ACTIVE
+			  , C_CODE
+			  , ATT_CODE
+			  , ATT_ROOT
+			  , ATT_CL_NAME
+			  , ATT_SV_NAME
+			  , ATT_STATUS
+			  , IS_MAIN_ATT
+			  , WISH_DATE
+              , IS_WISH
+              , ID
+		  FROM 
+		  		STORE
+		  JOIN 
+		  		ATT_STORE USING(P_CODE)
+		  LEFT JOIN
+		  		S_WISH USING(P_CODE)
+	  <trim prefix="WHERE" prefixOverrides="AND|OR">
+		 		C_CODE = (SELECT C_CODE FROM S_CATEGORY WHERE C_NAME = #{cateName} AND ARTI_NAME_EN = #{artiName})
+		   AND
+		   		IS_MAIN_ATT = 'Y'
+	  <if test='toggle.equals("NEW")'>
+	  ORDER BY  P_CODE DESC
+	  </if>
+	  <if test='toggle.equals("TOP")'>
+	  ORDER BY  VIEWCOUNT DESC
+	  </if>
+	  </trim>
+	</select>
+	<select id="isEnrollWish" parameterType="hashMap" resultType="_int">
+		SELECT
+				COUNT(*)
+		  FROM
+		  		S_WISH
+		 WHERE
+		 		ID = #{id}
+		   AND
+		   		P_CODE = #{pcode}
+	</select>
+	<insert id="enrollWish" parameterType="hashMap">
+		INSERT
+		INTO S_WISH
+		(
+			P_CODE
+		  , WISH_DATE
+		  , IS_WISH
+		  , ID
+		)
+		VALUES
+		(
+			#{pcode}
+		  , SYSDATE
+		  , DEFAULT
+		  , #{id}
+		)
+	</insert>
+	<update id="updateWish" parameterType="hashMap">
+		UPDATE
+				S_WISH
+		   SET
+		   		IS_WISH = 'Y'
+		 WHERE
+		 		P_CODE = #{pcode}
+		   AND
+		   		ID = #{id}
+	</update>
+	<update id="cancelWish" parameterType="hashMap">
+		UPDATE
+				S_WISH
+		   SET
+		   		IS_WISH = 'N'
+		 WHERE
+		 		P_CODE = #{pcode}
+		   AND
+		   		ID = #{id}
+	</update>
 </mapper>
