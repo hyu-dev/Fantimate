@@ -1,0 +1,291 @@
+@charset "UTF-8";
+
+.chart-section{
+    width: 100%;
+    height: auto;
+    box-sizing: border-box;
+}
+
+.banner-pic{
+    width: 100%;
+    height: 30%;
+}
+
+/* 토클 스위치 (쪽지) */
+
+.toggle-area {
+    width: auto;
+    height: auto;
+    display: inline-block;
+    margin-right: 20px;
+}
+
+.toggle-switch {
+    --width: 80px;
+    --height: 40px;
+    --padding: 3px;
+    --handle-size: calc(var(--height) - var(--padding) * 2);
+    display: inline-block;
+    outline-width: 0;
+  }
+  
+  .toggle-switch > input {
+    position: absolute;
+    clip: rect(1px, 1px, 1px, 1px);
+    clip-path: inset(50%);
+    height: 1px;
+    width: 1px;
+    margin: -1px;
+    overflow: hidden;
+  }
+  
+  .area {
+    padding: 4px;
+    margin: -4px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    /* border: 2px solid red; */
+  }
+
+  .area p{
+      margin: 0;
+      padding: 1px 3px 0;
+      font-size: 13px;
+     position: absolute;
+     right: 13px;
+     font-family: "Wemakeprice-bold";
+  }
+
+  .area p.toggle-friend{
+      display: none; /* 디폴트 일때 "친구" 글자 가리기 */
+  }
+
+  
+  .background,
+  .handle,
+  .area p {
+    transition: all 0.3s ease;
+  }
+  
+  .background {
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    width: var(--width);
+    height: var(--height);
+    border-radius: var(--height);
+    padding: 0 var(--padding);
+    vertical-align: text-bottom;
+    user-select: none;
+    background-color: #ebebeb;
+    box-shadow: inset 0px 0px 5px 2px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    transition: background-color .15s ease;
+    cursor: pointer;
+  }
+
+  
+  .handle {
+    width: var(--handle-size);
+    height: var(--handle-size);
+    background-color: white;
+    border-radius: 50%;
+    box-shadow:
+      0 2px 4px rgba(0, 0, 0, 0.5),
+      inset 0 2px 4px rgba(0, 0, 0, 0.15);
+  }
+
+  input:checked + label .area .background {
+    background-color: #5C5F78;
+  }
+  
+  input:checked + label .area .handle {
+    /* background-color: white; */
+    transform: translateX(calc(var(--width) - var(--handle-size)));
+  }
+
+  input:checked + label .area p.toggle-friend {
+    display: block; /* "친구" 글자 보이게 */
+    position: absolute;
+    left: 12px;
+    color: white;
+  }
+
+  input:checked + label .area p.toggle-default {
+    display: none;
+  }
+
+  /**/
+
+  .chart-section{
+    max-width: 1200px;  
+    min-width: 1200px;
+    box-sizing: border-box;
+    margin: auto;
+    margin-top: 108px;
+}
+
+.toggle-title-section{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 20px;
+    margin: 0 17px;
+}
+
+.chart-title{
+    padding-left:40px;
+    color: #000000;
+    font-family: Yoon Minguk;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 25px;
+}
+
+.top3-section{
+    max-width: 1200px;  
+    min-width: 1200px;
+    box-sizing: border-box;
+    display: flex;
+    flex-wrap: wrap;
+    margin: auto;
+    justify-content: space-between;
+    background: #fff;
+
+}
+
+.artist-media{
+    width: 360px;
+    height: 260px;
+}
+
+ul li.top3-info{
+    display: inline-block;
+    margin-left: 9px;
+}
+
+.media-info{
+    border: 1px solid red;
+    position: relative;
+    width: 360px;
+    height: 120px;
+    box-shadow: 0 1px 1px 0 rgb(215 215 215 / 50%);
+    border: solid 1px #e5e5e5;
+    background: #fff;
+}
+
+.m-title{
+    position: absolute;
+    display: flex;
+    margin-left: 20px;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.m-time-area{
+    position: absolute;
+    display: flex;
+    margin-left: 55px;
+    align-items: center;
+    margin-top: 40px;
+}
+
+.play-info{
+    position: absolute;
+    display: flex;
+    margin-left: 280px;
+    margin-top: 70px;
+}
+
+.play-info2{
+    position: absolute;
+    display: flex;
+    margin-left: 60px;
+    margin-top: 100px;
+}
+
+.rest-section{
+    box-sizing: border-box;
+    margin: auto;
+    max-width: 1200px;  
+    min-width: 1200px;
+    background: #fff;
+}
+
+.rest-media{
+    /*219 * 160*/
+    height: 160px;
+}
+
+ul.rest-info-section{
+    display: flex;
+    flex-wrap: wrap;
+}
+ul li.rest-info{
+    display: flex;
+    margin: 35px;
+}
+
+.rest-media-info{
+    width: 280px;
+    background: #fff;
+}
+
+.rank-num{
+    margin-right: 20px;
+    font-family: Yoon Minguk;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 30px;
+    line-height: 43px;
+    color: #000000;
+    margin-top: 0;
+    margin-bottom: 0;
+
+}
+
+.m-times, .m-artistName{
+    font-family: Yoon Minguk;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 22px;
+    color: #9e9d9d;
+}
+
+.rank-title{
+    font-family: Yoon Minguk;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 20px;
+    line-height: 24px;
+    color: #000000;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.like-count{
+    font-family: Yoon Minguk;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 22px;
+    color: #000000;
+}
+
+/*푸터*/
+#footer-section{
+    width: 100%;
+    height: 305px;
+    background: #5C5F78;
+    color:#fff;
+    margin-top: 250px;
+    text-align: center;
+    padding-top: 140px;
+    font-family: Wemakeprice;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 15px;
+    line-height: 25px;
+}

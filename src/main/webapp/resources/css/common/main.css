@@ -1,0 +1,498 @@
+@charset "UTF-8";
+
+.mainPage-section{
+    width: 100%;
+    height: auto;
+    box-sizing: border-box;
+}
+
+.mainPage-artistList{
+    max-width: 1200px;  
+    min-width: 1200px;
+    height: 1200px;
+    box-sizing: border-box;
+    display: flex;
+    flex-wrap: wrap;
+    margin: auto;
+    justify-content: space-between;
+    padding: 0 15px;
+    margin-top: 108px;
+}
+
+/* 타이틀 호버 */
+
+.feed-title, .media-title, .store-title, .chart-title{
+    padding-left: 20px;
+    height: 110px;
+    width: 1200px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.chart-title{
+    justify-content: space-between;
+    font-size: 20px;
+    
+}
+
+#goTo-chart{
+    margin-right: 100px;
+    color: inherit;
+    text-decoration: none;
+    color: #5C5F78;
+    font-weight: bold;
+}
+
+#goTo-chart:hover{
+    color: #ec8c8c;
+}
+
+.mainPage-artistFeed-title, .mainPage-artistMedia-title, .mainPage-artistStore-title, .mainPage-artistChart-title{
+    position: relative;
+    z-index:2;
+}
+
+
+.feed-title::after{
+    content:'';
+    position: absolute;
+    top: 0;
+    right: 67%;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    transition: all .7s;
+    z-index: 1;
+}
+
+.media-title::after{
+    content:'';
+    position: absolute;
+    top: 0;
+    right: 66%;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    transition: all .7s;
+    z-index: 1;
+}
+
+.store-title::after{
+    content:'';
+    position: absolute;
+    top: 0;
+    right: 78%;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    transition: all .7s;
+    z-index: 1;
+}
+
+.chart-title::after{
+    content:'';
+    position: absolute;
+    top: 0;
+    right: 71%;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    transition: all .7s;
+    z-index: 1;
+}
+
+
+.feed-title:hover::after{
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: #E5D2D2;
+    right:67%;
+}
+
+.media-title:hover::after{
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: #F4D4D4;
+    right:66%;
+}
+
+.store-title:hover::after{
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: rgba(92, 95, 120, 0.6);
+    right:78%;
+}
+
+.chart-title:hover::after{
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: #DEDEDE;
+    right:71%;
+}
+
+/* 이미지 호버 */
+.artistList-move{
+    position: relative;
+    display: inline-table;
+    overflow: hidden;
+}
+
+.artistList-move img{
+    max-width: 100%;
+}
+
+.artistList-move span.artist-name{
+    position: absolute;
+    top:50%;
+    left:0;
+    transform: translateY(-50%);
+    width: 100%;
+    font-size: 36px;
+    color: #FFFFFF;
+    font-family: Yoon Minguk;
+    font-style: normal;
+    font-weight: bold;
+    text-align: center;
+    display: none;
+}
+
+
+.artistList-move::before{
+    content:'';
+    position: absolute;
+    top: 0;
+    left:-100%;
+    transition: all .7s;
+    background: rgba(92, 95, 120, 0.65);
+    width: 100%;
+    height: 100%;
+}
+
+.artistList-move:hover span.artist-name{
+    display: block;
+}
+
+.artistList-move:hover::before{
+    left:0;
+}
+
+/**/
+
+.artist-pic{
+    width: 360px;
+    height: 260px;
+
+}
+
+.mainPage-artistFeed, .mainPage-media, .mainPage-chart{
+    max-width: 1200px;
+    height: 430px;
+    margin: auto;
+    margin-top: 77px;
+    border:1px
+}
+
+.mainPage-artistFeed-title, .mainPage-artistMedia-title, .mainPage-artistStore-title, .mainPage-artistChart-title{
+    font-size: 36px;
+    font-family: "Wemakeprice-bold";
+    color: #000000;
+}
+
+.feed-pic, .media-pic{
+    width: 300px;
+    height: 209px;
+}
+
+#numberOneChart{
+    width: 454px;
+    /*height: 298px;*/
+    padding: 0 10px;
+
+}
+
+.chart-pic{
+    width: 284px;
+    /*height: 183px;*/
+}
+
+.store-background{
+    width: 278px;
+    height: 278px;
+}
+
+.store-feed-info{
+    position: relative;
+}
+
+.store-pic{
+    position: absolute;
+    left: 15%;
+    top:17%;
+}
+
+.slide-btn{
+    width: 30px;
+    height: 34px;
+}
+
+.feed-slide-section, .media-slide-section, .store-slide-section{
+    width: 1200px;
+    height: 360px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+
+}
+
+.chart-slide-section{
+    width: 1200px;
+    height: 360px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+}
+
+.chart-rank{
+    color:#000000;
+    font-family: Yoon Minguk;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 24px;
+    line-height: 29px;
+
+}
+
+/*프로필 동그라미*/
+.profile-circle{
+    margin-top: 10px;
+    width: 50px;
+    height: 50px;
+    border-radius: 70%;
+    overflow: hidden;
+}
+
+.feed-profile {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+/**/
+
+/* 아티스트 인기 피드 프로필 정보 */
+
+.profile-info{
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+}
+
+.feed-info-section, .media-info-section{
+    display: flex;
+    justify-content: space-between;
+}
+
+.chart-info-section{
+    display: flex;
+    justify-content: space-between;
+}
+
+.rank1-info-section{
+    display: flex;
+    justify-content: space-between;
+    padding: 0 10px;
+}
+
+.profile-name{
+    font-family: Yoon Minguk;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 20px;
+    line-height: 24px;
+    color: #000000;
+}
+
+
+
+/* 좋아요 정보 */
+.like-info, .play-info{
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+}
+
+.like-img, .play-img{
+    /*width: 32px;*/
+    height: 30px;
+}
+
+.like-count{
+    font-family: Yoon Minguk;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 22px;
+    color: #000000;
+}
+
+/* 슬라이드 버튼 */
+.slide-btn{
+    width: 30px;
+    height: 34px;
+}
+
+/* 피드 인기글 사진없이 글만 있을 경우*/
+.feed-text-section{
+    position: relative;
+    white-space: normal;
+}
+
+.feed-text{
+    position:absolute;
+    top:50%;
+    left:2%;
+    transform: translateY(-50%);
+    width: 100%;
+    font-family: Yoon Minguk;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 22px;
+    color: #000000;
+}
+
+/* 스크롤바 꾸미기 시작 */
+body::-webkit-scrollbar {
+    /* 스크롤바 전체 */
+    width: 10px;
+    background: #FBF6F6;
+
+}
+
+body::-webkit-scrollbar-thumb {
+    /* 스크롤 막대 */
+    background: #5C5F78;
+    background-clip: padding-box;
+    border-radius: 5px;
+    border: 2.5px solid transparent;
+}
+
+body::-webkit-scrollbar-thumb:hover {
+    background: #F4D4D4;
+    background-clip: padding-box;
+    border: 2.5px solid transparent;
+}
+
+body::-webkit-scrollbar-track {
+    /* 스크롤 막대 외부 */
+    border-radius: 5px;
+    background: transparent;
+}
+
+
+/* 이미지 커졌다 작아졌다 */
+
+.img-box{
+    display: flex;
+    transform:translate(-1%,-1%);
+    width: 300px;
+    height: 209px;
+    
+}
+.img-box > img{
+    position: absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    width: 100%;
+    transition: transform 1.5s;
+}
+
+.img-box:hover > img{
+    transform:translate(-50%,-50%) scale(1.2);
+}
+
+/* 슬라이드 처리 */
+
+.mainPage-artistFeed input[id*="slide"]{
+    display: none;
+}
+
+.mainPage-artistFeed .slide-wrap{
+    max-width: 1200px;
+    margin: 0 auto;
+    overflow: hidden;
+
+}
+
+.mainPage-artistFeed .slide-list{
+    white-space: nowrap;
+}
+
+.mainPage-artistFeed .slide-list > li{
+    display: inline-block;
+    vertical-align: middle;
+    width: 100%;
+    transition: all .5s;
+}
+
+.mainPage-artistFeed .slide-list label{
+    /*position: absolute;*/
+    z-index: 10;
+    top:50%;
+    transform:translateY(-50%);
+    padding: 20px;
+    cursor: pointer;
+}
+
+.mainPage-artistFeed .slide-list .left{
+    left: 30px;
+    background:url("/fantimate/resources/images/main/left-arrow.svg") center center / 100% no-repeat;
+}
+
+.mainPage-artistFeed .slide-list .right{
+    right: 30px;
+    background:url("/fantimate/resources/images/main/right-arrow.svg") center center / 100% no-repeat;
+
+}
+
+.mainPage-artistFeed [id="slide01"]:checked ~ .slide-wrap .slide-list > li {
+    transform: translateX(0%);
+}
+.mainPage-artistFeed [id="slide02"]:checked ~ .slide-wrap .slide-list > li {
+    transform: translateX(-100%);
+}
+.mainPage-artistFeed [id="slide03"]:checked ~ .slide-wrap .slide-list > li {
+    transform: translateX(-200%);
+}
+
+.slide-list{
+    padding-left: 0px;
+}
+
+/*푸터*/
+#footer-section{
+    width: 100%;
+    height: 305px;
+    background: #5C5F78;
+    color:#fff;
+    margin-top: 250px;
+    text-align: center;
+    padding-top: 140px;
+    font-family: Wemakeprice;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 15px;
+    line-height: 25px;
+}
+
+#friendContent{
+    display: none;
+}
