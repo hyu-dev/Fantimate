@@ -210,6 +210,12 @@
     align-items: center;
     margin: 20px 10px;
     overflow: hidden;
+    cursor: pointer;
+}
+
+.product-background > img {
+	width: 180px;
+	height: 180px;
 }
 
 .product-info {
@@ -267,9 +273,9 @@
     bottom: 5px;
 }
 
-.product-background:hover .product-info {
+/* .product-background:hover .product-info {
     top: 50%;
-}
+} */
 
 
 .more-product {

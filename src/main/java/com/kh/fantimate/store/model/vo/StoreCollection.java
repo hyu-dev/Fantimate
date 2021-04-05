@@ -8,4 +8,5 @@ import lombok.Data;
 public class StoreCollection {
 	private Store store;
 	private Attachment att;
+	private Wish wish;
 }
