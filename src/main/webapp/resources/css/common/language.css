@@ -1,0 +1,127 @@
+@charset "UTF-8";
+
+html, body {
+    margin: 0;
+    padding: 0;
+    color: #5C5F78;
+    background: rgba(0,0,0,0.5);
+}
+
+.lang-section{
+    width: 600px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #fbf6f6;
+    box-sizing: border-box;
+    overflow-y: auto;
+}
+
+
+.lang-title{
+    font-family: Yoon Minguk;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 25px;
+    color:#000000;
+    margin-left: 10px;
+}
+
+.lang-option-title{
+    font-family: Yoon Minguk;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 20px;
+    color:#000000;
+    margin-top: 50px;
+}
+
+.lang-option-section{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.lang-btn-section{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 50px;
+    margin-bottom: 100px;
+}
+
+#changeBtn{
+    background: #F4D4D4;
+    width: 150px;
+    height: 50px;
+    font-family: Yoon Minguk;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 22px;
+    line-height: 43px;
+    text-align: center;
+    color: #5C5F78;
+    border: 1px solid #F4D4D4;
+}
+
+#closeBtn{
+    width: 150px;
+    height: 50px;
+    background: #5C5F78;
+    font-family: Yoon Minguk;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 22px;
+    line-height: 43px;
+    text-align: center;
+    color: #FFFFFF;
+    border: 1px solid #5C5F78;
+    margin-left: 20px;
+}
+
+.lang-line-section{
+    border-bottom: 1px solid #ACACAC;
+    width: 540px;
+    margin: auto;
+}
+
+.lang-select{
+    width: 320px;
+    height: 30px;
+    font-size: 16px;
+    font-family: Yoon Minguk;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 43px;
+    color: #ACACAC;
+    border: 1px solid #ACACAC;
+    outline: none;
+}
+
+body::-webkit-scrollbar{
+    /* 스크롤바 전체 */
+    width: 10px;
+    background: #FBF6F6;
+
+}
+
+body::-webkit-scrollbar-thumb {
+    /* 스크롤 막대 */
+    background: #5C5F78;
+    background-clip: padding-box;
+    border-radius: 5px;
+    border: 2.5px solid transparent;
+}
+
+body::-webkit-scrollbar-thumb:hover{
+    background: #F4D4D4;
+    background-clip: padding-box;
+    border: 2.5px solid transparent;
+}
+
+body::-webkit-scrollbar-track{
+    /* 스크롤 막대 외부 */
+    border-radius: 5px;
+    background: transparent;
+}
