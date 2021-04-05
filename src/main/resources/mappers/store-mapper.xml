@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="storeMapper">
+	<resultMap type="Store" id="storeResultSet">
+		<id property="pcode" column="P_CODE"/>
+		<result property="pname" column="P_NAME"/>
+		<result property="salesQ" column="SALES_Q"/>
+		<result property="qprice" column="Q_PRICE"/>
+		<result property="discount" column="DISCOUNT"/>
+		<result property="info" column="INFORMATION"/>
+		<result property="isView" column="IS_VIEW"/>
+		<result property="viewCount" column="VIEWCOUNT"/>
+		<result property="isSoldout" column="IS_SOLDOUT"/>
+		<result property="isActive" column="IS_ACTIVE"/>
+		<result property="cateCode" column="C_CODE"/>
+	</resultMap>
+	<resultMap type="Attachment" id="attResultSet">
+		<id property="attCode" column="ATT_CODE"/>
+		<result property="attRoot" column="ATT_ROOT"/>
+		<result property="attClName" column="ATT_CL_NAME"/>
+		<result property="attSvName" column="ATT_SV_NAME"/>
+		<result property="attStatus" column="ATT_STATUS"/>
+		<result property="attMain" column="IS_MAIN_ATT"/>
+		<result property="refId" column="P_CODE"/>
+	</resultMap>
+	<resultMap type="StoreCollection" id="storeCollResultSet">
+		<collection property="store" resultMap="storeResultSet" />
+		<collection property="att"  resultMap="attResultSet" />
+	</resultMap>
+	<select id="testList" resultMap="storeCollResultSet">
+		SELECT *
+		  FROM 
+		  		STORE
+		  JOIN 
+		  		ATT_STORE USING(P_CODE)
+		 WHERE
+		 		C_CODE = #{cateCode}
+	</select>
+</mapper>
