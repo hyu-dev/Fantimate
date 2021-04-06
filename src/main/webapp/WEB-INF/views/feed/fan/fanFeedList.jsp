@@ -17,12 +17,12 @@
 </head>
 <body>
 	<!-- 네비바 인클루드 -->
-	<jsp:include page="../common/navbar.jsp"/>
+	<jsp:include page="../../common/navbar.jsp"/>
 	
     <section class="main-section">
        
         <!-- 왼쪽(카테고리) 인클루드 -->
-		<jsp:include page="../common/category.jsp"/>
+		<jsp:include page="../../common/category.jsp"/>
          
          <!-- 메인 컨텐츠 영역 -->
          <section class="main-contents">
@@ -34,9 +34,9 @@
                 <!-- 포스트 작성 -->
                 <form>
                     <div class="postArea">   
-                    <img src="../resource/icon/fantimatie-icon.png" class="post-icon">
+                    <img src="../../resources/icon/faviconF.png" class="post-icon">
                     <textarea class="textArea" placeholder="FANTIMATE에 남겨보세요"></textarea>
-                    <img src="../resource/icon/photo-icon.png" class="photo-icon">
+                    <img src="../../resources/icon/photo-icon.png" class="photo-icon">
                     </div>
                     <!-- 이미지 미리보기 영역 -->
                     <div class="my-photo">
@@ -68,7 +68,7 @@
                                 <p class="friend-application">친구 신청</p>
                                 <p class="send-message">쪽지 보내기</p>
                             </div>
-                            <img class="profile-picture" src="../resource/feed/스마일.jpg">
+                            <img class="profile-picture" src="../../resources/images/feed/스마일.jpg">
                         </td>
                         <td> 
                             <pre class="nicknameArea">성현2</pre>
@@ -80,9 +80,9 @@
                                 <p>수정하기</p>
                                 <p class="deleteboard">삭제하기</p>
                             </div>
-                            <img class="board-more-icon" src="../resource/feed/board-more-icon.png">
+                            <img class="board-more-icon" src="../../resources/images/feed/board-more-icon.png">
                         </td>
-                        <td><img class="report-icon" src="../resource/feed/report-icon.png"></td>   
+                        <td><img class="report-icon" src="../../resources/images/feed/report-icon.png"></td>   
                     </tr>
                 </table>
                     <!-- 게시글 컨텐츠 영역 -->
@@ -93,7 +93,7 @@
                         </div>
                         <!-- 이미지 영역 -->
                         <div>
-                            <img src="../resource/feed/img1.jpg" class="board-img">
+                            <img src="../../resources/images/feed/img1.jpg" class="board-img">
                         </div>
                     </div>
                     <br><br>
@@ -105,7 +105,7 @@
                         <col width="15%"/>
 
                         <tr>
-                            <td><img src="../resource/feed/like-icon.png" class="like-icon"></td>
+                            <td><img src="../../resources/images/feed/like-icon.png" class="like-icon"></td>
                             <td>5,000</td>
                             <td class="reply-info">댓글</td>
                             <td class="reply-count">2,300</td>
@@ -125,7 +125,7 @@
                                     <p>친구 신청</p>
                                     <p>쪽지 보내기</p>
                                 </div>
-                                <img class="profile-picture" src="../resource/official/뷔_프로필.jpg">
+                                <img class="profile-picture" src="../../resources/images/feed/스마일.jpg">
                             </td>
                             <td>
                                 <div class="comment-box">
@@ -146,7 +146,7 @@
                                     </div>
                                 </div>
                                 <div class="comment-info comment-center nanumsquare">
-                                    <img class="likeBtn" src="../resource/official/like.svg">
+                                    <img class="likeBtn" src="../../resources/images/feed/like-icon.png">
                                     <span class="like-count">1,000</span><span class="comment-date">2021.03.08</span>
                                 </div>
                                 <div class="comment-toggle">
@@ -188,7 +188,7 @@
                                                 </div>
                                             </div>
                                             <div class="re-comment-info comment-center nanumsquare">
-                                                <img class="likeBtn" src="../resource/official/like.svg">
+                                                <img class="likeBtn" src="../../resources/images/feed/like-icon.png">
                                                 <span class="like-count">10</span><span class="comment-date">2021.03.08</span>
                                             </div>
                                         </td>
@@ -202,7 +202,7 @@
                                     <p>친구 신청</p>
                                     <p>쪽지 보내기</p>
                                 </div>
-                                <img class="profile-picture" src="../resource/official/스마일.jpg">
+                                <img class="profile-picture" src="../../resources/images/feed/스마일.jpg">
                             </td>
                             <td>
                                 <div class="comment-box">
@@ -222,7 +222,7 @@
 
                                 </div>
                                 <div class="comment-info comment-center nanumsquare">
-                                    <img class="likeBtn" src="../resource/official/like.svg">
+                                    <img class="likeBtn" src="../../resources/images/feed/like-icon.png">
                                     <span class="like-count">100</span><span class="comment-date">2021.03.08</span>
                                 </div>
                                 <div class="comment-toggle">
@@ -264,7 +264,7 @@
                                                 </div>
                                             </div>
                                             <div class="re-comment-info comment-center nanumsquare">
-                                                <img class="likeBtn" src="../resource/official/like.svg">
+                                                <img class="likeBtn" src="../../resources/images/feed/like-icon.png">
                                                 <span class="like-count">10</span><span class="comment-date">2021.03.08</span>
                                             </div>
                                         </td>
@@ -278,7 +278,7 @@
                                     <p>피드로 이동</p>
                                     <p>쪽지 보내기</p>
                                 </div>
-                                <img class="profile-picture" src="../resource/official/스마일.jpg">
+                                <img class="profile-picture" src="../../resources/images/feed/스마일.jpg">
                             </td>
                             <td>
                                 <div class="comment-box">
@@ -299,7 +299,7 @@
                                     </div>
                                 </div>
                                 <div class="comment-info comment-center nanumsquare">
-                                    <img class="likeBtn" src="../resource/official/like.svg">
+                                    <img class="likeBtn" src="../../resources/images/feed/like-icon.png">
                                     <span class="like-count">100</span><span class="comment-date">2021.03.08</span>
                                 </div>
                                 <div class="comment-toggle">
@@ -320,7 +320,7 @@
                             <div class="insert-reply">
                                 <textarea class="nanumsquare" style="resize: none;" rows="1" placeholder="댓글을 입력하세요..."></textarea>
                             </div>&nbsp;&nbsp;&nbsp;
-                            <img class="insert-replyBtn" src="../resource/official/send.svg">
+                            <img class="insert-replyBtn" src="../../resources/icon/send.png">
                         </div>
                     </div>
                     
