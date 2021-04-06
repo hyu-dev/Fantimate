@@ -385,6 +385,6 @@
             </div>
          </aside>
     </section>
-    <script src="../feed/fanFeed.js"></script>
+    
 </body>
 </html>
