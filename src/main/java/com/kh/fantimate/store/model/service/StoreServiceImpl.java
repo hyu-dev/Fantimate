@@ -56,5 +56,15 @@ public class StoreServiceImpl implements StoreService {
 		return sDao.searchStoreList(map);
 	}
 
+	@Override
+	public String searchPrice(int pcode) {
+		return sDao.searchPrice(pcode);
+	}
+
+	@Override
+	public int insertCart(Map<String, String> map) {
+		return sDao.insertCart(map);
+	}
+
 
 }

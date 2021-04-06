@@ -147,6 +147,7 @@
 		 // 사진첨부시
 		 // 문제 : 추가사진이 왜 ㅠㅠ 0번째만 적용되지?
 		 $(document).on('change', ".photo", function(e) {
+			 console.log(e);
 		     let target = $(this)
 		     let files = e.target.files;
 		     let filesArr = Array.prototype.slice.call(files);
@@ -184,19 +185,22 @@
 		 });
 		
 		 let count = 0;
+		 let n = 1;
 		 // 추가사진 첨부시
 		 $(document).on('click', '.click-btn', function() {
 		     let addImg = $("<img class='add-photo-img'>");
-		     let addInput = $("<input id='addPhoto' class='photo' type='file' style='display: none;'>");
-		     let label = $("<label for='addPhoto' class='add-photo'>추가사진첨부</label>")
+		     let addInput = $("<input id='addPhoto"+ n +"' class='photo' type='file' style='display: none;'>");
+		     let label = $("<label for='addPhoto" + n + "' class='add-photo'>추가사진첨부</label>")
 		     if(count < 4) {
 		         $('.click-btn').before(label.append(addImg, addInput));
 		         $('.my-photo').stop().animate( { scrollLeft : '+=1000' } )
 		         count++;
+		         n++;
 		     } else {
 		         $('.click-btn').remove()
 		         alert('사진 첨부는 최대 5장만 가능합니다')
 		     }
+		    
 		 })
 		
 		 // 글자수 제한

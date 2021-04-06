@@ -214,4 +214,37 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	  </if>
 	  </trim>
 	</select>
+	<select id="searchPrice" parameterType="_int" resultType="string">
+		SELECT
+				Q_PRICE
+		  FROM
+		  		STORE
+		 WHERE
+		 		P_CODE = #{pcode}
+	</select>
+	<insert id="insertCart" parameterType="hashMap">
+		INSERT
+		INTO CART
+		(
+			CART_CODE
+		  , BUY_Q
+		  , B_PRICE
+		  , FEE
+		  , ENROLL_DATE
+		  , IS_BOUGHT
+		  , P_CODE
+		  , ID
+		)
+		VALUES
+		(
+			SEQ_CART.NEXTVAL
+		  , 1
+		  , #{price}
+		  , DEFAULT
+		  , SYSDATE
+		  , DEFAULT
+		  , #{pcode}
+		  , #{id}
+		)
+	</insert>
 </mapper>

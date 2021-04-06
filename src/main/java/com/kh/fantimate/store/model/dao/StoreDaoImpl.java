@@ -61,6 +61,16 @@ public class StoreDaoImpl implements StoreDao {
 		return sqlSession.selectList("storeMapper.searchStoreList", map);
 	}
 
+	@Override
+	public String searchPrice(int pcode) {
+		return sqlSession.selectOne("storeMapper.searchPrice", pcode);
+	}
+
+	@Override
+	public int insertCart(Map<String, String> map) {
+		return sqlSession.insert("storeMapper.insertCart", map);
+	}
+
 
 
 }
