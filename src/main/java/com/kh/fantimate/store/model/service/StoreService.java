@@ -28,4 +28,10 @@ public interface StoreService {
 
 	// 스토어 상품명 리스트 조회
 	public List<StoreCollection> searchStoreList(Map<String, String> map);
+
+	// 상품가격 찾아오기
+	public String searchPrice(int pcode);
+
+	// 장바구니에 인서트하기
+	public int insertCart(Map<String, String> map);
 }

@@ -13,8 +13,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kh.fantimate.store.model.service.StoreService;
 import com.kh.fantimate.store.model.vo.StoreCategory;
@@ -62,19 +64,21 @@ public class StoreController {
 		// 아티스트 이름 임의로 조정 (세션으로 변경 필요)
 		String artiName = "IU";
 		
-//		System.out.println(toggle);
+		// System.out.println(toggle);
 		Map<String, String> map = new HashMap<>();
 		map.put("artiName", artiName);
 		map.put("cateName", cateName);
 		map.put("toggle", toggle);
 		
 		List<StoreCollection> list = (ArrayList<StoreCollection>)sService.selectStoreListByCate(map);
-		
-		HttpSession session = request.getSession();
-		session.setAttribute("cateName", cateName);
-		session.setAttribute("artiName", artiName);
-		session.setAttribute("toggle", toggle);
-		session.setAttribute("list", list);
+		// System.out.println(list);
+		if(list.size() > 0) {
+			HttpSession session = request.getSession();
+			session.setAttribute("cateName", cateName);
+			session.setAttribute("artiName", artiName);
+			session.setAttribute("toggle", toggle);
+			session.setAttribute("list", list);
+		} 
 		
 		return list;
 	}
@@ -105,7 +109,9 @@ public class StoreController {
 	}
 	
 	@GetMapping("/cancelWish/{pcode}/{cateName}/{toggle}")
-	public List<StoreCollection> cancelWish(@PathVariable String pcode, @PathVariable String cateName, @PathVariable String toggle) {
+	public List<StoreCollection> cancelWish(@PathVariable String pcode,
+											@PathVariable String cateName, 
+											@PathVariable String toggle) {
 		// 로그인 유저 아이디 값 임의로 조정 (세션으로 변경 필요)
 		String userId = "user";
 		Map<String, String> map = new HashMap<>();
@@ -151,6 +157,41 @@ public class StoreController {
 		return list;
 	}
 	
+	@GetMapping("/insertCart/{pcode}")
+	public List<StoreCollection> insertCart(@PathVariable int pcode,
+							 				HttpServletRequest request) {
+		String price = sService.searchPrice(pcode);
+		// 유저 아이디 임의로 기록 (세션으로 처리예정)
+		String userId = "user";
+		System.out.println(pcode + price + userId);
+		Map<String, String> map = new HashMap<>();
+		map.put("id", userId);
+		map.put("price", price);
+		map.put("pcode", Integer.toString(pcode));
+		
+		int result = sService.insertCart(map);
+		System.out.println(result);
+		// 세션에 담긴 카테고리명을 담음
+		String cateName = (String)request.getSession().getAttribute("cateName");
+		String artiName = (String)request.getSession().getAttribute("artiName");
+		String toggle = (String)request.getSession().getAttribute("toggle");
+		
+		if(toggle == null) {
+			toggle = "NEW";
+		}
+		System.out.println(cateName + artiName + toggle);
+		// 맵에 해당 데이터 담음
+		Map<String, String> map2 = new HashMap<>();
+		map2.put("cateName", cateName);
+		map2.put("artiName", artiName);
+		map2.put("toggle", toggle);
+		
+		List<StoreCollection> list = (ArrayList<StoreCollection>)sService.selectStoreListByCate(map2);
+		System.out.println(list);
+		if(list == null || list.size() < 1) list = new ArrayList<>();
+			
+		return list;   // path 경로로 가는데 앞에  /sp 는 삭제
+	}
 	
 		
 }
