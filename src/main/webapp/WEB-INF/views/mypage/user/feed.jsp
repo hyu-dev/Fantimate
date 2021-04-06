@@ -16,7 +16,8 @@
 <title>feed</title>
 </head>
 <body>
-	<jsp:include page="${ contextPath }'WEB-INF/views/common/navbar.jsp'"></jsp:include>
+	<jsp:include page="../../common/navbar.jsp"></jsp:include>
+<%-- 	<jsp:include page="${ contextPath }'WEB-INF/views/common/navbar.jsp'"></jsp:include> --%>
 	<!-- 	상단 -->
 	<section id="mypageUserProfile">
 		<jsp:include page="userDiv.jsp"/>

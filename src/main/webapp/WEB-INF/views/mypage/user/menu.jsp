@@ -25,7 +25,7 @@
                 <button class="mypage-menu-Btn" onclick="javascript:location.href='${contextPath}/mypage/user/comments'">My Comments</button>
                 <button class="mypage-menu-Btn" onclick="javascript:location.href='${contextPath}/mypage/user/bookmarks'">My Bookmarks</button>
                 <button class="mypage-menu-Btn" onclick="javascript:location.href='${contextPath}/mypage/user/fanStore'">My FanStore</button>
-                <button class="mypage-menu-Btn" onclick="javascript:location.href='${contextPath}/mypage/user/payMents'">PayMents</button>
+                <button class="mypage-menu-Btn" onclick="javascript:location.href='${contextPath}/mypage/user/payments'">PayMents</button>
             </div>
         </article>
 </body>

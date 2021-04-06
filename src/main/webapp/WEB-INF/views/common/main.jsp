@@ -21,7 +21,8 @@
 		<!-- 여기다 메인페이지 작업해주시면 되요! -->
 		
 <!-- 		재우 테스트 -->
-		<button class="indexbtn" onclick="javascript:location.href='mypage/user/feed';">마이페이지</button>
+		<button class="indexbtn" onclick="javascript:location.href='mypage/user/feed';">마이페이지_유저</button>
+		<button class="indexbtn" onclick="javascript:location.href='mypage/admin/management';">마이페이지_어드민</button>
 <%-- 	<button class="indexbtn" onclick="javascript:location.href='mypage/${유저타입}/feed';">마이페이지</button> -->
 		<button ></button>
 <%-- 		<jsp:forward page="main"></jsp:forward> --%>

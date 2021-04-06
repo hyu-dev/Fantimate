@@ -6,17 +6,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-@RequestMapping("/mypage/user")
-public class mypageUserController {
+@RequestMapping("/mypage/admin")
+public class mypageAdminController {
 	
 	// 재우추가
-		@GetMapping("/feed")
+		@GetMapping("/report")
 		public ModelAndView userMyFeed(ModelAndView mv) {
 //			List<Feed> feed = nService.selelctList();
 			
 //			if(feed != null) {
 //				mv.addObject("feed", feed);
-				mv.setViewName("mypage/user/feed");
+				mv.setViewName("mypage/admin/report");
 //			}else{
 //				mv.addObject("msg", "피드 조회에 실패하였습니다.");
 //				mv.setViewName("common/errorpage");
@@ -24,21 +24,21 @@ public class mypageUserController {
 			return mv;
 		}
 		
-		@GetMapping("/subscribes")
+		@GetMapping("/notice")
 		public ModelAndView userMysubscribes(ModelAndView mv) {
 			
-			mv.setViewName("mypage/user/subscribes");
+			mv.setViewName("mypage/admin/notice");
 			
 			return mv;
 		}
 		
-		@GetMapping("/dibs")
+		@GetMapping("/management")
 		public ModelAndView userMyDibs(ModelAndView mv) {
 //			List<Feed> dibs = nService.selelctList();
 			
 //			if(dibs != null) {
 //				mv.addObject("dibs", dibs);
-				mv.setViewName("mypage/user/dibs");
+				mv.setViewName("mypage/admin/management");
 //			}else{
 //				mv.addObject("msg", "피드 조회에 실패하였습니다.");
 //				mv.setViewName("common/errorpage");
@@ -46,46 +46,22 @@ public class mypageUserController {
 			return mv;
 		}
 		
-//		여기서부턴 상세조건 생략, 구현부터
-		@GetMapping("/friends")
+		@GetMapping("/insertAgency")
 		public ModelAndView userMyFriends(ModelAndView mv) {
 			
-			mv.setViewName("mypage/user/friends");
+			mv.setViewName("mypage/admin/insertAgency");
 			
 			return mv;
 		}
 		
-		@GetMapping("/comments")
+		@GetMapping("/paylist")
 		public ModelAndView userMycomments(ModelAndView mv) {
 			
-			mv.setViewName("mypage/user/comments");
+			mv.setViewName("mypage/admin/paylist");
 			
 			return mv;
 		}
 		
-		@GetMapping("/bookmarks")
-		public ModelAndView userMybookmarks(ModelAndView mv) {
-			
-			mv.setViewName("mypage/user/bookmarks");
-			
-			return mv;
-		}
-		
-		@GetMapping("/fanStore")
-		public ModelAndView userMyfanstore(ModelAndView mv) {
-			
-			mv.setViewName("mypage/user/fanStore");
-			
-			return mv;
-		}
-		
-		@GetMapping("/payments")
-		public ModelAndView userMypayments(ModelAndView mv) {
-			
-			mv.setViewName("mypage/user/payments");
-			
-			return mv;
-		}
 		
 		
 		
