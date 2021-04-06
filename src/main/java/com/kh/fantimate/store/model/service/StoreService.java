@@ -25,4 +25,7 @@ public interface StoreService {
 
 	// 스토어 상품 찜해제
 	public int cancelWish(Map<String, String> map);
+
+	// 스토어 상품명 리스트 조회
+	public List<StoreCollection> searchStoreList(Map<String, String> map);
 }

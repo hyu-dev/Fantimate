@@ -267,6 +267,67 @@
 		    }
 		});
 		
+		// 카테고리 검색창에 글씨 입력 후 엔터를 클릭했을 때
+		$(".contents-search-input").keyup(function(e) {
+			var search = $(this).val();
+			if(e.keyCode == 13) {
+				$(".search-area img").click();
+			}
+		})
+		
+		// 카테고리 검색창에 돋보기 아이콘 클릭시
+		$(".search-area img").click(function() {
+			var search = $(".contents-search-input").val();
+		    // 상품 검색 시작
+		    $.ajax({
+		    	url : "${ pageContext.request.contextPath }/store/search/" + search,
+	    		data : "get",
+				dateType : "json",
+				contentType : "application/json; charset=utf-8",
+				success : function(data) {
+					if(data.length < 1) {
+	        			alert("검색된 상품이 없습니다")
+	        		} else {
+	        			var area = $(".store-product").html("");
+						
+						for(var i in data) {
+							var article = $("<article class='product-background'>");
+							var div = $("<div class='product-info'>");
+							var artiName = $("<p>").text("세션값을 넣는다");
+							var pName = $("<b>").text(data[i].store.pname);
+							var price = $("<p>")
+							var sub = $("<sub>")
+							var s = $("<s>").text(data[i].store.qprice);
+							var cart = $("<img class='cart-icon store-icon' src='${ contextPath }/resources/icon/shopping.png' alt=''>");
+							var ddim = $("<img class='ddim-icon store-icon ddim' src='${ contextPath }/resources/icon/heart.png' alt=''>");
+							var noddim = $("<img class='ddim-icon store-icon noddim' src='${ contextPath }/resources/icon/heart-pink.png' alt=''>");
+							var imgSrc = "${ contextPath }/resources/images/store/" + data[i].att.attSvName;
+							var img = $("<img src='' alt=''>").attr("src", imgSrc);
+							var pCode = $("<input type='hidden' id='pcode'>").val(data[i].store.pcode);
+							sub.append(s, data[i].store.discount + "%").trigger("create");
+							price.append((data[i].store.qprice * (1- data[i].store.discount/100)), sub).trigger("create");
+							if(data[i].wish.id == 'user' && data[i].wish.isWish == 'Y') {
+								div.append(artiName, pName, price, cart, noddim).trigger("create");
+							} else {
+								div.append(artiName, pName, price, cart, ddim).trigger("create");
+							}
+							article.append(div, img, pCode).trigger("create");
+							area.append(article).trigger("create");
+						}
+						$(".circle").removeClass("click-li");
+					    $(".circle").children().removeClass("click-li");
+					    clickMe.addClass("click-li");
+					    clickMe.children().addClass("click-li");
+	        		}
+				},
+				error : function(e) {
+					console.log(e);
+				}
+		    });
+		    $(".contents-search-input").val("").focus();
+	        $('.search-result').css('display', 'none');
+		})
+		
 		// 반복하는 AJAX 공통 함수로 구분
 		function callAjax(clickMe, cateName, toggle) {
 			$.ajax({

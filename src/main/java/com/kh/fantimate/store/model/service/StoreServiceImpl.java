@@ -51,5 +51,10 @@ public class StoreServiceImpl implements StoreService {
 		return sDao.cancelWish(map);
 	}
 
+	@Override
+	public List<StoreCollection> searchStoreList(Map<String, String> map) {
+		return sDao.searchStoreList(map);
+	}
+
 
 }

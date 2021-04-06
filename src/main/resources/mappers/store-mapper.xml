@@ -172,4 +172,46 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		   AND
 		   		ID = #{id}
 	</update>
+	<select id="searchStoreList" parameterType="hashMap" resultMap="storeCollResultSet">
+		SELECT
+				P_CODE
+			  , P_NAME
+			  , SALES_Q
+			  , Q_PRICE
+			  , DISCOUNT
+			  , INFORMATION
+			  , IS_VIEW
+			  , VIEWCOUNT
+			  , IS_SOLDOUT
+			  , IS_ACTIVE
+			  , C_CODE
+			  , ATT_CODE
+			  , ATT_ROOT
+			  , ATT_CL_NAME
+			  , ATT_SV_NAME
+			  , ATT_STATUS
+			  , IS_MAIN_ATT
+			  , WISH_DATE
+              , IS_WISH
+              , ID
+		  FROM 
+		  		STORE
+		  JOIN 
+		  		ATT_STORE USING(P_CODE)
+		  LEFT JOIN
+		  		S_WISH USING(P_CODE)
+	  <trim prefix="WHERE" prefixOverrides="AND|OR">
+		 		C_CODE = (SELECT C_CODE FROM S_CATEGORY WHERE C_NAME = #{cateName} AND ARTI_NAME_EN = #{artiName})
+		   AND
+		   		IS_MAIN_ATT = 'Y'
+		   AND
+		   		P_NAME LIKE '%' || #{search} || '%'
+	  <if test='toggle.equals("NEW")'>
+	  ORDER BY  P_CODE DESC
+	  </if>
+	  <if test='toggle.equals("TOP")'>
+	  ORDER BY  VIEWCOUNT DESC
+	  </if>
+	  </trim>
+	</select>
 </mapper>
