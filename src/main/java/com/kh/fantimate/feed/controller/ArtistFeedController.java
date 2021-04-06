@@ -5,12 +5,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/feed")
+@RequestMapping("/artistfeed")
 public class ArtistFeedController {
 
-	@GetMapping("/artist/artistFeedList")
+	@GetMapping("/artistFeedList")
 	public String listpageView() {
 		
-		return "feed/artist/artistFeedList";
+		return "artistfeed/artistFeedList";
 	}
 }
