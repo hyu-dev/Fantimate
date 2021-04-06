@@ -13,6 +13,10 @@
 	<!-- typeAliases -->
 	<typeAliases>
 		<typeAlias type="com.kh.fantimate.member.model.vo.ArtistGroup" alias="ArtistGroup"/>
+		<typeAlias type="com.kh.fantimate.member.model.vo.Member" alias="Member"/>
+		<typeAlias type="com.kh.fantimate.member.model.vo.User" alias="User"/>
+		<typeAlias type="com.kh.fantimate.common.model.vo.Attachment" alias="Attachment"/>
+		<typeAlias type="com.kh.fantimate.main.model.vo.FavoriteArtist" alias="FavoriteArtist"/>
 	</typeAliases>
 	
 	<!-- mappers -->
