@@ -6,15 +6,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 
 @Controller
-@RequestMapping("/feed")
+@RequestMapping("/fanfeed")
 public class FanFeedController {
 	
 	
 	
-	@GetMapping("/fan/fanFeedList")
+	@GetMapping("/fanFeedList")
 	public String listpageView() {
 		
-		return "feed/fan/fanFeedList";
+		return "fanfeed/fanFeedList";
 	}
 
 }

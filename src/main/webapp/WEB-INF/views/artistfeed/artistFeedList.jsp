@@ -17,12 +17,12 @@
 </head>
 <body>
 <!-- 네비바 인클루드 -->
-	<jsp:include page="../../common/navbar.jsp"/>
+	<jsp:include page="../common/navbar.jsp"/>
 	
     <section class="main-section">
        
         <!-- 왼쪽(카테고리) 인클루드 -->
-		<jsp:include page="../../common/category.jsp"/>
+		<jsp:include page="../common/category.jsp"/>
 		 <!-- 메인 컨텐츠 영역 -->
          <section class="main-contents">
              <!-- 모먼트 영역 -->
