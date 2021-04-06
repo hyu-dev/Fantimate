@@ -56,6 +56,11 @@ public class StoreDaoImpl implements StoreDao {
 		return sqlSession.update("storeMapper.cancelWish", map);
 	}
 
+	@Override
+	public List<StoreCollection> searchStoreList(Map<String, String> map) {
+		return sqlSession.selectList("storeMapper.searchStoreList", map);
+	}
+
 
 
 }
