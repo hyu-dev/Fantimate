@@ -11,12 +11,19 @@
 		<!-- <h2 id="mypageUserContentDivTitle">My Subscribes</h2> -->
 		<h2>Menu</h2>
 		<ul>
-			<li><a onclick="javascript:location.href='${contextPath}/mypage/admin/insertAgency'">소속사등록</a></li>
+			<li><a onclick="javascript:location.href='${contextPath}/mypage/admin/insertAgency' 'target=_blank'">소속사등록</a></li>
+			<li><a onclick="javascript:location.href='${contextPath}/mypage/admin/insertAgency' 'target=_blank'">소속사등록</a></li>
 			<li><a onclick="javascript:location.href='${contextPath}/mypage/admin/report'">신고관리</a></li>
 			<li><a onclick="javascript:location.href='${contextPath}/mypage/admin/notice'">공지사항</a></li>
 			<li><a onclick="javascript:location.href='${contextPath}/mypage/admin/management'">회원관리</a></li>
 			<li><a onclick="javascript:location.href='${contextPath}/mypage/admin/paylist'">결제내역</a></li>
 		</ul>
 	</div>
+	
+	<script>
+		function insertAgency(){
+			window.open("")
+		}
+	</script>
 </body>
 </html>

@@ -11,12 +11,12 @@ public class mypageAdminController {
 	
 	// 재우추가
 		@GetMapping("/report")
-		public ModelAndView userMyFeed(ModelAndView mv) {
+		public ModelAndView requestReportList(ModelAndView mv) {
 //			List<Feed> feed = nService.selelctList();
 			
 //			if(feed != null) {
 //				mv.addObject("feed", feed);
-				mv.setViewName("mypage/admin/report");
+				mv.setViewName("mypage/admin/reportList");
 //			}else{
 //				mv.addObject("msg", "피드 조회에 실패하였습니다.");
 //				mv.setViewName("common/errorpage");
@@ -25,15 +25,21 @@ public class mypageAdminController {
 		}
 		
 		@GetMapping("/notice")
-		public ModelAndView userMysubscribes(ModelAndView mv) {
+		public ModelAndView noticeList(ModelAndView mv) {
 			
-			mv.setViewName("mypage/admin/notice");
+			mv.setViewName("mypage/admin/noticeList");
 			
 			return mv;
 		}
 		
+		@GetMapping("/write")
+		public String noticeWrite() {
+			
+			return "/mypage/admin/notice/writepage"; 
+		}
+		
 		@GetMapping("/management")
-		public ModelAndView userMyDibs(ModelAndView mv) {
+		public ModelAndView memberManagement(ModelAndView mv) {
 //			List<Feed> dibs = nService.selelctList();
 			
 //			if(dibs != null) {
@@ -47,17 +53,19 @@ public class mypageAdminController {
 		}
 		
 		@GetMapping("/insertAgency")
-		public ModelAndView userMyFriends(ModelAndView mv) {
+		public ModelAndView insertAgency(ModelAndView mv) {
 			
 			mv.setViewName("mypage/admin/insertAgency");
 			
 			return mv;
 		}
 		
+		// 결제일순으로 보기
+		// 환불신청한것부터 보기
 		@GetMapping("/paylist")
-		public ModelAndView userMycomments(ModelAndView mv) {
+		public ModelAndView payList(ModelAndView mv) {
 			
-			mv.setViewName("mypage/admin/paylist");
+			mv.setViewName("mypage/admin/payList");
 			
 			return mv;
 		}

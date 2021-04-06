@@ -1,9 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+ <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="${ contextPath }/resources/css/common/font.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css">
+<%--     <link rel="stylesheet" href="${ contextPath }/resources/css/common/navbar.css"> --%>
+    <link rel="stylesheet" href="${ contextPath }/resources/css/mypage/jw.css">
+<%--     <link rel="icon" type="image/png" sizes="16x16" href="${ contextPath }/resources/icon/faviconF.png"> --%>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 <title>insertAgency</title>
 </head>
 <body>
@@ -20,7 +29,7 @@
                     <label>비밀번호 확인</label>
                 </div>
                 <div id="mypageUserUpdateRight">
-                    <input type="text" name="bsName" value="SM" readonly><!-- value="${}""-->
+                    <input type="text" name="bsName" value="SM" readonly><%-- value="${}""--%>
                     <input type="text" name="bsNum" value="1438812345" readonly>
                     <input type="email" name="email" value="smenter33@sm.town" readonly>
                     <input type="text" name="tel" value="0252523333">
