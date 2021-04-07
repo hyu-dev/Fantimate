@@ -10,6 +10,9 @@
 	<!-- 네비바 -->
 	<jsp:include page="../../common/navbar.jsp"></jsp:include>
 	
+	<!--소속사 정보 등록창 -->
+	<jsp:include page="insertAgency.jsp"/>
+	
     <!-- 밑에 섹션 -->
     <section id="mypageAdminSection">
     

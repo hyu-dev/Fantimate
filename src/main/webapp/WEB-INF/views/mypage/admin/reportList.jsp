@@ -20,6 +20,9 @@
 	<jsp:include page="../../common/navbar.jsp"></jsp:include>
 <%-- 	<jsp:include page="${ contextPath }'WEB-INF/views/common/navbar.jsp'"></jsp:include> --%>
 
+	<!--소속사 정보 등록창 -->
+	<jsp:include page="insertAgency.jsp"/>
+
 	<!-- 밑에 섹션 -->
 	<section id="mypageAdminSection">
 	
@@ -132,5 +135,6 @@
             <p style="text-align: center; margin-top: 50px;"> &lt;&lt;&nbsp; &lt;&nbsp; 1  2  3  4  5  6  7  8  9  10 &nbsp;&gt; &nbsp;&gt;&gt;</p>
         </article>
     </section>
+    
 </body>
 </html>

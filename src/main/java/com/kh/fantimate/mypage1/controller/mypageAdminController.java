@@ -1,7 +1,8 @@
-package com.kh.fantimate.mypageuser.controller;
+package com.kh.fantimate.mypage1.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -52,7 +53,7 @@ public class mypageAdminController {
 			return mv;
 		}
 		
-		@GetMapping("/insertAgency")
+		@PostMapping("/insertAgency")
 		public ModelAndView insertAgency(ModelAndView mv) {
 			
 			mv.setViewName("mypage/admin/insertAgency");
@@ -70,6 +71,15 @@ public class mypageAdminController {
 			return mv;
 		}
 		
+		
+		// 팝업테스트
+		@GetMapping("/popup")
+		public ModelAndView popup(ModelAndView mv) {
+			
+			mv.setViewName("mypage/admin/popup");
+			
+			return mv;
+		}
 		
 		
 		
