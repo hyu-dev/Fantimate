@@ -8,6 +8,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.fantimate.common.model.vo.Attachment;
 import com.kh.fantimate.store.model.vo.StoreCategory;
 import com.kh.fantimate.store.model.vo.StoreCollection;
 
@@ -17,8 +18,8 @@ public class StoreDaoImpl implements StoreDao {
 	private SqlSessionTemplate sqlSession;
 	
 	@Override
-	public List<StoreCollection> selectStoreList(int cateCode) {
-		return sqlSession.selectList("storeMapper.selectStoreList", cateCode);
+	public List<StoreCollection> selectStoreList(String cateName) {
+		return sqlSession.selectList("storeMapper.selectStoreList", cateName);
 	}
 
 	@Override
@@ -71,6 +72,26 @@ public class StoreDaoImpl implements StoreDao {
 		return sqlSession.insert("storeMapper.insertCart", map);
 	}
 
+	@Override
+	public void insertStoreCategory(StoreCollection sc) {
+		sqlSession.insert("storeMapper.insertStoreCategory", sc);
+	}
 
+	@Override
+	public void insertStore(StoreCollection sc) {
+		sqlSession.insert("storeMapper.insertStore", sc);
+	}
+
+	@Override
+	public void insertStoreInfo(StoreCollection sc) {
+		sqlSession.insert("storeMapper.insertStoreInfo", sc);
+	}
+	
+	@Override
+	public int insertStoreAtt(List<Attachment> attList) {
+		return sqlSession.insert("storeMapper.insertStoreAtt", attList);
+	}
+
+	
 
 }
