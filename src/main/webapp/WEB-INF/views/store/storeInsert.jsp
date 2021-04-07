@@ -126,7 +126,8 @@
                 </tbody>
             </table>
             <div class="my-photo">
-                <label for="mainPhoto" class="main-photo">대표사진첨부<input id="mainPhoto" name="attClName" class="photo" type="file" style="display: none;"></label>
+                <label for="mainPhoto" class="main-photo">대표사진첨부</label>
+                <input id="mainPhoto" name="mainPhoto" class="photo" type="file" style="display: none;">
                 <label class="add-photo click-btn">+</label>
             </div>
             <div class="phrases">
@@ -148,10 +149,8 @@
 		     let files = e.target.files;
 		     let filesArr = Array.prototype.slice.call(files);
 		     let mainImg = $("<img class='main-photo-img'>");
-		     let mainInput = $("<input id='mainPhoto' name='attClName' class='photo' type='file' style='display: none;'>");
 		     let addImg = $("<img class='add-photo-img'>");
-		     let addInput = $("<input id='addPhoto' name='attClName' class='photo' type='file' style='display: none;'>");
-		     let label = $(this).parent();
+		     let label = $(this).prev("label");
 		     let id = $(this).attr('id');
 		     
 		     filesArr.forEach(function(f) {
@@ -166,14 +165,14 @@
 		             reader.onload = function(e) {
 		                 label.html('');
 		                 mainImg.attr("src", e.target.result);
-		                 label.append(mainImg, mainInput);
+		                 label.append(mainImg);
 		             }
 		         } else {
 		             // 추가사진을 변경한 경우
 		             reader.onload = function(e) {
 		                 label.html('');
 		                 addImg.attr("src", e.target.result);
-		                 label.append(addImg, addInput);
+		                 label.append(addImg);
 		             }
 		         }
 		         reader.readAsDataURL(f);
@@ -184,11 +183,11 @@
 		 let n = 1;
 		 // 추가사진 첨부시
 		 $(document).on('click', '.click-btn', function() {
-		     let addImg = $("<img class='add-photo-img'>");
-		     let addInput = $("<input id='addPhoto"+ n +"' name='attClName' class='photo' type='file' style='display: none;'>");
+		     let addInput = $("<input id='addPhoto"+ n +"' name='subPhotos' class='photo' type='file' style='display: none;'>");
 		     let label = $("<label for='addPhoto" + n + "' class='add-photo'>추가사진첨부</label>")
 		     if(count < 4) {
-		         $('.click-btn').before(label.append(addImg, addInput));
+		         $('.click-btn').before(label);
+		         label.after(addInput);
 		         $('.my-photo').stop().animate( { scrollLeft : '+=1000' } )
 		         count++;
 		         n++;
