@@ -170,7 +170,7 @@ html, body {
 
 .my-photo {
     width: 95%;
-    /* border: 2px solid red; */
+    border: 2px solid red;
     margin: 0 auto;
     height: auto;
     display: flex;
@@ -200,6 +200,7 @@ html, body {
     align-items: center;
     margin: 20px 30px 40px 0;
     flex: 0 0 auto;
+    border: 2px solid red;
 }
 
 .main-photo {

@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.fantimate.common.model.vo.Attachment;
 import com.kh.fantimate.store.model.service.StoreService;
 import com.kh.fantimate.store.model.vo.Store;
 import com.kh.fantimate.store.model.vo.StoreCategory;
@@ -205,14 +206,33 @@ public class StoreController {
 									Store store,
 									StoreCategory storeCate,
 									StoreInfo storeInfo,
-									@RequestParam(value="attClName") MultipartFile file,
-									HttpServletRequest request) {
+									HttpServletRequest request,
+									@RequestParam(value="mainPhoto") MultipartFile main,
+									@RequestParam(value="subPhotos") MultipartFile[] subs) {
+		/*
+		List<Attachment> attList = new ArrayList<>();
+		Attachment att = new Attachment();
+		// 업로드 파일 서버에 저장
+		// 메인파일 첨부가 정상적으로 동작했다면
+		if(!main.getOriginalFilename().equals("")) {
+			String renameFileName = saveFile(main, request);
+			// DB에 저장하기 위한 파일명 세팅
+			if(renameFileName != null) {
+				attList.add(att.setAttClName(main.getOriginalFilename()));
+				attList.add(att.setAttSvName(renameFileName));
+			}
+		}
+		// 서브파일 첨부가 정상적으로 동작했다면
+		for(MultipartFile sub : subs) {
+			if(!sub.getOriginalFilename().equals("")) {
+				String renameFileName = saveFile(sub, request);
+				if(renameFileName != null) {
+					
+				}
+			}
+		}
+		*/
 		
-		System.out.println(store);
-		System.out.println(storeCate);
-		System.out.println(storeInfo);
-		System.out.println(file.getName());
-		System.out.println(file.getOriginalFilename());
 		return mv;
 	}
 	
@@ -226,7 +246,7 @@ public class StoreController {
 		// 파일명 리네임 규칙 "년월일시분초_랜덤값.확장자"
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
 		String originalFileName = file.getOriginalFilename();
-		String renameFileName = sdf.format(new Date()) + "_" 
+		String renameFileName = "store_" + sdf.format(new Date()) + "_" 
 							+ (int)(Math.random() * 100000)
 							+ originalFileName.substring(originalFileName.lastIndexOf("."));
 		String renamePath = folder + "\\" + renameFileName; 	// 저장하고자 하는 경로 + 파일명
