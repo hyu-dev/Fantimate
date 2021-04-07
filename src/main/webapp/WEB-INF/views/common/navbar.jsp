@@ -93,30 +93,78 @@
      function langSetting(){
          location.href="language";
      }
+     
+     // 회원가입 팝업창 
+     function showJoinPage(){
+
+         // 팝업 가운데에 띄우기
+         var popupWidth = 430;
+         var popupHeight = 500;
+
+         var popupX = Math.ceil((window.screen.width - popupWidth)/2);
+         // 만들 팝업창 width 크기의 1/2 만큼 보정값으로 빼주었음
+
+         var popupY = Math.ceil((window.screen.width - popupHeight)/2);
+         // 만들 팝업창 height 크기의 1/2 만큼 보정값으로 빼주었음
+         
+         var url = "${ contextPath }/member/join";
+
+         window.open(url, "회원가입", 'width=' + popupWidth  + ', height=' + popupHeight  + ', left='+ popupX + ', top='+ popupY);
+     }
+     
+     // 로그인 팝업창 
+	function showLoginPage() {
+
+		// 팝업 가운데에 띄우기
+		var popupWidth = 430;
+		var popupHeight = 500;
+
+		var popupX = Math
+				.ceil((window.screen.width - popupWidth) / 2);
+		// 만들 팝업창 width 크기의 1/2 만큼 보정값으로 빼주었음
+
+		var popupY = Math
+				.ceil((window.screen.width - popupHeight) / 2);
+		// 만들 팝업창 height 크기의 1/2 만큼 보정값으로 빼주었음
+		
+		 var url = "${ contextPath }/member/login";
+
+		window.open(url, "로그인", 'width='
+				+ popupWidth + ', height=' + popupHeight
+				+ ', left=' + popupX + ', top=' + popupY);
+	}
     </script>
 </head>
 <body>
-	 <header class="main-header">
+	<c:if test="${ !empty msg }">
+		<script>alert('${msg}');</script>
+		<c:remove var="msg"/>
+	</c:if>
+	
+	<header class="main-header">
         <nav class="main-nav">
             <p class="main-logo">FANTIMATE</p>
-            <!-- <div class="main-search">
-                <img src="../resource/search.svg" class="nav-icon" alt="">
-                <input type="search" class="main-nav-search">
-            </div> -->
-            <div class="main-menu">
-                <!-- <input type="checkbox" id="check">
-                <div class="search-box">
-                    <input type="text" placeholder="아티스트 검색" id="search-input">
-                    <label for="check"><img src="../resource/search.svg" alt="" class="nav-icon"></label>
-                </div> -->
-                <img src="${ contextPath }/resources/icon/user.svg" alt="" class="nav-icon">
-                <img src="${ contextPath }/resources/icon/alarm.svg" alt="" class="nav-icon" id="alarm-icon" onclick="alarmList()">
-                <img src="${ contextPath }/resources/icon/cart.svg" alt="" class="nav-icon">
-                <img src="${ contextPath }/resources/icon/email.svg" alt="" class="nav-icon" id="mail-icon" onclick="mailList()">
-                <img src="${ contextPath }/resources/icon/more.svg" alt="" class="nav-icon" onclick="etcList()">
-            </div>
+            <c:choose>
+	            <c:when test="${ !empty sessionScope.loginUser}">
+		            <div class="main-menu">
+		                <!-- 회원가입 버튼 생성전 예시 -->
+		                <img src="${ contextPath }/resources/icon/user.svg" alt="" class="nav-icon">
+		                <img src="${ contextPath }/resources/icon/alarm.svg" alt="" class="nav-icon" id="alarm-icon" onclick="alarmList()">
+		                <img src="${ contextPath }/resources/icon/cart.svg" alt="" class="nav-icon">
+		                <img src="${ contextPath }/resources/icon/email.svg" alt="" class="nav-icon" id="mail-icon" onclick="mailList()">
+		                <img src="${ contextPath }/resources/icon/more.svg" alt="" class="nav-icon" onclick="etcList()">
+		            </div>
+	            </c:when>
+	            <c:otherwise>
+	            	<div class="main-menu">
+		                <input type="button" id="loginBtn" value="로그인" onclick="showLoginPage();"/>
+		                <input type="button" id="joinBtn" value="회원가입" onclick="showJoinPage();"/>
+	            	</div>
+	            </c:otherwise>
+            </c:choose>
         </nav>
     </header>
+
     
       <!-- 알람 구간 -->
     <div class="alarm-hide-show">

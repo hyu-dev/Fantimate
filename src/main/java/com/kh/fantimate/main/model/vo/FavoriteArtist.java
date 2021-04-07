@@ -13,6 +13,6 @@ import lombok.ToString;
 @ToString
 public class FavoriteArtist {
 	private int favCode; 		// 관심 아티스트
-	private String uId; 		// 유저아이디
+	private String id; 		// 유저아이디
 	private String artiName; 	// 아티스트 등록명(영어)
 }

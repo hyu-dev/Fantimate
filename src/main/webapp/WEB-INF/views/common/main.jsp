@@ -18,6 +18,10 @@
     </script>
 </head>
 <body>
+	<!-- 메시지 -->
+	 <c:if test="${ !empty msg }">
+	 	alert("${ msg }<%= request.getAttribute("javax.servlet.error.message") %>");
+	 </c:if>
 	<jsp:include page="navSearch.jsp"></jsp:include>
 	 <!-- 메인 페이지 -->
     <section class="mainPage-section">

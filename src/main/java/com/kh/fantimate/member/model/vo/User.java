@@ -14,7 +14,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class User {
-	private String uid;       		// 유저 아이디
+	private String id;       		// 유저 아이디
 	private String uaddress;    	// 유저 주소
 	private String uemail;    		// 유저 이메일
 	private String ucountry;    	// 유저 국가

@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="${ contextPath }/resources/css/common/font.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css">
-    <link rel="stylesheet" href="${ contextPath }/resources/css/account/join.css">
+    <link rel="stylesheet" href="${ contextPath }/resources/css/account/login.css">
     <link rel="icon" type="image/png" sizes="16x16" href="${ contextPath }/resources/icon/faviconF.png">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <title>로그인</title>
@@ -34,8 +34,25 @@
 	</script>
 </head>
 <body>
-
+	<!-- 메시지 -->
+	 <c:if test="${ !empty msg }">
+		 <c:choose>
+			 <c:when test="${ msg eq 'success'}">
+			 	<script>
+				    alert("로그인이 완료되었습니다!");
+					opener.location.href="${ contextPath }";
+					window.close();
+			    </script>
+			 </c:when>
+			 <c:otherwise>
+			 	<script>
+				    alert("로그인 실패!");
+			    </script>
+			 </c:otherwise>
+		</c:choose>
+	</c:if>
  <!-- 로그인 -->
+ <form action="${ contextPath }/member/login" method="post">
     <section class="login-section">
         <header class="login-header">
             <p class="main-title">Fantimate Account</p>
@@ -47,7 +64,7 @@
         </div>
         <div class="login-btn-section">
             <button id="loginBtn">로그인</button>
-            <button id="closeBtn">닫기</button>
+            <button type="button" id="closeBtn">닫기</button>
         </div>
         <div id="find-account">
             <a class="find-account-info" onclick="findPass()">비밀번호 찾기</a>
@@ -68,7 +85,8 @@
             <option>日本語</option>
         </select>
     </section>
-
+ </form>
+ 
     <!-- 아이디 찾기 -->
     <section class="search-id-section">
         <header class="search-id-header">
