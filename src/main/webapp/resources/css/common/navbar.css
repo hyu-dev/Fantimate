@@ -551,4 +551,41 @@ input[id*="friend"]:checked + label em{
     object-fit: cover;
 }
 
+/* 로그인 회원가입 */
+#loginBtn{
+    outline: none;
+    width: 140px;
+    height: 40px;
+    border:#F4D4D4;
+    background: #F4D4D4;
+    border-radius: 10px;
+    font-family: Yoon Minguk;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 20px;
+    line-height: 24px;
+    text-align: center;
+    color: #FFFFFF;
+    margin-right: 10px;
+    outline: none;
+ 
+}
+
+#joinBtn{
+    outline: none;
+    width: 160px;
+    height: 40px;
+    border: 1px solid #E5D2D2;
+    background: #FFFFFF;
+    border-radius: 10px;
+    font-family: Yoon Minguk;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 20px;
+    line-height: 24px;
+    text-align: center;
+    color: #E5D2D2;
+    outline: none;
+}
+
 

@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="UTF-8">
+   <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="${ contextPath }/resources/css/common/font.css">
@@ -15,6 +15,7 @@
     <title>회원가입</title>
      <script type="text/javascript">
  
+     	// 다음 버튼 
         function firstStep(){
             if($('.firstStep-section').css('display') == 'none'){
                 $('.firstStep-section').show();
@@ -59,6 +60,54 @@
                 $('.sixthStep-section').show();
             }
         }
+        
+        // 이전 버튼 
+        
+        // 이전 버튼 2단계 
+        function beforeStep1(){
+        	if($('.firstStep-section').css('display') == 'none'){
+                $('.firstStep-section').show();
+                $('.secondStep-section').hide();
+        	}
+        }
+        
+        // 이전 버튼 3단계 
+        function beforeStep2(){
+        	if($('.secondStep-section').css('display') == 'none'){
+                $('.secondStep-section').show();
+                $('.thirdStep-section').hide();
+        	}
+        }
+        
+        // 이전 버튼 4단계 
+        function beforeStep3(){
+        	if($('.thirdStep-section').css('display') == 'none'){
+                $('.thirdStep-section').show();
+                $('.fourthStep-section').hide();
+        	}
+        }
+        
+     	// 이전 버튼 5단계 
+        function beforeStep4(){
+        	if($('.fourthStep-section').css('display') == 'none'){
+                $('.fourthStep-section').show();
+                $('.fifthStep-section').hide();
+        	}
+        } 
+     	
+     	// 이전 버튼 6단계 
+        function beforeStep5(){
+        	if($('.fifthStep-section').css('display') == 'none'){
+                $('.fifthStep-section').show();
+                $('.sixthStep-section').hide();
+        	}
+        } 
+        
+       
+           
+   
+        
+        
 
         // 관심 아티스트 3개 선택 
         function selectArtist(e){
@@ -111,26 +160,34 @@
             });
         });
 
-        // 관심 아티스트 x 클릭시 리스트에서 지우기 & option 태그 selected false 해주기 
+     // 관심 아티스트 x 클릭시 리스트에서 지우기 & option 태그 selected false 해주기 
 
         $(function(){
 
             $('#selectWrap1').on('click', function(){
                 // 같은 value 값인 곳을 찾아서 select false 해주기
-                $('#favArtists option[value="'+ $("#artistOne").text() + '"]').removeAttr("selected");
+                if($('.join-artist input[value="'+ $("#artistOne").text() + '"]').is(":checked"))
+                $('.join-artist input[value="'+ $("#artistOne").text() + '"]').prop("checked", false);
                 $("#artistOne").empty();
             });
 
             $('#selectWrap2').on('click', function(){
-                $('#favArtists option[value="'+ $("#artistTwo").text() + '"]').removeAttr("selected");
+                // 같은 value 값인 곳을 찾아서 select false 해주기
+                if($('.join-artist input[value="'+ $("#artistTwo").text() + '"]').is(":checked"))
+                $('.join-artist input[value="'+ $("#artistTwo").text() + '"]').prop("checked", false);
                 $("#artistTwo").empty();
             });
 
             $('#selectWrap3').on('click', function(){
-                $('#favArtists option[value="'+ $("#artistThree").text() + '"]').removeAttr("selected");
+                // 같은 value 값인 곳을 찾아서 select false 해주기
+                if($('.join-artist input[value="'+ $("#artistThree").text() + '"]').is(":checked"))
+                $('.join-artist input[value="'+ $("#artistThree").text() + '"]').prop("checked", false);
                 $("#artistThree").empty();
             });
+
+        
         });
+
 
         // 
 
@@ -155,9 +212,9 @@
                 $('.join-pass').toggleClass('active');
                 
                 if( $('.join-pass').hasClass('active') == true ){
-                    $(this).find('.eye-pass2').attr('src',"../resource/show.png").parents('.join-pass').find('#showPass2').attr('type','text');
+                    $(this).find('.eye-pass2').attr('src',"/fantimate/resources/images/account/show.png").parents('.join-pass').find('#showPass2').attr('type','text');
                 } else {
-                    $(this).find('.eye-pass2').attr('src',"../resource/hide.png").parents('.join-pass').find('#showPass2').attr('type','password');
+                    $(this).find('.eye-pass2').attr('src',"/fantimate/resources/images/account/hide.png").parents('.join-pass').find('#showPass2').attr('type','password');
                 }
             });
         });
@@ -173,7 +230,7 @@
         }
 
         // 약관동의 선택
-        function checkAll(e){
+        function checkedAll(e){
             var checked = $(this).is(":checked");
             console.log(checked);
 
@@ -188,6 +245,25 @@
     </script>
 </head>
 <body>
+ <!-- 메시지 -->
+	 <c:if test="${ !empty msg }">
+		 <c:choose>
+			 <c:when test="${ msg eq 'success'}">
+			 	<script>
+				    alert("회원가입이 완료되었습니다!");
+					opener.location.href="${ contextPath }";
+					window.close();
+			    </script>
+			 </c:when>
+			 <c:otherwise>
+			 	<script>
+				    alert("회원가입 실패!");
+			    </script>
+			 </c:otherwise>
+		</c:choose>
+	</c:if>
+ 
+ <form action="${ contextPath }/member/join" method="post">
  <!-- 첫번째 단계 -->
     <section class="firstStep-section">
         <header class="join-header">
@@ -198,11 +274,11 @@
         <div class="join-input">
             <input type="text" class="join-input-info" name="firstName" placeholder="성 입력" required>
             <input type="text" class="join-input-info" name="name" placeholder="이름 입력" required>
-            <input type="email" class="join-input-info" name="email" placeholder="이메일 입력" required>
+            <input type="email" class="join-input-info" name="uemail" placeholder="이메일 입력" required>
         </div>
         <div class="join-btn-section">
-            <button id="nextBtn" onclick="firstStep()">다음</button>
-            <button id="backBtn">뒤로가기</button>
+            <button class="nextBtn" type="button" onclick="firstStep()">다음</button>
+            <button class="backBtn" type="button">뒤로가기</button>
         </div>
     </section>
 
@@ -214,28 +290,212 @@
         </header>
         <p class="join-input-title">아이디, 패스워드를 입력하세요</p>
         <div class="join-id">
-            <input type="text" id="join-input-id" name="id" placeholder="아이디 입력" required>
-            <button id="idCheckBtn">중복 확인</button> 
-            <p class="text-check">중복확인 하세요.</p>
+            <input type="text" class="chk" id="join-input-id" name="id" placeholder="아이디 입력" title="아이디" required>
+            <button type="button" id="idCheckBtn">중복 확인</button> 
+            <p class="valid">아이디를 입력하세요. (영문 소문자, 숫자만 입력 가능)</p>
         </div>
         <div class="join-pass">
-            <p class="text-pass">비밀번호는 8-20자의 영문, 숫자, 특수문자를 조합하여 설정해주세요.</p>
-            <input type="password" id="showPass" class="join-input-pass" name="pwd" placeholder="비밀번호 입력" required>
+            <span class="text-pass">비밀번호는 8-20자의 영문, 숫자, 특수문자를 조합하여 설정해주세요.</span>
+            <input type="password" id="showPass" class="chk" name="pwd" placeholder="비밀번호 입력" title="비밀번호" required>
+            <p class="valid">8-20자의 영문, 숫자, 특수문자</p>
             <div class="eyes">
                 <img src="${ contextPath }/resources/images/account/hide.png" alt="" class="eye-pass">
             </div>
-            <p class="text-check">8-20자의 영문, 숫자, 특수문자</p>
-            <input type="password" id="showPass2" class="join-input-pass" name="pwd" placeholder="비밀번호 확인" required>
+            <input type="password" id="showPass2" class="chk" name="pwd2" placeholder="비밀번호 확인" title="비밀번호 확인" required>
+            <p class="valid">비밀번호를 다시 입력하세요.</p>
             <div class="eyes2">
                 <img src="${ contextPath }/resources/images/account/hide.png" alt="" class="eye-pass2">
             </div>
-            <p class="text-check">비밀번호가 일치하지 않습니다.</p>
         </div>
         <div class="join-btn-section">
-            <button id="nextBtn" onclick="secondStep()">다음</button>
-            <button id="backBtn">뒤로가기</button>
+            <button id="goToNext" class="nextBtn" type="button" onclick="secondStep()">다음</button>
+            <button type="button" class="backBtn" type="button" onclick="beforeStep1()">뒤로가기</button>
         </div>
     </section>
+    
+    <!-- 아이디 중복 확인 검사 -->
+    <script>
+	    $("#idCheckBtn").on('click', function(){
+	    	id_check();
+	    });
+	    
+	    function id_check(){
+	    	var $id = $('[name=id]');
+	    	if($id.hasClass('chked')) return;
+	    	console.log('go check');
+	    	
+	    	var data = join.tag_status($id);
+	    	if(data.code != 'valid') {
+	    		alert('아이디 중복 확인 불필요\n' + data.desc);
+	    		$id.focus();
+	    		return;
+	    	}
+	    	
+	    	$.ajax({
+	    		type:'post',
+	    		url: "${contextPath}/member/idCheck",
+	    		data: {id: $id.val()},
+	    		success: function(data) {
+	    			data = join.id_usable(data);
+	    			display_status($id.siblings('p'), data);
+	    			$id.addClass('chked');
+	    		},
+	    		error: function(req, text){
+	    			alert(text + ': ' + req.status);
+	    		}
+	    		
+	    	});
+	    	
+	    }
+	    
+	    // 유효성 검사
+	    $('.chk').on('keyup', function(){
+	    	if($(this).attr('name') == 'id') {
+	    		if(event.keyCode == 13) { id_check(); }
+	    		else {
+	    			$(this).removeClass('chked');
+	    			validate( $(this) );
+	    		}
+	    	} else {
+	    		validate($(this));
+	    	}
+	    });
+	    
+	    function validate(t) {
+	    	var data = join.tag_status(t);
+	    	display_status(t.siblings('p'), data);
+	    }
+
+	    function display_status(p, data) {
+	    	p.text(data.desc);
+	    	p.removeClass();
+	    	p.addClass(data.code)
+	    }
+	    
+	   /*  // 다음 눌렀을떄 
+	    $("#goToNext").on('click', function(){
+
+	    	//필수 항목의 유효성을 판단하도록 한다.
+	    	//중복확인 한 경우
+	    	if($('[name=id]').hasClass('chked') ) {
+	    		//이미 사용중인 경우는 회원가입 불가
+	    		if($('[name = id]').siblings('p').hasClass('invalid')) {
+	    			alert('회원가입 불가\n' + join.id.unusable.desc);
+	    			$('[name=id]').focus();
+	    			return;
+	    		}
+	    	} else {
+	    		//중복확인 하지 않은 경우
+	    		if( !item_check($('[name=id]')) ) return;
+	    		else {
+	    			alert('회원가입 불가\n' + join.id.valid.desc);
+	    			$('[name=id]').focus();
+	    			return;
+	    		}
+	    	}
+	    	
+	    	if(!item_check($('[name=pwd]'))) return;
+	    	if(!item_check($('[name=pwd2]'))) return;
+	    	
+	    	$('form').submit();
+	    } */
+	   
+	    function item_check(item) {
+	    	var data = join.tag_status(item);
+	    	if(data.code == 'invalid') {
+	    		alert('회원가입 불가! \n' + data.desc);
+	    		item.focus();
+	    		return false;
+	    	} else return true;
+	    }
+	    
+	    
+	// 회원가입시 각 항목에 대한 입력 유효성 판단 
+	var space = /\s/g;
+	var title = "";
+	var join = {
+		common: {
+			empty: {code: 'invalid', desc: title + '입력하세요.'},
+			space: {code: 'invalid', desc: '공백 없이 입력하세요.'},
+			min: {code: 'invalid', desc: '최소 5자 이상 입력하세요.'},
+			max: {code: 'invalid', desc: '최대 10자 이내로 입력하세요.'}
+		},
+		
+		id: {
+			valid: { code:'valid', desc: '아이디를 중복확인하세요.' },
+			invalid: { code:'invalid', desc: '아이디는 영문 소문자, 숫자만 입력하세요.' },
+			usable: { code: 'valid', desc: '사용 가능한 아이디입니다.'},
+			unusable: { code: 'invalid', desc: '이미 사용 중인 아이디입니다.	' }
+		},
+		
+		id_usable: function(data) {
+			if(data) return this.id.usable;
+			else return this.id.unusable;
+		},
+		
+		id_status: function(id) {
+			var reg = /[^a-z0-9]/g;
+			title = $('[name = id]').attr('title');
+			if(id == '') { 
+				return this.common.empty;
+			} else if(id.match(space)) {
+				return this.common.space;
+			} else if(reg.test(id)) {
+				return this.id.invalid;
+			} else if(id.length < 5) {
+				return this.common.min;
+			} else if(id.length > 10) {
+				return this.common.max;
+			} else {
+				return this.id.valid;
+			}
+		},
+		
+		pwd: {
+			valid: { code:'valid', desc: '사용 가능한 비밀번호입니다.' },
+			invalid: { code:'invalid', desc: '비밀번호는 영문 대/소문자, 숫자만 입력하세요.' },
+			lack: { code:'invalid', desc: '비밀번호는 영문 대/소문자, 숫자를 모두 포함해야 합니다.' },
+			equal: { code: 'valid', desc: '비밀번호가 일치합니다.' },
+			notEqual: { code: 'invalid', desc: '비밀번호가 일치하지 않습니다.' }
+		},
+		
+		pwd_status: function(pwd) {
+			var reg = /[^a-zA-Z0-9]/g;
+			title = $('[name = pwd]').attr('title');
+			var upper = /[A-Z]/g, lower = /[a-z]/g, digit = /[0-9]/g;
+			if(pwd == '') return this.common.empty;
+			else if(pwd.match(space)) return this.common.space;
+			else if(reg.test(pwd)) return this.pwd.invalid;
+			else if(pwd.length < 5) return this.common.min;
+			else if(pwd.length > 10) return this.common.max;
+			else if ( !upper.test(pwd) || !lower.test(pwd) || !digit.test(pwd) ) return this.pwd.lack;
+			else return this.pw.valid;
+		},
+		
+		pwd2_status: function(pwd2) {
+			title = $('[name = pwd2]').attr('title');
+			if ( pwd2 =='' ) return this.common.empty;
+			else if(pwd2 == $('[name=pwd]').val() ) return this.pwd.equal;
+			else return this.pwd.notEqual; 
+		},
+		
+		tag_status: function(tag) {
+			var data = tag.val();
+			tag = tag.attr('name');
+			if(tag == 'id') {
+				data = this.id_status(data);
+			} else if(tag == 'pwd') {
+				data = this.pwd_status(data);
+			} else if(tag == 'pwd2') {
+				data = this.pwd2_status(data);
+			}
+			
+			return data;
+		}
+	}
+		
+
+    </script>
 
     <!-- 세번째 단계 -->
     <section class="thirdStep-section">
@@ -245,10 +505,10 @@
         </header>
         <p class="join-input-title">주소, 연락처, 국가를 입력하세요</p>
         <div class="join-address">
-            <input type="text" id="inputAddress" name="address" placeholder="우편 번호" required>
+            <input type="text" id="inputAddress" name="post" placeholder="우편 번호" required>
             <button id="addressCheckBtn">우편 번호</button> 
-            <input type="text" class="join-input-address" name="address" placeholder="도로명 주소" required>
-            <input type="text" class="join-input-address" name="address" placeholder="상세 주소" required>
+            <input type="text" class="join-input-address" name="address1" placeholder="도로명 주소" required>
+            <input type="text" class="join-input-address" name="address2" placeholder="상세 주소" required>
         </div>
         <div class="join-phone">
             <p class="text-phone">(-)포함하여 연락처를 입력해주세요.</p>
@@ -256,17 +516,28 @@
         </div>
         <div class="join-country">
             <p class="text-country">국가를 선택해주세요.</p>
-            <select name="country" class="country-option">
-                <option>선택</option>
-                <option>대한민국</option>
-                <option>대한민국 외</option>
+            <select name="ucountry" class="country-option">
+                <option disabled>선택</option>
+                <option value="대한민국">대한민국</option>
+                <option value="대한민국 외">대한민국 외</option>
             </select>
         </div>
         <div class="join-btn-section">
-            <button id="nextBtn" onclick="thirdStep()">다음</button>
-            <button id="backBtn">뒤로가기</button>
+            <button class="nextBtn" type="button" onclick="thirdStep();">다음</button>
+            <button class="backBtn" type="button" onclick="beforeStep2()">뒤로가기</button>
         </div>
     </section>
+    
+    <!-- 우편 번호 API -->
+    <!-- jQuery와 Postcodify를 로딩 -->
+   <script src="//d1p7wdleee1q2z.cloudfront.net/post/search.min.js"></script>
+   <script>
+      // 검색 단추를 누르면 팝업 레이어가 열리도록 설정
+      $(function(){
+            $("#addressCheckBtn").postcodifyPopUp();
+      });
+   </script>
+    
 
     <!-- 네번째 단계 -->
     <section class="fourthStep-section">
@@ -275,17 +546,8 @@
             <p class="join-steps">6단계 중 4단계</p>
         </header>
         <p class="join-input-title">관심 아티스트 3개 선택</p>
-        <div class="join-artist">
-            <select name="artist[]" multiple="multiple" id="favArtists" class="artist-option" onChange="selectArtist(this)">
-                <option value="SUNMI">SUNMI</option>
-                <option value="BTS">BTS</option>
-                <option value="HENRY">HENRY</option>
-                <option value="TEENTOP">TEENTOP</option>
-                <option value="IU">IU</option>
-                <option value="SUPERJUNIOR">SUPERJUNIOR</option>
-                <option value="BRAVEGIRLS">BRAVEGIRLS</option>
-                <option value="SUZI">SUZI</option>
-            </select>
+        <div style="overflow:auto" class="join-artist">
+            <!-- ajax 리스트 불러오기 -->
         </div>
         <div class="join-phone">
             <p class="text-artist">선택한 아티스트 미리보기</p>
@@ -296,10 +558,56 @@
             </div>
         </div>
         <div class="join-btn-section">
-            <button id="nextBtn" onclick="fourthStep()">다음</button>
-            <button id="backBtn">뒤로가기</button>
+            <button class="nextBtn" type="button" onclick="fourthStep()">다음</button>
+            <button class="backBtn" type="button" onclick="beforeStep3()">뒤로가기</button>
         </div>
     </section>
+    
+    <!-- Ajax로 전체 아티스트 불러오기 -->
+    <script>
+    $(function(){
+       artistList();
+    });    
+    
+    function artistList(){
+       $.ajax({
+          url : "${contextPath}/member/artistList",
+          dataType : "json",
+          success : function(data){
+             console.log(data);
+             
+             selectOption = $(".join-artist");
+             selectOption.html("");
+             
+             for(var i in data){
+                //selectOption.append("<option value= '" + data[i].artNameEn + "'>" + data[i].artNameEn + "</option>");
+                selectOption.append("<label><input type='checkbox' class='favcheck' name='favArtists' value= '" + data[i].artNameEn + "'>" + "<span>" + data[i].artNameEn + "</span></label>");
+             }
+             
+           	 // 관심 아티스트 미리보기 
+             $(".favcheck").click(function(){
+                 
+                    if($(this).is(":checked"))
+                     if(document.getElementById("artistOne").innerText == ""){
+ 	                document.getElementById("artistOne").innerText = $(this).val();
+ 	            	} else if(document.getElementById("artistOne").innerText != "" && document.getElementById("artistTwo").innerText == "") {
+ 	                document.getElementById("artistTwo").innerText = $(this).val();
+ 	            	} else if(document.getElementById("artistTwo").innerText != "" && document.getElementById("artistOne").innerText != ""){
+ 	                    document.getElementById("artistThree").innerText = $(this).val();
+ 	                }
+                 
+             });
+             
+          },
+          error : function(e){
+             alert("code : " + e.status + "\n"
+                  + "message : " + e.responseText);
+          }
+          
+       });
+       
+    }
+    </script>
 
      <!-- 다섯번째 단계 -->
      <section class="fifthStep-section">
@@ -315,7 +623,7 @@
                     <input type="checkbox" id="profile1" name="profile" class="check-profile" value="profile1.svg" onclick="checkOne(this)">
                     <span class="check-pic"></span>
                     <label for="profile1">
-                    <img src="${ contextPath }/resources/images/account/profile1.png" alt="" class="userProfile-pic">
+                    <img src="${ contextPath }/resources/images/account/profile1.svg" alt="" class="userProfile-pic">
                     <span class="userName-text">승아</span>
                 </label>
                 </div>
@@ -323,21 +631,21 @@
                     <input type="checkbox" id="profile2" name="profile" class="check-profile" value="profile2.svg" onclick="checkOne(this)">
                     <span class="check-pic"></span>
                     <label for="profile2">
-                    <img src="${ contextPath }/resources/images/account/profile2.png" alt="" class="userProfile-pic">
+                    <img src="${ contextPath }/resources/images/account/profile2.svg" alt="" class="userProfile-pic">
                     <span class="userName-text">승아</span>
                 </div>
                 <div class="profile-text-section">
                     <input type="checkbox" id="profile3" name="profile" class="check-profile" value="profile3.svg" onclick="checkOne(this)">
                     <span class="check-pic"></span>
                     <label for="profile3">
-                    <img src="${ contextPath }/resources/images/account/profile3.png" alt="" class="userProfile-pic">
+                    <img src="${ contextPath }/resources/images/account/profile3.svg" alt="" class="userProfile-pic">
                     <span class="userName-text">승아</span>
                 </div>
             </div>
         </div>
         <div class="join-btn-section">
-            <button id="nextBtn" onclick="fifthStep()">다음</button>
-            <button id="backBtn">뒤로가기</button>
+            <button class="nextBtn" type="button" onclick="fifthStep()">다음</button>
+            <button class="backBtn" type="button" onclick="beforeStep4()">뒤로가기</button>
         </div>
     </section>
 
@@ -349,7 +657,7 @@
         </header>
         <p class="join-input-title">약관 동의</p>
             <label class="check-section">
-                <input type="checkbox" name="checkAll" id="checkAll" class="checkbox-check" onclick="checkAll(this)"/>
+                <input type="checkbox" name="checkAll" id="checkAll" class="checkbox-check" onclick="checkedAll(this)"/>
                 <span class="check-icon"></span>
                 <label for="checkAll">모두 동의합니다.</label>
             </label>
@@ -384,11 +692,12 @@
         </label>
 
         <div class="join-btn-section">
-            <button id="nextBtn" onclick="fifthStep()">다음</button>
-            <button id="backBtn">뒤로가기</button>
+            <button class="nextBtn">가입하기</button>
+            <button class="backBtn" type="button" onclick="beforeStep5()">뒤로가기</button>
         </div>
-    </section>
-
+    </section>      
+    
+</form>
 
 </body>
 </html>

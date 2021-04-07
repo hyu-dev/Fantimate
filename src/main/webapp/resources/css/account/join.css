@@ -69,14 +69,14 @@ html, body {
     font-style: normal;
     font-weight: normal;
     line-height: 43px;
-    color: #ACACAC;
+    color: black;
     margin: 10px;
     border: 1px solid #ACACAC;
     outline: none;
     padding-left: 10px;
 }
 
-.join-input-pass, .join-input-address, .join-input-phone{
+#showPass, #showPass2, .join-input-address, .join-input-phone{
     width: 530px;
     height: 60px;
     font-size: 20px;
@@ -84,7 +84,7 @@ html, body {
     font-style: normal;
     font-weight: normal;
     line-height: 43px;
-    color: #ACACAC;
+    color: black;
     margin: 10px;
     border: 1px solid #ACACAC;
     outline: none;
@@ -100,7 +100,7 @@ html, body {
     font-style: normal;
     font-weight: normal;
     line-height: 43px;
-    color: #ACACAC;
+    color: black;
     margin: 10px;
     border: 1px solid #ACACAC;
     outline: none;
@@ -116,7 +116,7 @@ html, body {
     font-style: normal;
     font-weight: normal;
     line-height: 43px;
-    color: #ACACAC;
+    color: black;
     margin: 10px;
     border: 1px solid #ACACAC;
     outline: none;
@@ -141,7 +141,7 @@ html, body {
     font-style: normal;
     font-weight: normal;
     line-height: 43px;
-    color: #ACACAC;
+    color: black;
     margin: 10px;
     border: 1px solid #ACACAC;
     outline: none;
@@ -157,7 +157,7 @@ html, body {
     font-style: normal;
     font-weight: normal;
     line-height: 43px;
-    color: #ACACAC;
+    color: black;
     margin: 10px;
     border: 1px solid #ACACAC;
     outline: none;
@@ -201,7 +201,7 @@ html, body {
     font-style: normal;
     font-weight: normal;
     line-height: 43px;
-    color: #ACACAC;
+    color: black;
     margin: 10px;
     border: 1px solid #ACACAC;
     outline: none;
@@ -232,7 +232,7 @@ html, body {
     margin-bottom: 50px;
 }
 
-#nextBtn{
+.nextBtn{
     background: #F4D4D4;
     width: 150px;
     height: 50px;
@@ -246,7 +246,7 @@ html, body {
     border: 1px solid #F4D4D4;
 }
 
-#backBtn{
+.backBtn{
     width: 150px;
     height: 50px;
     background: #5C5F78;
@@ -265,17 +265,6 @@ html, body {
     display: none;
 }
 
-.text-check{
-    font-family: Yoon Minguk;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 20px;
-    line-height: 29px;
-    color: #FC9C9C;
-    margin-top: 0;
-    margin-left: 50px;
-    align-self: flex-end;
-}
 
 #selected-profile{
     display: flex;
@@ -424,7 +413,7 @@ body::-webkit-scrollbar-track ,.check-content::-webkit-scrollbar-track {
     height: 50px;
     position: absolute;
     right: 9%;
-    top: 62.5%;
+    top: 60.5%;
     cursor: pointer;
 }
 
@@ -433,7 +422,7 @@ body::-webkit-scrollbar-track ,.check-content::-webkit-scrollbar-track {
     height: 50px;
     position: absolute;
     right: 9%;
-    top: 79.5%;
+    top: 77.5%;
     cursor: pointer;
 }
 .eye-pass ,.eye-pass2{
@@ -441,9 +430,27 @@ body::-webkit-scrollbar-track ,.check-content::-webkit-scrollbar-track {
     height: 50px;
 }
 
-.join-input-pass{
+#showPass, #showPass2{
     position: relative;
 }
+
+.valid, .invalid {
+	font-family: Yoon Minguk;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 20px;
+    line-height: 29px;
+    margin-top: 0;
+    margin-left: 50px;
+    align-self: flex-end;
+	
+}
+
+.valid { color: #FC9C9C; }
+
+.invalid { color : red; }
+
+
 
 /* 관심 아티스트 */
 .cancel-btn{
@@ -498,4 +505,53 @@ input:checked ~ .check-pic::before{
 input:checked ~ .check-pic::after{
     height: 90px;
     transition: all .35s ease .35s;
+}
+
+/* 관심 아티스트 영역 */
+.join-artist{
+    border: 1px solid #ACACAC;
+    width: 530px;
+    height: 130px;
+    margin: auto;
+}
+
+.join-artist label {
+    display: block;
+    padding-right: 10px;
+    padding-left: 22px;
+    text-indent: -22px;
+  }
+  .join-artist input {
+    vertical-align: middle;
+  }
+  .join-artist label span {
+    vertical-align: middle;
+  }
+
+  /* 스크롤바 꾸미기 시작 */
+.join-artist::-webkit-scrollbar{
+    /* 스크롤바 전체 */
+    width: 10px;
+    background: #FBF6F6;
+
+}
+
+.join-artist::-webkit-scrollbar-thumb{
+    /* 스크롤 막대 */
+    background: #5C5F78;
+    background-clip: padding-box;
+    border-radius: 5px;
+    border: 2.5px solid transparent;
+}
+
+.join-artist::-webkit-scrollbar-thumb:hover{
+    background: #F4D4D4;
+    background-clip: padding-box;
+    border: 2.5px solid transparent;
+}
+
+.join-artist::-webkit-scrollbar-track {
+    /* 스크롤 막대 외부 */
+    border-radius: 5px;
+    background: transparent;
 }

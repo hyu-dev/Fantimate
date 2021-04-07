@@ -129,21 +129,49 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	</insert>
 	
 	<!-- 관심 아티스트 insert -->
-	<insert id="insertFavArtist" parameterType="FavoriteArtist">
-		INSERT
-		INTO ART_FAV
+	<insert id="insertFavArtist" parameterType="hashMap">
+		INSERT INTO ART_FAV
 		(
-		   FAV_CODE,
-		   U_ID,
-		   ARTI_NAME_EN
+		  FAV_CODE,
+		  U_ID,
+		  ARTI_NAME_EN
 		)
-		VALUES
-		( 
-		  SEQ_ART_FAV.NEXTVAL ,
-		  #{id} ,
-		  #{artiName}
-		)
+		SELECT SEQ_ART_FAV.NEXTVAL, A.* FROM(
+		<foreach collection="fvList" item="i" separator="UNION ALL "> 
+		  SELECT #{i.id} AS U_ID,
+		  #{i.artiName} AS ARTI_NAME_EN
+		  FROM DUAL
+		</foreach>)A
 	</insert>
+	
+	<!-- 아이디 중복 테스트 (카운트 값) -->
+	<select id="selectId" resultType="Integer">
+		SELECT
+			  COUNT(*)
+		  FROM
+			  COMMON
+		 WHERE
+		 	  ID = #{id} 
+	</select>
+	
+	<!-- 회원 로그인 정보 select -->
+	<select id="selectMember" parameterType="Member" resultMap="commonResultSet">
+	  SELECT
+			ID
+		  , PWD
+		  , NAME
+		  , STATUS
+		  , SIGNUP_DATE
+		  , CLASSIFY_MEM
+	   FROM
+	  	    COMMON
+	  WHERE
+	 	    ID = #{id}
+	 	AND
+	 		PWD = #{pwd}
+	    AND 
+	 	    STATUS = 'Y' 
+	</select>
 		
 	
 	
