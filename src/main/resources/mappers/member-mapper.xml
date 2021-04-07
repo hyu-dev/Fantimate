@@ -3,5 +3,172 @@
 PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="memberMapper">
-
+	<!-- 관심 아티스트 -->
+	<resultMap type="ArtistGroup" id="artistgroupResultSet">
+		<id property = "artNameEn" column="ARTI_NAME_EN"/>
+		<result property="artNameKr" column="ARTI_NAME_KR"/>
+		<result property="agId" column="AG_ID"/>
+	</resultMap>
+	
+	<!-- 공통 유저 정보 -->
+	<resultMap type="Member" id="commonResultSet">
+		<id property = "id" column="ID"/>
+		<result property="pwd" column="PWD"/>
+		<result property="name" column="NAME"/>
+		<result property="status" column="STATUS"/>
+		<result property="signupDate" column="SIGNUP_DATE"/>
+		<result property="classifyMem" column="CLASSIFY_MEM"/>
+	</resultMap>
+	
+	<!-- 일반 회원 -->
+	<resultMap type="User" id="userResultSet">
+		<id property = "id" column="U_ID"/>
+		<result property="uaddress" column="U_ADD"/>
+		<result property="uemail" column="U_EMAIL"/>
+		<result property="ucountry" column="U_COUNTRY"/>
+		<result property="areaReg" column="AREA_REGISTER"/>
+		<result property="areaCertify" column="AREA_CERTIFY"/>
+		<result property="isMembership" column="IS_MEMBERSHIP"/>
+		<result property="uProfile" column="U_PROFILE"/>
+	</resultMap>
+	
+	<!-- 기본 유저 프로필 -->
+	<resultMap type="Attachment" id="userProfileResultSet">
+		<id property = "attCode" column="UP_CODE"/>
+		<result property="attClName" column="UP_CL_NAME"/>
+		<result property="attSvName" column="UP_SV_NAME"/>
+		<result property="attStatus" column="UP_STATUS"/>
+		<result property="id" column="U_ID"/>
+	</resultMap> 
+	
+	<!-- 관심 아티스트 insert -->
+	<resultMap type="FavoriteArtist" id="favArtistResultSet">
+		<id property = "favCode" column="FAV_CODE"/>
+		<result property="id" column="U_ID"/>
+		<result property="artiName" column="ARTI_NAME_EN"/>
+	</resultMap> 
+	
+	<!-- 전체 아티스트 영어 이름 select -->
+	<select id="selectArtistList" parameterType="ArtistGroup" resultMap="artistgroupResultSet">
+		SELECT
+			  ARTI_NAME_EN
+		 FROM
+		 	  ART_MAIN
+	</select>
+	
+	<!-- 공통 유저 정보 insert -->
+	<insert id="insertCommon" parameterType="Member">
+		INSERT
+		INTO COMMON
+		(
+			ID
+		  , PWD
+		  , NAME
+		  , STATUS
+		  , SIGNUP_DATE
+		  , CLASSIFY_MEM
+		)
+		VALUES
+		(
+		    #{id}
+		  , #{pwd}
+		  , #{name}
+		  , DEFAULT
+		  , SYSDATE
+		  , 1 
+		)
+	</insert>
+	
+	<!-- 일반 회원 insert -->
+	<insert id="insertUser" parameterType="User">
+		INSERT
+		INTO USER_
+		(
+		   U_ID,
+		   U_ADD,
+		   U_EMAIL,
+		   U_COUNTRY,
+		   AREA_REGISTER,
+		   AREA_CERTIFY,
+		   IS_MEMBERSHIP,
+		   U_PROFILE
+		)
+		VALUES
+		( 
+		  #{id} ,
+		  #{uaddress},
+		  #{uemail},
+		  #{ucountry},
+		  DEFAULT,
+		  DEFAULT,
+		  DEFAULT,
+		  DEFAULT
+		)
+	</insert>
+	
+	<!-- 유저 기본 프로필 insert -->
+	<insert id="insertProfile" parameterType="Attachment">
+		INSERT
+		INTO USER_PROFILE
+		(
+		   UP_CODE,
+		   UP_CL_NAME,
+		   UP_SV_NAME,
+		   UP_STATUS,
+		   U_ID
+		)
+		VALUES
+		( 
+		  SEQ_USER_PRO.NEXTVAL ,
+		  #{attClName},
+		  #{attSvName},
+		  DEFAULT,
+		  #{id}
+		)
+	</insert>
+	
+	<!-- 관심 아티스트 insert -->
+	<insert id="insertFavArtist" parameterType="hashMap">
+		INSERT INTO ART_FAV
+		(
+		  FAV_CODE,
+		  U_ID,
+		  ARTI_NAME_EN
+		)
+		SELECT SEQ_ART_FAV.NEXTVAL, A.* FROM(
+		<foreach collection="fvList" item="i" separator="UNION ALL "> 
+		  SELECT #{i.id} AS U_ID,
+		  #{i.artiName} AS ARTI_NAME_EN
+		  FROM DUAL
+		</foreach>)A
+	</insert>
+	
+	<!-- 아이디 중복 테스트 (카운트 값) -->
+	<select id="selectId" resultType="Integer">
+		SELECT
+			  COUNT(*)
+		  FROM
+			  COMMON
+		 WHERE
+		 	  ID = #{id} 
+	</select>
+	
+	<!-- 회원 로그인 정보 select -->
+	<select id="selectMember" parameterType="Member" resultMap="commonResultSet">
+	  SELECT
+			ID
+		  , PWD
+		  , NAME
+		  , STATUS
+		  , SIGNUP_DATE
+		  , CLASSIFY_MEM
+	   FROM
+	  	    COMMON
+	  WHERE
+	 	    ID = #{id}
+	 	AND
+	 		PWD = #{pwd}
+	    AND 
+	 	    STATUS = 'Y' 
+	</select>
 </mapper>

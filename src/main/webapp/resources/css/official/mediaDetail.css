@@ -1,0 +1,510 @@
+@charset "UTF-8";
+
+/* 나눔스퀘어 글씨체 */
+.nanumsquare {
+    font-family: 'NanumSquare', sans-serif !important;
+}
+
+
+/* 인클루드한 속성 변경 */
+html, body {
+    background: #ffffff !important;
+}
+
+.contents-search-input {
+    background: #ffffff !important;
+}
+
+.search-result {
+    background: #fbf6f6 !important;
+}
+
+.main-contents {
+    /* max-width: 1100px; */
+    /* width: 55%; */
+    width: 1100px !important;
+    min-width: 1100px !important;
+    padding-bottom: 50px;
+    /* border: 2px solid blue; */
+    /* box-sizing: border-box; */
+}
+
+/* 본문 시작 */
+.main-section {
+    width: 100%;
+    height: 100%;
+    /* border: 2px solid red; */
+    /* box-sizing: border-box; */
+    display: flex;
+}
+
+/* 중간 */
+.media-container {
+    border: 1px solid #e5e5e5;
+    width: 90%;
+    height: auto;
+    box-sizing: border-box;
+    margin: auto;
+    margin-top: 78px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.media-upper {
+    /* border: 1px solid maroon; */
+    display: flex;
+    box-sizing: border-box;
+    font-family: 'Wemakeprice-Regular';
+    justify-content: space-between;
+    margin-left: 20px;
+    margin-right: 20px;
+    padding-bottom: 15px;
+}
+
+#mediaTitle {
+    font-size: 20px;
+}
+
+#backLink {
+    font-size: 17px;
+    color: #a5a5a5;
+    text-decoration: none;
+}
+
+.media-center > video {
+    width: 100%;
+    outline-style: none;
+}
+
+.media-main {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    /* margin-left: 30px;
+    margin-right: 30px; */
+}
+
+.media-content {
+    border: none;
+    width: 90%;
+    height: 100px;
+    font-size: 15px;
+    outline-style: none;
+    margin-left: 30px;
+}
+
+.media-main > img {
+    float: right;
+    margin-right: 20px;
+}
+
+.media-info {
+    /* border: 1px solid maroon; */
+    font-size: 17px;
+    margin: 20px 20px 20px 20px;
+}
+
+.comment-category {
+    width: 80px;
+    height: 25px;
+    outline-style: none;
+}
+
+.watching-count {
+    float: right;
+}
+
+#watchingCount {
+    /* border: 1px solid maroon; */
+    display: inline-block;
+    width: 90px;
+}
+
+/* 댓글 */
+.media-lower {
+    height: 100%;
+}
+
+.comment-toggle {
+    display: none;
+}
+
+.comment-container, .re-comment-container {
+    display: flex;
+}
+
+.comment-area {
+    width: 80%;
+    height: 40px;
+    background: #ebebeb;
+    border: none;
+    border-radius: 10px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    margin-left: 70px;
+    padding-left: 20px;
+    position: relative;
+}
+
+.comment-area > textarea {
+    border: none;
+    width: 95%;
+    height: 25px;
+    outline-style: none;
+    font-size: 17px;
+    background: #ebebeb;
+    box-sizing: border-box;
+    position: absolute;
+    top: 50%;
+    margin-top: -12.5px;
+}
+
+.send-btn, .re-send-btn {
+    cursor: pointer;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.open-area {
+    display: block !important;
+}
+
+.original-comment {
+    /* border: 1px solid green; */
+    width: 90%;
+    height: 100%;
+    margin: auto;
+    margin-top: 10px;
+    box-sizing: border-box;
+}
+
+.comment-line {
+    width: 100%;
+    height: auto;
+}
+
+.comment-line > td:first-child {
+    height: 100%; 
+    vertical-align: top; 
+    padding-top: 5px;
+}
+
+.comment-line > td {
+    position: relative;
+}
+
+.profile-bubble {
+    border: 2px solid black;
+    border-radius: 10px 0px 10px 10px;
+    width: 100px;
+    height: auto;
+    background: white;
+    text-align: center;
+    font-family: "Wemakeprice-regular";
+    box-sizing: border-box;
+    cursor: pointer;
+    position: absolute;
+    z-index: 1;
+    top: 10px;
+    left: -105px;
+    display: none;
+}
+
+.re-profile-bubble {
+    border: 2px solid black;
+    border-radius: 10px 0px 10px 10px;
+    width: 100px;
+    height: 90px;
+    background: white;
+    text-align: center;
+    font-family: "Wemakeprice-regular";
+    box-sizing: border-box;
+    cursor: pointer;
+    position: absolute;
+    z-index: 1;
+    top: 10px;
+    left: -105px;
+    display: none;
+}
+
+.profile-picture, .re-profile-picture {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    vertical-align: top;
+}
+
+#artist-comment {
+    background: #fceae5;
+    border-radius: 10px;
+}
+
+.comment-box {
+    /* border: 1px solid red; */
+    width: 100%;
+    height: auto;
+    font-size: 17px;
+    display: flex;
+    box-sizing: border-box;
+}
+
+.comment-center {
+    /* border: 1px solid blue; */
+    margin: 10px 10px 0px 10px;
+    box-sizing: border-box;
+}
+
+.comment-main {
+    width: 95%;
+    height: 100%;
+    line-height: 40px;
+    background: #f3f3f3;
+    border-radius: 10px;
+    box-sizing: border-box;
+    padding-right: 30px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.comment-main > div {
+    display: flex;
+}
+
+.comment-name {
+    font-family: "Wemakeprice-bold";
+    font-weight: bolder;
+    padding-left: 30px;
+    padding-right: 30px;
+    box-sizing: border-box;
+}
+
+.comment-content {
+    padding-right: 30px;
+    box-sizing: border-box;
+    overflow: visible;
+}
+
+.re-commentBtn {
+    float: right;
+    color: #a9a9a9;
+    font-family: "Wemakeprice-regular";
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.comment-etc, .re-comment-etc {
+    height: 100%;
+    cursor: pointer;
+    font-size: 35px; 
+    padding-top: 6px;
+    position: relative;
+}
+
+.comment-bubble {
+    border: 2px solid black;
+    border-radius: 0 10px 10px 10px;
+    width: 100px;
+    height: 90px;
+    background: white;
+    text-align: center;
+    font-size: 16px !important;
+    font-family: "Wemakeprice-regular";
+    box-sizing: border-box;
+    cursor: pointer;
+    position: absolute;
+    z-index: 1;
+    top: 20px;
+    right: -110px;
+    display: none;
+}
+
+.re-comment-bubble {
+    border: 2px solid black;
+    border-radius: 0 10px 10px 10px;
+    width: 100px;
+    height: 50px;
+    background: white;
+    text-align: center;
+    font-size: 16px !important;
+    font-family: "Wemakeprice-regular";
+    box-sizing: border-box;
+    cursor: pointer;
+    position: absolute;
+    z-index: 1;
+    top: 20px;
+    right: -110px;
+    display: none;
+}
+
+.comment-info {
+    width: 94.5%;
+    font-size: 14px;
+}
+
+.re-comment-info {
+    width: 94%;
+    font-size: 14px;
+}
+
+.likeBtn {
+    width: 20px;
+    height: 20px;
+}
+
+.comment-date {
+    float: right;
+}
+
+.re-comment {
+    display: none;
+}
+
+
+/* 오른쪽 */
+.main-contents-right {
+    width: 25%;
+    height: 100%;
+    /* border: 2px solid blue; */
+    /* box-sizing: border-box; */
+}
+
+.toggle-area {
+    width: auto;
+    height: auto;
+    /* border: 2px solid red; */
+    margin: 75px 0 0 10px;
+}
+
+.toggle-switch {
+    --width: 80px;
+    --height: 40px;
+    --padding: 3px;
+    --handle-size: calc(var(--height) - var(--padding) * 2);
+    display: inline-block;
+    outline-width: 0;
+  }
+  
+  .toggle-switch > input {
+    position: absolute;
+    clip: rect(1px, 1px, 1px, 1px);
+    clip-path: inset(50%);
+    height: 1px;
+    width: 1px;
+    margin: -1px;
+    overflow: hidden;
+  }
+  
+  .area {
+    padding: 4px;
+    margin: -4px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    /* border: 2px solid red; */
+  }
+
+  .area p {
+      margin: 0;
+      padding: 1px 3px 0;
+      font-size: 13px;
+     position: absolute;
+     right: 13px;
+     font-family: "Wemakeprice-bold";
+  }
+  
+  .background,
+  .handle,
+  .area p {
+    transition: all 0.3s ease;
+  }
+  
+  .background {
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    width: var(--width);
+    height: var(--height);
+    border-radius: var(--height);
+    padding: 0 var(--padding);
+    vertical-align: text-bottom;
+    user-select: none;
+    background-color: #ebebeb;
+    box-shadow: inset 0px 0px 5px 2px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    transition: background-color .15s ease;
+    cursor: pointer;
+  }
+
+  
+  .handle {
+    width: var(--handle-size);
+    height: var(--handle-size);
+    background-color: white;
+    border-radius: 50%;
+    box-shadow:
+      0 2px 4px rgba(0, 0, 0, 0.5),
+      inset 0 2px 4px rgba(0, 0, 0, 0.15);
+  }
+
+
+  
+  input:checked + label .area .background {
+    background-color: #5C5F78;
+  }
+  
+  input:checked + label .area .handle {
+    /* background-color: white; */
+    transform: translateX(calc(var(--width) - var(--handle-size)));
+  }
+
+  input:checked + label .area p {
+    position: absolute;
+    left: 12px;
+    color: white;
+  }
+
+/* 추천 영상 */
+#recommendTitle {
+    /* border: 1px solid red; */
+    font-family: "Wemakeprice-bold";
+    font-size: 20px;
+    box-sizing: border-box;
+    margin: 30px 0 10px 10px;
+}
+
+.recommend-container {
+    width: 55%;
+    box-sizing: border-box;
+}
+
+.recommend-media {
+    /* border: 1px solid green; */
+    box-sizing: border-box;
+    width: 100%;
+    padding-left: 15px;
+    padding-right: 15px;
+    margin-top: 20px;
+    margin-bottom: 40px;
+}
+
+.recommend-media > img {
+    width: 100%;
+    height: 140px;
+    border-radius: 10px;
+}
+
+.media-title {
+    /* border: 1px solid red; */
+    height: 38px;
+    font-weight: bolder;
+    font-size: 18px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.media-date {
+    font-size: 15px;
+    margin-top: 5px;
+    color: #a5a5a5;
+}
+
+/* 본문 끝 */

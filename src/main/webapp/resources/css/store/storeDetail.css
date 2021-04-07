@@ -1,0 +1,638 @@
+@charset "UTF-8";
+
+/* 본문 시작 */
+.main-section {
+    width: 100%;
+    height: 100%;
+    /* border: 2px solid red; */
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    position: relative;
+}
+
+/* 왼쪽 영역 */
+.left-contents {
+    width: 1000px;
+    height: auto;
+    /* border: 2px solid red; */
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+.main-photo {
+    width: 100%;
+    height: 800px;
+    background-color: #ebebeb;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.photo-icon {
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    cursor: pointer;
+    
+}
+.main-photo img:nth-of-type(1) {
+    width: 500px;
+    /* height: 500px; */
+}
+
+.photo-icon:nth-of-type(2) {
+    width: 40px;
+    height: 40px;
+    top: 50%;
+    left: 10px;
+    z-index: 2;
+    transform: translateY(-50%);
+    opacity: 0;
+}
+.photo-icon:nth-of-type(3) {
+    width: 40px;
+    height: 40px;
+    top: 50%;
+    right: 10px;
+    z-index: 2;
+    transform: translateY(-50%);
+    opacity: 0;
+}
+
+.main-photo:hover .photo-icon {
+     opacity: 1;
+}
+
+.photo-icon:nth-of-type(4) {
+    top: 10px;
+    right: 10px;
+    z-index: 2;
+}
+
+.guide-text {
+    width: 1000px;
+    height: auto;
+    box-sizing: border-box;
+    border-bottom: 2px solid lightgray;
+    background-color: #fbf6f6;
+    margin-bottom: 50px;
+    padding: 10px;
+}
+
+.add-photo-area {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.add-photos {
+    width: 800px;
+    height: 800px;
+    background-color: #ebebeb;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 50px;
+}
+
+.add-photos img {
+    width: 500px;
+}
+
+/* ************** 상 세 정 보 ************** */
+
+.product-information {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0 0 100px;
+    /* border: 2px solid red; */
+}
+
+.product-title {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 95%;
+    border-bottom: 1px solid lightgray;
+    /* border: 2px solid red; */
+}
+
+.product-title p {
+    margin: 10px 0;
+    font-family: Wemakeprice;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 20px;
+    line-height: 25px;
+    color: #E5D2D2;
+    cursor: pointer;
+}
+
+.product-title p:first-of-type {
+    color: #5C5F78;
+}
+
+.product-info {
+    width: 1000px;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.product-info table tr th {
+    width: 200px;
+    font-family: Yoon Minguk;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 14px;
+    line-height: 25px;
+    color: #5C5F78;
+    text-align: left;
+    padding: 0 10px;
+}
+
+.product-info table tr td {
+    height: auto;
+    font-family: Yoon Minguk;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 25px;
+    color: #5C5F78;
+    text-align: left;
+    padding: 0 10px;
+}
+
+/* ************** 포 토 리 뷰 ************* */
+.product-review {
+    width: 1000px;
+    display: none;
+}
+
+section.top, section.bottom {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: flex-start;
+    width: 100%;
+    box-sizing: border-box;
+    /* border: 1px solid red; */
+}
+
+section.top {
+    padding: 40px;
+}
+
+section.bottom {
+    padding: 0 20px;
+    align-items: center;
+}
+
+.top-photo {
+    width: 180px;
+    height: 180px;
+    background: rgba(235, 235, 235, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.top-photo img {
+    width: 130px;
+    height: 130px;
+}
+
+.top-photo img ~ img {
+    display: none;
+}
+
+.index-area {
+    width: 100px;
+    height: 15px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    margin: 5px auto 10px;
+}
+
+.index {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 1px solid darkgray;
+    cursor: pointer;
+}
+
+.index:first-of-type {
+    background: #5C5F78;
+}
+
+.index:active {
+    background: #5C5F78;
+}
+
+.top-review-content {
+    /* border: 1px solid red; */
+    width: 716px;
+    height: 158px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.user-profile {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.user-info {
+    width: 92%;
+    /* border: 1px solid red; */
+    align-self: flex-end;
+    display: flex;
+    justify-content: space-between;
+}
+
+.top-title {
+    font-family: Yoon Minguk;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.top-score {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+.top-score span {
+    font-family: Yoon Minguk;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 10px;
+    line-height: 15px;
+    position: relative;
+    margin: 0 3px;
+}
+
+.top-score img {
+    display: block;
+}
+
+.user-review-content {
+    width: 692px;
+    height: 123px;
+    background: #EBEBEB;
+    border-radius: 10px;
+    padding: 20px 40px;
+    box-sizing: border-box;
+}
+
+/* 왼쪽 포토리뷰 하단부 */
+.bottom-review {
+    /* border: 1px solid red; */
+    width: 100%;
+    height: 270px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    overflow: hidden;
+}
+
+.review {
+    /* width: 23%; */
+    /* border: 1px solid red; */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-basis: 25%;
+
+}
+
+.bottom-photo {
+    width: 180px;
+    height: 180px;
+    background: rgba(235, 235, 235, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.bottom-photo img {
+    width: 130px;
+    height: 130px;
+}
+
+.bottom-photo img ~ img {
+    display: none;
+}
+
+.review-content {
+    text-align: left;
+    margin-top: 10px;
+    width: 180px;
+}
+
+.review-content b, .review-content p {
+    margin-top: 5px;
+    /* border: 1px solid red; */
+    
+}
+
+.review-content b {
+    font-family: Yoon Minguk;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 15px;
+    line-height: 18px;
+}
+
+.review-content p {
+    font-family: Yoon Minguk;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 13px;
+    width: 100%;
+    height: 30px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: wrap;
+}
+
+
+
+
+/* *************** 오 른 쪽 영 역 ************** */
+.right-contents {
+    width: 500px;
+    height: 1010px;
+    /* border: 2px solid red; */
+    box-sizing: border-box;
+    background: white;
+    position: sticky;
+    top: 0;
+    padding: 70px 50px;
+}
+
+.right-contents table {
+    width: 400px;
+    box-sizing: border-box;
+    /* border: 2px solid red; */
+}
+
+.right-contents tr:nth-of-type(1) td {
+    font-family: Yoon Minguk;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 15px;
+    line-height: 25px;
+}
+
+.right-contents tr:nth-of-type(2) td {
+    font-family: Yoon Minguk;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 18px;
+    padding-bottom: 15px;
+}
+
+.right-contents tr:nth-of-type(3) td {
+    font-family: Yoon Minguk;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 15px;
+    line-height: 25px;
+    /* text-align: center; */
+    border-bottom: 1px solid lightgray;
+}
+
+.right-contents tr:nth-of-type(3) td {
+    padding-bottom: 20px;
+}
+
+.right-contents tr:nth-of-type(3) td s {
+    text-align: left;
+    color: #CCCCCC;
+}
+
+.right-contents tr:nth-of-type(3) td span {
+    text-align: left;
+    color: #CCCCCC;
+    font-size: 13px;
+}
+
+.right-contents tr:nth-of-type(4) td {
+    width: 400px;
+    padding: 0;
+}
+
+.right-contents tr:nth-of-type(4) td > div {
+    width: 100%;
+    height: 80px;
+    background: #EFEFEF;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.right-contents tr:nth-of-type(4) td > div > p {
+    width: 100%;
+    display: flex;
+    margin: 0;
+    justify-content: center;
+    align-items: center;
+    padding-top: 10px;
+    font-family: Yoon Minguk;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    /* border: 2px solid red; */
+}
+
+.quantity {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 30px;
+    /* border: 2px solid red; */
+}
+
+.quantity button {
+    outline: none;
+    border: none;
+    box-shadow: 0px 3px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    background-color: white;
+    font-size: 15px;
+    margin: 0 20px;
+    padding: 0;
+    color: #5C5F78;
+}
+
+.product-quantity {
+    font-family: Yoon Minguk;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+}
+
+.right-contents tr:nth-of-type(5) td {
+    padding: 20px 0;
+    font-family: Yoon Minguk;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.right-contents tr:nth-of-type(5) td:last-of-type {
+    text-align: right;
+}
+
+.right-contents tr:nth-of-type(5) td span {
+    font-family: Yoon Minguk;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+}
+
+.right-contents tr:nth-of-type(6) td {
+    text-align: center;
+    padding: 5px 0;
+}
+
+.right-contents tr:nth-of-type(6) td button{
+    width: 380px;
+    height: 40px;
+    background: #5C5F78;
+    border-radius: 50px;
+    outline: none;
+    border: none;
+    color: white;
+    font-family: Yoon Minguk;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    box-shadow: 0px 3px 4px rgba(0, 0, 0, 0.25);
+    cursor: pointer;
+    position: relative;
+}
+
+.right-contents tr:nth-of-type(6) td button:active {
+    top: 3px;
+    box-shadow: none;
+}
+
+.right-contents tr:nth-of-type(7) td {
+    text-align: center;
+    padding: 5px 5px 80px;
+    box-sizing: border-box;
+    /* border: 1px solid red */
+}
+
+.right-contents tr:nth-of-type(7) td button{
+    width: 185px;
+    height: 40px;
+    background: #EFEFEF;
+    border-radius: 50px;
+    outline: none;
+    border: none;
+    color: #5C5F78;
+    font-family: Yoon Minguk;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    box-shadow: 0px 3px 4px rgba(0, 0, 0, 0.25);
+    cursor: pointer;
+    position: relative;
+}
+
+.right-contents tr:nth-of-type(7) td button:active {
+    top: 3px;
+    box-shadow: none;
+}
+
+h4.recommand-title {
+    margin: 0 0 10px;
+}
+
+.recommand {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.recommand article {
+    flex: 1;
+    /* border: 1px solid red; */
+    height: 350px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.recommand article div {
+    width: 85%;
+    height: 270px;
+    background: rgba(235, 235, 235, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.5s;
+    /* position: relative; */
+}
+
+.recommand article div img {
+    width: 80%;
+}
+
+.recommand article p {
+    width: 200px;
+    margin: 0;
+    padding: 5px;
+    text-align: left;
+    font-family: Yoon Minguk;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 25px;
+    /* border: 1px solid red; */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    box-sizing: border-box;
+}
+
+.recommand article b {
+    font-family: Yoon Minguk;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 12px;
+    padding: 0 5px;
+}
+
+.recommand article:hover div {
+    /* width: 100%; */
+    transform: scale(1.1);
+}

@@ -3,7 +3,7 @@
 html, body {
     margin: 0;
     padding: 0;
-    background: #fff9f9;
+    background: #fbf6f6;
     color: #5C5F78;
 }
 
@@ -11,6 +11,17 @@ html, body {
     width: 100%;
     height: auto;
     box-sizing: border-box;
+}
+
+body::-webkit-scrollbar {
+    background: #fbf6f6;
+    width: 8px;
+}
+
+body::-webkit-scrollbar-thumb {
+    background: lightgray;
+    border-radius: 5px;
+    border: 2px solid transparent;
 }
 
 .main-nav {
@@ -75,3 +86,506 @@ html, body {
     width: 35px;
     height: 35px;
 }
+
+/* 검색 창 - 메인페이지에서만 해당되는 css*/
+
+input[type="checkbox"]{
+    display: none;
+}
+
+.search-box{
+    display: flex;  
+}
+
+#search-input{
+    background-color: rgb(215 215 215 / 30%);
+    border: none;
+    border-radius: 30px;
+    outline: none;
+    padding-left: 20px;
+    box-shadow: 0 1px 1px 0 rgb(215 215 215 / 50%);
+    transition: .5s;
+    opacity: 0;
+    font-family: Yoon Minguk;
+    font-style: normal;
+    font-size: 18px;
+    line-height: 24px;
+    color: #000000;
+    width: 300px;
+}
+
+.check-area:focus{
+    box-shadow: -10px -10px 40px #edeff1,
+    10px 10px 40px #cacfd8;
+}
+
+.search-icon{
+    margin-top: 10px;
+    margin-left: 10px;
+}
+
+#check:checked+.search-box{
+    width: 500px;
+}
+#check:checked+.search-box > input{
+    opacity: 1;
+}
+
+#check:checked+.search-box > label{
+    box-shadow: none;
+}
+#check:checked+.search-box > label:hover{
+    transform: scale(1);
+}
+
+/* 알람, 쪽지, etc, 언어설정 css */
+
+.alarm-hide-show, .mail-hide-show ,.etc-hide-show{
+    display: none;
+   
+}
+.alarm-section, .mail-section ,.etc-section{
+    display: flex;
+    justify-content: flex-end;
+
+}
+
+.etc-list{
+    display: block;
+    width: 160px;
+    height: 130px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: rgb(0 0 0 / 16%) 0px 0px 4px 0px;
+    border: 1px solid rgb(235, 235, 235);
+    margin-right: 40px;
+    position: absolute;
+    z-index: 2;
+}
+
+.alarm-list{
+    display: block;
+    width: 500px;
+    height: 626px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: rgb(0 0 0 / 16%) 0px 0px 4px 0px;
+    border: 1px solid rgb(235, 235, 235);
+    margin-right: 220px;
+    position: absolute;
+    z-index: 2;
+
+}
+/* .toggle-date-section{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 20px;
+    padding-bottom: 30px;
+} */
+#mailList{
+    display: block;
+    width: 600px;
+    height: 626px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: rgb(0 0 0 / 16%) 0px 0px 4px 0px;
+    border: 1px solid rgb(235, 235, 235);
+    margin-right: 100px;
+    position: absolute;
+    z-index: 2;
+    
+}
+
+.alarm-list p.alarm-date {
+    padding: 20px 40px 0px;
+    color: #000000;
+    font-family: Yoon Minguk;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+#mailList p.mail-title{
+    padding-left:40px;
+    color: #000000;
+    font-family: Yoon Minguk;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 20px;
+    margin-bottom: 70px;
+    margin-top: 50px;
+}
+#mailList p.mail-date{
+    padding-left:40px;
+    color: #000000;
+    font-family: Yoon Minguk;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 20px;
+    margin-bottom: 30px;
+    margin-top: 30px;
+}
+
+.alarm-list ul.today-alarm, #mailList ul.today-mail ,#mailList ul.friendMail-contentList, .etc-list ul.etc-area{
+    padding: 0px 20px 20px;
+    list-style: none;
+}
+
+.today-alarm li.alarm-content, .today-mail li.mail-content , .friendMail-contentList li.friendMail-content{
+    border-bottom: 1px solid #ACACAC;
+    padding: 20px 0px 20px 22px;
+    color: #000000;
+    font-family: Yoon Minguk;
+    font-style: normal;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+#langSetting{
+    border-bottom: 1px solid #ACACAC;
+    padding: 10px 0;
+}
+
+#fanStore{
+    padding: 10px 0;
+}
+
+.etc-area li.etc-content{
+    color: #000000;
+    font-family: Yoon Minguk;
+    font-style: normal;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.friendMail-contentList li.friendMail-content{
+    border-bottom: 1px solid #ACACAC;
+    padding: 10px 0px 10px 15px;
+    color: #000000;
+    font-family: Yoon Minguk;
+    font-style: normal;
+    font-size: 16px;
+}
+
+
+.alarm-time, .mail-time{
+    display: inline-block;
+    color:#ACACAC;
+    margin-left: 5px;
+}
+
+.mail-id{
+    display: inline-block;
+    margin-right: 25px;
+    font-family: Yoon Minguk;
+    font-weight: bold;
+    color: #000000;
+
+}
+
+.mail-read{
+    display: inline-block;
+    margin-left: 25px;
+    font-family: Yoon Minguk;
+    font-weight: bold;
+    color: #F46060;
+}
+
+
+/* 스크롤바 꾸미기 시작 */
+.alarm-list::-webkit-scrollbar, #mailList::-webkit-scrollbar , .friend-mailList::-webkit-scrollbar ,.etc-list::-webkit-scrollbar   {
+    /* 스크롤바 전체 */
+    width: 10px;
+    background: #FBF6F6;
+
+}
+
+.alarm-list::-webkit-scrollbar-thumb , #mailList::-webkit-scrollbar-thumb, .friend-mailList::-webkit-scrollbar-thumb ,.etc-list::-webkit-scrollbar-thumb{
+    /* 스크롤 막대 */
+    background: #5C5F78;
+    background-clip: padding-box;
+    border-radius: 5px;
+    border: 2.5px solid transparent;
+}
+
+.alarm-list::-webkit-scrollbar-thumb:hover, #mailList::-webkit-scrollbar-thumb:hover, .friend-mailList::-webkit-scrollbar-thumb:hover ,.etc-list::-webkit-scrollbar-thumb:hover {
+    background: #F4D4D4;
+    background-clip: padding-box;
+    border: 2.5px solid transparent;
+}
+
+.alarm-list::-webkit-scrollbar-track , #mailList::-webkit-scrollbar-track ,.friend-mailList::-webkit-scrollbar-track ,.etc-list::-webkit-scrollbar-track {
+    /* 스크롤 막대 외부 */
+    border-radius: 5px;
+    background: transparent;
+}
+
+/* 토클 스위치 (쪽지) */
+
+.toggle-place{
+    width: auto;
+    height: auto;
+    display: inline-block;
+    position: absolute;
+    right: 20px;
+    top:40px;
+}
+
+.toggle-change {
+    --width: 80px;
+    --height: 40px;
+    --padding: 3px;
+    --handle-size: calc(var(--height) - var(--padding) * 2);
+    display: inline-block;
+    outline-width: 0;
+  }
+  
+  .toggle-change > input {
+    position: absolute;
+    clip: rect(1px, 1px, 1px, 1px);
+    clip-path: inset(50%);
+    height: 1px;
+    width: 1px;
+    margin: -1px;
+    overflow: hidden;
+  }
+  
+  .toggle-section {
+    padding: 4px;
+    margin: -4px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    /* border: 2px solid red; */
+  }
+
+  .toggle-section p{
+      margin: 0;
+      padding: 1px 3px 0;
+      font-size: 13px;
+     position: absolute;
+     right: 13px;
+     font-family: "Wemakeprice-bold";
+  }
+
+  .toggle-section p.toggle-friend{
+      display: none; /* 디폴트 일때 "친구" 글자 가리기 */
+  }
+
+  
+  .toggle-back,
+  .handling,
+  .toggle-section p {
+    transition: all 0.3s ease;
+  }
+  
+  .toggle-back {
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    width: var(--width);
+    height: var(--height);
+    border-radius: var(--height);
+    padding: 0 var(--padding);
+    vertical-align: text-bottom;
+    user-select: none;
+    background-color: #ebebeb;
+    box-shadow: inset 0px 0px 5px 2px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    transition: background-color .15s ease;
+    cursor: pointer;
+  }
+
+  
+  .handling {
+    width: var(--handle-size);
+    height: var(--handle-size);
+    background-color: white;
+    border-radius: 50%;
+    box-shadow:
+      0 2px 4px rgba(0, 0, 0, 0.5),
+      inset 0 2px 4px rgba(0, 0, 0, 0.15);
+  }
+
+  input:checked + label .toggle-section .toggle-back {
+    background-color: #5C5F78;
+  }
+  
+  input:checked + label .toggle-section .handling {
+    /* background-color: white; */
+    transform: translateX(calc(var(--width) - var(--handle-size)));
+  }
+
+  input:checked + label .toggle-section p.toggle-friend {
+    display: block; /* "친구" 글자 보이게 */
+    position: absolute;
+    left: 12px;
+    color: white;
+  }
+
+  input:checked + label .toggle-section p.toggle-whole{
+    display: none;
+  }
+
+
+/* 친구 목록 아코디언*/
+input[id*="friend"]{
+    display: none;
+}
+input[id*="friend"] + label {
+    display: block;
+    padding:10px;
+    border: 2px solid #E2DFDF;
+    border-top: #5C5F78;
+    border-left: #5C5F78;
+    border-right: #5C5F78;
+    color:#5C5F78;
+    background: white;
+    cursor: pointer;
+    position: relative;
+    margin: 20px;
+
+}
+
+input[id*="friend"] + label em {
+    position: absolute;
+    top:50%;
+    right: 10px;
+    width: 30px;
+    height: 30px;
+    margin-top: -15px;
+    display: inline-block;
+    background: url("/fantimate/resources/images/main/down-arrow.svg") 0 0 no-repeat;
+}
+
+input[id*="friend"] + label + div{
+    max-height: 0;
+    transition: all .35s;
+    overflow: hidden;
+    background: white;
+}
+
+input[id*="friend"] + label + div ul.friendMail-contentList{
+    display: inline-block;
+    padding: 20px;
+}
+
+input[id*="friend"]:checked + label + div {
+    max-height: 300px;
+}
+
+input[id*="friend"]:checked + label em{
+   /*background-position: 0 -30px;*/
+   -webkit-transform: rotate(180deg);
+   -moz-transform: rotate(180deg);
+   -ms-transform: rotate(180deg);
+   -o-transform: rotate(180deg);
+   transform: rotate(180deg);
+   transition: all .15s;
+}
+
+/* 친구 목록 정보 (label)*/
+.friend-info-section{
+    display: flex;
+    justify-content: space-between;
+}
+.sendBtn-section{
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    margin-right: 65px;
+}
+
+.sendBtn{
+    outline: none;
+    width: 120px;
+    height: 40px;
+    border: 1px solid #E5D2D2;
+    background: #FFFFFF;
+    border-radius: 10px;
+    font-family: Yoon Minguk;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 24px;
+    text-align: center;
+    color: #E5D2D2;
+    outline: none;
+}
+
+.sendBtn:hover{
+    background: rgba(252, 234, 229, 0.7);
+    transition: all .15s;
+}
+
+.friend-profile-name{
+    font-family: Yoon Minguk;
+    font-style: normal;
+    font-size: 18px;
+    line-height: 24px;
+    color: #000000;
+    margin-left: 15px;
+    font-weight: bold;
+}
+
+/* 쪽지함 - 친구 프로필 css*/
+
+/*프로필 동그라미*/
+.profile-info{
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+}
+
+.profile-circle{
+    margin-top: 10px;
+    width: 50px;
+    height: 50px;
+    border-radius: 70%;
+    overflow: hidden;
+}
+.friend-profile{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* 로그인 회원가입 */
+#loginBtn{
+    outline: none;
+    width: 140px;
+    height: 40px;
+    border:#F4D4D4;
+    background: #F4D4D4;
+    border-radius: 10px;
+    font-family: Yoon Minguk;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 20px;
+    line-height: 24px;
+    text-align: center;
+    color: #FFFFFF;
+    margin-right: 10px;
+    outline: none;
+ 
+}
+
+#joinBtn{
+    outline: none;
+    width: 160px;
+    height: 40px;
+    border: 1px solid #E5D2D2;
+    background: #FFFFFF;
+    border-radius: 10px;
+    font-family: Yoon Minguk;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 20px;
+    line-height: 24px;
+    text-align: center;
+    color: #E5D2D2;
+    outline: none;
+}
+
+

@@ -1,0 +1,319 @@
+@charset "UTF-8";
+
+/* 나눔스퀘어 글씨체 */
+.nanumsquare {
+    font-family: 'NanumSquare', sans-serif !important;
+}
+
+/* 인클루드한 속성 변경 */
+html, body {
+	margin: 0;
+    padding: 0;
+    height: 100%;
+    background: #ffffff !important;
+    box-sizing: border-box;
+}
+
+.contents-search-input {
+    background: #ffffff !important;
+}
+
+.search-result {
+    background: #fbf6f6 !important;
+}
+
+.main-contents {
+    /* max-width: 1100px; */
+    /* width: 55%; */
+    width: 1100px !important;
+    min-width: 1100px !important;
+    /* padding-bottom: 10px; */
+    /* border: 2px solid blue; */
+    /* box-sizing: border-box; */
+}
+
+/* 스케줄 작성폼 시작 */
+.writing-form-container {
+	display: none;
+}
+
+.black-back {
+    position: absolute;
+    width: 100%;
+    /* height: 1142px; */
+    height: 100%;
+    background: black;
+    opacity: 0.2;
+    z-index: 1;
+}
+
+.schedule-writing-form {
+    height: 390px;
+    width: 670px;
+    background: white;
+    padding: 20px 30px 20px 30px;
+    box-sizing: border-box;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    z-index: 2;
+}
+
+.schedule-enroll {
+    font-weight: 700;
+    font-size: 18px;
+}
+
+.schedule-writing {
+    /* border: 1px solid red; */
+    width: 95%;
+    font-size: 17px;
+    margin: auto;
+}
+
+.schedule-writing td {
+    height: 60px;
+}
+
+.schedule-content {
+    border: 1px solid #828282;
+    width: 100%;
+    height: 175px;
+    font-size: 17px;
+    outline: none;
+}
+
+.btn-area {
+    display: flex;
+    justify-content: center;
+}
+
+#enrollBtn, #cancelBtn {
+    width: 100px;
+    height: 25px;
+    border: none;
+    font-size: 16px;
+    outline-style: none;
+    cursor: pointer;
+}
+
+#enrollBtn {
+    background: #F4D4D4;
+}
+
+#cancelBtn {
+    background: #5C5F78;
+    color: white;
+}
+
+/* 스케줄 작성폼 끝 */
+
+/* 본문 시작 */
+.main-section {
+    width: 100%;
+    height: 100%;
+    /* border: 2px solid red; */
+    /* box-sizing: border-box; */
+    display: flex;
+}
+
+/* 중간 */
+.calendar-date {
+    font-family: 'Wemakeprice-SemiBold';
+    font-size: 25px;
+    display: flex;
+    justify-content: center;
+    margin-top: 75px;
+    margin-bottom: 20px;
+}
+
+.month-direct {
+    margin-left: 20px;
+    margin-right: 20px;
+    cursor: pointer;
+}
+
+.calendar-main {
+    width: 72%;
+	/* height: 500px; */
+    border-spacing: 0px 0px;
+    margin: auto;
+    margin-bottom: 50px;
+}
+
+.calendar-main tr:first-child {
+    font-size: 20px;
+    font-family: 'Wemakeprice-Regular';
+    text-align: center;
+    line-height: 40px;
+    vertical-align: middle;
+    background: #f4d4d4;
+}
+
+.calendar-main td {
+ 	/* border: solid 1px black; */
+    font-size: 19px;
+    font-weight: 700;
+    vertical-align: top;
+    word-break: break-all;
+    box-sizing: border-box;
+}
+
+.schedule-on {
+/* 	border: solid 1px black; */
+ 	width: 100%;
+	height: 100%; 
+	cursor: pointer;
+	font-weight: 300 !important;
+	text-align: center;
+	box-sizing: border-box;
+}
+
+.calendar-num {
+	width: 100%;
+	text-align: center;
+	margin-top: 5px;
+}
+
+.detail-schedule {
+    border: 1px solid #d4d4d4;
+    width: 72%;
+    height: 280px;
+    font-size: 18px;
+    margin: auto;
+    padding: 20px 20px 20px 20px;
+    box-sizing: border-box;
+}
+
+.detail-content {
+    border: none;
+    width: 100%;
+    height: 72%;
+    font-size: 17px;
+    outline: none;
+    box-sizing: border-box;
+}
+
+.plus-btn, .minus-btn {
+    /* border: 1px solid red; */
+    font-size: 30px;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.plus-btn {
+    margin-left: 650px;
+}
+
+.minus-btn {
+    margin-left: 20px;
+}
+
+/* 오른쪽 */
+.main-contents-right {
+    width: 25%;
+    height: 100%;
+    /* border: 2px solid blue; */
+    /* box-sizing: border-box; */
+}
+
+.toggle-area {
+    width: auto;
+    height: auto;
+    /* border: 2px solid red; */
+    margin: 75px 0 0 10px;
+}
+
+.toggle-switch {
+    --width: 80px;
+    --height: 40px;
+    --padding: 3px;
+    --handle-size: calc(var(--height) - var(--padding) * 2);
+    display: inline-block;
+    outline-width: 0;
+  }
+  
+  .toggle-switch > input {
+    position: absolute;
+    clip: rect(1px, 1px, 1px, 1px);
+    clip-path: inset(50%);
+    height: 1px;
+    width: 1px;
+    margin: -1px;
+    overflow: hidden;
+  }
+  
+  .area {
+    padding: 4px;
+    margin: -4px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    /* border: 2px solid red; */
+  }
+
+  .area p {
+      margin: 0;
+      padding: 1px 3px 0;
+      font-size: 13px;
+     position: absolute;
+     right: 13px;
+     font-family: "Wemakeprice-bold";
+  }
+  
+  .background,
+  .handle,
+  .area p {
+    transition: all 0.3s ease;
+  }
+  
+  .background {
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    width: var(--width);
+    height: var(--height);
+    border-radius: var(--height);
+    padding: 0 var(--padding);
+    vertical-align: text-bottom;
+    user-select: none;
+    background-color: #ebebeb;
+    box-shadow: inset 0px 0px 5px 2px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    transition: background-color .15s ease;
+    cursor: pointer;
+  }
+
+  
+  .handle {
+    width: var(--handle-size);
+    height: var(--handle-size);
+    background-color: white;
+    border-radius: 50%;
+    box-shadow:
+      0 2px 4px rgba(0, 0, 0, 0.5),
+      inset 0 2px 4px rgba(0, 0, 0, 0.15);
+  }
+
+
+  
+  input:checked + label .area .background {
+    background-color: #5C5F78;
+  }
+  
+  input:checked + label .area .handle {
+    /* background-color: white; */
+    transform: translateX(calc(var(--width) - var(--handle-size)));
+  }
+
+  input:checked + label .area p {
+    position: absolute;
+    left: 12px;
+    color: white;
+  }
+
+/* 본문 끝 */
+

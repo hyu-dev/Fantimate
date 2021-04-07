@@ -1,0 +1,557 @@
+@charset "UTF-8";
+
+html, body {
+    margin: 0;
+    padding: 0;
+    background: #FFFFFF;
+    color: #5C5F78;
+}
+
+.join-header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 600px;
+    min-width: 600px;  
+}
+
+.join-title{
+    font-family: Yoon Minguk;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 40px;
+    line-height: 76px;
+    color:#000000;
+    margin-left: 50px;
+}
+
+.join-steps{
+    font-family: Yoon Minguk;
+    font-style: normal;
+    font-weight: normal;
+    color:#000000;
+    font-size: 25px;
+}
+
+.firstStep-section, .secondStep-section, .thirdStep-section, .fourthStep-section ,.fifthStep-section ,.sixthStep-section{
+    width: 100%;
+    height: auto;
+    box-sizing: border-box;
+    max-width: 650px;
+    min-width: 600px;  
+}
+
+.join-input-title{
+    font-family: Yoon Minguk;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 27px;
+    line-height: 57px;
+    color: #000000;
+    margin-left: 50px;
+    margin-bottom: 50px;
+}
+
+.join-input{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: center;
+}
+
+
+
+.join-input-info{
+    width: 530px;
+    height: 60px;
+    font-size: 20px;
+    font-family: Yoon Minguk;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 43px;
+    color: black;
+    margin: 10px;
+    border: 1px solid #ACACAC;
+    outline: none;
+    padding-left: 10px;
+}
+
+#showPass, #showPass2, .join-input-address, .join-input-phone{
+    width: 530px;
+    height: 60px;
+    font-size: 20px;
+    font-family: Yoon Minguk;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 43px;
+    color: black;
+    margin: 10px;
+    border: 1px solid #ACACAC;
+    outline: none;
+    padding-left: 10px;
+    margin-left: 54px;
+}
+
+#selected-artistList{
+    width: 530px;
+    height: 130px;
+    font-size: 20px;
+    font-family: Yoon Minguk;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 43px;
+    color: black;
+    margin: 10px;
+    border: 1px solid #ACACAC;
+    outline: none;
+    padding-left: 10px;
+    margin-left: 54px;
+}
+
+.check-content{
+    width: 530px;
+    height: 200px;
+    font-size: 20px;
+    font-family: Yoon Minguk;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 43px;
+    color: black;
+    margin: 10px;
+    border: 1px solid #ACACAC;
+    outline: none;
+    padding-left: 10px;
+    margin-left: 54px;
+
+}
+
+.artist-select:hover{
+    background-color:#EBEBEB;
+}
+
+.artist-select{
+    list-style: none;
+}
+
+.country-option{
+    width: 543px;
+    height: 60px;
+    font-size: 20px;
+    font-family: Yoon Minguk;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 43px;
+    color: black;
+    margin: 10px;
+    border: 1px solid #ACACAC;
+    outline: none;
+    padding-left: 10px;
+    margin-left: 54px;
+}
+
+.artist-option{
+    width: 543px;
+    height: 100px;
+    font-size: 20px;
+    font-family: Yoon Minguk;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 43px;
+    color: black;
+    margin: 10px;
+    border: 1px solid #ACACAC;
+    outline: none;
+    padding-left: 10px;
+    margin-left: 54px;
+}
+
+.text-pass, .text-phone, .text-country, .text-artist ,.text-profile{
+    font-family: Yoon Minguk;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 29px;
+    color: #000000;
+    margin-left: 54px;
+    margin-bottom: 0;
+    margin-top: 35px;
+}
+
+.check-title{
+    font-family: Yoon Minguk;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 22px;
+    line-height: 29px;
+    color: #000000;
+    margin-left: 54px;
+    margin-bottom: 0;
+    margin-top: 35px;
+}
+
+.text-profile{
+    margin-bottom: 20px;
+}
+
+#join-input-id, #inputAddress{
+    width: 350px;
+    height: 60px;
+    font-size: 20px;
+    font-family: Yoon Minguk;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 43px;
+    color: black;
+    margin: 10px;
+    border: 1px solid #ACACAC;
+    outline: none;
+    padding-left: 10px;
+    margin-left: 54px;
+}
+
+#idCheckBtn, #addressCheckBtn{
+    height: 65px;
+    width: 165px;
+    background: #F4D4D4;
+    font-family: Yoon Minguk;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 25px;
+    line-height: 43px;
+    text-align: center;
+    color: #5C5F78;
+    border: 1px solid #F4D4D4;
+
+}
+
+.join-btn-section{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+.nextBtn{
+    background: #F4D4D4;
+    width: 150px;
+    height: 50px;
+    font-family: Yoon Minguk;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 22px;
+    line-height: 43px;
+    text-align: center;
+    color: #5C5F78;
+    border: 1px solid #F4D4D4;
+}
+
+.backBtn{
+    width: 150px;
+    height: 50px;
+    background: #5C5F78;
+    font-family: Yoon Minguk;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 22px;
+    line-height: 43px;
+    text-align: center;
+    color: #FFFFFF;
+    border: 1px solid #5C5F78;
+    margin-left: 20px;
+}
+
+.secondStep-section, .thirdStep-section, .fourthStep-section ,.fifthStep-section , .sixthStep-section{
+    display: none;
+}
+
+
+#selected-profile{
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.userProfile-pic{
+    width: 150px;
+    height: 150px;
+}
+
+.userName-text{
+    position: absolute;
+    left: 35%;
+    top: 30%;
+    font-family: Yoon Minguk;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 25px;
+    line-height: 57px;
+    color: #000000;
+    font-weight: bold;
+}
+
+.profile-text-section{
+    position: relative;
+}
+
+.checkbox-check ,.checkbox-check-all {
+    margin-left: 53px;
+    width: 20px;
+    height: 20px;
+}
+
+.checkbox-check ~ label ,.checkbox-check-all ~ label{
+    font-family: Yoon Minguk;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 29px;
+    margin-left: 5px;
+}
+
+.check-icon + label{
+    margin-left: 10px;
+}
+
+/* 스크롤바 꾸미기 시작 */
+body::-webkit-scrollbar , .check-content::-webkit-scrollbar{
+    /* 스크롤바 전체 */
+    width: 10px;
+    background: #FBF6F6;
+
+}
+
+body::-webkit-scrollbar-thumb ,.check-content::-webkit-scrollbar-thumb {
+    /* 스크롤 막대 */
+    background: #5C5F78;
+    background-clip: padding-box;
+    border-radius: 5px;
+    border: 2.5px solid transparent;
+}
+
+body::-webkit-scrollbar-thumb:hover ,.check-content::-webkit-scrollbar-thumb:hover {
+    background: #F4D4D4;
+    background-clip: padding-box;
+    border: 2.5px solid transparent;
+}
+
+body::-webkit-scrollbar-track ,.check-content::-webkit-scrollbar-track {
+    /* 스크롤 막대 외부 */
+    border-radius: 5px;
+    background: transparent;
+}
+
+#removeBtn{
+    margin-left: 500px;
+}
+
+/* 체크박스 가상 선택자 */
+
+.check-section{
+    display: flex;
+}
+
+.check-section input{
+    display: none;
+}
+
+.check-section .check-icon{
+    display: inline-block;
+    width: 20px;
+    height:20px;
+    background-color: transparent;
+    border: 2px solid #777777;
+    border-radius: 5px;
+    position: relative;
+    cursor: pointer;
+    margin-left: 53px;
+}
+
+.check-section .check-icon::before, .check-section .check-icon::after{
+    content: '';
+    display: inline-block;
+    width: 5px;
+    height: 0;
+    background-color: #5C5F78;
+    position: absolute;
+    transform-origin: left top;
+    border-radius: 5px;
+}
+
+.check-section .check-icon::before{
+    top:9px;
+    left: 1px;
+    transform:rotate(-45deg);
+}
+
+.check-section .check-icon::after{
+    top: 18px;
+    left: 10px;
+    transform:rotate(-135deg);
+}
+
+/* 체크가 될때*/
+
+.check-section input:checked ~ .check-icon{
+    border-color: #5C5F78;
+}
+
+.check-section input:checked ~ .check-icon::before{
+    height: 10px;
+    transition: all .35s ease;
+}
+
+.check-section input:checked ~ .check-icon::after{
+    height: 25px;
+    transition: all .35s ease .35s;
+}
+
+
+
+/*패스워드 눈모양*/
+.eyes {
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    right: 9%;
+    top: 60.5%;
+    cursor: pointer;
+}
+
+.eyes2{
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    right: 9%;
+    top: 77.5%;
+    cursor: pointer;
+}
+.eye-pass ,.eye-pass2{
+    width: 50px;
+    height: 50px;
+}
+
+#showPass, #showPass2{
+    position: relative;
+}
+
+.valid, .invalid {
+	font-family: Yoon Minguk;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 20px;
+    line-height: 29px;
+    margin-top: 0;
+    margin-left: 50px;
+    align-self: flex-end;
+	
+}
+
+.valid { color: #FC9C9C; }
+
+.invalid { color : red; }
+
+
+
+/* 관심 아티스트 */
+.cancel-btn{
+    display: none;
+    width: 15px;
+    height: 15px;
+    position: absolute;
+    right: 2%;
+    top:40%;
+}
+
+
+#selectWrap1,#selectWrap2, #selectWrap3 {
+    position: relative;
+}
+
+/* 기본 프로필 선택 */
+.check-profile{
+    display: none;
+}
+
+.check-pic::before, .check-pic::after{
+    content: '';
+    width: 7px;
+    height: 0;
+    background-color: #5C5F78;
+    position: absolute;
+    transform-origin: left top;
+    border-radius: 5px;
+}
+
+.check-pic::before{
+    top:70px;
+    left: 40px;
+    transform:rotate(-45deg);
+}
+
+.check-pic::after{
+    top: 100px;
+    left: 70px;
+    transform:rotate(-140deg);
+}
+
+input:checked ~ .check-pic{
+    border-color: #5C5F78;
+}
+input:checked ~ .check-pic::before{
+    height: 40px;
+    transition: all .35s ease;
+}
+
+input:checked ~ .check-pic::after{
+    height: 90px;
+    transition: all .35s ease .35s;
+}
+
+/* 관심 아티스트 영역 */
+.join-artist{
+    border: 1px solid #ACACAC;
+    width: 530px;
+    height: 130px;
+    margin: auto;
+}
+
+.join-artist label {
+    display: block;
+    padding-right: 10px;
+    padding-left: 22px;
+    text-indent: -22px;
+  }
+  .join-artist input {
+    vertical-align: middle;
+  }
+  .join-artist label span {
+    vertical-align: middle;
+  }
+
+  /* 스크롤바 꾸미기 시작 */
+.join-artist::-webkit-scrollbar{
+    /* 스크롤바 전체 */
+    width: 10px;
+    background: #FBF6F6;
+
+}
+
+.join-artist::-webkit-scrollbar-thumb{
+    /* 스크롤 막대 */
+    background: #5C5F78;
+    background-clip: padding-box;
+    border-radius: 5px;
+    border: 2.5px solid transparent;
+}
+
+.join-artist::-webkit-scrollbar-thumb:hover{
+    background: #F4D4D4;
+    background-clip: padding-box;
+    border: 2.5px solid transparent;
+}
+
+.join-artist::-webkit-scrollbar-track {
+    /* 스크롤 막대 외부 */
+    border-radius: 5px;
+    background: transparent;
+}

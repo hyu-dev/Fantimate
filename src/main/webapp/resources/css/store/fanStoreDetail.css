@@ -1,0 +1,512 @@
+@charset "UTF-8";
+
+/* 본문 시작 */
+.main-section {
+    width: 100%;
+    height: 100%;
+    /* border: 2px solid red; */
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    position: relative;
+}
+
+/* 왼쪽 영역 */
+.left-contents {
+    width: 1000px;
+    height: auto;
+    /* border: 2px solid red; */
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+.main-photo {
+    width: 100%;
+    height: 800px;
+    background-color: #ebebeb;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.photo-icon {
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    cursor: pointer;
+    
+}
+.main-photo img:nth-of-type(1) {
+    width: 500px;
+    /* height: 500px; */
+}
+
+.photo-icon:nth-of-type(2) {
+    width: 40px;
+    height: 40px;
+    top: 50%;
+    left: 10px;
+    z-index: 2;
+    transform: translateY(-50%);
+    opacity: 0;
+}
+.photo-icon:nth-of-type(3) {
+    width: 40px;
+    height: 40px;
+    top: 50%;
+    right: 10px;
+    z-index: 2;
+    transform: translateY(-50%);
+    opacity: 0;
+}
+
+.main-photo:hover .photo-icon {
+     opacity: 1;
+}
+
+.photo-icon:nth-of-type(4) {
+    top: 10px;
+    right: 10px;
+    z-index: 2;
+}
+
+.guide-text {
+    width: 1000px;
+    height: auto;
+    box-sizing: border-box;
+    background-color: #fbf6f6;
+    margin-bottom: 50px;
+    padding: 10px;
+}
+
+
+.product-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 0 10px;
+    margin: 0 auto;
+    border-bottom: 2px solid lightgray;
+    box-sizing: border-box;
+}
+
+.product-title p {
+    margin: 10px 0;
+    font-family: Wemakeprice;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 20px;
+    line-height: 25px;
+    color: #5C5F78;
+    cursor: pointer;
+}
+
+/* *************** 오 른 쪽 영 역 ************** */
+.right-contents {
+    width: 500px;
+    height: 1010px;
+    /* border: 2px solid red; */
+    box-sizing: border-box;
+    background: white;
+    position: sticky;
+    top: 0;
+    padding: 10px 50px;
+}
+
+.right-contents table {
+    width: 400px;
+    box-sizing: border-box;
+    /* border: 2px solid red; */
+}
+
+.right-contents tr:nth-of-type(1) td {
+    font-family: Yoon Minguk;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 15px;
+    line-height: 25px;
+    padding: 20px 0;
+}
+
+.right-contents tr:nth-of-type(2) td {
+    font-family: Yoon Minguk;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 50px;
+    padding-bottom: 15px;
+}
+
+.right-contents tr:nth-of-type(3) td {
+    font-family: Yoon Minguk;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 15px;
+    line-height: 25px;
+    /* text-align: center; */
+    border-bottom: 1px solid lightgray;
+}
+
+.right-contents tr:nth-of-type(3) td ul {
+    list-style-type: none;
+    padding: 0 0 20px 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap-reverse;
+    justify-content: flex-start;
+    align-content: flex-end;
+    /* border: 1px solid red; */
+}
+
+.right-contents tr:nth-of-type(3) td ul li {
+    min-width: 50px;
+    height: 20px;
+    background: #FCEAE5;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: Yoon Minguk;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 12px;
+    margin: 5px 10px 10px 0;
+    padding: 0 15px;
+    box-shadow: 0 1px 3px rgba(100, 100, 100, 0.15);
+    box-sizing: border-box;
+    position: relative;
+    color: #5C5F78;
+}
+
+.right-contents tr:nth-of-type(4) td {
+    width: 400px;
+    padding: 30px 0;
+}
+
+.right-contents tr:nth-of-type(4) td:last-of-type {
+    text-align: right;
+}
+
+
+
+.right-contents tr:nth-of-type(5) td {
+    text-align: center;
+    padding: 5px 0;
+}
+
+.right-contents tr:nth-of-type(5) td button{
+    width: 380px;
+    height: 40px;
+    background: #5C5F78;
+    border-radius: 50px;
+    outline: none;
+    border: none;
+    color: white;
+    font-family: Yoon Minguk;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    box-shadow: 0px 3px 4px rgba(0, 0, 0, 0.25);
+    cursor: pointer;
+    position: relative;
+}
+
+.right-contents tr:nth-of-type(5) td button:active {
+    top: 3px;
+    box-shadow: none;
+}
+
+.right-contents tr:nth-of-type(6) td {
+    text-align: center;
+    padding: 5px 5px 20px;
+    box-sizing: border-box;
+    /* border: 1px solid red */
+}
+
+.right-contents tr:nth-of-type(6) td button{
+    width: 185px;
+    height: 40px;
+    background: #EFEFEF;
+    border-radius: 50px;
+    outline: none;
+    border: none;
+    color: #5C5F78;
+    font-family: Yoon Minguk;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    box-shadow: 0px 3px 4px rgba(0, 0, 0, 0.25);
+    cursor: pointer;
+    position: relative;
+}
+
+.right-contents tr:nth-of-type(6) td button:active {
+    top: 3px;
+    box-shadow: none;
+}
+
+h4.reply {
+    margin: 0 0 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* 댓글 리스트 */
+.reply-area {
+    width: 100%;
+    height: 530px;
+    box-shadow: 1px 1px 2px rgba(100, 100, 100, 0.25);
+}
+.reply-list {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    width: 100%;
+    height: 100%;
+}
+.reply-list ul {
+    width: 100%;
+    height: 100%;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    overflow-y: auto;
+    overflow-x: visible;
+}
+.reply-list ul::-webkit-scrollbar {
+    background: white;
+    width: 6px;
+}
+.reply-list ul::-webkit-scrollbar-thumb {
+    background: #5C5F78;
+    border-radius: 4px;
+    border: 2px solid transparent;
+}
+
+.reply-list ul li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 0 5px;
+    box-sizing: border-box;
+    border-bottom: 1px solid rgba(100, 100, 100, 0.15);
+    cursor: pointer;
+}
+.reply-list ul li:hover {
+    background-color: #EFEFEF;
+}
+
+.reply-list ul li div {
+    height: 70px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 80%;
+    /* border: 1px solid red; */
+    font-family: Yoon Minguk;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 15px;
+    line-height: 20px;
+}
+.user-profile {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+}
+.reply-list ul li > span{
+    font-family: Yoon Minguk;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 12px;
+    line-height: 20px;
+}
+
+
+/* 댓글 내용 */
+.reply-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    display: none;
+}
+
+.content-view {
+    width: 100%;
+    height: 450px;
+    /* border: 1px solid red; */
+    border-bottom: 1px solid rgba(100, 100, 100, 0.15);
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 10px;
+    overflow-y: visible;
+}
+
+.content-view::-webkit-scrollbar {
+    background: white;
+    width: 6px;
+}
+
+.content-view::-webkit-scrollbar-thumb {
+    background: #5C5F78;
+    border-radius: 4px;
+    border: 2px solid transparent;
+}
+
+.content-view article {
+    width: 100%;
+    height: auto;
+    /* border: 1px solid red; */
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    position: relative;
+    overflow-y: visible;
+}
+
+.text-content {
+    width: 310px;
+    height: auto;
+    padding: 10px;
+    outline: none;
+    border: none;
+    background-color: #EFEFEF;
+    border-radius: 20px;
+    margin: 20px 15px;
+    font-family: Yoon Minguk;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 13px;
+    line-height: 15px;
+    text-align: center;
+}
+
+.text-write-date {
+    position: absolute;
+    bottom: 0;
+    right: 30px;
+    font-family: Yoon Minguk;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 15px;
+}
+
+.content-view article .controller {
+    position: absolute;
+    top: 50%;
+    right: 5px;
+    cursor: pointer;
+    transform: translateY(-50%);
+    height: 40px;
+    justify-content: center;
+    align-items: center;
+    display: none;
+}
+
+.content-view article .reply-controller {
+    display: none;
+    width: auto;
+    height: auto;
+    position: absolute;
+    top: 50%;
+    left: 65%;
+    z-index: 4;
+    /* display: block; */
+    background-color: white;
+    box-sizing: border-box;
+    padding: 0 10px;
+    border: 1px solid darkgray;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+
+.reply-controll {
+    font-family: Wemakeprice;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 13px;
+    width: 80px;
+    text-align: center;
+    margin: 15px 0;
+    cursor: pointer;
+}
+
+.reply-controll:hover {
+    color: #f16af1;
+}
+
+
+
+
+/* 댓글 작성 란 */
+.reply-write {
+    width: 100%;
+    height: 80px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.reply-write textarea {
+    width: 300px;
+    height: 50px;
+    resize: none;
+    outline: none;
+    border: none;
+    background: #EFEFEF;
+    border-radius: 10px;
+    padding: 5px 10px;
+    box-sizing: border-box;
+    font-family: Yoon Minguk;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 20px;
+}
+
+.reply-write textarea::-webkit-scrollbar {
+    background: #EFEFEF;
+    width: 6px;
+}
+
+.reply-write textarea::-webkit-scrollbar-thumb {
+    background: #5C5F78;
+    border-radius: 4px;
+    border: 2px solid transparent;
+}
+
+.reply-write img:last-of-type {
+    width: 30px;
+    position: relative;
+}
+
+.reply-write img:last-of-type:hover {
+    
+}
+
+@keyframes move {
+    from { top: 0px; right: 0px; }
+    to { top: 3px; right: 3px; }
+}
