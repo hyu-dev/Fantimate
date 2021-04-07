@@ -17,8 +17,19 @@
     <title>Fantimate</title>
 </head>
 <body>
+	<c:if test="${ !empty msg }">
+		<script>
+			$(function() {
+				alert('${msg}')
+				location.href="${referer}"
+			}) 
+		</script>
+		<c:remove var="msg"/>
+	</c:if>
+	
 	<!-- 네비바 인클루드 -->
 	<jsp:include page="../common/navbar.jsp"></jsp:include>
+	<if test="${ !empty loginUser }">
 	<section class="main-section">
 		<!-- 카테고리 인클루드 -->
 		<jsp:include page="../common/category.jsp"></jsp:include>
@@ -75,7 +86,7 @@
                    		</c:otherwise>
                    	</c:choose>
                     </div>
-                    <img src="${ contextPath }/resources/images/store/${ list.att.attSvName }" alt="이미지">
+                    <img src="${ contextPath }/resources/uploadFiles/${ list.att.attSvName }" alt="이미지">
                     <input type="hidden" id="pcode" value="${ list.store.pcode }"/>
                 </article>
                 </c:forEach>
@@ -251,7 +262,7 @@
 							var cart = $("<img class='cart-icon store-icon' src='${ contextPath }/resources/icon/shopping.png' alt=''>");
 							var ddim = $("<img class='ddim-icon store-icon ddim' src='${ contextPath }/resources/icon/heart.png' alt=''>");
 							var noddim = $("<img class='ddim-icon store-icon noddim' src='${ contextPath }/resources/icon/heart-pink.png' alt=''>");
-							var imgSrc = "${ contextPath }/resources/images/store/" + data[i].att.attSvName;
+							var imgSrc = "${ contextPath }/resources/uploadFiles/" + data[i].att.attSvName;
 							var img = $("<img src='' alt=''>").attr("src", imgSrc);
 							var pCode = $("<input type='hidden' id='pcode'>").val(data[i].store.pcode);
 							sub.append(s, data[i].store.discount + "%").trigger("create");
@@ -281,5 +292,14 @@
 	        });
 		}
 	</script>
+	</if>
+	<if test="${ empty loginUser }">
+	<script>
+		$(function() {
+			alert("로그인을 해주세요");
+			location.href="${contextPath}/main"
+		})
+	</script>
+	</if>
 </body>
 </html>

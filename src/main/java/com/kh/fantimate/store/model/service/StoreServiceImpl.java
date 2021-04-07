@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kh.fantimate.common.model.vo.Attachment;
 import com.kh.fantimate.store.model.dao.StoreDao;
 import com.kh.fantimate.store.model.vo.StoreCategory;
 import com.kh.fantimate.store.model.vo.StoreCollection;
@@ -17,8 +18,8 @@ public class StoreServiceImpl implements StoreService {
 	private StoreDao sDao;
 	
 	@Override
-	public List<StoreCollection> selectStoreList(int cateCode) {
-		return sDao.selectStoreList(cateCode);
+	public List<StoreCollection> selectStoreList(String cateName) {
+		return sDao.selectStoreList(cateName);
 	}
 
 	@Override
@@ -64,6 +65,20 @@ public class StoreServiceImpl implements StoreService {
 	@Override
 	public int insertCart(Map<String, String> map) {
 		return sDao.insertCart(map);
+	}
+
+	@Override
+	public int insertStore(StoreCollection sc, List<Attachment> attList) {
+		// 카테고리 입력
+		sDao.insertStoreCategory(sc);
+		// 스토어 입력
+		sDao.insertStore(sc);
+		// 스토어 정보 입력
+		sDao.insertStoreInfo(sc);
+		// 스토어 사진 입력
+		int result = sDao.insertStoreAtt(attList);
+		
+		return result;
 	}
 
 

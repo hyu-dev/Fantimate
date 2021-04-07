@@ -4,12 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.kh.fantimate.common.model.vo.Attachment;
 import com.kh.fantimate.store.model.vo.StoreCategory;
 import com.kh.fantimate.store.model.vo.StoreCollection;
 
 public interface StoreDao {
 	// 스토어 리스트 호출
-	public List<StoreCollection> selectStoreList(int cateCode);
+	public List<StoreCollection> selectStoreList(String cateName);
 	
 	// 스토어 카테고리 리스트 호출
 	public List<StoreCategory> selectcategoryList(String arti);
@@ -40,4 +41,17 @@ public interface StoreDao {
 
 	// 상품 장바구니에 넣기
 	public int insertCart(Map<String, String> map);
+
+	// 스토어카테고리 등록하기
+	public void insertStoreCategory(StoreCollection sc);
+	
+	// 스토어 등록하기
+	public void insertStore(StoreCollection sc);
+	
+	// 스토어 정보 입력
+	public void insertStoreInfo(StoreCollection sc);
+	
+	// 스토어 사진 등록하기
+	public int insertStoreAtt(List<Attachment> attList);
+
 }

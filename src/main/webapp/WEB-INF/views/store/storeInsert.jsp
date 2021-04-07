@@ -132,7 +132,7 @@
             </div>
             <div class="phrases">
                 <label class="jelly-checkbox">
-                    <input type="checkbox">
+                    <input type="checkbox" name="isView">
                     <span class="jelly-icon"></span>
                     <span class="jelly-text">추가사진을 화면에 표시합니다</span>
                 </label>
@@ -236,6 +236,7 @@
 		 $(".enroll-btn").click(function() {
 			 var url = "${contextPath}/store/insert";
 			 $(".main-template").attr("action", url);
+			 $(".input-data:nth-of-type(1)").attr("disabled", false);
 			 $(".main-template").submit();
 		 });
     </script>

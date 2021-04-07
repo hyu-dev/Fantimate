@@ -36,20 +36,30 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<result property="isWish" column="IS_WISH"/>
 		<result property="id" column="ID"/>
 	</resultMap>
+	<resultMap type="StoreInfo" id="storInfoResultSet">
+		<id property="pcode" column="P_CODE"/>
+		<result property="origin" column="ORIGIN"/>
+		<result property="brand" column="BRAND"/>
+		<result property="contact" column="CONTACT"/>
+		<result property="useTerm" column="USE_TERM"/>
+		<result property="offerings" column="OFFERINGS"/>
+		<result property="cancelInfo" column="CANCEL_INFO"/>
+	</resultMap>
 	<resultMap type="StoreCollection" id="storeCollResultSet">
 		<collection property="store" resultMap="storeResultSet" />
 		<collection property="att"  resultMap="attResultSet" />
 		<collection property="wish"  resultMap="wishResultSet" />
+		<collection property="storeInfo" resultMap="storInfoResultSet" />
 	</resultMap>
 	<select id="selectCategoryList" parameterType="string" resultMap="category">
 		SELECT
-				C_CODE
-			  , C_NAME
+				DISTINCT C_NAME
 			  , ARTI_NAME_EN
 		  FROM
 		  		S_CATEGORY
 		 WHERE
 		 		ARTI_NAME_EN = #{arti}
+	  ORDER BY  C_NAME ASC
 	</select>
 	<select id="selectStoreList" resultMap="storeCollResultSet">
 		SELECT 
@@ -79,10 +89,12 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		  		ATT_STORE USING(P_CODE)
 		  LEFT JOIN
 		  		S_WISH USING(P_CODE)
+		  LEFT JOIN
+		  		S_CATEGORY USING(C_CODE)
 		 WHERE
-		 		C_CODE = #{cateCode}
-		   AND
-		   		IS_MAIN_ATT = 'Y'
+		 		C_NAME = #{cateName}
+		   AND	IS_MAIN_ATT = 'Y'
+		   AND  IS_ACTIVE = 'Y'
 	  ORDER BY  P_CODE DESC
 	</select>
 	<select id="selectStoreListByCate" parameterType="hashMap" resultMap="storeCollResultSet">
@@ -114,9 +126,9 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		  LEFT JOIN
 		  		S_WISH USING(P_CODE)
 	  <trim prefix="WHERE" prefixOverrides="AND|OR">
-		 		C_CODE = (SELECT C_CODE FROM S_CATEGORY WHERE C_NAME = #{cateName} AND ARTI_NAME_EN = #{artiName})
-		   AND
-		   		IS_MAIN_ATT = 'Y'
+		 		C_CODE IN (SELECT C_CODE FROM S_CATEGORY WHERE C_NAME = #{cateName} AND ARTI_NAME_EN = #{artiName})
+		   AND	IS_MAIN_ATT = 'Y'
+		   AND  IS_ACTIVE = 'Y'
 	  <if test='toggle.equals("NEW")'>
 	  ORDER BY  P_CODE DESC
 	  </if>
@@ -201,11 +213,10 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		  LEFT JOIN
 		  		S_WISH USING(P_CODE)
 	  <trim prefix="WHERE" prefixOverrides="AND|OR">
-		 		C_CODE = (SELECT C_CODE FROM S_CATEGORY WHERE C_NAME = #{cateName} AND ARTI_NAME_EN = #{artiName})
-		   AND
-		   		IS_MAIN_ATT = 'Y'
-		   AND
-		   		P_NAME LIKE '%' || #{search} || '%'
+		 		C_CODE IN (SELECT C_CODE FROM S_CATEGORY WHERE C_NAME = #{cateName} AND ARTI_NAME_EN = #{artiName})
+		   AND	IS_MAIN_ATT = 'Y'
+		   AND  IS_ACTIVE = 'Y'
+		   AND	P_NAME LIKE '%' || #{search} || '%'
 	  <if test='toggle.equals("NEW")'>
 	  ORDER BY  P_CODE DESC
 	  </if>
@@ -246,5 +257,96 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		  , #{pcode}
 		  , #{id}
 		)
+	</insert>
+	<insert id="insertStoreCategory" parameterType="StoreCollection">
+		INSERT
+		INTO S_CATEGORY
+		(
+			C_CODE
+		  , C_NAME
+		  , ARTI_NAME_EN
+		)
+		VALUES
+		(
+			SEQ_S_CATE.NEXTVAL
+		  , #{storeCate.cateName}
+		  , #{storeCate.artiNameEn}
+		)
+	</insert>
+	<insert id="insertStore" parameterType="StoreCollection">
+		INSERT
+		INTO STORE
+		(
+			P_CODE
+		  , P_NAME
+		  , SALES_Q
+		  , Q_PRICE
+		  , DISCOUNT
+		  , INFORMATION
+		  , IS_VIEW
+		  , VIEWCOUNT
+		  , IS_SOLDOUT
+		  , IS_ACTIVE
+		  , C_CODE
+		)
+		VALUES
+		(
+			SEQ_STORE.NEXTVAL
+		  , #{store.pname}
+		  , #{store.salesQ}
+		  , #{store.qprice}
+		  , #{store.discount}
+		  , #{store.info}
+		  , #{store.isView}
+		  , DEFAULT
+		  , DEFAULT
+		  , DEFAULT
+		  , SEQ_S_CATE.CURRVAL
+		)
+	</insert>
+	<insert id="insertStoreInfo" parameterType="StoreCollection">
+		INSERT
+		INTO P_INFO
+		(
+			P_CODE
+		  , ORIGIN
+		  , BRAND
+		  , CONTACT
+		  , USE_TERM
+		  , OFFERINGS
+		  , CANCEL_INFO
+		)
+		VALUES
+		(
+			SEQ_STORE.CURRVAL
+		  , #{storeInfo.origin}
+		  , #{storeInfo.brand}
+		  , #{storeInfo.contact}
+		  , #{storeInfo.useTerm}
+		  , #{storeInfo.offerings}
+		  , #{storeInfo.cancelInfo}
+		)
+	</insert>
+	<insert id="insertStoreAtt">
+		<foreach collection="list" item="i" index="index" open="INSERT ALL" close="SELECT * FROM DUAL">
+		INTO ATT_STORE
+		(
+			ATT_CODE
+		  , ATT_CL_NAME
+		  , ATT_SV_NAME
+		  , ATT_STATUS
+		  , IS_MAIN_ATT
+		  , P_CODE
+		)
+		VALUES
+		(
+			#{index} + SEQ_ATT_STORE.NEXTVAL
+		  , #{i.attClName}
+		  , #{i.attSvName}
+		  , DEFAULT
+		  , #{i.attMain}
+		  , SEQ_STORE.CURRVAL
+		)
+		</foreach>
 	</insert>
 </mapper>
