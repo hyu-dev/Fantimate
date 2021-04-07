@@ -72,14 +72,6 @@ public class mypageAdminController {
 		}
 		
 		
-		// 팝업테스트
-		@GetMapping("/popup")
-		public ModelAndView popup(ModelAndView mv) {
-			
-			mv.setViewName("mypage/admin/popup");
-			
-			return mv;
-		}
 		
 		
 		

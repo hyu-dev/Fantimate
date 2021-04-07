@@ -21,27 +21,48 @@
 	<!-- 	상단 -->
 	<section id="mypageUserProfile">
 		<jsp:include page="userDiv.jsp"/>
-        <%-- UserDiv include로 대체
-        <div id="mypageUserProfileWrap">
-            <div id="mypageUserProfileImgDiv">
-                <img id="mypageUserProfileImg" src="${ contextPath }/resources/images/mypage/user/mansik.png">
-            </div>
-            <div id="mypageUserProfileImgDivRight">
-                <h3 class="font-30">만식 김</h3>
-                <h4 class="font-16">&nbsp;</h4>
-                <h4 class="font-16">mansik@gmail.com</h4>
-            </div>
-            <div id="mypageUserProfileImgDivRightRight">
-                <button class="mypage-btn-pink-14">수정하기</button>
-                <h4 class="font-16">&nbsp;</h4>
-                <button class="mypage-btn-blueblack-14">탈퇴하기</button>
-            </div>
-        </div> --%>
     </section>
+    
     <!-- 프로필 밑에 섹션 -->
     <section id="mypageUserSection">
         <article id="mypageUserContent">
-
+            <div id="mypageUserContentDiv">
+                <!-- <h2 id="mypageUserContentDivTitle">My Subscribes</h2> -->
+                <h2>My FanStore</h2>
+                <div class="mypage-content-fanstore">
+                    <table id="mypageUserFanstore">
+                        <tr>
+                            <th>&nbsp;</th>
+                            <th>글번호</th>
+                            <th>제목</th>
+                            <th>가격</th>
+                            <th>날짜</th>
+                            <th>조회</th>
+                        </tr>
+        
+                        <tr>
+                            <td><input type="checkbox"></td>
+                            <!--value값 el태그사용-->
+                            <td>201</td>
+                            <td>The 3st Album - Dark & Wild 팝니다</td>
+                            <td>18,000원</td>
+                            <td>2021.03.03</td>
+                            <td>30</td>
+                        </tr>
+        
+        
+                        
+                        
+                    </table>
+                    <div>
+                        <button id="mypageDeleteBtn">글삭제</button>
+                    </div>
+                </div>
+        
+        
+        
+        
+            </div>
         </article>
 	
 <!-- 	메뉴 -->

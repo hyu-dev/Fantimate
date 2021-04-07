@@ -532,7 +532,8 @@ body{
     height: auto;
     min-height: 140px;
 }
-#mypageUserPay{
+#mypageUserPay,
+#mypageUserFanstore{
     
     width: 100%;
     min-width: 620px;
@@ -542,7 +543,12 @@ body{
     text-align: center;
 }
 
-#mypageUserPay button{
+.mypage-content-fanstore > div{
+    display: flex;
+    justify-content: flex-end;
+}
+#mypageUserPay button,
+#mypageDeleteBtn{
     width: 67px;
     height: 22px;
     font-size: 10px;
@@ -551,39 +557,59 @@ body{
     border: none;
     margin-bottom: 5px;
 }
-#mypageUserPay th:nth-child(1){
-    width: 61px;
-}
 
 #mypageUserPay img{
     width:60px;
     height: 60px;
 }
+/*유저 결제리스트테이블*/
+#mypageUserPay tr:first-child th:nth-child(1){
+    width: 61px;
+}
 #mypageUserPay tr:first-child th:nth-child(2){
     width: 225px;
 }
+#mypageUserPay tr:first-child th:nth-child(3){
+    width: 51px;
+}
+#mypageUserPay tr:first-child th:nth-child(4){
+    width: 44px;
+}
+#mypageUserPay tr:first-child th:nth-child(5){
+    width: 75px;
+}
 
 #mypageUserPay td:nth-child(2){
-    width : 80px;
+    width : 65px;
 }
 #mypageUserPay td:nth-child(3){
     width : 160px;
 }
-/* #mypageUserPay th:nth-child(1){
-    width: 61px;
-}
-
-.mypage-content-payment > table th:nth-child(3){
-    width: 44px;
-}
-.mypage-content-payment > table th:nth-child(4){
-    width: 51px;
-}
-*/
 .mypage-content-payment > table th:nth-child(5){
 
     width: 90px;
 } 
+/* 팬스토어 테이블 */
+#mypageUserFanstore th:nth-child(1){
+    width: 20px;
+}
+#mypageUserFanstore th:nth-child(2){
+    width: 52px;
+}
+#mypageUserFanstore th:nth-child(3){
+    width: 304px;
+}
+#mypageUserFanstore th:nth-child(4){
+    width: 76px;
+}
+#mypageUserFanstore th:nth-child(5){
+    width: 97px;
+}
+#mypageUserFanstore th:nth-child(6){
+    width: 35px;
+}
+
+
 .mypage-user-pay-btn-div{
     display: flex;
     justify-content: center;
