@@ -9,4 +9,6 @@ public class StoreCollection {
 	private Store store;
 	private Attachment att;
 	private Wish wish;
+	private StoreCategory storeCate;
+	private StoreInfo storeInfo;
 }
