@@ -5,7 +5,7 @@
     height: 100%;
     box-sizing: border-box;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
 }
 
 .store-category {
@@ -198,6 +198,7 @@
     flex-wrap: wrap;
     height: 1190px;
     overflow: hidden;
+    /* border: 2px solid red; */
 }
 
 .product-background {
@@ -210,6 +211,12 @@
     align-items: center;
     margin: 20px 10px;
     overflow: hidden;
+    cursor: pointer;
+}
+
+.product-background > img {
+	width: 180px;
+	height: 180px;
 }
 
 .product-info {
@@ -267,9 +274,9 @@
     bottom: 5px;
 }
 
-.product-background:hover .product-info {
+/* .product-background:hover .product-info {
     top: 50%;
-}
+} */
 
 
 .more-product {

@@ -1,5 +1,7 @@
 package com.kh.fantimate.common.model.vo;
 
+import org.springframework.stereotype.Component;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,6 +13,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
+@Component
 public class Attachment {
 	private int attCode;		// 파일코드			
 	private String attRoot;		// 파일경로

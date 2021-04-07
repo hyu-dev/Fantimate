@@ -55,7 +55,6 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		 FROM
 		 	  ART_MAIN
 	</select>
-
 	
 	<!-- 공통 유저 정보 insert -->
 	<insert id="insertCommon" parameterType="Member">
@@ -172,7 +171,4 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	    AND 
 	 	    STATUS = 'Y' 
 	</select>
-		
-	
-	
 </mapper>

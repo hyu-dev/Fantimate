@@ -17,10 +17,16 @@
 		<typeAlias type="com.kh.fantimate.member.model.vo.User" alias="User"/>
 		<typeAlias type="com.kh.fantimate.common.model.vo.Attachment" alias="Attachment"/>
 		<typeAlias type="com.kh.fantimate.main.model.vo.FavoriteArtist" alias="FavoriteArtist"/>
+		<typeAlias type="com.kh.fantimate.store.model.vo.Store" alias="Store"/>
+		<typeAlias type="com.kh.fantimate.common.model.vo.Attachment" alias="Attachment"/>
+		<typeAlias type="com.kh.fantimate.store.model.vo.StoreCollection" alias="StoreCollection"/>
+		<typeAlias type="com.kh.fantimate.store.model.vo.StoreCategory" alias="StoreCategory"/>
+		<typeAlias type="com.kh.fantimate.store.model.vo.Wish" alias="Wish"/>
 	</typeAliases>
 	
 	<!-- mappers -->
 	<mappers>
 		<mapper resource="mappers/member-mapper.xml"/>
+		<mapper resource="mappers/store-mapper.xml"/>
 	</mappers>
 </configuration>

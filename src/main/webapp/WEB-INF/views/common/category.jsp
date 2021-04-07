@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,68 +23,124 @@
         <div class="category">
             <a href="#">FAN</a>
             <a href="#">ARTIST</a>
-            <a href="#">OFFICIAL</a>
-            <a href="#">STORE</a>
+            <a href="${ contextPath }/official/media/main">OFFICIAL</a>
+            <a href="${ contextPath }/store/storeList">STORE</a>
         </div>
-        <form class="contents-search" action="" method="get">
+        <if test="${ page eq 'http://localhost:8800/fantimate/WEB-INF/views/store/storeList.jsp' }">
+        <div class="store-search contents-search">
+            <div class="search-area">
+                <input type="text" name="search" class="contents-search-input">
+                <img src="${ contextPath }/resources/icon/search-icon.svg" class="search-icon" alt="">
+            </div>
+            <div class="search-result"></div>
+        </div>
+        </if>
+        <if test="${ page eq 'http://localhost:8800/fantimate/WEB-INF/views/official/media/main.jsp' }">
+        <form class="official-search contents-search" action="" method="get">
             <div class="search-area">
                 <input type="search" class="contents-search-input">
                 <img src="${ contextPath }/resources/icon/search-icon.svg" class="search-icon" alt="">
             </div>
-            <div class="search-result">
-                <p>1집 앨범</p>
-                <p>2집 앨범</p>
-                <p>3집 앨범</p>
-                <p>4집 앨범</p>
-                <p>4집 앨범</p>
-                <p>4집 앨범</p>
-            </div>
+            <div class="search-result"></div>
         </form>
+        </if>
      </aside>
+     <c:set var="page" value="<%= request.getRequestURL() %>" />
+     
      <script type="text/javascript">
-		// 카테고리를 클릭한 경우
-		$('.category a').click(function() {
-			if($(this).text() == 'STORE' || $(this).text() == 'OFFICIAL') {
-				$(".contents-search").css("display", "flex")
-			} else {
-				$(".contents-search").css("display", "none")
-			}
-			// 전체 카테고리 색상 변경
-		    $('.category a').css('color', '#E5D2D2');
-			// 클릭한 카테고리 색상 변경
-		    $(this).css('color', '#5C5F78');
-		})
+     	// 페이지로드시 카테고리 색상변화
+     	$(function() {
+     		var page = "<%= request.getRequestURL() %>";
+     		console.log(page)
+     		var find = page.split("/");
+     		for(var i in find) {
+     			if(find[i] == 'store') {
+     				$(".official-search").css("display", "none")
+    				$(".store-search").css("display", "flex")
+    				$('.category a').eq(3).css('color', '#5C5F78')
+     			} else if(find[i] == 'official') {
+     				$(".store-search").css("display", "none")
+    				$(".official-search").css("display", "flex")
+    				$('.category a').eq(2).css('color', '#5C5F78')
+     			} else if(find[i] == 'fanfeed') {
+     				$(".store-search").css("display", "none")
+    				$(".official-search").css("display", "none")
+    				$('.category a').eq(0).css('color', '#5C5F78')
+     			} else if(find[i] == 'artistfeed') {
+     				$(".store-search").css("display", "none")
+    				$(".official-search").css("display", "none")
+    				$('.category a').eq(1).css('color', '#5C5F78')
+     			}
+     		}
+     	});
 	     
-	    // 카테고리 검색창에 데이터 클릭시
+	    // 카테고리 검색창에 데이터 입력시
 		$(".contents-search-input").on('keyup', function() {
-		    if($(this).val() == '') {
-		        // 검색input에 글자가 없다면
-		        $('.search-result').css('display', 'none');
+			var search = $(this).val();
+			var div = $(".search-result");
+	        // 스토어에서 검색한 것이라면
+	        if($('.category a').eq(3).css('color') == 'rgb(92, 95, 120)') {
+		    	$.ajax({
+		    		url : "${ pageContext.request.contextPath }/store/search/" + search,
+		    		data : "get",
+					dateType : "json",
+					contentType : "application/json; charset=utf-8",
+					success : function(data) {
+						div.html("");
+						if(data.length > 0) {
+							$('.search-result').css('display', 'block');
+							for(var i in data) {
+								var p = $("<p>").text(data[i].store.pname);
+								div.append(p);
+							}
+						} else {
+							$('.search-result').css('display', 'block');
+							var p = $("<p>").text("검색된 데이터가 없습니다");
+							div.append(p);
+						}
+					},
+					error : function(e) {
+						console.log(e)
+					}
+		    	})
 		    } else {
-		        // 검색input에 글자가 있다면
-		        $('.search-result').css('display', 'block');
+		    	// 스토어에서 검색한 것이 아니라면 (오피셜에서 검색한 것이라면)
+		    	$.ajax({
+		    		// 컨트롤러랑 경로만 맞춰주시면 됩니다
+		    		url : "${ pageContext.request.contextPath }/official/search/" + search,
+		    		data : "get",
+					dateType : "json",
+					contentType : "application/json; charset=utf-8",
+					success : function(data) {
+						div.html("");
+						if(data.length > 0) {
+							$('.search-result').css('display', 'block');
+							for(var i in data) {
+								var p = $("<p>").text(data[i].store.pname);
+								div.append(p);
+							}
+						} else {
+							$('.search-result').css('display', 'block');
+							var p = $("<p>").text("검색된 데이터가 없습니다");
+							div.append(p);
+						}
+					},
+					error : function(e) {
+						console.log(e)
+					}
+		    	})
 		    }
+	        // 인풋값이 비어있다면
+	        if(search == '') {
+	        	$('.search-result').css('display', 'none');
+	        }
 		})
 		
 		// 카테고리 검색창 결과 데이터 클릭시
-		$(".search-result p").on('click', function() {
-		    $(".contents-search-input").val($(this).text());
-		})
-		
-		// 카테고리 검색창에 글씨 입력 후 엔터를 클릭했을 때
-		$(".contents-search-input").keyup(function(e) {
-			console.log(e.keyCode)
-			if(e.keyCode == 13) {
-				$(".contents-search").attr("action", "주소 값을 넣으시오");
-			    $(".contents-search").submit();
+		$(document).on('click', '.search-result p', function() {
+			if($(".search-result p").eq(1).text() != '검색된 데이터가 없습니다') {
+				$(".contents-search-input").val($(this).text());
 			}
-		})
-		
-		// 카테고리 검색창에 돋보기 아이콘 클릭시
-		$(".search-area img").click(function() {
-		    // 상품 검색 시작
-		    $(".contents-search").attr("action", "주소 값을 넣으시오");
-		    $(".contents-search").submit();
 		})
      </script>
 </body>
