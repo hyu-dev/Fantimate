@@ -29,7 +29,7 @@
 	
 	<!-- 네비바 인클루드 -->
 	<jsp:include page="../common/navbar.jsp"></jsp:include>
-	<if test="${ !empty loginUser }">
+	<c:if test="${ !empty loginUser }">
 	<section class="main-section">
 		<!-- 카테고리 인클루드 -->
 		<jsp:include page="../common/category.jsp"></jsp:include>
@@ -292,14 +292,14 @@
 	        });
 		}
 	</script>
-	</if>
-	<if test="${ empty loginUser }">
+	</c:if>
+	<c:if test="${ empty loginUser }">
 	<script>
 		$(function() {
 			alert("로그인을 해주세요");
 			location.href="${contextPath}/main"
 		})
 	</script>
-	</if>
+	</c:if>
 </body>
 </html>
