@@ -17,40 +17,40 @@
 </head>
 <body>
 	<section class="main-section">
-        <form class="main-template" action="" method="">
+        <form class="main-template" action="" method="POST" enctype="multipart/form-data">
             <h3 class="store-write-title">스토어등록</h3>
             <table class="store-write">
                 <tbody>
                     <tr>
                         <th>소속아티스트</th>
                         <td>
-                            <input type="text" value="BTS" class="input-data" disabled>
+                            <input type="text" name="artiNameEn" value="IU" class="input-data" disabled>
                         </td>
                     </tr>
                     <tr>
                         <th>카테고리</th>
                         <td>
-                            <select name="category" id="selectCategory" class="select">
+                            <select name="cateName" id="selectCategory" class="select">
                                 <option selected>카테고리 선택</option>
-                                <option value="">ALBUM</option>
-                                <option value="">GOODS</option>
-                                <option value="">TICKET</option>
-                                <option value="">PHOTO</option>
-                                <option value="">ETC</option>
+                                <option value="ALBUM">ALBUM</option>
+                                <option value="GOODS">GOODS</option>
+                                <option value="TICKET">TICKET</option>
+                                <option value="PHOTO">PHOTO</option>
+                                <option value="ETC">ETC</option>
                             </select>
                         </td>
                     </tr>
                     <tr>
                         <th>상품명</th>
                         <td>
-                            <input type="text" name="pName" placeholder="30자 이내 입력" class="input-data">
+                            <input type="text" name="pname" placeholder="30자 이내 입력" maxlength="30" class="input-data">
                         </td>
                     </tr>
                     <tr>
                         <th>판매수량</th>
                         <td>
                             <div class="input-area">
-                                <input type="number" name="quantity" min="100" step="100" class="input-data">
+                                <input type="number" name="salesQ" min="100" step="100" class="input-data">
                                 <p>개</p>
                             </div>
                         </td>
@@ -59,7 +59,7 @@
                         <th>개당가격</th>
                         <td>
                             <div class="input-area">
-                                <input type="number" name="priceQ" min="100" step="100" class="input-data">
+                                <input type="number" name="qprice" min="100" step="100" class="input-data">
                                 <p>원</p>
                             </div>
                         </td>
@@ -80,37 +80,37 @@
                                 <tr>
                                     <th>제조사/원산지</th>
                                     <td>
-                                        <input type="text" name="" placeholder="제조사를 등록하세요">
+                                        <input type="text" name="origin" placeholder="제조사를 등록하세요">
                                     </td>
                                 </tr>
                                 <tr>
                                     <th>브랜드</th>
                                     <td>
-                                        <input type="text" name="" placeholder="판매처 브랜드를 입력하세요">
+                                        <input type="text" name="brand" placeholder="판매처 브랜드를 입력하세요">
                                     </td>
                                 </tr>
                                 <tr>
                                     <th>소비자 상담 연락처</th>
                                     <td>
-                                        <input type="text" name="" placeholder="A/S 책임자 : 000, 전화번호 : 000-000-0000">
+                                        <input type="text" name="contact" placeholder="A/S 책임자 : 000, 전화번호 : 000-000-0000">
                                     </td>
                                 </tr>
                                 <tr>
                                     <th>이용조건, 기간</th>
                                     <td>
-                                        <input type="text" name="" placeholder="전체이용가능, 이용기간제한없음">
+                                        <input type="text" name="useTerm" placeholder="전체이용가능, 이용기간제한없음">
                                     </td>
                                 </tr>
                                 <tr>
                                     <th>상품 제공 방식</th>
                                     <td>
-                                        <input type="text" name="" placeholder="예) CD">
+                                        <input type="text" name="offerings" placeholder="예) CD">
                                     </td>
                                 </tr>
                                 <tr>
                                     <th>청약철회/계약의 해제</th>
                                     <td>
-                                        <input type="text" name="" placeholder="판매자 귀책사유(15일 이내) 구매자 귀책사유(7일 이내)">
+                                        <input type="text" name="cancelInfo" placeholder="판매자 귀책사유(15일 이내) 구매자 귀책사유(7일 이내)">
                                     </td>
                                 </tr>
                             </table>
@@ -119,20 +119,20 @@
                     <tr>
                         <th>안내문구</th>
                         <td>
-                            <textarea onkeyup="chkword(this, 1000)" name="" class="guide-text" cols="30" rows="10"></textarea>
+                            <textarea onkeyup="chkword(this, 1000)" name="info" class="guide-text" cols="30" rows="10"></textarea>
                             <div class="limit-text">0 / 1000</div>
                         </td>
                     </tr>
                 </tbody>
             </table>
             <div class="my-photo">
-                <label for="mainPhoto" class="main-photo">대표사진첨부<input id="mainPhoto" class="photo" type="file" style="display: none;"></label>
-                <!-- <label for="addPhoto" class="add-photo">추가사진첨부<input id="addPhoto" class="photo" type="file" style="display: none;"></label> -->
+                <label for="mainPhoto" class="main-photo">대표사진첨부</label>
+                <input id="mainPhoto" name="mainPhoto" class="photo" type="file" style="display: none;">
                 <label class="add-photo click-btn">+</label>
             </div>
             <div class="phrases">
                 <label class="jelly-checkbox">
-                    <input type="checkbox">
+                    <input type="checkbox" name="isView">
                     <span class="jelly-icon"></span>
                     <span class="jelly-text">추가사진을 화면에 표시합니다</span>
                 </label>
@@ -145,17 +145,12 @@
     </section>
     <script type="text/javascript">
 		 // 사진첨부시
-		 // 문제 : 추가사진이 왜 ㅠㅠ 0번째만 적용되지?
 		 $(document).on('change', ".photo", function(e) {
-			 console.log(e);
-		     let target = $(this)
 		     let files = e.target.files;
 		     let filesArr = Array.prototype.slice.call(files);
 		     let mainImg = $("<img class='main-photo-img'>");
-		     let mainInput = $("<input id='mainPhoto' class='photo' type='file' style='display: none;'>");
 		     let addImg = $("<img class='add-photo-img'>");
-		     let addInput = $("<input id='addPhoto' class='photo' type='file' style='display: none;'>");
-		     let label = $(this).parent();
+		     let label = $(this).prev("label");
 		     let id = $(this).attr('id');
 		     
 		     filesArr.forEach(function(f) {
@@ -170,14 +165,14 @@
 		             reader.onload = function(e) {
 		                 label.html('');
 		                 mainImg.attr("src", e.target.result);
-		                 label.append(mainImg, mainInput);
+		                 label.append(mainImg);
 		             }
 		         } else {
 		             // 추가사진을 변경한 경우
 		             reader.onload = function(e) {
 		                 label.html('');
 		                 addImg.attr("src", e.target.result);
-		                 label.append(addImg, addInput);
+		                 label.append(addImg);
 		             }
 		         }
 		         reader.readAsDataURL(f);
@@ -188,11 +183,11 @@
 		 let n = 1;
 		 // 추가사진 첨부시
 		 $(document).on('click', '.click-btn', function() {
-		     let addImg = $("<img class='add-photo-img'>");
-		     let addInput = $("<input id='addPhoto"+ n +"' class='photo' type='file' style='display: none;'>");
+		     let addInput = $("<input id='addPhoto"+ n +"' name='subPhotos' class='photo' type='file' style='display: none;'>");
 		     let label = $("<label for='addPhoto" + n + "' class='add-photo'>추가사진첨부</label>")
 		     if(count < 4) {
-		         $('.click-btn').before(label.append(addImg, addInput));
+		         $('.click-btn').before(label);
+		         label.after(addInput);
 		         $('.my-photo').stop().animate( { scrollLeft : '+=1000' } )
 		         count++;
 		         n++;
@@ -200,7 +195,6 @@
 		         $('.click-btn').remove()
 		         alert('사진 첨부는 최대 5장만 가능합니다')
 		     }
-		    
 		 })
 		
 		 // 글자수 제한
@@ -237,6 +231,14 @@
 		 $('.cancel-btn').click(function() {
 		     confirm('상품등록 취소시 입력한 정보가 모두 삭제됩니다. 취소하시겠습니까?')
 		 })
+		 
+		 // 등록하기 버튼을 클릭했을 때
+		 $(".enroll-btn").click(function() {
+			 var url = "${contextPath}/store/insert";
+			 $(".main-template").attr("action", url);
+			 $(".input-data:nth-of-type(1)").attr("disabled", false);
+			 $(".main-template").submit();
+		 });
     </script>
 </body>
 </html>

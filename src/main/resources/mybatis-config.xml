@@ -25,6 +25,7 @@
 		<typeAlias type="com.kh.fantimate.store.model.vo.StoreCategory" alias="StoreCategory"/>
 		<typeAlias type="com.kh.fantimate.store.model.vo.Wish" alias="Wish"/>
 		<typeAlias type="com.kh.fantimate.main.model.vo.MainCollection" alias="MainCollection"/>
+		<typeAlias type="com.kh.fantimate.store.model.vo.StoreInfo" alias="StoreInfo"/>
 	</typeAliases>
 	
 	<!-- mappers -->
