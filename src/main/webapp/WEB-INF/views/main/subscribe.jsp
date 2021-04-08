@@ -87,31 +87,64 @@
     </script>
 </head>
 <body>
-  <!-- 로그인 -->
-    <section class="subscribe-section">
-        <p class="sub-title"><span>Alexander 23 </span>피드에 사용할 닉네임을 입력하세요.</p>
-        
-        <!-- 파일 첨부-->
-            <label class="file-label">
-                <span class="file-title">
-                                   이미지 선택
-                </span>
-                <input class="file-upload" id="fileInput" name="subscribeImg" type="file" onchange="previewImage(this,'filePreview')"/>
-                <div id='filePreview'></div>
-            </label>
-        
-
-        <!-- 닉네임 입력 -->
-        <div class="nickname-section">
-            <p class="nickname-title">11자 내로 입력하세요.</p>
-            <input type="text" class="nickname-input" name="nickname" placeholder="닉네임 입력" required>
-        </div>
-        <!-- 버튼 -->
-        <div class="subscribe-btn-section">
-            <button id="subscribeBtn">구독하기</button>
-            <button id="closeBtn">닫기</button>
-        </div>
-    </section>
-
+<!-- 메시지 -->
+	 <c:if test="${ !empty msg }">
+		 <c:choose>
+			 <c:when test="${ msg eq 'success'}">
+			 	<script>
+				    // CONFIRM 창으로 (피드로 이동하시겠습니까? Y:FEED , N:MAINPAGE)
+				  /*   $(function(){
+					    var result = confirm("구독이 완료 되었습니다! 팬피드로 이동하시겠어요?");
+					    if(result == true){
+					 	  location.href="${ contextPath }/fanfeed/fanFeedList?artNameEn="+${artNameEn};
+					    } else {
+						 location.href="${ contextPath }";
+					    }
+				    }); */
+				    
+				    alert("구독이 완료 되었습니다!");
+				    location.href="${ contextPath }";
+			    </script>
+			 </c:when>
+			 <c:when test="${ msg eq 'sameNickname'}">
+			 	<script>
+			 		alert("구독 닉네임이 중복합니다! 다시 입력해주세요.");
+			 		location.href="${ contextPath }/main/subscribe?artNameEn="+${artNameEn};
+			 	</script>
+			 </c:when>
+			 <c:otherwise>
+			 	<script>
+				    alert("구독 실패!");
+			    </script>
+			 </c:otherwise>
+		</c:choose>
+	</c:if>
+	
+	<form action="${ contextPath }/main/subscribe" method="post" enctype="multipart/form-data">
+	    <section class="subscribe-section">
+	        <p class="sub-title"><span>${ artNameEn } </span>피드에 사용할 닉네임을 입력하세요.</p>
+	        <input type="hidden" name="artNameEn" value="${ artNameEn }">
+	        <!-- 파일 첨부-->
+	            <label class="file-label">
+	                <span class="file-title">
+	                                   이미지 선택
+	                </span>
+	                <input class="file-upload" id="fileInput" name="uploadFile" type="file" onchange="previewImage(this,'filePreview')"/>
+	                <div id='filePreview'></div>
+	            </label>
+	        
+	
+	        <!-- 닉네임 입력 -->
+	        <div class="nickname-section">
+	            <p class="nickname-title">11자 내로 입력하세요.</p>
+	            <input type="text" class="nickname-input" name="nickname" placeholder="닉네임 입력" required>
+	        </div>
+	        <!-- 버튼 -->
+	        <div class="subscribe-btn-section">
+	            <button id="subscribeBtn">구독하기</button>
+	            <button type="button" id="closeBtn" onclick="location.href='javascript:history.back(-1)'">닫기</button>
+	        </div>
+	    </section>
+    </form>
 </body>
 </html>

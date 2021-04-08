@@ -143,7 +143,7 @@
 	
 	<header class="main-header">
         <nav class="main-nav">
-            <p class="main-logo">FANTIMATE</p>
+            <p class="main-logo" onclick="location.href='${contextPath}'">FANTIMATE</p>
             <c:choose>
 	            <c:when test="${ !empty sessionScope.loginUser}">
 		            <div class="main-menu">
@@ -153,7 +153,7 @@
 		                    <label for="check"><img src="${ contextPath }/resources/icon/search-icon.svg" alt="" class="nav-icon"></label>
 		                </div>
 		                <!-- 회원가입 버튼 생성전 예시 -->
-		                <img src="${ contextPath }/resources/icon/user.svg" alt="" class="nav-icon" onclick="showJoinPage()">
+		                <img src="${ contextPath }/resources/icon/user.svg" alt="" class="nav-icon">
 		                <img src="${ contextPath }/resources/icon/alarm.svg" alt="" class="nav-icon" id="alarm-icon" onclick="alarmList()">
 		                <img src="${ contextPath }/resources/icon/cart.svg" alt="" class="nav-icon">
 		                <img src="${ contextPath }/resources/icon/email.svg" alt="" class="nav-icon" id="mail-icon" onclick="mailList()">

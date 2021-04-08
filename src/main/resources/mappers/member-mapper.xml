@@ -54,6 +54,12 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<result property="artiNameEn" column="ARTI_NAME_EN"/>
 	</resultMap>
 	
+	<!-- 관리자 -->
+	<resultMap type="Admin" id="adminResultSet">
+		<id property = "adId" column="AD_ID"/>
+		<result property="authLv" column="AUTH_LV"/>
+	</resultMap>
+	
 	<!-- 기본 유저 프로필 -->
 	<resultMap type="Attachment" id="userProfileResultSet">
 		<id property = "attCode" column="UP_CODE"/>
@@ -246,6 +252,17 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	      ART_PERSON
 	WHERE 
 	      ARTI_ID = #{id}
+	</select>
+	
+	<!-- 관리자 테이블 select -->
+	<select id="selectAdmin" parameterType="Admin" resultMap="adminResultSet">
+	SELECT
+		   AD_ID
+		 , AUTH_LV
+ 	 FROM
+ 	 	   ADMIN
+ 	 WHERE
+ 	 	   AD_ID = #{id}
 	</select>
 	
 </mapper>
