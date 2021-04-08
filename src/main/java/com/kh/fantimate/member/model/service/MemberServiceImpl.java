@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import com.kh.fantimate.common.model.vo.Attachment;
 import com.kh.fantimate.main.model.vo.FavoriteArtist;
 import com.kh.fantimate.member.model.dao.MemberDao;
+import com.kh.fantimate.member.model.vo.Agency;
+import com.kh.fantimate.member.model.vo.Artist;
 import com.kh.fantimate.member.model.vo.ArtistGroup;
 import com.kh.fantimate.member.model.vo.Member;
 import com.kh.fantimate.member.model.vo.User;
@@ -60,6 +62,21 @@ public class MemberServiceImpl implements MemberService{
 	public Member loginMember(Member m) {
 		// 6. 회원 로그인 
 		return mDao.selectMember(m);
+	}
+
+	@Override
+	public User loginUser(String id) {
+		return mDao.selectLoginUser(id);
+	}
+
+	@Override
+	public Agency loginAgency(String id) {
+		return mDao.selectLoginAgency(id);
+	}
+
+	@Override
+	public Artist loginArtist(String id) {
+		return mDao.selectLoginArtist(id);
 	}
 
 }
