@@ -41,6 +41,7 @@ body::-webkit-scrollbar-thumb {
     margin: 0 30px 0 10px;
     font-size: 25px;
     font-family: "Wemakeprice-bold";
+    cursor:pointer;
 }
 
 .main-search {
@@ -552,7 +553,7 @@ input[id*="friend"]:checked + label em{
 }
 
 /* 로그인 회원가입 */
-#loginBtn{
+input[id*="loginBtn"]{
     outline: none;
     width: 140px;
     height: 40px;
@@ -570,8 +571,7 @@ input[id*="friend"]:checked + label em{
     outline: none;
  
 }
-
-#joinBtn{
+input[id*="joinBtn"]{
     outline: none;
     width: 160px;
     height: 40px;

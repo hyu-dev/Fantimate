@@ -22,6 +22,7 @@ import com.google.gson.Gson;
 import com.kh.fantimate.common.model.vo.Attachment;
 import com.kh.fantimate.main.model.vo.FavoriteArtist;
 import com.kh.fantimate.member.model.service.MemberService;
+import com.kh.fantimate.member.model.vo.Admin;
 import com.kh.fantimate.member.model.vo.Agency;
 import com.kh.fantimate.member.model.vo.Artist;
 import com.kh.fantimate.member.model.vo.ArtistGroup;
@@ -30,7 +31,7 @@ import com.kh.fantimate.member.model.vo.User;
 
 @Controller
 @RequestMapping("/member")
-@SessionAttributes({"loginUser"})
+@SessionAttributes({"loginUser" ,"user", "agency", "artist" ,"admin"})
 public class MemberController {
 	
 	@Autowired
@@ -176,6 +177,12 @@ public class MemberController {
 				Artist artist = mService.loginArtist(loginUser.getId());
 				model.addAttribute("loginUser", loginUser);
 				model.addAttribute("artist", artist);
+				model.addAttribute("msg", "success");
+			} else if(loginUser.getClassifyMem() == 4) {
+				
+				Admin admin = mService.loginAdmin(loginUser.getId());
+				model.addAttribute("loginUser", loginUser);
+				model.addAttribute("admin", admin);
 				model.addAttribute("msg", "success");
 			}
 			
