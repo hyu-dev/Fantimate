@@ -22,6 +22,8 @@ import com.google.gson.Gson;
 import com.kh.fantimate.common.model.vo.Attachment;
 import com.kh.fantimate.main.model.vo.FavoriteArtist;
 import com.kh.fantimate.member.model.service.MemberService;
+import com.kh.fantimate.member.model.vo.Agency;
+import com.kh.fantimate.member.model.vo.Artist;
 import com.kh.fantimate.member.model.vo.ArtistGroup;
 import com.kh.fantimate.member.model.vo.Member;
 import com.kh.fantimate.member.model.vo.User;
@@ -143,28 +145,47 @@ public class MemberController {
 		return "account/login";
 	}
 	
-  	// 회원 로그인 (세션 저장)
+	
+	// 회원 로그인 (세션 저장)
 	@PostMapping("/login")
-	public String memberLogin(@ModelAttribute Member m,
-							  Model model) {
-		
+	public String memberLogin(@ModelAttribute Member m, Model model) {
+
 		Member loginUser = mService.loginMember(m);
-		
-		if(loginUser != null) {
-			model.addAttribute("loginUser", loginUser);
-			model.addAttribute("msg", "success");
+
+		if (loginUser != null) {
+			
+			// 1:일반유저 / 2: 소속사 / 3: 아티스트
+			// loginUser.class == 1 (일반유저) 일때
+			if(loginUser.getClassifyMem() == 1) {
+				
+				User user = mService.loginUser(loginUser.getId());
+				
+				model.addAttribute("loginUser", loginUser);
+				model.addAttribute("user", user);
+				model.addAttribute("msg", "success");
+			} else if(loginUser.getClassifyMem() == 2) {
+			// loginUser.class == 2 (소속사) 일때
+				Agency agency = mService.loginAgency(loginUser.getId());
+				model.addAttribute("loginUser", loginUser);
+				model.addAttribute("agency", agency);
+				model.addAttribute("msg", "success");
+				
+			} else if(loginUser.getClassifyMem() == 3) {
+			// loginUser.class == 3 (소속아티스트) 일때
+				
+				Artist artist = mService.loginArtist(loginUser.getId());
+				model.addAttribute("loginUser", loginUser);
+				model.addAttribute("artist", artist);
+				model.addAttribute("msg", "success");
+			}
+			
 			return "account/login";
 		} else {
 			model.addAttribute("msg", "fail");
 			return "account/login";
 		}
-		
+
 	}
-	
-	
-	
-	
-	
 	
 	
 	
