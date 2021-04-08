@@ -2,6 +2,9 @@ package com.kh.fantimate.store.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -9,6 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -285,5 +289,58 @@ public class StoreController {
 		return renameFileName;
 	}
 	
+	// 상품 상세페이지 불러오기
+	@RequestMapping("/detail")
+	public void storeDetail(HttpServletResponse response,
+								HttpServletRequest request,
+								@RequestParam(value="pcode") String pcode) throws IOException {
 		
+		boolean flagslist = false;	// slist라는 이름의 쿠키가 있는지 확인
+		boolean flagPcode = false;	// 해당 pcode가 포함 되어 있는지 확인
+		
+		Cookie[] cookies = request.getCookies();
+		try {
+			if(cookies != null) {
+				for(Cookie c : cookies) {
+					// 읽은 게시글의 pcode를 모아서 보관하는 slist가 쿠키 안에 있다면
+					if(c.getName().equals("slist")) {
+						flagslist = true;
+						// 기존 쿠기 값 먼저 읽어옴(, 등의 특수 문자 인코딩 때문에 decode처리)
+						String slist = URLDecoder.decode(c.getValue(), "UTF-8");
+						// , 구분자 기준으로 나누기
+						String[] list = slist.split(",");
+						for(String st : list) {
+							// 쿠키 안에 지금 클릭한 게시글의 bid가 들어있다면 => 읽었음을 표시
+							if(st.equals(String.valueOf(pcode))) flagPcode = true;
+						}
+						if(!flagPcode) {	// 게시글을 읽지 않았다면
+							c.setValue(URLEncoder.encode(slist + "," + pcode, "UTF-8"));
+							response.addCookie(c);	// 응답에 담아 보냄
+						}
+					}
+				}
+				
+				if(!flagslist) {
+					// slist라는 쿠키가 만들어지지 않은 경우
+					Cookie c1 = new Cookie("slist", URLEncoder.encode(String.valueOf(pcode), "UTF-8"));
+					response.addCookie(c1);
+				}
+			}
+		
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		} 
+		
+		List<StoreCollection> sc = sService.selectStore(pcode, !flagPcode);
+		System.out.println(sc);
+		HttpSession session = request.getSession();
+		session.setAttribute("sc", sc);
+		response.sendRedirect("storeDetail");
+	}
+	// 상품 상세페이지 이동
+	@GetMapping("/storeDetail")
+	public ModelAndView storeDetailPage(ModelAndView mv, HttpServletRequest request) {
+		mv.addObject(request.getSession().getAttribute("sc"));
+		return mv;
+	}
 }

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="contextPath" value="${ pageContext.servletContext.contextPath }" scope="application" />
 <!DOCTYPE html>
 <html>
@@ -16,32 +17,37 @@
     <title>Fantimate</title>
 </head>
 <body>
+	<jsp:include page="storeInsert.jsp"/>
 	<!-- 네비바 인클루드 -->
-	<jsp:include page="../common/navbar.jsp"></jsp:include>
+	<jsp:include page="../common/navbar.jsp"/>
 	<section class="main-section">
 		<section class="left-contents">
-            <article class="main-photo">
-                <img src="${ contextPath }/resources/images/store/1stAlbumBts.png" alt="">
-                <img class="photo-icon" src="${ contextPath }/resources/icon/slide-left-btn.png" alt="">
-                <img class="photo-icon" src="${ contextPath }/resources/icon/slide-right-btn.png" alt="">
+            <article class="main-photo-area">
+            	<c:forEach var="attList" items="${ sc }">
+            	<c:if test="${ attList.att.attMain eq 'Y' }">
+                <img src="${ contextPath }/resources/uploadFiles/${ attList.att.attSvName }" alt="">
+                </c:if>
+                </c:forEach>
                 <img class="photo-icon ddim" src="${ contextPath }/resources/icon/heart.png" alt="">
+                <c:if test="${ sc.get(0).store.isView eq 'Y' }">
+                <div class="is-view">
+                	<c:forEach var="attList" items="${ sc }">
+                	<img class="small-img" src="${ contextPath }/resources/uploadFiles/${ attList.att.attSvName }" alt="">
+                	</c:forEach>
+                </div>
+                </c:if>
             </article>
             <article class="product-guide">
-                <div class="guide-text">
-                    무슨 말이든 작성해보아요~
-                    <br>이렇게 저렇게~~
-                    <br>이렇게
-                    <br>저렇게
-                    <br>ㅎㅎㅎ
-                </div>
+                <div class="guide">${ sc.get(0).store.info }</div>
             </article>
-            <div class="add-photo-area">
-                <article class="add-photos">
-                    <img src="${ contextPath }/resources/images/store/1stAlbumBts2.png" alt="">
+            <div class="sub-photo-area">
+            	<c:forEach var="attList" items="${ sc }">
+            	<c:if test="${ attList.att.attMain eq 'N' }">
+                <article class="sub-photo">
+                    <img src="${ contextPath }/resources/uploadFiles/${ attList.att.attSvName }" alt="">
                 </article>
-                <article class="add-photos">
-                    <img src="${ contextPath }/resources/images/store/1stAlbumBts3.png" alt="">
-                </article>
+                </c:if>
+                </c:forEach>
             </div>
             <div class="product-information">
                 <div class="product-title">
@@ -52,27 +58,27 @@
                     <table>
                         <tr> 
                             <th>제작자/원산지</th>
-                            <td>(주)빅히트엔터테인먼트/한국</td>
+                            <td>${ sc.get(0).storeInfo.origin }</td>
                         </tr>
                         <tr>
                             <th>브랜드</th>
-                            <td>신나라레코드</td>
+                            <td>${ sc.get(0).storeInfo.brand }</td>
                         </tr>
                         <tr>
                             <th>소비자 상담 연락처</th>
-                            <td>A/S 책임자 : 신나라, 전화번호 : 031-000-1234</td>
+                            <td>${ sc.get(0).storeInfo.contact }</td>
                         </tr>
                         <tr>
                             <th>이용조건/기간</th>
-                            <td>전체이용가능, 이용기간제한없음</td>
+                            <td>${ sc.get(0).storeInfo.useTerm }</td>
                         </tr>
                         <tr>
                             <th>상품제공방식</th>
-                            <td>CD</td>
+                            <td>${ sc.get(0).storeInfo.offerings }</td>
                         </tr>
                         <tr>
                             <th>청약철회 / 계약의 해제</th>
-                            <td>교환, 반품 : 받은 상품의 내용이 표시/광고사항과 다른 경우, 상품 수령 후 15일 이내 연락(구매자의 단순 변심, 착오 구매시 상품 수령 후 7일 이내 연락</td>
+                            <td>${ sc.get(0).storeInfo.cancelInfo }</td>
                         </tr>
                     </table>
                 </div>
@@ -142,23 +148,36 @@
             </div>
          </section>
 
-
+		 <c:set var="price" value="${ sc.get(0).store.qprice }" />
+		 <c:set var="discountPrice" value="${ sc.get(0).store.qprice * (1 - sc.get(0).store.discount/100) }"/>
          <section class="right-contents">
              <table>
                  <tr>
-                     <td colspan="4">BTS</td>
+                     <td colspan="4">${ artiName }</td>
                  </tr>
                  <tr>
-                     <td colspan="4">The 1st Album - Dark & Wild</td>
+                     <td colspan="4">${ sc.get(0).store.pname }</td>
                  </tr>
                  <tr>
-                     <td colspan="1">\ 14,900</td>
-                     <td colspan="3"><s>\ 16,500</s><span>&nbsp;&nbsp; 10% D.C.</span></td>
+                     <td colspan="1">
+                     <c:if test="">
+                     	\ <fmt:formatNumber type="number" value="${ discountPrice }"/>
+                     </c:if>
+                     <c:if test="false">
+                     	\ <fmt:formatNumber type="number" value="${ price }"/>
+                     </c:if>
+                     </td>
+                     <td colspan="3">
+                     	<c:if test="">
+                     	<s>\ <fmt:formatNumber type="number" value="${ price }"/></s>
+                     	<span>&nbsp;&nbsp; ${ sc.get(0).store.discount }% D.C.</span>
+                     	</c:if>
+                     </td>
                  </tr>
                  <tr>
                      <td colspan="4">
                          <div>
-                             <p>The 1st Album - Dark & Wild</p>
+                             <p>${ sc.get(0).store.pname }</p>
                              <div class="quantity">
                                 <button class="minus-btn">-</button>
                                 <p class="product-quantity">1</p>
@@ -169,7 +188,15 @@
                  </tr>
                  <tr>
                      <td colspan="2">TOTAL</td>
-                     <td colspan="2">\ 14,900 <span>(1개)</span></td>
+                     <td colspan="2">
+                     	<c:if test="">
+	                    	\ <fmt:formatNumber type="number" value="${ discountPrice }"/>
+	                    </c:if>
+	                    <c:if test="false">
+	                     	\ <fmt:formatNumber type="number" value="${ price }"/>
+	                    </c:if>
+                     	<span>(1개)</span>
+                     </td>
                  </tr>
                  <tr>
                      <td colspan="4">

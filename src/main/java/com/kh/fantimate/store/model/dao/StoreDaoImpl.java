@@ -92,6 +92,16 @@ public class StoreDaoImpl implements StoreDao {
 		return sqlSession.insert("storeMapper.insertStoreAtt", attList);
 	}
 
+	@Override
+	public List<StoreCollection> selectStore(String pcode) {
+		return sqlSession.selectList("storeMapper.selectStore", pcode);
+	}
+
+	@Override
+	public void updateReadCount(String pcode) {
+		sqlSession.selectList("storeMapper.updateReadCount", pcode);
+	}
+
 	
 
 }

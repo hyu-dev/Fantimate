@@ -16,7 +16,7 @@
     <title>Fantimate</title>
 </head>
 <body>
-	<section class="main-section">
+	<section class="insert-section">
         <form class="main-template" action="" method="POST" enctype="multipart/form-data">
             <h3 class="store-write-title">스토어등록</h3>
             <table class="store-write">

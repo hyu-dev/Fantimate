@@ -81,5 +81,12 @@ public class StoreServiceImpl implements StoreService {
 		return result;
 	}
 
+	@Override
+	public List<StoreCollection> selectStore(String pcode, boolean flagPcode) {
+		if(flagPcode) sDao.updateReadCount(pcode);
+		
+		return sDao.selectStore(pcode);
+	}
+
 
 }

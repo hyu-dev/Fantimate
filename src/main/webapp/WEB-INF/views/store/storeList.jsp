@@ -161,7 +161,8 @@
 		// 상품 클릭시
 		$(document).on('click', '.product-background', function(e) {
 		    if(!$(e.target).hasClass('store-icon')) {
-		        location.href='detail.html';
+		    	var pcode = $(this).children("#pcode").val();
+		        location.href='${ contextPath }/store/detail?pcode=' + pcode;
 		    }
 		})
 		

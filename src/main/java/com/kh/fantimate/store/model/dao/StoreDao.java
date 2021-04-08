@@ -54,4 +54,10 @@ public interface StoreDao {
 	// 스토어 사진 등록하기
 	public int insertStoreAtt(List<Attachment> attList);
 
+	// 스토어 상세페이지 불러오기
+	public List<StoreCollection> selectStore(String pcode);
+
+	// 스토어 상세페이지 조회수 증가
+	public void updateReadCount(String pcode);
+
 }

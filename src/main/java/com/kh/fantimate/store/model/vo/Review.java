@@ -1,4 +1,6 @@
-package com.kh.fantimate.pay.model.vo;
+package com.kh.fantimate.store.model.vo;
+
+import java.util.Date;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,4 +20,6 @@ public class Review {
 	private String rvContent; 	// 내용
 	private String id; 			// 아이디
 	private int bcode; 			// 상품 구매 코드
+	private int pcode;			// 상품 코드
+	private Date enrollDate;	// 리뷰 등록일
 }
