@@ -38,4 +38,7 @@ public interface StoreService {
 
 	// 스토어 입력하기
 	public int insertStore(StoreCollection sc, List<Attachment> attList);
+
+	// 스토어 상세정보 불러오기
+	public List<StoreCollection> selectStore(String pcode, boolean b);
 }

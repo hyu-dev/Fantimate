@@ -11,4 +11,5 @@ public class StoreCollection {
 	private Wish wish;
 	private StoreCategory storeCate;
 	private StoreInfo storeInfo;
+	private Review review;
 }
