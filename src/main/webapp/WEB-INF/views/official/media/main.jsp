@@ -78,51 +78,49 @@
         /* 미디어 클릭 시 */
         function selectMedia(mediaNum) {
         	var loginUser = ${ loginUser.classifyMem }
+        	var membership = ${ user.isMembership }
         	
         	/* 미디어가 유료일 때 */
-        	if($(this).childern('.media-pay-sign').text() == "유료") {
+        	if($(this).children('.media-pay-sign').text() == "유료") {
         		
-        		/* 일반유저가 아니거나 멤버십 회원일 경우에는 상세페이지로 이동 */
-        		if(loginUser != 1 && (loginUser)) {
+        		/* 일반유저가 아니면 상세페이지로 이동 */
+        		if(loginUser != 1) {
             		location.href="${ contextPath }/official/media/detail?mediaNum=" + mediaNum;
             		
-            	/* 멤버십에 가입하지 않은 회원은 구매 유도 알럿창 생성 */
-            	} else {
-            		
+            	/* 일반유저라도 멤버십 회원이면 상세페이지로 이동 */	
+            	} else {            		
+            		if(membership == "Y") {
+            			location.href="${ contextPath }/official/media/detail?mediaNum=" + mediaNum;
+            			
+            		/* 멤버십에 가입하지 않은 회원은 구매 유도 팝업창 생성 */
+            		} else {
+            			
+            			if(confirm("해당 상품을 구매하시겠습니까?")) {
+        					
+            				/* 장바구니로 해당 상품 데이터를 넘기는 ajax 처리 */
+            				$.ajax({
+			            		url : "${ contextPath }/official/media/insertCart",
+			            		data : { mediaNum : mediaNum },
+			            		type : "post",
+			            		dataType : "json",
+			            		contentType : "application/json; charset=utf-8",
+			            		success : function(data) {
+			            			console.log(data);
+			            		},
+			            		error : function(e) {
+			            			console.log(e);
+			            		}
+			            	});
+            				
+            				/* 장바구니 페이지로 이동 */
+                            if(confirm("상품이 정상적으로 장바구니에 담겼습니다.\n" + 
+                            "장바구니로 이동하시겠습니까?")) {
+                            	location.href="${ contextPath }/official/media/detail?mediaNum=" + mediaNum;
+                            } 
+                        }
+            		}
             	} 
         	}
-        	\
-			
-            if($(this).siblings('.media-pay-sign').text() == "유료") {
-            	
-            	/* 멤버십 확인에 대한 ajax 처리 */ 
-            	$.ajax({
-            		url : "${ pageContext.request.contextPath }/official/media/main/membership",
-            		data : {}
-            		type : "post",
-            		dataType : "json",
-            		contentType : "application/json; charset=utf-8",
-            		success : function(data) {
-            			if(data == 'N') {
-            				if(confirm("해당 상품을 구매하시겠습니까?")) {
-            					
-            					
-                                if(confirm("상품이 정상적으로 장바구니에 담겼습니다.\n" + 
-                                "장바구니로 이동하시겠습니까?")) {           
-                                } 
-                            }
-            			}
-            		}
-            	});
-            	
-            	
-            	
-                
-            } else {
-            	location.href="${ contextPath }/official/media/detail?mediaNum=" + mediaNum;
-            }
-        });
-
         </script>
         
         <!-- 오른쪽 -->
