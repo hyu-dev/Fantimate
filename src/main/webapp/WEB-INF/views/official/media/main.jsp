@@ -21,163 +21,108 @@
 
         <!-- 중간 -->
         <section class="main-contents">
+        
+        	<!-- 슬라이드 -->
             <div class="new-title">NEW</div>
             <div class="slide-box">
                 <ul class="slide-container">
+                	<c:forEach var="s" items="${ slide }">
                     <li class="slider">
                         <div class="new-container">
                             <div class="new-media-left">
-                                <div class="new-media-title nanumsquare">BTS WORLD TOUR 'LOVE YOURSELF' NEWYORK</div>
+                                <div class="new-media-title nanumsquare">${ s.official.mediaTtl }</div>
                                 <div class="circle">
                                     <a href="${ contextPath }/official/list" class="new-media-link nanumsquare">바로 가기</a>
                                 </div>
                             </div>
                             <div class="new-media-right">
-                                <img class="new-media-img" src="${ contextPath }/resources/images/official/new-media.png">
+                                <img class="new-media-img" src="${ contextPath }/resources/images/official/${ s.attachment.attSvName }">
                             </div>
                         </div>
                     </li>
-                    <li class="slider">
-                        <div class="new-container">
-                            <div class="new-media-left">
-                                <div class="new-media-title nanumsquare">BTS WORLD TOUR 'LOVE YOURSELF' NEWYORK</div>
-                                <div class="circle">
-                                    <a href="../official/media-detail.html" class="new-media-link nanumsquare">바로 가기</a>
-                                </div>
-                            </div>
-                            <div class="new-media-right">
-                                <img class="new-media-img" src="${ contextPath }/resources/images/official/new-media.png">
-                            </div>
-                        </div>
-                    </li>
-                    <li class="slider">
-                        <div class="new-container">
-                            <div class="new-media-left">
-                                <div class="new-media-title nanumsquare">BTS WORLD TOUR 'LOVE YOURSELF' NEWYORK</div>
-                                <div class="circle">
-                                    <a href="../official/media-detail.html" class="new-media-link nanumsquare">바로 가기</a>
-                                </div>
-                            </div>
-                            <div class="new-media-right">
-                                <img class="new-media-img" src="${ contextPath }/resources/images/official/new-media.png">
-                            </div>
-                        </div>
-                    </li>
-                    <li class="slider">
-                        <div class="new-container">
-                            <div class="new-media-left">
-                                <div class="new-media-title nanumsquare">BTS WORLD TOUR 'LOVE YOURSELF' NEWYORK</div>
-                                <div class="circle">
-                                    <a href="../official/media-detail.html" class="new-media-link nanumsquare">바로 가기</a>
-                                </div>
-                            </div>
-                            <div class="new-media-right">
-                                <img class="new-media-img" src="${ contextPath }/resources/images/official/new-media.png">
-                            </div>
-                        </div>
-                    </li>
+                    </c:forEach>
                 </ul>
             </div>
-<!---->
+
+			<!-- 본문 -->
+			<c:forEach var="cate" items="${ category }">
             <div class="category-container">
                 <div class="category-upper">
-                    <div class="category-title nanumsquare">BREAK THE SILENCE</div>
+                    <div class="category-title nanumsquare">${ cate.cateName }</div>
                     <a href="${ contextPath }/official/media/list" class="category-link nanumsquare">전체 보기</a>
                 </div>
                 <div class="category-under">
-                    <div class="category-media">
+                	<c:forEach var="m" items="${ list }">
+                	<c:if test="${ m.official.cateCode eq cate.cateCode }">
+                    <div class="category-media" onclick="selectMedia(${ m.official.mediaNum })">
+                    	<c:if test="${ m.official.isPay eq 'Y' }">
                         <div class="media-pay-sign">유료</div>
-                        <img src="${ contextPath }/resources/images/official/category-media.jpg">
-                        <div class="media-title nanumsquare">BREAK THE SILENCE : THE MOVIE COMMENTARY</div>
-                        <div class="media-date nanumsquare">2021.03.21</div>
+                        </c:if>
+                        <c:if test="${ m.attachment.attMain eq 'Y' }">
+                        <img src="${ contextPath }/resources/images/official/${ m.attachment.attSvName }">
+                        </c:if>
+                        <div class="media-title nanumsquare">${ m.official.mediaTtl }</div>
+                        <div class="media-date nanumsquare">${ m.official.mediaDate }</div>
                     </div>
-                    <div class="category-media">
-                        <img src="${ contextPath }/resources/images/official/category-media.jpg">
-                        <div class="media-title nanumsquare">BREAK THE SILENCE : THE MOVIE COMMENTARY</div>
-                        <div class="media-date nanumsquare">2021.03.21</div>
-                    </div>
-                    <div class="category-media">
-                        <img src="${ contextPath }/resources/images/official/category-media.jpg">
-                        <div class="media-title nanumsquare">BREAK THE SILENCE : THE MOVIE COMMENTARY</div>
-                        <div class="media-date nanumsquare">2021.03.21</div>
-                    </div>
-                    <div class="category-media">
-                        <img src="${ contextPath }/resources/images/official/category-media.jpg">
-                        <div class="media-title nanumsquare">BREAK THE SILENCE : THE MOVIE COMMENTARYBREAK THE SILENCE : THE MOVIE COMMENTARYBREAK THE SILENCE : THE MOVIE COMMENTARY</div>
-                        <div class="media-date nanumsquare">2021.03.21</div>
-                    </div>
+                    </c:if>
+                    </c:forEach>
                 </div>
             </div>
-            <div class="category-container">
-                <div class="category-upper">
-                    <div class="category-title nanumsquare">BREAK THE SILENCE</div>
-                    <a href="${ contextPath }/official/media/list" class="category-link nanumsquare">전체 보기</a>
-                </div>
-                <div class="category-under">
-                    <div class="category-media">
-                        <img src="${ contextPath }/resources/images/official/category-media.jpg">
-                        <div class="media-title nanumsquare">BREAK THE SILENCE : THE MOVIE COMMENTARY</div>
-                        <div class="media-date nanumsquare">2021.03.21</div>
-                    </div>
-                    <div class="category-media">
-                        <img src="${ contextPath }/resources/images/official/category-media.jpg">
-                        <div class="media-title nanumsquare">BREAK THE SILENCE : THE MOVIE COMMENTARY</div>
-                        <div class="media-date nanumsquare">2021.03.21</div>
-                    </div>
-                    <div class="category-media">
-                        <img src="${ contextPath }/resources/images/official/category-media.jpg">
-                        <div class="media-title nanumsquare">BREAK THE SILENCE : THE MOVIE COMMENTARY</div>
-                        <div class="media-date nanumsquare">2021.03.21</div>
-                    </div>
-                    <div class="category-media">
-                        <img src="${ contextPath }/resources/images/official/category-media.jpg">
-                        <div class="media-title nanumsquare">BREAK THE SILENCE : THE MOVIE COMMENTARYBREAK THE SILENCE : THE MOVIE COMMENTARYBREAK THE SILENCE : THE MOVIE COMMENTARY</div>
-                        <div class="media-date nanumsquare">2021.03.21</div>
-                    </div>
-                </div>
-            </div>
-            <div class="category-container">
-                <div class="category-upper">
-                    <div class="category-title nanumsquare">BREAK THE SILENCE</div>
-                    <a href="${ contextPath }/official/media/list" class="category-link nanumsquare">전체 보기</a>
-                </div>
-                <div class="category-under">
-                    <div class="category-media">
-                        <img src="${ contextPath }/resources/images/official/category-media.jpg">
-                        <div class="media-title nanumsquare">BREAK THE SILENCE : THE MOVIE COMMENTARY</div>
-                        <div class="media-date nanumsquare">2021.03.21</div>
-                    </div>
-                    <div class="category-media">
-                        <img src="${ contextPath }/resources/images/official/category-media.jpg">
-                        <div class="media-title nanumsquare">BREAK THE SILENCE : THE MOVIE COMMENTARY</div>
-                        <div class="media-date nanumsquare">2021.03.21</div>
-                    </div>
-                    <div class="category-media">
-                        <img src="${ contextPath }/resources/images/official/category-media.jpg">
-                        <div class="media-title nanumsquare">BREAK THE SILENCE : THE MOVIE COMMENTARY</div>
-                        <div class="media-date nanumsquare">2021.03.21</div>
-                    </div>
-                    <div class="category-media">
-                        <img src="${ contextPath }/resources/images/official/category-media.jpg">
-                        <div class="media-title nanumsquare">BREAK THE SILENCE : THE MOVIE COMMENTARYBREAK THE SILENCE : THE MOVIE COMMENTARYBREAK THE SILENCE : THE MOVIE COMMENTARY</div>
-                        <div class="media-date nanumsquare">2021.03.21</div>
-                    </div>
-                </div>
-            </div>
-        </section>
+            </c:forEach>
         
         <script type="text/javascript">
-        /* 유료 상품 클릭 시 구매 유도 알럿창 */
-        $(".category-media img").click(function() {
-
+        /* 화면에 미디어를 4개 배치하기 위해 hide 처리 */
+        $(document).ready(function() {
+        });
+        
+        /* 미디어 클릭 시 */
+        function selectMedia(mediaNum) {
+        	var loginUser = ${ loginUser.classifyMem }
+        	
+        	/* 미디어가 유료일 때 */
+        	if($(this).childern('.media-pay-sign').text() == "유료") {
+        		
+        		/* 일반유저가 아니거나 멤버십 회원일 경우에는 상세페이지로 이동 */
+        		if(loginUser != 1 && (loginUser)) {
+            		location.href="${ contextPath }/official/media/detail?mediaNum=" + mediaNum;
+            		
+            	/* 멤버십에 가입하지 않은 회원은 구매 유도 알럿창 생성 */
+            	} else {
+            		
+            	} 
+        	}
+        	\
+			
             if($(this).siblings('.media-pay-sign').text() == "유료") {
-                if(confirm("해당 상품을 구매하시겠습니까?")) {
-                    if(confirm("상품이 정상적으로 장바구니에 담겼습니다.\n" + 
-                    "장바구니로 이동하시겠습니까?")) {           
-                    } 
-                }
+            	
+            	/* 멤버십 확인에 대한 ajax 처리 */ 
+            	$.ajax({
+            		url : "${ pageContext.request.contextPath }/official/media/main/membership",
+            		data : {}
+            		type : "post",
+            		dataType : "json",
+            		contentType : "application/json; charset=utf-8",
+            		success : function(data) {
+            			if(data == 'N') {
+            				if(confirm("해당 상품을 구매하시겠습니까?")) {
+            					
+            					
+                                if(confirm("상품이 정상적으로 장바구니에 담겼습니다.\n" + 
+                                "장바구니로 이동하시겠습니까?")) {           
+                                } 
+                            }
+            			}
+            		}
+            	});
+            	
+            	
+            	
+                
+            } else {
+            	location.href="${ contextPath }/official/media/detail?mediaNum=" + mediaNum;
             }
         });
+
         </script>
         
         <!-- 오른쪽 -->
