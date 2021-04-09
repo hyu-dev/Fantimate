@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="officialMapper">
+	<resultMap type="Official" id="mediaResultSet">
+		<id property="mediaNum" column="MEDIA_NUM"/>
+		<result property="mediaTtl" column="MEDIA_TTL"/>
+		<result property="mediaCtt" column="MEDIA_CTT"/>
+		<result property="mediaDate" column="MEDIA_DATE"/>
+		<result property="mediaStatus" column="MEDIA_STATUS"/>
+		<result property="isPay" column="IS_PAY"/>
+		<result property="cateCode" column="CATE_CODE"/>
+	</resultMap>
+	<resultMap type="Category" id="category">
+		<id property="cateCode" column="CATE_CODE"/>
+		<result property="cateName" column="CATE_NAME"/>
+		<result property="artiNameEn" column="ARTI_NAME_EN"/>
+	</resultMap>
+	<resultMap type="Attachment" id="attachResultSet">
+		<id property="attCode" column="ATT_CODE"/>
+		<result property="attRoot" column="ATT_ROOT"/>
+		<result property="attClName" column="ATT_CL_NAME"/>
+		<result property="attSvName" column="ATT_SV_NAME"/>
+		<result property="attStatus" column="ATT_STATUS"/>
+		<result property="refId" column="MEDIA_NUM"/>
+		<result property="attMain" column="IS_THUMB"/>
+	</resultMap>
+	<resultMap type="HitCount" id="hitCountResultSet">
+		<id property="mediaNum" column="MEDIA_NUM"/>
+		<result property="count" column="COUNT"/>
+		<result property="countDate" column="COUNT_DATE"/>
+	</resultMap>
+	<resultMap type="Schedule" id="scheduleResultSet">
+		<id property="artiNameEn" column="ARTI_NAME_EN"/>
+		<result property="scheDate" column="SCHE_DATE"/>
+		<result property="scheCtt" column="SCHE_CTT"/>
+		<result property="scheStatus" column="SCHE_STATUS"/>
+	</resultMap>
+	<resultMap type="MediaCollection" id="mediaCollResultSet">
+		<collection property="official" resultMap="mediaResultSet"/>
+		<collection property="category" resultMap="category"/>
+		<collection property="attachment" resultMap="attachResultSet"/>
+		<collection property="hitCount" resultMap="hitCountResultSet"/>
+	</resultMap>
+	
+	<select id="selectCategory" parameterType="string" resultMap="category">
+	SELECT 
+	       CATE_CODE
+	     , CATE_NAME
+	     , ARTI_NAME_EN
+	  FROM 
+	  	   M_CATEGORY
+	 WHERE 
+	       ARTI_NAME_EN = #{artiNameEn}
+	</select>
+	
+	<select id="selectAllMediaList" parameterType="string" resultMap="mediaCollResultSet">	
+	SELECT 
+	       MEDIA_NUM
+	     , MEDIA_TTL
+	     , MEDIA_CTT
+	     , MEDIA_DATE
+	     , MEDIA_STATUS
+	     , IS_PAY
+         , CATE_CODE
+         , CATE_NAME
+         , ARTI_NAME_EN
+	     , ATT_CODE
+	     , ATT_ROOT
+	     , ATT_CL_NAME
+	     , ATT_SV_NAME
+	     , ATT_STATUS
+	     , IS_THUMB
+	  FROM 
+	       MEDIA
+      JOIN
+           M_CATEGORY USING(CATE_CODE)
+	  JOIN
+	       MD_FILE USING(MEDIA_NUM)
+	 WHERE
+           ARTI_NAME_EN = #{artiNameEn}
+       AND
+       	   IS_THUMB = 'Y'
+       AND
+	       MEDIA_STATUS = 'Y'
+	   AND
+	       ATT_STATUS = 'Y'
+  ORDER BY 
+	       MEDIA_DATE DESC
+	</select>
+	
+	<select id="selectNewMediaList" parameterType="string" resultMap="mediaCollResultSet">
+	SELECT 
+		   *
+	  FROM (
+			SELECT 
+		           ROWNUM            
+			     , MEDIA_NUM
+			     , MEDIA_TTL
+			     , MEDIA_CTT
+			     , MEDIA_DATE
+			     , MEDIA_STATUS
+			     , IS_PAY
+		         , CATE_CODE
+		         , CATE_NAME
+		         , ARTI_NAME_EN
+			     , ATT_CODE
+			     , ATT_ROOT
+			     , ATT_CL_NAME
+			     , ATT_SV_NAME
+			     , ATT_STATUS
+			     , IS_THUMB
+			  FROM 
+			       MEDIA
+		      JOIN
+		           M_CATEGORY USING(CATE_CODE)
+			  JOIN
+			       MD_FILE USING(MEDIA_NUM)
+			 WHERE
+		           ARTI_NAME_EN = #{artiNameEn}
+		       AND
+		       	   IS_THUMB = 'Y'
+		       AND
+			       MEDIA_STATUS = 'Y'
+			   AND
+			       ATT_STATUS = 'Y'
+		  ORDER BY 
+			       MEDIA_DATE DESC
+		  )
+	 WHERE 
+           ROWNUM &lt; 5
+	</select>
+</mapper>

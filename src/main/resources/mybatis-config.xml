@@ -21,10 +21,14 @@
 		<typeAlias type="com.kh.fantimate.common.model.vo.Attachment" alias="Attachment"/>
 		<typeAlias type="com.kh.fantimate.main.model.vo.FavoriteArtist" alias="FavoriteArtist"/>
 		<typeAlias type="com.kh.fantimate.store.model.vo.Store" alias="Store"/>
-		<typeAlias type="com.kh.fantimate.common.model.vo.Attachment" alias="Attachment"/>
 		<typeAlias type="com.kh.fantimate.store.model.vo.StoreCollection" alias="StoreCollection"/>
 		<typeAlias type="com.kh.fantimate.store.model.vo.StoreCategory" alias="StoreCategory"/>
 		<typeAlias type="com.kh.fantimate.store.model.vo.Wish" alias="Wish"/>
+		<typeAlias type="com.kh.fantimate.official.model.vo.Official" alias="Official"/>
+		<typeAlias type="com.kh.fantimate.official.model.vo.MediaCategory" alias="Category"/>
+		<typeAlias type="com.kh.fantimate.official.model.vo.HitCount" alias="HitCount"/>
+		<typeAlias type="com.kh.fantimate.official.model.vo.MediaCollection" alias="MediaCollection"/>
+		<typeAlias type="com.kh.fantimate.official.model.vo.Schedule" alias="Schedule"/>
 		<typeAlias type="com.kh.fantimate.main.model.vo.MainCollection" alias="MainCollection"/>
 		<typeAlias type="com.kh.fantimate.main.model.vo.SubscribeArtist" alias="SubscribeArtist"/>
 		<typeAlias type="com.kh.fantimate.store.model.vo.StoreInfo" alias="StoreInfo"/>
@@ -37,6 +41,7 @@
 	<mappers>
 		<mapper resource="mappers/member-mapper.xml"/>
 		<mapper resource="mappers/store-mapper.xml"/>
+		<mapper resource="mappers/official-mapper.xml"/>
 		<mapper resource="mappers/main-mapper.xml"/>
 		<mapper resource="mappers/pay-mapper.xml"/>
 	</mappers>
