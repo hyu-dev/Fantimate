@@ -29,6 +29,8 @@
 		<typeAlias type="com.kh.fantimate.main.model.vo.SubscribeArtist" alias="SubscribeArtist"/>
 		<typeAlias type="com.kh.fantimate.store.model.vo.StoreInfo" alias="StoreInfo"/>
 		<typeAlias type="com.kh.fantimate.store.model.vo.Review" alias="Review"/>
+		<typeAlias type="com.kh.fantimate.pay.model.vo.Cart" alias="Cart"/>
+		<typeAlias type="com.kh.fantimate.pay.model.vo.CartCollection" alias="CartCollection"/>
 	</typeAliases>
 	
 	<!-- mappers -->
@@ -36,5 +38,6 @@
 		<mapper resource="mappers/member-mapper.xml"/>
 		<mapper resource="mappers/store-mapper.xml"/>
 		<mapper resource="mappers/main-mapper.xml"/>
+		<mapper resource="mappers/pay-mapper.xml"/>
 	</mappers>
 </configuration>

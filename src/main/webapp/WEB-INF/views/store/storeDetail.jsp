@@ -14,41 +14,53 @@
     <link rel="stylesheet" href="${ contextPath }/resources/css/store/storeDetail.css">
     <link rel="icon" type="image/png" sizes="16x16" href="${ contextPath }/resources/icon/faviconF.png">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
     <title>Fantimate</title>
 </head>
-<body>
+<body>  
+	<c:if test="${ !empty loginUser }">
 	<jsp:include page="storeInsert.jsp"/>
 	<!-- 네비바 인클루드 -->
 	<jsp:include page="../common/navbar.jsp"/>
 	<section class="main-section">
 		<section class="left-contents">
             <article class="main-photo-area">
+            	<!-- 메인 사진 -->
             	<c:forEach var="attList" items="${ sc }">
-            	<c:if test="${ attList.att.attMain eq 'Y' }">
-                <img src="${ contextPath }/resources/uploadFiles/${ attList.att.attSvName }" alt="">
-                </c:if>
+	            	<c:if test="${ attList.att.attMain eq 'Y' }">
+	                <img class="main-img" src="${ contextPath }/resources/uploadFiles/${ attList.att.attSvName }" alt="">
+	                </c:if>
                 </c:forEach>
-                <img class="photo-icon ddim" src="${ contextPath }/resources/icon/heart.png" alt="">
-                <c:if test="${ sc.get(0).store.isView eq 'Y' }">
+                <!-- 찜아이콘 -->
+                <c:choose>
+                	<c:when test="${ wish.isWish eq 'Y' }">
+	                <img class="photo-icon ddim" src="${ contextPath }/resources/icon/heart-pink.png" alt="">
+	                </c:when>
+	                <c:otherwise>
+	                <img class="photo-icon ddim" src="${ contextPath }/resources/icon/heart.png" alt="">
+	                </c:otherwise>
+                </c:choose>
+                <!-- 축소된 뷰 영역 -->
                 <div class="is-view">
                 	<c:forEach var="attList" items="${ sc }">
                 	<img class="small-img" src="${ contextPath }/resources/uploadFiles/${ attList.att.attSvName }" alt="">
                 	</c:forEach>
                 </div>
-                </c:if>
             </article>
             <article class="product-guide">
                 <div class="guide">${ sc.get(0).store.info }</div>
             </article>
+            <c:if test="${ sc.get(0).store.isView eq 'Y' }">
             <div class="sub-photo-area">
             	<c:forEach var="attList" items="${ sc }">
-            	<c:if test="${ attList.att.attMain eq 'N' }">
-                <article class="sub-photo">
-                    <img src="${ contextPath }/resources/uploadFiles/${ attList.att.attSvName }" alt="">
-                </article>
-                </c:if>
+	            	<c:if test="${ attList.att.attMain eq 'N' }">
+	                <article class="sub-photo">
+	                    <img src="${ contextPath }/resources/uploadFiles/${ attList.att.attSvName }" alt="">
+	                </article>
+	                </c:if>
                 </c:forEach>
             </div>
+            </c:if>
             <div class="product-information">
                 <div class="product-title">
                     <p>상세정보</p>
@@ -152,47 +164,57 @@
 		 <c:set var="discountPrice" value="${ sc.get(0).store.qprice * (1 - sc.get(0).store.discount/100) }"/>
          <section class="right-contents">
              <table>
+             	 <colgroup>
+             	 	<col width="25%">
+             	 	<col width="25%">
+             	 	<col width="25%">
+             	 	<col width="25%">
+             	 </colgroup>
                  <tr>
-                     <td colspan="4">${ artiName }</td>
+                     <td colspan="3">${ artiName }</td>
+                     <td colspan="1"><a href="${ contextPath }/store/storeList">목록으로</a></td>
                  </tr>
                  <tr>
                      <td colspan="4">${ sc.get(0).store.pname }</td>
                  </tr>
                  <tr>
                      <td colspan="1">
-                     <c:if test="">
+                     <c:if test="${ user.isMembership eq 'Y' }">
                      	\ <fmt:formatNumber type="number" value="${ discountPrice }"/>
                      </c:if>
-                     <c:if test="false">
+                     <c:if test="${ user.isMembership eq 'N' }">
                      	\ <fmt:formatNumber type="number" value="${ price }"/>
                      </c:if>
                      </td>
                      <td colspan="3">
-                     	<c:if test="">
                      	<s>\ <fmt:formatNumber type="number" value="${ price }"/></s>
-                     	<span>&nbsp;&nbsp; ${ sc.get(0).store.discount }% D.C.</span>
-                     	</c:if>
+                     	<span>
+                     		&nbsp;&nbsp; ${ sc.get(0).store.discount }% D.C.
+                     		<c:if test="${ user.isMembership eq 'N' }">
+                     		(멤버십전용 : \ <fmt:formatNumber type="number" value="${ discountPrice }"/>)
+                     		</c:if>
+                     	</span>
                      </td>
                  </tr>
                  <tr>
                      <td colspan="4">
                          <div>
-                             <p>${ sc.get(0).store.pname }</p>
-                             <div class="quantity">
-                                <button class="minus-btn">-</button>
-                                <p class="product-quantity">1</p>
-                                <button class="plus-btn">+</button>
-                            </div>
+                            <p>${ sc.get(0).store.pname }</p>
+                            <div class="quantity">
+                               <button class="minus-btn">-</button>
+                               <p class="product-quantity">1</p>
+                               <button class="plus-btn">+</button>
+                           </div>
                          </div>
                      </td>
                  </tr>
                  <tr>
                      <td colspan="2">TOTAL</td>
                      <td colspan="2">
-                     	<c:if test="">
+                     	<c:if test="${ user.isMembership eq 'Y' }">
 	                    	\ <fmt:formatNumber type="number" value="${ discountPrice }"/>
 	                    </c:if>
-	                    <c:if test="false">
+	                    <c:if test="${ user.isMembership eq 'N' }">
 	                     	\ <fmt:formatNumber type="number" value="${ price }"/>
 	                    </c:if>
                      	<span>(1개)</span>
@@ -200,42 +222,58 @@
                  </tr>
                  <tr>
                      <td colspan="4">
-                         <button>바로 구매하기</button>
+                     	<c:if test="${ loginUser.classifyMem eq 1 }">
+                        <button class="buy">바로 구매하기</button>
+                        </c:if>
+                        <c:if test="${ loginUser.classifyMem eq 2 }">
+                        <button class="update-store">수정하기</button>
+                        </c:if>
                      </td>
                  </tr>
                  <tr>
+                 	 <c:if test="${ loginUser.classifyMem eq 1 }">
                      <td colspan="2">
-                         <button>찜하기</button>
+                   	 <c:choose>
+                    	<c:when test="${ wish.isWish eq 'Y' }">
+                        <button class="enroll-wish-btn">찜등록해제</button>
+                        </c:when>
+                        <c:otherwise>
+                        <button class="enroll-wish-btn">찜등록</button>
+                        </c:otherwise>
+                   	 </c:choose>
                      </td>
                      <td colspan="2">
-                         <button>장바구니 담기</button>
+                         <button class="insert-cart">장바구니 담기</button>
                      </td>
+                     </c:if>
                  </tr>
              </table>
              <h4 class="recommand-title">추천 상품</h4>
              <div class="recommand">
+             	<c:forEach var="recmd" items="${ recmd }" varStatus="status">
+             	<c:if test="${ status.index < 2 && recmd.store.pcode != sc.get(0).store.pcode }">
                 <article>
+                	<input type="hidden" value="${ recmd.store.pcode }">
                     <div>
-                        <img src="${ contextPath }/resources/images/store/btsGoods2.png" alt="">
+                        <img src="${ contextPath }/resources/uploadFiles/${ recmd.att.attSvName }" alt="">
                     </div>
                     <aside>
-                        <p>BTS캐릭터 피규어 에어팟 wefwefwefwefef</p>
-                        <b>\ 19,900</b>
+                        <p>${ recmd.store.pname }</p>
+                        <b>\ <fmt:formatNumber type="number" value="${ recmd.store.qprice }"/></b>
                     </aside>
                 </article>
-                <article>
-                    <div>
-                        <img src="${ contextPath }/resources/images/store/btsGoods3.png" alt="">
-                    </div>
-                    <aside>
-                        <p>BTS캐릭터 굿즈 페이스컬we wefwef</p>
-                        <b>\ 28,900</b>
-                    </aside>
-                </article>
+                </c:if>
+                </c:forEach>
              </div>
          </section>
 	</section>
 	<script>
+		// 왼쪽 컨텐츠 메인 사진의 작은 사진 클릭시
+		$(".small-img").click(function() {
+			var url = $(this).attr("src");
+			$(".main-img").attr("src", url);
+		});
+		
 		// 왼쪽 컨텐츠 하단 버튼 클릭시
 		$(".product-title p").click(function() {
 		    $(".product-title p").css("color", "#E5D2D2");
@@ -282,16 +320,21 @@
 		    console.log($(".review:nth-of-type(1)").css("display"))
 		})
 	
-	
-	
 		// 오른쪽 컨텐츠 
-		// 수량 클릭시
 		let quantity = 0;
+		let price = 0;
+		let memberShip = '';
+		// 수량 클릭시
+		$(function() {
+			memberShip = "${ user.isMembership }";
+		    memberShip == "N" ? price = "${ price }" : price = "${ discountPrice }";
+		});
 		// 마이너스 버튼
 		$('.minus-btn').click(function() {
 		    $(".right-contents tr:nth-of-type(5) td:last-of-type").text("")
 		    quantity = parseInt($(this).siblings('.product-quantity').text());
-		    let price = 14900;  // 임시 가격 (데이터 바인딩시 해당 금액으로)
+		    let memberShip = "${ user.isMembership }";
+		    memberShip == "N" ? price = "${ price }" : price = "${ discountPrice }";
 		    if($(this).siblings('.product-quantity').text() > 1) {
 		        quantity -= 1;
 		        $(this).siblings('.product-quantity').text(quantity);
@@ -306,7 +349,8 @@
 		$('.plus-btn').click(function() {
 		    $(".right-contents tr:nth-of-type(5) td:last-of-type").text("")
 		    quantity = parseInt($(this).siblings('.product-quantity').text());
-		    let price = 14900;  // 임시 가격 (데이터 바인딩시 해당 금액으로)
+		    let memberShip = "${ user.isMembership }";
+		    memberShip == "N" ? price = "${ price }" : price = "${ discountPrice }";
 		    quantity += 1;
 		    $(this).siblings('.product-quantity').text(quantity);
 		    price = price * quantity;
@@ -321,39 +365,47 @@
 		}
 	
 		// 오른쪽 컨텐츠 찜하기 버튼 클릭시
-		let flag = true;
-		$("tr:nth-of-type(7) td:first-of-type").click(function() {
-		    if(flag == true) {
+		$(".enroll-wish-btn").click(function() {
+		    if($(".enroll-wish-btn").text() == "찜등록") {
+		    	location.href="${contextPath}/store/enroll/wish";
 		        alert("찜목록에 등록되었습니다")
-		        $(".ddim").attr("src", "${ contextPath }/resources/icon/heart-pink.png")
-		        flag = false;
+		        $(".enroll-wish-btn").text("찜등록해제");
 		    } else {
+		    	location.href="${contextPath}/store/cancel/wish";
 		        alert("찜목록에서 제거되었습니다")
-		        $(".ddim").attr("src", "${ contextPath }/resources/icon/heart.png")
-		        flag = true;
+		        $(".enroll-wish-btn").text("찜등록");
 		    }
 		})
 	
 		// 오른쪽 컨텐츠 장바구니 담기 클릭시
-		$("tr:nth-of-type(7) td:last-of-type").click(function() {
+		$(".insert-cart").click(function() {
+			var salesQ = $(".product-quantity").text();
+			location.href="${contextPath}/store/insert/cart?salesQ=" + salesQ + "&price=" + price;
 		    if(confirm("장바구니에 담겼습니다. 장바구니로 이동하시겠습니까?")) {
-		        location.href = "../pay/cart.html";
-		    } else {
-	
+		        location.href = "${contextPath}/pay/cart";
 		    }
 		})
 	
 		// 오른쪽 컨텐츠 바로구매하기 클릭시
-		$("tr:nth-of-type(6) td").click(function() {
-		    alert("결제를 위해 장바구니페이지로 이동합니다");
-		    location.href="../pay/cart.html";
+		$(".buy").click(function() {
+		    // 결제 API 호출
+		    console.log("결제 API 호출")
 		})
 	
 		// 추천 상품 클릭시
 		$(".recommand article").click(function() {
-		    console.log("추천 상품 상세페이지로 이동")
+			var pcode = $(this).children("input").val();
+			location.href='${ contextPath }/store/detail?pcode=' + pcode;
 		})
-
 	</script>
+	</c:if>
+	<c:if test="${ empty loginUser }">
+	<script>
+		$(function() {
+			alert("로그인을 해주세요");
+			location.href="${contextPath}/main"
+		})
+	</script>
+	</c:if>
 </body>
 </html>

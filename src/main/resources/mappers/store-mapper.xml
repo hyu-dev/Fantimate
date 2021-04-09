@@ -243,7 +243,16 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		 WHERE
 		 		P_CODE = #{pcode}
 	</select>
-	<insert id="insertCart" parameterType="hashMap">
+	<select id="isEnrollCart" parameterType="Cart" resultType="_int">
+		SELECT
+				COUNT(*)
+		  FROM
+		  		CART
+		 WHERE
+		 		ID = #{id}
+		   AND  P_CODE = #{pcode}
+	</select>
+	<insert id="insertCart" parameterType="Cart">
 		INSERT
 		INTO CART
 		(
@@ -259,8 +268,8 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		VALUES
 		(
 			SEQ_CART.NEXTVAL
-		  , 1
-		  , #{price}
+		  , #{buyQ}
+		  , #{buyPrice}
 		  , DEFAULT
 		  , SYSDATE
 		  , DEFAULT
@@ -268,6 +277,17 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		  , #{id}
 		)
 	</insert>
+	<update id="updateCart" parameterType="Cart">
+		UPDATE
+				CART
+		   SET
+		   		BUY_Q = BUY_Q + #{buyQ}
+		   	  , B_PRICE = B_PRICE + #{buyPrice}
+		   	  , ENROLL_DATE = SYSDATE
+		 WHERE
+		 		ID = #{id}
+		   AND  P_CODE = #{pcode}
+	</update>
 	<insert id="insertStoreCategory" parameterType="StoreCollection">
 		INSERT
 		INTO S_CATEGORY
@@ -404,7 +424,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
         WHERE
                 P_CODE = #{pcode}
 		   AND  IS_ACTIVE = 'Y'
-	  ORDER BY  RV_CODE DESC
+	  ORDER BY  IS_MAIN_ATT DESC
 	</select>
 	<update id="updateReadCount" parameterType="string">
 		UPDATE
@@ -414,4 +434,16 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		 WHERE
 		 		P_CODE = #{pcode}
 	</update>
+	<select id="selectWish" parameterType="Wish" resultMap="wishResultSet">
+		SELECT
+				P_CODE
+			  , WISH_DATE
+			  , IS_WISH
+			  , ID
+		  FROM
+		  		S_WISH
+		 WHERE
+		 		ID = #{id}
+		   AND	P_CODE = #{code}
+	</select>
 </mapper>

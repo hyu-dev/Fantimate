@@ -9,8 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kh.fantimate.common.model.vo.Attachment;
+import com.kh.fantimate.pay.model.vo.Cart;
 import com.kh.fantimate.store.model.vo.StoreCategory;
 import com.kh.fantimate.store.model.vo.StoreCollection;
+import com.kh.fantimate.store.model.vo.Wish;
 
 @Repository
 public class StoreDaoImpl implements StoreDao {
@@ -68,11 +70,6 @@ public class StoreDaoImpl implements StoreDao {
 	}
 
 	@Override
-	public int insertCart(Map<String, String> map) {
-		return sqlSession.insert("storeMapper.insertCart", map);
-	}
-
-	@Override
 	public void insertStoreCategory(StoreCollection sc) {
 		sqlSession.insert("storeMapper.insertStoreCategory", sc);
 	}
@@ -102,6 +99,28 @@ public class StoreDaoImpl implements StoreDao {
 		sqlSession.selectList("storeMapper.updateReadCount", pcode);
 	}
 
-	
+	@Override
+	public Wish selectWish(String userId, String pcode) {
+		Wish w = new Wish();
+		w.setId(userId);
+		w.setCode(Integer.parseInt(pcode));
+		return sqlSession.selectOne("storeMapper.selectWish", w);
+	}
+
+	@Override
+	public int isEnrollCart(Cart c) {
+		return sqlSession.selectOne("storeMapper.isEnrollCart", c);
+	}
+
+	@Override
+	public int insertCart(Cart c) {
+		return sqlSession.insert("storeMapper.insertCart", c);
+	}
+
+	@Override
+	public int updateCart(Cart c) {
+		return sqlSession.update("storeMapper.updateCart", c);
+	}
+
 
 }

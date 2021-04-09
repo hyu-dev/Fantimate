@@ -154,7 +154,7 @@
 			// ajax 호출
 			callAjax(clickMe, url);
 		    if(confirm('장바구니에 등록되었습니다. 이동하시겠습니까?')) {
-		        location.href='../pay/cart.html';
+		    	location.href = "${contextPath}/pay/cart";
 		    }
 		})
 	
@@ -291,6 +291,10 @@
 	        		console.log(e);
 	        	}
 	        });
+		}
+		// 숫자 3 단위마다 콤마찍기
+		function numberWithCommas(x) {
+		    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 		}
 	</script>
 	</c:if>
