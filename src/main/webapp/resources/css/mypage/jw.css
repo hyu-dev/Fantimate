@@ -1,0 +1,1036 @@
+
+/* 재우 */
+button{
+    outline: 0;
+}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Yoon Minguk;
+    text-decoration: none;
+}
+body{
+    /* background-color: #FCEAE5; */
+}
+/* 공통 클래스 */
+.font-30{font-size: 30px;}
+.font-16{font-size: 16px;}
+.color-pink{color: #F4D4D4;}
+.backcolor-pink{color: #F4D4D4;}
+.mypage-Btn-align-center{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.mypage-Btn-align-right{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+/* .mypageBtn{
+    border-radius: 30px;
+    font-weight: 700;
+    border: none;
+} */
+
+#mypageUserProfile{
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    /* border: 1px solid rgb(235, 235, 235); */
+    border-bottom: 2px solid #C4C4C4;
+}
+
+/* #mypageWrap{
+    background-color: fff;
+} */
+
+#mypageUserProfile #mypageUserProfileWrap{
+    min-width: 700px;
+    width: 1000px;
+    height: 256px;
+    display: flex;
+    /* border: 1px solid black; */
+}
+/* 프로필이미지 감쌈 */
+#mypageUserProfileWrap #mypageUserProfileImgDiv{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-left: 14px;
+    height : 100%;
+}
+/* 프로필 이미지 */
+#mypageUserProfileImgDiv #mypageUserProfileImg{
+    width: 200px;
+    height: 200px;
+    border-radius: 8px;
+}
+
+#mypageUserProfileWrap #mypageUserProfileImgDivRight{
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-direction: column;
+    margin-left: 42px;
+}
+#mypageUserProfileImgDivRightRight{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: center;
+    align-items: flex-end;
+}
+/*프로필 버튼*/
+.mypage-btn-pink-14{
+    width: 123px;
+    height: 32px;
+    border: 0px;
+    background: #F4D4D4;
+    border-radius: 30px;
+    font-size: 14px;
+    font-weight: 700;
+}
+.mypage-btn-blueblack-14{
+    width: 123px;
+    height: 32px;
+    border: 0px;
+    background: #5C5F78;
+    border-radius: 30px;
+    font-size: 14px;
+    font-weight: 700;
+    color: #FFFFFF;
+}
+/* MyPage_User컨텐츠영역 */
+#mypageUserSection{
+    margin-top: 40px;
+    display: flex;
+    justify-content: center;
+    min-width: 1200px;
+}
+
+#mypageUserSection #mypageUserContent{
+    width: 680px;
+    min-height: 800px;
+    display: flex;
+    flex-direction: column;
+}
+
+#mypageUserContentDiv{
+    padding: 0 30px 80px 30px;
+    width: 100%;
+    flex-basis: 350px;
+    border: 1px solid #C4C4C4;
+    border-radius: 8px;
+    height: auto;
+    position: relative;
+}
+
+/* #mypageUserContentDivTitle{ */
+    #mypageUserContentDiv > h2{
+    margin : 36px 36px 30px 6px;
+    width: 200px;
+    font-weight: 700;
+}
+
+#mypageUserContentDiv > .toggle-area{
+    width: auto;
+    height: auto;
+    position: absolute;
+    right: 30px;
+    top: 30px;
+}
+
+#mypageUserContentDiv .mypage-friend-list{
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 17px;
+    letter-spacing: 0em;
+    text-align: right;
+    display: inline-block;
+    width: 90px;
+}
+
+/* Subscribes */
+/* 하나하나의 구독목록 div */
+.mypage-content-subscribes,
+.mypage-content-friends{
+    /* border-top: 1px solid #C4C4C4; */
+    border-bottom: 1px solid #C4C4C4;
+    display: flex;
+    align-items: center;
+    height: 50px;
+    
+}
+.mypage-content-subscribes > img,
+.mypage-content-friends > img{
+    margin-left: 10px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50px;
+
+}
+.mypage-content-subscribes > h3,
+.mypage-content-friends > h3{
+    width: 470px;/* 버튼 밀기위해..*/
+    margin-left: 10px;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 14px;
+    line-height: 17px;
+}
+.mypage-content-subscribes > button,
+.mypage-content-friends > button,
+#mypageUserCommentsRight > button{
+    width: 84px;
+    height: 24px;
+    border: none;
+
+    background: #F4D4D4;
+    border-radius: 30px;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 14px;
+}
+.mypage-content-friends > button + button{
+    margin-left: 15px;
+    background: #5C5F78;
+    color: #FFFFFF;
+}
+
+/* Dibs */
+.mypage-content-dibs{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+/* 찜 목록 하나하나 리스트 div */
+.mypage-content-dibs-one{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 182px;
+    height: 224px;
+    border: 1px solid #C4C4C4;
+    box-sizing: border-box;
+    border-radius: 8px;
+
+    margin-bottom: 30px;
+}
+.mypage-content-dibs-one > img{
+    width: 155px;
+    height: 155px;
+}
+.mypage-content-dibs-one > h3{
+    font-size: 18px;
+    text-align: center;
+    margin-top: 8px;
+}
+
+#mypageMenu{
+    width: 380px;
+    height: 480px;
+    margin-left: 108px;
+    border: 1px solid #828282;
+    border-radius: 10px;
+    position:sticky;
+    top:100px;
+}
+/* 마이페이지 버튼 div */
+#mypageMenuBtn{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+/* 메뉴 상단에 MENU글씨 */
+#mypageMenuTop{
+    font-size: 17px;
+    position: relative;
+    left: 167px;
+    bottom: 13px;
+    z-index: 1;
+    /* background-color: white; */
+    /* justify-content: center; */
+    /* align-items: center; */
+}
+#mypageMenuTop::before{
+    color: #FCEAE5;
+    content: "";
+    width: 100px;
+    height: 100%;
+    left: -27px;
+    background-color: #FBF6F6;
+    z-index: -1;
+    position: absolute;
+    /* border: 1px solid black; */
+}
+
+.mypage-menu-Btn{
+    
+    width: 320px;
+    height: 50px;
+    left: 48px;
+    top: 109px;
+    margin-bottom: 14px;
+
+    border: 1px solid #C4C4C4;
+    box-sizing: border-box;
+    border-radius: 8px;
+    /* 버튼배경 */
+    /* background-color: #FCEAE5; */
+    background-color: #FBF6F6;
+    /* background-color: rgba( 255, 255, 255, 0.5 ); */
+    background-image: none;
+    border-color: #C4C4C4;
+    color: black;
+}
+.mypage-menu-Btn:hover{
+    background-color: #FCEAE5;
+}
+
+
+
+/* 팝업창 버튼 */
+/* 핑크색 */
+.mypage-pop-Btn-pink{
+    width: 100px;
+    height: 28px;
+    font-size: 16px;
+    background-color: #F4D4D4;
+    border:none;
+    margin-right: 16px;
+}
+/* 네이비 */
+.mypage-pop-Btn-navi{
+    width: 100px;
+    height: 28px;
+    font-size: 16px;
+    background-color: #5C5F78;
+    color: #FFFFFF;
+    border:none;
+}
+    
+/* 회원정보수정 */
+#mypageUserUpdate{
+    width: 670px;
+    height: 459px;
+    border: 1px solid black;
+    padding: 34px 50px 15px 50px;
+    background-color: #FFFFFF;
+}
+#mypageUserUpdate > h2{
+    font-weight: bold;
+    font-size: 23px;
+    border-bottom: 1px black solid;
+    height: 42px;
+}
+
+#mypageUserUpdateContents,
+#mypageAgencySignInContents{
+    display: flex;
+}
+
+#mypageUserUpdateLeft{
+    display: inline-block;
+    
+    width: 117px;
+    height: 310px;
+}
+#mypageUserUpdateLeft > img{
+    width: 100px;
+    height: 100px;
+    margin-top: 52px;
+}
+#mypageUserUpdateLeft > button{
+    width: 100px;
+    height: 26px;
+    margin-top: 6px;
+    font-size: 16px;
+    background: #C1C1C1;
+    border: none;
+}
+
+#mypageUserUpdateMiddle{
+    padding-top : 38.5px;
+    display: flex;
+    flex-direction: column;
+    /* display: inline-block; */
+}
+#mypageUserUpdateMiddle > label{
+    font-size: 16px;
+    text-align: right;
+    font-weight: bold;
+    font-family: Yoon Minguk;
+    margin-bottom: 25.1px;
+}
+
+
+#mypageAgencySignIn{
+    padding-top : 33.5px;
+    display: flex;
+    flex-direction: column;
+    /* display: inline-block; */
+    height: 310px;
+}
+#mypageAgencySignIn > label{
+    font-size: 16px;
+    text-align: right;
+    font-weight: bold;
+    font-family: Yoon Minguk;
+    margin-bottom: 21.5px;
+}
+
+#mypageUserUpdateRight{
+    display: flex;
+    flex-direction: column;
+    padding-top: 27px;
+    height: 310px;
+}
+#mypageUserUpdateRight input{
+    width: 320px;
+    height: 32px;
+    margin: 5px 10px 8px 27px;
+    border: 1px #D8D8D8 solid;
+    padding-left: 5px;
+}
+
+/* My Comments 마이코멘트 */
+.mypage-content-comments{
+    display: flex;
+    width: 650px;
+    height: auto;
+    padding: 5px;
+}
+#mypageUserCommentsLeft{
+    display: flex;
+    flex-wrap: wrap;
+    width: 530px;
+    height: 100%;
+    max-height: 90px;
+    margin-right: 16px;
+}
+#mypageUserCommentsLeft > img{
+    width: 25px;
+    height: 25px;
+}
+#mypageUserCommentsLeft > span{
+    margin-left: 5px;
+    color: black;
+    font-weight: bold;
+    height: 25px;
+}
+#mypageUserCommentsLeft :nth-child(3){
+    color:#828282;
+    height: 25px;
+}
+#mypageUserCommentsLeft :nth-child(4){
+    margin-top: 4px;
+    color:#828282;
+    font-size: 12px;
+    width: 370px;
+    height: 21px;
+    
+    font-weight: normal;
+}
+#mypageUserCommentsLeft :nth-child(5){
+    font-weight: normal;
+
+    height: 56px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow:hidden;
+}
+#mypageUserCommentsRight{
+    display: flex;
+    align-items: center;
+}
+
+/* Payments */
+.mypage-content-payment{
+    width: 620px;
+    height: auto;
+    min-height: 140px;
+}
+#mypageUserPay,
+#mypageUserFanstore{
+    
+    width: 100%;
+    min-width: 620px;
+    height: 54px;
+    font-size: 12px;
+    padding: 10px;
+    text-align: center;
+}
+
+.mypage-content-fanstore > div{
+    display: flex;
+    justify-content: flex-end;
+}
+#mypageUserPay button,
+#mypageDeleteBtn{
+    width: 67px;
+    height: 22px;
+    font-size: 10px;
+    background: #F4D4D4;
+    border-radius: 30px;
+    border: none;
+    margin-bottom: 5px;
+}
+
+#mypageUserPay img{
+    width:60px;
+    height: 60px;
+}
+/*유저 결제리스트테이블*/
+#mypageUserPay tr:first-child th:nth-child(1){
+    width: 61px;
+}
+#mypageUserPay tr:first-child th:nth-child(2){
+    width: 225px;
+}
+#mypageUserPay tr:first-child th:nth-child(3){
+    width: 51px;
+}
+#mypageUserPay tr:first-child th:nth-child(4){
+    width: 44px;
+}
+#mypageUserPay tr:first-child th:nth-child(5){
+    width: 75px;
+}
+
+#mypageUserPay td:nth-child(2){
+    width : 65px;
+}
+#mypageUserPay td:nth-child(3){
+    width : 160px;
+}
+.mypage-content-payment > table th:nth-child(5){
+
+    width: 90px;
+} 
+/* 팬스토어 테이블 */
+#mypageUserFanstore th:nth-child(1){
+    width: 20px;
+}
+#mypageUserFanstore th:nth-child(2){
+    width: 52px;
+}
+#mypageUserFanstore th:nth-child(3){
+    width: 304px;
+}
+#mypageUserFanstore th:nth-child(4){
+    width: 76px;
+}
+#mypageUserFanstore th:nth-child(5){
+    width: 97px;
+}
+#mypageUserFanstore th:nth-child(6){
+    width: 35px;
+}
+
+
+.mypage-user-pay-btn-div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+/* 재우 Admin */
+#mypageAdminSection{
+    height: auto;
+    display: flex;
+    justify-content: center;
+}
+#mypageAdminMenuDiv{
+    /* border: 1px solid black; */
+    display: flex;
+    width: 100px;
+    height: 300px;
+    flex-direction: column;
+    margin: 230px 72px 0 0;
+}
+#mypageAdminMenuDiv h2{
+    margin-bottom: 30px;
+}
+#mypageAdminMenuDiv li{
+    list-style-type: none;
+}
+#mypageAdminMenuDiv li:hover{
+    list-style-type: none;
+}
+
+#mypageAdminMenuDiv a{
+		
+	cursor : pointer;
+    padding: 10px 0;
+    width: 100%;
+    display: block;
+    color: #333;
+}
+#mypageContent{
+    min-width: 1000px;
+    min-height: 1010px;
+    margin: 0 0;
+    padding: 172px 0;
+   
+}
+#mypageContent >h3{
+    font-size: 36px;
+    margin-bottom: 18px;
+}
+
+/* 결제내역 테이블 */
+#mypageAdminpaylist,
+#mypageAdminReportlist,
+#mypageAdminNotice,
+#mypageAdminManage{
+    width: 100%; 
+    border-collapse: collapse;
+    /* min-height: 200px; */
+    text-align: center;
+    border-bottom: 1px solid #CCCCCC;
+    line-height : 1.8;  /*테이블크기*/
+    font-size: 14px;
+}
+#mypageAdminpaylist thead,
+#mypageAdminReportlist thead,
+#mypageAdminNotice thead,
+#mypageAdminManage thead{
+    background-color: #5C5F78;
+    color: #FFFFFF;
+}
+#mypageAdminpaylist thead tr,
+#mypageAdminReportlist thead tr,
+#mypageAdminNotice thead tr,
+#mypageAdminManage thead tr{
+    height: 50px;
+} 
+/* 상세크기 */
+#mypageAdminpaylist th:nth-child(1){
+    width: 90px;
+}
+#mypageAdminpaylist th:nth-child(2){
+    width: 120px;
+}
+#mypageAdminpaylist th:nth-child(3){
+    width: 80px;
+}
+#mypageAdminpaylist th:nth-child(4){
+    width: 250px;
+}
+#mypageAdminpaylist th:nth-child(5){
+    width: 80px;
+}
+#mypageAdminpaylist th:nth-child(6){
+    width: 80px;
+}
+#mypageAdminpaylist th:nth-child(7){
+    width: 80px;
+}
+/* -------------상세크기 끝 */
+
+#mypageAdminpaylist tbody td,
+#mypageAdminReportlist tbody td,
+#mypageAdminNotice tbody td,
+#mypageAdminManage tbody td{
+    margin-top: 10px;
+    line-height: 50px;
+}
+
+
+/* Admin 신고 */
+#mypageAdminReportlist{
+     /* table-layout:fixed; */
+}
+#mypageAdminReportlist th:nth-child(1){
+    width: 120px;
+}
+#mypageAdminReportlist th:nth-child(2){
+    width: 100px;
+}
+#mypageAdminReportlist th:nth-child(3){
+    width: 100px;
+}
+#mypageAdminReportlist th:nth-child(4){
+    width: 400px;
+    /* table-layout:fixed; */
+    text-overflow:ellipsis; overflow:hidden; white-space:nowrap;    /*...처리*/
+
+}
+#mypageAdminReportlist th:nth-child(5){
+    width: 100px;
+}
+#mypageAdminReportlist th:nth-child(6){
+    width: 100px;
+}
+
+/* 관리자 공지사항 */
+/* #mypageAdminNotice{
+
+} */
+#mypageAdminNotice th:nth-child(1){
+    width: 105px;
+}
+#mypageAdminNotice th:nth-child(2){
+    width: 715px;
+}
+#mypageAdminNotice th:nth-child(3){
+    width: 140px;
+}
+/* 공지사항은 왼쪽정렬 */
+#mypageAdminNotice td:nth-child(2){
+    text-align: left;
+}
+/* 글쓰기 */
+#mypageAdminNotice+button {
+    width: 90px;
+    height: 32px;
+    color: #FFFFFF;
+    font-size: 14px;
+    background-color: #5C5F78;
+    border-radius: 30px;
+    border:none;
+    margin: 15px 0 0 900px ;
+    text-align: center;
+}
+/* 관리자 공지사항 DetailView */
+#NoticeDetailWrap{
+   min-height: 700px;
+
+}
+/* 공지사항 제목 */
+#NoticeDetailWrap > h3{
+    width: 1000px;
+    height: 100px;
+    font-size: 24px;
+    background: #EBEBEB;
+    display: flex;
+    align-items: center;
+    padding-left: 20px;
+    border-bottom: 1px solid #B0B0B0;
+    border-top: 1px solid #B0B0B0;
+}
+
+#NoticeDetailWrap > h4{
+    text-align: end;
+    margin: 17px 0 17px 0;
+}
+#NoticeDetailWrap pre{
+    font-size: 16px;
+    /* text-align: start; */
+}
+#NoticeDetailWrap
+#NoticeDetailContent{
+    padding: 30px;
+    border-top: 1px solid #CCCCCC;
+    border-bottom: 1px solid #CCCCCC;
+}
+#NoticePre,
+#NoticeNext{
+    border-top: 2px solid #D9D7D7;
+    border-bottom: 2px solid #D9D7D7;
+    height: 51px;
+    display: flex;
+    align-items: center;
+    padding-left: 20px;
+}
+#NoticePre b,
+#NoticeNext b{
+    padding-right: 10px;
+}
+
+/* 버튼 div */
+#NoticeDetailWrap > .mypage-Btn-align-right{
+    padding-top: 24px;
+    
+}
+
+/* 버튼색 */
+#NoticeDetailWrap > .mypage-Btn-align-right button{
+    width: 100px;
+    height: 35px;
+    font-size: 14px;
+    margin-right: 14px;
+    border-radius: 30px;
+    background: #5C5F78;
+    border: none;
+    color: #FFFFFF;
+}
+
+
+/* 회원관리*/
+/* #mypageAdminManage{} */
+#mypageAdminManage th:nth-child(1){
+    width: 105px;
+}
+#mypageAdminManage th:nth-child(2){
+    width: 117px;
+}
+#mypageAdminManage th:nth-child(3){
+    width: 180px;
+}
+#mypageAdminManage th:nth-child(4){
+    width: 160px;
+}
+#mypageAdminManage th:nth-child(5){
+    width: 130px;
+}
+#mypageAdminManage th:nth-child(6){
+    width: 130px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* 팝업시작 */
+/* 환불 내역 + 환불신청 */
+#mypageRefundApp{
+    height: 537px;
+    width: 412px;
+    border: 1px solid #000;
+    background: #fbf6f6;
+    padding: 25px 35px 50px;
+    font-family: Yoon Minguk;
+}
+#mypageRefundApp h2,
+#mypageReportDetail h2{
+    text-align: center;
+}
+#mypageRefundApp label,
+#mypageReportDetail label{
+    display: flex;
+    justify-content: space-between;
+}
+#mypageRefundApp input,
+#mypageReportDetail input{
+    width: 270px;
+    height: 27px;
+    background: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 6px;
+}
+.mypage-refund-detail 
+textarea{
+    width: 270px;
+    height: 200px;
+    border: none;
+    border-radius: 5px;
+    background: #fff;
+    padding: 6px;
+    
+    font-size: 14px;
+    resize: none;
+}
+.mypage-refund-detail-in{
+    margin-top: 30px;
+}
+.mypage-refund-detail-in label{
+    margin-top: 10px;
+}
+.mypage-refund-detail-in input{
+    font-size: 14px;
+    overflow:hidden;
+    text-overflow:ellipsis; /*...처리*/
+}
+#mypageRefundApp .mypage-Btn-align-center,
+.mypage-refund-detail .mypage-Btn-align-center{ 
+    display: flex;
+    justify-content: center;
+    margin-top: 41px;
+}
+
+/* 신고 상세내역 */
+#mypageReportDetail{
+    /* .신고{ */
+    border: 1px solid #000;
+    background: #fbf6f6;
+    width: 538px;
+    height: 607px;
+    padding: 25px 69px 50px 35px;
+}
+
+/* 소속사 정보 등록*/
+/* 팝업떄매 추가된 div */
+#mypageAdminSignInWrap{
+z-index: 1;
+width: 100%;
+height: 100vmax;
+position: absolute;
+display: none;
+}
+
+#mypageAdminSignIn{
+    height: 512px;
+    width: 670px;
+    margin : 0 auto;
+	top: 100px;
+    
+    border: 1px solid black;
+    padding: 34px 50px;
+    background-color: #FFFFFF;
+    
+    /*팝업창때매 추가*/
+    display: none;
+    position: relative;
+	z-index: 2;
+	
+	display: none;
+}
+.mypagebground{
+	background: rgba(0, 0, 0, 0.6);
+}
+#mypageAdminSignIn > form > h2{
+    font-weight: bold;
+    font-size: 23px;
+    border-bottom: 1px black solid;
+    height: 42px;
+}
+
+ #mypageAdminSignIn .mypage-Btn-align-center {
+    margin-top: 22px;
+}
+
+
+/* 토글키 */
+.toggle-area {
+    width: 100px;
+    height: auto;
+    /* border: 2px solid red; */
+    position: absolute;
+    right: 13px;
+    top: 30px;
+}
+
+.toggle-switch {
+    --width: 80px;
+    --height: 40px;
+    --padding: 3px;
+    --handle-size: calc(var(--height) - var(--padding) * 2);
+    display: inline-block;
+    outline-width: 0;
+  }
+  
+  .toggle-switch > input {
+    position: absolute;
+    clip: rect(1px, 1px, 1px, 1px);
+    clip-path: inset(50%);
+    height: 1px;
+    width: 1px;
+    margin: -1px;
+    overflow: hidden;
+  }
+  
+  .area {
+    padding: 4px;
+    margin: -4px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    /* border: 2px solid red; */
+  }
+
+  .area p {
+      margin: 0;
+      padding: 1px 3px 0;
+      font-size: 13px;
+     position: absolute;
+     right: 13px;
+     font-family: "Wemakeprice-bold";
+  }
+  
+  .background,
+  .handle,
+  .area p {
+    transition: all 0.3s ease;
+  }
+  
+  .background {
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    width: var(--width);
+    height: var(--height);
+    border-radius: var(--height);
+    padding: 0 var(--padding);
+    vertical-align: text-bottom;
+    user-select: none;
+    background-color: #ebebeb;
+    box-shadow: inset 0px 0px 5px 2px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    transition: background-color .15s ease;
+    cursor: pointer;
+  }
+
+  
+  .handle {
+    width: var(--handle-size);
+    height: var(--handle-size);
+    background-color: white;
+    border-radius: 50%;
+    box-shadow:
+      0 2px 4px rgba(0, 0, 0, 0.5),
+      inset 0 2px 4px rgba(0, 0, 0, 0.15);
+  }
+  input:checked + label .area .background {
+    background-color: #5C5F78;
+  }
+  
+  input:checked + label .area .handle {
+    /* background-color: white; */
+    transform: translateX(calc(var(--width) - var(--handle-size)));
+  }
+
+  input:checked + label .area p {
+    position: absolute;
+    left: 12px;
+    color: white;
+  }
+
+  /* 토글키 끝---------------- */

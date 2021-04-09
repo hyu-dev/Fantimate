@@ -4,12 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.kh.fantimate.common.model.vo.Attachment;
+import com.kh.fantimate.pay.model.vo.Cart;
 import com.kh.fantimate.store.model.vo.StoreCategory;
 import com.kh.fantimate.store.model.vo.StoreCollection;
+import com.kh.fantimate.store.model.vo.Wish;
 
 public interface StoreService {
 	// 스토어 리스트 호출
-	public List<StoreCollection> selectStoreList(int cateCode);
+	public List<StoreCollection> selectStoreList(String cateName);
 	
 	// 카테고리 리스트 호출
 	public List<StoreCategory> selectcategoryList(String arti);
@@ -32,6 +35,15 @@ public interface StoreService {
 	// 상품가격 찾아오기
 	public String searchPrice(int pcode);
 
-	// 장바구니에 인서트하기
-	public int insertCart(Map<String, String> map);
+	// 장바구니에 등록하기
+	public int insertCart(Cart c);
+
+	// 스토어 입력하기
+	public int insertStore(StoreCollection sc, List<Attachment> attList);
+
+	// 스토어 상세정보 불러오기
+	public List<StoreCollection> selectStore(String pcode, boolean b);
+
+	// 유저 찜여부 확인
+	public Wish selectWish(String userId, String pcode);
 }
