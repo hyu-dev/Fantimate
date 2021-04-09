@@ -255,6 +255,8 @@ html, body {
     padding-bottom: 20px;
     padding-right: 20px;
     border : none;
+    cursor : pointer;
+    
 
 }
 
@@ -321,6 +323,44 @@ html, body {
 }
 
 .add-photo-img {
+    width: 132px;
+    height: 132px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border: none;
+}
+
+.add-photo1 {
+    width: 132px;
+    height: 132px;
+    background: #ebebeb;
+    position: relative;
+    margin-left: 10%;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.add-photo1-img {
+    width: 132px;
+    height: 132px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border: none;
+}
+
+.add-photo2 {
+    width: 132px;
+    height: 132px;
+    background: #ebebeb;
+    position: relative;
+    margin-left: 10%;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.add-photo2-img {
     width: 132px;
     height: 132px;
     position: absolute;

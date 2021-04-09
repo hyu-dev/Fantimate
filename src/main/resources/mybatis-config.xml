@@ -23,11 +23,13 @@
 		<typeAlias type="com.kh.fantimate.store.model.vo.StoreCategory" alias="StoreCategory"/>
 		<typeAlias type="com.kh.fantimate.store.model.vo.Wish" alias="Wish"/>
 		<typeAlias type="com.kh.fantimate.store.model.vo.StoreInfo" alias="StoreInfo"/>
+		<typeAlias type="com.kh.fantimate.feed.model.vo.Feed" alias="Feed"/>
 	</typeAliases>
 	
 	<!-- mappers -->
 	<mappers>
 		<mapper resource="mappers/member-mapper.xml"/>
 		<mapper resource="mappers/store-mapper.xml"/>
+		<mapper resource="mappers/fanfeed-mapper.xml"/>
 	</mappers>
 </configuration>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="fanfeedMapper">
+	<resultMap id="fanfeedResultSet" type="Feed">
+		<id property="fid" column="BID"/>
+		<result property="ftype" column="BTYPE"/>
+		<result property="fcontent" column="BCONTENT"/>
+		<result property="fcreate" column="BCREATE"/>
+		<result property="fmodify" column="BMODIFY"/>
+		<result property="flike" column="BLIKE"/>
+		<result property="fstatus" column="BSTATUS"/>
+		<result property="writer" column="ID"/>
+		<result property="artiName" column="ARTI_NAME_EN"/>
+	</resultMap>
+	
+	<resultMap type="Attachment" id="attResultSet">
+		<id property="attCode" column="ATT_CODE"/>
+		<result property="attRoot" column="ATT_ROOT"/>
+		<result property="attClName" column="ATT_CL_NAME"/>
+		<result property="attSvName" column="ATT_SV_NAME"/>
+		<result property="attStatus" column="ATT_STATUS"/>
+		<result property="attMain" column="IS_MAIN_ATT"/>
+		<result property="refId" column="P_CODE"/>
+	</resultMap>
+	
+	<!-- 게시글 등록 -->
+	<insert id="insertFeed" parameterType="Feed">
+		INSERT
+		INTO BOARD
+		(
+						BID
+					,	BTYPE
+					,	BCONTENT
+					,	BCREATE
+					,	BMODIFY
+					,	BLIKE
+					,	BSTATUS
+					,	ID
+					,	ARTI_NAME_EN	
+		)
+		VALUES
+		(
+					SEQ_BOARD.NEXTVAL
+				,	'F'
+				,	#{fcontent}
+				,	SYSDATE
+				,	SYSDATE
+				,	DEFAULT
+				,	DEFAULT
+				,	#{writer}
+				,	#{artiName}
+		)
+	</insert>
+	
+	<!-- 게시글 사진 등록 -->
+	<insert id="insertFeedAtt">
+		INSERT 
+		INTO ATT_BOARD
+		(
+					BPID
+				,	BP_PATH
+				,	BP_OGNAME
+				,	BP_CHNAME
+				,	AB_STATUS
+				,	BID		
+		)
+		VALUES
+		(
+					SEQ_ATT_BOARD.NEXTVAL
+				,	DEFAULT
+				,	#{originalFileName}
+		  		, 	#{renameFileName}
+		  		,	DEFAULT
+		  		,	SEQ_BOARD.CURRVAL		
+		)
+	</insert>
+	
+
+</mapper>
