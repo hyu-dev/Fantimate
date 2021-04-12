@@ -22,5 +22,21 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		 		ID = #{id}
 	</select>
 
-	<insert id="insertAgency" parameterType="Agency"></insert>
+	<insert id="insertAgency" parameterType="Agency">
+		INSERT
+		INTO AGENCY
+		(
+		       AG_ID
+		     , AG_NUM
+		     , AG_PHONE
+		     , AG_EMAIL
+		)
+		VALUES
+		( 
+			#{agId}
+		  , #{agNum}
+		  , #{agPhone}
+		  , #{agEmail}
+		)		
+	</insert>
 </mapper>

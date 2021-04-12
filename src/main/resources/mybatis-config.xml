@@ -45,6 +45,7 @@
 		<mapper resource="mappers/store-mapper.xml"/>
 		<mapper resource="mappers/fanfeed-mapper.xml"/>
 		<mapper resource="mappers/notice-mapper.xml"/>
+		<mapper resource="mappers/mypage1-mapper.xml"/>
 		<mapper resource="mappers/official-mapper.xml"/>
 		<mapper resource="mappers/main-mapper.xml"/>
 		<mapper resource="mappers/pay-mapper.xml"/>

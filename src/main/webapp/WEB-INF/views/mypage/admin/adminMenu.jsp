@@ -30,13 +30,36 @@
 			<li><a onclick="javascript:location.href='${contextPath}/mypage/admin/paylist'">결제내역</a></li>
 		</ul>
 	</div>
+	
+	 <!-- 메시지 -->
+	 <c:if test="${ !empty msg }">
+		 <c:choose>
+			 <c:when test="${ msg eq 'success'}">
+				<script>
+					alert("회원가입이 완료되었습니다!");
+					
+					$(document).ready(function() {
+						$(this).closest("#mypageAdminSignInWrap").fadeOut();
+						//$(this).fadeOut();
+						console.log("닫기버튼");
+					});
+				</script>
+			</c:when>
+			 <c:otherwise>
+			 	<script>
+				    alert("회원가입 실패!");
+			    </script>
+			 </c:otherwise>
+		</c:choose>
+	</c:if>
+	
 	<script>
 	$(document).ready(function(){
-		$("#mypageAdminMenuDiv li:eq(5)").click(function(){
-			console.log("정상클릭");
-			//alert(${loginUser});
-			//alert(Member(id=admin, pwd=1234, name=관리자, status=Y, signupDate=Tue Mar 30 17:29:18 KST 2021, classifyMem=4));
-		});
+// 		$("#mypageAdminMenuDiv li:eq(5)").click(function(){
+// 			console.log("정상클릭");
+// 			//alert(${loginUser});
+// 			//alert(Member(id=admin, pwd=1234, name=관리자, status=Y, signupDate=Tue Mar 30 17:29:18 KST 2021, classifyMem=4));
+// 		});
 		
 	});
 	</script>

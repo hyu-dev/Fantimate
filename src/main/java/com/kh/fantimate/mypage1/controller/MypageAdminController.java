@@ -96,12 +96,14 @@ public class MypageAdminController {
 				// 가입 완료 로직
 				if(result1 > 0 && result2 > 0) {
 					System.out.println("정상회원가입");
+					model.addAttribute("msg", "success");
 				}else {
 					System.out.println("Agency 등록 실패");
 				}
 			
 			}else {
 				System.out.println("아이디가 중복 되었습니다.");
+				model.addAttribute("msg", "fail");
 			}
 			
 			

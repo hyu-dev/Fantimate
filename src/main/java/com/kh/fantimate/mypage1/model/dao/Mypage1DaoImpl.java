@@ -33,8 +33,7 @@ public class Mypage1DaoImpl implements Mypage1Dao{
 
 	@Override
 	public int insertAgency(Agency agency) {
-		int result = sqlSession.insert("mypage1Mapper.insertAgency", agency);
-		return result;
+		return sqlSession.insert("mypage1Mapper.insertAgency", agency);
 	}
 
 }
