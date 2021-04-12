@@ -143,14 +143,14 @@
 	
 	<header class="main-header">
         <nav class="main-nav">
-            <p class="main-logo">FANTIMATE</p>
+            <p class="main-logo" onclick="location.href='${contextPath}'">FANTIMATE</p>
             <c:choose>
 	            <c:when test="${ !empty sessionScope.loginUser}">
 		            <div class="main-menu">
 		                <!-- 회원가입 버튼 생성전 예시 -->
 		                <img src="${ contextPath }/resources/icon/user.svg" alt="" class="nav-icon">
 		                <img src="${ contextPath }/resources/icon/alarm.svg" alt="" class="nav-icon" id="alarm-icon" onclick="alarmList()">
-		                <img src="${ contextPath }/resources/icon/cart.svg" alt="" class="nav-icon">
+		                <img src="${ contextPath }/resources/icon/cart.svg" alt="" class="nav-icon" onclick="location.href='${contextPath}/pay/cart'">
 		                <img src="${ contextPath }/resources/icon/email.svg" alt="" class="nav-icon" id="mail-icon" onclick="mailList()">
 		                <img src="${ contextPath }/resources/icon/more.svg" alt="" class="nav-icon" onclick="etcList()">
 		            </div>
@@ -488,6 +488,8 @@
                 <ul class="etc-area">
                     <li class="etc-content" id="langSetting" onclick="langSetting()">언어 설정</li>
                     <li class="etc-content" id="fanStore">팬 스토어</li>
+                    <li class="etc-content" id="notice">공지사항</li>
+                    <li class="etc-content" id="logout">로그아웃</li>
                 </ul>
             </div>
         </section>

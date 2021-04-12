@@ -5,6 +5,9 @@ import java.util.Map;
 
 import com.kh.fantimate.common.model.vo.Attachment;
 import com.kh.fantimate.main.model.vo.FavoriteArtist;
+import com.kh.fantimate.member.model.vo.Admin;
+import com.kh.fantimate.member.model.vo.Agency;
+import com.kh.fantimate.member.model.vo.Artist;
 import com.kh.fantimate.member.model.vo.ArtistGroup;
 import com.kh.fantimate.member.model.vo.Member;
 import com.kh.fantimate.member.model.vo.User;
@@ -29,8 +32,20 @@ public interface MemberService {
 	// 6. 아이디 중복 체크 
 	public boolean checkId(String id);
 
-	// 7. 회원 로그인 
+	// 7. 공통 회원 select
 	public Member loginMember(Member m);
+
+	// 7_1. 일반 유저 로그인 
+	public User loginUser(String id);
+	
+	// 7_2. 소속사 로그인
+	public Agency loginAgency(String id);
+
+	// 7_3. 아티스트 로그인
+	public Artist loginArtist(String id);
+
+	// 7_4. 관리자 로그인
+	public Admin loginAdmin(String id);
 
 
 }

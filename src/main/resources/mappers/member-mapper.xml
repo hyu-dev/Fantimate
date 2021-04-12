@@ -32,6 +32,34 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<result property="uProfile" column="U_PROFILE"/>
 	</resultMap>
 	
+	<!-- 소속사 -->
+	<resultMap type="Agency" id="agencyResultSet">
+		<id property = "agId" column="AG_ID"/>
+		<result property="agNum" column="AG_NUM"/>
+		<result property="agPhone" column="AG_PHONE"/>
+		<result property="agEmail" column="AG_EMAIL"/>
+	</resultMap>
+	
+	<!-- 아티스트 -->
+	<resultMap type="Artist" id="artistResultSet">
+		<id property = "artiId" column="ARTI_ID"/>
+		<result property="artiName" column="ARTI_ONE_NAME"/>
+		<result property="artiNickname" column="NICKNAME"/>
+		<result property="artiFacebook" column="FACEBOOK"/>
+		<result property="artiInsta" column="INSTAGRAM"/>
+		<result property="artiTwitter" column="TWITTER"/>
+		<result property="artiDailymsg" column="DAILY_MSG"/>
+		<result property="isTeam" column="IS_TEAM"/>
+		<result property="agencyId" column="ID"/>
+		<result property="artiNameEn" column="ARTI_NAME_EN"/>
+	</resultMap>
+	
+	<!-- 관리자 -->
+	<resultMap type="Admin" id="adminResultSet">
+		<id property = "adId" column="AD_ID"/>
+		<result property="authLv" column="AUTH_LV"/>
+	</resultMap>
+	
 	<!-- 기본 유저 프로필 -->
 	<resultMap type="Attachment" id="userProfileResultSet">
 		<id property = "attCode" column="UP_CODE"/>
@@ -171,4 +199,70 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	    AND 
 	 	    STATUS = 'Y' 
 	</select>
+	
+	<!-- 유저 테이블 select -->
+	<select id="selectUser" parameterType="User" resultMap="userResultSet">
+		SELECT 
+	          U_ID
+	        , U_ADD
+	        , U_EMAIL
+	        , U_COUNTRY
+	        , AREA_REGISTER
+	        , AREA_CERTIFY
+	        , AREA_CODE
+	        , IS_MEMBERSHIP
+	        , U_PAID_START
+	        , U_PAID_END
+	        , U_SUSPEND_START
+	        , U_SUSPEND_END
+	        , U_PROFILE
+		FROM 
+		     USER_
+		WHERE
+		     U_ID = #{id}
+	</select>
+	
+	<!-- 소속사 테이블 select -->
+	<select id="selectAgency" parameterType="Agency" resultMap="agencyResultSet">
+		SELECT
+		       AG_ID
+		     , AG_NUM
+		     , AG_PHONE
+		     , AG_EMAIL
+		FROM 
+		      AGENCY
+		WHERE 
+		      AG_ID = #{id}
+	</select>
+	
+	<!-- 아티스트 테이블 select -->
+	<select id="selectArtist" parameterType="Artist" resultMap="artistResultSet">
+	SELECT
+	         ARTI_ID
+	       , ARTI_ONE_NAME
+	       , NICKNAME
+	       , FACEBOOK
+	       , INSTAGRAM
+	       , TWITTER
+	       , DAILY_MSG
+	       , IS_TEAM
+	       , ID
+	       , ARTI_NAME_EN
+	FROM 
+	      ART_PERSON
+	WHERE 
+	      ARTI_ID = #{id}
+	</select>
+	
+	<!-- 관리자 테이블 select -->
+	<select id="selectAdmin" parameterType="Admin" resultMap="adminResultSet">
+	SELECT
+		   AD_ID
+		 , AUTH_LV
+ 	 FROM
+ 	 	   ADMIN
+ 	 WHERE
+ 	 	   AD_ID = #{id}
+	</select>
+	
 </mapper>

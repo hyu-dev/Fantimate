@@ -15,11 +15,10 @@ import lombok.ToString;
 @ToString
 public class Official {
 	private int mediaNum;      		// 미디어 번호
-	private String category;   		// 카테고리
 	private String mediaTtl;   		// 제목
 	private String mediaCtt;   		// 내용
 	private Date mediaDate;     	// 등록일
-	private String isBmarked;   	// 북마크 여부
 	private String mediaStatus;   	// 활성화 여부
-	private String artiNameEn;   	// 아티스트 등록명(영어)
+	private String isPay;			// 유료상품 여부
+	private String cateCode;		// 카테고리 코드
 }

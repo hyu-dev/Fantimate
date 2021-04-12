@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
+<c:set var="contextPath" value="${ pageContext.servletContext.contextPath }" scope="application" />
 <!DOCTYPE html>
 <html>
 <head>
@@ -25,56 +26,143 @@
 	<jsp:include page="navSearch.jsp"></jsp:include>
 	 <!-- 메인 페이지 -->
     <section class="mainPage-section">
-        <div class="mainPage-artistList">
-            <div class="artistList-move" onclick="subscribePage()">            
+        <!-- 로그인 했을 경우에 관심아티스트 + 그외 아티스트 리스트 보이기 / 안 했을 경우 전체 리스트 / 로그인한 유저가 관리자, 소속사, 아티스트일때 전체 리스트 보이게-->
+        <c:if test="${ empty sessionScope.loginUser}">
+        <div id="mainPage-wholeList" class="artists-L">
+        <!-- ajax -->
+        </div>
+        <script>
+        $(function(){
+        	// onload 직후 호출
+        	artistWholeList();
+        	// 5초에 1번씩 topList function 호출
+			//setInterval(topList, 5000);
+        })
+        
+        function artistWholeList(){
+        	$.ajax({
+        		url: "${contextPath}/main/artistWholeList",
+        		dataType : "json",
+        		success : function(data){
+        			console.log(data);
+        			
+        			artistList = $("#mainPage-wholeList");
+        			artistList.html("");
+        			
+        			 for(var i in data){
+        				 artistList.append("<div class='artistList-move' onclick='subscribePage()'><img src='${ contextPath }/resources/images/main/"+ data[i].att.attSvName +"' alt='' class='artist-pic'><span class='artist-name'>"+ data[i].artG.artNameEn +"</span></div>");
+        				 //console.log(data[i].artNameEn);
+        			 }
+        			
+        			
+        		},
+        		error : function(e){
+					alert("code : " + e.status + "\n"
+							+ "message : " + e.responseText);
+				}
+        		
+        	});
+        	
+        }
+        
+        function subscribePage(){
+        	alert("로그인을 해야 구독 가능합니다!")
+        }
+        </script>
+        </c:if>
+        
+        <c:if test="${ !empty sessionScope.loginUser}">
+        <!-- 전체 아티스트 리스트 (상단에는 loginUser 관심아티스트 3명 -->
+    	<div id="mainPage-artistFavList" class="artists-L">
+    	</div>
+        <div id="mainPage-artistList" class="artists-L">
+           <!-- ajax로 전체 아티스트 리스트 뿌려주기 -->
+           <%--  <div class="artistList-move" onclick="subscribePage()">            
                 <img src="${ contextPath }/resources/images/main/artist1.svg" alt="" class="artist-pic">
                 <span class="artist-name">Alexander 23</span>
-            </div>
-            <div class="artistList-move">
-                <img src="${ contextPath }/resources/images/main/artist2.svg" alt="" class="artist-pic">
-                <span class="artist-name">Alexander 23</span>
-            </div>
-            <div class="artistList-move">
-                <img src="${ contextPath }/resources/images/main/artist3.svg" alt="" class="artist-pic">
-                <span class="artist-name">Alexander 23</span>
-            </div>
-            <div class="artistList-move">
-                <img src="${ contextPath }/resources/images/main/artist4.svg" alt="" class="artist-pic">
-                <span class="artist-name">Alexander 23</span>
-            </div>
-            <div class="artistList-move">
-                <img src="${ contextPath }/resources/images/main/artist5.svg" alt="" class="artist-pic">
-                <span class="artist-name">Alexander 23</span>
-            </div>
-            <div class="artistList-move">
-                <img src="${ contextPath }/resources/images/main/artist6.svg" alt="" class="artist-pic">
-                <span class="artist-name">Alexander 23</span>
-            </div>
-            <div class="artistList-move">
-                <img src="${ contextPath }/resources/images/main/artist7.svg" alt="" class="artist-pic">
-                <span class="artist-name">Alexander 23</span>
-            </div>
-            <div class="artistList-move">
-                <img src="${ contextPath }/resources/images/main/artist8.svg" alt="" class="artist-pic">
-                <span class="artist-name">Alexander 23</span>
-            </div>
-            <div class="artistList-move">
-                <img src="${ contextPath }/resources/images/main/artist9.svg" alt="" class="artist-pic">
-                <span class="artist-name">Alexander 23</span>
-            </div>
-            <div class="artistList-move">
-                <img src="${ contextPath }/resources/images/main/artist10.svg" alt="" class="artist-pic">
-                <span class="artist-name">Alexander 23</span>
-            </div>
-            <div class="artistList-move">
-                <img src="${ contextPath }/resources/images/main/artist11.svg" alt="" class="artist-pic">
-                <span class="artist-name">Alexander 23</span>
-            </div>
-            <div class="artistList-move">
-                <img src="${ contextPath }/resources/images/main/artist12.svg" alt="" class="artist-pic">
-                <span class="artist-name">Alexander 23</span>
-            </div>
+            </div> --%>
         </div>
+        <!-- 1. 관심아티스트 3개 상단에 -->
+        <script>
+        $(function(){
+        	// onload 직후 호출
+        	artistFavList();
+        	// 5초에 1번씩 topList function 호출
+			//setInterval(topList, 5000);
+        })
+        
+        function artistFavList(){
+        	$.ajax({
+        		url: "${contextPath}/main/artistFavList",
+        		dataType : "json",
+        		success : function(data){
+        			console.log(data);
+        			
+        			artistList = $("#mainPage-artistFavList");
+        			artistList.html("");
+        			
+        			 for(var i in data){
+        				 artistList.append("<div class='artistList-move2' onclick='subScribe(" + "\"" + data[i].artG.artNameEn + "\"" + ")'><img src='${ contextPath }/resources/images/main/"+ data[i].att.attSvName +"' alt='' class='artist-pic'><span class='artist-name'>"+ data[i].artG.artNameEn +"</span><img src='${ contextPath }/resources/icon/heart-pink.png' alt='' class='fav-img'></div>");
+        				// <img src="${ contextPath }/resources/icon/heart-pink.png" alt="" class="like-img">
+
+        			 }
+        			
+        			
+        		},
+        		error : function(e){
+					alert("code : " + e.status + "\n"
+							+ "message : " + e.responseText);
+				}
+        		
+        	});
+        	
+        }
+        // 구독 아티스트 창 열기
+        function subScribe(artNameEn){
+			location.href='${contextPath}/main/subscribe?artNameEn=' + artNameEn;
+        }
+        </script>
+        
+        <!-- 2. 관심 아티스트 제외한 전체 리스트 -->
+        <script>
+        $(function(){
+        	// onload 직후 호출
+        	artistAllList();
+        	// 5초에 1번씩 topList function 호출
+			//setInterval(topList, 5000);
+        })
+        
+        // 전체 아티스트 조회해서 메인에 뿌려줌
+        function artistAllList(){
+        	$.ajax({
+        		url: "${contextPath}/main/artistList",
+        		dataType : "json",
+        		success : function(data){
+        			console.log(data);
+        			
+        			artistList = $("#mainPage-artistList");
+        			artistList.html("");
+        			
+        			 for(var i in data){
+        				 artistList.append("<div class='artistList-move' onclick='subScribe(" + "\"" + data[i].artG.artNameEn + "\"" + ")'><img src='${ contextPath }/resources/images/main/"+ data[i].att.attSvName +"' alt='' class='artist-pic'><span class='artist-name'>"+ data[i].artG.artNameEn +"</span></div>");
+        			 }
+        			
+        			
+        		},
+        		error : function(e){
+					alert("code : " + e.status + "\n"
+							+ "message : " + e.responseText);
+				}
+        		
+        	});
+        	
+        }
+     	// 구독 아티스트 창 열기
+        function subScribe(artNameEn){
+			location.href='${contextPath}/main/subscribe?artNameEn=' + artNameEn;
+        }
+        </script>
+        </c:if>
         
         <!-- 아티스트 인기 게시물 (좋아요 순)-->
         <div class="mainPage-artistFeed">
@@ -109,7 +197,7 @@
                                     </div>
                                     <!-- 좋아요 갯수 -->
                                     <div class="like-info">
-                                        <img src="${ contextPath }/resources/images/main/like.svg" alt="" class="like-img">
+                                        <img src="${ contextPath }/resources/icon/heart-pink.png" alt="" class="like-img">
                                         <p class="like-count">1,200</p>
                                     </div>
                                 </div>
@@ -127,7 +215,7 @@
                                         <p class="profile-name">SUNMI</p>
                                     </div>
                                     <div class="like-info">
-                                        <img src="${ contextPath }/resources/images/main/like.svg" alt="" class="like-img">
+                                        <img src="${ contextPath }/resources/icon/heart-pink.png" alt="" class="like-img">
                                         <p class="like-count">1,200</p>
                                     </div>
                                 </div>
@@ -157,7 +245,7 @@
                                         <p class="profile-name">SUNMI</p>
                                     </div>
                                     <div class="like-info">
-                                        <img src="${ contextPath }/resources/images/main/like.svg" alt="" class="like-img">
+                                        <img src="${ contextPath }/resources/icon/heart-pink.png" alt="" class="like-img">
                                         <p class="like-count">1,200</p>
                                     </div>
                                 </div>
@@ -189,7 +277,7 @@
                                         </div>
                                         <!-- 좋아요 갯수 -->
                                         <div class="like-info">
-                                            <img src="${ contextPath }/resources/images/main/like.svg" alt="" class="like-img">
+                                            <img src="${ contextPath }/resources/icon/heart-pink.png" alt="" class="like-img">
                                             <p class="like-count">1,200</p>
                                         </div>
                                     </div>
@@ -207,7 +295,7 @@
                                             <p class="profile-name">SUNMI</p>
                                         </div>
                                         <div class="like-info">
-                                            <img src="${ contextPath }/resources/images/main/like.svg" alt="" class="like-img">
+                                            <img src="${ contextPath }/resources/icon/heart-pink.png" alt="" class="like-img">
                                             <p class="like-count">1,200</p>
                                         </div>
                                     </div>
@@ -237,7 +325,7 @@
                                             <p class="profile-name">SUNMI</p>
                                         </div>
                                         <div class="like-info">
-                                            <img src="${ contextPath }/resources/images/main/like.svg" alt="" class="like-img">
+                                            <img src="${ contextPath }/resources/icon/heart-pink.png" alt="" class="like-img">
                                             <p class="like-count">1,200</p>
                                         </div>
                                     </div>
@@ -269,7 +357,7 @@
                                     </div>
                                     <!-- 좋아요 갯수 -->
                                     <div class="like-info">
-                                        <img src="${ contextPath }/resources/images/main/like.svg" alt="" class="like-img">
+                                        <img src="${ contextPath }/resources/icon/heart-pink.png" alt="" class="like-img">
                                         <p class="like-count">1,200</p>
                                     </div>
                                 </div>
@@ -287,7 +375,7 @@
                                         <p class="profile-name">SUNMI</p>
                                     </div>
                                     <div class="like-info">
-                                        <img src="${ contextPath }/resources/images/main/like.svg" alt="" class="like-img">
+                                        <img src="${ contextPath }/resources/icon/heart-pink.png" alt="" class="like-img">
                                         <p class="like-count">1,200</p>
                                     </div>
                                 </div>
@@ -317,7 +405,7 @@
                                         <p class="profile-name">SUNMI</p>
                                     </div>
                                     <div class="like-info">
-                                        <img src="${ contextPath }/resources/images/main/like.svg" alt="" class="like-img">
+                                        <img src="${ contextPath }/resources/icon/heart-pink.png" alt="" class="like-img">
                                         <p class="like-count">1,200</p>
                                     </div>
                                 </div>

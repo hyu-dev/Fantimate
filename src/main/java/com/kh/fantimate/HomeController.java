@@ -19,7 +19,9 @@ public class HomeController {
 	
 	@RequestMapping(value = "/main", method = RequestMethod.GET)
 	public String indexPage() {
-		return "common/main";
+		return "official/media/main";
 	}
+	
+	
 	
 }

@@ -9,6 +9,9 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.fantimate.common.model.vo.Attachment;
 import com.kh.fantimate.main.model.vo.FavoriteArtist;
+import com.kh.fantimate.member.model.vo.Admin;
+import com.kh.fantimate.member.model.vo.Agency;
+import com.kh.fantimate.member.model.vo.Artist;
 import com.kh.fantimate.member.model.vo.ArtistGroup;
 import com.kh.fantimate.member.model.vo.Member;
 import com.kh.fantimate.member.model.vo.User;
@@ -54,6 +57,26 @@ public class MemberDaoImpl implements MemberDao{
 	@Override
 	public Member selectMember(Member m) {
 		return sqlSession.selectOne("memberMapper.selectMember",m);
+	}
+
+	@Override
+	public User selectLoginUser(String id) {
+		return sqlSession.selectOne("memberMapper.selectUser",id);
+	}
+
+	@Override
+	public Agency selectLoginAgency(String id) {
+		return sqlSession.selectOne("memberMapper.selectAgency",id);
+	}
+
+	@Override
+	public Artist selectLoginArtist(String id) {
+		return sqlSession.selectOne("memberMapper.selectArtist",id);
+	}
+
+	@Override
+	public Admin selectLoginAdmin(String id) {
+		return sqlSession.selectOne("memberMapper.selectAdmin",id);
 	}
 	
 	
