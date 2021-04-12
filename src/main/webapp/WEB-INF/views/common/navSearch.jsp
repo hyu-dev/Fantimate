@@ -67,6 +67,14 @@
 	            $('.etc-hide-show').hide();
 	        }
 	    }
+    	
+    	// 검색
+    	function searchList(){
+    		if($('.search-result').css('display', 'block')){
+    			$('.search-result').css('display', 'none');
+    			$('#search-input').val('');
+    		}
+    	}
 	
 	    // 토클버튼 (전체쪽지/친구쪽지)
 	     function toggleChange() {
@@ -166,7 +174,7 @@
             <c:choose>
 	            <c:when test="${ !empty sessionScope.loginUser}">
 		            <div class="main-menu">
-		                <input type="checkbox" id="check">
+		                <input type="checkbox" id="check" onclick="searchList()">
 		                <div class="search-box">
 		                    	<input type="text" placeholder="아티스트 검색" id="search-input"
 		                    	onkeyup="search(this);">
