@@ -97,9 +97,9 @@ public class FanFeedController {
 		System.out.println("사진이름2 : " + two.getOriginalFilename());
 		System.out.println("사진이름3 : " + three.getOriginalFilename());
 		System.out.println("사진이름4 : " + four.getOriginalFilename());
+		System.out.println("사진 리스트 : " + attList);
 		
-		
-		int result = fService.insertFeed(f, one);
+		int result = fService.insertFeed(f, attList);
 		
 		if(result > 0) {
 			response.sendRedirect("fanFeedList");
@@ -122,7 +122,7 @@ public class FanFeedController {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
 		String originalFileName = one.getOriginalFilename();
 		String renameFileName = sdf.format(new Date()) + "_"
-							+ (int)(Math.random() * 100000) + "."
+							+ (int)(Math.random() * 100000) 
 							+ originalFileName.substring(originalFileName.lastIndexOf("."));
 		
 		String renamePath = folder + "\\" + renameFileName; // 저장하고자하는 경로 + 파일명

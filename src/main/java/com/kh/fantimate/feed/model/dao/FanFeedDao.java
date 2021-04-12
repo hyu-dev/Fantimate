@@ -13,5 +13,5 @@ public interface FanFeedDao {
 	public int insertFeed(Feed f);
 
 	// 게시글 작성 시 사진 추가
-	public int insertFeedAtt(MultipartFile one);
+	public int insertFeedAtt(List<Attachment> attList);
 }

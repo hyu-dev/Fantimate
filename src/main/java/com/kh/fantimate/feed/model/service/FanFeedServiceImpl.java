@@ -17,10 +17,10 @@ public class FanFeedServiceImpl implements FanFeedService {
 	
 	// 게시글 작성
 	@Override
-	public int insertFeed(Feed f, MultipartFile one) {
+	public int insertFeed(Feed f, List<Attachment> attList) {
 		fDao.insertFeed(f);
 		
-		int result = fDao.insertFeedAtt(one);
+		int result = fDao.insertFeedAtt(attList);
 		
 		return result;
 		

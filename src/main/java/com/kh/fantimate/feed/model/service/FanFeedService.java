@@ -10,5 +10,5 @@ import com.kh.fantimate.feed.model.vo.Feed;
 public interface FanFeedService {
 
 	// 게시글 작성
-	public int insertFeed(Feed f, MultipartFile one);
+	public int insertFeed(Feed f, List<Attachment> attList);
 }

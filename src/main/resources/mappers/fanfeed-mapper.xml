@@ -54,8 +54,9 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	</insert>
 	
 	<!-- 게시글 사진 등록 -->
-	<insert id="insertFeedAtt" parameterType="Attachment">
-		INSERT 
+	<insert id="insertFeedAtt">
+		<foreach collection="list" item="i" index="index" open="INSERT ALL" close="SELECT * FROM DUAL">
+		 
 		INTO ATT_BOARD
 		(
 					BPID
@@ -67,13 +68,14 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		)
 		VALUES
 		(
-					SEQ_ATT_BOARD.NEXTVAL
+					#{index} + SEQ_ATT_BOARD.NEXTVAL
 				,	DEFAULT
-				,	#{attClName}
-		  		, 	#{attSvName}
+				,	#{i.attClName}
+		  		, 	#{i.attSvName}
 		  		,	DEFAULT
 		  		,	SEQ_BOARD.CURRVAL		
 		)
+		</foreach>
 	</insert>
 	
 

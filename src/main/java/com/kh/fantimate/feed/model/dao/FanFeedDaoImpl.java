@@ -23,7 +23,7 @@ public class FanFeedDaoImpl implements FanFeedDao{
 
 	// 게시글 작성 시 사진 추가
 	@Override
-	public int insertFeedAtt(MultipartFile one) {
-		return sqlSession.insert("fanfeedMapper.insertFeedAtt", one);
+	public int insertFeedAtt(List<Attachment> attList) {
+		return sqlSession.insert("fanfeedMapper.insertFeedAtt", attList);
 	}
 }

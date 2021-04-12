@@ -24,6 +24,7 @@
 		<typeAlias type="com.kh.fantimate.store.model.vo.Wish" alias="Wish"/>
 		<typeAlias type="com.kh.fantimate.store.model.vo.StoreInfo" alias="StoreInfo"/>
 		<typeAlias type="com.kh.fantimate.feed.model.vo.Feed" alias="Feed"/>
+		
 	</typeAliases>
 	
 	<!-- mappers -->
