@@ -14,13 +14,13 @@ import lombok.ToString;
 @Setter
 @ToString
 public class Feed {
-	private int bid;			// 게시글 번호
-	private String btype;		// 게시글 타입
-	private String bcontent;	// 내용
-	private Date bcreate;		// 작성일
-	private Date bmodify;		// 수정일
-	private int blike;			// 좋아요개수
-	private String bstatus;		// 게시글 상태
+	private int fid;			// 게시글 번호
+	private String ftype;		// 게시글 타입
+	private String fcontent;	// 내용
+	private Date fcreate;		// 작성일
+	private Date fmodify;		// 수정일
+	private int flike;			// 좋아요개수
+	private String fstatus;		// 게시글 상태
 	private String writer;		// 작성자
 	private String artiName;	// 아티스트명
 }
