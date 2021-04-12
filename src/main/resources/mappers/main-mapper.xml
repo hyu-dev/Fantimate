@@ -169,6 +169,8 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		     U_ID = #{id}
 		AND
 		     ARTI_NAME_EN = #{artNameEn}
+		AND
+			 SUB_STATUS = 'N'
 	</select>
 	
 	<!-- 검색 결과 select -->
@@ -185,7 +187,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		WHERE
 		     ATT_STATUS = 'Y'
 		AND
-		    ARTI_NAME_EN LIKE '%' || #{artistName} || '%'
+		    upper(ARTI_NAME_EN) LIKE '%' || upper(#{artistName}) || '%'
 		OR
 			ARTI_NAME_KR LIKE '%' || #{artistName} || '%'
 	</select>
