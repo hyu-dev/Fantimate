@@ -106,16 +106,19 @@
                 <div class="product-review">
                     <section class="top">
                         <div class="top-review">
-                        	<c:forEach var="r" items="${ review }" varStatus="state">
-                        	<c:if test="${ r.get(0).review.id eq r.review.id }">
                             <div class="top-photo">
-                            	<img src="${ contextPath }/resources/uploadFiles/${ r.attReview.attSvName }" alt="" width="150px">
+                            	<c:forEach var="i" begin="0" end="${ review.size() - 1 }" step="1">
+                        		<c:if test="${ review.get(0).review.id eq review.get(i).review.id }">
+                            		<img src="${ contextPath }/resources/uploadFiles/${ review.get(i).attReview.attSvName }" alt="" width="150px">
+                            	</c:if>
+                            	</c:forEach>
                             </div>
                             <div class="index-area">
+                            	<c:forEach var="r" items="${ review }" varStatus="state">
                                 <div class="index index${ state.index + 1 }"></div>
+                                </c:forEach>
                             </div>
-                            </c:if>
-                            </c:forEach>
+                            
                         </div>
                         <div class="top-review-content">
                             <img class="user-profile" src="${ contextPath }/resources/images/mypage/만식프로필.png" alt="" width="50px">
