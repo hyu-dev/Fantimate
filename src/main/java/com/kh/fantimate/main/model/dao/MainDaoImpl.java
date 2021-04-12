@@ -60,6 +60,12 @@ public class MainDaoImpl implements MainDao{
 		
 		return sqlSession.selectOne("mainMapper.selectSubCount",sb);
 	}
+
+	@Override
+	public List<MainCollection> selectArtistSearchList(String artistName) {
+		
+		return sqlSession.selectList("mainMapper.selectArtistSearchList",artistName);
+	}
 	
 	
 	

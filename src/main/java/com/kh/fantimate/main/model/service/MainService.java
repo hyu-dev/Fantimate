@@ -31,4 +31,7 @@ public interface MainService {
 	// 7. 아티스트 구독여부 확인
 	public int selectSubCount(SubscribeArtist sb);
 
+	// 8. 아티스트명 검색 
+	public List<MainCollection> selectArtistSearchList(String artistName);
+
 }

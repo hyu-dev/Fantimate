@@ -171,5 +171,25 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		     ARTI_NAME_EN = #{artNameEn}
 	</select>
 	
+	<!-- 검색 결과 select -->
+	<select id="selectArtistSearchList" resultMap="mainCollResultSet">
+		SELECT
+		        ARTI_NAME_EN
+		      , ARTI_NAME_KR
+		      , ATT_SV_NAME
+		      , ATT_STATUS
+		FROM 
+		     ART_MAIN 
+		JOIN
+		     ART_MAIN_PIC USING (ARTI_NAME_EN)
+		WHERE
+		     ATT_STATUS = 'Y'
+		AND
+		    ARTI_NAME_EN LIKE '%' || #{artistName} || '%'
+		OR
+			ARTI_NAME_KR LIKE '%' || #{artistName} || '%'
+	</select>
+	
+	
 	
 </mapper>

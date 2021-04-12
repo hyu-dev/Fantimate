@@ -1,3 +1,6 @@
+
+
+
 package com.kh.fantimate.main.controller;
 
 import java.io.File;
@@ -14,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -28,6 +32,7 @@ import com.kh.fantimate.main.model.vo.SubscribeArtist;
 import com.kh.fantimate.member.model.vo.Member;
 
 @Controller
+//@RestController
 @RequestMapping("/main")
 public class MainController {
 	
@@ -198,6 +203,15 @@ public class MainController {
 		
 		return renameFileName;
 	}
+	
+	// 메인 아티스트명 검색
+	@RequestMapping("/search")
+	public @ResponseBody List<MainCollection> artistSearchList(String artistName){
+		List<MainCollection> list = (ArrayList<MainCollection>)mpService.selectArtistSearchList(artistName); 
+		if(list == null) list = new ArrayList<>();
+		return list;
+	}
+	
 	
 
 }
