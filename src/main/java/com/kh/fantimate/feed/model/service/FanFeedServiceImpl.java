@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.fantimate.common.model.vo.Attachment;
 import com.kh.fantimate.feed.model.dao.FanFeedDao;
@@ -16,10 +17,10 @@ public class FanFeedServiceImpl implements FanFeedService {
 	
 	// 게시글 작성
 	@Override
-	public int insertFeed(Feed f, List<Attachment> attList) {
+	public int insertFeed(Feed f, MultipartFile one) {
 		fDao.insertFeed(f);
 		
-		int result = fDao.insertFeedAtt(attList);
+		int result = fDao.insertFeedAtt(one);
 		
 		return result;
 		

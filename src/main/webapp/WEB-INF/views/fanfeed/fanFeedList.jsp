@@ -44,22 +44,22 @@
                      <div class="my-photo">
                         
                         <label for="mainPhoto" class="main-photo" style="display: none;">
-                        <input id="mainPhoto" class="photo" type="file" name="uploadFile" style="display: none;">
+                        <input id="mainPhoto" class="photo" type="file" name="uploadFile1" style="display: none;">
                         </label>
                         
                         <label for="addPhoto" class="add-photo click-btn" style="display: none;">
-                        <input id='addPhoto' class='photo' type='file' style='display: none;'>
+                        <input id='addPhoto' class='photo' type='file' name='uploadFile2' style='display: none;'>
                         <p class="plus">+</p>
                         </label>
                         
                         
                         <label for="addPhoto1" class="add-photo1 click-btn" style="display: none;">
-                        <input id='addPhoto1' class='photo' type='file' style='display: none;'>
+                        <input id='addPhoto1' class='photo' type='file' name='uploadFile3' style='display: none;'>
                         <p class="plus">+</p>
                         </label>
                         
                         <label for="addPhoto2" class="add-photo2 click-btn" style="display: none;">
-                        <input id='addPhoto2' class='photo' type='file' style='display: none;'>
+                        <input id='addPhoto2' class='photo' type='file' name='uploadFile4' style='display: none;'>
                         <p class="plus">+</p>
                         </label>
                     </div> 
@@ -380,7 +380,7 @@
     <!-- 포스트 작성 첨부파일 아이콘 클릭 시 이벤트 -->
     <script>
     $('.photo-icon').click(function(){
-        //$('.main-photo').click();
+        $('.main-photo').click();
         $('.main-photo').toggle();
     });
     </script>
@@ -392,14 +392,15 @@
 	     let files = e.target.files;
 	     let filesArr = Array.prototype.slice.call(files);
 	     let mainImg = $("<img class='main-photo-img'>");
-	     let mainInput = $("<input id='mainPhoto' class='photo' type='file' name='uploadFile' style='display: none;'>");
+	     let mainInput = $("<input id='mainPhoto' class='photo' type='file' name='uploadFile1' style='display: none;'>");
 	     let addImg = $("<img class='add-photo-img'>");
-	     let addInput = $("<input id='addPhoto' class='photo' type='file' style='display: none;'>");
+	     let addInput = $("<input id='addPhoto' class='photo' type='file' name='uploadFile2' style='display: none;'>");
 	     let addImg1 = $("<img class='add-photo1-img'>");
-	     let addInput1 = $("<input id='addPhoto1' class='photo' type='file' style='display: none;'>");
+	     let addInput1 = $("<input id='addPhoto1' class='photo' type='file' name='uploadFile3' style='display: none;'>");
 	     let addImg2 = $("<img class='add-photo2-img'>");
-	     let addInput2 = $("<input id='addPhoto2' class='photo' type='file' style='display: none;'>");
+	     let addInput2 = $("<input id='addPhoto2' class='photo' type='file' name='uploadFile4' style='display: none;'>");
 	     let label = $(this).parent();
+	     
 	     let id = $(this).attr('id');
 	
 	     console.log(target.prev());
@@ -413,33 +414,36 @@
 	         if(id == 'mainPhoto') {
 	             // 첫번째 사진
 	             reader.onload = function(e) {
-	                 label.html('');
+	                // label.html('');
+	                // input type= file 의 name 벨류 값 받아와야 함
+	                // $('uploadFile1').val();
+	               // let label = $('input[name="uploadFile1"]').val();
 	                 mainImg.attr("src", e.target.result);
-	                 label.append(mainImg, mainInput);
+	                 label.append(mainImg);  
 	         		 $('.add-photo').toggle();
 	             }
 	         } else if(id == 'addPhoto') {
 	             // 두번째 사진
 	             reader.onload = function(e) {
-	                 label.html('');
+	                // label.html('');
 	                 addImg.attr("src", e.target.result);
-	                 label.append(addImg, addInput);
+	                 label.append(addImg);
 	                 $('.add-photo1').toggle();
 	             }
 	         } else if(id == 'addPhoto1'){
 	        	 // 세번째 사진
 	        	 reader.onload = function(e){
-	        		 label.html('');
+	        		// label.html('');
 	        		 addImg1.attr("src", e.target.result);
-	        		 label.append(addImg1, addInput1);
+	        		 label.append(addImg1);
 	        		 $('.add-photo2').toggle();
 	        	 }
 	         } else if(id == 'addPhoto2'){
 	        	 // 네번째 사진
 	        	 reader.onload = function(e){
-	        		 label.html('');
+	        		// label.html('');
 	        		 addImg2.attr("src", e.target.result);
-	        		 label.append(addImg2, addInput2);
+	        		 label.append(addImg2);
 	        		 
 	        	 }
 	         }

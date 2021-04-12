@@ -5,6 +5,7 @@ import java.util.List;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.fantimate.common.model.vo.Attachment;
 import com.kh.fantimate.feed.model.vo.Feed;
@@ -22,7 +23,7 @@ public class FanFeedDaoImpl implements FanFeedDao{
 
 	// 게시글 작성 시 사진 추가
 	@Override
-	public int insertFeedAtt(List<Attachment> attList) {
-		return sqlSession.insert("fanfeedMapper.insertFeedAtt", attList);
+	public int insertFeedAtt(MultipartFile one) {
+		return sqlSession.insert("fanfeedMapper.insertFeedAtt", one);
 	}
 }
