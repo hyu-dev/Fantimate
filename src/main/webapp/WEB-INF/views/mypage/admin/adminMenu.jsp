@@ -40,7 +40,7 @@
 		
 	});
 	</script>
-<!-- 	<script src="../../../resources/css/mypage/jw.js"></script> -->
 	<script src="${ contextPath }/resources/css/mypage/jw.js"></script>
+<!-- 	<script src="../../../resources/css/mypage/jw.js"></script> -->
 </body>
 </html>
