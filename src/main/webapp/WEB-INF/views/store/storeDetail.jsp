@@ -369,7 +369,9 @@
 				contentType : "application/json; charset=utf-8",
 	        	success : function(data) {
 	        		console.log(data)
-	        		var topContainer = $(".top-review-content");
+	        		var topPhoto = $(".top-photo");
+	        		var indexArea = $(".")
+	        		var topContent = $(".review-content");
 	        		var userProfile = $("<img class='user-profile' alt='' width='50px'>").attr("src", data.get(0).attUser.attSvName);
 	        		var userInfo = $("<span class='user-info'>");
 	        		var userid = $("<span class='top-user-id'>").text(data.get(0).review.id);
