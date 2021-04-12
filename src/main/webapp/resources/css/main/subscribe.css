@@ -22,7 +22,7 @@ html, body {
 .sub-title{
     text-align: center;
     font-style: normal;
-    font-weight: bold;
+    font-weight: 500;
     font-size: 23px;
     line-height: 43px;
     color: #000000;

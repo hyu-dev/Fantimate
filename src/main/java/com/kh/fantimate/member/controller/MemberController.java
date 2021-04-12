@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 
 import com.google.gson.Gson;
 import com.kh.fantimate.common.model.vo.Attachment;
@@ -192,6 +193,13 @@ public class MemberController {
 			return "account/login";
 		}
 
+	}
+	
+	@GetMapping("/logout")
+	public String logout(SessionStatus status) {
+		
+		status.setComplete();
+		return "redirect:/main";
 	}
 	
 	

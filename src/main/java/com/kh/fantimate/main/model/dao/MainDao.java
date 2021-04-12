@@ -22,4 +22,6 @@ public interface MainDao {
 
 	public int selectSubCount(SubscribeArtist sb);
 
+	public List<MainCollection> selectArtistSearchList(String artistName);
+
 }

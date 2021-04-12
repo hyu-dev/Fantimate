@@ -61,4 +61,10 @@ public class MainServiceImpl implements MainService{
 		return mpDao.selectSubCount(sb);
 	}
 
+	@Override
+	public List<MainCollection> selectArtistSearchList(String artistName) {
+		
+		return mpDao.selectArtistSearchList(artistName);
+	}
+
 }
