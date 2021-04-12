@@ -35,7 +35,6 @@
 	$(document).ready(function(){
 		$("#userProfileUpdate").click(function(){
 			console.log("정상클릭");
-			alert(${loginUser});
 			//alert(Member(id=admin, pwd=1234, name=관리자, status=Y, signupDate=Tue Mar 30 17:29:18 KST 2021, classifyMem=4));
 		});
 		

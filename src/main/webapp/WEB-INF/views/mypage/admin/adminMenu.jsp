@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,14 +21,13 @@
 		<h2>Menu</h2>
 		<ul>
 <%-- 			<li><a onclick="javascript:location.href='${contextPath}/mypage/admin/insertAgency' 'target=_blank'">소속사등록</a></li> --%>
-			<li><a>소속사등록</a></li>
-<%-- 			<li><a onclick="javascript:location.href='${contextPath}/mypage/admin/insertAgency' 'target=_blank'">소속사등록</a></li> --%>
-<%-- 			<li><a onclick="javascript:location.href='${contextPath}/mypage/admin/popup'">팝업테스트</a></li> --%>
+		<c:if test="${ loginUser.classifyMem eq '4' }">
+			<li id="insertAgency"><a>소속사등록</a></li>
+		</c:if>
 			<li><a onclick="javascript:location.href='${contextPath}/mypage/admin/report'">신고관리</a></li>
 			<li><a onclick="javascript:location.href='${contextPath}/notice/list'">공지사항</a></li>
 			<li><a onclick="javascript:location.href='${contextPath}/mypage/admin/management'">회원관리</a></li>
 			<li><a onclick="javascript:location.href='${contextPath}/mypage/admin/paylist'">결제내역</a></li>
-			<li><a>세션정보출력</a></li>
 		</ul>
 	</div>
 	<script>
