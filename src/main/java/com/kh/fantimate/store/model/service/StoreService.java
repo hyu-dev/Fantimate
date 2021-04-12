@@ -6,6 +6,8 @@ import java.util.Map;
 
 import com.kh.fantimate.common.model.vo.Attachment;
 import com.kh.fantimate.pay.model.vo.Cart;
+import com.kh.fantimate.store.model.vo.Review;
+import com.kh.fantimate.store.model.vo.ReviewCollection;
 import com.kh.fantimate.store.model.vo.StoreCategory;
 import com.kh.fantimate.store.model.vo.StoreCollection;
 import com.kh.fantimate.store.model.vo.Wish;
@@ -46,4 +48,10 @@ public interface StoreService {
 
 	// 유저 찜여부 확인
 	public Wish selectWish(String userId, String pcode);
+
+	// 카테고리에 맞는 스토어 리스트 호출(추천상품용)
+	public List<StoreCollection> recommandStoreListByCate(Map<String, String> map);
+
+	// 상세페이지 리뷰 불러오기
+	public List<ReviewCollection> selectReviewList(String pcode);
 }

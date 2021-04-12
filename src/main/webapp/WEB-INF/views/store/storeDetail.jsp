@@ -14,6 +14,9 @@
     <link rel="stylesheet" href="${ contextPath }/resources/css/store/storeDetail.css">
     <link rel="icon" type="image/png" sizes="16x16" href="${ contextPath }/resources/icon/faviconF.png">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script>
+    	document.cookie = "crossCookie=bar; SameSite=None; Secure";
+    </script>
     <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
     <title>Fantimate</title>
 </head>
@@ -64,7 +67,7 @@
             <div class="product-information">
                 <div class="product-title">
                     <p>상세정보</p>
-                    <p>포토리뷰 (6)</p>
+                    <p id="reviewBtn">포토리뷰 (6)</p>
                 </div>
                 <div class="product-info">
                     <table>
@@ -94,19 +97,25 @@
                         </tr>
                     </table>
                 </div>
+                <c:if test="${ empty review }">
+                	<div class="product-review">
+                		<div class="empty-review">등록 된 리뷰가 없습니다</div>
+                	</div>
+                </c:if>
+                <c:if test="${ !empty review }">
                 <div class="product-review">
                     <section class="top">
                         <div class="top-review">
+                        	<c:forEach var="r" items="${ review }" varStatus="state">
+                        	<c:if test="${ r.get(0).review.id eq r.review.id }">
                             <div class="top-photo">
-                                <img src="${ contextPath }/resources/images/store/1stAlbumBts.png" alt="" width="150px">
-                                <img src="${ contextPath }/resources/images/store/1stAlbumBts2.png" alt="" width="150px">
-                                <img src="${ contextPath }/resources/images/store/1stAlbumBts3.png" alt="" width="150px">
+                            	<img src="${ contextPath }/resources/uploadFiles/${ r.attReview.attSvName }" alt="" width="150px">
                             </div>
                             <div class="index-area">
-                                <div class="index index1"></div>
-                                <div class="index index2"></div>
-                                <div class="index index3"></div>
+                                <div class="index index${ state.index + 1 }"></div>
                             </div>
+                            </c:if>
+                            </c:forEach>
                         </div>
                         <div class="top-review-content">
                             <img class="user-profile" src="${ contextPath }/resources/images/mypage/만식프로필.png" alt="" width="50px">
@@ -127,7 +136,6 @@
                             </div>
                         </div>
                     </section>
-
                     <section class="bottom">
                         <img class="left-move" src="${ contextPath }/resources/icon/slide-left-btn.png" alt="" width="30px">
                         <div class="bottom-review">
@@ -157,9 +165,12 @@
                         <img class="right-move" src="${ contextPath }/resources/icon/slide-right-btn.png" alt="" width="30px">
                     </section>
                 </div>
+                </c:if>
             </div>
          </section>
-
+		 
+		 
+		 <!-- 오른쪽 영역 -->
 		 <c:set var="price" value="${ sc.get(0).store.qprice }" />
 		 <c:set var="discountPrice" value="${ sc.get(0).store.qprice * (1 - sc.get(0).store.discount/100) }"/>
          <section class="right-contents">
@@ -179,18 +190,20 @@
                  </tr>
                  <tr>
                      <td colspan="1">
-                     <c:if test="${ user.isMembership eq 'Y' }">
-                     	\ <fmt:formatNumber type="number" value="${ discountPrice }"/>
-                     </c:if>
-                     <c:if test="${ user.isMembership eq 'N' }">
-                     	\ <fmt:formatNumber type="number" value="${ price }"/>
-                     </c:if>
+                     <c:choose>
+	                     <c:when test="${ user.isMembership eq 'Y' }">
+	                     	\ <fmt:formatNumber type="number" value="${ discountPrice }"/>
+	                     </c:when>
+	                     <c:otherwise>
+	                     	\ <fmt:formatNumber type="number" value="${ price }"/>
+	                     </c:otherwise>
+                     </c:choose>
                      </td>
                      <td colspan="3">
                      	<s>\ <fmt:formatNumber type="number" value="${ price }"/></s>
                      	<span>
                      		&nbsp;&nbsp; ${ sc.get(0).store.discount }% D.C.
-                     		<c:if test="${ user.isMembership eq 'N' }">
+                     		<c:if test="${ user.isMembership ne 'Y' }">
                      		(멤버십전용 : \ <fmt:formatNumber type="number" value="${ discountPrice }"/>)
                      		</c:if>
                      	</span>
@@ -211,12 +224,14 @@
                  <tr>
                      <td colspan="2">TOTAL</td>
                      <td colspan="2">
-                     	<c:if test="${ user.isMembership eq 'Y' }">
-	                    	\ <fmt:formatNumber type="number" value="${ discountPrice }"/>
-	                    </c:if>
-	                    <c:if test="${ user.isMembership eq 'N' }">
-	                     	\ <fmt:formatNumber type="number" value="${ price }"/>
-	                    </c:if>
+                     	<c:choose>
+	                     	<c:when test="${ user.isMembership eq 'Y' }">
+		                    	\ <fmt:formatNumber type="number" value="${ discountPrice }"/>
+		                    </c:when>
+		                    <c:otherwise>
+		                     	\ <fmt:formatNumber type="number" value="${ price }"/>
+		                    </c:otherwise>
+                     	</c:choose>
                      	<span>(1개)</span>
                      </td>
                  </tr>
@@ -267,6 +282,8 @@
              </div>
          </section>
 	</section>
+	
+	<!-- 스크립트 -->
 	<script>
 		// 왼쪽 컨텐츠 메인 사진의 작은 사진 클릭시
 		$(".small-img").click(function() {
@@ -327,14 +344,14 @@
 		// 수량 클릭시
 		$(function() {
 			memberShip = "${ user.isMembership }";
-		    memberShip == "N" ? price = "${ price }" : price = "${ discountPrice }";
+		    memberShip == "Y" ? price = "${ discountPrice }" : price = "${ price }";
 		});
 		// 마이너스 버튼
 		$('.minus-btn').click(function() {
 		    $(".right-contents tr:nth-of-type(5) td:last-of-type").text("")
 		    quantity = parseInt($(this).siblings('.product-quantity').text());
 		    let memberShip = "${ user.isMembership }";
-		    memberShip == "N" ? price = "${ price }" : price = "${ discountPrice }";
+		    memberShip == "Y" ? price = "${ discountPrice }" : price = "${ price }";
 		    if($(this).siblings('.product-quantity').text() > 1) {
 		        quantity -= 1;
 		        $(this).siblings('.product-quantity').text(quantity);
@@ -350,7 +367,7 @@
 		    $(".right-contents tr:nth-of-type(5) td:last-of-type").text("")
 		    quantity = parseInt($(this).siblings('.product-quantity').text());
 		    let memberShip = "${ user.isMembership }";
-		    memberShip == "N" ? price = "${ price }" : price = "${ discountPrice }";
+		    memberShip == "Y" ? price = "${ discountPrice }" : price = "${ price }";
 		    quantity += 1;
 		    $(this).siblings('.product-quantity').text(quantity);
 		    price = price * quantity;
@@ -397,6 +414,12 @@
 			var pcode = $(this).children("input").val();
 			location.href='${ contextPath }/store/detail?pcode=' + pcode;
 		})
+		
+		// 수정하기 버튼 클릭시
+		$(".update-store").click(function() {
+			$(".main-template").css("display", "block");
+			$(".insert-section").css("display", "block");
+		});
 	</script>
 	</c:if>
 	<c:if test="${ empty loginUser }">

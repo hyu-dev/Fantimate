@@ -3,6 +3,19 @@
 html, body {
     margin: 0;
     padding: 0;
+    position: relative;
+    z-index: 2;
+}
+
+.insert-section {
+	position: fixed;
+	top: 0;
+	left: 0;
+	background: rgba(0,0,0,0.5);
+	z-index: 3;
+	height: 100%;
+	width: 100%;
+	display: none;
 }
 
 .main-template {
@@ -15,7 +28,7 @@ html, body {
     background: #fbf6f6;
     box-sizing: border-box;
     overflow-y: auto;
-    z-index: 3;
+    z-index: 4;
     display: none;
 }
 
@@ -43,6 +56,10 @@ html, body {
     width: 95%;
     margin: 0 auto;
     /* border: 2px solid red; */
+}
+
+.store-write > tbody {
+	width: 100%;
 }
 
 .store-write > tbody > tr > th {

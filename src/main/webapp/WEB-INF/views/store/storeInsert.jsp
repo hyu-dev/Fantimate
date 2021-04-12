@@ -227,9 +227,12 @@
 		     }     
 		     obj.focus(); 
 		 }  
-		
+		 // 취소하기 버튼을 클릭했을 때
 		 $('.cancel-btn').click(function() {
-		     confirm('상품등록 취소시 입력한 정보가 모두 삭제됩니다. 취소하시겠습니까?')
+		     if(confirm('상품등록 취소시 입력한 정보가 모두 삭제됩니다. 취소하시겠습니까?')) {
+			     $(".main-template").css("display", "none");
+				 $(".insert-section").css("display", "none"); 
+		     }
 		 })
 		 
 		 // 등록하기 버튼을 클릭했을 때
