@@ -185,6 +185,7 @@ html, body {
     margin-bottom: 50px;
     padding-left: 15px;
     padding-right: 15px;
+    overflow: hidden;
 }
 
 .category-upper {
@@ -211,11 +212,14 @@ html, body {
 
 .category-under {
     display: flex;
+    flex-wrap: wrap;
+    align-content: space-between;
 }
 
 .category-media {
     /* border: 1px solid green; */
     box-sizing: border-box;
+    min-width: 200px !important;
     width: 25%;
     position: relative;
     padding-left: 15px;

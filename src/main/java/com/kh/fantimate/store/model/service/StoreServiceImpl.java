@@ -8,9 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.fantimate.common.model.vo.Attachment;
+import com.kh.fantimate.pay.model.vo.Cart;
 import com.kh.fantimate.store.model.dao.StoreDao;
 import com.kh.fantimate.store.model.vo.StoreCategory;
 import com.kh.fantimate.store.model.vo.StoreCollection;
+import com.kh.fantimate.store.model.vo.Wish;
 
 @Service
 public class StoreServiceImpl implements StoreService {
@@ -39,10 +41,14 @@ public class StoreServiceImpl implements StoreService {
 
 	@Override
 	public int enrollWish(Map<String, String> map) {
+		// 찜목록에 등록되어있는지?
 		int result = sDao.isEnrollWish(map);
+		
 		if(result > 0) {
+			// 이미 등록된 경우
 			return sDao.updateWish(map);
 		} else {
+			// 등록이 안된 경우
 			return sDao.enrollWish(map);
 		}
 	}
@@ -63,8 +69,14 @@ public class StoreServiceImpl implements StoreService {
 	}
 
 	@Override
-	public int insertCart(Map<String, String> map) {
-		return sDao.insertCart(map);
+	public int insertCart(Cart c) {
+		// 장바구니에 등록되어 있는지 확인
+		int result = sDao.isEnrollCart(c);
+		System.out.println(result);
+		if (result > 0) 
+			return sDao.updateCart(c);
+		else
+			return sDao.insertCart(c);
 	}
 
 	@Override
@@ -81,5 +93,16 @@ public class StoreServiceImpl implements StoreService {
 		return result;
 	}
 
+	@Override
+	public List<StoreCollection> selectStore(String pcode, boolean flagPcode) {
+		if(flagPcode) sDao.updateReadCount(pcode);
+		
+		return sDao.selectStore(pcode);
+	}
+
+	@Override
+	public Wish selectWish(String userId, String pcode) {
+		return sDao.selectWish(userId, pcode);
+	}
 
 }

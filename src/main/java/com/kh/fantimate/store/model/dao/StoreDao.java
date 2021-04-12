@@ -5,8 +5,10 @@ import java.util.List;
 import java.util.Map;
 
 import com.kh.fantimate.common.model.vo.Attachment;
+import com.kh.fantimate.pay.model.vo.Cart;
 import com.kh.fantimate.store.model.vo.StoreCategory;
 import com.kh.fantimate.store.model.vo.StoreCollection;
+import com.kh.fantimate.store.model.vo.Wish;
 
 public interface StoreDao {
 	// 스토어 리스트 호출
@@ -38,9 +40,15 @@ public interface StoreDao {
 
 	// 상품가격 찾아오기
 	public String searchPrice(int pcode);
+	
+	// 장바구니에 등록되어 있는지 확인
+	public int isEnrollCart(Cart c);
 
 	// 상품 장바구니에 넣기
-	public int insertCart(Map<String, String> map);
+	public int insertCart(Cart c);
+	
+	// 장바구니 업데이트
+	public int updateCart(Cart c);
 
 	// 스토어카테고리 등록하기
 	public void insertStoreCategory(StoreCollection sc);
@@ -53,5 +61,14 @@ public interface StoreDao {
 	
 	// 스토어 사진 등록하기
 	public int insertStoreAtt(List<Attachment> attList);
+
+	// 스토어 상세페이지 불러오기
+	public List<StoreCollection> selectStore(String pcode);
+
+	// 스토어 상세페이지 조회수 증가
+	public void updateReadCount(String pcode);
+
+	// 유저 찜여부
+	public Wish selectWish(String userId, String pcode);
 
 }

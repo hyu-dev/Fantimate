@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="mainMapper">
+
+	<resultMap type="ArtistGroup" id="artistgroupResultSet">
+		<id property = "artNameEn" column="ARTI_NAME_EN"/>
+		<result property="artNameKr" column="ARTI_NAME_KR"/>
+		<result property="agId" column="AG_ID"/>
+	</resultMap>
+	<resultMap type="Attachment" id="attResultSet">
+		<id property="attCode" column="ATT_CODE"/>
+		<result property="attRoot" column="ATT_ROOT"/>
+		<result property="attClName" column="ATT_CL_NAME"/>
+		<result property="attSvName" column="ATT_SV_NAME"/>
+		<result property="attStatus" column="ATT_STATUS"/>
+	</resultMap>
+	<resultMap type="FavoriteArtist" id="favArtistResultSet">
+		<id property = "favCode" column="FAV_CODE"/>
+		<result property="id" column="U_ID"/>
+		<result property="artiName" column="ARTI_NAME_EN"/>
+	</resultMap> 
+	<!-- 구독 -->
+	<resultMap type="SubscribeArtist" id="subArtistResultSet">
+		<id property = "subCode" column="SUB_CODE"/>
+		<result property="id" column="U_ID"/>
+		<result property="nickname" column="U_NICKNAME"/>
+		<result property="subStatus" column="SUB_STATUS"/>
+		<result property="artNameEn" column="ARTI_NAME_EN"/>
+	</resultMap> 
+	
+	<!-- collection -->
+	<resultMap type="MainCollection" id="mainCollResultSet">
+		<collection property="artG" resultMap="artistgroupResultSet" />
+		<collection property="att"  resultMap="attResultSet" />
+		<collection property="afv"  resultMap="favArtistResultSet" />
+	</resultMap>
+
+	
+	
+	<!-- 관심아티스트 제외한 아티스트 리스트 select -->
+	<select id="selectArtistList" resultMap="mainCollResultSet">
+		SELECT
+		        AM.ARTI_NAME_EN
+		      , AM.ARTI_NAME_KR
+		      , AM.AG_ID
+		      , MP.ATT_CODE
+		      , MP.ATT_ROOT
+		      , MP.ATT_CL_NAME
+		      , MP.ATT_SV_NAME
+		      , MP.ATT_STATUS
+		      , MP.ARTI_NAME_EN
+		FROM 
+		     ART_MAIN AM
+		JOIN
+		     ART_MAIN_PIC MP ON (AM.ARTI_NAME_EN = MP.ARTI_NAME_EN)
+		WHERE
+		     ATT_STATUS = 'Y'
+		AND 
+		     NOT EXISTS (SELECT 1 
+		                   FROM
+		                        ART_FAV AF
+		                  WHERE
+		                        AF.ARTI_NAME_EN = AM.ARTI_NAME_EN
+		                    AND
+		                        U_ID = #{loginUser})
+	</select>
+	
+	<!-- 관심아티스트 리스트만 select -->
+	<select id="selectArtistFavList" resultMap="mainCollResultSet">
+		SELECT
+		        FAV_CODE
+		      , U_ID
+		      , ARTI_NAME_EN 
+		      , ATT_CODE
+		      , ATT_ROOT
+		      , ATT_CL_NAME
+		      , ATT_SV_NAME
+		      , ATT_STATUS
+		FROM 
+		     ART_FAV
+		JOIN 
+		     ART_MAIN_PIC USING (ARTI_NAME_EN)
+		WHERE
+		     U_ID = #{loginUser}
+		AND
+			ATT_STATUS = 'Y'
+	</select>
+	
+	<!-- 전체 리스트 -->
+	<select id="selectArtistWholeList" resultMap="mainCollResultSet">
+		SELECT
+		        ARTI_NAME_EN
+		      , ARTI_NAME_KR
+		      , AG_ID
+		      , ATT_CODE
+		      , ATT_ROOT
+		      , ATT_CL_NAME
+		      , ATT_SV_NAME
+		      , ATT_STATUS
+		FROM 
+		     ART_MAIN 
+		JOIN
+		     ART_MAIN_PIC USING (ARTI_NAME_EN)
+		WHERE
+		     ATT_STATUS = 'Y'
+	</select>
+	
+	<!-- 닉네임 중복 카운트 -->
+	<select id="selectNickName" resultType="_int" parameterType="String">
+	  SELECT
+      		  COUNT(*)
+		FROM
+		      ATT_SUBSCRIBE
+		WHERE 
+		     U_NICKNAME = #{nickname}
+	</select>
+	
+	<!-- 구독 아티스트 테이블 insert -->
+	<insert id="insertSub" parameterType="FavoriteArtist">
+		INSERT
+		INTO ATT_SUBSCRIBE
+		(
+			SUB_CODE
+		  , U_ID
+		  , U_NICKNAME
+		  , SUB_STATUS
+		  , ARTI_NAME_EN
+		)
+		VALUES
+		(
+		    SEQ_SUBSCRIBE.NEXTVAL
+		  , #{id}
+		  , #{nickname}
+		  , DEFAULT
+		  , #{artNameEn}
+		) 
+	</insert>
+	
+	<!-- 구독 프로필 테이블 insert -->
+	<insert id="insertAttS" parameterType="Attachment">
+		INSERT
+		INTO SUB_PROFILE
+		(
+			S_CODE
+		  , S_CL_NAME
+		  , S_SV_NAME
+		  , S_STATUS
+		  , SUB_CODE
+		)
+		VALUES
+		(
+		    SEQ_SUB_PRO.NEXTVAL
+		  , #{attClName}
+		  , #{attSvName}
+		  , DEFAULT
+		  , SEQ_SUBSCRIBE.CURRVAL
+		) 
+	</insert>
+	
+	<!-- 구독 여부 확인 -->
+	<select id="selectSubCount" resultType="_int" parameterType="SubscribeArtist">
+	  SELECT
+		      COUNT(*)
+		FROM
+		      ATT_SUBSCRIBE
+		WHERE 
+		     U_ID = #{id}
+		AND
+		     ARTI_NAME_EN = #{artNameEn}
+		AND
+			 SUB_STATUS = 'N'
+	</select>
+	
+	<!-- 검색 결과 select -->
+	<select id="selectArtistSearchList" resultMap="mainCollResultSet">
+		SELECT
+		        ARTI_NAME_EN
+		      , ARTI_NAME_KR
+		      , ATT_SV_NAME
+		      , ATT_STATUS
+		FROM 
+		     ART_MAIN 
+		JOIN
+		     ART_MAIN_PIC USING (ARTI_NAME_EN)
+		WHERE
+		     ATT_STATUS = 'Y'
+		AND
+		    upper(ARTI_NAME_EN) LIKE '%' || upper(#{artistName}) || '%'
+		OR
+			ARTI_NAME_KR LIKE '%' || #{artistName} || '%'
+	</select>
+	
+	
+	
+</mapper>

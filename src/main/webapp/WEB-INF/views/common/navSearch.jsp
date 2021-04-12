@@ -67,6 +67,14 @@
 	            $('.etc-hide-show').hide();
 	        }
 	    }
+    	
+    	// 검색
+    	function searchList(){
+    		if($('.search-result').css('display', 'block')){
+    			$('.search-result').css('display', 'none');
+    			$('#search-input').val('');
+    		}
+    	}
 	
 	    // 토클버튼 (전체쪽지/친구쪽지)
 	     function toggleChange() {
@@ -93,6 +101,7 @@
      function langSetting(){
          location.href="language";
      }
+     
      
      // 회원가입 팝업창 
      function showJoinPage(){
@@ -133,6 +142,24 @@
 				+ popupWidth + ', height=' + popupHeight
 				+ ', left=' + popupX + ', top=' + popupY);
 	}
+     
+  
+/* 	// 검색창
+	$("#search-input").keyup(function() {
+	    if($(this).val() == 'undefined') {
+	        // 검색input에 글자가 없다면
+	        console.log("오니");
+	         console.log($(this).val());
+	        $('.search-result').css('display', 'none');
+	    } else {
+	        // 검색input에 글자가 있다면
+	        console.log("ㅇㅇㅇㅇ오니");
+	        console.log($(this).val());
+	        $('.search-result').css('display', 'block');
+	    }
+	}); */
+	
+    
 </script>
 </head>
 <body>
@@ -143,19 +170,20 @@
 	
 	<header class="main-header">
         <nav class="main-nav">
-            <p class="main-logo">FANTIMATE</p>
+            <p class="main-logo" onclick="location.href='${contextPath}'">FANTIMATE</p>
             <c:choose>
 	            <c:when test="${ !empty sessionScope.loginUser}">
 		            <div class="main-menu">
-		                <input type="checkbox" id="check">
+		                <input type="checkbox" id="check" onclick="searchList()">
 		                <div class="search-box">
-		                    <input type="text" placeholder="아티스트 검색" id="search-input">
-		                    <label for="check"><img src="${ contextPath }/resources/icon/search-icon.svg" alt="" class="nav-icon"></label>
+		                    	<input type="text" placeholder="아티스트 검색" id="search-input"
+		                    	onkeyup="search(this);">
+		                    	<label for="check"><img src="${ contextPath }/resources/icon/search-icon.svg" alt="" class="nav-icon"></label>
 		                </div>
 		                <!-- 회원가입 버튼 생성전 예시 -->
-		                <img src="${ contextPath }/resources/icon/user.svg" alt="" class="nav-icon" onclick="showJoinPage()">
+		                <img src="${ contextPath }/resources/icon/user.svg" alt="" class="nav-icon">
 		                <img src="${ contextPath }/resources/icon/alarm.svg" alt="" class="nav-icon" id="alarm-icon" onclick="alarmList()">
-		                <img src="${ contextPath }/resources/icon/cart.svg" alt="" class="nav-icon">
+		                <img src="${ contextPath }/resources/icon/cart.svg" alt="" class="nav-icon" onclick="location.href='${contextPath}/pay/cart'">
 		                <img src="${ contextPath }/resources/icon/email.svg" alt="" class="nav-icon" id="mail-icon" onclick="mailList()">
 		                <img src="${ contextPath }/resources/icon/more.svg" alt="" class="nav-icon" onclick="etcList()">
 		            </div>
@@ -169,7 +197,56 @@
             </c:choose>
         </nav>
     </header>
-      <!-- 알람 구간 -->
+      <!-- 검색 구간 -->
+    <section class="search-section">
+		<div class="search-result" style="overflow: auto">
+		</div>
+    </section>
+    <!-- 아티스트명 검색 -->
+    <script>
+    function search(target){
+    	var artistName = target.value;
+    	console.log(artistName);
+    	
+    	$.ajax({
+    		url : "${contextPath}/main/search",
+    		type : "get",
+			data : {artistName : artistName},
+			contentType : "application/json; charset=utf-8",
+			success : function(data) {
+				
+				$(".search-result").html("");
+				if(data.length > 0 && target.value != ''){
+					$('.search-result').css('display', 'block');
+					for(var i in data) {
+						var divArea = $("<div id='divSearchArea' onclick='goSearch(" + "\"" + data[i].artG.artNameEn + "\"" + ")'>");
+						var div = $("<div class='profile-circle'><img src='${ contextPath }/resources/images/main/"+ data[i].att.attSvName +"' alt='' class='feed-profile'></div>");
+						var span = $("<span id='artistN'>"+data[i].artG.artNameEn +"</span>");
+						divArea.append(div,span);
+						$(".search-result").append(divArea);
+						//
+					}
+				} else if(target.value == ''){
+					$('.search-result').css('display', 'none');
+				} else if(data.length==0){
+					$('.search-result').css('display', 'none');
+				}
+				
+			},
+			error : function(e) {
+				console.log(e)
+			}
+    	})
+  
+    	
+    }
+ 	// 구독 아티스트 창 열기
+    function goSearch(artNameEn){
+		location.href='${contextPath}/main/subscribe?artNameEn=' + artNameEn;
+    }
+    
+    </script>
+	<!-- 알람 구간 -->
     <div class="alarm-hide-show">
         <section class="alarm-section">
             <div style="overflow:auto" class="alarm-list">
@@ -491,6 +568,8 @@
                 <ul class="etc-area">
                     <li class="etc-content" id="langSetting" onclick="langSetting()">언어 설정</li>
                     <li class="etc-content" id="fanStore">팬 스토어</li>
+                    <li class="etc-content" id="notice">공지사항</li>
+                    <li class="etc-content" id="logout" onclick="location.href='${ contextPath }/member/logout'">로그아웃</li>
                 </ul>
             </div>
         </section>

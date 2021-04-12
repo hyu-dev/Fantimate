@@ -25,14 +25,21 @@
                 <h4 class="font-16">mansik@gmail.com</h4>
             </div>
             <div id="mypageUserProfileImgDivRightRight">
-                <button class="mypage-btn-pink-14">수정하기</button>
+                <button class="mypage-btn-pink-14" id="userProfileUpdate">수정하기</button>
                 <h4 class="font-16">&nbsp;</h4>
-                <button class="mypage-btn-blueblack-14">탈퇴하기</button>
+                <button class="mypage-btn-blueblack-14" id="userWithdrawal">탈퇴하기</button>
             </div>
         </div>
-        
-        <script>
-        	
-        </script>
+
+<script>
+	$(document).ready(function(){
+		$("#userProfileUpdate").click(function(){
+			console.log("정상클릭");
+			//alert(Member(id=admin, pwd=1234, name=관리자, status=Y, signupDate=Tue Mar 30 17:29:18 KST 2021, classifyMem=4));
+		});
+		
+	});
+	</script>
+	<script src="${ contextPath }/resources/css/mypage/jw.js"></script>        
 </body>
 </html>

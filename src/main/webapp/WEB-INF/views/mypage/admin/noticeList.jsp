@@ -1,10 +1,13 @@
+<%@page import="java.util.Date"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>admin notice detail</title>
+<title>notice List</title>
 </head>
 <body>
 	<!-- 네비바 -->
@@ -36,48 +39,78 @@
                 </thead>
 
                 <tbody>
-                    <tr>
-                        <td>222</td>
-                        <td>카카오페이 시스템 점검으로 인한 서비스 일시중단 안내</td>
-                        <td>2021.03.14</td>
-                    </tr>
-                    <tr>
-                        <td>221</td>
-                        <td>외화보험 시스템 이관 작업에 따른 서비스 일시중단 안내</td>
-                        <td>2021.03.14</td>
-                    </tr>
-                    <tr>
-                        <td>220</td>
-                        <td>전자금융거래 이용약관 변경안내</td>
-                        <td>2021.03.14</td>
-                    </tr>
-                    <tr>
-                        <td>219</td>
-                        <td>국민카드 오픈API 시스템 작업에 따른 일부 서비스 중단 안내</td>
-                        <td>2021.03.14</td>
-                    </tr>
-                    <tr>
-                        <td>218</td>
-                        <td>네트워크 장비 교체에 따른 서비스 일시중단 안내</td>
-                        <td>2021.03.14</td>
-                    </tr>
-                    <tr>
-                        <td>217</td>
-                        <td>은행 전산시스템 업그레이드에 따른 업무 일시중단안내</td>
-                        <td>2021.03.14</td>
-                    </tr>
-                    <tr>
-                        <td>216</td>
-                        <td>모바일인증서 로그인 서비스 일시 중단안내</td>
-                        <td>2021.03.14</td>
-                    </tr>
-
+                <c:if test="${ list } == null">
+                	<div>
+                		등록된 공지사항이 없습니다.
+                	</div>	
+                </c:if>
+                
+                
+               	<c:forEach var="n" items="${ list }">
+               		<tr onclick="selectNotice(${n.nid});">
+               			<td>${ n.nid }</td>
+               			<td>${ n.ntitle }</td>
+               			<c:set var="date" value="<%= new Date() %>"/>
+               			<td><fmt:formatDate type="date" value="${ n.ncreate }"/></td>
+<%--                			<td>${ n.ncreate }</td> --%>
+               		</tr>
+               	</c:forEach>
+               	
+               	
                 </tbody>
             </table>
-            <button>글쓰기</button>
+            
+            <c:if test="${ loginUser.classifyMem eq '4' }">
+            <button id="writeNoticeAdmin" onclick="location.href='${ contextPath }/notice/write'">글쓰기</button>
+            </c:if>
+            
             <!-- 나중에 페이징처리 따로 -->
-            <p style="text-align: center; margin-top: 50px;"> &lt;&lt;&nbsp; &lt;&nbsp; 1  2  3  4  5  6  7  8  9  10 &nbsp;&gt; &nbsp;&gt;&gt;</p>
+            <div class="mypage-pagination-area">
+						<!-- [이전] -->
+						<c:if test="${ pi.currentPage <= 1 }">
+							&lt; &nbsp;
+						</c:if>
+<!-- 숨기면안되나?						 -->
+						<c:if test="${ pi.currentPage > 1 }">
+							<c:url var="before" value="/notice/list">
+								<c:param name="page" value="${ pi.currentPage - 1 }"/>
+							</c:url>
+							<a href="${ before }"> &lt; </a> &nbsp;
+						</c:if>
+						
+						<!-- 페이지 숫자 -->
+						<c:forEach var="p" begin="${ pi.startPage }" end="${ pi.endPage }">
+							<c:if test="${ p eq pi.currentPage }">
+								<b>[${ p }]</b>								
+							</c:if>
+							<c:if test="${ p ne pi.currentPage }">
+								<c:url var="pagination" value="/notice/list">
+									<c:param name="page" value="${ p }"/>
+								</c:url>
+								<a href="${ pagination }">${ p }</a>
+							</c:if>
+						</c:forEach>
+						
+						<!-- [다음] -->
+						<c:if test="${ pi.currentPage >= pi.maxPage }">
+							&gt;
+						</c:if>
+						<c:if test="${ pi.currentPage < pi.maxPage }">
+							<c:url var="after" value="/notice/list">
+								<c:param name="page" value="${ pi.currentPage + 1 }" />
+							</c:url>
+							<a href="${ after }">&gt;</a>
+						</c:if>
+            </div>
         </article>
     </section>
+    
+    
+    <script>
+    	function selectNotice(nid){
+    		//게시판 pk값과 현재 페이지값 파라미터로 넘겨주기 
+    		location.href='${contextPath}/notice/detail?nid=' + nid + '&page=${ pi.currentPage }';
+    	}
+    </script>
 </body>
 </html>

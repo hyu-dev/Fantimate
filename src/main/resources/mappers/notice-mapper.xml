@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="noticeMapper">
+	<resultMap type="Notice" id="NoticeResultSet">
+		<id property="nid" column="NID"/>
+		<result property="ntitle" column="NTITLE"/>
+		<result property="ncontent" column="NCONTENT"/>
+		<result property="ncreate" column="NCREATE"/>
+		<result property="ncount" column="NCOUNT"/>
+		<result property="id" column="ID"/>
+		<result property="rlevel" column="RLEVEL"/>
+	</resultMap>
+
+
+
+	<select id="selectListCountAll" resultType="_int">
+		SELECT
+				COUNT(*)
+		  FROM
+		  		NOTICE
+		 WHERE
+		 <![CDATA[
+		 		RLEVEL <= #{listLevel}
+		 ]]>
+	</select>
+	
+	<select id="selectList" resultMap="NoticeResultSet">
+		SELECT
+				NID
+			  , NTITLE
+			  , NCONTENT
+			  , NCREATE
+			  , NCOUNT
+			  , ID
+			  , RLEVEL
+		  FROM
+		  		NOTICE
+		 WHERE
+		 <![CDATA[
+		 		RLEVEL <= #{listLevel}
+		 ]]>
+	  ORDER BY	
+	  		 	NID DESC
+	  		  , NCREATE DESC
+	</select>
+	
+	<insert id="insertNotice" parameterType="Notice">
+<!-- 		<selectKey keyProperty="NID" order="BEFORE" resultType="int"> -->
+<!-- 			SELECT SEQ_NOTICE.NEXTVAL FROM DUAL -->
+<!-- 		</selectKey> -->
+		INSERT 
+		INTO NOTICE
+		(
+			NID
+		  , NTITLE
+		  , NCONTENT
+		  , NCREATE
+		  , NCOUNT
+		  , ID
+		  , RLEVEL
+		)
+		VALUES
+		(
+			SEQ_NOTICE.NEXTVAL
+		  , #{ntitle}
+		  , #{ncontent}
+		  , SYSDATE
+		  , DEFAULT
+		  , #{id}
+		  , #{rlevel}
+		)	
+	</insert>
+	
+	<update id="updateReadCount" parameterType="_int">
+		UPDATE
+				NOTICE
+		   SET
+		   		NCOUNT = NCOUNT + 1
+		 WHERE
+		 		NID = #{nid}
+	</update>
+	
+	<select id="selectNotice" parameterType="_int" resultMap="NoticeResultSet">
+		SELECT
+				NID
+			  , NTITLE
+			  , NCONTENT
+			  , NCREATE
+			  , NCOUNT
+			  , ID
+			  , RLEVEL
+		  FROM
+		  		NOTICE
+		 WHERE
+		 		NID = #{nid}
+	</select>
+	
+	<update id="updateNotice" parameterType="Notice">
+		UPDATE
+				NOTICE
+		   SET
+		   		NTITLE = #{ntitle}
+		   	  , NCONTENT = #{ncontent}
+		   	  , RLEVEL = #{rlevel}
+		 WHERE
+		 		NID = #{nid}
+	</update>
+	
+	<delete id="deleteNotice" parameterType="_int">
+		DELETE
+		  FROM NOTICE
+		 WHERE
+		 		NID = #{nid}
+	</delete>
+</mapper>

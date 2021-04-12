@@ -21,9 +21,8 @@ html, body {
 
 .sub-title{
     text-align: center;
-    font-family: Yoon Minguk;
     font-style: normal;
-    font-weight: bold;
+    font-weight: 500;
     font-size: 23px;
     line-height: 43px;
     color: #000000;
@@ -33,7 +32,6 @@ html, body {
 }
 
 .nickname-title{
-    font-family: Yoon Minguk;
     font-style: normal;
     font-weight: normal;
     font-size: 18px;
@@ -48,11 +46,10 @@ html, body {
     width: 450px;
     height: 55px;
     font-size: 20px;
-    font-family: Yoon Minguk;
     font-style: normal;
     font-weight: normal;
     line-height: 43px;
-    color: #ACACAC;
+    color: black;
     border: 1px solid #ACACAC;
     outline: none;
     padding-left: 10px;
@@ -70,7 +67,6 @@ html, body {
     background: #F4D4D4;
     width: 150px;
     height: 50px;
-    font-family: Yoon Minguk;
     font-style: normal;
     font-weight: bold;
     font-size: 22px;
@@ -84,7 +80,6 @@ html, body {
     width: 150px;
     height: 50px;
     background: #5C5F78;
-    font-family: Yoon Minguk;
     font-style: normal;
     font-weight: bold;
     font-size: 22px;
