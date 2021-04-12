@@ -489,7 +489,7 @@
                     <li class="etc-content" id="langSetting" onclick="langSetting()">언어 설정</li>
                     <li class="etc-content" id="fanStore">팬 스토어</li>
                     <li class="etc-content" id="notice">공지사항</li>
-                    <li class="etc-content" id="logout">로그아웃</li>
+                    <li class="etc-content" id="logout" onclick="location.href='${ contextPath }/member/logout'">로그아웃</li>
                 </ul>
             </div>
         </section>
