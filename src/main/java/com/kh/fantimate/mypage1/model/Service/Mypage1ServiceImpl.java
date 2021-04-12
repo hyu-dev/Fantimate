@@ -1,8 +1,13 @@
 package com.kh.fantimate.mypage1.model.Service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kh.fantimate.common.model.vo.Notice;
+import com.kh.fantimate.common.model.vo.PageInfo;
+import com.kh.fantimate.member.model.vo.Agency;
 import com.kh.fantimate.mypage1.model.dao.Mypage1Dao;
 
 @Service
@@ -13,6 +18,22 @@ public class Mypage1ServiceImpl implements Mypage1Service{
 	@Override
 	public int selectListCountAll(int listLevel) {
 		return mDao.selectListCountAll(listLevel);
+	}
+
+	@Override
+	public List<Notice> selectList(PageInfo pi) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int checkId(String id) {
+		return mDao.checkId(id);
+	}
+
+	@Override
+	public int insertAgency(Agency agency) {
+		return mDao.insertAgency(agency);
 	}
 
 }
