@@ -79,4 +79,7 @@ public interface StoreDao {
 	// 상세페이지 리뷰 불러오기
 	public List<ReviewCollection> selectReviewList(String pcode);
 
+	// 상세페이지 리뷰 하나 불러오기
+	public List<ReviewCollection> selectReview(int rvCode);
+
 }

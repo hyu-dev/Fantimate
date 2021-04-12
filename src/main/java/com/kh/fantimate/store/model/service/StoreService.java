@@ -54,4 +54,7 @@ public interface StoreService {
 
 	// 상세페이지 리뷰 불러오기
 	public List<ReviewCollection> selectReviewList(String pcode);
+
+	// 상세페이지 리뷰 중 하나 불러오기
+	public List<ReviewCollection> selectReview(int rvCode);
 }

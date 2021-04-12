@@ -134,5 +134,10 @@ public class StoreDaoImpl implements StoreDao {
 		return sqlSession.selectList("storeMapper.selectReviewList", pcode);
 	}
 
+	@Override
+	public List<ReviewCollection> selectReview(int rvCode) {
+		return sqlSession.selectList("storeMapper.selectReview", rvCode);
+	}
+
 
 }

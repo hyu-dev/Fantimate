@@ -117,4 +117,9 @@ public class StoreServiceImpl implements StoreService {
 		return sDao.selectReviewList(pcode);
 	}
 
+	@Override
+	public List<ReviewCollection> selectReview(int rvCode) {
+		return sDao.selectReview(rvCode);
+	}
+
 }

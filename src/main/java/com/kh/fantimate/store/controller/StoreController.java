@@ -450,4 +450,10 @@ public class StoreController {
 		if(result > 0) response.sendRedirect("../storeDetail");
 	}
 	
+	@GetMapping("/review/{rvCode}")
+	public List<ReviewCollection> selectReview(@PathVariable int rvCode) {
+		List<ReviewCollection> list = sService.selectReview(rvCode);
+		return list;
+	}
+	
 }

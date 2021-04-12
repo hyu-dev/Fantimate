@@ -190,7 +190,7 @@
 		    console.log(pAmount);
 			
 		    IMP.request_pay({ // param
-		      pg: "kakaopay",
+		      pg: "html5_inicis",
 		      pay_method: "card",
 		      merchant_uid: "ORD20180131-0000011",
 		      amount: pAmount,

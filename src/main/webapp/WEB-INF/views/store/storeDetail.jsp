@@ -105,6 +105,7 @@
                 <c:if test="${ !empty review }">
                 <div class="product-review">
                     <section class="top">
+                    
                         <div class="top-review">
                             <div class="top-photo">
                             	<c:forEach var="i" begin="0" end="${ review.size() - 1 }" step="1">
@@ -115,56 +116,74 @@
                             </div>
                             <div class="index-area">
                             	<c:forEach var="r" items="${ review }" varStatus="state">
+                            	<c:if test="${ state.index eq 0 }">
+                            		<c:set var="userId" value="${ r.review.id }" />
+                            	</c:if>
+                            	<c:if test="${ r.review.id eq userId }">
                                 <div class="index index${ state.index + 1 }"></div>
+                                </c:if>
                                 </c:forEach>
                             </div>
-                            
                         </div>
                         <div class="top-review-content">
-                            <img class="user-profile" src="${ contextPath }/resources/images/mypage/만식프로필.png" alt="" width="50px">
+                            <img class="user-profile" src="${ contextPath }/resources/uploadFiles/${ review.get(0).attUser.attSvName }" alt="" width="50px">
                             <span class="user-info">
-                                <span class="top-title">울 옵빠 만나고 싶어효~!</span>
+                            	<span class="top-user-id">${ review.get(0).review.id }</span>
+                                <span class="top-title">${ review.get(0).review.rvTitle }</span>
                                 <span class="top-score">
-                                    <img src="${ contextPath }/resources/images/store/star-pink.png" alt="" width="20px">
-                                    <img src="${ contextPath }/resources/images/store/star-pink.png" alt="" width="20px">
-                                    <img src="${ contextPath }/resources/images/store/star-pink.png" alt="" width="20px">
-                                    <img src="${ contextPath }/resources/images/store/star-pink.png" alt="" width="20px">
-                                    <img src="${ contextPath }/resources/images/store/star-gray.png" alt="" width="20px">
-                                    <span class="top-user-id">at******</span>
-                                    <span class="top-enroll-date">2021. 03. 06</span>
+                                	<c:forEach var="i" begin="1" end="5" step="1">
+                                	<c:choose>
+	                                	<c:when test="${ review.get(0).review.rvScore >= i }">
+	                                	<img src="${ contextPath }/resources/images/store/star-pink.png" alt="" width="20px">
+	                                	</c:when>
+	                                	<c:otherwise>
+	                                	<img src="${ contextPath }/resources/images/store/star-gray.png" alt="" width="20px">
+	                                	</c:otherwise>
+                                	</c:choose>
+                                    </c:forEach>
+                                    <span class="top-enroll-date">${ review.get(0).review.enrollDate }</span>
                                 </span>
                             </span>
-                            <div class="user-review-content">
-                                BTS 오빠의 과거 앨범을 이렇게 영접하다니 넘나 좋은 것 ~~ ㅠㅠ
-                            </div>
+                            <div class="user-review-content">${ review.get(0).review.rvContent }</div>
                         </div>
+                        
                     </section>
                     <section class="bottom">
                         <img class="left-move" src="${ contextPath }/resources/icon/slide-left-btn.png" alt="" width="30px">
+                        <c:forEach var="r" items="${ review }" varStatus="state">
+                        <c:if test="${ r.attReview.attMain eq 'Y' }">
                         <div class="bottom-review">
-                            <div class="review">
+                            <div class="review review${ state.index + 1 }">
+                            	<input type="hidden" id="rvCode" value="${ r.review.rvCode }">
                                 <div class="bottom-photo">
-                                    <img src="${ contextPath }/resources/images/store/1stAlbumBts3.png" alt="" width="150px">
+                                    <img src="${ contextPath }/resources/uploadFiles/${ r.attReview.attSvName }" alt="" width="150px">
                                 </div>
                                 <div class="completed-review">
                                     <div class="date-created">
                                         <span class="top-score">
-                                            <img src="${ contextPath }/resources/images/store/star-pink.png" alt="" width="15px">
-                                            <img src="${ contextPath }/resources/images/store/star-pink.png" alt="" width="15px">
-                                            <img src="${ contextPath }/resources/images/store/star-pink.png" alt="" width="15px">
-                                            <img src="${ contextPath }/resources/images/store/star-pink.png" alt="" width="15px">
-                                            <img src="${ contextPath }/resources/images/store/star-gray.png" alt="" width="15px">
-                                            <span class="user-id">at******</span>
-                                            <span class="enroll-date">2021. 03. 07</span>
+	                                        <c:forEach var="i" begin="1" end="5" step="1">
+		                                	<c:choose>
+			                                	<c:when test="${ r.review.rvScore >= i }">
+			                                	<img src="${ contextPath }/resources/images/store/star-pink.png" alt="" width="15px">
+			                                	</c:when>
+			                                	<c:otherwise>
+			                                	<img src="${ contextPath }/resources/images/store/star-gray.png" alt="" width="15px">
+			                                	</c:otherwise>
+		                                	</c:choose>
+		                                    </c:forEach>
+	                                    	<span class="user-id">${ r.review.id }</span>
+                                           	<span class="enroll-date">${ r.review.enrollDate }</span>
                                         </span>
                                     </div>
                                     <div class="review-content">
-                                        <b>울 옵빠 만나고 싶어효!</b>
-                                        <p>몇 번이나 사는지 몰라요 이번에는 제발 팬싸인회 당첨 좀ㅠㅠㅠㅠ 이렇게나 원하는데</p>
+                                        <b>${ r.review.rvTitle }</b>
+                                        <p>${ r.review.rvContent }</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        </c:if>
+                        </c:forEach>
                         <img class="right-move" src="${ contextPath }/resources/icon/slide-right-btn.png" alt="" width="30px">
                     </section>
                 </div>
@@ -339,6 +358,36 @@
 		    }
 		    console.log($(".review:nth-of-type(1)").css("display"))
 		})
+		
+		// 하단 컨텐츠 리뷰 클릭시
+		$(".review").click(function() {
+			var rvCode = $(this).children("#rvCode").val();
+			$.ajax({
+				url : "${ pageContext.request.contextPath }/store/review/" + rvCode,
+				data : "get",
+				dateType : "json",
+				contentType : "application/json; charset=utf-8",
+	        	success : function(data) {
+	        		console.log(data)
+	        		var topContainer = $(".top-review-content");
+	        		var userProfile = $("<img class='user-profile' alt='' width='50px'>").attr("src", data.get(0).attUser.attSvName);
+	        		var userInfo = $("<span class='user-info'>");
+	        		var userid = $("<span class='top-user-id'>").text(data.get(0).review.id);
+	        		var title = $("<span class='top-title'>").text(data.get(0).review.title);
+	        		var score = $("<span class='top-score'>");
+	        		var starUrl = "${ contextPath }/resources/images/store/star-pink.png";
+	        		var img = $("<img width='20px'>").attr("src", starUrl);
+	        		var enrollDate = $("<span class='top-enroll-data'>").text(data.get(0).review.enrollData);
+	        		var rvContent = $("<div class='user-review-content'>").text(data.get(0).review.rvContent);
+	        		
+	        		
+	        	},
+				error : function(e) {
+					console.log(e)
+				}
+			});
+		});
+		
 	
 		// 오른쪽 컨텐츠 
 		let quantity = 0;

@@ -53,6 +53,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<result property="id" column="ID"/>
 		<result property="bcode" column="B_CODE"/>
 		<result property="pcode" column="P_CODE"/>
+		<result property="enrollDate" column="ENROLL_DATE"/>
 	</resultMap>
 	<resultMap type="User" id="userResultSet">
 		<id property="id" column="U_ID"/>
@@ -436,20 +437,14 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
               , USE_TERM
               , OFFERINGS
               , CANCEL_INFO
-              , RV_CODE
-              , RV_TITLE
-              , RV_CONTENT
-              , B_CODE
 		  FROM 
-		  		STORE S
+		  		STORE
 		  JOIN 
 		  		ATT_STORE USING(P_CODE)
 		  LEFT JOIN
 		  		S_WISH W USING(P_CODE)
           LEFT JOIN
                 P_INFO USING(P_CODE)
-          LEFT JOIN
-                REVIEW USING(P_CODE)
         WHERE
                 P_CODE = #{pcode}
 		   AND  IS_ACTIVE = 'Y'
@@ -543,5 +538,39 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	     WHERE  
 	     		P_CODE = #{pcode}
 	  ORDER BY  ENROLL_DATE DESC
+	</select>
+	<select id="selectReview" parameterType="_int" resultMap="reviewCollResultSet">
+		SELECT
+				RV_CODE
+              , RV_SCORE
+              , RV_TITLE
+              , RV_CONTENT
+              , ID
+              , P_CODE
+              , B_CODE
+              , ENROLL_DATE
+              , ATT_CODE
+              , ATT_ROOT
+              , ATT_CL_NAME
+              , ATT_SV_NAME
+              , IS_MAIN_ATT
+              , U_ADD
+              , U_EMAIL
+              , IS_MEMBERSHIP
+              , UP_CODE
+              , UP_CL_NAME
+              , UP_SV_NAME
+              , UP_STATUS
+		  FROM 
+		  		REVIEW
+          LEFT JOIN
+                ATT_REVIEW USING (RV_CODE)
+          LEFT JOIN
+                USER_ ON (ID = U_ID)
+          LEFT JOIN
+                USER_PROFILE USING(U_ID)
+         WHERE  
+	     		RV_CODE = #{rvCode}
+	  ORDER BY  ATT_CODE ASC
 	</select>
 </mapper>

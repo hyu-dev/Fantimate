@@ -1,6 +1,6 @@
 package com.kh.fantimate.store.model.vo;
 
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 
 import com.kh.fantimate.common.model.vo.Attachment;
