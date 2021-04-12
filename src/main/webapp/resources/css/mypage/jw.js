@@ -6,7 +6,8 @@ $(document).ready(function() {
 	// 팝업띄우기
 	
 	// 소속사등록 버튼클릭시
-	$("#mypageAdminMenuDiv li:eq(0)").click(function() { 
+	//$("#mypageAdminMenuDiv li:eq(0)").click(function() { 
+	$("#insertAgency").click(function() { 
 		console.log('정상클릭');
 		$("#mypageAdminSignInWrap").fadeIn().addClass("mypagebground");
 		$("#mypageAdminSignIn").fadeIn();

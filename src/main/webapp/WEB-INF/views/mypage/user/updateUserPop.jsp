@@ -8,6 +8,6 @@
 <title>회원 정보 수정 팝업</title>
 </head>
 <body>
-
+	
 </body>
 </html>

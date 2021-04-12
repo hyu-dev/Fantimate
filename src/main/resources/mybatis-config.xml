@@ -24,6 +24,7 @@
 		<typeAlias type="com.kh.fantimate.store.model.vo.StoreCollection" alias="StoreCollection"/>
 		<typeAlias type="com.kh.fantimate.store.model.vo.StoreCategory" alias="StoreCategory"/>
 		<typeAlias type="com.kh.fantimate.store.model.vo.Wish" alias="Wish"/>
+		<typeAlias type="com.kh.fantimate.common.model.vo.Notice" alias="Notice"/>
 		<typeAlias type="com.kh.fantimate.official.model.vo.Official" alias="Official"/>
 		<typeAlias type="com.kh.fantimate.official.model.vo.MediaCategory" alias="Category"/>
 		<typeAlias type="com.kh.fantimate.official.model.vo.HitCount" alias="HitCount"/>
@@ -41,6 +42,7 @@
 	<mappers>
 		<mapper resource="mappers/member-mapper.xml"/>
 		<mapper resource="mappers/store-mapper.xml"/>
+		<mapper resource="mappers/notice-mapper.xml"/>
 		<mapper resource="mappers/official-mapper.xml"/>
 		<mapper resource="mappers/main-mapper.xml"/>
 		<mapper resource="mappers/pay-mapper.xml"/>

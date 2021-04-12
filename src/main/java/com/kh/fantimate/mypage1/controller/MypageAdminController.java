@@ -1,14 +1,21 @@
 package com.kh.fantimate.mypage1.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.fantimate.mypage1.model.Service.Mypage1Service;
+
+
 @Controller
 @RequestMapping("/mypage/admin")
-public class mypageAdminController {
+public class MypageAdminController {
+	
+	@Autowired
+	private Mypage1Service mService;
 	
 	// 재우추가
 		@GetMapping("/report")
@@ -25,18 +32,16 @@ public class mypageAdminController {
 			return mv;
 		}
 		
-		@GetMapping("/notice")
-		public ModelAndView noticeList(ModelAndView mv) {
-			
-			mv.setViewName("mypage/admin/noticeList");
-			
-			return mv;
-		}
-		
-		@GetMapping("/write")
+		@PostMapping("/write")
 		public String noticeWrite() {
 			
-			return "/mypage/admin/notice/writepage"; 
+			return "/mypage/admin/noticeWrite"; 
+		}
+		
+		@PostMapping("/detail")
+		public String noticeDetail() {
+			
+			return "/mypage/admin/noticeDetail"; 
 		}
 		
 		@GetMapping("/management")
