@@ -7,7 +7,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("/mypage/user")
-public class mypageUserController {
+public class MypageUserController {
 	
 	// 재우추가
 		@GetMapping("/feed")

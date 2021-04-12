@@ -24,13 +24,22 @@
 <%-- 			<li><a onclick="javascript:location.href='${contextPath}/mypage/admin/insertAgency' 'target=_blank'">소속사등록</a></li> --%>
 <%-- 			<li><a onclick="javascript:location.href='${contextPath}/mypage/admin/popup'">팝업테스트</a></li> --%>
 			<li><a onclick="javascript:location.href='${contextPath}/mypage/admin/report'">신고관리</a></li>
-			<li><a onclick="javascript:location.href='${contextPath}/mypage/admin/notice'">공지사항</a></li>
+			<li><a onclick="javascript:location.href='${contextPath}/notice/list'">공지사항</a></li>
 			<li><a onclick="javascript:location.href='${contextPath}/mypage/admin/management'">회원관리</a></li>
 			<li><a onclick="javascript:location.href='${contextPath}/mypage/admin/paylist'">결제내역</a></li>
-<!-- 			<li><a onclick="test()">테스트함수</a></li> -->
+			<li><a>세션정보출력</a></li>
 		</ul>
 	</div>
-	
+	<script>
+	$(document).ready(function(){
+		$("#mypageAdminMenuDiv li:eq(5)").click(function(){
+			console.log("정상클릭");
+			//alert(${loginUser});
+			//alert(Member(id=admin, pwd=1234, name=관리자, status=Y, signupDate=Tue Mar 30 17:29:18 KST 2021, classifyMem=4));
+		});
+		
+	});
+	</script>
 <!-- 	<script src="../../../resources/css/mypage/jw.js"></script> -->
 	<script src="${ contextPath }/resources/css/mypage/jw.js"></script>
 </body>
