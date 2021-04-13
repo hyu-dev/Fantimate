@@ -11,6 +11,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<result property="mediaStatus" column="MEDIA_STATUS"/>
 		<result property="isPay" column="IS_PAY"/>
 		<result property="cateCode" column="CATE_CODE"/>
+		<result property="mediaPay" column="MEDIA_PAY"/>
 	</resultMap>
 	<resultMap type="Category" id="category">
 		<id property="cateCode" column="CATE_CODE"/>
@@ -44,6 +45,17 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<collection property="hitCount" resultMap="hitCountResultSet"/>
 	</resultMap>
 	
+	<select id="countMedia" parameterType="string" resultType="int">
+	SELECT 
+	       COUNT(*)
+	  FROM 
+	       MEDIA
+	  JOIN
+	       M_CATEGORY USING(CATE_CODE)
+	 WHERE
+	       ARTI_NAME_EN = #{artiNameEn}
+	</select>
+	
 	<select id="selectCategory" parameterType="string" resultMap="category">
 	SELECT 
 	       CATE_CODE
@@ -63,6 +75,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	     , MEDIA_DATE
 	     , MEDIA_STATUS
 	     , IS_PAY
+	     , MEDIA_PAY
          , CATE_CODE
          , CATE_NAME
          , ARTI_NAME_EN
@@ -102,6 +115,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 			     , MEDIA_DATE
 			     , MEDIA_STATUS
 			     , IS_PAY
+			     , MEDIA_PAY
 		         , CATE_CODE
 		         , CATE_NAME
 		         , ARTI_NAME_EN
@@ -131,4 +145,171 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	 WHERE 
            ROWNUM &lt; 5
 	</select>
+	
+	<select id="checkMediaPay" parameterType="_int" resultMap="mediaResultSet">
+	SELECT 
+	       MEDIA_NUM
+	     , MEDIA_TTL
+	     , MEDIA_CTT
+	     , MEDIA_DATE
+	     , MEDIA_STATUS
+	     , IS_PAY
+	     , CATE_CODE
+	     , MEDIA_PAY
+	  FROM 
+	       MEDIA
+	 WHERE
+	       MEDIA_NUM = #{mediaNum}
+	</select>
+	
+	<insert id="insertCart" parameterType="Cart">
+	INSERT
+	  INTO CART
+	      (
+	       CART_CODE
+	     , BUY_Q
+	     , B_PRICE
+	     , FEE
+	     , ENROLL_DATE
+	     , IS_BOUGHT
+	     , MEDIA_NUM
+	     , ID
+	       )
+	VALUES
+	      (
+	       SEQ_CART.NEXTVAL
+	     , #{buyQ}
+	     , #{buyPrice}
+	     , DEFAULT
+	     , SYSDATE
+	     , DEFAULT
+	     , #{mediaNum}
+	     , #{id}
+	       )
+	</insert>
+	
+	<select id="searchMediaList" parameterType="hashMap" resultMap="mediaCollResultSet">
+	SELECT 
+	       MEDIA_NUM
+	     , MEDIA_TTL
+	     , MEDIA_CTT
+	     , MEDIA_DATE
+	     , MEDIA_STATUS
+	     , IS_PAY
+	     , MEDIA_PAY
+         , CATE_CODE
+         , CATE_NAME
+         , ARTI_NAME_EN
+	     , ATT_CODE
+	     , ATT_ROOT
+	     , ATT_CL_NAME
+	     , ATT_SV_NAME
+	     , ATT_STATUS
+	     , IS_THUMB
+	  FROM 
+	       MEDIA
+      JOIN
+           M_CATEGORY USING(CATE_CODE)
+	  JOIN
+	       MD_FILE USING(MEDIA_NUM)
+	 WHERE
+	 	   (
+	 	   MEDIA_TTL LIKE '%' || #{search} || '%'
+	    OR
+	       MEDIA_CTT LIKE '%' || #{search} || '%'
+	    OR
+	       CATE_NAME = #{search}
+	       )
+	   AND
+           ARTI_NAME_EN = #{artiNameEn}
+       AND
+       	   IS_THUMB = 'Y'
+       AND
+	       MEDIA_STATUS = 'Y'
+	   AND
+	       ATT_STATUS = 'Y'
+  ORDER BY 
+	       MEDIA_DATE DESC
+	</select>
+	
+	<select id="selectMediaList" parameterType="hashMap" resultMap="mediaCollResultSet">
+	SELECT 
+	       MEDIA_NUM
+	     , MEDIA_TTL
+	     , MEDIA_CTT
+	     , MEDIA_DATE
+	     , MEDIA_STATUS
+	     , IS_PAY
+	     , MEDIA_PAY
+         , CATE_CODE
+         , CATE_NAME
+         , ARTI_NAME_EN
+	     , ATT_CODE
+	     , ATT_ROOT
+	     , ATT_CL_NAME
+	     , ATT_SV_NAME
+	     , ATT_STATUS
+	     , IS_THUMB
+	  FROM 
+	       MEDIA
+      JOIN
+           M_CATEGORY USING(CATE_CODE)
+	  JOIN
+	       MD_FILE USING(MEDIA_NUM)
+	 WHERE
+	 	   CATE_NAME = #{cateName}
+	   AND
+           ARTI_NAME_EN = #{artiNameEn}
+       AND
+       	   IS_THUMB = 'Y'
+       AND
+	       MEDIA_STATUS = 'Y'
+	   AND
+	       ATT_STATUS = 'Y'
+  ORDER BY 
+	       MEDIA_DATE DESC	
+	</select>
+	
+	<select id="selectMedia" parameterType="hashMap" resultMap="mediaCollResultSet">
+	SELECT 
+	       MEDIA_NUM
+	     , MEDIA_TTL
+	     , MEDIA_CTT
+	     , MEDIA_DATE
+	     , MEDIA_STATUS
+	     , IS_PAY
+	     , MEDIA_PAY
+         , CATE_CODE
+         , CATE_NAME
+         , ARTI_NAME_EN
+	     , ATT_CODE
+	     , ATT_ROOT
+	     , ATT_CL_NAME
+	     , ATT_SV_NAME
+	     , ATT_STATUS
+	     , IS_THUMB
+	  FROM 
+	       MEDIA
+      JOIN
+           M_CATEGORY USING(CATE_CODE)
+	  JOIN
+	       MD_FILE USING(MEDIA_NUM)
+	 WHERE
+	 	   MEDIA_NUM = #{mediaNum}
+	   AND
+           ARTI_NAME_EN = #{artiNameEn}
+       AND
+	       MEDIA_STATUS = 'Y'
+	   AND
+	       ATT_STATUS = 'Y'
+	</select>
+	
+	<update id="updateHitCount" parameterType="_int">
+	UPDATE
+		   MD_COUNT
+	   SET
+	   	   COUNT = COUNT + 1
+	 WHERE
+	 	   MEDIA_NUM = #{mediaNum}
+	</update>
 </mapper>

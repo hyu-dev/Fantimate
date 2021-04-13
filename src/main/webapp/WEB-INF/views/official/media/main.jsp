@@ -32,7 +32,7 @@
                             <div class="new-media-left">
                                 <div class="new-media-title nanumsquare">${ s.official.mediaTtl }</div>
                                 <div class="circle">
-                                    <a href="${ contextPath }/official/list" class="new-media-link nanumsquare">바로 가기</a>
+                                    <a href="${ contextPath }/official/media/detail?mediaNum=${ s.official.mediaNum }" class="new-media-link nanumsquare">바로 가기</a>
                                 </div>
                             </div>
                             <div class="new-media-right">
@@ -49,12 +49,12 @@
             <div class="category-container">
                 <div class="category-upper">
                     <div class="category-title nanumsquare">${ cate.cateName }</div>
-                    <a href="${ contextPath }/official/media/list" class="category-link nanumsquare">전체 보기</a>
+                    <a href="${ contextPath }/official/media/list?category=${ cate.cateName }" class="category-link nanumsquare">전체 보기</a>
                 </div>
                 <div class="category-under">
                 	<c:forEach var="m" items="${ list }">
                 	<c:if test="${ m.official.cateCode eq cate.cateCode }">
-                    <div class="category-media" onclick="selectMedia(${ m.official.mediaNum })">
+                    <div class="category-media" onclick="selectMedia(${ m.official.mediaNum }, '${ m.official.isPay }', ${ m.official.mediaPay })">
                     	<c:if test="${ m.official.isPay eq 'Y' }">
                         <div class="media-pay-sign">유료</div>
                         </c:if>
@@ -76,12 +76,12 @@
         });
         
         /* 미디어 클릭 시 */
-        function selectMedia(mediaNum) {
+        function selectMedia(mediaNum, isPay, mediaPay) {
         	var loginUser = ${ loginUser.classifyMem }
-        	var membership = ${ user.isMembership }
+        	var membership = "${ user.isMembership }"
         	
         	/* 미디어가 유료일 때 */
-        	if($(this).children('.media-pay-sign').text() == "유료") {
+        	if(isPay == "Y") {
         		
         		/* 일반유저가 아니면 상세페이지로 이동 */
         		if(loginUser != 1) {
@@ -95,12 +95,28 @@
             		/* 멤버십에 가입하지 않은 회원은 구매 유도 팝업창 생성 */
             		} else {
             			
-            			if(confirm("해당 상품을 구매하시겠습니까?")) {
+            			/* 해당 미디어의 가격을 알기 위한 ajax 처리
+            			$.ajax({
+            				url : "${ contextPath }/official/media/mediaPay",
+            				data : { mediaNum : mediaNum },
+            				type : "post",
+            				dataType : "application/json; charset=utf-8",
+            				success : function(data) {
+            					var mediaPay = data;
+            					console.log(mediaPay);
+            					console.log(data);
+            				},
+            				error : function(e) {
+            					console.log(e);
+            				}
+            			}); */
+            			
+            			if(confirm("해당 상품은 " + mediaPay + "원입니다. 구매를 진행하시겠습니까?")) {
         					
             				/* 장바구니로 해당 상품 데이터를 넘기는 ajax 처리 */
             				$.ajax({
 			            		url : "${ contextPath }/official/media/insertCart",
-			            		data : { mediaNum : mediaNum },
+			            		data : { mediaNum : mediaNum, mediaPay : mediaPay },
 			            		type : "post",
 			            		dataType : "json",
 			            		contentType : "application/json; charset=utf-8",
@@ -115,12 +131,15 @@
             				/* 장바구니 페이지로 이동 */
                             if(confirm("상품이 정상적으로 장바구니에 담겼습니다.\n" + 
                             "장바구니로 이동하시겠습니까?")) {
-                            	location.href="${ contextPath }/official/media/detail?mediaNum=" + mediaNum;
+                            	location.href="${ contextPath }/pay/cart";
                             } 
                         }
             		}
             	} 
+        	} else {
+        		location.href="${ contextPath }/official/media/detail?mediaNum=" + mediaNum;
         	}
+        }
         </script>
         
         <!-- 오른쪽 -->
@@ -147,7 +166,7 @@
 		});
 	    
 	 	// 토글 스위치 클릭할 때 스케줄 페이지로 이동
-	    $(".toggle-switch").click(function () {
+	    $(".toggle-switch").click(function() {
 		    location.href="${ contextPath }/official/schedule";
 		});
 	    </script>
