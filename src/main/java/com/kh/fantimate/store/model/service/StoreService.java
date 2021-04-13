@@ -57,4 +57,7 @@ public interface StoreService {
 
 	// 상세페이지 리뷰 중 하나 불러오기
 	public List<ReviewCollection> selectReview(int rvCode);
+
+	// 상세페이지 수정하기
+	public int updateStore(StoreCollection sc, List<Attachment> attList);
 }

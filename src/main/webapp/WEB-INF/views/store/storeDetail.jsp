@@ -14,9 +14,6 @@
     <link rel="stylesheet" href="${ contextPath }/resources/css/store/storeDetail.css">
     <link rel="icon" type="image/png" sizes="16x16" href="${ contextPath }/resources/icon/faviconF.png">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-    <script>
-    	document.cookie = "crossCookie=bar; SameSite=None; Secure";
-    </script>
     <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
     <title>Fantimate</title>
 </head>
@@ -67,7 +64,15 @@
             <div class="product-information">
                 <div class="product-title">
                     <p>상세정보</p>
-                    <p id="reviewBtn">포토리뷰 (6)</p>
+                    <c:set var="count" value="0"/>
+                    <p id="reviewBtn">포토리뷰 (
+                    	<c:forEach var="r" items="${ review }" varStatus="state">
+                        <c:if test="${ r.attReview.attMain eq 'Y' }">
+                        <c:set var="count" value="${ count + 1 }"/>
+                        </c:if>
+                        </c:forEach>
+                        ${ count }
+                    )</p>
                 </div>
                 <div class="product-info">
                     <table>
@@ -506,8 +511,31 @@
 	
 		// 오른쪽 컨텐츠 바로구매하기 클릭시
 		$(".buy").click(function() {
-		    // 결제 API 호출
-		    console.log("결제 API 호출")
+			var IMP = window.IMP; 
+	    	IMP.init("imp85435791");
+		    
+		    var pAmount = 12000;
+		    console.log(pAmount);
+			
+		    IMP.request_pay({ // param
+		      pg: "html5_inicis",
+		      pay_method: "card",
+		      merchant_uid: "ORD20180131-0000011",
+		      amount: pAmount,
+		      buyer_email: "gildong@gmail.com",
+		      buyer_name: "홍길동",
+		      buyer_tel: "010-4242-4242",
+		      buyer_addr: "서울특별시 강남구 신사동",
+		      buyer_postcode: "01181"
+		    }, function (rsp) { // callback
+		      if (rsp.success) {
+		          // 결제 성공 시 로직,
+		          console.log("결제성공")
+		      } else {
+		          // 결제 실패 시 로직,
+		          console.log("결제실패")
+		      }
+		    });
 		})
 	
 		// 추천 상품 클릭시

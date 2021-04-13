@@ -79,6 +79,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<result property="id" column="U_ID"/>
 	</resultMap>
 	<resultMap type="StoreCollection" id="storeCollResultSet">
+		<collection property="storeCate" resultMap="category" />
 		<collection property="store" resultMap="storeResultSet" />
 		<collection property="att"  resultMap="attResultSet" />
 		<collection property="wish"  resultMap="wishResultSet" />
@@ -422,6 +423,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 			  , IS_SOLDOUT
 			  , IS_ACTIVE
 			  , C_CODE
+			  , C_NAME
 			  , ATT_CODE
 			  , ATT_ROOT
 			  , ATT_CL_NAME
@@ -445,6 +447,8 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		  		S_WISH W USING(P_CODE)
           LEFT JOIN
                 P_INFO USING(P_CODE)
+          LEFT JOIN
+                S_CATEGORY USING(C_CODE)
         WHERE
                 P_CODE = #{pcode}
 		   AND  IS_ACTIVE = 'Y'
@@ -573,4 +577,59 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	     		RV_CODE = #{rvCode}
 	  ORDER BY  ATT_CODE ASC
 	</select>
+	<update id="updateStoreCategory" parameterType="StoreCollection">
+		UPDATE
+				S_CATEGORY
+		   SET
+		  		C_NAME = #{storeCate.cateName}
+		 WHERE
+		 		C_CODE = #{storeCate.cateCode}
+	</update>
+	<update id="updateStore" parameterType="StoreCollection">
+		UPDATE
+				STORE
+		   SET
+			    P_NAME = #{store.pname}
+			  , SALES_Q = #{store.salesQ}
+			  , Q_PRICE = #{store.qprice}
+			  , DISCOUNT = #{store.discount}
+			  , INFORMATION = #{store.info}
+			  , IS_VIEW = #{store.isView}
+			  , C_CODE = #{storeCate.cateCode}
+		 WHERE
+		 		P_CODE = #{store.pcode}
+	</update>
+	<update id="updateStoreInfo" parameterType="StoreCollection">
+		UPDATE
+				P_INFO
+		   SET
+			    ORIGIN = #{storeInfo.origin}
+			  , BRAND = #{storeInfo.brand}
+			  , CONTACT = #{storeInfo.contact}
+			  , USE_TERM = #{storeInfo.useTerm}
+			  , OFFERINGS = #{storeInfo.offerings}
+			  , CANCEL_INFO = #{storeInfo.cancelInfo}
+		 WHERE
+		 		P_CODE = #{store.pcode}
+	</update>
+	<select id="selectAttCode" parameterType="_int" resultType="integer">
+		SELECT
+				ATT_CODE
+		  FROM
+		  		ATT_STORE
+		 WHERE
+		 		P_CODE = #{pcode}
+	</select>
+	<update id="updateStoreAtt">
+		<foreach collection="list" item="i" open="BEGIN" close="; END;" separator=";">
+		UPDATE
+				ATT_STORE
+		   SET
+			  	ATT_CL_NAME = #{i.attClName}
+			  , ATT_SV_NAME = #{i.attSvName}
+			  , IS_MAIN_ATT = #{i.attMain}
+		 WHERE
+		 		ATT_CODE = #{i.attCode}
+		</foreach>
+	</update>
 </mapper>

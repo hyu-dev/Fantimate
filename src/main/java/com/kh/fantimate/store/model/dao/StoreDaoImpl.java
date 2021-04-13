@@ -139,5 +139,30 @@ public class StoreDaoImpl implements StoreDao {
 		return sqlSession.selectList("storeMapper.selectReview", rvCode);
 	}
 
+	@Override
+	public void updateStoreCategory(StoreCollection sc) {
+		sqlSession.update("storeMapper.updateStoreCategory", sc);
+	}
+
+	@Override
+	public void updateStore(StoreCollection sc) {
+		sqlSession.update("storeMapper.updateStore", sc);
+	}
+
+	@Override
+	public void updateStoreInfo(StoreCollection sc) {
+		sqlSession.update("storeMapper.updateStoreInfo", sc);
+	}
+
+	@Override
+	public int updateStoreAtt(List<Attachment> attList) {
+		return sqlSession.update("storeMapper.updateStoreAtt", attList);
+	}
+
+	@Override
+	public List<Integer> selectAttCode(int pcode) {
+		return sqlSession.selectList("storeMapper.selectAttCode", pcode);
+	}
+
 
 }

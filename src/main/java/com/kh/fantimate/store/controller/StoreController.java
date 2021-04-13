@@ -275,6 +275,110 @@ public class StoreController {
 		}
 	}
 	
+	@RequestMapping("/update")
+	public void updateStore(HttpServletResponse response,
+							Store store,
+							StoreCategory storeCate,
+							StoreInfo storeInfo,
+							HttpServletRequest request,
+							@RequestParam(value="mainPhoto") MultipartFile main,
+							@RequestParam(value="mainSvName") String mainSvName,
+							@RequestParam(value="mainClName") String mainClName,
+							@RequestParam(value="subPhotos") MultipartFile[] subs,
+							@RequestParam(value="subSvName") String[] subSvName,
+							@RequestParam(value="subSvName") String[] subClName)
+							throws IOException{
+		
+		List<Attachment> attList = new ArrayList<>();
+		Attachment att = null;
+		// 업로드 파일 서버에 저장
+		// 메인파일 첨부가 정상적으로 동작했다면
+		if(!main.getOriginalFilename().equals("")) {
+			// 메인파일에 새로운 데이터가 담겼다면 기존 파일 삭제
+			if(mainSvName != null) {
+				deleteFile(("resources/uploadFiles/" + mainSvName), request);
+			}
+			att = new Attachment();
+			String renameFileName = saveFile(main, request);
+			// DB에 저장하기 위한 파일명 세팅
+			if(renameFileName != null) {
+				att.setAttClName(main.getOriginalFilename());
+				att.setAttSvName(renameFileName);
+				att.setAttMain("Y");
+				attList.add(att);
+			}
+		} else {
+			// 메인파일이 변경되지 않았다면 기존파일을 넣는다
+			att = new Attachment();
+			att.setAttClName(mainClName);
+			att.setAttSvName(mainSvName);
+			att.setAttMain("Y");
+			attList.add(att);
+		}
+		
+		// 서브파일 첨부가 정상적으로 동작했다면
+		int i = 0;
+		for(MultipartFile sub : subs) {
+			att = new Attachment();
+			if(!sub.getOriginalFilename().equals("")) {
+				// 서브파일에 새로운 데이터가 담겼다면 기존 파일 삭제
+				if(subSvName != null) {
+					deleteFile(("resources/uploadFiles/" + subSvName[i]), request);
+					i++;
+				}
+				String renameFileName = saveFile(sub, request);
+				if(renameFileName != null) {
+					att.setAttClName(sub.getOriginalFilename());
+					att.setAttSvName(renameFileName);
+					att.setAttMain("N");
+					attList.add(att);
+				}
+			} else {
+				// 서브파일이 변경되지 않았다면 기존 파일을 넣는다
+				att.setAttClName(subClName[i]);
+				att.setAttSvName(subSvName[i]);
+				att.setAttMain("N");
+				attList.add(att);
+				i++;
+			}
+		}
+		for(int j = 0; j < attList.size(); j++) {
+			System.out.println(attList.get(j).getAttClName());
+			System.out.println(attList.get(j).getAttSvName());
+		}
+		
+		if(store.getIsView().equals("on"))
+			store.setIsView("Y");
+		else 
+			store.setIsView("N");
+		
+		StoreCollection sc = new StoreCollection();
+		sc.setStore(store);
+		sc.setStoreCate(storeCate);
+		sc.setStoreInfo(storeInfo);
+		
+		int result = sService.updateStore(sc, attList);
+		
+		if(result > 0) {
+			response.sendRedirect("detail?pcode=" + sc.getStore().getPcode());
+		} else {
+			System.out.println("등록안됨");
+		}
+		// update가 성공적으로 등록되었으나 result 값이 -1로 표시되어.. 해결될때까지 임시로 적용
+		response.sendRedirect("detail?pcode=" + sc.getStore().getPcode());
+	}
+	
+	// 파일 삭제 메소드
+	public void deleteFile(String filePath, HttpServletRequest request) {
+		String root = request.getSession().getServletContext().getRealPath("resources");
+		
+		File deleteFile = new File(root + filePath);
+		
+		if(deleteFile.exists()) {
+			deleteFile.delete();
+		}
+	}
+	
 	// 파일 리네임 후 저장
 	public String saveFile(MultipartFile file, HttpServletRequest request) {
 		String root = request.getSession().getServletContext().getRealPath("resources");
@@ -348,7 +452,7 @@ public class StoreController {
 			List<StoreCollection> sc = sService.selectStore(pcode, !flagPcode);
 			HttpSession session = request.getSession();
 			session.setAttribute("sc", sc);
-			
+			System.out.println(sc);
 			// 상세페이지의 리뷰 정보 리스트로 담아오기
 			List<ReviewCollection> review = sService.selectReviewList(pcode);
 			session.setAttribute("review", review);
