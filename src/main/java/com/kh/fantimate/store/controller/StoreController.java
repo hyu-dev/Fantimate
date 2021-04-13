@@ -58,9 +58,18 @@ public class StoreController {
 		// 아티스트 이름 임의로 조정 (세션으로 변경 필요)
 		String artiName = "IU";
 		List<StoreCategory> cateList = (ArrayList<StoreCategory>)sService.selectcategoryList(artiName);
+		String cateName = "";
+		if(cateList != null && !cateList.isEmpty()) {
+			// 카테고리리스트로부터 가져온 데이터에서 첫번째 값 도출
+			cateName = cateList.get(0).getCateName();
+		} else {
+			mv.addObject("msg", "등록된 스토어가 없습니다.");
+			String referer = request.getHeader("Referer");
+			request.getSession().setAttribute("referer", referer);
+			mv.setViewName("store/storeList");
+			return mv;
+		}
 		
-		// 카테고리리스트로부터 가져온 데이터에서 첫번째 값 도출
-		String cateName = cateList.get(0).getCateName();
 		// 스토어 리스트 호출
 		List<StoreCollection> list = (ArrayList<StoreCollection>)sService.selectStoreList(cateName);
 		
