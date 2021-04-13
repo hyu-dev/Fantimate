@@ -284,6 +284,10 @@ section.bottom {
     display: flex;
     justify-content: center;
     align-items: flex-end;
+    font-family: Yoon Minguk;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 10px;
 }
 
 .top-score span {
@@ -324,14 +328,23 @@ section.bottom {
 }
 
 .review {
-    /* width: 23%; */
-    /* border: 1px solid red; */
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
     align-items: center;
     flex-basis: 25%;
     cursor: pointer;
+    box-sizing: border-box;
+}
+
+.bottom-score {
+	display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    font-family: Yoon Minguk;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 10px;
 }
 
 .bottom-photo {

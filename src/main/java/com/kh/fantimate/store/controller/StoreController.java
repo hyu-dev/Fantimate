@@ -29,6 +29,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.kh.fantimate.common.model.vo.Attachment;
 import com.kh.fantimate.member.model.vo.Member;
 import com.kh.fantimate.pay.model.vo.Cart;
@@ -450,10 +452,14 @@ public class StoreController {
 		if(result > 0) response.sendRedirect("../storeDetail");
 	}
 	
-	@GetMapping("/review/{rvCode}")
-	public List<ReviewCollection> selectReview(@PathVariable int rvCode) {
+	@RequestMapping(value="/review/{rvCode}", produces="application/json; charset=utf-8")
+	public String selectReview(@PathVariable int rvCode) {
 		List<ReviewCollection> list = sService.selectReview(rvCode);
-		return list;
+		Gson gson = new GsonBuilder()
+				.setDateFormat("yyyy-MM-dd")
+				.create();
+	
+		return gson.toJson(list);
 	}
 	
 }

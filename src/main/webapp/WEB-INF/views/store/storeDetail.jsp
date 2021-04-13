@@ -150,17 +150,17 @@
                     </section>
                     <section class="bottom">
                         <img class="left-move" src="${ contextPath }/resources/icon/slide-left-btn.png" alt="" width="30px">
+                        <div class="bottom-review">
                         <c:forEach var="r" items="${ review }" varStatus="state">
                         <c:if test="${ r.attReview.attMain eq 'Y' }">
-                        <div class="bottom-review">
-                            <div class="review review${ state.index + 1 }">
+                            <div class="review">
                             	<input type="hidden" id="rvCode" value="${ r.review.rvCode }">
                                 <div class="bottom-photo">
                                     <img src="${ contextPath }/resources/uploadFiles/${ r.attReview.attSvName }" alt="" width="150px">
                                 </div>
                                 <div class="completed-review">
                                     <div class="date-created">
-                                        <span class="top-score">
+                                        <span class="bottom-score">
 	                                        <c:forEach var="i" begin="1" end="5" step="1">
 		                                	<c:choose>
 			                                	<c:when test="${ r.review.rvScore >= i }">
@@ -181,9 +181,9 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
                         </c:if>
                         </c:forEach>
+                        </div>
                         <img class="right-move" src="${ contextPath }/resources/icon/slide-right-btn.png" alt="" width="30px">
                     </section>
                 </div>
@@ -304,9 +304,17 @@
              </div>
          </section>
 	</section>
+	<input type="hidden" name="flag" id="flag" value="no"/>
 	
 	<!-- 스크립트 -->
 	<script>
+		// 로딩 시 포토리뷰 4개만 표시 나머지 display none
+		$(document).ready(function() {
+			for(var i = 5; i <= $(".review").length; i++) {
+				$(".review:nth-of-type(" + i + ")").css("display", "none");
+			}
+		}) 
+	
 		// 왼쪽 컨텐츠 메인 사진의 작은 사진 클릭시
 		$(".small-img").click(function() {
 			var url = $(this).attr("src");
@@ -327,7 +335,7 @@
 		})
 	
 		// 왼쪽 컨텐츠 포토리뷰의 메인 포토 사진 이동 버튼 클릭시
-		$(".index").on('click', function() {
+		$(document).on('click', ".index", function() {
 		    $(".index").css("background", "#fbf6f6");
 		    $(this).css("background", "#5C5F78");
 		    for(let i = 0; i < $(".index").length; i++) {
@@ -337,27 +345,37 @@
 		        }
 		    }
 		})
+		
 	
 		// 왼쪽 컨텐츠 포토리뷰 하단의 좌로이동 클릭시
+		var i = 1;
 		$(".left-move").click(function() {
-		    // 가장 처음에 있는 데이터가 숨겨져 있다면
-		    if($(".review:nth-of-type(1)").css("display") == "none") {
-		        // 이전으로 돌아가기 위해서 어디까지 숨겨져있는지 체크 후
-		        // 해당 부분의 전 단계까지 block 
-		        // 가장 뒤에 있는 부분을 none 처리한다
-		        let i = 1;
-		        for( ; i < $(".review").length; i++) {
-		            if($(".review:nth-of-type(" + i + ")").css("display") == "flex") {
-		                console.log(i + "번째부터 표시 됨")
-		                break;
-		            }
-		        }
-		        console.log(i);
-		    } else {
-	
-		    }
-		    console.log($(".review:nth-of-type(1)").css("display"))
+			if(i == 1) {
+				alert("리뷰의 처음입니다");
+			} else {
+				if($(".review:nth-of-type(" + (i-1) + ")").css("display") == "none") {
+	        		$(".review:nth-of-type(" + (j-1) + ")").css("display", "none");
+					$(".review:nth-of-type(" + (i-1) + ")").css("display", "flex");
+				}
+				j--;
+				i--;
+			}
 		})
+		// 포토리뷰 하단의 우로이동 클릭시
+		var j = 5;
+		$(".right-move").click(function() {
+			var length = $(".review").length;
+			if(j > length) {
+				alert("더 이상 리뷰가 없습니다");
+			} else {
+				if($(".review:nth-of-type(" + j + ")").css("display") == "none") {
+					$(".review:nth-of-type(" + j + ")").css("display", "flex");
+					$(".review:nth-of-type(" + i + ")").css("display", "none");
+				}
+				i++;
+				j++;
+			}
+		});
 		
 		// 하단 컨텐츠 리뷰 클릭시
 		$(".review").click(function() {
@@ -365,24 +383,53 @@
 			$.ajax({
 				url : "${ pageContext.request.contextPath }/store/review/" + rvCode,
 				data : "get",
-				dateType : "json",
-				contentType : "application/json; charset=utf-8",
+				/* dateType : "json",
+				contentType : "application/json; charset=utf-8", */
 	        	success : function(data) {
 	        		console.log(data)
+	        		// 사용할 url 값
+	        		var url = "${ contextPath }/resources/uploadFiles/";
+	        		// 데이터 들어갈 위치
 	        		var topPhoto = $(".top-photo");
-	        		var indexArea = $(".")
-	        		var topContent = $(".review-content");
-	        		var userProfile = $("<img class='user-profile' alt='' width='50px'>").attr("src", data.get(0).attUser.attSvName);
+	        		var indexArea = $(".index-area");
+	        		var topContent = $(".top-review-content");
+	        		// 데이터 들어갈 곳 비워주기
+	        		topPhoto.html("");
+	        		indexArea.html("");
+	        		topContent.html("");
+	        		
+	        		// 데이터 바인딩
+	        		var userProfile = $("<img class='user-profile' alt='' width='50px'>").attr("src", url + data[0].attUser.attSvName);
 	        		var userInfo = $("<span class='user-info'>");
-	        		var userid = $("<span class='top-user-id'>").text(data.get(0).review.id);
-	        		var title = $("<span class='top-title'>").text(data.get(0).review.title);
+	        		var userid = $("<span class='top-user-id'>").text(data[0].review.id);
+	        		var title = $("<span class='top-title'>").text(data[0].review.rvTitle);
 	        		var score = $("<span class='top-score'>");
-	        		var starUrl = "${ contextPath }/resources/images/store/star-pink.png";
-	        		var img = $("<img width='20px'>").attr("src", starUrl);
-	        		var enrollDate = $("<span class='top-enroll-data'>").text(data.get(0).review.enrollData);
-	        		var rvContent = $("<div class='user-review-content'>").text(data.get(0).review.rvContent);
+	        		var enrollDate = $("<span class='top-enroll-date'>").text(data[0].review.enrollDate);
+	        		var rvContent = $("<div class='user-review-content'>").text(data[0].review.rvContent);
 	        		
-	        		
+	        		// 리뷰 이미지 생성
+	        		for(var i = 0; i < data.length; i++) {
+	        			var photos = $("<img alt='' width='150px'>").attr("src", url + data[i].attReview.attSvName);
+	        			topPhoto.append(photos);
+	        			var index = $("<div class='index index" + (i+1) + "'>");
+            			indexArea.append(index);
+	        			console.log(index)
+	        		}
+	        		// 리뷰 점수 생성
+	        		for(var i = 1; i <= 5; i++) {
+	        			var img = $("<img width='20px'>");
+	        			var starUrl = '';
+	        			if(data[0].review.rvScore >= i ) {
+	        				starUrl = "${ contextPath }/resources/images/store/star-pink.png";
+	        			} else {
+	        				starUrl = "${ contextPath }/resources/images/store/star-gray.png";
+	        			}
+	        			img.attr("src", starUrl);
+	        			score.append(img);
+	        		}
+	        		score.append(enrollDate);
+	        		userInfo.append(userid, title, score);
+	        		topContent.append(userProfile, userInfo, rvContent);
 	        	},
 				error : function(e) {
 					console.log(e)
@@ -473,6 +520,7 @@
 		$(".update-store").click(function() {
 			$(".main-template").css("display", "block");
 			$(".insert-section").css("display", "block");
+			$("#flag").val("yes");
 		});
 	</script>
 	</c:if>
