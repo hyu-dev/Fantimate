@@ -18,7 +18,12 @@
 <body>
 	<section class="insert-section">
         <form class="main-template" action="" method="POST" enctype="multipart/form-data">
-            <h3 class="store-write-title">스토어등록</h3>
+            <h3 class="store-write-title">
+            <c:choose>
+            	<c:when test="${ param.flag eq yes }">스토어수정</c:when>
+            	<c:otherwise>스토어등록</c:otherwise>
+            </c:choose>
+            </h3>
             <table class="store-write">
                 <tbody>
                     <tr>
@@ -43,14 +48,17 @@
                     <tr>
                         <th>상품명</th>
                         <td>
-                            <input type="text" name="pname" placeholder="30자 이내 입력" maxlength="30" class="input-data">
+                            <input type="text" name="pname" placeholder="30자 이내 입력" 
+                            maxlength="30" class="input-data" 
+                            value="<c:if test="${ param.flag eq yes }">${ sc.get(0).store.pname }</c:if>">
                         </td>
                     </tr>
                     <tr>
                         <th>판매수량</th>
                         <td>
                             <div class="input-area">
-                                <input type="number" name="salesQ" min="100" step="100" class="input-data">
+                                <input type="number" name="salesQ" min="100" step="100" class="input-data" 
+                                value="<c:if test="${ param.flag eq yes }">${ sc.get(0).store.salesQ }</c:if>">
                                 <p>개</p>
                             </div>
                         </td>
@@ -59,7 +67,8 @@
                         <th>개당가격</th>
                         <td>
                             <div class="input-area">
-                                <input type="number" name="qprice" min="100" step="100" class="input-data">
+                                <input type="number" name="qprice" min="100" step="100" class="input-data" 
+                                value="<c:if test="${ param.flag eq yes }">${ sc.get(0).store.qprice }</c:if>">
                                 <p>원</p>
                             </div>
                         </td>
@@ -68,7 +77,8 @@
                         <th>멤버십할인</th>
                         <td>
                             <div class="input-area">
-                                <input type="number" name="discount" min="0" step="1" class="input-data">
+                                <input type="number" name="discount" min="0" step="1" class="input-data" 
+                                value="<c:if test="${ param.flag eq yes }">${ sc.get(0).store.discount }</c:if>">
                                 <p>%</p>
                             </div>
                         </td>
@@ -80,37 +90,43 @@
                                 <tr>
                                     <th>제조사/원산지</th>
                                     <td>
-                                        <input type="text" name="origin" placeholder="제조사를 등록하세요">
+                                        <input type="text" name="origin" placeholder="제조사를 등록하세요" 
+                                        value="<c:if test="${ param.flag eq yes }">${ sc.get(0).storeInfo.origin }</c:if>">
                                     </td>
                                 </tr>
                                 <tr>
                                     <th>브랜드</th>
                                     <td>
-                                        <input type="text" name="brand" placeholder="판매처 브랜드를 입력하세요">
+                                        <input type="text" name="brand" placeholder="판매처 브랜드를 입력하세요" 
+                                        value="<c:if test="${ param.flag eq yes }">${ sc.get(0).storeInfo.brand }</c:if>">
                                     </td>
                                 </tr>
                                 <tr>
                                     <th>소비자 상담 연락처</th>
                                     <td>
-                                        <input type="text" name="contact" placeholder="A/S 책임자 : 000, 전화번호 : 000-000-0000">
+                                        <input type="text" name="contact" placeholder="A/S 책임자 : 000, 전화번호 : 000-000-0000" 
+                                        value="<c:if test="${ param.flag eq yes }">${ sc.get(0).storeInfo.contact }</c:if>">
                                     </td>
                                 </tr>
                                 <tr>
                                     <th>이용조건, 기간</th>
                                     <td>
-                                        <input type="text" name="useTerm" placeholder="전체이용가능, 이용기간제한없음">
+                                        <input type="text" name="useTerm" placeholder="전체이용가능, 이용기간제한없음" 
+                                        value="<c:if test="${ param.flag eq yes }">${ sc.get(0).storeInfo.useTerm }</c:if>">
                                     </td>
                                 </tr>
                                 <tr>
                                     <th>상품 제공 방식</th>
                                     <td>
-                                        <input type="text" name="offerings" placeholder="예) CD">
+                                        <input type="text" name="offerings" placeholder="예) CD" 
+                                        value="<c:if test="${ param.flag eq yes }">${ sc.get(0).storeInfo.offerings }</c:if>">
                                     </td>
                                 </tr>
                                 <tr>
                                     <th>청약철회/계약의 해제</th>
                                     <td>
-                                        <input type="text" name="cancelInfo" placeholder="판매자 귀책사유(15일 이내) 구매자 귀책사유(7일 이내)">
+                                        <input type="text" name="cancelInfo" placeholder="판매자 귀책사유(15일 이내) 구매자 귀책사유(7일 이내)" 
+                                        value="<c:if test="${ param.flag eq yes }">${ sc.get(0).storeInfo.cancelInfo }</c:if>">
                                     </td>
                                 </tr>
                             </table>
@@ -119,7 +135,7 @@
                     <tr>
                         <th>안내문구</th>
                         <td>
-                            <textarea onkeyup="chkword(this, 1000)" name="info" class="guide-text" cols="30" rows="10"></textarea>
+                            <textarea onkeyup="chkword(this, 1000)" name="info" class="guide-text" cols="30" rows="10"><c:if test="${ param.flag eq yes }">${ sc.get(0).store.info }</c:if></textarea>
                             <div class="limit-text">0 / 1000</div>
                         </td>
                     </tr>
@@ -227,9 +243,12 @@
 		     }     
 		     obj.focus(); 
 		 }  
-		
+		 // 취소하기 버튼을 클릭했을 때
 		 $('.cancel-btn').click(function() {
-		     confirm('상품등록 취소시 입력한 정보가 모두 삭제됩니다. 취소하시겠습니까?')
+		     if(confirm('상품등록 취소시 입력한 정보가 모두 삭제됩니다. 취소하시겠습니까?')) {
+			     $(".main-template").css("display", "none");
+				 $(".insert-section").css("display", "none"); 
+		     }
 		 })
 		 
 		 // 등록하기 버튼을 클릭했을 때
@@ -240,5 +259,6 @@
 			 $(".main-template").submit();
 		 });
     </script>
+    
 </body>
 </html>

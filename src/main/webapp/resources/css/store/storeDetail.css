@@ -177,6 +177,16 @@ div.is-view img.small-img {
     display: none;
 }
 
+.empty-review {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	justify-content: center;
+    align-items: center;
+    margin: 30px;
+    box-sizing: border-box;
+}
+
 section.top, section.bottom {
     display: flex;
     justify-content: space-evenly;
@@ -239,7 +249,6 @@ section.bottom {
 }
 
 .top-review-content {
-    /* border: 1px solid red; */
     width: 716px;
     height: 158px;
     position: relative;
@@ -253,14 +262,15 @@ section.bottom {
     position: absolute;
     top: 0;
     left: 0;
+    border-radius: 50%;
 }
 
 .user-info {
-    width: 92%;
-    /* border: 1px solid red; */
+    width: 90%;
     align-self: flex-end;
     display: flex;
     justify-content: space-between;
+    padding-right: 12px;
 }
 
 .top-title {
@@ -274,6 +284,10 @@ section.bottom {
     display: flex;
     justify-content: center;
     align-items: flex-end;
+    font-family: Yoon Minguk;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 10px;
 }
 
 .top-score span {
@@ -301,24 +315,36 @@ section.bottom {
 
 /* 왼쪽 포토리뷰 하단부 */
 .bottom-review {
-    /* border: 1px solid red; */
     width: 100%;
     height: 270px;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     flex-wrap: wrap;
     overflow: hidden;
 }
 
+.left-move, .right-move {
+	cursor: pointer;
+}
+
 .review {
-    /* width: 23%; */
-    /* border: 1px solid red; */
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
     align-items: center;
     flex-basis: 25%;
+    cursor: pointer;
+    box-sizing: border-box;
+}
 
+.bottom-score {
+	display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    font-family: Yoon Minguk;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 10px;
 }
 
 .bottom-photo {
@@ -557,7 +583,7 @@ section.bottom {
 
 .right-contents tr:nth-of-type(7) td {
     text-align: center;
-    padding: 5px 5px 80px;
+    padding: 5px 5px;
     box-sizing: border-box;
     /* border: 1px solid red */
 }
@@ -585,7 +611,7 @@ section.bottom {
 }
 
 h4.recommand-title {
-    margin: 0 0 10px;
+    margin: 80px 0 10px;
 }
 
 .recommand {

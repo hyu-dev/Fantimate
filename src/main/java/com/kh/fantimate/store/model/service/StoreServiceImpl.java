@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import com.kh.fantimate.common.model.vo.Attachment;
 import com.kh.fantimate.pay.model.vo.Cart;
 import com.kh.fantimate.store.model.dao.StoreDao;
+import com.kh.fantimate.store.model.vo.Review;
+import com.kh.fantimate.store.model.vo.ReviewCollection;
 import com.kh.fantimate.store.model.vo.StoreCategory;
 import com.kh.fantimate.store.model.vo.StoreCollection;
 import com.kh.fantimate.store.model.vo.Wish;
@@ -103,6 +105,21 @@ public class StoreServiceImpl implements StoreService {
 	@Override
 	public Wish selectWish(String userId, String pcode) {
 		return sDao.selectWish(userId, pcode);
+	}
+
+	@Override
+	public List<StoreCollection> recommandStoreListByCate(Map<String, String> map) {
+		return sDao.recommandStoreListByCate(map);
+	}
+
+	@Override
+	public List<ReviewCollection> selectReviewList(String pcode) {
+		return sDao.selectReviewList(pcode);
+	}
+
+	@Override
+	public List<ReviewCollection> selectReview(int rvCode) {
+		return sDao.selectReview(rvCode);
 	}
 
 }

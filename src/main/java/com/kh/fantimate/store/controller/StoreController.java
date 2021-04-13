@@ -29,10 +29,14 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.kh.fantimate.common.model.vo.Attachment;
 import com.kh.fantimate.member.model.vo.Member;
 import com.kh.fantimate.pay.model.vo.Cart;
 import com.kh.fantimate.store.model.service.StoreService;
+import com.kh.fantimate.store.model.vo.Review;
+import com.kh.fantimate.store.model.vo.ReviewCollection;
 import com.kh.fantimate.store.model.vo.Store;
 import com.kh.fantimate.store.model.vo.StoreCategory;
 import com.kh.fantimate.store.model.vo.StoreCollection;
@@ -299,77 +303,85 @@ public class StoreController {
 	@RequestMapping("/detail")
 	public void storeDetail(HttpServletResponse response,
 							HttpServletRequest request,
-							Model model,
 							@RequestParam(value="pcode") String pcode) throws IOException {
 		
-		boolean flagslist = false;	// slist라는 이름의 쿠키가 있는지 확인
-		boolean flagPcode = false;	// 해당 pcode가 포함 되어 있는지 확인
-		
-		Cookie[] cookies = request.getCookies();
-		try {
-			if(cookies != null) {
-				for(Cookie c : cookies) {
-					// 읽은 게시글의 pcode를 모아서 보관하는 slist가 쿠키 안에 있다면
-					if(c.getName().equals("slist")) {
-						flagslist = true;
-						// 기존 쿠기 값 먼저 읽어옴(, 등의 특수 문자 인코딩 때문에 decode처리)
-						String slist = URLDecoder.decode(c.getValue(), "UTF-8");
-						// , 구분자 기준으로 나누기
-						String[] list = slist.split(",");
-						for(String st : list) {
-							// 쿠키 안에 지금 클릭한 게시글의 bid가 들어있다면 => 읽었음을 표시
-							if(st.equals(String.valueOf(pcode))) flagPcode = true;
-						}
-						if(!flagPcode) {	// 게시글을 읽지 않았다면
-							c.setValue(URLEncoder.encode(slist + "," + pcode, "UTF-8"));
-							response.addCookie(c);	// 응답에 담아 보냄
+		if(((Member)request.getSession().getAttribute("loginUser")) == null) {
+			response.sendRedirect(request.getHeader("referer"));
+		} else {
+			boolean flagslist = false;	// slist라는 이름의 쿠키가 있는지 확인
+			boolean flagPcode = false;	// 해당 pcode가 포함 되어 있는지 확인
+			
+			Cookie[] cookies = request.getCookies();
+			try {
+				if(cookies != null) {
+					for(Cookie c : cookies) {
+						// 읽은 게시글의 pcode를 모아서 보관하는 slist가 쿠키 안에 있다면
+						if(c.getName().equals("slist")) {
+							flagslist = true;
+							// 기존 쿠기 값 먼저 읽어옴(, 등의 특수 문자 인코딩 때문에 decode처리)
+							String slist = URLDecoder.decode(c.getValue(), "UTF-8");
+							// , 구분자 기준으로 나누기
+							String[] list = slist.split(",");
+							for(String st : list) {
+								// 쿠키 안에 지금 클릭한 게시글의 bid가 들어있다면 => 읽었음을 표시
+								if(st.equals(String.valueOf(pcode))) flagPcode = true;
+							}
+							if(!flagPcode) {	// 게시글을 읽지 않았다면
+								c.setValue(URLEncoder.encode(slist + "," + pcode, "UTF-8"));
+								response.addCookie(c);	// 응답에 담아 보냄
+							}
 						}
 					}
+					
+					if(!flagslist) {
+						// slist라는 쿠키가 만들어지지 않은 경우
+						Cookie c1 = new Cookie("slist", URLEncoder.encode(String.valueOf(pcode), "UTF-8"));
+						response.addCookie(c1);
+					}
 				}
-				
-				if(!flagslist) {
-					// slist라는 쿠키가 만들어지지 않은 경우
-					Cookie c1 = new Cookie("slist", URLEncoder.encode(String.valueOf(pcode), "UTF-8"));
-					response.addCookie(c1);
-				}
-			}
-		
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		} 
-		
-		// 상세페이지의 모든 정보 리스트로 담아오기
-		List<StoreCollection> sc = sService.selectStore(pcode, !flagPcode);
-		HttpSession session = request.getSession();
-		session.setAttribute("sc", sc);
-		
-		// 상세페이지에 넣을 추천 스토어 불러오기
-		Map<String, String> map = new HashMap<>();
-		map.put("artiName", session.getAttribute("artiName").toString());
-		map.put("cateName", session.getAttribute("cateName").toString());
-		String toggle = (String)session.getAttribute("toggle");
-		if(toggle == null || toggle == "") toggle = "TOP";
-		map.put("toggle", toggle);
-		List<StoreCollection> recmd = (ArrayList<StoreCollection>)sService.selectStoreListByCate(map);
-		session.setAttribute("recmd", recmd);
-		
-		// 유저별 찜여부 확인
-		String userId = "";
-		if(((Member)request.getSession().getAttribute("loginUser")) == null) {
-			model.addAttribute(request.getHeader("referer"));
-		} else {
-			userId = ((Member)request.getSession().getAttribute("loginUser")).getId();
+			
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			} 
+			
+			// 상세페이지의 모든 정보 리스트로 담아오기
+			List<StoreCollection> sc = sService.selectStore(pcode, !flagPcode);
+			HttpSession session = request.getSession();
+			session.setAttribute("sc", sc);
+			
+			// 상세페이지의 리뷰 정보 리스트로 담아오기
+			List<ReviewCollection> review = sService.selectReviewList(pcode);
+			session.setAttribute("review", review);
+			System.out.println(review);
+			
+			// 상세페이지에 넣을 추천 스토어 불러오기
+			Map<String, String> map = new HashMap<>();
+			map.put("artiName", session.getAttribute("artiName").toString());
+			map.put("cateName", session.getAttribute("cateName").toString());
+			String toggle = (String)session.getAttribute("toggle");
+			if(toggle == null || toggle == "") toggle = "TOP";
+			map.put("toggle", toggle);
+			map.put("pcode", pcode);
+			List<StoreCollection> recmd = (ArrayList<StoreCollection>)sService.recommandStoreListByCate(map);
+			session.setAttribute("recmd", recmd);
+			
+			// 유저별 찜여부 확인
+			String userId = ((Member)request.getSession().getAttribute("loginUser")).getId();
+			Wish wish = sService.selectWish(userId, pcode);
+			session.setAttribute("wish", wish);
+			
+			// 상세페이지로 이동
+			response.sendRedirect("storeDetail");
 		}
-		Wish wish = sService.selectWish(userId, pcode);
-		session.setAttribute("wish", wish);
-		
-		// 상세페이지로 이동
-		response.sendRedirect("storeDetail");
 	}
 	// 상품 상세페이지 이동
 	@GetMapping("/storeDetail")
 	public ModelAndView storeDetailPage(ModelAndView mv, HttpServletRequest request) {
-		mv.addObject(request.getSession().getAttribute("sc"));
+		if(((Member)request.getSession().getAttribute("loginUser")) == null) {
+			mv.addObject(request.getHeader("referer"));
+		} else {
+			mv.addObject(request.getSession().getAttribute("sc"));
+		}
 		return mv;
 	}
 	
@@ -438,6 +450,16 @@ public class StoreController {
 		int result = sService.insertCart(c);
 		
 		if(result > 0) response.sendRedirect("../storeDetail");
+	}
+	
+	@RequestMapping(value="/review/{rvCode}", produces="application/json; charset=utf-8")
+	public String selectReview(@PathVariable int rvCode) {
+		List<ReviewCollection> list = sService.selectReview(rvCode);
+		Gson gson = new GsonBuilder()
+				.setDateFormat("yyyy-MM-dd")
+				.create();
+	
+		return gson.toJson(list);
 	}
 	
 }

@@ -10,6 +10,8 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.fantimate.common.model.vo.Attachment;
 import com.kh.fantimate.pay.model.vo.Cart;
+import com.kh.fantimate.store.model.vo.Review;
+import com.kh.fantimate.store.model.vo.ReviewCollection;
 import com.kh.fantimate.store.model.vo.StoreCategory;
 import com.kh.fantimate.store.model.vo.StoreCollection;
 import com.kh.fantimate.store.model.vo.Wish;
@@ -120,6 +122,21 @@ public class StoreDaoImpl implements StoreDao {
 	@Override
 	public int updateCart(Cart c) {
 		return sqlSession.update("storeMapper.updateCart", c);
+	}
+
+	@Override
+	public List<StoreCollection> recommandStoreListByCate(Map<String, String> map) {
+		return sqlSession.selectList("storeMapper.recommandStoreListByCate", map);
+	}
+
+	@Override
+	public List<ReviewCollection> selectReviewList(String pcode) {
+		return sqlSession.selectList("storeMapper.selectReviewList", pcode);
+	}
+
+	@Override
+	public List<ReviewCollection> selectReview(int rvCode) {
+		return sqlSession.selectList("storeMapper.selectReview", rvCode);
 	}
 
 

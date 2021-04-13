@@ -69,6 +69,8 @@
                             <img src="${ contextPath }/resources/uploadFiles/${ cl.att.attSvName }" alt="">
                         </div>
                         <p><sub>${ cl.storeCate.artiNameEn }</sub><br>${ cl.store.pname }<br><sub>재고 : ${ cl.store.salesQ }</sub></p>
+                        <input type="hidden" class="cart-pCode" value="${ cl.cart.pcode }">
+                        <input type="hidden" class="cart-mCode" value="${ cl.cart.mediaNum }">
                     </div>
                 </td>
                 <td>
@@ -168,18 +170,30 @@
 	    	location.href = "${contextPath}/pay/deleteChooseByCart?cartCodes=" + cartCodes;
 	    })
 	    
+	    // 상품 영역 클릭시
+	    $(".product-area").click(function() {
+	    	var pcode = 0;
+	    	if($(".cart-pCode").val() != null) {
+	    		pcode = $(this).children(".cart-pCode").val()
+	    	} else {
+	    		pcode = $(this).children(".cart-mCode").val()
+	    	}
+	        location.href='${ contextPath }/store/detail?pcode=' + pcode;
+	    });
+	    
 	    // 결제하기 클릭시
-	    /* $(".cart-payment-btn").click(function() {
-	    	var IMP = window.IMP; // 생략해도 괜찮습니다.
-		    IMP.init("7847330225734840"); // "imp00000000" 대신 발급받은 "가맹점 식별코드"를 사용합니다.
+	    $(".cart-payment-btn").click(function() {
+	    	var IMP = window.IMP; 
+	    	IMP.init("imp85435791");
+		    
+		    var pAmount = ${ sum };
+		    console.log(pAmount);
 			
-		    // IMP.request_pay(param, callback) 호출
 		    IMP.request_pay({ // param
 		      pg: "html5_inicis",
 		      pay_method: "card",
 		      merchant_uid: "ORD20180131-0000011",
-		      name: "노르웨이 회전 의자",
-		      amount: 64900,
+		      amount: pAmount,
 		      buyer_email: "gildong@gmail.com",
 		      buyer_name: "홍길동",
 		      buyer_tel: "010-4242-4242",
@@ -187,16 +201,14 @@
 		      buyer_postcode: "01181"
 		    }, function (rsp) { // callback
 		      if (rsp.success) {
-		          ...,
 		          // 결제 성공 시 로직,
-		          ...
+		          console.log("결제성공")
 		      } else {
-		          ...,
 		          // 결제 실패 시 로직,
-		          ...
+		          console.log("결제실패")
 		      }
 		    });
-	    }); */
+	    });
     </script>
     </c:if>
 	<c:if test="${ empty loginUser }">
