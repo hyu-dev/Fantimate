@@ -1,12 +1,11 @@
 package com.kh.fantimate.main.model.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import com.kh.fantimate.common.model.vo.Alarm;
 import com.kh.fantimate.common.model.vo.Attachment;
 import com.kh.fantimate.main.model.vo.MainCollection;
 import com.kh.fantimate.main.model.vo.SubscribeArtist;
-import com.kh.fantimate.member.model.vo.Member;
 
 public interface MainService {
 
@@ -33,5 +32,11 @@ public interface MainService {
 
 	// 8. 아티스트명 검색 
 	public List<MainCollection> selectArtistSearchList(String artistName);
+
+	// 9. 일반 유저 알람 불러오기 
+	public List<Alarm> selectAlarmList(String user);
+
+	// 10. 알람 갯수 카운트
+	public int selectAlarmCount(String user);
 
 }

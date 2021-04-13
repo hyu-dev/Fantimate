@@ -1,16 +1,15 @@
 package com.kh.fantimate.main.model.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kh.fantimate.common.model.vo.Alarm;
 import com.kh.fantimate.common.model.vo.Attachment;
 import com.kh.fantimate.main.model.dao.MainDao;
 import com.kh.fantimate.main.model.vo.MainCollection;
 import com.kh.fantimate.main.model.vo.SubscribeArtist;
-import com.kh.fantimate.member.model.vo.Member;
 
 @Service
 public class MainServiceImpl implements MainService{
@@ -65,6 +64,18 @@ public class MainServiceImpl implements MainService{
 	public List<MainCollection> selectArtistSearchList(String artistName) {
 		
 		return mpDao.selectArtistSearchList(artistName);
+	}
+
+	@Override
+	public List<Alarm> selectAlarmList(String user) {
+		// 알람 불러오기
+		return mpDao.selectAlarmList(user);
+	}
+
+	@Override
+	public int selectAlarmCount(String user) {
+		
+		return mpDao.selectAlarmCount(user);
 	}
 
 }
