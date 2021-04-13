@@ -29,6 +29,16 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<result property="subStatus" column="SUB_STATUS"/>
 		<result property="artNameEn" column="ARTI_NAME_EN"/>
 	</resultMap> 
+	<!-- 알람 -->
+	<resultMap type="Alarm" id="alarmResultSet">
+		<id property = "alCode" column="AL_MADE_CODE"/>
+		<result property="alContent" column="AL_CONTENT"/>
+		<result property="alTime" column="AL_TIME"/>
+		<result property="alStatus" column="AL_STATUS"/>
+		<result property="refAlCode" column="AL_CODE"/>
+		<result property="id" column="ID"/>
+		<result property="ref_id" column="REF_ID"/>
+	</resultMap> 
 	
 	<!-- collection -->
 	<resultMap type="MainCollection" id="mainCollResultSet">
@@ -192,6 +202,30 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 			ARTI_NAME_KR LIKE '%' || #{artistName} || '%'
 	</select>
 	
+	<!-- 알람 select -->
+	<select id="selectAlarmList" resultMap="alarmResultSet">
+		SELECT 
+		        AL_MADE_CODE
+		      , AL_CONTENT
+		      , AL_TIME
+		      , AL_STATUS
+		      , AL_CODE
+		      , ID
+		      , REF_ID
+		FROM 
+		      ALARM
+		WHERE
+		      ID = #{id}
+	</select>
 	
+	<!-- 알람 갯수 count -->
+	<select id="selectAlarmCount" resultType="_int" parameterType="String">
+		SELECT 
+		      COUNT(*)
+		FROM 
+		      ALARM
+		WHERE
+		      ID = #{id}
+	</select>
 	
 </mapper>

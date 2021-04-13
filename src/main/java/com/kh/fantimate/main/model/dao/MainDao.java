@@ -2,6 +2,7 @@ package com.kh.fantimate.main.model.dao;
 
 import java.util.List;
 
+import com.kh.fantimate.common.model.vo.Alarm;
 import com.kh.fantimate.common.model.vo.Attachment;
 import com.kh.fantimate.main.model.vo.MainCollection;
 import com.kh.fantimate.main.model.vo.SubscribeArtist;
@@ -23,5 +24,9 @@ public interface MainDao {
 	public int selectSubCount(SubscribeArtist sb);
 
 	public List<MainCollection> selectArtistSearchList(String artistName);
+
+	public List<Alarm> selectAlarmList(String user);
+
+	public int selectAlarmCount(String user);
 
 }

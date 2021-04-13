@@ -210,7 +210,7 @@ input[type="checkbox"]{
 
 .alarm-list{
     display: block;
-    width: 500px;
+    width: 550px;
     height: 626px;
     background-color: white;
     border-radius: 8px;
@@ -245,7 +245,6 @@ input[type="checkbox"]{
 .alarm-list p.alarm-date {
     padding: 20px 40px 0px;
     color: #000000;
-    font-family: Yoon Minguk;
     font-style: normal;
     font-weight: bold;
     font-size: 20px;
@@ -254,7 +253,6 @@ input[type="checkbox"]{
 #mailList p.mail-title{
     padding-left:40px;
     color: #000000;
-    font-family: Yoon Minguk;
     font-style: normal;
     font-weight: bold;
     font-size: 20px;
@@ -264,7 +262,6 @@ input[type="checkbox"]{
 #mailList p.mail-date{
     padding-left:40px;
     color: #000000;
-    font-family: Yoon Minguk;
     font-style: normal;
     font-weight: bold;
     font-size: 20px;
@@ -281,7 +278,6 @@ input[type="checkbox"]{
     border-bottom: 1px solid #ACACAC;
     padding: 20px 0px 20px 22px;
     color: #000000;
-    font-family: Yoon Minguk;
     font-style: normal;
     font-size: 16px;
     cursor: pointer;
@@ -328,7 +324,6 @@ input[type="checkbox"]{
 .mail-id{
     display: inline-block;
     margin-right: 25px;
-    font-family: Yoon Minguk;
     font-weight: bold;
     color: #000000;
 
@@ -337,7 +332,6 @@ input[type="checkbox"]{
 .mail-read{
     display: inline-block;
     margin-left: 25px;
-    font-family: Yoon Minguk;
     font-weight: bold;
     color: #F46060;
 }
@@ -554,7 +548,6 @@ input[id*="friend"]:checked + label em{
     border: 1px solid #E5D2D2;
     background: #FFFFFF;
     border-radius: 10px;
-    font-family: Yoon Minguk;
     font-style: normal;
     font-weight: bold;
     font-size: 18px;
@@ -570,7 +563,6 @@ input[id*="friend"]:checked + label em{
 }
 
 .friend-profile-name{
-    font-family: Yoon Minguk;
     font-style: normal;
     font-size: 18px;
     line-height: 24px;
@@ -609,7 +601,6 @@ input[id*="loginBtn"]{
     border:#F4D4D4;
     background: #F4D4D4;
     border-radius: 10px;
-    font-family: Yoon Minguk;
     font-style: normal;
     font-weight: bold;
     font-size: 20px;
@@ -627,7 +618,6 @@ input[id*="joinBtn"]{
     border: 1px solid #E5D2D2;
     background: #FFFFFF;
     border-radius: 10px;
-    font-family: Yoon Minguk;
     font-style: normal;
     font-weight: bold;
     font-size: 20px;
@@ -635,6 +625,56 @@ input[id*="joinBtn"]{
     text-align: center;
     color: #E5D2D2;
     outline: none;
+}
+
+/* 네비바 - 알람 숫자 / 장바구니 숫자 / 쪽지함 숫자 */
+#alarmCount{
+    position: absolute;
+    top: 25px;
+    right: 217px;
+    color: white;
+    background-color: rgb(250, 158, 158);
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    line-height: 20px;
+    font-size: 13px;
+    text-align: center;
+    cursor: pointer;
+}
+
+#cartCount{
+    position: absolute;
+    top: 25px;
+    right: 157px;
+    color: white;
+    background-color: rgb(250, 158, 158);
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    line-height: 20px;
+    font-size: 13px;
+    text-align: center;
+    cursor: pointer;
+}
+
+#mainCount{
+    position: absolute;
+    top: 25px;
+    right: 96px;
+    color: white;
+    background-color: rgb(250, 158, 158);
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    line-height: 20px;
+    font-size: 13px;
+    text-align: center;
+    cursor: pointer;
+}
+
+li.alarm-content:hover{
+	background:rgba(229, 210, 210, 0.30);
 }
 
 

@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.fantimate.common.model.vo.Alarm;
 import com.kh.fantimate.common.model.vo.Attachment;
 import com.kh.fantimate.main.model.vo.MainCollection;
 import com.kh.fantimate.main.model.vo.SubscribeArtist;
@@ -65,6 +66,18 @@ public class MainDaoImpl implements MainDao{
 	public List<MainCollection> selectArtistSearchList(String artistName) {
 		
 		return sqlSession.selectList("mainMapper.selectArtistSearchList",artistName);
+	}
+
+	@Override
+	public List<Alarm> selectAlarmList(String user) {
+		
+		return sqlSession.selectList("mainMapper.selectAlarmList",user);
+	}
+
+	@Override
+	public int selectAlarmCount(String user) {
+		
+		return sqlSession.selectOne("mainMapper.selectAlarmCount",user);
 	}
 	
 	

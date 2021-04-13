@@ -13,11 +13,11 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.google.gson.Gson;
+import com.kh.fantimate.common.model.vo.Alarm;
 import com.kh.fantimate.common.model.vo.Attachment;
 import com.kh.fantimate.main.model.service.MainService;
 import com.kh.fantimate.main.model.vo.MainCollection;
@@ -210,6 +211,106 @@ public class MainController {
 		List<MainCollection> list = (ArrayList<MainCollection>)mpService.selectArtistSearchList(artistName); 
 		if(list == null) list = new ArrayList<>();
 		return list;
+	}
+	
+	// 알람 리스트 불러오기 (세션에 담기)
+	@RequestMapping(value="/alarmList", produces="application/json; charset=utf-8")
+	public @ResponseBody String alarmList(HttpSession session) {
+		
+		
+		List<Alarm> alist = new ArrayList<>();
+		int countA = 0;
+		
+		
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		// 로그인 유저의 아이디 가지고 가기 
+		String user = loginUser.getId();
+		
+		if(loginUser.getClassifyMem() == 1) {
+		  // 일반 유저 알람 불러오기
+		  alist = (ArrayList<Alarm>)mpService.selectAlarmList(user);
+		  // 일반 유저 알람 카운트 해오기
+		  countA = mpService.selectAlarmCount(user);
+		  // 세션에 담기
+		  session.setAttribute("alist", alist);
+		  session.setAttribute("countA", countA);
+		  
+		} else if(loginUser.getClassifyMem() == 2) {
+		  // 소속아티스트
+		  alist = (ArrayList<Alarm>)mpService.selectAlarmList(user);
+		  // 소속아티스트 알람 카운트 해오기
+		  countA = mpService.selectAlarmCount(user);
+		  // 세션에 담기
+		  session.setAttribute("alist", alist);
+		  session.setAttribute("countA", countA);
+		  
+		} else if(loginUser.getClassifyMem() == 3) {
+		  // 소속사
+		  alist = (ArrayList<Alarm>)mpService.selectAlarmList(user);
+		  // 소속사 알람 카운트 해오기
+		  countA = mpService.selectAlarmCount(user);
+		  // 세션에 담기
+		  session.setAttribute("alist", alist);
+		  session.setAttribute("countA", countA);
+		  
+		} else if(loginUser.getClassifyMem() == 4){
+		  // 관리자 
+		  alist = (ArrayList<Alarm>)mpService.selectAlarmList(user);
+		  // 관리자 알람 카운트 해오기
+		  countA = mpService.selectAlarmCount(user);
+		  // 세션에 담기
+		  session.setAttribute("alist", alist);
+		  session.setAttribute("countA", countA);
+		}
+		
+		//System.out.println("알람 alist 출력 : " + alist);
+		
+		// 알람전체리스트, 알람 갯수 담아서 보내기 
+		//JSONObject sendJson = new JSONObject();
+		//sendJson.put("alist",alist);
+		//sendJson.put("countA", countA);
+		
+		return new Gson().toJson(alist);
+		
+	}
+	
+	// 알람 갯수 카운트 (세션에 담기)
+	@RequestMapping(value="/alarmCount", produces="application/json; charset=utf-8")
+	public @ResponseBody String alarmCount(HttpSession session) {
+		int countA = 0;
+		
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		// 로그인 유저의 아이디 가지고 가기 
+		String user = loginUser.getId();
+		
+		if(loginUser.getClassifyMem() == 1) {
+		  // 일반 유저 알람 카운트 해오기
+		  countA = mpService.selectAlarmCount(user);
+		  // 세션에 담기
+		  session.setAttribute("countA", countA);
+		  
+		} else if(loginUser.getClassifyMem() == 2) {
+		  // 소속아티스트 알람 카운트 해오기
+		  countA = mpService.selectAlarmCount(user);
+		  // 세션에 담기
+		  session.setAttribute("countA", countA);
+		  
+		} else if(loginUser.getClassifyMem() == 3) {
+		  // 소속사 알람 카운트 해오기
+		  countA = mpService.selectAlarmCount(user);
+		  // 세션에 담기
+		  session.setAttribute("countA", countA);
+		  
+		} else if(loginUser.getClassifyMem() == 4){
+		  // 관리자 알람 카운트 해오기
+		  countA = mpService.selectAlarmCount(user);
+		  // 세션에 담기
+		  session.setAttribute("countA", countA);
+		}
+		
+
+		return new Gson().toJson(countA);
+		
 	}
 	
 	

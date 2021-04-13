@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <c:set var="contextPath" value="${ pageContext.servletContext.contextPath }" scope="application" />
 <!DOCTYPE html>
 <html>
@@ -15,25 +16,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <title>Fantimate</title>
     <script>
-    // 알람 
-    function alarmList(){
-
-	        if($('.alarm-hide-show').css('display') == 'none' && $('.mail-hide-show').css('display') != 'none'){
-	            $('.alarm-hide-show').show();
-	            $('.mail-hide-show').hide();
-	
-	        } else if($('.alarm-hide-show').css('display') == 'none' && $('.etc-hide-show').css('display') != 'none'){
-	            $('.alarm-hide-show').show();
-	            $('.etc-hide-show').hide();
-	        } 
-	        else if($('.alarm-hide-show').css('display') == 'none' && $('.mail-hide-show').css('display') == 'none' && $('.etc-hide-show').css('display') == 'none' ){
-	            $('.alarm-hide-show').show();
-	        }
-	        else{
-	            $('.alarm-hide-show').hide();
-	        }
-	    }
-		
+   
     	// 쪽지함
 	    function mailList(){
 	        if($('.mail-hide-show').css('display') == 'none' && $('.alarm-hide-show').css('display') != 'none'){
@@ -142,22 +125,7 @@
 				+ popupWidth + ', height=' + popupHeight
 				+ ', left=' + popupX + ', top=' + popupY);
 	}
-     
-  
-/* 	// 검색창
-	$("#search-input").keyup(function() {
-	    if($(this).val() == 'undefined') {
-	        // 검색input에 글자가 없다면
-	        console.log("오니");
-	         console.log($(this).val());
-	        $('.search-result').css('display', 'none');
-	    } else {
-	        // 검색input에 글자가 있다면
-	        console.log("ㅇㅇㅇㅇ오니");
-	        console.log($(this).val());
-	        $('.search-result').css('display', 'block');
-	    }
-	}); */
+    
 	
     
 </script>
@@ -182,9 +150,20 @@
 		                </div>
 		                <!-- 회원가입 버튼 생성전 예시 -->
 		                <img src="${ contextPath }/resources/icon/user.svg" alt="" class="nav-icon">
-		                <img src="${ contextPath }/resources/icon/alarm.svg" alt="" class="nav-icon" id="alarm-icon" onclick="alarmList()">
+		                <img src="${ contextPath }/resources/icon/alarm.svg" alt="" class="nav-icon" id="alarm-icon" onclick="alarmPage()">
+		                <!-- 알람 갯수 카운트 -->
+		                <div id="alarmCount">
+		                </div>
 		                <img src="${ contextPath }/resources/icon/cart.svg" alt="" class="nav-icon" onclick="location.href='${contextPath}/pay/cart'">
+		                <!-- 장바구니 갯수 카운트 -->
+		                <div id="cartCount">
+		                    5
+		                </div>
 		                <img src="${ contextPath }/resources/icon/email.svg" alt="" class="nav-icon" id="mail-icon" onclick="mailList()">
+		                <!-- 쪽지 갯수 카운트 -->
+		                <div id="mainCount">
+		                    50
+		                </div>
 		                <img src="${ contextPath }/resources/icon/more.svg" alt="" class="nav-icon" onclick="etcList()">
 		            </div>
 	            </c:when>
@@ -250,26 +229,138 @@
     <div class="alarm-hide-show">
         <section class="alarm-section">
             <div style="overflow:auto" class="alarm-list">
-                <p class="alarm-date">2021.03.22 TODAY</p>
+            <c:set var="now" value="<%=new java.util.Date()%>"/>
+                <p class="alarm-date"><fmt:formatDate value="${now}" pattern="yyyy-MM-dd"/></p>
                 <ul class="today-alarm">
-                    <li class="alarm-content">회원이 작성한 게시글에 좋아요가 달렸습니다. <p class="alarm-time">1시간 전</p></li>
-                    <li class="alarm-content">회원이 작성한 댓글에 좋아요가 달렸습니다. <p class="alarm-time">1시간 전</p></li>
-                    <li class="alarm-content">회원이 작성한 게시글에 좋아요가 달렸습니다. <p class="alarm-time">1시간 전</p></li>
-                    <li class="alarm-content">회원이 작성한 댓글에 좋아요가 달렸습니다. <p class="alarm-time">1시간 전</p></li>
-                    <li class="alarm-content">회원이 작성한 게시글에 좋아요가 달렸습니다. <p class="alarm-time">1시간 전</p></li>
-                    <li class="alarm-content">회원이 작성한 댓글에 좋아요가 달렸습니다. <p class="alarm-time">1시간 전</p></li>
-                    <li class="alarm-content">회원이 작성한 게시글에 좋아요가 달렸습니다. <p class="alarm-time">1시간 전</p></li>
-                    <li class="alarm-content">회원이 작성한 댓글에 좋아요가 달렸습니다. <p class="alarm-time">1시간 전</p></li>
-                    <li class="alarm-content">회원이 작성한 게시글에 좋아요가 달렸습니다. <p class="alarm-time">1시간 전</p></li>
-                    <li class="alarm-content">회원이 작성한 댓글에 좋아요가 달렸습니다. <p class="alarm-time">1시간 전</p></li>
-                    <li class="alarm-content">회원이 작성한 게시글에 좋아요가 달렸습니다. <p class="alarm-time">1시간 전</p></li>
-                    <li class="alarm-content">회원이 작성한 댓글에 좋아요가 달렸습니다. <p class="alarm-time">1시간 전</p></li>
-                    <li class="alarm-content">회원이 작성한 게시글에 좋아요가 달렸습니다. <p class="alarm-time">1시간 전</p></li>
-                    <li class="alarm-content">회원이 작성한 댓글에 좋아요가 달렸습니다. <p class="alarm-time">1시간 전</p></li>
+                	<!-- 알람 내역  ajax-->
+                    <!--<li class="alarm-content">회원이 작성한 게시글에 좋아요가 달렸습니다. <p class="alarm-time">1시간 전</p></li>  -->
                 </ul>
             </div>
         </section>
     </div>
+    
+    <!-- 알람 전체 리스트 ajax -->
+    <script>
+    function alarmPage(){
+    	
+    	if($('.alarm-hide-show').css('display') == 'none' && $('.mail-hide-show').css('display') != 'none'){
+            $('.alarm-hide-show').show();
+            $('.mail-hide-show').hide();
+
+        } else if($('.alarm-hide-show').css('display') == 'none' && $('.etc-hide-show').css('display') != 'none'){
+            $('.alarm-hide-show').show();
+            $('.etc-hide-show').hide();
+        } 
+        else if($('.alarm-hide-show').css('display') == 'none' && $('.mail-hide-show').css('display') == 'none' && $('.etc-hide-show').css('display') == 'none' ){
+            $('.alarm-hide-show').show();
+        }
+        else{
+            $('.alarm-hide-show').hide();
+        }
+    	
+		$.ajax({
+			url: "${contextPath}/main/alarmList",
+			dataType : "json",
+			success : function(data){
+				console.log(data);
+				
+				
+				alarmList = $(".today-alarm");
+				alarmList.html("");
+				
+				if(data.length==0){
+					
+					alarmList.append("<li class='alarm-content'>"+ "알람 내역 없음" +"<p class='alarm-time'></p></li>");
+					$(".alarm-list").css("height","200px");
+					
+				} else {
+					
+				for(var i in data){
+					
+					alarmList.append("<li class='alarm-content'>"+ data[i].alContent +"<p class='alarm-time'></p></li>");
+					
+					// 현재 시간 가져옴
+					var now = new Date();
+					// 알람 받은 시간
+					var alarmDay = new Date(data[i].alTime);
+					// 오늘 받은 알람 (당일)
+					if(now.getDate() == alarmDay.getDate()){
+						var nowTime = now.getTime();
+						var alarmTime = alarmDay.getTime();
+						if(nowTime > alarmTime){
+							// 시간을 비교
+							sec = parseInt(nowTime - alarmTime) / 1000;
+							day = parseInt(sec/60/60/24);
+							sec = (sec - (day * 60 * 60 *24));
+							hour = parseInt(sec/60/60);
+							sec = (sec - (hour*60*60));
+							min = parseInt(sec/60);
+							sec = parseInt(sec-(min*60));
+							if(hour > 0){
+								// 몇시간 전인지
+								document.getElementsByClassName("alarm-time")[i].innerHTML = hour+"시간 전";
+								console.log(hour + "시간 전");
+							} else if(min > 0){
+								// 몇분전인지
+								document.getElementsByClassName("alarm-time")[i].innerHTML = min+"분 전";
+								console.log(min + "분 전");
+							} else if(sec > 0){
+								// 몇 초 전인지
+								document.getElementsByClassName("alarm-time")[i].innerHTML = sec+"분 전";
+								console.log(sec + "초 전");
+							}
+							
+						}
+					}
+				}
+			}
+				
+				
+			},
+			error : function(e){
+				alert("code : " + e.status + "\n"
+						+ "message : " + e.responseText);
+			}
+			
+		});  	
+    }
+    
+    
+    </script>
+    
+    <!-- 알람 카운트 ajax -->
+    <c:if test="${ !empty sessionScope.loginUser}">
+    <script>
+    	$(function(){
+    		alarmCount();
+    	});
+    	
+    	function alarmCount(){
+    		
+    		$.ajax({
+    			url: "${contextPath}/main/alarmCount",
+    			dataType : "json",
+    			success : function(data){
+    				console.log(data);
+    				
+    				document.getElementById("alarmCount").innerHTML = data;
+    				
+    				
+    			},
+    			error : function(e){
+    				alert("code : " + e.status + "\n"
+    						+ "message : " + e.responseText);
+    			}
+    			
+    		}); 
+    		
+    	}
+    
+    
+    </script>
+    </c:if>
+    
+    
     <!-- 쪽지 구간 -->
     <div class="mail-hide-show">
         <section class="mail-section">
