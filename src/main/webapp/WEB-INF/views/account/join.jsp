@@ -17,51 +17,110 @@
  
      	// 다음 버튼 
         function firstStep(){
-            if($('.firstStep-section').css('display') == 'none'){
-                $('.firstStep-section').show();
-            }else{
-                $('.firstStep-section').hide();
-                $('.secondStep-section').show();
-            }
+     		
+     		if($('[name = firstName]').val() == ""){
+     			alert("성을 입력해주세요");
+     			$('[name = firstName]').focus();
+     		} else if($('[name = name]').val() == ""){
+     			alert("이름을 입력해주세요");
+     			$('[name = name]').focus();
+     		} else if($('[name = uemail]').val() == "") {
+     			alert("이메일을 입력해주세요");
+     			$('[name = uemail]').focus();
+     		}else {
+	            if($('.firstStep-section').css('display') == 'none'){
+	                $('.firstStep-section').show();
+	            }else{
+	                $('.firstStep-section').hide();
+	                $('.secondStep-section').show();
+	            }
+     			
+     		}
         }
 
         function secondStep(){
-            if($('.secondStep-section').css('display') == 'none'){
-                $('.secondStep-section').show();
-            }else{
-                $('.secondStep-section').hide();
-                $('.thirdStep-section').show();
-            }
+        	if($('[name = id]').siblings('p').hasClass('invalid')){
+        		alert("유효한 아이디를 입력해주세요.");
+        		$('[name = id]').focus();
+        	} else if($('[name = pwd]').siblings('p').hasClass('invalid')){
+        		alert("유효한 패스워드를 입력해주세요.");
+        		$('[name = pwd]').focus();
+        		
+        	} else if($('[name = pwd2]').siblings('p').hasClass('invalid')){
+        		alert("패스워드 확인 및 일치여부를 확인해주세요.");
+        		$('[name = pwd2]').focus();
+        	} else {
+        		
+	            if($('.secondStep-section').css('display') == 'none'){
+	                $('.secondStep-section').show();
+	            }else{
+	                $('.secondStep-section').hide();
+	                $('.thirdStep-section').show();
+	            }
+        		
+        	}
+        		
         }
 
         function thirdStep(){
-            if($('.thirdStep-section').css('display') == 'none'){
-                $('.thirdStep-section').show();
-            }else{
-                $('.thirdStep-section').hide();
-                $('.fourthStep-section').show();
-            }
+        	
+        	if($('[name = post]').val() == ""){
+        		alert("우편번호를 입력해주세요.");
+        		$('[name = post]').focus();
+        	} else if($('[name = address1]').val() == ""){
+        		alert("주소를 입력해주세요");
+        		$('[name = address1]').focus();
+        	} else if($('[name = address2]').val() == ""){
+        		alert("상세주소를 입력해주세요");
+        		$('[name = address2]').focus();
+        	} else if($('[name = phone]').val() == ""){
+        		alert("전화번호를 입력해주세요");
+        		$('[name = phone]').focus();
+        	} else if($('[name = ucountry]').val() == ""){
+        		alert("국가를 선택해주세요");
+        	} else {
+	            if($('.thirdStep-section').css('display') == 'none'){
+	                $('.thirdStep-section').show();
+	            }else{
+	                $('.thirdStep-section').hide();
+	                $('.fourthStep-section').show();
+	            }
+        	}
+        	
+        	
         }
 
         function fourthStep(){
-            if($('.fourthStep-section').css('display') == 'none'){
-                $('.fourthStep-section').show();
-            }else{
-                $('.fourthStep-section').hide();
-                $('.fifthStep-section').show();
-            }
+        	
+        	if($("input:checkbox[name=favArtists]:checked").length < 3){
+        		alert("관심아티스트 3팀 선택 해주세요.");
+        	} else {
+        		
+	            if($('.fourthStep-section').css('display') == 'none'){
+	                $('.fourthStep-section').show();
+	            }else{
+	                $('.fourthStep-section').hide();
+	                $('.fifthStep-section').show();
+	            }
+        	}
         }
 
         function fifthStep(){
-            if($('.fifthStep-section').css('display') == 'none'){
-                $('.fifthStep-section').show();
-            }else{
-                $('.fifthStep-section').hide();
-                $('.sixthStep-section').show();
-            }
+        	
+        	if($("input:checkbox[name=profile]:checked").length < 1){
+        		alert("기본 프로필 1개 선택해주세요.")
+        	} else {
+	            if($('.fifthStep-section').css('display') == 'none'){
+	                $('.fifthStep-section').show();
+	            }else{
+	                $('.fifthStep-section').hide();
+	                $('.sixthStep-section').show();
+	            }
+        	}
         }
         
-        // 이전 버튼 
+        
+        // ***************이전 버튼******************
         
         // 이전 버튼 2단계 
         function beforeStep1(){
@@ -187,7 +246,8 @@
 
         
         });
-
+    
+            
 
         // 
 
@@ -295,9 +355,9 @@
             <p class="valid">아이디를 입력하세요. (영문 소문자, 숫자만 입력 가능)</p>
         </div>
         <div class="join-pass">
-            <span class="text-pass">비밀번호는 8-20자의 영문, 숫자, 특수문자를 조합하여 설정해주세요.</span>
+            <span class="text-pass">비밀번호는 5-10자의 영문, 숫자를 조합하여 설정해주세요.</span>
             <input type="password" id="showPass" class="chk" name="pwd" placeholder="비밀번호 입력" title="비밀번호" required>
-            <p class="valid">8-20자의 영문, 숫자, 특수문자</p>
+            <p class="valid">5-10자의 영문, 숫자</p>
             <div class="eyes">
                 <img src="${ contextPath }/resources/images/account/hide.png" alt="" class="eye-pass">
             </div>
@@ -315,13 +375,17 @@
     
     <!-- 아이디 중복 확인 검사 -->
     <script>
+    	
+		
 	    $("#idCheckBtn").on('click', function(){
-	    	id_check();
+	    	
+	    		id_check();
 	    });
 	    
 	    function id_check(){
-	    	var $id = $('[name=id]');
-	    	if($id.hasClass('chked')) return;
+	    	var id = $('[name=id]').val();
+	    	console.log(id);
+	    	/* if($id.hasClass('chked')) return;
 	    	console.log('go check');
 	    	
 	    	var data = join.tag_status($id);
@@ -329,20 +393,29 @@
 	    		alert('아이디 중복 확인 불필요\n' + data.desc);
 	    		$id.focus();
 	    		return;
-	    	}
+	    	} */
 	    	
 	    	$.ajax({
-	    		type:'post',
-	    		url: "${contextPath}/member/idCheck",
-	    		data: {id: $id.val()},
+	    		url : "${contextPath}/member/idCheck",
+	    		type : "get",
+				data : {id : id},
+				contentType : "application/json; charset=utf-8",
 	    		success: function(data) {
-	    			data = join.id_usable(data);
+	    			console.log(data);
+	    			if(data == 1){
+	    				$('[name=id]').siblings('p').text("아이디가 중복합니다. 다시 입력해주세요.").css("color","red").attr('class','invalid');
+	    			} else if(data == 0){
+	    				$('[name=id]').siblings('p').text("아이디 사용가능").attr('class','valid');
+	    			} else if(data == 2){
+	    				$('[name=id]').siblings('p').text("아이디 입력 후 중복 확인 하세요").css("color","red").attr('class','invalid');
+	    			}
+	    			/* data = join.id_usable(data);
 	    			display_status($id.siblings('p'), data);
-	    			$id.addClass('chked');
+	    			$id.addClass('chked'); */
 	    		},
-	    		error: function(req, text){
-	    			alert(text + ': ' + req.status);
-	    		}
+	    		error : function(e) {
+					console.log(e)
+				}
 	    		
 	    	});
 	    	
@@ -469,7 +542,7 @@
 			else if(pwd.length < 5) return this.common.min;
 			else if(pwd.length > 10) return this.common.max;
 			else if ( !upper.test(pwd) || !lower.test(pwd) || !digit.test(pwd) ) return this.pwd.lack;
-			else return this.pw.valid;
+			else return this.pwd.valid;
 		},
 		
 		pwd2_status: function(pwd2) {
@@ -505,10 +578,10 @@
         </header>
         <p class="join-input-title">주소, 연락처, 국가를 입력하세요</p>
         <div class="join-address">
-            <input type="text" id="inputAddress" name="post" placeholder="우편 번호" required>
+            <input type="text" id="inputAddress" class="postcodify_postcode5" name="post" placeholder="우편 번호" required>
             <button id="addressCheckBtn">우편 번호</button> 
-            <input type="text" class="join-input-address" name="address1" placeholder="도로명 주소" required>
-            <input type="text" class="join-input-address" name="address2" placeholder="상세 주소" required>
+            <input type="text" id="join-input-address" class="postcodify_address" name="address1" placeholder="도로명 주소" required>
+            <input type="text" id="join-input-address" class="postcodify_details" name="address2" placeholder="상세 주소" required>
         </div>
         <div class="join-phone">
             <p class="text-phone">(-)포함하여 연락처를 입력해주세요.</p>
@@ -587,6 +660,11 @@
            	 // 관심 아티스트 미리보기 
              $(".favcheck").click(function(){
                  
+            	 if($("input:checkbox[name=favArtists]:checked").length > 3){
+            		 $(this).prop("checked", false);
+            		 alert("관심아티스트는 총 3팀만 선택 가능합니다!");
+            	 } else {
+            		 
                     if($(this).is(":checked"))
                      if(document.getElementById("artistOne").innerText == ""){
  	                document.getElementById("artistOne").innerText = $(this).val();
@@ -595,6 +673,9 @@
  	            	} else if(document.getElementById("artistTwo").innerText != "" && document.getElementById("artistOne").innerText != ""){
  	                    document.getElementById("artistThree").innerText = $(this).val();
  	                }
+                    
+            	 }
+                    //console.log("체크 갯수:" + $("input:checkbox[name=favArtists]:checked").length);
                  
              });
              

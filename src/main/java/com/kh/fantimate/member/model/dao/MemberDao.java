@@ -24,7 +24,7 @@ public interface MemberDao {
 
 	public int insertFavArtist(Map<String, Object> map);
 
-	public boolean checkId(String id);
+	public int checkId(String id);
 
 	public Member selectMember(Member m);
 
