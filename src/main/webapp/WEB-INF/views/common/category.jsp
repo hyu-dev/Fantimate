@@ -23,7 +23,7 @@
         <div class="category">
             <a href="#">FAN</a>
             <a href="#">ARTIST</a>
-            <a href="${ contextPath }/official/media/main">OFFICIAL</a>
+            <a class="official-url" href="${ contextPath }/official/media/main">OFFICIAL</a>
             <a href="${ contextPath }/store/storeList">STORE</a>
         </div>
         <if test="${ page eq 'http://localhost:8800/fantimate/WEB-INF/views/store/storeList.jsp' }">
@@ -116,7 +116,7 @@
 						if(data.length > 0) {
 							$('.category-search-result').css('display', 'block');
 							for(var i in data) {
-								var p = $("<p>").text(data[i].store.pname);
+								var p = $("<p>").text(data[i].officia.mediaTtl);
 								div.append(p);
 							}
 						} else {
@@ -142,6 +142,29 @@
 				$(".contents-search-input").val($(this).text());
 			}
 		})
+		
+		// 오피셜 페이지를 클릭 시
+	    $(".official-url").click(function() {
+	    	// 미디어 데이터가 존재하는지 확인
+	    	$.ajax({
+	    		url : "${ contextPath }/official/countMedia",
+	    		data : {},
+	    		type : "post",
+				dateType : "json",
+				contentType : "application/json; charset=utf-8",
+				success : function(data) {
+					if(data > 1) {
+						console.log(data);
+					} else {
+						alert("미디어가 존재하지 않습니다.");
+						location.href = "${ contextPath }/official/schedule";
+					}
+				},
+				error : function(e) {
+					console.log(e)
+				}
+	    	})
+		});
      </script>
 </body>
 </html>

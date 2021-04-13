@@ -21,6 +21,6 @@ public class Cart {
 	private Date enrollDate; 	// 등록일
 	private String isBought; 	// 구매 여부
 	private int pcode; 			// 상품 코드
-	private String mediaNum; 	// 미디어 번호
+	private int mediaNum; 	// 미디어 번호
 	private String id; 			// 아이디 
 }
