@@ -514,14 +514,11 @@
 			var IMP = window.IMP; 
 	    	IMP.init("imp85435791");
 		    
-		    var pAmount = 12000;
-		    console.log(pAmount);
-			
 		    IMP.request_pay({ // param
 		      pg: "html5_inicis",
 		      pay_method: "card",
 		      merchant_uid: "ORD20180131-0000011",
-		      amount: pAmount,
+		      amount: price,
 		      buyer_email: "gildong@gmail.com",
 		      buyer_name: "홍길동",
 		      buyer_tel: "010-4242-4242",
