@@ -342,6 +342,11 @@ html, body {
     color: #5C5F78;
 }
 
+.update-btn {
+    background-color: #F4D4D4;
+    color: #5C5F78;
+}
+
 .cancel-btn {
     background-color: #5C5F78;
     color: white;

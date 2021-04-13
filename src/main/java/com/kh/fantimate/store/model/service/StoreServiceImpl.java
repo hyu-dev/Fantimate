@@ -122,4 +122,28 @@ public class StoreServiceImpl implements StoreService {
 		return sDao.selectReview(rvCode);
 	}
 
+	@Override
+	public int updateStore(StoreCollection sc, List<Attachment> attList) {
+		// 카테고리 입력
+		sDao.updateStoreCategory(sc);
+		// 스토어 입력
+		sDao.updateStore(sc);
+		// 스토어 정보 입력
+		sDao.updateStoreInfo(sc);
+		// 스토어 사진 업데이트를 위한 코드번호확인
+		List<Integer> list = sDao.selectAttCode(sc.getStore().getPcode());
+		System.out.println(list);
+		System.out.println(list.size());
+		System.out.println(attList);
+		System.out.println(attList.size());
+		for(int i = 0; i < list.size(); i++) {
+			attList.get(i).setAttCode(list.get(i));
+			System.out.println(attList.get(i));
+		}
+		// 스토어 사진 입력
+		int result = sDao.updateStoreAtt(attList);
+		System.out.println(result);
+		return result;
+	}
+
 }

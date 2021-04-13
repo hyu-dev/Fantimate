@@ -81,5 +81,20 @@ public interface StoreDao {
 
 	// 상세페이지 리뷰 하나 불러오기
 	public List<ReviewCollection> selectReview(int rvCode);
+	
+	// 상세페이지 카테고리 수정하기
+	public void updateStoreCategory(StoreCollection sc);
+
+	// 상세페이지 수정하기
+	public void updateStore(StoreCollection sc);
+
+	// 상세페이지 스토어정보 수정하기
+	public void updateStoreInfo(StoreCollection sc);
+
+	// 상세페이지 첨부파일 수정하기
+	public int updateStoreAtt(List<Attachment> attList);
+	
+	// 상세페이지 첨부파일 수정을 위한 코드번호 확인하기
+	public List<Integer> selectAttCode(int pcode);
 
 }
