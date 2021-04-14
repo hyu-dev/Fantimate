@@ -10,6 +10,8 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.fantimate.pay.model.vo.CartCollection;
 import com.kh.fantimate.pay.model.vo.PayCollection;
+import com.kh.fantimate.pay.model.vo.Payment;
+import com.kh.fantimate.pay.model.vo.ProductBuy;
 
 @Repository
 public class PaymentDaoImpl implements PaymentDao{
@@ -57,6 +59,26 @@ public class PaymentDaoImpl implements PaymentDao{
 	@Override
 	public void updateStoreSalesQ(PayCollection paycoll) {
 		sqlSession.update("payMapper.updateStoreSalesQ", paycoll);
+	}
+	// 장바구니에서 구매한 상품 결제등록
+	@Override
+	public int insertCartPayment(Payment payment) {
+		return sqlSession.insert("payMapper.insertCartPayment", payment);
+	}
+	// 구매상품 등록하기
+	@Override
+	public void insertProductBuyList(List<ProductBuy> pbuyList) {
+		sqlSession.insert("payMapper.insertProductBuyList", pbuyList);
+	}
+	// 판매수량 업데이트하기
+	@Override
+	public void updateStoreSalesQList(List<ProductBuy> pbuyList) {
+		sqlSession.update("payMapper.updateStoreSalesQList", pbuyList);
+		
+	}
+	@Override
+	public void updateCartIsBought(List<Integer> cartCodes) {
+		sqlSession.update("payMapper.updateCartIsBought", cartCodes);
 	}
 	
 	

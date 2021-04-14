@@ -98,14 +98,12 @@ public class StoreController {
 		// 아티스트 이름 임의로 조정 (세션으로 변경 필요)
 		String artiName = "IU";
 		
-		// System.out.println(toggle);
 		Map<String, String> map = new HashMap<>();
 		map.put("artiName", artiName);
 		map.put("cateName", cateName);
 		map.put("toggle", toggle);
 		
 		List<StoreCollection> list = (ArrayList<StoreCollection>)sService.selectStoreListByCate(map);
-		// System.out.println(list);
 		if(list.size() > 0) {
 			HttpSession session = request.getSession();
 			session.setAttribute("cateName", cateName);
@@ -131,7 +129,6 @@ public class StoreController {
 		// 아티스트 이름 임의로 조정 (세션으로 변경 필요)
 		String artiName = "IU";
 		
-//		System.out.println(toggle);
 		Map<String, String> map2 = new HashMap<>();
 		map2.put("artiName", artiName);
 		map2.put("cateName", cateName);
@@ -155,7 +152,6 @@ public class StoreController {
 		// 아티스트 이름 임의로 조정 (세션으로 변경 필요)
 		String artiName = "IU";
 		
-//		System.out.println(toggle);
 		Map<String, String> map2 = new HashMap<>();
 		map2.put("artiName", artiName);
 		map2.put("cateName", cateName);
@@ -185,7 +181,6 @@ public class StoreController {
 		map.put("toggle", toggle);
 		
 		List<StoreCollection> list = (ArrayList<StoreCollection>)sService.searchStoreList(map);
-		System.out.println(list);
 		if(list == null || list.size() < 1) list = new ArrayList<>();
 		return list;
 	}
@@ -212,7 +207,6 @@ public class StoreController {
 		if(toggle == null) {
 			toggle = "NEW";
 		}
-		System.out.println(cateName + artiName + toggle);
 		// 맵에 해당 데이터 담음
 		Map<String, String> map = new HashMap<>();
 		map.put("cateName", cateName);
@@ -220,7 +214,6 @@ public class StoreController {
 		map.put("toggle", toggle);
 		
 		List<StoreCollection> list = (ArrayList<StoreCollection>)sService.selectStoreListByCate(map);
-		System.out.println(list);
 		if(list == null || list.size() < 1) list = new ArrayList<>();
 			
 		return list;   // path 경로로 가는데 앞에  /sp 는 삭제
@@ -351,10 +344,6 @@ public class StoreController {
 				i++;
 			}
 		}
-		for(int j = 0; j < attList.size(); j++) {
-			System.out.println(attList.get(j).getAttClName());
-			System.out.println(attList.get(j).getAttSvName());
-		}
 		
 		if(store.getIsView().equals("on"))
 			store.setIsView("Y");
@@ -461,11 +450,9 @@ public class StoreController {
 			List<StoreCollection> sc = sService.selectStore(pcode, !flagPcode);
 			HttpSession session = request.getSession();
 			session.setAttribute("sc", sc);
-			System.out.println("상세페이지 모든 정보 " + sc);
 			// 상세페이지의 리뷰 정보 리스트로 담아오기
 			List<ReviewCollection> review = sService.selectReviewList(pcode);
 			session.setAttribute("review", review);
-			System.out.println(review);
 			
 			// 상세페이지에 넣을 추천 스토어 불러오기
 			Map<String, String> map = new HashMap<>();
@@ -477,9 +464,6 @@ public class StoreController {
 			map.put("pcode", pcode);
 			List<StoreCollection> recmd = (ArrayList<StoreCollection>)sService.recommandStoreListByCate(map);
 			session.setAttribute("recmd", recmd);
-			System.out.println("아티스트네임" + sc.get(0).getStoreCate().getArtiNameEn());
-			System.out.println("카테고리네임" + sc.get(0).getStoreCate().getCateName());
-			System.out.println("추천상품 " + recmd);
 			
 			// 유저별 찜여부 확인
 			String userId = ((Member)request.getSession().getAttribute("loginUser")).getId();

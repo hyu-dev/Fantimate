@@ -1,5 +1,6 @@
 package com.kh.fantimate.pay.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -104,6 +105,32 @@ public class PaymentController {
 		paycoll.setPbuy(pbuy);
 		
 		String msg = pService.insertStoreOnePayment(paycoll) > 0 ? "결제가 완료되었습니다" : "결제가 취소되었습니다";
+		
+		Map<String, String> map = new HashMap<>();
+		map.put("msg", msg);
+		return map;
+	}
+	
+	@PostMapping("/cart/payment")
+	@ResponseBody
+	public Map<String, String> insertCartPayment(Payment payment, 
+												 @RequestParam(value="pcode[]") List<Integer> pcode,
+												 @RequestParam(value="productQ[]") List<Integer> productQ,
+												 @RequestParam(value="cartCodes[]") List<Integer> cartCodes) {
+		List<ProductBuy> pbuyList = new ArrayList<>();
+		ProductBuy pbuy = null;
+		String msg = "";
+		if(pcode.get(0) != 0 && productQ.get(0) != 0) {
+			for(int i = 0; i < pcode.size(); i++) {
+				pbuy = new ProductBuy();
+				pbuy.setPayCode(payment.getPayCode());
+				pbuy.setPcode(pcode.get(i));
+				pbuy.setProductQ(productQ.get(i));
+				pbuyList.add(pbuy);
+			}
+		}
+		
+		msg = pService.insertCartPayment(payment, pbuyList, cartCodes) > 0 ? "결제가 완료되었습니다" : "결제가 취소되었습니다";
 		
 		Map<String, String> map = new HashMap<>();
 		map.put("msg", msg);

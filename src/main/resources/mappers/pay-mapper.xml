@@ -10,6 +10,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<result property="fee" column="FEE"/>
 		<result property="enrollDate" column="ENROLL_DATE"/>
 		<result property="isBought" column="IS_BOUGHT"/>
+		<result property="boughtDate" column="BOUGHT_DATE"/>
 		<result property="pcode" column="P_CODE"/>
 		<result property="mediaNum" column="MEDIA_NUM"/>
 		<result property="id" column="ID"/>
@@ -102,6 +103,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 			  , FEE
 			  , ENROLL_DATE
 			  , IS_BOUGHT
+			  , BOUGHT_DATE
 			  , P_CODE
 			  , MEDIA_NUM
 			  , ID
@@ -151,6 +153,8 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		  		M_CATEGORY MC USING(CATE_CODE)
 		 WHERE 
 				ID = #{userId}
+		   AND
+		   		IS_BOUGHT = 'N'
 	  ORDER BY 	ENROLL_DATE DESC
 	</select>
 	<delete id="deleteStoreByCart" parameterType="_int">
@@ -186,7 +190,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		    #{item}
 		    </foreach>
 	</delete>
-	<!-- <insert id="insertStoreOnePayment" parameterType="PayCollection">
+	<insert id="insertStoreOnePayment" parameterType="PayCollection">
 		INSERT
 		INTO PAYMENT
 		(
@@ -201,7 +205,102 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		VALUES
 		(
 			#{payment.payCode}
-		  , #{
+		  , #{payment.payMethod}
+		  , #{payment.payStatus}
+		  , #{payment.payPrice}
+		  , SYSDATE
+		  , #{payment.id}
+		  , #{payment.payDivision}
 		)
-	</insert> -->
+	</insert>
+	<insert id="insertProductBuy" parameterType="PayCollection">
+		INSERT
+		INTO P_BUY
+		(
+			B_CODE
+		  , PROD_Q
+		  , PAY_CODE
+		  , P_CODE
+		)
+		VALUES
+		(
+			SEQ_P_BUY.NEXTVAL
+		  , #{pbuy.productQ}
+		  , #{pbuy.payCode}
+		  , #{pbuy.pcode}
+		)
+	</insert>
+	<update id="updateStoreSalesQ" parameterType="PayCollection">
+		UPDATE
+				STORE
+		   SET
+		   		SALES_Q = SALES_Q - #{pbuy.productQ}
+		 WHERE
+		 		P_CODE = #{pbuy.pcode}
+	</update>
+	<insert id="insertCartPayment" parameterType="Payment">
+		INSERT
+		INTO PAYMENT
+		(
+			PAY_CODE
+		  , PAY_METHOD
+		  , PAY_STATUS
+		  , PAY_PRICE
+		  , PAY_DATE
+		  , ID
+		  , PAY_DIVISION
+		)
+		VALUES
+		(
+			#{payCode}
+		  , #{payMethod}
+		  , #{payStatus}
+		  , #{payPrice}
+		  , SYSDATE
+		  , #{id}
+		  , #{payDivision}
+		)
+	</insert>
+	<insert id="insertProductBuyList" parameterType="list">
+		INSERT
+		INTO P_BUY
+		(
+			B_CODE
+		  , PROD_Q
+		  , PAY_CODE
+		  , P_CODE
+		)
+		SELECT SEQ_P_BUY.NEXTVAL, A.*
+	    FROM
+	    (
+	      <foreach collection="list" item="i" separator="UNION ALL">
+		  SELECT #{i.productQ} AS PROD_Q
+			   , #{i.payCode} AS PAY_CODE
+			   , #{i.pcode} AS P_CODE
+		    FROM DUAL
+	      </foreach>
+	    ) A
+	</insert>
+	<update id="updateStoreSalesQList" parameterType="list">
+		<foreach collection="list" item="i" open="BEGIN" close="; END;" separator=";">
+		UPDATE
+				STORE
+		   SET
+		   		SALES_Q = SALES_Q - #{i.productQ}
+		 WHERE
+		 		P_CODE = #{i.pcode}
+		</foreach>
+	</update>
+	<update id="updateCartIsBought">
+		UPDATE
+				CART
+		   SET
+		   		IS_BOUGHT = 'Y',
+		   		BOUGHT_DATE = SYSDATE
+		 WHERE
+		 		CART_CODE IN
+ 		<foreach collection="list" item="item" open="(" separator="," close=")">
+	    		#{item}
+	    </foreach>
+	</update>
 </mapper>
