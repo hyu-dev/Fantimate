@@ -511,26 +511,66 @@
 	
 		// 오른쪽 컨텐츠 바로구매하기 클릭시
 		$(".buy").click(function() {
-			var IMP = window.IMP; 
+			/* var IMP = window.IMP;  */
 	    	IMP.init("imp85435791");
-		    
+	    	// 결제번호
+	    	var uid = 'storeOne_' + new Date().getTime();
+	    	// 주문자명
+	    	var name = "${ loginUser.id }";
+	    	// 주문자 이메일
+	    	var email = "${ user.uemail }";
+	    	// 상품명
+	    	var pname = "${ sc.get(0).store.pname }";
+	    	// 상품코드
+	    	var pcode = "${ sc.get(0).store.pcode }";
+	    	// 상품수량
+	    	var buyQ = quantity;
+	    	
 		    IMP.request_pay({ // param
 		      pg: "html5_inicis",
 		      pay_method: "card",
-		      merchant_uid: "ORD20180131-0000011",
+		      merchant_uid: uid,
 		      amount: price,
-		      buyer_email: "gildong@gmail.com",
-		      buyer_name: "홍길동",
-		      buyer_tel: "010-4242-4242",
-		      buyer_addr: "서울특별시 강남구 신사동",
-		      buyer_postcode: "01181"
+		      name: pname,
+		      buyer_email: email,
+		      buyer_name: name,
+		      buyer_tel: "010-6301-0115",
 		    }, function (rsp) { // callback
 		      if (rsp.success) {
 		          // 결제 성공 시 로직,
 		          console.log("결제성공")
+		          console.log(rsp.merchant_uid)	// 결제번호
+		          console.log(rsp.pay_method)	// point > kakaopay로 변경
+		          console.log(rsp.status)		// paid > 1로 변경
+		          console.log(rsp.name)			// 상품명
+		          console.log(rsp.buyer_name)	// 구매자 아이디 user
+		          console.log(rsp.paid_amount)	// 금액 19900
+		          $.ajax({
+		        	 url : "${ pageContext.request.contextPath }/pay/storeOne/payment",
+		        	 data : {
+		        		 		payCode : rsp.merchant_uid,
+		        		 		payMethod : "kakaopay_" + rsp.pay_method,
+		        		 		payStatus : 1,
+		        		 		payPrice : rsp.paid_amount,
+		        		 		id : rsp.buyer_name,
+		        		 		payDivision : 1,
+		        		 		productQ : quantity,
+		        		 		pcode : pcode
+		        		 	},
+		        	 method : "POST",
+		        	 dateType : "json",
+		        	 success : function(msg) {
+		        		 alert(msg);
+		        	 },
+		        	 error: function(e) {
+		        		 console.log(e)
+		        	 }
+		          })
+		          
 		      } else {
 		          // 결제 실패 시 로직,
 		          console.log("결제실패")
+		          alert("결제를 진행할 수 없습니다.")
 		      }
 		    });
 		})

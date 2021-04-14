@@ -1,6 +1,8 @@
 package com.kh.fantimate.pay.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -8,13 +10,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.fantimate.member.model.vo.Member;
 import com.kh.fantimate.pay.model.service.PaymentService;
 import com.kh.fantimate.pay.model.vo.CartCollection;
+import com.kh.fantimate.pay.model.vo.PayCollection;
+import com.kh.fantimate.pay.model.vo.Payment;
+import com.kh.fantimate.pay.model.vo.ProductBuy;
 import com.kh.fantimate.store.model.vo.StoreCollection;
 
 @Controller
@@ -86,5 +94,22 @@ public class PaymentController {
 			model.addAttribute("msg", "상품 수량변경에 문제가 생겼습니다");
 			return "redirect:/pay/cart";
 		}
+	}
+	
+	@PostMapping("/storeOne/payment")
+	@ResponseBody
+	public Map<String, String> insertStoreOnePayment(Payment payment, ProductBuy pbuy) {
+		
+		System.out.println(payment);
+		System.out.println(pbuy);
+		PayCollection paycoll = new PayCollection();
+		paycoll.setPayment(payment);
+		paycoll.setPbuy(pbuy);
+		
+		String msg = pService.insertStoreOnePayment(paycoll) > 0 ? "결제가 완료되었습니다" : "결제가 취소되었습니다";
+		
+		Map<String, String> map = new HashMap<>();
+		map.put("msg", msg);
+		return map;
 	}
 }

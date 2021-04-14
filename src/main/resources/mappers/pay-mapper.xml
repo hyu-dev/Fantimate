@@ -17,7 +17,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	<resultMap type="StoreCategory" id="category">
 		<id property="cateCode" column="C_CODE"/>
 		<result property="cateName" column="C_NAME"/>
-		<result property="artiNameEn" column="ANTI_NAME_EN"/>
+		<result property="artiNameEn" column="ARTI_NAME_EN"/>
 	</resultMap>
 	<resultMap type="Store" id="storeResultSet">
 		<id property="pcode" column="P_CODE"/>
@@ -41,11 +41,58 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<result property="attMain" column="IS_MAIN_ATT"/>
 		<result property="refId" column="P_CODE"/>
 	</resultMap>
+	<resultMap type="Official" id="mediaResultSet">
+		<id property="mediaNum" column="MEDIA_NUM"/>
+		<result property="mediaTtl" column="MEDIA_TTL"/>
+		<result property="mediaCtt" column="MEDIA_CTT"/>
+		<result property="mediaDate" column="MEDIA_DATE"/>
+		<result property="mediaStatus" column="MEDIA_STATUS"/>
+		<result property="isPay" column="IS_PAY"/>
+		<result property="cateCode" column="CATE_CODE"/>
+		<result property="mediaPay" column="MEDIA_PAY"/>
+	</resultMap>
+	<resultMap type="Category" id="mcateResultSet">
+		<id property="cateCode" column="M_CATE_CODE"/>
+		<result property="cateName" column="M_CATE_NAME"/>
+		<result property="artiNameEn" column="M_ARTI_NAME_EN"/>
+	</resultMap>
+	<resultMap type="Attachment" id="attMediaResultSet">
+		<id property="attCode" column="M_ATT_CODE"/>
+		<result property="attRoot" column="M_ATT_ROOT"/>
+		<result property="attClName" column="M_ATT_CL_NAME"/>
+		<result property="attSvName" column="M_ATT_SV_NAME"/>
+		<result property="attStatus" column="M_ATT_STATUS"/>
+		<result property="refId" column="MEDIA_NUM"/>
+		<result property="attMain" column="IS_THUMB"/>
+	</resultMap>
 	<resultMap type="CartCollection" id="cartCollResultSet">
 		<collection property="cart" resultMap="cartResultSet"/>
 		<collection property="storeCate" resultMap="category" />
 		<collection property="store" resultMap="storeResultSet" />
 		<collection property="att" resultMap="attResultSet" />
+		<collection property="official" resultMap="mediaResultSet" />
+		<collection property="mcategory" resultMap="mcateResultSet" />
+		<collection property="attMedia" resultMap="attMediaResultSet" />
+	</resultMap>
+	<resultMap type="Payment" id="paymentResultSet">
+		<id property="payCode" column="PAY_CODE"/>
+		<result property="payMethod" column="PAY_METHOD"/>
+		<result property="payStatus" column="PAY_STATUS"/>
+		<result property="payPrice" column="PAY_PRICE"/>
+		<result property="payDate" column="PAY_DATE"/>
+		<result property="id" column="ID"/>
+		<result property="payDivision" column="PAY_DIVISION"/>
+		<result property="payPlan" column="PAY_PLAN"/>
+	</resultMap>
+	<resultMap type="ProductBuy" id="pbuyResultSet">
+		<id property="bcode" column="B_CODE"/>
+		<result property="productQ" column="PROD_Q"/>
+		<result property="payCode" column="PAY_CODE"/>
+		<result property="pcode" column="P_CODE"/>
+	</resultMap>
+	<resultMap type="PayCollection" id="payCollResultSet">
+		<collection property="payment" resultMap="paymentResultSet"/>
+		<collection property="pbuy" resultMap="pbuyResultSet" />
 	</resultMap>
 	<select id="selectCartList" parameterType="string" resultMap="cartCollResultSet">
 		SELECT 
@@ -67,22 +114,43 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 			  , VIEWCOUNT
 			  , IS_SOLDOUT
 			  , IS_ACTIVE
-			  , ARTI_NAME_EN
-			  , ATT_CL_NAME
-			  , ATT_SV_NAME
-			  , ATT_STATUS
-			  , IS_MAIN_ATT
+			  , C_CODE
+              , C_NAME
+			  , SC.ARTI_NAME_EN AS "ARTI_NAME_EN"
+			  , SATT.ATT_CL_NAME AS "ATT_CL_NAME"
+			  , SATT.ATT_SV_NAME AS "ATT_SV_NAME"
+			  , SATT.ATT_STATUS AS "ATT_STATUS"
+			  , SATT.IS_MAIN_ATT AS "IS_MAIN_ATT"
+			  , MEDIA_TTL
+              , MEDIA_CTT
+              , MEDIA_DATE
+              , MEDIA_STATUS
+              , IS_PAY
+              , CATE_CODE AS "M_CATE_CODE"
+              , MEDIA_PAY
+              , CATE_NAME AS "M_CATE_NAME"
+              , MC.ARTI_NAME_EN AS "M_ARTI_NAME_EN"
+              , MATT.ATT_CODE AS "M_ATT_CODE"
+              , MATT.ATT_CL_NAME AS "M_ATT_CL_NAME"
+              , MATT.ATT_SV_NAME AS "M_ATT_SV_NAME"
+              , MATT.ATT_STATUS AS "M_ATT_STATUS"
+              , IS_THUMB
 		  FROM 	
-		  		CART
-		  JOIN 
-		  		STORE USING(P_CODE)
-		  JOIN 
-		  		S_CATEGORY USING(C_CODE)
-		  JOIN 
-				ATT_STORE USING(P_CODE)
+		  		CART C
+		  LEFT JOIN 
+		  		STORE S USING(P_CODE)
+		  LEFT JOIN 
+		  		S_CATEGORY SC USING(C_CODE)
+		  LEFT JOIN 
+				ATT_STORE SATT USING(P_CODE)
+		  LEFT JOIN
+		  		MEDIA M USING(MEDIA_NUM)
+		  LEFT JOIN
+		  		MD_FILE MATT USING(MEDIA_NUM)
+		  LEFT JOIN
+		  		M_CATEGORY MC USING(CATE_CODE)
 		 WHERE 
 				ID = #{userId}
-		   AND 	IS_MAIN_ATT = 'Y'
 	  ORDER BY 	ENROLL_DATE DESC
 	</select>
 	<delete id="deleteStoreByCart" parameterType="_int">
@@ -118,4 +186,22 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		    #{item}
 		    </foreach>
 	</delete>
+	<!-- <insert id="insertStoreOnePayment" parameterType="PayCollection">
+		INSERT
+		INTO PAYMENT
+		(
+			PAY_CODE
+		  , PAY_METHOD
+		  , PAY_STATUS
+		  , PAY_PRICE
+		  , PAY_DATE
+		  , ID
+		  , PAY_DIVISION
+		)
+		VALUES
+		(
+			#{payment.payCode}
+		  , #{
+		)
+	</insert> -->
 </mapper>
