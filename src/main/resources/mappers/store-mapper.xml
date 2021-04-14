@@ -6,7 +6,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	<resultMap type="StoreCategory" id="category">
 		<id property="cateCode" column="C_CODE"/>
 		<result property="cateName" column="C_NAME"/>
-		<result property="artiNameEn" column="ANTI_NAME_EN"/>
+		<result property="artiNameEn" column="ARTI_NAME_EN"/>
 	</resultMap>
 	<resultMap type="Store" id="storeResultSet">
 		<id property="pcode" column="P_CODE"/>
@@ -424,6 +424,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 			  , IS_ACTIVE
 			  , C_CODE
 			  , C_NAME
+			  , ARTI_NAME_EN
 			  , ATT_CODE
 			  , ATT_ROOT
 			  , ATT_CL_NAME

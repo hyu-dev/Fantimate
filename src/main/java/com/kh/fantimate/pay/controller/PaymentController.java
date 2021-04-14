@@ -11,7 +11,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -23,7 +22,6 @@ import com.kh.fantimate.pay.model.vo.CartCollection;
 import com.kh.fantimate.pay.model.vo.PayCollection;
 import com.kh.fantimate.pay.model.vo.Payment;
 import com.kh.fantimate.pay.model.vo.ProductBuy;
-import com.kh.fantimate.store.model.vo.StoreCollection;
 
 @Controller
 @RequestMapping("/pay")
@@ -42,7 +40,6 @@ public class PaymentController {
 		}
 		
 		List<CartCollection> cartList = pService.selectCartList(userId);
-		System.out.println(cartList);
 		mv.addObject("cartList", cartList);
 		mv.setViewName("pay/cart");
 		return mv;
