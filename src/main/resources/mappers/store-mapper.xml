@@ -293,6 +293,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		  , FEE
 		  , ENROLL_DATE
 		  , IS_BOUGHT
+		  , BOUGHT_DATE
 		  , P_CODE
 		  , ID
 		)
@@ -304,6 +305,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		  , DEFAULT
 		  , SYSDATE
 		  , DEFAULT
+		  , SYSDATE
 		  , #{pcode}
 		  , #{id}
 		)

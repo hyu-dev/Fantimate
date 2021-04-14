@@ -75,6 +75,7 @@
 	                        </div>
 	                        <p><sub>${ cl.mcategory.artiNameEn }</sub><br>${ cl.official.mediaTtl }</p>
 	                        <input type="hidden" class="cart-mCode" value="${ cl.cart.mediaNum }">
+	                        <input type="hidden" class="media-ttl" value="${ cl.official.mediaTtl }">
 	                    </div>
 	                </td>
 	                <td>
@@ -109,6 +110,8 @@
 	                        </div>
 	                        <p><sub>${ cl.storeCate.artiNameEn }</sub><br>${ cl.store.pname }<br><sub>재고 : ${ cl.store.salesQ }</sub></p>
 	                        <input type="hidden" class="cart-pCode" value="${ cl.cart.pcode }">
+	                        <input type="hidden" class="cart-pName" value="${ cl.store.pname }">
+	                        <input type="hidden" class="salesQ" value="${ cl.store.salesQ }">
 	                    </div>
 	                </td>
 	                <td>
@@ -267,29 +270,81 @@
 	    
 	    // 결제하기 클릭시
 	    $(".cart-payment-btn").click(function() {
-	    	var IMP = window.IMP; 
 	    	IMP.init("imp85435791");
-		    
-		    var pAmount = ${ sum };
-		    console.log(pAmount);
-			
+	    	// 결제번호
+	    	var uid = 'cart_' + new Date().getTime();
+	    	// 주문자명
+	    	var name = "${ loginUser.id }";
+	    	// 주문자 이메일
+	    	var email = "${ user.uemail }";
+	    	// 상품명, 상품코드, 상품수량, 장바구니코드
+	    	var pname = []
+	    	var pcode = []
+	    	var productQ = []
+	    	var cartCodes = []
+			var flag = true;
+			$('td .jelly-checkbox input:checked').each(function(index) {
+				if($(this).parents("td").next().children().children(".cart-pCode").val() != null) {
+					pcode.push($(this).parents("td").next().children().children(".cart-pCode").val());
+					productQ.push($(this).parents("td").next().next().children().children(".product-quantity").text())
+					pname.push($(this).parents("td").next().children().children(".cart-pName").val())
+					if($(this).parents("td").next().next().children().children(".product-quantity").text() > $(this).parents("td").next().children().children(".cart-pCode").val())
+						flag = false
+				} else {
+					pname.push($(this).parents("td").next().children().children(".media-ttl").val())
+				}
+				cartCodes.push($(this).parents("td").siblings("td").children(".cartCode").val())
+			})
+			// 상품코드가 없다면
+			if(pcode.length < 1) {
+				pcode.push(0)
+				productQ.push(0)
+			}
+			// 구매전 재고확인
+			if(!flag) {
+				alert("재고 수량을 초과한 상품이 있습니다");
+				return;
+			}
+			// 결제 진행
 		    IMP.request_pay({ // param
 		      pg: "html5_inicis",
 		      pay_method: "card",
-		      merchant_uid: "ORD20180131-0000011",
-		      amount: pAmount,
-		      buyer_email: "gildong@gmail.com",
-		      buyer_name: "홍길동",
-		      buyer_tel: "010-4242-4242",
-		      buyer_addr: "서울특별시 강남구 신사동",
-		      buyer_postcode: "01181"
+		      merchant_uid: uid,
+		      amount: totalPrice,
+		      name: pname[0] + " 외 " + (pname.length -1) + "건",
+		      buyer_email: email,
+		      buyer_name: name,
+		      buyer_tel: "010-6301-0115",
 		    }, function (rsp) { // callback
 		      if (rsp.success) {
-		          // 결제 성공 시 로직,
-		          console.log("결제성공")
+		          // 결제 성공 시 로직
+	        	  $.ajax({
+		        	 url : "${ pageContext.request.contextPath }/pay/cart/payment",
+		        	 data : {
+		        		 		payCode : rsp.merchant_uid,
+		        		 		payMethod : "kakaopay_" + rsp.pay_method,
+		        		 		payStatus : 1,
+		        		 		payPrice : rsp.paid_amount,
+		        		 		id : rsp.buyer_name,
+		        		 		payDivision : 1,
+		        		 		productQ : productQ,
+		        		 		pcode : pcode,
+		        		 		cartCodes : cartCodes
+		        		 	},
+		        	 method : "POST",
+		        	 dateType : "json",
+		        	 success : function(msg) {
+		        		 alert(msg.msg)
+		        		 location.href = "${contextPath}/pay/cart";
+		        	 },
+		        	 error: function(e) {
+		        		 console.log(e)
+		        	 }
+		          })
 		      } else {
 		          // 결제 실패 시 로직,
 		          console.log("결제실패")
+		          alert("결제를 취소하였습니다")
 		      }
 		    });
 	    });

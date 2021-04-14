@@ -259,15 +259,15 @@
 							var pName = $("<b>").text(data[i].store.pname);
 							var price = $("<p>")
 							var sub = $("<sub>")
-							var s = $("<s>").text(data[i].store.qprice);
+							var s = $("<s>").text(" " + numberWithCommas(data[i].store.qprice));
 							var cart = $("<img class='cart-icon store-icon' src='${ contextPath }/resources/icon/shopping.png' alt=''>");
 							var ddim = $("<img class='ddim-icon store-icon ddim' src='${ contextPath }/resources/icon/heart.png' alt=''>");
 							var noddim = $("<img class='ddim-icon store-icon noddim' src='${ contextPath }/resources/icon/heart-pink.png' alt=''>");
 							var imgSrc = "${ contextPath }/resources/uploadFiles/" + data[i].att.attSvName;
 							var img = $("<img src='' alt=''>").attr("src", imgSrc);
 							var pCode = $("<input type='hidden' id='pcode'>").val(data[i].store.pcode);
-							sub.append(s, data[i].store.discount + "%").trigger("create");
-							price.append((data[i].store.qprice * (1- data[i].store.discount/100)), sub).trigger("create");
+							sub.append(s, " " + data[i].store.discount + "%").trigger("create");
+							price.append(numberWithCommas(data[i].store.qprice * (1- data[i].store.discount/100)), sub).trigger("create");
 							
 							if(data[i].store.isSoldout == 'Y') {
 								div.append(soldout);

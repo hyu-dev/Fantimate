@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.kh.fantimate.pay.model.vo.CartCollection;
 import com.kh.fantimate.pay.model.vo.PayCollection;
+import com.kh.fantimate.pay.model.vo.Payment;
+import com.kh.fantimate.pay.model.vo.ProductBuy;
 
 public interface PaymentService {
 
@@ -21,5 +23,8 @@ public interface PaymentService {
 
 	// 스토어에서 바로 구매
 	int insertStoreOnePayment(PayCollection paycoll);
+
+	// 장바구니에서 결제
+	int insertCartPayment(Payment payment, List<ProductBuy> pbuyList, List<Integer> cartCodes);
 	
 }
