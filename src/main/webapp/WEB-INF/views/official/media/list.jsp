@@ -23,7 +23,9 @@
         <section class="main-contents">
             <div class="category-container">
                 <div class="category-upper">
-                    <span class="category-title nanumsquare">BREAK THE SILENCE</span>&nbsp;<span class="category-count nanumsquare">(7)</span>
+                	<c:if test="${ category eq null }">
+                    <span class="category-title nanumsquare">${ category }</span>&nbsp;<span class="category-count nanumsquare">${ count }</span>
+                    </c:if>
                 </div>
                 <div class="category-under">
                     <div class="category-media">

@@ -69,6 +69,7 @@
                 </div>
             </div>
             </c:forEach>
+        </section>
         
         <script type="text/javascript">
         /* 화면에 미디어를 4개 배치하기 위해 hide 처리 */
@@ -119,7 +120,8 @@
 			            		data : { mediaNum : mediaNum, mediaPay : mediaPay },
 			            		type : "post",
 			            		dataType : "json",
-			            		contentType : "application/json; charset=utf-8",
+			            		// 데이터가 전송되지 않아서 contentType을 주석 처리함
+			            		// contentType : "application; charset=utf-8",
 			            		success : function(data) {
 			            			console.log(data);
 			            		},

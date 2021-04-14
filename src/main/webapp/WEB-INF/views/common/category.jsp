@@ -116,7 +116,7 @@
 						if(data.length > 0) {
 							$('.category-search-result').css('display', 'block');
 							for(var i in data) {
-								var p = $("<p>").text(data[i].officia.mediaTtl);
+								var p = $("<p>").text(data[i].official.mediaTtl);
 								div.append(p);
 							}
 						} else {
