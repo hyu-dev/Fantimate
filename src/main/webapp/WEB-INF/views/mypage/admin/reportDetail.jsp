@@ -13,40 +13,44 @@
     <link rel="stylesheet" href="${ contextPath }/resources/css/mypage/jw.css">
 <%--     <link rel="icon" type="image/png" sizes="16x16" href="${ contextPath }/resources/icon/faviconF.png"> --%>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-<title>insertAgency</title>
+<title>reportDetail</title>
 </head>
 <body>
-	<div id="mypageAdminSignInWrap">
-		<div id="mypageAdminSignIn">
-			<form id="agencyForm" method="post" action="${ contextPath }/mypage/admin/insertAgency"
-			onsubmit="return joinValidate();">
-				<h2>소속사 정보 등록</h2>
-				<div id="mypageAgencySignInContents">
-					<div id="mypageAgencySignIn">
-						<label>소속사명</label> <label>사업자 등록번호</label> <label>이메일 주소</label>
-						<label>연락처</label> <label>아이디</label> <label>비밀번호</label> <label>비밀번호
-							확인</label>
-					</div>
-					<div id="mypageUserUpdateRight">
-						<%-- value="${}""--%>
-						<input type="text" name="name" value="SM">
-						<input type="text" name="agNum" value="143-88-12345" placeholder="143-24-12345"> 
-						<input type="email" name="agEmail" value="smenter33@sm.town">
-						<input type="text" name="agPhone" value="010-1234-4321" placeholder="010-0000-0000(-포함)"> 
-						<input type="text" name="id" value="edam1">
-						<button type="button" id="idCheckAgency" onclick="" name="idCheck">중복확인</button>
-						<input type="password" name="pwd" value="qwe123!@#" placeholder="비밀번호는 8-20자의 영문, 숫자, 특수문자를 조합하여 설정해주세요."> 
-						<input type="password" name="pwd2" value="qwe123!@#" placeholder="비밀번호는 8-20자의 영문, 숫자, 특수문자를 조합하여 설정해주세요.">
-					</div>
-				</div>
-
-				<div class="mypage-Btn-align-center">
-					<button class="mypage-pop-Btn-pink" id="joinBtn" disabled="disabled">등록하기</button>
-					<button class="mypage-pop-Btn-navi" type="button">취소하기</button>
-				</div>
-			</form>
-		</div>
-	</div>
+	<div id="mypageReportDetailWrap">
+        <div id="mypageReportDetail">
+            <form id="reportDetailForm" method="post" action="${ contextPath }/mypage/admin/report">
+                <!-- onsubmit="return joinValidate();"> -->
+                <h2>신고 상세내역</h2>
+                <div class="mypage-refund-detail">
+                    <div class="mypage-refund-detail-in">
+                        <label>신고한 유저 아이디
+                            <input id="reportDetail1" type="text" name="name" readonly>
+                        </label>
+                        <label>신고일자
+                            <input id="reportDetail2" type="text" name="name" readonly>
+                        </label>
+                        <label>신고당한 유저 아이디
+                            <input id="reportDetail3" type="text" name="name" readonly>
+                        </label>
+                        <label>신고한 게시물 제목
+                            <input id="reportDetail4" type="text" name="name" readonly>
+                        </label>
+                        <label>신고 유형
+                            <input id="reportDetail5" type="text" name="name" readonly>
+                        </label>
+                        <label>
+                            신고 사유
+                            <textarea name="" id="reportDetail6" cols="30" rows="10"></textarea>
+                        </label>
+                    </div>
+                    <div class="mypage-Btn-align-center">
+                        <button class="mypage-pop-Btn-pink" id="reportThis">제재하기</button>
+                        <button class="mypage-pop-Btn-navi" type="button">뒤로가기</button>
+                    </div>
+                </div>
+        </form>
+        </div>
+    </div>  
 <script>
 		// 중복검사
 		// 아이디 중복검사

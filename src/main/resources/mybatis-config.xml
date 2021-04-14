@@ -19,6 +19,11 @@
 		<typeAlias type="com.kh.fantimate.member.model.vo.Artist" alias="Artist"/>
 		<typeAlias type="com.kh.fantimate.member.model.vo.Admin" alias="Admin"/>
 		<typeAlias type="com.kh.fantimate.common.model.vo.Attachment" alias="Attachment"/>
+		<typeAlias type="com.kh.fantimate.common.model.vo.Report" alias="Report"/>
+		<typeAlias type="com.kh.fantimate.common.model.vo.Report2" alias="Report2"/>
+		<typeAlias type="com.kh.fantimate.mypage1.model.vo.MessageList" alias="MessageList"/>
+		<typeAlias type="com.kh.fantimate.mypage1.model.vo.FanstoreList" alias="FanstoreList"/>
+		<typeAlias type="com.kh.fantimate.mypage1.model.vo.FanStore2" alias="FanStore2"/>
 		<typeAlias type="com.kh.fantimate.main.model.vo.FavoriteArtist" alias="FavoriteArtist"/>
 		<typeAlias type="com.kh.fantimate.store.model.vo.Store" alias="Store"/>
 		<typeAlias type="com.kh.fantimate.store.model.vo.StoreCollection" alias="StoreCollection"/>

@@ -4,7 +4,10 @@ import java.util.List;
 
 import com.kh.fantimate.common.model.vo.Notice;
 import com.kh.fantimate.common.model.vo.PageInfo;
+import com.kh.fantimate.common.model.vo.Report;
 import com.kh.fantimate.member.model.vo.Agency;
+import com.kh.fantimate.member.model.vo.Member;
+import com.kh.fantimate.mypage1.model.vo.ReportPageInfo;
 
 public interface Mypage1Service {
 	//  Notice List All 카운트(0)
@@ -17,6 +20,18 @@ public interface Mypage1Service {
 	public int checkId(String id);
 
 	public int insertAgency(Agency agency);
+
+	public int insertCommon(Member common);
+
+	public int reportListCountMessage();
+
+	public List<Report> selectMsgList(ReportPageInfo pi);
+
+	public int reportListCountfanstore();
+
+	public List<Report> selectfanstoreList(ReportPageInfo pi);
+
+	public int reportListCountfanstoreR();
 
 	
 }

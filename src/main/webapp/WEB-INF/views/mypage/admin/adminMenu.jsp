@@ -16,21 +16,6 @@
 <title>Insert Agency</title>
 </head>
 <body>
-	<div id="mypageAdminMenuDiv">
-		<!-- <h2 id="mypageUserContentDivTitle">My Subscribes</h2> -->
-		<h2>Menu</h2>
-		<ul>
-<%-- 			<li><a onclick="javascript:location.href='${contextPath}/mypage/admin/insertAgency' 'target=_blank'">소속사등록</a></li> --%>
-		<c:if test="${ loginUser.classifyMem eq '4' }">
-			<li id="insertAgency"><a>소속사등록</a></li>
-		</c:if>
-			<li><a onclick="javascript:location.href='${contextPath}/mypage/admin/report'">신고관리</a></li>
-			<li><a onclick="javascript:location.href='${contextPath}/notice/list'">공지사항</a></li>
-			<li><a onclick="javascript:location.href='${contextPath}/mypage/admin/management'">회원관리</a></li>
-			<li><a onclick="javascript:location.href='${contextPath}/mypage/admin/paylist'">결제내역</a></li>
-		</ul>
-	</div>
-	
 	 <!-- 메시지 -->
 	 <c:if test="${ !empty msg }">
 		 <c:choose>
@@ -52,6 +37,22 @@
 			 </c:otherwise>
 		</c:choose>
 	</c:if>
+	
+	
+		<c:if test="${ loginUser.classifyMem eq '4' }">
+	<div id="mypageAdminMenuDiv">
+		<!-- <h2 id="mypageUserContentDivTitle">My Subscribes</h2> -->
+		<h2>Menu</h2>
+		<ul>
+<%-- 			<li><a onclick="javascript:location.href='${contextPath}/mypage/admin/insertAgency' 'target=_blank'">소속사등록</a></li> --%>
+			<li id="insertAgency"><a>소속사등록</a></li>
+			<li><a onclick="javascript:location.href='${contextPath}/mypage/admin/report'">신고관리</a></li>
+			<li><a onclick="javascript:location.href='${contextPath}/notice/list'">공지사항</a></li>
+			<li><a onclick="javascript:location.href='${contextPath}/mypage/admin/management'">회원관리</a></li>
+			<li><a onclick="javascript:location.href='${contextPath}/mypage/admin/paylist'">결제내역</a></li>
+		</ul>
+	</div>
+		</c:if>
 	
 	<script>
 	$(document).ready(function(){

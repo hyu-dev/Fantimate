@@ -59,7 +59,7 @@
                 <a class="mypageContentCategory"
                 href="${contextPath}/mypage/admin/report/feedReply">피드,아티스트 댓글</a>
             </div>
-            <table id="mypageAdminReportlist">
+            <table id="mypageAdminFanstorelist">
                 <thead>
                     <tr>
                         <th>신고날짜</th>
@@ -73,30 +73,24 @@
 
                 <tbody>
                 	<c:forEach var="r" items="${ list }">
-                	
-                		<tr 
+                		<tr
 <%--                 		 onclick="selectReport(${ r.rptCode })" --%>
 <%--링크도 추가하기 --%>
-<%-- style 왜안먹을까 --%> 		<c:if test="${ r.report.isReported eq Y }"> style="color:red"</c:if>
                 		 >
                 		 	<!-- 쪽지번호 hidden으로 -->
                 			<input type="hidden" value="${ r.report.isReported }">	<!-- 0 -->
-                			<input type="hidden" value="${ r.report.rptReason }">	
+                			<input type="hidden" value="${ r.report.rptReason }">
                 			<input type="hidden" value="${ r.report.rptCode }">
                 		 	<c:set var="date" value="<%= new Date() %>"/>
                 			<td><fmt:formatDate type="date" value="${ r.report.rptDate }"/></td>	<!-- 3 -->
-                			<td>${ r.report.rptId }</td>		<!-- 4 -->
-                			<td>${ r.messSendId }</td>
-                			<td>${ r.messContent }</td>
-               				<td>${ r.report.rptType }</td>				<!-- 7 -->
+                			<td>${ r.report.rptId }</td>		<!-- 신고인 4 -->
+                			<td>${ r.fanStore.id }</td>			<!-- 피의자 -->
+                			<td>${ r.fanStore.finfo }</td>		<!-- 신고 게시물 정보 -->
+               				<td>${ r.report.rptType }</td>		<!-- 신고유형 7 -->
                 			<td>주석
 <%--                 			${ r.messCode } --%>
 <%--                 				<a onclick="${contextPath}/"> --%>
                 			</td>
-                			<script>
-                				console.log(${r.report.isReported});
-                			</script>
-                			<input id="isReported" type="hidden" value="${ r.report.isReported }">	<!-- 9 -->
                 		</tr>
                 	</c:forEach>
                 	
@@ -147,13 +141,6 @@
     		//게시판 pk값과 현재 페이지값 파라미터로 넘겨주기 
 //     		location.href='${contextPath}/notice/detail?nid=' + nid + '&page=${ pi.currentPage }';
     	}
-    	// 처리된 글 회식으로
-    	$(document).ready(function() {
-	    	var isReported = $("#isReported").val(); 
-	    	if($("#mypageAdminReportlist tbody tr").children().eq(9).val() == "Y"){
-	    		$("#mypageAdminReportlist tbody tr").childrens().css("color:red");
-	    	}
-    	});
     </script>
     </c:if>
     <c:if test="${ loginUser.classifyMem != '4' }">

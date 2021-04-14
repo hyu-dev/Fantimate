@@ -63,6 +63,9 @@ public class NoticeController {
 			mv.addObject("list", list);
 			mv.addObject("pi", pi);
 			mv.setViewName("mypage/admin/noticeList");
+		}else {
+			mv.addObject("msg", "조회에 실패하였습니다.");
+			mv.setViewName("mypage/errorpage");
 		}
 		
 		return mv;
@@ -112,7 +115,7 @@ public class NoticeController {
 	
 	// 공지사항 detail
 	@GetMapping("/detail")
-	public String boardDetail(int nid,
+	public String noticeDetail(int nid,
 							  HttpServletRequest request,
 							  HttpServletResponse response,
 							  Model model) {

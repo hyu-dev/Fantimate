@@ -13,15 +13,90 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<result property="classifyMem" column="CLASSIFY_MEM"/>
 	</resultMap>
 	
-	<select id="checkId" parameterType="string" resultType="String">
+	<!-- 신고 쪽지객체(참) -->
+	<resultMap type="Report" id="rptMessage">
+		<id property="rptCode" column="RPT_CODE"/>
+		<result property="rptType" column="RPT_TYPE"/>
+		<result property="rptReason" column="RPT_REASON"/>
+		<result property="rptDate" column="RPT_DATE"/>
+		<result property="isReported" column="IS_REPORTED"/>
+		<result property="rptId" column="U_ID"/>
+		<result property="refId" column="MESS_NO"/>
+	</resultMap>
+	<!-- 쪽지 객체(참) -->
+	<resultMap type="MessageList" id="MessageList">
+		<id property="messCode" column="MESS_NO"/>
+		<result property="messContent" column="MESS_CONTENT"/>
+		<result property="messDate" column="MESS_DATE"/>
+		<result property="messRead" column="MESS_READ"/>
+		<result property="messSendId" column="U_ID_SEND"/>
+		<result property="messRecId" column="U_ID_RECEIVE"/>
+		<collection property="report" resultMap="rptMessage"/>
+	</resultMap>
+	
+	<!-- 신고객체 Fanstore -->
+	<resultMap type="Report2" id="rptFanstore">
+		<id property="rptCode" column="RPT_CODE"/>
+		<result property="rptType" column="RPT_TYPE"/>
+		<result property="rptReason" column="RPT_REASON"/>
+		<result property="rptDate" column="RPT_DATE"/>
+		<result property="isReported" column="IS_REPORTED"/>
+		<result property="rptId" column="rsendid"/>
+		<result property="refId" column="F_CODE"/>
+	</resultMap>
+	 	<!-- 팬스토어 객체 -->
+		<resultMap type="FanStore2" id="FanStore2">
+			<id property="fcode" column="F_CODE"/>
+			<result property="fname" column="F_NAME"/>
+			<result property="offerprice" column="OFFER_PRICE"/>
+			<result property="contect" column="CONTECT"/>
+			<result property="deal" column="DEAL"/>
+			<result property="finfo" column="F_INFO"/>
+			<result property="isactive" column="IS_ACTIVE"/>
+			<result property="id" column="rrecid"/>
+			<result property="areacode" column="AREA_CODE"/>
+		</resultMap>
+	
+	 	<!-- 팬스토어신고 --> 
+		<resultMap type="FanstoreList" id="fanstoreListMap">
+			<collection property="fanStore" resultMap="FanStore2"/>
+			<collection property="report" resultMap="rptFanstore"/>
+		</resultMap>
+	
+	
+	
+	
+	<select id="checkId" parameterType="string" resultType="integer">
 		SELECT
-				ID
+				COUNT(*)
 		  FROM
 		  		COMMON
 		 WHERE 
 		 		ID = #{id}
 	</select>
 
+	<insert id="insertCommon" parameterType="Member">
+		INSERT
+		INTO COMMON
+		(
+			ID
+		  , PWD
+		  , NAME
+		  , STATUS
+		  , SIGNUP_DATE
+		  , CLASSIFY_MEM
+		)
+		VALUES
+		(
+		    #{id}
+		  , #{pwd}
+		  , #{name}
+		  , DEFAULT
+		  , SYSDATE
+		  , 3 
+		)
+	</insert>
+	
 	<insert id="insertAgency" parameterType="Agency">
 		INSERT
 		INTO AGENCY
@@ -39,4 +114,75 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		  , #{agEmail}
 		)		
 	</insert>
+	
+	<select id="reportListCountMessage" resultType="_int">
+		SELECT
+				COUNT(*)
+		  FROM
+		  		RPT_MESSAGE
+	</select>
+	<select id="selectMsgList" resultMap="MessageList">
+		SELECT  
+				RPT_CODE
+			  , RPT_TYPE
+			  , RPT_REASON
+			  , RPT_DATE
+			  , IS_REPORTED
+			  , U_ID
+			  
+			  , a.MESS_NO
+			  , MESS_CONTENT
+			  , MESS_DATE
+			  , MESS_READ
+			  , U_ID_SEND
+			  , U_ID_RECEIVE
+		  FROM
+		   	 	RPT_MESSAGE a
+	 LEFT JOIN
+		    	MESSAGE b
+		    ON
+		    	a.MESS_NO = b.MESS_NO
+	</select>
+	<select id="reportListCountfanstore" resultType="_int">
+		SELECT
+				COUNT(*)
+		  FROM
+		  		RPT_FSTORE
+	</select>
+	
+	<!-- 팬스토어신고 -->
+	<select id="selectfanstoreList" resultMap="fanstoreListMap">
+		SELECT  
+			    r.F_CODE
+			  ,	RPT_CODE
+			  , RPT_TYPE
+			  , RPT_REASON
+			  , RPT_DATE
+			  , IS_REPORTED
+			  , r.ID as rsendid		<!-- 신고한 회원 -->
+			  
+			  ,	f.F_CODE	
+			  ,	F_NAME
+			  ,	OFFER_PRICE
+			  ,	CONTECT
+			  ,	DEAL
+			  ,	F_INFO
+			  ,	IS_ACTIVE
+			  ,	f.ID as rrecid		<!-- 신고당한 회원 -->
+			  ,	AREA_CODE
+		  FROM
+    			RPT_FSTORE r
+	 LEFT JOIN
+    		 	F_STORE f
+			ON
+    			r.F_CODE = f.F_CODE
+	</select>
+	
+	<select id="reportListCountfanstoreR" resultType="_int">
+		SELECT
+				COUNT(*)
+		  FROM
+		  		RPT_FSTORE
+	</select>
+	
 </mapper>
