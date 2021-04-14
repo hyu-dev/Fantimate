@@ -297,7 +297,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	 WHERE
 	 	   MEDIA_NUM = #{mediaNum}
 	   AND
-           ARTI_NAME_EN = #{artiNameEn}
+           ARTI_NAME_EN = #{artiName}
        AND
 	       MEDIA_STATUS = 'Y'
 	   AND
@@ -305,11 +305,23 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	</select>
 	
 	<update id="updateHitCount" parameterType="_int">
-	UPDATE
-		   MD_COUNT
+     MERGE 
+      INTO 
+           MD_COUNT
+     USING 
+           DUAL
+        ON 
+           (MEDIA_NUM = #{mediaNum})
+      WHEN 
+           MATCHED THEN
+	UPDATE 
 	   SET
 	   	   COUNT = COUNT + 1
-	 WHERE
-	 	   MEDIA_NUM = #{mediaNum}
+      WHEN 
+           NOT MATCHED THEN
+    INSERT 
+           (COUNT, COUNT_DATE, MEDIA_NUM)
+    VALUES 
+           (DEFAULT, SYSDATE, #{mediaNum})
 	</update>
 </mapper>

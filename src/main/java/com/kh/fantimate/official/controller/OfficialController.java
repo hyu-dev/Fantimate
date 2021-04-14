@@ -23,7 +23,6 @@ import com.kh.fantimate.member.model.vo.User;
 import com.kh.fantimate.official.model.service.OfficialService;
 import com.kh.fantimate.official.model.vo.MediaCategory;
 import com.kh.fantimate.official.model.vo.MediaCollection;
-import com.kh.fantimate.official.model.vo.Official;
 import com.kh.fantimate.pay.model.vo.Cart;
 
 @Controller
@@ -82,7 +81,9 @@ public class OfficialController {
 	}
 	
 	@PostMapping(value="/media/insertCart", produces="application/json; charset=utf-8")
-	public @ResponseBody void insertCart(int mediaNum, int mediaPay, HttpServletRequest request) {
+	public @ResponseBody void insertCart(@RequestParam(value="mediaNum") int mediaNum, 
+										 @RequestParam(value="mediaPay") int mediaPay, 
+										 HttpServletRequest request) {
 		
 		String userId = ((Member)request.getSession().getAttribute("loginUser")).getId();
 		
@@ -144,10 +145,13 @@ public class OfficialController {
 		
 		// 해당 카테고리 미디어 리스트 호출
 		List<MediaCollection> list = oService.selectMediaList(map);
+		// 미디어 개수 조회하기
+		int count = oService.countMedia(artiName);
 		
 		if(list != null) {
 			mv.addObject("category", category);
 			mv.addObject("list", list);
+			mv.addObject("count", count);
 			mv.setViewName("official/media/list");
 		} 
 		
@@ -174,6 +178,7 @@ public class OfficialController {
 			
 			// 클릭한 미디어 조회수 추가
 			int count = oService.updateHitCount(mediaNum);
+			//머지 인투
 			
 			if(count > 0) {
 				System.out.println("조회수 추가 성공");
