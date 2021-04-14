@@ -54,41 +54,82 @@
                 <th>주문금액</th>
                 <th>삭제</th>
             </tr>
+            <!-- 합계금액 sum 선언 -->
             <c:set var="sum" value="0" />
+            
             <c:forEach var="cl" items="${ cartList }">
-            <tr>
-                <td>
-                    <label class="jelly-checkbox">
-                        <input type="checkbox">
-                        <span class="jelly-icon"></span>
-                    </label>
-                </td>
-                <td>
-                    <div class="product-area">
-                        <div class="product-img">
-                            <img src="${ contextPath }/resources/uploadFiles/${ cl.att.attSvName }" alt="">
-                        </div>
-                        <p><sub>${ cl.storeCate.artiNameEn }</sub><br>${ cl.store.pname }<br><sub>재고 : ${ cl.store.salesQ }</sub></p>
-                        <input type="hidden" class="cart-pCode" value="${ cl.cart.pcode }">
-                        <input type="hidden" class="cart-mCode" value="${ cl.cart.mediaNum }">
-                    </div>
-                </td>
-                <td>
-                    <div class="quantity">
-                        <button class="minus-btn">-</button>
-                        <p class="product-quantity">${ cl.cart.buyQ }</p>
-                        <button class="plus-btn">+</button>
-                        <input type="hidden" class="buyPrice" value="${ cl.cart.buyPrice }">
-                    </div>
-                </td>
-                <td>${ cl.cart.fee }</td>
-                <td>\ <fmt:formatNumber type="number" value="${ cl.cart.buyPrice }"/></td>
-                <td>
-                    <img class="delete-product" src="${ contextPath }/resources/images/pay/trash.png" alt="">
-                    <input type="hidden" class="cartCode" value="${ cl.cart.cartCode }">
-                </td>
-            </tr>
-            <c:set var="sum" value="${ sum + cl.cart.buyPrice }"/>
+            <c:choose>
+            <c:when test="${ cl.store.pcode eq null }">
+	            <c:if test="${ cl.attMedia.attMain eq 'Y'}">
+	           	<tr>
+	                <td>
+	                    <label class="jelly-checkbox">
+	                        <input type="checkbox">
+	                        <span class="jelly-icon"></span>
+	                    </label>
+	                </td>
+	                <td>
+	                    <div class="product-area">
+	                        <div class="product-img">
+	                            <img src="${ contextPath }/resources/uploadFiles/${ cl.attMedia.attSvName }" alt="">
+	                        </div>
+	                        <p><sub>${ cl.mcategory.artiNameEn }</sub><br>${ cl.official.mediaTtl }</p>
+	                        <input type="hidden" class="cart-mCode" value="${ cl.cart.mediaNum }">
+	                    </div>
+	                </td>
+	                <td>
+	                    <div class="quantity">
+	                        <p class="product-quantity">${ cl.cart.buyQ }</p>
+	                        <input type="hidden" class="buyPrice" value="${ cl.cart.buyPrice }">
+	                    </div>
+	                </td>
+	                <td>${ cl.cart.fee }</td>
+	                <td>\ <fmt:formatNumber type="number" value="${ cl.cart.buyPrice }"/></td>
+	                <td>
+	                    <img class="delete-product" src="${ contextPath }/resources/images/pay/trash.png" alt="">
+	                    <input type="hidden" class="cartCode" value="${ cl.cart.cartCode }">
+	                </td>
+	            </tr>
+	            <c:set var="sum" value="${ sum + cl.cart.buyPrice }" />
+	            </c:if>
+            </c:when>
+            <c:otherwise>
+	           	<c:if test="${ cl.att.attMain eq 'Y'}">
+	           	<tr>
+	                <td>
+	                    <label class="jelly-checkbox">
+	                        <input type="checkbox">
+	                        <span class="jelly-icon"></span>
+	                    </label>
+	                </td>
+	                <td>
+	                    <div class="product-area">
+	                        <div class="product-img">
+	                            <img src="${ contextPath }/resources/uploadFiles/${ cl.att.attSvName }" alt="">
+	                        </div>
+	                        <p><sub>${ cl.storeCate.artiNameEn }</sub><br>${ cl.store.pname }<br><sub>재고 : ${ cl.store.salesQ }</sub></p>
+	                        <input type="hidden" class="cart-pCode" value="${ cl.cart.pcode }">
+	                    </div>
+	                </td>
+	                <td>
+	                    <div class="quantity">
+	                        <button class="minus-btn">-</button>
+	                        <p class="product-quantity">${ cl.cart.buyQ }</p>
+	                        <button class="plus-btn">+</button>
+	                        <input type="hidden" class="buyPrice" value="${ cl.cart.buyPrice }">
+	                    </div>
+	                </td>
+	                <td>${ cl.cart.fee }</td>
+	                <td>\ <fmt:formatNumber type="number" value="${ cl.cart.buyPrice }"/></td>
+	                <td>
+	                    <img class="delete-product" src="${ contextPath }/resources/images/pay/trash.png" alt="">
+	                    <input type="hidden" class="cartCode" value="${ cl.cart.cartCode }">
+	                </td>
+	            </tr>
+	            <c:set var="sum" value="${ sum + cl.cart.buyPrice }" />
+	            </c:if>
+            </c:otherwise>
+            </c:choose>
             </c:forEach>
         </table>
         <div class="cart-guidance">
@@ -107,11 +148,11 @@
             </colgroup>
             <tr>
                 <td></td>
-                <td>\ <fmt:formatNumber type="number" value="${ sum }"/><br><sub>총 액</sub></td>
+                <td><p id="totalPrice" style="margin: 0; padding: 0;">\ 0</p><sub>총 액</sub></td>
                 <td>+</td>
                 <td>\ 0<br><sub>배송비</sub></td>
                 <td>=</td>
-                <td>\ <fmt:formatNumber type="number" value="${ sum }"/><br><sub>결제예정금액</sub></td>
+                <td><p id="paymentPrice" style="margin: 0; padding: 0;">\ 0</p><sub>결제예정금액</sub></td>
                 <td></td>
             </tr>
         </table>
@@ -131,14 +172,51 @@
 	        location.href = "${contextPath}/pay/deleteStoreByCart?cartCode=" + cartCode;
 	    })
 	
+	    let totalPrice = 0;
 	    // th 전체 체크박스 클릭시
 	    $('th .jelly-checkbox input').click(function() {
+	    	// 담을 곳 비우기
+	    	$("#totalPrice").html("");
+	    	$("#paymentPrice").html("");
+	    	// 전체 체크박스가 클릭되었다면
 	        if($(this).prop('checked')) {
 	            $('td .jelly-checkbox input').prop('checked', true)
+	            totalPrice = ${sum};
+	            let text = "\\ " + numberWithCommas(totalPrice);
+	            $("#totalPrice").append(text);
+	    		$("#paymentPrice").append(text);
 	        } else {
 	            $('td .jelly-checkbox input').prop('checked', false)
+	            totalPrice = 0;
+	            let text = "\\ " + numberWithCommas(totalPrice);
+	            $("#totalPrice").append(text);
+	    		$("#paymentPrice").append(text);
 	        }
 	    })
+	    // td 체크박스 클릭시
+	    $("td .jelly-checkbox input").click(function() {
+	    	// 금액 출력
+	    	buyPrice = parseInt($(this).parents("td").next().next().children().children(".buyPrice").val());
+	    	// 담을 곳 비우기
+	    	$("#totalPrice").html("");
+	    	$("#paymentPrice").html("");
+	    	// 체크박스가 체크되었다면
+	    	if($(this).prop('checked')) {
+	    		totalPrice += buyPrice;
+	    		let text = "\\ " + numberWithCommas(totalPrice);
+	    		$("#totalPrice").append(text);
+	    		$("#paymentPrice").append(text);
+	    	} else {
+	    		totalPrice -= buyPrice;
+	    		let text = "\\ " + numberWithCommas(totalPrice);
+	    		$("#totalPrice").append(text);
+	    		$("#paymentPrice").append(text);
+	    	}
+	    });
+	 	// 숫자 3 단위마다 콤마찍기
+		function numberWithCommas(x) {
+		    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+		}
 	
 	    // 수량 클릭시
 	    $('.minus-btn').click(function() {
@@ -173,12 +251,18 @@
 	    // 상품 영역 클릭시
 	    $(".product-area").click(function() {
 	    	var pcode = 0;
-	    	if($(".cart-pCode").val() != null) {
+	    	var mediaNum = 0;
+	    	if($(this).children(".cart-pCode").val() != null) {
+	    		// 상품 코드가 있는 경우
 	    		pcode = $(this).children(".cart-pCode").val()
-	    	} else {
-	    		pcode = $(this).children(".cart-mCode").val()
+	    		location.href='${ contextPath }/store/detail?pcode=' + pcode;
+	    	} 
+	    	if($(this).children(".cart-mCode").val() != null) {
+	    		// 상품 코드가 없는 경우(미디어 번호가 있는 경우)
+	    		mediaNum = $(this).children(".cart-mCode").val()
+	    		location.href="${ contextPath }/official/media/detail?mediaNum=" + mediaNum;
 	    	}
-	        location.href='${ contextPath }/store/detail?pcode=' + pcode;
+	        
 	    });
 	    
 	    // 결제하기 클릭시

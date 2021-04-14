@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.kh.fantimate.pay.model.dao.PaymentDao;
 import com.kh.fantimate.pay.model.vo.CartCollection;
+import com.kh.fantimate.pay.model.vo.PayCollection;
 
 @Service
 public class PaymentServiceImpl implements PaymentService {
@@ -28,9 +29,24 @@ public class PaymentServiceImpl implements PaymentService {
 	public int updateQuantity(int cartCode, int price, String flag) {
 		return pDao.updateQuantity(cartCode, price, flag);
 	}
+	// 장바구니 선택상품 삭제
 	@Override
 	public int deleteChooseByCart(int[] cartCodes) {
 		return pDao.deleteChooseByCart(cartCodes);
+	}
+	// 스토어에서 바로 구매
+	@Override
+	public int insertStoreOnePayment(PayCollection paycoll) {
+		int result = pDao.insertStoreOnePayment(paycoll);
+		
+		if(result > 0) {
+			pDao.insertProductBuy(paycoll);
+			pDao.updateStoreSalesQ(paycoll);
+		} else {
+			result = 0;
+		}
+		
+		return result;
 	}
 	
 	
