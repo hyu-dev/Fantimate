@@ -133,7 +133,7 @@ public class OfficialController {
 	}
 	
 	@GetMapping("/media/list")
-	public ModelAndView selectMediaList(String category, ModelAndView mv) {
+	public ModelAndView selectMediaList(String category, ModelAndView mv, HttpServletRequest request) {
 		String artiName = "BTS";
 		
 		System.out.println("카테고리명 : " + category);
@@ -143,10 +143,18 @@ public class OfficialController {
 		map.put("category", category);
 		map.put("artiName", artiName);
 		
+		Member loginUser = (Member)request.getSession().getAttribute("loginUser");
+		
+		if(loginUser.getClassifyMem() == 1) {
+			User user = (User)request.getSession().getAttribute("user");
+			mv.addObject("user", user);
+		}
+		
 		// 해당 카테고리 미디어 리스트 호출
 		List<MediaCollection> list = oService.selectMediaList(map);
-		// 미디어 개수 조회하기
-		int count = oService.countMedia(artiName);
+		System.out.println(list);
+		// 해당 카테고리 미디어 개수 조회하기
+		int count = oService.countCategory(map);
 		
 		if(list != null) {
 			mv.addObject("category", category);
@@ -189,20 +197,7 @@ public class OfficialController {
 		
 		return mv;
 	}
-	
-	// 파라미터를 넘겨줘야 하므로 수정 예정
 	/*
-	@GetMapping("/media/list")
-	public String listPageView() {
-		return "official/media/list";
-	}
-	
-	// 파라미터를 넘겨줘야 하므로 수정 예정
-	@GetMapping("/media/detail")
-	public String detailPageView() {
-		return "official/media/detail";
-	}
-	
 	// 파라미터를 넘겨줘야 하므로 수정 예정
 	@GetMapping("/schedule")
 	public String schedulePageView() {

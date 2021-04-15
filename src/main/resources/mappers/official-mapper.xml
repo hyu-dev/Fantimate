@@ -174,6 +174,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	     , IS_BOUGHT
 	     , MEDIA_NUM
 	     , ID
+	     , BOUGHT_DATE
 	       )
 	VALUES
 	      (
@@ -185,6 +186,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	     , DEFAULT
 	     , #{mediaNum}
 	     , #{id}
+	     , SYSDATE
 	       )
 	</insert>
 	
@@ -257,9 +259,9 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	  JOIN
 	       MD_FILE USING(MEDIA_NUM)
 	 WHERE
-	 	   CATE_NAME = #{cateName}
+	 	   CATE_NAME = #{category}
 	   AND
-           ARTI_NAME_EN = #{artiNameEn}
+           ARTI_NAME_EN = #{artiName}
        AND
        	   IS_THUMB = 'Y'
        AND
@@ -268,6 +270,19 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	       ATT_STATUS = 'Y'
   ORDER BY 
 	       MEDIA_DATE DESC	
+	</select>
+	
+	<select id="countCategory" parameterType="hashMap" resultType="int">
+    SELECT 
+	       COUNT(*)
+	  FROM 
+	       MEDIA
+	  JOIN
+	       M_CATEGORY USING(CATE_CODE)
+	 WHERE
+           CATE_NAME = #{category}
+       AND
+	       ARTI_NAME_EN = #{artiName}
 	</select>
 	
 	<select id="selectMedia" parameterType="hashMap" resultMap="mediaCollResultSet">
