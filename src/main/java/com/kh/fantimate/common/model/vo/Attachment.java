@@ -22,5 +22,6 @@ public class Attachment {
 	private String attStatus;	// 파일 상태
 	private String id;			// 소유자(파일작성자)
 	private int refId;			// 참조 게시글 번호
+	private String refuid;		// 참조 유저 아이디
 	private String attMain;		// 대표사진여부
 }

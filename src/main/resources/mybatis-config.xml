@@ -37,6 +37,8 @@
 		<typeAlias type="com.kh.fantimate.store.model.vo.Review" alias="Review"/>
 		<typeAlias type="com.kh.fantimate.pay.model.vo.Cart" alias="Cart"/>
 		<typeAlias type="com.kh.fantimate.pay.model.vo.CartCollection" alias="CartCollection"/>
+		<typeAlias type="com.kh.fantimate.common.model.vo.Subscribe" alias="Subscribe"/>
+		<typeAlias type="com.kh.fantimate.feed.model.vo.FeedCollection" alias="FeedCollection"/>
 	</typeAliases>
 	
 	<!-- mappers -->

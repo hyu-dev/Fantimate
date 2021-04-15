@@ -24,6 +24,30 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<result property="refId" column="BID"/>
 	</resultMap>
 	
+	<resultMap type="Subscribe" id="subscribeResultSet">
+		<id property="subCode" column="SUB_CODE"/>
+		<result property="uid" column="U_ID"/>
+		<result property="unickname" column="U_NICKNAME"/>
+		<result property="subStatus" column="SUB_STATUS"/>
+		<result property="artiname" column="ARTI_NAME_EN"/>
+	</resultMap>
+	
+	<resultMap type="Attachment" id="usattResultSet">
+		<id property="attCode" column="UP_CODE"/>
+		<result property="attRoot" column="UP_ROOT"/>
+		<result property="attClName" column="UP_CL_NAME"/>
+		<result property="attSvName" column="UP_SV_NAME"/>
+		<result property="attStatus" column="UP_STATUS"/>
+		<result property="refuid" column="U_ID"/>	
+	</resultMap>
+	
+	<resultMap type="FeedCollection" id="feedcollectionResultSet">
+		<collection property="feed" resultMap="fanfeedResultSet"/>
+		<collection property="subscribe" resultMap="subscribeResultSet"/>
+		<collection property="attachment" resultMap="usattResultSet"/>
+	</resultMap>
+	
+	
 	<!-- 게시글 등록 -->
 	<insert id="insertFeed">
 		INSERT
@@ -77,6 +101,80 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		)
 		</foreach>
 	</insert>
+	
+	<!-- 게시글 조회 -->
+	<select id="selectFeedList" resultMap="fanfeedResultSet">
+		SELECT
+					BID
+				,	BCONTENT
+				,	BCREATE
+				,	BMODIFY
+				,	BLIKE
+				,	BSTATUS
+				,	ID
+				
+		
+		FROM
+					BOARD
+		
+		WHERE
+					BTYPE = 'F'
+		AND			BSTATUS = 'Y'	
+		ORDER BY BCREATE DESC
+	</select>
+	
+	<!-- 구독 유저 조회 -->
+	<select id="selectSubList" resultMap="subscribeResultSet">
+	SELECT 
+				SUB_CODE
+			,	U_ID
+			,	U_NICKNAME
+			,	SUB_STATUS
+			,	ARTI_NAME_EN
+	FROM
+				ATT_SUBSCRIBE
+	
+	
+	</select>
+	
+	<!-- 유저 프로필 사진 조회 -->
+	<select id="selectatList" resultMap="usattResultSet">
+	SELECT
+				UP_CODE
+			,	UP_ROOT
+			,	UP_CL_NAME
+			,	UP_SV_NAME
+			,	UP_STATUS
+			,	U_ID
+	FROM
+				USER_PROFILE
+	</select>
+	
+	<!-- 피드 컬렉션 조회 -->
+	<select id="selectfcList" resultMap="feedcollectionResultSet">
+	SELECT
+					BID
+				,	BCONTENT
+				,	BCREATE
+				,	BMODIFY
+				,	BLIKE
+				,	BSTATUS
+				,	ID
+				,  	U_NICKNAME
+				,	UP_CL_NAME
+				,	UP_SV_NAME
+		
+		FROM
+					BOARD
+		JOIN 		ATT_SUBSCRIBE ON(ID = U_ID)
+		JOIN		USER_PROFILE USING(U_ID)
+		WHERE
+					BTYPE = 'F'
+		AND			BSTATUS = 'Y'
+		ORDER BY BCREATE DESC
+	</select>
+	
+	
 	
 
 </mapper>

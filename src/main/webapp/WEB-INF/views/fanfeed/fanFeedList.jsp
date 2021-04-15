@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="contextPath" value="${ pageContext.servletContext.contextPath }" scope="application" />    
 <!DOCTYPE html>
 <html>
@@ -26,55 +27,11 @@
          
          <!-- 메인 컨텐츠 영역 -->
          <section class="main-contents">
-             <div class="post-outer">
-                <div class="introArea">
-                    <p class="post-intro">포스트 쓰기</p>    
-                </div>
-                
-                <!-- 포스트 작성 -->
-                <form action="${ contextPath }/fanfeed/insert" method="post" enctype="multipart/form-data">
-                    <div class="postArea">
-                    <input type="hidden" name="writer" value="user">
-                    <input type="hidden" name="artiName" value="IU">  
-                    <img src="../resources/icon/faviconF.png" class="post-icon">
-                    <textarea class="textArea" placeholder="FANTIMATE에 남겨보세요" name="fcontent"></textarea>
-                    <img src="../resources/icon/photo-icon.png" class="photo-icon">
-                    </div>
-                    <!-- 이미지 미리보기 영역 -->
-                     <div class="my-photo">
-                        
-                        <label for="mainPhoto" class="main-photo" style="display: none;">
-                        <input id="mainPhoto" class="photo" type="file" name="uploadFile1" style="display: none;">
-                        </label>
-                        
-                        <label for="addPhoto" class="add-photo click-btn" style="display: none;">
-                        <input id='addPhoto' class='photo' type='file' name='uploadFile2' style='display: none;'>
-                        <p class="plus">+</p>
-                        </label>
-                        
-                        
-                        <label for="addPhoto1" class="add-photo1 click-btn" style="display: none;">
-                        <input id='addPhoto1' class='photo' type='file' name='uploadFile3' style='display: none;'>
-                        <p class="plus">+</p>
-                        </label>
-                        
-                        <label for="addPhoto2" class="add-photo2 click-btn" style="display: none;">
-                        <input id='addPhoto2' class='photo' type='file' name='uploadFile4' style='display: none;'>
-                        <p class="plus">+</p>
-                        </label>
-                    </div> 
-                    
-                
-                    
-                    <hr width="85%">
-                    <br>
-                    <div class="btnArea">
-                    <button type="submit" class="post-insert-btn">등록하기</button>
-                    </div>
-                    <br>
-                </form>
-             </div>
+          <jsp:include page="../fanfeed/fanfeedinsert.jsp"/>
 
+			
+			
+			<c:forEach var="fc" items="${ flist }">
              <!-- 게시글 리스트 영역 -->
              <div class="boardArea">
 
@@ -90,11 +47,15 @@
                                 <p class="friend-application">친구 신청</p>
                                 <p class="send-message">쪽지 보내기</p>
                             </div>
-                            <img class="profile-picture" src="../resources/images/feed/스마일.jpg">
+                            <img class="profile-picture" src="${ contextPath }/resources/uploadFiles/${ fc.attachment.attSvName }">
                         </td>
                         <td> 
-                            <pre class="nicknameArea">성현2</pre>
-                            <pre class="boarddateArea">2020.03.25</pre>
+                        
+                        	 
+                            <pre class="nicknameArea">${ fc.subscribe.unickname }</pre>
+                        
+                          	
+                            <pre class="boarddateArea"><fmt:formatDate value="${ fc.feed.fcreate }" pattern="yyyy.MM.dd HH:mm"/></pre>
                         </td>
                         
                         <td>
@@ -104,16 +65,17 @@
                             </div>
                             <img class="board-more-icon" src="../resources/images/feed/board-more-icon.png">
                         </td>
-                        <td><img class="report-icon" src="../resources/images/feed/report-icon.png"></td>   
+                        <td><img class="report-icon" src="../resources/images/feed/report-icon.png" id="siren"></td>   
                     </tr>
                 </table>
                     <!-- 게시글 컨텐츠 영역 -->
                     <div class="contentArea">
                         <!-- 텍스트 영역 -->
                         <div>
-                            <p class="board-text">사랑해요  방탄♥</p> 
+                            <p class="board-text">${ fc.feed.fcontent }</p> 
                         </div>
                         <!-- 이미지 영역 -->
+                        <!-- 게시글 bid와 사진이 참조하고 있는 bid가 같다면 반복문돌려서 이미지 갯수만큼 불러오기 -->
                         <div>
                             <img src="../resources/images/feed/img1.jpg" class="board-img">
                         </div>
@@ -128,7 +90,7 @@
 
                         <tr>
                             <td><img src="../resources/images/feed/like-icon.png" class="like-icon"></td>
-                            <td>5,000</td>
+                            <td>${ fc.feed.flike }</td>
                             <td class="reply-info">댓글</td>
                             <td class="reply-count">2,300</td>
                         </tr>
@@ -355,6 +317,10 @@
 
 
              </div>
+             </c:forEach>
+            
+             
+             
              
          </section>
 
@@ -450,9 +416,13 @@
 	         reader.readAsDataURL(f);
 	     });
 	 });  
-   
-    
 	  </script>
-    
+    <!-- 신고하기   -->
+    <script>
+    /* 신고 아이콘 클릭 시 */
+    $('.report-icon').click(function(){
+        window.open('report.html','신고하기','width=500, height=500, left=700, top=250');
+    });
+    </script>
 </body>
 </html>
