@@ -50,8 +50,8 @@ public class MemberDaoImpl implements MemberDao{
 	}
 
 	@Override
-	public boolean checkId(String id) {
-		return sqlSession.selectOne("memberMapper.selectId");
+	public int checkId(String id) {
+		return sqlSession.selectOne("memberMapper.selectId",id);
 	}
 
 	@Override

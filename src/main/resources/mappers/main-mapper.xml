@@ -29,6 +29,37 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<result property="subStatus" column="SUB_STATUS"/>
 		<result property="artNameEn" column="ARTI_NAME_EN"/>
 	</resultMap> 
+	<!-- 알람 -->
+	<resultMap type="Alarm" id="alarmResultSet">
+		<id property = "alCode" column="AL_MADE_CODE"/>
+		<result property="alContent" column="AL_CONTENT"/>
+		<result property="alTime" column="AL_TIME"/>
+		<result property="alStatus" column="AL_STATUS"/>
+		<result property="refAlCode" column="AL_CODE"/>
+		<result property="id" column="ID"/>
+		<result property="ref_id" column="REF_ID"/>
+	</resultMap> 
+	<!-- 쪽지 -->
+	<resultMap type="Message" id="messageResultSet">
+		<id property = "messCode" column="MESS_NO"/>
+		<result property="messContent" column="MESS_CONTENT"/>
+		<result property="messDate" column="MESS_DATE"/>
+		<result property="messRead" column="MESS_READ"/>
+		<result property="messSendId" column="U_ID_SEND"/>
+		<result property="id" column="U_ID_RECEIVE"/>
+		<result property="messTitle" column="MESS_TITLE"/>
+		<result property="messStatus" column="MESS_STATUS"/>
+	</resultMap> 
+	<!-- 쪽지 신고 -->
+	<resultMap type="Report" id="reportResultSet">
+		<id property = "rptCode" column="RPT_CODE"/>
+		<result property="rptType" column="RPT_TYPE"/>
+		<result property="rptReason" column="RPT_REASON"/>
+		<result property="rptDate" column="RPT_DATE"/>
+		<result property="isReported" column="IS_REPORTED"/>
+		<result property="id" column="U_ID"/>
+		<result property="refId" column="MESS_NO"/>
+	</resultMap> 
 	
 	<!-- collection -->
 	<resultMap type="MainCollection" id="mainCollResultSet">
@@ -192,6 +223,181 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 			ARTI_NAME_KR LIKE '%' || #{artistName} || '%'
 	</select>
 	
+	<!-- 알람 select -->
+	<select id="selectAlarmList" resultMap="alarmResultSet">
+		SELECT 
+		        AL_MADE_CODE
+		      , AL_CONTENT
+		      , AL_TIME
+		      , AL_STATUS
+		      , AL_CODE
+		      , ID
+		      , REF_ID
+		FROM 
+		      ALARM
+		WHERE
+		      ID = #{id}
+		AND
+			  AL_STATUS = 'Y'
+        AND
+              to_date(AL_TIME,'YY/MM/DD') = #{alTime}
+		ORDER BY 
+			  AL_TIME DESC
+	</select>
 	
+	<!-- 알람 갯수 count -->
+	<select id="selectAlarmCount" resultType="_int" parameterType="Alarm">
+		SELECT 
+		      COUNT(*)
+		FROM 
+		      ALARM
+		WHERE
+		      ID = #{id}
+		AND
+			  AL_STATUS = 'Y'
+        AND
+              to_date(AL_TIME,'YY/MM/DD') = #{alTime}
+	</select>
+	
+	<!-- 쪽지 전체 리스트 -->
+	<select id="selectMessageWholeList" resultMap="messageResultSet">
+		SELECT
+		       MESS_NO
+		     , MESS_CONTENT
+		     , MESS_DATE
+		     , MESS_READ
+		     , U_ID_SEND
+		     , U_ID_RECEIVE
+		     , MESS_TITLE
+		     , MESS_STATUS
+		FROM 
+		      MESSAGE
+		WHERE
+		     U_ID_RECEIVE = #{id}
+		AND
+			 MESS_STATUS = 'Y'
+		ORDER BY MESS_DATE DESC
+	</select>
+	
+	<!-- 쪽지 날짜만 셀렉 -->
+	<select id="selectMessageDate" resultMap="messageResultSet">
+		SELECT
+		      DISTINCT to_date(MESS_DATE,'YY/MM/DD') AS MESS_DATE
+		FROM 
+		      MESSAGE
+		WHERE
+		     U_ID_RECEIVE = #{id}
+		AND
+			 MESS_STATUS = 'Y'
+		ORDER BY MESS_DATE DESC
+	</select>
+	
+	<!-- 쪽지 읽음으로 업데이트 -->
+	<update id="updateRead" parameterType="_int">
+		UPDATE
+			  MESSAGE
+		   SET
+		   	  MESS_READ = 'Y'
+		WHERE
+			  MESS_NO = #{messCode}
+	</update>
+	
+	<insert id="insertMessage" parameterType="Message">
+		INSERT
+		INTO MESSAGE
+		(
+		   MESS_NO
+	     , MESS_CONTENT
+	     , MESS_DATE
+	     , MESS_READ
+	     , U_ID_SEND
+	     , U_ID_RECEIVE
+	     , MESS_TITLE
+	     , MESS_STATUS
+		)
+		VALUES
+		(
+		   SEQ_MESSAGE.NEXTVAL
+		 , #{messContent}
+		 , SYSDATE
+		 , DEFAULT
+		 , #{messSendId} 
+		 , #{id}
+		 , #{messTitle}
+		 , DEFAULT
+		)
+	
+	</insert>
+	
+	<insert id="insertReportm" parameterType="Report">
+		INSERT
+		INTO RPT_MESSAGE
+		(
+		    RPT_CODE
+		  ,	RPT_TYPE
+		  ,	RPT_REASON
+		  ,	RPT_DATE
+		  ,	IS_REPORTED
+		  ,	U_ID
+		  ,	MESS_NO	
+		)
+		VALUES
+		(
+		    SEQ_MESS_RPT.NEXTVAL
+		  , #{rptType}
+		  , #{rptReason}
+		  , SYSDATE
+		  , DEFAULT
+		  , #{id}
+		  , #{refId}
+		)
+	
+	</insert>
+	
+	<update id="updateMessage" parameterType="_int">
+		UPDATE
+			  MESSAGE
+		   SET
+		   	  MESS_STATUS = 'N'
+		WHERE
+			  MESS_NO = #{messCode}
+	</update>
+	
+	<insert id="insertAlarmR" parameterType="_int">
+		INSERT 
+		INTO ALARM
+		(
+			AL_MADE_CODE
+	      , AL_CONTENT
+	      , AL_TIME
+	      , AL_STATUS
+	      , AL_CODE
+	      , ID
+	      , REF_ID
+		)
+		VALUES
+		(
+		    SEQ_ALARM.NEXTVAL
+		  , '쪽지 신고가 들어왔습니다'
+		  , SYSDATE
+		  , DEFAULT
+		  , 15
+		  , 'admin'
+		  , #{ref_id}
+		)
+	</insert>
+	
+	<select id="selectMailCount" resultType="_int" parameterType="String">
+		SELECT
+		     COUNT(*)
+		FROM
+		     MESSAGE
+		WHERE
+		     U_ID_RECEIVE = #{id}
+		AND
+		    MESS_READ = 'N'
+		AND
+		    MESS_STATUS = 'Y'
+	</select>
 	
 </mapper>

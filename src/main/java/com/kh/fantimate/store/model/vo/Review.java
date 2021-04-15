@@ -1,6 +1,9 @@
 package com.kh.fantimate.store.model.vo;
 
-import java.util.Date;
+import java.sql.Date;
+import java.util.List;
+
+import com.kh.fantimate.common.model.vo.Attachment;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,12 +17,12 @@ import lombok.ToString;
 @Setter
 @ToString
 public class Review {
-	private int rvCode; 		// 리뷰 코드
-	private int rvScore; 		// 평점
-	private String rvTitle; 	// 제목
-	private String rvContent; 	// 내용
-	private String id; 			// 아이디
-	private int bcode; 			// 상품 구매 코드
-	private int pcode;			// 상품 코드
-	private Date enrollDate;	// 리뷰 등록일
+	private int rvCode; 			// 리뷰 코드
+	private int rvScore; 			// 평점
+	private String rvTitle; 		// 제목
+	private String rvContent; 		// 내용
+	private String id; 				// 아이디
+	private int bcode; 				// 상품 구매 코드
+	private int pcode;				// 상품 코드
+	private Date enrollDate;		// 리뷰 등록일
 }

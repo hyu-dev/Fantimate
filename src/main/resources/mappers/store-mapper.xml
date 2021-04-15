@@ -6,7 +6,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	<resultMap type="StoreCategory" id="category">
 		<id property="cateCode" column="C_CODE"/>
 		<result property="cateName" column="C_NAME"/>
-		<result property="artiNameEn" column="ANTI_NAME_EN"/>
+		<result property="artiNameEn" column="ARTI_NAME_EN"/>
 	</resultMap>
 	<resultMap type="Store" id="storeResultSet">
 		<id property="pcode" column="P_CODE"/>
@@ -53,13 +53,44 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<result property="id" column="ID"/>
 		<result property="bcode" column="B_CODE"/>
 		<result property="pcode" column="P_CODE"/>
+		<result property="enrollDate" column="ENROLL_DATE"/>
+	</resultMap>
+	<resultMap type="User" id="userResultSet">
+		<id property="id" column="U_ID"/>
+		<result property="uaddress" column="U_ADD"/>
+		<result property="uemail" column="U_EMAIL"/>
+		<result property="ucountry" column="U_COUNTRY"/>
+		<result property="areaReg" column="AREA_REGISTER"/>
+		<result property="areaCertify" column="AREA_CERTIFY"/>
+		<result property="areaCode" column="AREA_CODE"/>
+		<result property="isMembership" column="IS_MEMBERSHIP"/>
+		<result property="uPaidStart" column="U_PAID_START"/>
+		<result property="uPaidEnd" column="U_PAID_END"/>
+		<result property="uSuspendStart" column="U_SUSPEND_START"/>
+		<result property="uSuspendEnd" column="U_SUSPEND_END"/>
+		<result property="uProfile" column="U_PROFILE"/>
+	</resultMap>
+	<resultMap type="Attachment" id="attUserResultSet">
+		<id property="attCode" column="UP_CODE"/>
+		<result property="attRoot" column="UP_ROOT"/>
+		<result property="attClName" column="UP_CL_NAME"/>
+		<result property="attSvName" column="UP_SV_NAME"/>
+		<result property="attStatus" column="UP_STATUS"/>
+		<result property="id" column="U_ID"/>
 	</resultMap>
 	<resultMap type="StoreCollection" id="storeCollResultSet">
+		<collection property="storeCate" resultMap="category" />
 		<collection property="store" resultMap="storeResultSet" />
 		<collection property="att"  resultMap="attResultSet" />
 		<collection property="wish"  resultMap="wishResultSet" />
 		<collection property="storeInfo" resultMap="storInfoResultSet" />
 		<collection property="review" resultMap="reviewResultSet" />
+	</resultMap>
+	<resultMap type="ReviewCollection" id="reviewCollResultSet">
+		<collection property="review" resultMap="reviewResultSet" />
+		<collection property="attReview"  resultMap="attResultSet" />
+		<collection property="user"  resultMap="userResultSet" />
+		<collection property="attUser" resultMap="attUserResultSet" />
 	</resultMap>
 	<select id="selectCategoryList" parameterType="string" resultMap="category">
 		SELECT
@@ -262,6 +293,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		  , FEE
 		  , ENROLL_DATE
 		  , IS_BOUGHT
+		  , BOUGHT_DATE
 		  , P_CODE
 		  , ID
 		)
@@ -273,6 +305,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		  , DEFAULT
 		  , SYSDATE
 		  , DEFAULT
+		  , SYSDATE
 		  , #{pcode}
 		  , #{id}
 		)
@@ -392,6 +425,8 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 			  , IS_SOLDOUT
 			  , IS_ACTIVE
 			  , C_CODE
+			  , C_NAME
+			  , ARTI_NAME_EN
 			  , ATT_CODE
 			  , ATT_ROOT
 			  , ATT_CL_NAME
@@ -407,12 +442,8 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
               , USE_TERM
               , OFFERINGS
               , CANCEL_INFO
-              , RV_CODE
-              , RV_TITLE
-              , RV_CONTENT
-              , B_CODE
 		  FROM 
-		  		STORE S
+		  		STORE
 		  JOIN 
 		  		ATT_STORE USING(P_CODE)
 		  LEFT JOIN
@@ -420,7 +451,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
           LEFT JOIN
                 P_INFO USING(P_CODE)
           LEFT JOIN
-                REVIEW USING(P_CODE)
+                S_CATEGORY USING(C_CODE)
         WHERE
                 P_CODE = #{pcode}
 		   AND  IS_ACTIVE = 'Y'
@@ -446,4 +477,162 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		 		ID = #{id}
 		   AND	P_CODE = #{code}
 	</select>
+	<select id="recommandStoreListByCate" parameterType="hashMap" resultMap="storeCollResultSet">
+		SELECT
+				P_CODE
+			  , P_NAME
+			  , SALES_Q
+			  , Q_PRICE
+			  , DISCOUNT
+			  , INFORMATION
+			  , IS_VIEW
+			  , VIEWCOUNT
+			  , IS_SOLDOUT
+			  , IS_ACTIVE
+			  , C_CODE
+			  , ATT_CODE
+			  , ATT_ROOT
+			  , ATT_CL_NAME
+			  , ATT_SV_NAME
+			  , ATT_STATUS
+			  , IS_MAIN_ATT
+			  , WISH_DATE
+              , IS_WISH
+              , ID
+		  FROM 
+		  		STORE
+		  JOIN 
+		  		ATT_STORE USING(P_CODE)
+		  LEFT JOIN
+		  		S_WISH USING(P_CODE)
+		 WHERE
+		 		C_CODE IN (SELECT C_CODE FROM S_CATEGORY WHERE C_NAME = #{cateName} AND ARTI_NAME_EN = #{artiName})
+		   AND	IS_MAIN_ATT = 'Y'
+		   AND  IS_ACTIVE = 'Y'
+		   AND  P_CODE != #{pcode}
+	  ORDER BY  VIEWCOUNT DESC
+	</select>
+	<select id="selectReviewList" parameterType="string" resultMap="reviewCollResultSet">
+		SELECT
+				RV_CODE
+              , RV_SCORE
+              , RV_TITLE
+              , RV_CONTENT
+              , ID
+              , P_CODE
+              , B_CODE
+              , ENROLL_DATE
+              , ATT_CODE
+              , ATT_ROOT
+              , ATT_CL_NAME
+              , ATT_SV_NAME
+              , IS_MAIN_ATT
+              , U_ADD
+              , U_EMAIL
+              , IS_MEMBERSHIP
+              , UP_CODE
+              , UP_CL_NAME
+              , UP_SV_NAME
+              , UP_STATUS
+		  FROM 
+		  		REVIEW
+          LEFT JOIN
+                ATT_REVIEW USING (RV_CODE)
+          LEFT JOIN
+                USER_ ON (ID = U_ID)
+          LEFT JOIN
+                USER_PROFILE USING(U_ID)
+	     WHERE  
+	     		P_CODE = #{pcode}
+	  ORDER BY  ENROLL_DATE DESC
+	</select>
+	<select id="selectReview" parameterType="_int" resultMap="reviewCollResultSet">
+		SELECT
+				RV_CODE
+              , RV_SCORE
+              , RV_TITLE
+              , RV_CONTENT
+              , ID
+              , P_CODE
+              , B_CODE
+              , ENROLL_DATE
+              , ATT_CODE
+              , ATT_ROOT
+              , ATT_CL_NAME
+              , ATT_SV_NAME
+              , IS_MAIN_ATT
+              , U_ADD
+              , U_EMAIL
+              , IS_MEMBERSHIP
+              , UP_CODE
+              , UP_CL_NAME
+              , UP_SV_NAME
+              , UP_STATUS
+		  FROM 
+		  		REVIEW
+          LEFT JOIN
+                ATT_REVIEW USING (RV_CODE)
+          LEFT JOIN
+                USER_ ON (ID = U_ID)
+          LEFT JOIN
+                USER_PROFILE USING(U_ID)
+         WHERE  
+	     		RV_CODE = #{rvCode}
+	  ORDER BY  ATT_CODE ASC
+	</select>
+	<update id="updateStoreCategory" parameterType="StoreCollection">
+		UPDATE
+				S_CATEGORY
+		   SET
+		  		C_NAME = #{storeCate.cateName}
+		 WHERE
+		 		C_CODE = #{storeCate.cateCode}
+	</update>
+	<update id="updateStore" parameterType="StoreCollection">
+		UPDATE
+				STORE
+		   SET
+			    P_NAME = #{store.pname}
+			  , SALES_Q = #{store.salesQ}
+			  , Q_PRICE = #{store.qprice}
+			  , DISCOUNT = #{store.discount}
+			  , INFORMATION = #{store.info}
+			  , IS_VIEW = #{store.isView}
+			  , C_CODE = #{storeCate.cateCode}
+		 WHERE
+		 		P_CODE = #{store.pcode}
+	</update>
+	<update id="updateStoreInfo" parameterType="StoreCollection">
+		UPDATE
+				P_INFO
+		   SET
+			    ORIGIN = #{storeInfo.origin}
+			  , BRAND = #{storeInfo.brand}
+			  , CONTACT = #{storeInfo.contact}
+			  , USE_TERM = #{storeInfo.useTerm}
+			  , OFFERINGS = #{storeInfo.offerings}
+			  , CANCEL_INFO = #{storeInfo.cancelInfo}
+		 WHERE
+		 		P_CODE = #{store.pcode}
+	</update>
+	<select id="selectAttCode" parameterType="_int" resultType="integer">
+		SELECT
+				ATT_CODE
+		  FROM
+		  		ATT_STORE
+		 WHERE
+		 		P_CODE = #{pcode}
+	</select>
+	<update id="updateStoreAtt">
+		<foreach collection="list" item="i" open="BEGIN" close="; END;" separator=";">
+		UPDATE
+				ATT_STORE
+		   SET
+			  	ATT_CL_NAME = #{i.attClName}
+			  , ATT_SV_NAME = #{i.attSvName}
+			  , IS_MAIN_ATT = #{i.attMain}
+		 WHERE
+		 		ATT_CODE = #{i.attCode}
+		</foreach>
+	</update>
 </mapper>

@@ -13,11 +13,12 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,7 +26,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.kh.fantimate.common.model.vo.Alarm;
 import com.kh.fantimate.common.model.vo.Attachment;
+import com.kh.fantimate.common.model.vo.Message;
+import com.kh.fantimate.common.model.vo.Report;
 import com.kh.fantimate.main.model.service.MainService;
 import com.kh.fantimate.main.model.vo.MainCollection;
 import com.kh.fantimate.main.model.vo.SubscribeArtist;
@@ -210,6 +215,233 @@ public class MainController {
 		List<MainCollection> list = (ArrayList<MainCollection>)mpService.selectArtistSearchList(artistName); 
 		if(list == null) list = new ArrayList<>();
 		return list;
+	}
+	
+	// 알람 리스트 불러오기 (세션에 담기)
+	@RequestMapping(value="/alarmList", produces="application/json; charset=utf-8")
+	public @ResponseBody String alarmList(Alarm al ,HttpSession session, Date dateFormat) {
+		
+		List<Alarm> alist = new ArrayList<>();
+		int countA = 0;
+		
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		// 로그인 유저의 아이디 가지고 가기 
+		String user = loginUser.getId();
+		
+		// 유저아이디, 오늘날짜 담아서 가기
+		al.setId(user);
+		al.setAlTime(dateFormat);
+		
+		if(loginUser.getClassifyMem() == 1) {
+		  // 일반 유저 알람 불러오기
+		  alist = (ArrayList<Alarm>)mpService.selectAlarmList(al);
+		  // 일반 유저 알람 카운트 해오기
+		  countA = mpService.selectAlarmCount(al);
+		  // 세션에 담기
+		  session.setAttribute("alist", alist);
+		  session.setAttribute("countA", countA);
+		  
+		} else if(loginUser.getClassifyMem() == 2) {
+		  // 소속아티스트
+		  alist = (ArrayList<Alarm>)mpService.selectAlarmList(al);
+		  // 소속아티스트 알람 카운트 해오기
+		  countA = mpService.selectAlarmCount(al);
+		  // 세션에 담기
+		  session.setAttribute("alist", alist);
+		  session.setAttribute("countA", countA);
+		  
+		} else if(loginUser.getClassifyMem() == 3) {
+		  // 소속사
+		  alist = (ArrayList<Alarm>)mpService.selectAlarmList(al);
+		  // 소속사 알람 카운트 해오기
+		  countA = mpService.selectAlarmCount(al);
+		  // 세션에 담기
+		  session.setAttribute("alist", alist);
+		  session.setAttribute("countA", countA);
+		  
+		} else if(loginUser.getClassifyMem() == 4){
+		  // 관리자 
+		  alist = (ArrayList<Alarm>)mpService.selectAlarmList(al);
+		  // 관리자 알람 카운트 해오기
+		  countA = mpService.selectAlarmCount(al);
+		  // 세션에 담기
+		  session.setAttribute("alist", alist);
+		  session.setAttribute("countA", countA);
+		}
+		
+		
+		return new Gson().toJson(alist);
+		
+	}
+	
+	// 알람 갯수 카운트 (세션에 담기)
+	@RequestMapping(value="/alarmCount", produces="application/json; charset=utf-8")
+	public @ResponseBody String alarmCount(HttpSession session, Alarm al, Date dateFormat) {
+		int countA = 0;
+		
+		
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		// 로그인 유저의 아이디 가지고 가기 
+		String user = loginUser.getId();
+		
+		// 유저아이디, 오늘날짜 담아서 가기
+		al.setId(user);
+		al.setAlTime(dateFormat);
+		
+		if(loginUser.getClassifyMem() == 1) {
+		  // 일반 유저 알람 카운트 해오기
+		  countA = mpService.selectAlarmCount(al);
+		  // 세션에 담기
+		  session.setAttribute("countA", countA);
+		  
+		} else if(loginUser.getClassifyMem() == 2) {
+		  // 소속아티스트 알람 카운트 해오기
+		  countA = mpService.selectAlarmCount(al);
+		  // 세션에 담기
+		  session.setAttribute("countA", countA);
+		  
+		} else if(loginUser.getClassifyMem() == 3) {
+		  // 소속사 알람 카운트 해오기
+		  countA = mpService.selectAlarmCount(al);
+		  // 세션에 담기
+		  session.setAttribute("countA", countA);
+		  
+		} else if(loginUser.getClassifyMem() == 4){
+		  // 관리자 알람 카운트 해오기
+		  countA = mpService.selectAlarmCount(al);
+		  // 세션에 담기
+		  session.setAttribute("countA", countA);
+		}
+		
+
+		return new Gson().toJson(countA);
+		
+	}
+	
+
+	@RequestMapping(value="/messageWholeList", produces="application/json; charset=utf-8")
+	public @ResponseBody String messageWholeList(HttpSession session) {
+		
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		// 로그인 유저의 아이디 가지고 가기 
+		String user = loginUser.getId();
+		
+		// 날짜만 셀렉 
+		List<Message> dlist = (ArrayList<Message>)mpService.selectMessageDate(user);
+		// 전체 리스트 
+		List<Message> mlist = (ArrayList<Message>)mpService.selectMessageWholeList(user);
+		
+		// 날짜 포맷하기 위해 GsonBuilder를 이용해서 GSON 객체 생성
+		Gson gson = new GsonBuilder()
+					.setDateFormat("yyyy-MM-dd")
+					.create();
+		
+		// 날짜랑 전체리스트 보내기
+		JSONObject sendJson = new JSONObject();
+		sendJson.put("dlist", dlist);
+		sendJson.put("mlist", mlist);
+		
+		session.setAttribute("sendJson", sendJson);
+
+		return gson.toJson(sendJson);
+		
+	}
+	
+	// 메세지 창 이동
+	@GetMapping("/readMessage")
+	public String readMessage(Message m,
+							  String messSendId,
+							  String messContent,
+							  String messTitle,
+							  int messCode,
+							  Model model) {
+		
+
+		// 읽음으로 표시 
+		int read = mpService.updateRead(messCode);
+		
+		System.out.println("읽음여부:" + read);
+		
+		m.setMessCode(messCode);
+		m.setMessSendId(messSendId);
+		m.setMessContent(messContent);
+		m.setMessTitle(messTitle);
+		
+		model.addAttribute("message", m);
+		
+		return "common/messageNavi";
+
+	}
+	
+	// 쪽지 답장
+	@PostMapping("/messageSend")
+	public String messageSend(@ModelAttribute Message m, 
+							   HttpSession session,
+							   Model model) {
+		
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		// 로그인 유저의 아이디 가지고 가기 
+		String user = loginUser.getId();
+		// 보내는 아이디 - 현재 로그인한 유저
+		m.setMessSendId(user);
+		
+		int sendMessage = mpService.insertMessage(m);
+		
+		System.out.println("쪽지insert" + sendMessage);
+		
+		if(sendMessage > 0) {
+			model.addAttribute("msg", "success");
+			return "common/messageNavi";
+		} else {
+			model.addAttribute("msg", "fail");
+			return "common/messageNavi";
+		}
+		
+		
+	}
+	
+	//쪽지 신고
+	@PostMapping("/reportMessage")
+	public String reportMessage(@ModelAttribute Report r,
+								int refId,
+								Model model) {
+		
+		// 쪽지 신고
+		int reportMessage = mpService.insertReportm(r);
+		// 쪽지 상태 N으로 업데이트해서 쪽지함에서 가리기
+		int updateMessage = mpService.updateMessage(refId);
+		// 알람 insert
+		int alarmReport = mpService.insertAlarmR(refId);
+		
+		System.out.println("쪽지번호!!!" + refId);
+		System.out.println("쪽지 상태 업데이트" + updateMessage);
+		System.out.println("알람 insert" + alarmReport);
+		
+		if(reportMessage > 0 && updateMessage > 0 && alarmReport > 0) {
+			
+			model.addAttribute("msg", "success2");
+			return "common/messageNavi";
+		} else {
+			model.addAttribute("msg", "fail");
+			return "common/messageNavi";
+		}
+		
+		
+	}
+	
+	// 쪽지 카운트
+	@RequestMapping(value="/mailCount", produces="application/json; charset=utf-8")
+	public @ResponseBody String mailCount(HttpSession session) {
+		
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		// 로그인 유저의 아이디 가지고 가기 
+		String user = loginUser.getId();
+		
+		int mailCount = mpService.selectMailCount(user);
+		
+
+		return new Gson().toJson(mailCount);
+		
 	}
 	
 	

@@ -30,7 +30,7 @@ public interface MemberService {
 	public int insertFavArtist(Map<String, Object> map);
 
 	// 6. 아이디 중복 체크 
-	public boolean checkId(String id);
+	public int checkId(String id);
 
 	// 7. 공통 회원 select
 	public Member loginMember(Member m);

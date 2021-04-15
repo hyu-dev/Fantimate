@@ -1,6 +1,7 @@
 package com.kh.fantimate.official.model.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,6 +10,7 @@ import com.kh.fantimate.member.model.vo.Member;
 import com.kh.fantimate.official.model.dao.OfficialDao;
 import com.kh.fantimate.official.model.vo.MediaCategory;
 import com.kh.fantimate.official.model.vo.MediaCollection;
+import com.kh.fantimate.official.model.vo.Official;
 import com.kh.fantimate.pay.model.vo.Cart;
 
 @Service
@@ -17,6 +19,12 @@ public class OfficialServiceImpl implements OfficialService{
 	private OfficialDao oDao;
 	
 	/* 미디어 메인 페이지 */
+	
+	// 미디어 개수 조회하기
+	@Override
+	public int countMedia(String artiName) {
+		return oDao.countMedia(artiName);
+	}
 	
 	// 미디어 전체 리스트 호출을 위한 카테고리 선택
 	@Override
@@ -36,12 +44,6 @@ public class OfficialServiceImpl implements OfficialService{
 		return oDao.selectNewMediaList(artiName);
 	}
 
-	// 멤버십 여부 확인
-	@Override
-	public Member checkMembership(String id) {
-		return oDao.checkMembership(id);
-	}
-
 	// 장바구니에 해당 미디어 추가(유료)
 	@Override
 	public int insertCart(Cart cart) {
@@ -50,27 +52,25 @@ public class OfficialServiceImpl implements OfficialService{
 
 	// 해당 카테고리 미디어 리스트 호출
 	@Override
-	public List<MediaCollection> selectMediaList(String category) {
-		return oDao.selectMediaList(category);
+	public List<MediaCollection> selectMediaList(Map<String, String> map) {
+		return oDao.selectMediaList(map);
 	}
 
 	// 해당 검색어가 포함된 미디어 리스트 호출
 	@Override
-	public List<MediaCollection> searchMediaList(String search) {
-		return oDao.searchMediaList(search);
+	public List<MediaCollection> searchMediaList(Map<String, String> map) {
+		return oDao.searchMediaList(map);
 	}
 
 	// 클릭한 미디어 호출
 	@Override
-	public MediaCollection selectMedia(int mediaNum) {
-		return oDao.selectMedia(mediaNum);
+	public List<MediaCollection> selectMedia(Map<Object, Object> map) {
+		return oDao.selectMedia(map);
 	}
 
 	// 클릭한 미디어 조회수 추가
 	@Override
-	public int insertHitCount(int mediaNum) {
-		return oDao.insertHitCount(mediaNum);
+	public int updateHitCount(int mediaNum) {
+		return oDao.updateHitCount(mediaNum);
 	}
-
-
 }

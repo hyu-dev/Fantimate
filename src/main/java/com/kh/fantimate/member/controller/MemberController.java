@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -32,7 +33,7 @@ import com.kh.fantimate.member.model.vo.User;
 
 @Controller
 @RequestMapping("/member")
-@SessionAttributes({"loginUser" ,"user", "agency", "artist" ,"admin"})
+@SessionAttributes({"loginUser"})
 public class MemberController {
 	
 	@Autowired
@@ -57,9 +58,24 @@ public class MemberController {
 	}
 	
 	// 아이디 중복 체크
-	@ResponseBody @RequestMapping("/idCheck")
-	public boolean idCheck(String id) {
-		return mService.checkId(id);
+	@RequestMapping("/idCheck")
+	public @ResponseBody int idCheck(String id){
+		
+		int count = mService.checkId(id);
+		System.out.println("아이디 홧인 : " + id);
+		System.out.println("중복체크 카운트: " + count);
+		if(!id.equals("")) {
+			if(count == 1) {
+				return count;
+			} else {
+				return count;
+			}
+		} else {
+			// 아이디 널 값으로 보냈을 경우
+			return 2;
+		}
+		
+
 	}
 	
 	// 회원 등록
@@ -150,7 +166,7 @@ public class MemberController {
 	
 	// 회원 로그인 (세션 저장)
 	@PostMapping("/login")
-	public String memberLogin(@ModelAttribute Member m, Model model) {
+	public String memberLogin(@ModelAttribute Member m, Model model,HttpSession session) {
 
 		Member loginUser = mService.loginMember(m);
 
@@ -163,27 +179,27 @@ public class MemberController {
 				User user = mService.loginUser(loginUser.getId());
 				
 				model.addAttribute("loginUser", loginUser);
-				model.addAttribute("user", user);
+				session.setAttribute("user", user);
 				model.addAttribute("msg", "success");
-			} else if(loginUser.getClassifyMem() == 2) {
-			// loginUser.class == 2 (소속사) 일때
+			} else if(loginUser.getClassifyMem() == 3) {
+			// loginUser.class == 3 (소속사) 일때
 				Agency agency = mService.loginAgency(loginUser.getId());
 				model.addAttribute("loginUser", loginUser);
-				model.addAttribute("agency", agency);
+				session.setAttribute("agency", agency);
 				model.addAttribute("msg", "success");
 				
-			} else if(loginUser.getClassifyMem() == 3) {
-			// loginUser.class == 3 (소속아티스트) 일때
+			} else if(loginUser.getClassifyMem() == 2) {
+			// loginUser.class == 2 (소속아티스트) 일때
 				
 				Artist artist = mService.loginArtist(loginUser.getId());
 				model.addAttribute("loginUser", loginUser);
-				model.addAttribute("artist", artist);
+				session.setAttribute("artist", artist);
 				model.addAttribute("msg", "success");
 			} else if(loginUser.getClassifyMem() == 4) {
 				
 				Admin admin = mService.loginAdmin(loginUser.getId());
 				model.addAttribute("loginUser", loginUser);
-				model.addAttribute("admin", admin);
+				session.setAttribute("admin", admin);
 				model.addAttribute("msg", "success");
 			}
 			

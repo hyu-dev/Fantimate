@@ -64,7 +64,15 @@
             <div class="product-information">
                 <div class="product-title">
                     <p>상세정보</p>
-                    <p>포토리뷰 (6)</p>
+                    <c:set var="count" value="0"/>
+                    <p id="reviewBtn">포토리뷰 (
+                    	<c:forEach var="r" items="${ review }" varStatus="state">
+                        <c:if test="${ r.attReview.attMain eq 'Y' }">
+                        <c:set var="count" value="${ count + 1 }"/>
+                        </c:if>
+                        </c:forEach>
+                        ${ count }
+                    )</p>
                 </div>
                 <div class="product-info">
                     <table>
@@ -94,72 +102,102 @@
                         </tr>
                     </table>
                 </div>
+                <c:if test="${ empty review }">
+                	<div class="product-review">
+                		<div class="empty-review">등록 된 리뷰가 없습니다</div>
+                	</div>
+                </c:if>
+                <c:if test="${ !empty review }">
                 <div class="product-review">
                     <section class="top">
+                    
                         <div class="top-review">
                             <div class="top-photo">
-                                <img src="${ contextPath }/resources/images/store/1stAlbumBts.png" alt="" width="150px">
-                                <img src="${ contextPath }/resources/images/store/1stAlbumBts2.png" alt="" width="150px">
-                                <img src="${ contextPath }/resources/images/store/1stAlbumBts3.png" alt="" width="150px">
+                            	<c:forEach var="i" begin="0" end="${ review.size() - 1 }" step="1">
+                        		<c:if test="${ review.get(0).review.id eq review.get(i).review.id }">
+                            		<img src="${ contextPath }/resources/uploadFiles/${ review.get(i).attReview.attSvName }" alt="" width="150px">
+                            	</c:if>
+                            	</c:forEach>
                             </div>
                             <div class="index-area">
-                                <div class="index index1"></div>
-                                <div class="index index2"></div>
-                                <div class="index index3"></div>
+                            	<c:forEach var="r" items="${ review }" varStatus="state">
+                            	<c:if test="${ state.index eq 0 }">
+                            		<c:set var="userId" value="${ r.review.id }" />
+                            	</c:if>
+                            	<c:if test="${ r.review.id eq userId }">
+                                <div class="index index${ state.index + 1 }"></div>
+                                </c:if>
+                                </c:forEach>
                             </div>
                         </div>
                         <div class="top-review-content">
-                            <img class="user-profile" src="${ contextPath }/resources/images/mypage/만식프로필.png" alt="" width="50px">
+                            <img class="user-profile" src="${ contextPath }/resources/uploadFiles/${ review.get(0).attUser.attSvName }" alt="" width="50px">
                             <span class="user-info">
-                                <span class="top-title">울 옵빠 만나고 싶어효~!</span>
+                            	<span class="top-user-id">${ review.get(0).review.id }</span>
+                                <span class="top-title">${ review.get(0).review.rvTitle }</span>
                                 <span class="top-score">
-                                    <img src="${ contextPath }/resources/images/store/star-pink.png" alt="" width="20px">
-                                    <img src="${ contextPath }/resources/images/store/star-pink.png" alt="" width="20px">
-                                    <img src="${ contextPath }/resources/images/store/star-pink.png" alt="" width="20px">
-                                    <img src="${ contextPath }/resources/images/store/star-pink.png" alt="" width="20px">
-                                    <img src="${ contextPath }/resources/images/store/star-gray.png" alt="" width="20px">
-                                    <span class="top-user-id">at******</span>
-                                    <span class="top-enroll-date">2021. 03. 06</span>
+                                	<c:forEach var="i" begin="1" end="5" step="1">
+                                	<c:choose>
+	                                	<c:when test="${ review.get(0).review.rvScore >= i }">
+	                                	<img src="${ contextPath }/resources/images/store/star-pink.png" alt="" width="20px">
+	                                	</c:when>
+	                                	<c:otherwise>
+	                                	<img src="${ contextPath }/resources/images/store/star-gray.png" alt="" width="20px">
+	                                	</c:otherwise>
+                                	</c:choose>
+                                    </c:forEach>
+                                    <span class="top-enroll-date">${ review.get(0).review.enrollDate }</span>
                                 </span>
                             </span>
-                            <div class="user-review-content">
-                                BTS 오빠의 과거 앨범을 이렇게 영접하다니 넘나 좋은 것 ~~ ㅠㅠ
-                            </div>
+                            <div class="user-review-content">${ review.get(0).review.rvContent }</div>
                         </div>
+                        
                     </section>
-
                     <section class="bottom">
                         <img class="left-move" src="${ contextPath }/resources/icon/slide-left-btn.png" alt="" width="30px">
                         <div class="bottom-review">
+                        <c:forEach var="r" items="${ review }" varStatus="state">
+                        <c:if test="${ r.attReview.attMain eq 'Y' }">
                             <div class="review">
+                            	<input type="hidden" id="rvCode" value="${ r.review.rvCode }">
                                 <div class="bottom-photo">
-                                    <img src="${ contextPath }/resources/images/store/1stAlbumBts3.png" alt="" width="150px">
+                                    <img src="${ contextPath }/resources/uploadFiles/${ r.attReview.attSvName }" alt="" width="150px">
                                 </div>
                                 <div class="completed-review">
                                     <div class="date-created">
-                                        <span class="top-score">
-                                            <img src="${ contextPath }/resources/images/store/star-pink.png" alt="" width="15px">
-                                            <img src="${ contextPath }/resources/images/store/star-pink.png" alt="" width="15px">
-                                            <img src="${ contextPath }/resources/images/store/star-pink.png" alt="" width="15px">
-                                            <img src="${ contextPath }/resources/images/store/star-pink.png" alt="" width="15px">
-                                            <img src="${ contextPath }/resources/images/store/star-gray.png" alt="" width="15px">
-                                            <span class="user-id">at******</span>
-                                            <span class="enroll-date">2021. 03. 07</span>
+                                        <span class="bottom-score">
+	                                        <c:forEach var="i" begin="1" end="5" step="1">
+		                                	<c:choose>
+			                                	<c:when test="${ r.review.rvScore >= i }">
+			                                	<img src="${ contextPath }/resources/images/store/star-pink.png" alt="" width="15px">
+			                                	</c:when>
+			                                	<c:otherwise>
+			                                	<img src="${ contextPath }/resources/images/store/star-gray.png" alt="" width="15px">
+			                                	</c:otherwise>
+		                                	</c:choose>
+		                                    </c:forEach>
+	                                    	<span class="user-id">${ r.review.id }</span>
+                                           	<span class="enroll-date">${ r.review.enrollDate }</span>
                                         </span>
                                     </div>
                                     <div class="review-content">
-                                        <b>울 옵빠 만나고 싶어효!</b>
-                                        <p>몇 번이나 사는지 몰라요 이번에는 제발 팬싸인회 당첨 좀ㅠㅠㅠㅠ 이렇게나 원하는데</p>
+                                        <b>${ r.review.rvTitle }</b>
+                                        <p>${ r.review.rvContent }</p>
                                     </div>
                                 </div>
                             </div>
+                        </c:if>
+                        </c:forEach>
                         </div>
                         <img class="right-move" src="${ contextPath }/resources/icon/slide-right-btn.png" alt="" width="30px">
                     </section>
                 </div>
+                </c:if>
             </div>
          </section>
-
+		 
+		 
+		 <!-- 오른쪽 영역 -->
 		 <c:set var="price" value="${ sc.get(0).store.qprice }" />
 		 <c:set var="discountPrice" value="${ sc.get(0).store.qprice * (1 - sc.get(0).store.discount/100) }"/>
          <section class="right-contents">
@@ -179,18 +217,20 @@
                  </tr>
                  <tr>
                      <td colspan="1">
-                     <c:if test="${ user.isMembership eq 'Y' }">
-                     	\ <fmt:formatNumber type="number" value="${ discountPrice }"/>
-                     </c:if>
-                     <c:if test="${ user.isMembership eq 'N' }">
-                     	\ <fmt:formatNumber type="number" value="${ price }"/>
-                     </c:if>
+                     <c:choose>
+	                     <c:when test="${ user.isMembership eq 'Y' }">
+	                     	\ <fmt:formatNumber type="number" value="${ discountPrice }"/>
+	                     </c:when>
+	                     <c:otherwise>
+	                     	\ <fmt:formatNumber type="number" value="${ price }"/>
+	                     </c:otherwise>
+                     </c:choose>
                      </td>
                      <td colspan="3">
                      	<s>\ <fmt:formatNumber type="number" value="${ price }"/></s>
                      	<span>
                      		&nbsp;&nbsp; ${ sc.get(0).store.discount }% D.C.
-                     		<c:if test="${ user.isMembership eq 'N' }">
+                     		<c:if test="${ user.isMembership ne 'Y' }">
                      		(멤버십전용 : \ <fmt:formatNumber type="number" value="${ discountPrice }"/>)
                      		</c:if>
                      	</span>
@@ -211,12 +251,14 @@
                  <tr>
                      <td colspan="2">TOTAL</td>
                      <td colspan="2">
-                     	<c:if test="${ user.isMembership eq 'Y' }">
-	                    	\ <fmt:formatNumber type="number" value="${ discountPrice }"/>
-	                    </c:if>
-	                    <c:if test="${ user.isMembership eq 'N' }">
-	                     	\ <fmt:formatNumber type="number" value="${ price }"/>
-	                    </c:if>
+                     	<c:choose>
+	                     	<c:when test="${ user.isMembership eq 'Y' }">
+		                    	\ <fmt:formatNumber type="number" value="${ discountPrice }"/>
+		                    </c:when>
+		                    <c:otherwise>
+		                     	\ <fmt:formatNumber type="number" value="${ price }"/>
+		                    </c:otherwise>
+                     	</c:choose>
                      	<span>(1개)</span>
                      </td>
                  </tr>
@@ -267,7 +309,17 @@
              </div>
          </section>
 	</section>
+	<input type="hidden" name="flag" id="flag" value="no"/>
+	
+	<!-- 스크립트 -->
 	<script>
+		// 로딩 시 포토리뷰 4개만 표시 나머지 display none
+		$(document).ready(function() {
+			for(var i = 5; i <= $(".review").length; i++) {
+				$(".review:nth-of-type(" + i + ")").css("display", "none");
+			}
+		}) 
+	
 		// 왼쪽 컨텐츠 메인 사진의 작은 사진 클릭시
 		$(".small-img").click(function() {
 			var url = $(this).attr("src");
@@ -288,7 +340,7 @@
 		})
 	
 		// 왼쪽 컨텐츠 포토리뷰의 메인 포토 사진 이동 버튼 클릭시
-		$(".index").on('click', function() {
+		$(document).on('click', ".index", function() {
 		    $(".index").css("background", "#fbf6f6");
 		    $(this).css("background", "#5C5F78");
 		    for(let i = 0; i < $(".index").length; i++) {
@@ -298,43 +350,112 @@
 		        }
 		    }
 		})
+		
 	
 		// 왼쪽 컨텐츠 포토리뷰 하단의 좌로이동 클릭시
+		var i = 1;
 		$(".left-move").click(function() {
-		    // 가장 처음에 있는 데이터가 숨겨져 있다면
-		    if($(".review:nth-of-type(1)").css("display") == "none") {
-		        // 이전으로 돌아가기 위해서 어디까지 숨겨져있는지 체크 후
-		        // 해당 부분의 전 단계까지 block 
-		        // 가장 뒤에 있는 부분을 none 처리한다
-		        let i = 1;
-		        for( ; i < $(".review").length; i++) {
-		            if($(".review:nth-of-type(" + i + ")").css("display") == "flex") {
-		                console.log(i + "번째부터 표시 됨")
-		                break;
-		            }
-		        }
-		        console.log(i);
-		    } else {
-	
-		    }
-		    console.log($(".review:nth-of-type(1)").css("display"))
+			if(i == 1) {
+				alert("리뷰의 처음입니다");
+			} else {
+				if($(".review:nth-of-type(" + (i-1) + ")").css("display") == "none") {
+	        		$(".review:nth-of-type(" + (j-1) + ")").css("display", "none");
+					$(".review:nth-of-type(" + (i-1) + ")").css("display", "flex");
+				}
+				j--;
+				i--;
+			}
 		})
+		// 포토리뷰 하단의 우로이동 클릭시
+		var j = 5;
+		$(".right-move").click(function() {
+			var length = $(".review").length;
+			if(j > length) {
+				alert("더 이상 리뷰가 없습니다");
+			} else {
+				if($(".review:nth-of-type(" + j + ")").css("display") == "none") {
+					$(".review:nth-of-type(" + j + ")").css("display", "flex");
+					$(".review:nth-of-type(" + i + ")").css("display", "none");
+				}
+				i++;
+				j++;
+			}
+		});
+		
+		// 하단 컨텐츠 리뷰 클릭시
+		$(".review").click(function() {
+			var rvCode = $(this).children("#rvCode").val();
+			$.ajax({
+				url : "${ pageContext.request.contextPath }/store/review/" + rvCode,
+				data : "get",
+	        	success : function(data) {
+	        		console.log(data)
+	        		// 사용할 url 값
+	        		var url = "${ contextPath }/resources/uploadFiles/";
+	        		// 데이터 들어갈 위치
+	        		var topPhoto = $(".top-photo");
+	        		var indexArea = $(".index-area");
+	        		var topContent = $(".top-review-content");
+	        		// 데이터 들어갈 곳 비워주기
+	        		topPhoto.html("");
+	        		indexArea.html("");
+	        		topContent.html("");
+	        		
+	        		// 데이터 바인딩
+	        		var userProfile = $("<img class='user-profile' alt='' width='50px'>").attr("src", url + data[0].attUser.attSvName);
+	        		var userInfo = $("<span class='user-info'>");
+	        		var userid = $("<span class='top-user-id'>").text(data[0].review.id);
+	        		var title = $("<span class='top-title'>").text(data[0].review.rvTitle);
+	        		var score = $("<span class='top-score'>");
+	        		var enrollDate = $("<span class='top-enroll-date'>").text(data[0].review.enrollDate);
+	        		var rvContent = $("<div class='user-review-content'>").text(data[0].review.rvContent);
+	        		
+	        		// 리뷰 이미지 생성
+	        		for(var i = 0; i < data.length; i++) {
+	        			var photos = $("<img alt='' width='150px'>").attr("src", url + data[i].attReview.attSvName);
+	        			topPhoto.append(photos);
+	        			var index = $("<div class='index index" + (i+1) + "'>");
+            			indexArea.append(index);
+	        			console.log(index)
+	        		}
+	        		// 리뷰 점수 생성
+	        		for(var i = 1; i <= 5; i++) {
+	        			var img = $("<img width='20px'>");
+	        			var starUrl = '';
+	        			if(data[0].review.rvScore >= i ) {
+	        				starUrl = "${ contextPath }/resources/images/store/star-pink.png";
+	        			} else {
+	        				starUrl = "${ contextPath }/resources/images/store/star-gray.png";
+	        			}
+	        			img.attr("src", starUrl);
+	        			score.append(img);
+	        		}
+	        		score.append(enrollDate);
+	        		userInfo.append(userid, title, score);
+	        		topContent.append(userProfile, userInfo, rvContent);
+	        	},
+				error : function(e) {
+					console.log(e)
+				}
+			});
+		});
+		
 	
 		// 오른쪽 컨텐츠 
-		let quantity = 0;
+		let quantity = 1;
 		let price = 0;
 		let memberShip = '';
 		// 수량 클릭시
 		$(function() {
 			memberShip = "${ user.isMembership }";
-		    memberShip == "N" ? price = "${ price }" : price = "${ discountPrice }";
+		    memberShip == "Y" ? price = "${ discountPrice }" : price = "${ price }";
 		});
 		// 마이너스 버튼
 		$('.minus-btn').click(function() {
 		    $(".right-contents tr:nth-of-type(5) td:last-of-type").text("")
 		    quantity = parseInt($(this).siblings('.product-quantity').text());
 		    let memberShip = "${ user.isMembership }";
-		    memberShip == "N" ? price = "${ price }" : price = "${ discountPrice }";
+		    memberShip == "Y" ? price = "${ discountPrice }" : price = "${ price }";
 		    if($(this).siblings('.product-quantity').text() > 1) {
 		        quantity -= 1;
 		        $(this).siblings('.product-quantity').text(quantity);
@@ -350,7 +471,7 @@
 		    $(".right-contents tr:nth-of-type(5) td:last-of-type").text("")
 		    quantity = parseInt($(this).siblings('.product-quantity').text());
 		    let memberShip = "${ user.isMembership }";
-		    memberShip == "N" ? price = "${ price }" : price = "${ discountPrice }";
+		    memberShip == "Y" ? price = "${ discountPrice }" : price = "${ price }";
 		    quantity += 1;
 		    $(this).siblings('.product-quantity').text(quantity);
 		    price = price * quantity;
@@ -388,8 +509,69 @@
 	
 		// 오른쪽 컨텐츠 바로구매하기 클릭시
 		$(".buy").click(function() {
-		    // 결제 API 호출
-		    console.log("결제 API 호출")
+			// 구매 전 수량 체크
+			if(quantity <= parseInt("${sc.get(0).store.salesQ}")) {
+				/* var IMP = window.IMP;  */
+		    	IMP.init("imp85435791");
+		    	// 결제번호
+		    	var uid = 'storeOne_' + new Date().getTime();
+		    	// 주문자명
+		    	var name = "${ loginUser.id }";
+		    	// 주문자 이메일
+		    	var email = "${ user.uemail }";
+		    	// 상품명
+		    	var pname = "${ sc.get(0).store.pname }";
+		    	// 상품코드
+		    	var pcode = "${ sc.get(0).store.pcode }";
+		    	
+			    IMP.request_pay({ // param
+			      pg: "html5_inicis",
+			      pay_method: "card",
+			      merchant_uid: uid,
+			      amount: price,
+			      name: pname,
+			      buyer_email: email,
+			      buyer_name: name,
+			      buyer_tel: "010-6301-0115",
+			    }, function (rsp) { // callback
+			      if (rsp.success) {
+			          // 결제 성공 시 로직,
+			          console.log(rsp.merchant_uid)	// 결제번호
+			          console.log(rsp.pay_method)	// point > kakaopay로 변경
+			          console.log(rsp.status)		// paid > 1로 변경
+			          console.log(rsp.name)			// 상품명
+			          console.log(rsp.buyer_name)	// 구매자 아이디 user
+			          console.log(rsp.paid_amount)	// 금액 19900
+			          $.ajax({
+			        	 url : "${ pageContext.request.contextPath }/pay/storeOne/payment",
+			        	 data : {
+			        		 		payCode : rsp.merchant_uid,
+			        		 		payMethod : "kakaopay_" + rsp.pay_method,
+			        		 		payStatus : 1,
+			        		 		payPrice : rsp.paid_amount,
+			        		 		id : rsp.buyer_name,
+			        		 		payDivision : 1,
+			        		 		productQ : quantity,
+			        		 		pcode : pcode
+			        		 	},
+			        	 method : "POST",
+			        	 dateType : "json",
+			        	 success : function(msg) {
+			        		 alert(msg.msg)
+			        	 },
+			        	 error: function(e) {
+			        		 console.log(e)
+			        	 }
+			          })
+			      } else {
+			          // 결제 실패 시 로직,
+			          console.log("결제실패")
+			          alert("결제를 취소하였습니다")
+			      }
+			    });
+			} else {
+				alert("재고수량을 초과하셨습니다. 현재 재고수량 : " + "${sc.get(0).store.salesQ}" + "개" )
+			}
 		})
 	
 		// 추천 상품 클릭시
@@ -397,6 +579,13 @@
 			var pcode = $(this).children("input").val();
 			location.href='${ contextPath }/store/detail?pcode=' + pcode;
 		})
+		
+		// 수정하기 버튼 클릭시
+		$(".update-store").click(function() {
+			$(".main-template").css("display", "block");
+			$(".insert-section").css("display", "block");
+			$("#flag").val("yes");
+		});
 	</script>
 	</c:if>
 	<c:if test="${ empty loginUser }">

@@ -19,6 +19,9 @@
 		<typeAlias type="com.kh.fantimate.member.model.vo.Artist" alias="Artist"/>
 		<typeAlias type="com.kh.fantimate.member.model.vo.Admin" alias="Admin"/>
 		<typeAlias type="com.kh.fantimate.common.model.vo.Attachment" alias="Attachment"/>
+		<typeAlias type="com.kh.fantimate.common.model.vo.Alarm" alias="Alarm"/>
+		<typeAlias type="com.kh.fantimate.common.model.vo.Message" alias="Message"/>
+		<typeAlias type="com.kh.fantimate.common.model.vo.Report" alias="Report"/>
 		<typeAlias type="com.kh.fantimate.main.model.vo.FavoriteArtist" alias="FavoriteArtist"/>
 		<typeAlias type="com.kh.fantimate.store.model.vo.Store" alias="Store"/>
 		<typeAlias type="com.kh.fantimate.store.model.vo.StoreCollection" alias="StoreCollection"/>
@@ -35,10 +38,14 @@
 		<typeAlias type="com.kh.fantimate.store.model.vo.StoreInfo" alias="StoreInfo"/>
 		<typeAlias type="com.kh.fantimate.feed.model.vo.Feed" alias="Feed"/>
 		<typeAlias type="com.kh.fantimate.store.model.vo.Review" alias="Review"/>
+		<typeAlias type="com.kh.fantimate.store.model.vo.ReviewCollection" alias="ReviewCollection"/>
 		<typeAlias type="com.kh.fantimate.pay.model.vo.Cart" alias="Cart"/>
 		<typeAlias type="com.kh.fantimate.pay.model.vo.CartCollection" alias="CartCollection"/>
 		<typeAlias type="com.kh.fantimate.common.model.vo.Subscribe" alias="Subscribe"/>
 		<typeAlias type="com.kh.fantimate.feed.model.vo.FeedCollection" alias="FeedCollection"/>
+		<typeAlias type="com.kh.fantimate.pay.model.vo.Payment" alias="Payment"/>
+		<typeAlias type="com.kh.fantimate.pay.model.vo.ProductBuy" alias="ProductBuy"/>
+		<typeAlias type="com.kh.fantimate.pay.model.vo.PayCollection" alias="PayCollection"/>
 	</typeAliases>
 	
 	<!-- mappers -->

@@ -20,4 +20,5 @@ public class Alarm {
 	private String alStatus;    // 알람활성화여부
 	private int refAlCode;      // 참조 알람코드
 	private String id;          // 회원아이디(공통)
+	private int ref_id; 		// 참조번호 (링크이동)
 }

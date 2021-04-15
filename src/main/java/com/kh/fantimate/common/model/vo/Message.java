@@ -16,8 +16,10 @@ import lombok.ToString;
 public class Message {
 	private int messCode;			// 쪽지번호
 	private String messContent;		// 쪽지 내용
+	private String messTitle;		// 쪽지 제목
 	private Date messDate;			// 쪽지 작성일
 	private String messRead;		// 쪽지 읽음여부
 	private String messSendId;		// 쪽지 보내는 이
-	private String messRecId;		// 쪽지 받는 이
+	private String id;				// 쪽지 받는 이
+	private String messStatus; 		// 쪽지 상태 여부
 }
