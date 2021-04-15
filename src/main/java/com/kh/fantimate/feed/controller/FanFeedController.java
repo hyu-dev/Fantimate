@@ -1,6 +1,7 @@
 package com.kh.fantimate.feed.controller;
 
 import java.io.File;
+
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -9,39 +10,87 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.fantimate.common.model.vo.Attachment;
+import com.kh.fantimate.common.model.vo.Subscribe;
 import com.kh.fantimate.feed.model.service.FanFeedService;
 import com.kh.fantimate.feed.model.vo.Feed;
+import com.kh.fantimate.feed.model.vo.FeedCollection;
 
 
 @Controller
 @RequestMapping("/fanfeed")
+@SessionAttributes({"subList"})
 public class FanFeedController {
 	
 	@Autowired
 	private FanFeedService fService;
 	
 	// 팬 피드로 이동
-	@GetMapping("/fanFeedList")
-	public String listpageView() {
+//	@GetMapping("/fanFeedList")
+//	public String listpageView() {
 		
-		return "fanfeed/fanFeedList";
+//		return "fanfeed/fanFeedList";
+//	}
+	
+	// 구독유저 닉네임 조회
+	
+	
+	
+	
+	
+	// 게시글 조회
+	@GetMapping("/fanFeedList")
+	public ModelAndView fanFeedList(ModelAndView mv,
+									@ModelAttribute Subscribe s,
+									@ModelAttribute FeedCollection fc,
+									Model model,
+									HttpServletRequest request) {
+		
+		// 세션에 로그인 유저 닉네임 담아서 리스트 페이지로 보내기
+		
+		List<Subscribe> subList = fService.selectSubList();
+		System.out.println("구독 유저 리스트 : " + subList);
+		
+		List<Feed> list = fService.selectFeedList();
+		System.out.println("게시글 리스트 : " + list);
+		
+		List<Attachment> atlist = fService.selectatList();
+		System.out.println("유저 프로필 사진 리스트 : " + atlist);
+		
+		List<FeedCollection> flist = fService.selectfcList();
+		System.out.println("컬렉션 리스트 : " + flist);
+		
+		
+		if(flist != null && !flist.isEmpty()) {
+			model.addAttribute("subList", subList);
+			mv.addObject("flist",flist);
+			mv.setViewName("fanfeed/fanFeedList");
+			
+		} else {
+			mv.addObject("msg", "조회된 리스트가 없습니다.");
+			mv.setViewName("fanfeed/fanFeedList");
+		}
+		return mv;
 	}
 	
 	// 게시글 작성 (작성자 닉네임, 작성자 프로필 사진, 아티스트의 그룹명 넘겨받아야 함) 
 	@PostMapping("/insert")
 	public void insertFeed(HttpServletResponse response,
-							Feed f, 
+							Feed f,
 							@RequestParam(value="uploadFile1") MultipartFile one,
 							@RequestParam(value="uploadFile2") MultipartFile two,
 							@RequestParam(value="uploadFile3") MultipartFile three,
@@ -91,7 +140,7 @@ public class FanFeedController {
 				attList.add(att);
 			}
 		}
-		
+		//System.out.println(artiName);
 		System.out.println(f);
 		System.out.println("사진이름1 : " + one.getOriginalFilename());
 		System.out.println("사진이름2 : " + two.getOriginalFilename());
