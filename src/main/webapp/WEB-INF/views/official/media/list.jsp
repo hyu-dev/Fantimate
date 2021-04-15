@@ -23,58 +23,79 @@
         <section class="main-contents">
             <div class="category-container">
                 <div class="category-upper">
-                	<c:if test="${ category eq null }">
-                    <span class="category-title nanumsquare">${ category }</span>&nbsp;<span class="category-count nanumsquare">${ count }</span>
+                	<c:if test="${ category != null }">
+                    <span class="category-title nanumsquare">${ category }</span>&nbsp;<span class="category-count nanumsquare">(${ count })</span>
                     </c:if>
                 </div>
                 <div class="category-under">
+                	<c:forEach var="m" items="${ list }">
                     <div class="category-media">
+                        <c:if test="${ m.official.isPay eq 'Y' }">
                         <div class="media-pay-sign">유료</div>
-                        <img src="${ contextPath }/resources/images/official/category-media.jpg">
-                        <div class="media-title nanumsquare">BREAK THE SILENCE : THE MOVIE COMMENTARY</div>
-                        <div class="media-date nanumsquare">2021.03.21</div>
+                        </c:if>
+                        <c:if test="${ m.attachment.attMain eq 'Y' }">
+                        <img src="${ contextPath }/resources/images/official/${ m.attachment.attSvName }"  
+                        	 onclick="selectMedia(${ m.official.mediaNum }, '${ m.official.isPay }', ${ m.official.mediaPay })">
+                        </c:if>
+                        <div class="media-title nanumsquare">${ m.official.mediaTtl }</div>
+                        <div class="media-date nanumsquare">${ m.official.mediaDate }</div>
                     </div>
-                    <div class="category-media">
-                        <img src="${ contextPath }/resources/images/official/category-media.jpg">
-                        <div class="media-title nanumsquare">BREAK THE SILENCE : THE MOVIE COMMENTARY</div>
-                        <div class="media-date nanumsquare">2021.03.21</div>
-                    </div>
-                    <div class="category-media">
-                        <img src="${ contextPath }/resources/images/official/category-media.jpg">
-                        <div class="media-title nanumsquare">BREAK THE SILENCE : THE MOVIE COMMENTARY</div>
-                        <div class="media-date nanumsquare">2021.03.21</div>
-                    </div>
-                    <div class="category-media">
-                        <img src="${ contextPath }/resources/images/official/category-media.jpg">
-                        <div class="media-title nanumsquare">BREAK THE SILENCE : THE MOVIE COMMENTARYBREAK THE SILENCE : THE MOVIE COMMENTARYBREAK THE SILENCE : THE MOVIE COMMENTARY</div>
-                        <div class="media-date nanumsquare">2021.03.21</div>
-                    </div>
-                    <div class="category-media">
-                        <img src="${ contextPath }/resources/images/official/category-media.jpg">
-                        <div class="media-title nanumsquare">BREAK THE SILENCE : THE MOVIE COMMENTARY</div>
-                        <div class="media-date nanumsquare">2021.03.21</div>
-                    </div>
-                    <div class="category-media">
-                        <img src="${ contextPath }/resources/images/official/category-media.jpg">
-                        <div class="media-title nanumsquare">BREAK THE SILENCE : THE MOVIE COMMENTARYBREAK THE SILENCE : THE MOVIE COMMENTARYBREAK THE SILENCE : THE MOVIE COMMENTARY</div>
-                        <div class="media-date nanumsquare">2021.03.21</div>
-                    </div>
+                    </c:forEach>
                 </div>
             </div>
         </section>
         
         <script>
         /* 유료 상품 클릭 시 구매 유도 알럿창 */
-        $(".category-media img").click(function() {
-
-		    if($(this).siblings('.media-pay-sign').text() == "유료") {
-		        if(confirm("해당 상품을 구매하시겠습니까?")) {
-		            if(confirm("상품이 정상적으로 장바구니에 담겼습니다.\n" + 
-		            "장바구니로 이동하시겠습니까?")) {		    
-		            } 
-		        }
-		    }
-		});
+        /* 미디어 클릭 시 */
+        function selectMedia(mediaNum, isPay, mediaPay) {
+        	var loginUser = ${ loginUser.classifyMem }
+        	var membership = "${ user.isMembership }"
+        	
+        	/* 미디어가 유료일 때 */
+        	if(isPay == "Y") {
+        		
+        		/* 일반유저가 아니면 상세페이지로 이동 */
+        		if(loginUser != 1) {
+            		location.href="${ contextPath }/official/media/detail?mediaNum=" + mediaNum;
+            		
+            	/* 일반유저라도 멤버십 회원이면 상세페이지로 이동 */	
+            	} else {            		
+            		if(membership == "Y") {
+            			location.href="${ contextPath }/official/media/detail?mediaNum=" + mediaNum;
+            			
+            		/* 멤버십에 가입하지 않은 회원은 구매 유도 팝업창 생성 */
+            		} else {
+            			if(confirm("해당 상품은 " + mediaPay + "원입니다. 구매를 진행하시겠습니까?")) {
+        					
+            				/* 장바구니로 해당 상품 데이터를 넘기는 ajax 처리 */
+            				$.ajax({
+			            		url : "${ contextPath }/official/media/insertCart",
+			            		data : { mediaNum : mediaNum, mediaPay : mediaPay },
+			            		type : "post",
+			            		dataType : "json",
+			            		// 데이터가 전송되지 않아서 contentType을 주석 처리함
+			            		// contentType : "application; charset=utf-8",
+			            		success : function(data) {
+			            			console.log(data);
+			            		},
+			            		error : function(e) {
+			            			console.log(e);
+			            		}
+			            	});
+            				
+            				/* 장바구니 페이지로 이동 */
+                            if(confirm("상품이 정상적으로 장바구니에 담겼습니다.\n" + 
+                            "장바구니로 이동하시겠습니까?")) {
+                            	location.href="${ contextPath }/pay/cart";
+                            } 
+                        }
+            		}
+            	} 
+        	} else {
+        		location.href="${ contextPath }/official/media/detail?mediaNum=" + mediaNum;
+        	}
+        }
         </script>
         
         <!-- 오른쪽 -->

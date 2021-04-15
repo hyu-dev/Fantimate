@@ -55,6 +55,12 @@ public class OfficialServiceImpl implements OfficialService{
 	public List<MediaCollection> selectMediaList(Map<String, String> map) {
 		return oDao.selectMediaList(map);
 	}
+	
+	// 해당 카테고리 미디어 개수 조회하기
+	@Override
+	public int countCategory(Map<String, String> map) {
+		return oDao.countCategory(map);
+	}
 
 	// 해당 검색어가 포함된 미디어 리스트 호출
 	@Override

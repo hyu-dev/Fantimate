@@ -49,17 +49,27 @@
             <div class="category-container">
                 <div class="category-upper">
                     <div class="category-title nanumsquare">${ cate.cateName }</div>
+                    <input type="hidden" name="cateName" value="${ cate.cateName }">
+                    <c:set var="check" value="0"/>
+                    <c:forEach var="m" items="${ list }">
+                	<c:if test="${ m.official.cateCode eq cate.cateCode }">
+                	<c:set var="check" value="${ check + 1 }"/>
+                	</c:if>
+                	</c:forEach>
+                    <c:if test="${ check > 4 }">
                     <a href="${ contextPath }/official/media/list?category=${ cate.cateName }" class="category-link nanumsquare">전체 보기</a>
+                    </c:if>
                 </div>
                 <div class="category-under">
                 	<c:forEach var="m" items="${ list }">
                 	<c:if test="${ m.official.cateCode eq cate.cateCode }">
-                    <div class="category-media" onclick="selectMedia(${ m.official.mediaNum }, '${ m.official.isPay }', ${ m.official.mediaPay })">
+                    <div class="category-media">
                     	<c:if test="${ m.official.isPay eq 'Y' }">
                         <div class="media-pay-sign">유료</div>
                         </c:if>
                         <c:if test="${ m.attachment.attMain eq 'Y' }">
-                        <img src="${ contextPath }/resources/images/official/${ m.attachment.attSvName }">
+                        <img src="${ contextPath }/resources/images/official/${ m.attachment.attSvName }"
+                         	 onclick="selectMedia(${ m.official.mediaNum }, '${ m.official.isPay }', ${ m.official.mediaPay })">
                         </c:if>
                         <div class="media-title nanumsquare">${ m.official.mediaTtl }</div>
                         <div class="media-date nanumsquare">${ m.official.mediaDate }</div>
@@ -71,11 +81,7 @@
             </c:forEach>
         </section>
         
-        <script type="text/javascript">
-        /* 화면에 미디어를 4개 배치하기 위해 hide 처리 */
-        $(document).ready(function() {
-        });
-        
+        <script type="text/javascript">        
         /* 미디어 클릭 시 */
         function selectMedia(mediaNum, isPay, mediaPay) {
         	var loginUser = ${ loginUser.classifyMem }
@@ -95,23 +101,6 @@
             			
             		/* 멤버십에 가입하지 않은 회원은 구매 유도 팝업창 생성 */
             		} else {
-            			
-            			/* 해당 미디어의 가격을 알기 위한 ajax 처리
-            			$.ajax({
-            				url : "${ contextPath }/official/media/mediaPay",
-            				data : { mediaNum : mediaNum },
-            				type : "post",
-            				dataType : "application/json; charset=utf-8",
-            				success : function(data) {
-            					var mediaPay = data;
-            					console.log(mediaPay);
-            					console.log(data);
-            				},
-            				error : function(e) {
-            					console.log(e);
-            				}
-            			}); */
-            			
             			if(confirm("해당 상품은 " + mediaPay + "원입니다. 구매를 진행하시겠습니까?")) {
         					
             				/* 장바구니로 해당 상품 데이터를 넘기는 ajax 처리 */

@@ -29,6 +29,9 @@ public interface OfficialDao {
 
 	// 해당 카테고리 미디어 리스트 호출
 	List<MediaCollection> selectMediaList(Map<String, String> map);
+	
+	// 해당 카테고리 미디어 개수 조회하기
+	int countCategory(Map<String, String> map);
 
 	// 해당 검색어가 포함된 미디어 리스트 호출
 	List<MediaCollection> searchMediaList(Map<String, String> map);
@@ -37,5 +40,5 @@ public interface OfficialDao {
 	List<MediaCollection> selectMedia(Map<Object, Object> map);
 
 	// 클릭한 미디어 조회수 추가
-	int updateHitCount(int mediaNum);;
+	int updateHitCount(int mediaNum);
 }

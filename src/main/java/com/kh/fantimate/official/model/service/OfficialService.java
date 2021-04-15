@@ -30,6 +30,9 @@ public interface OfficialService {
 	// 해당 카테고리 미디어 리스트 호출
 	public List<MediaCollection> selectMediaList(Map<String, String> map);
 	
+	// 해당 카테고리 미디어 개수 조회하기
+	public int countCategory(Map<String, String> map);
+	
 	// 해당 검색어가 포함된 미디어 리스트 호출
 	public List<MediaCollection> searchMediaList(Map<String, String> map);
 	
