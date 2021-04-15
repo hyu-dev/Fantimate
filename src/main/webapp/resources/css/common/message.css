@@ -27,14 +27,13 @@ html, body {
     width: 500px;
     height: 200px;
     font-size: 20px;
-    font-family: Yoon Minguk;
     font-style: normal;
     font-weight: normal;
     line-height: 30px;
     color: #000000;
     border: 1px solid #ACACAC;
     outline: none;
-    padding-left: 10px;
+    padding: 0px 10px;
     margin: auto;
 }
 
@@ -77,9 +76,7 @@ body::-webkit-scrollbar-track ,.message-content::-webkit-scrollbar-track, .repor
     background: #F4D4D4;
     width: 150px;
     height: 50px;
-    font-family: Yoon Minguk;
     font-style: normal;
-    font-weight: bold;
     font-size: 22px;
     line-height: 43px;
     text-align: center;
@@ -91,9 +88,7 @@ body::-webkit-scrollbar-track ,.message-content::-webkit-scrollbar-track, .repor
     width: 150px;
     height: 50px;
     background: #5C5F78;
-    font-family: Yoon Minguk;
     font-style: normal;
-    font-weight: bold;
     font-size: 22px;
     line-height: 43px;
     text-align: center;
@@ -110,28 +105,27 @@ body::-webkit-scrollbar-track ,.message-content::-webkit-scrollbar-track, .repor
 }
 
 .message-info span{
-    font-family: Yoon Minguk;
     font-style: normal;
     font-size: 22px;
     color:#000000;
 }
 
 .message-id{
-    font-family: Yoon Minguk;
     font-style: normal;
-    font-weight: bold;
+    font-weight: 550;
     font-size: 25px;
     color:#000000;
+    margin-left: 20px;
+    margin-top: 50px
 
 }
 
 .message-title{
-    font-family: Yoon Minguk;
     font-style: normal;
-    font-weight: bold;
+    font-weight: 500;
     font-size: 20px;
     color:#000000;
-    margin-left: 35px;
+    margin-left: 45px;
 }
 
 .send-message-section{
@@ -148,7 +142,6 @@ body::-webkit-scrollbar-track ,.message-content::-webkit-scrollbar-track, .repor
     width: 500px;
     height: 40px;
     font-size: 20px;
-    font-family: Yoon Minguk;
     font-style: normal;
     font-weight: normal;
     line-height: 43px;
@@ -166,7 +159,6 @@ body::-webkit-scrollbar-track ,.message-content::-webkit-scrollbar-track, .repor
     width: 500px;
     height: 220px;
     font-size: 20px;
-    font-family: Yoon Minguk;
     font-style: normal;
     font-weight: normal;
     line-height: 30px;
@@ -187,12 +179,10 @@ body::-webkit-scrollbar-track ,.message-content::-webkit-scrollbar-track, .repor
 }
 
 .report-title{
-    font-family: Yoon Minguk;
     font-style: normal;
-    font-weight: bold;
+    font-weight: 520;
     font-size: 25px;
     color:#000000;
-    margin-left: 10px;
 }
 
 .report-info{
@@ -207,9 +197,8 @@ body::-webkit-scrollbar-track ,.message-content::-webkit-scrollbar-track, .repor
 }
 
 .report-option{
-    font-family: Yoon Minguk;
     font-style: normal;
-    font-weight: bold;
+    font-weight: 510;
     font-size: 20px;
     color:#000000;
     margin-left: 10px;
@@ -227,7 +216,6 @@ body::-webkit-scrollbar-track ,.message-content::-webkit-scrollbar-track, .repor
 
 .report-radio-section label{
     padding-right: 40px;
-    font-family: Yoon Minguk;
     font-style: normal;
     font-size: 17px;
     color:#000000;
@@ -242,9 +230,8 @@ body::-webkit-scrollbar-track ,.message-content::-webkit-scrollbar-track, .repor
 }
 
 .report-content-title{
-    font-family: Yoon Minguk;
     font-style: normal;
-    font-weight: bold;
+    font-weight: 510;
     font-size: 20px;
     color:#000000;
     margin-bottom: 5px;
@@ -255,10 +242,9 @@ body::-webkit-scrollbar-track ,.message-content::-webkit-scrollbar-track, .repor
     resize: none;
     color: #ACACAC;
     border: 1px solid #ACACAC;
-    width: 500px;
+    width: 520px;
     height: 150px;
     font-size: 20px;
-    font-family: Yoon Minguk;
     font-style: normal;
     font-weight: normal;
     line-height: 30px;
@@ -279,9 +265,7 @@ body::-webkit-scrollbar-track ,.message-content::-webkit-scrollbar-track, .repor
     background: #F4D4D4;
     width: 150px;
     height: 50px;
-    font-family: Yoon Minguk;
     font-style: normal;
-    font-weight: bold;
     font-size: 22px;
     line-height: 43px;
     text-align: center;
