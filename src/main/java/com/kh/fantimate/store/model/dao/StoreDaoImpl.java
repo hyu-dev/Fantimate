@@ -10,6 +10,8 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.fantimate.common.model.vo.Attachment;
 import com.kh.fantimate.pay.model.vo.Cart;
+import com.kh.fantimate.pay.model.vo.CartCollection;
+import com.kh.fantimate.store.model.vo.BuyCollection;
 import com.kh.fantimate.store.model.vo.Review;
 import com.kh.fantimate.store.model.vo.ReviewCollection;
 import com.kh.fantimate.store.model.vo.StoreCategory;
@@ -164,5 +166,9 @@ public class StoreDaoImpl implements StoreDao {
 		return sqlSession.selectList("storeMapper.selectAttCode", pcode);
 	}
 
+	@Override
+	public List<BuyCollection> selectCollectionStore(String userId) {
+		return sqlSession.selectList("storeMapper.selectCollectionStore", userId);
+	}
 
 }

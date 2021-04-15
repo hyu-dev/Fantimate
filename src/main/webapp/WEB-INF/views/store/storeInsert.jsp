@@ -18,13 +18,14 @@
 <body>
 	<section class="insert-section">
         <form class="main-template" action="" method="POST" enctype="multipart/form-data">
-        	<c:if test="${ param.flag eq yes }">
+        	<c:if test="${ flag eq 'yes' }">
         		<input type="hidden" name="pcode" id="pcode" value="${ sc.get(0).store.pcode }">
         		<input type="hidden" name="cateCode" id="cateCode" value="${ sc.get(0).storeCate.cateCode }">
         	</c:if>
             <h3 class="store-write-title">
+            
             <c:choose>
-            	<c:when test="${ param.flag eq yes }">스토어수정</c:when>
+            	<c:when test="${ flag eq 'yes' }">스토어수정</c:when>
             	<c:otherwise>스토어등록</c:otherwise>
             </c:choose>
             </h3>
@@ -40,12 +41,12 @@
                         <th>카테고리</th>
                         <td>
                             <select name="cateName" id="selectCategory" class="select">
-                                <option <c:if test="${ param.flag eq yes && sc.get(0).storeCate.cateName eq null }">selected</c:if>>카테고리 선택</option>
-                                <option value="ALBUM" <c:if test="${ param.flag eq yes && sc.get(0).storeCate.cateName eq 'ALBUM' }">selected</c:if>>ALBUM</option>
-                                <option value="GOODS" <c:if test="${ param.flag eq yes && sc.get(0).storeCate.cateName eq 'GOODS' }">selected</c:if>>GOODS</option>
-                                <option value="TICKET" <c:if test="${ param.flag eq yes && sc.get(0).storeCate.cateName eq 'TICKET' }">selected</c:if>>TICKET</option>
-                                <option value="PHOTO" <c:if test="${ param.flag eq yes && sc.get(0).storeCate.cateName eq 'PHOTO' }">selected</c:if>>PHOTO</option>
-                                <option value="ETC" <c:if test="${ param.flag eq yes && sc.get(0).storeCate.cateName eq 'ETC' }"></c:if>>ETC</option>
+                                <option <c:if test="${ flag eq 'yes' && sc.get(0).storeCate.cateName eq null }">selected</c:if>>카테고리선택</option>
+                                <option value="ALBUM" <c:if test="${ flag eq 'yes' && sc.get(0).storeCate.cateName eq 'ALBUM' }">selected</c:if>>ALBUM</option>
+                                <option value="GOODS" <c:if test="${ flag eq 'yes' && sc.get(0).storeCate.cateName eq 'GOODS' }">selected</c:if>>GOODS</option>
+                                <option value="TICKET" <c:if test="${ flag eq 'yes' && sc.get(0).storeCate.cateName eq 'TICKET' }">selected</c:if>>TICKET</option>
+                                <option value="PHOTO" <c:if test="${ flag eq 'yes' && sc.get(0).storeCate.cateName eq 'PHOTO' }">selected</c:if>>PHOTO</option>
+                                <option value="ETC" <c:if test="${ flag eq 'yes' && sc.get(0).storeCate.cateName eq 'ETC' }"></c:if>>ETC</option>
                             </select>
                         </td>
                     </tr>
@@ -53,16 +54,16 @@
                         <th>상품명</th>
                         <td>
                             <input type="text" name="pname" placeholder="30자 이내 입력" 
-                            maxlength="30" class="input-data" 
-                            value="<c:if test="${ param.flag eq yes }">${ sc.get(0).store.pname }</c:if>">
+                            maxlength="30" class="input-data" required 
+                            value="<c:if test="${ flag eq 'yes' }">${ sc.get(0).store.pname }</c:if>">
                         </td>
                     </tr>
                     <tr>
                         <th>판매수량</th>
                         <td>
                             <div class="input-area">
-                                <input type="number" name="salesQ" min="100" step="100" class="input-data" 
-                                value="<c:if test="${ param.flag eq yes }">${ sc.get(0).store.salesQ }</c:if>">
+                                <input type="number" name="salesQ" min="100" step="100" class="input-data" required 
+                                value="<c:if test="${ flag eq 'yes' }">${ sc.get(0).store.salesQ }</c:if>">
                                 <p>개</p>
                             </div>
                         </td>
@@ -71,8 +72,8 @@
                         <th>개당가격</th>
                         <td>
                             <div class="input-area">
-                                <input type="number" name="qprice" min="100" step="100" class="input-data" 
-                                value="<c:if test="${ param.flag eq yes }">${ sc.get(0).store.qprice }</c:if>">
+                                <input type="number" name="qprice" min="100" step="100" class="input-data" required 
+                                value="<c:if test="${ flag eq 'yes' }">${ sc.get(0).store.qprice }</c:if>">
                                 <p>원</p>
                             </div>
                         </td>
@@ -81,8 +82,8 @@
                         <th>멤버십할인</th>
                         <td>
                             <div class="input-area">
-                                <input type="number" name="discount" min="0" step="1" class="input-data" 
-                                value="<c:if test="${ param.flag eq yes }">${ sc.get(0).store.discount }</c:if>">
+                                <input type="number" name="discount" min="0" step="1" class="input-data" required
+                                value="<c:if test="${ flag eq 'yes' }">${ sc.get(0).store.discount }</c:if>">
                                 <p>%</p>
                             </div>
                         </td>
@@ -94,43 +95,43 @@
                                 <tr>
                                     <th>제조사/원산지</th>
                                     <td>
-                                        <input type="text" name="origin" placeholder="제조사를 등록하세요" 
-                                        value="<c:if test="${ param.flag eq yes }">${ sc.get(0).storeInfo.origin }</c:if>">
+                                        <input type="text" name="origin" placeholder="제조사를 등록하세요" required
+                                        value="<c:if test="${ flag eq 'yes' }">${ sc.get(0).storeInfo.origin }</c:if>">
                                     </td>
                                 </tr>
                                 <tr>
                                     <th>브랜드</th>
                                     <td>
-                                        <input type="text" name="brand" placeholder="판매처 브랜드를 입력하세요" 
-                                        value="<c:if test="${ param.flag eq yes }">${ sc.get(0).storeInfo.brand }</c:if>">
+                                        <input type="text" name="brand" placeholder="판매처 브랜드를 입력하세요" required
+                                        value="<c:if test="${ flag eq 'yes' }">${ sc.get(0).storeInfo.brand }</c:if>">
                                     </td>
                                 </tr>
                                 <tr>
                                     <th>소비자 상담 연락처</th>
                                     <td>
-                                        <input type="text" name="contact" placeholder="A/S 책임자 : 000, 전화번호 : 000-000-0000" 
-                                        value="<c:if test="${ param.flag eq yes }">${ sc.get(0).storeInfo.contact }</c:if>">
+                                        <input type="text" name="contact" placeholder="A/S 책임자 : 000, 전화번호 : 000-000-0000" required
+                                        value="<c:if test="${ flag eq 'yes' }">${ sc.get(0).storeInfo.contact }</c:if>">
                                     </td>
                                 </tr>
                                 <tr>
                                     <th>이용조건, 기간</th>
                                     <td>
-                                        <input type="text" name="useTerm" placeholder="전체이용가능, 이용기간제한없음" 
-                                        value="<c:if test="${ param.flag eq yes }">${ sc.get(0).storeInfo.useTerm }</c:if>">
+                                        <input type="text" name="useTerm" placeholder="전체이용가능, 이용기간제한없음" required 
+                                        value="<c:if test="${ flag eq 'yes' }">${ sc.get(0).storeInfo.useTerm }</c:if>">
                                     </td>
                                 </tr>
                                 <tr>
                                     <th>상품 제공 방식</th>
                                     <td>
-                                        <input type="text" name="offerings" placeholder="예) CD" 
-                                        value="<c:if test="${ param.flag eq yes }">${ sc.get(0).storeInfo.offerings }</c:if>">
+                                        <input type="text" name="offerings" placeholder="예) CD" required 
+                                        value="<c:if test="${ flag eq 'yes' }">${ sc.get(0).storeInfo.offerings }</c:if>">
                                     </td>
                                 </tr>
                                 <tr>
                                     <th>청약철회/계약의 해제</th>
                                     <td>
-                                        <input type="text" name="cancelInfo" placeholder="판매자 귀책사유(15일 이내) 구매자 귀책사유(7일 이내)" 
-                                        value="<c:if test="${ param.flag eq yes }">${ sc.get(0).storeInfo.cancelInfo }</c:if>">
+                                        <input type="text" name="cancelInfo" placeholder="판매자 귀책사유(15일 이내) 구매자 귀책사유(7일 이내)" required 
+                                        value="<c:if test="${ flag eq 'yes' }">${ sc.get(0).storeInfo.cancelInfo }</c:if>">
                                     </td>
                                 </tr>
                             </table>
@@ -143,14 +144,14 @@
                             name="info" 
                             class="guide-text" 
                             cols="30" 
-                            rows="10"><c:if test="${ param.flag eq yes }">${ sc.get(0).store.info }</c:if></textarea>
+                            rows="10"><c:if test="${ flag eq 'yes' }">${ sc.get(0).store.info }</c:if></textarea>
                             <div class="limit-text">0 / 1000</div>
                         </td>
                     </tr>
                 </tbody>
             </table>
             <c:choose>
-            <c:when test="${ param.flag eq yes }">
+            <c:when test="${ flag eq 'yes' }">
             <div class="my-photo">
             	<c:set var="count" value="1" />
             	<c:forEach var="att" items="${ sc }">
@@ -182,14 +183,14 @@
             </c:choose>
             <div class="phrases">
                 <label class="jelly-checkbox">
-                    <input type="checkbox" name="isView" <c:if test="${ param.flag eq yes && sc.get(0).store.isView eq 'Y' }">checked</c:if>>
+                    <input type="checkbox" name="isView" <c:if test="${ flag eq 'yes' && sc.get(0).store.isView eq 'Y' }">checked</c:if>>
                     <span class="jelly-icon"></span>
                     <span class="jelly-text">추가사진을 화면에 표시합니다</span>
                 </label>
             </div>
             <div class="btn-area">
                 <c:choose>
-                	<c:when test="${ param.flag eq yes }">
+                	<c:when test="${ flag eq 'yes' }">
                 		<button type="button" class="update-btn">수정하기</button>
                 	</c:when>
                 	<c:otherwise>
@@ -290,15 +291,22 @@
 		     if(confirm('상품등록 취소시 입력한 정보가 모두 삭제됩니다. 취소하시겠습니까?')) {
 			     $(".main-template").css("display", "none");
 				 $(".insert-section").css("display", "none"); 
+				 location.reload(true);
 		     }
 		 })
 		 
 		 // 등록하기 버튼을 클릭했을 때
 		 $(".enroll-btn").click(function() {
-			 var url = "${contextPath}/store/insert";
-			 $(".main-template").attr("action", url);
-			 $(".input-data:nth-of-type(1)").attr("disabled", false);
-			 $(".main-template").submit();
+			 if($("#selectCategory").val() == null || $("#selectCategory").val() == '카테고리선택') {
+				 alert("카테고리를 선택하세요")
+			 } else if($("#mainPhoto").attr("src") == null) {
+	        	 alert('대표사진을 등록하세요')
+			 } else {
+				 var url = "${contextPath}/store/insert";
+				 $(".main-template").attr("action", url);
+				 $(".input-data:nth-of-type(1)").attr("disabled", false);
+				 $(".main-template").submit();
+			 }
 		 });
 		 
 		 // 수정하기 버튼을 클릭했을 때

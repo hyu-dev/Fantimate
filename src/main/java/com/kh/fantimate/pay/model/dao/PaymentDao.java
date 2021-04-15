@@ -42,6 +42,9 @@ public interface PaymentDao {
 	// 장바구니정보 업데이트하기(담겼던 장바구니 구매정보 N으로 변경)
 	void updateCartIsBought(List<Integer> cartCodes);
 
+	// 미디어 컬렉션 불러오기
+	List<CartCollection> selectCollectionMedia(String userId);
+
 	
 
 }

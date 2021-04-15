@@ -78,6 +78,23 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<result property="attStatus" column="UP_STATUS"/>
 		<result property="id" column="U_ID"/>
 	</resultMap>
+	<resultMap type="ProductBuy" id="pbuyResultSet">
+		<id property="bcode" column="B_CODE"/>
+		<result property="productQ" column="PROD_Q"/>
+		<result property="payCode" column="PAY_CODE"/>
+		<result property="pcode" column="P_CODE"/>
+		<result property="id" column="ID"/>
+	</resultMap>
+	<resultMap type="Payment" id="paymentResultSet">
+		<id property="payCode" column="PAY_CODE"/>
+		<result property="payMethod" column="PAY_METHOD"/>
+		<result property="payStatus" column="PAY_STATUS"/>
+		<result property="payPrice" column="PAY_PRICE"/>
+		<result property="payDate" column="PAY_DATE"/>
+		<result property="id" column="ID"/>
+		<result property="payDivision" column="PAY_DIVISION"/>
+		<result property="payPlan" column="PAY_PLAN"/>
+	</resultMap>
 	<resultMap type="StoreCollection" id="storeCollResultSet">
 		<collection property="storeCate" resultMap="category" />
 		<collection property="store" resultMap="storeResultSet" />
@@ -91,6 +108,14 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<collection property="attReview"  resultMap="attResultSet" />
 		<collection property="user"  resultMap="userResultSet" />
 		<collection property="attUser" resultMap="attUserResultSet" />
+	</resultMap>
+	<resultMap type="BuyCollection" id="buyCollResultSet">
+		<collection property="store" resultMap="storeResultSet" />
+		<collection property="att"  resultMap="attResultSet" />
+		<collection property="storeCate" resultMap="category" />
+		<collection property="review" resultMap="reviewResultSet" />
+		<collection property="pbuy" resultMap="pbuyResultSet" />
+		<collection property="payment" resultMap="paymentResultSet" />
 	</resultMap>
 	<select id="selectCategoryList" parameterType="string" resultMap="category">
 		SELECT
@@ -390,27 +415,28 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		  , #{storeInfo.cancelInfo}
 		)
 	</insert>
-	<insert id="insertStoreAtt">
-		<foreach collection="list" item="i" index="index" open="INSERT ALL" close="SELECT * FROM DUAL">
+	<insert id="insertStoreAtt" parameterType="list">
+		INSERT
 		INTO ATT_STORE
 		(
 			ATT_CODE
+		  , P_CODE
 		  , ATT_CL_NAME
 		  , ATT_SV_NAME
 		  , ATT_STATUS
 		  , IS_MAIN_ATT
-		  , P_CODE
 		)
-		VALUES
+		SELECT SEQ_ATT_STORE.NEXTVAL, SEQ_STORE.CURRVAL, A.*
+		FROM
 		(
-			#{index} + SEQ_ATT_STORE.NEXTVAL
-		  , #{i.attClName}
-		  , #{i.attSvName}
-		  , DEFAULT
-		  , #{i.attMain}
-		  , SEQ_STORE.CURRVAL
-		)
-		</foreach>
+		  <foreach collection="list" item="i" separator="UNION ALL">
+		  SELECT #{i.attClName} AS ATT_CL_NAME
+			   , #{i.attSvName} AS ATT_SV_NAME
+			   , #{i.attStatus} AS ATT_STATUS
+			   , #{i.attMain} AS IS_MAIN_ATT
+		    FROM DUAL
+		  </foreach>
+		) A
 	</insert>
 	<select id="selectStore" parameterType="string" resultMap="storeCollResultSet">
 		SELECT
@@ -635,4 +661,52 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		 		ATT_CODE = #{i.attCode}
 		</foreach>
 	</update>
+	<select id="selectCollectionStore" parameterType="string" resultMap="buyCollResultSet">
+		SELECT
+		        B_CODE
+		      , PROD_Q
+		      , PAY_CODE
+		      , P_CODE
+		      , PB.ID
+		      , P_NAME
+		      , SALES_Q
+		      , Q_PRICE
+		      , DISCOUNT
+		      , INFORMATION
+		      , IS_VIEW
+		      , VIEWCOUNT
+		      , IS_SOLDOUT
+		      , IS_ACTIVE
+		      , C_CODE
+		      , C_NAME
+		      , ARTI_NAME_EN
+		      , ATT_CODE
+		      , ATT_ROOT
+		      , ATT_CL_NAME
+		      , ATT_SV_NAME
+		      , ATT_STATUS
+		      , IS_MAIN_ATT
+		      , RV_CODE
+		      , RV_SCORE
+		      , RV_TITLE
+		      , RV_CONTENT
+		      , ENROLL_DATE
+              , PAY_STATUS
+		  FROM
+		        P_BUY PB
+		  LEFT JOIN
+		        REVIEW USING(B_CODE)
+		  LEFT JOIN
+		        STORE S ON(PB.P_CODE = S.P_CODE)
+		  LEFT JOIN
+		        S_CATEGORY USING(C_CODE)
+		  LEFT JOIN
+		        ATT_STORE USING(P_CODE)
+          LEFT JOIN
+                PAYMENT USING(PAY_CODE)
+		 WHERE  PB.ID = #{userId}
+		   AND  IS_MAIN_ATT = 'Y'
+		   AND  PAY_STATUS != 3
+	  ORDER BY  B_CODE DESC
+	</select>
 </mapper>

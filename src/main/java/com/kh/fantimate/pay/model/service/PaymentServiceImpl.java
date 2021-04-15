@@ -73,6 +73,11 @@ public class PaymentServiceImpl implements PaymentService {
 		
 		return result;
 	}
+	// 미디어 컬렉션 불러오기
+	@Override
+	public List<CartCollection> selectCollectionMedia(String userId) {
+		return pDao.selectCollectionMedia(userId);
+	}
 	
 	
 }

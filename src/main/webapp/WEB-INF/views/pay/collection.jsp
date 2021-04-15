@@ -17,9 +17,22 @@
     <title>Fantimate</title>
 </head>
 <body>
+	<c:if test="${ !empty msg }">
+		<script>
+			$(function() {
+				alert('${msg}')
+				location.href="${referer}"
+			}) 
+		</script>
+		<c:remove var="msg"/>
+	</c:if>
+	<!-- 리뷰 등록 페이지 인클루드 -->
+	<jsp:include page="reviewInsert.jsp"/>
+	<!-- 리뷰 보기 페이지 인클루드 -->
+	<jsp:include page="reviewDetail.jsp"/>
 	<!-- 네비바 인클루드 -->
-	<jsp:include page="../common/navbar.jsp"></jsp:include>
-	
+	<jsp:include page="../common/navbar.jsp"/>
+	<c:if test="${ !empty loginUser }">
 	<section class="main-section">
         <section class="collection-area">
             <h1 class="collection-title">My Collection
@@ -31,159 +44,62 @@
                             <div class="background">
                                 <div class="handle"></div>
                             </div>
-                            <p>최신순</p>
+                            <p>상품</p>
                             </div>
                         </label>
                     </div>
                 </div>
             </h1>
             <div class="display-stand">
+            	<c:forEach var="coll" items="${ collection }">
                 <article class="product">
                     <div class="product-background">
-                        <img src="${ contextPath }/resources/images/store/1stAlbumBts.png" alt="">
+                        <img src="${ contextPath }/resources/uploadFiles/${ coll.att.attSvName }" alt="">
                     </div>
                     <div class="product-info">
-                        <p>BTS</p>
-                        <b>The 1st Album - Dark & Wild</b>
+                        <p>${ coll.storeCate.artiNameEn }</p>
+                        <b>${ coll.store.pname }</b>
                     </div>
                     <div class="product-operation">
-                        <button class="write-photo">포토리뷰 등록하기</button>
-                        <!-- <p class="not-confirmed-product">구매 미확정 상품</p>
-                        <div class="completed-review">
-                            <div class="date-created">
-                                <div class="product-score">
-                                    <img src="../resource/images/store/star-pink.png" alt="">
-                                    <img src="../resource/images/store/star-pink.png" alt="">
-                                    <img src="../resource/images/store/star-pink.png" alt="">
-                                    <img src="../resource/images/store/star-pink.png" alt="">
-                                    <img src="../resource/images/store/star-gray.png" alt="">
-                                </div>
-                                <p>등록일 : 2021. 03. 07</p>
-                            </div>
-                            <div class="review-contents">
-                                <b>울 옵빠 만나고 싶어효!</b>
-                                <p>몇 번이나 사는지 몰라요 이번에는 제발 팬싸인회 당첨 좀ㅠㅠㅠㅠ 이렇게나 원하는데</p>
-                            </div>
-                        </div> -->
+                    	<input type="hidden" class="pcode" value="${ coll.store.pcode }">
+                    	<c:choose>
+                    		<c:when test="${ coll.review.rvCode eq '' && coll.payment.payStatus eq 2 }">
+                    			<button class="write-photo">포토리뷰 등록하기</button>
+                    		</c:when>
+                    		<c:when test="${ coll.payment.payStatus ne 2 }">
+                    			<p class="not-confirmed-product">구매 미확정 상품</p>
+                    		</c:when>
+                    		<c:otherwise>
+	                    		<div class="completed-review">
+		                            <div class="date-created">
+		                                <div class="product-score">
+		                                    <c:forEach var="i" begin="1" end="5" step="1">
+		                                	<c:choose>
+			                                	<c:when test="${ coll.review.rvScore >= i }">
+			                                	<img src="${ contextPath }/resources/images/store/star-pink.png" alt="">
+			                                	</c:when>
+			                                	<c:otherwise>
+			                                	<img src="${ contextPath }/resources/images/store/star-gray.png" alt="">
+			                                	</c:otherwise>
+		                                	</c:choose>
+		                                    </c:forEach>
+		                                </div>
+		                                <p>등록일 : ${ coll.review.enrollDate }</p>
+		                            </div>
+		                            <div class="review-contents">
+		                                <b>"${ coll.review.rvTitle }"</b>
+		                                <p>"${ coll.review.rvContent }"</p>
+		                            </div>
+		                        </div>
+                    		</c:otherwise>
+                    	</c:choose>
                     </div>
                 </article>
-                <article class="product">
-                    <div class="product-background">
-                        <img src="${ contextPath }/resources/images/store/1stAlbumBts.png" alt="">
-                    </div>
-                    <div class="product-info">
-                        <p>BTS</p>
-                        <b>The 1st Album - Dark & Wild</b>
-                    </div>
-                    <div class="product-operation">
-                        <button class="write-photo">포토리뷰 등록하기</button>
-                        <!-- <p class="not-confirmed-product">구매 미확정 상품</p>
-                        <div class="completed-review">
-                            <div class="date-created">
-                                <div class="product-score">
-                                    <img src="../resource/images/store/star-pink.png" alt="">
-                                    <img src="../resource/images/store/star-pink.png" alt="">
-                                    <img src="../resource/images/store/star-pink.png" alt="">
-                                    <img src="../resource/images/store/star-pink.png" alt="">
-                                    <img src="../resource/images/store/star-gray.png" alt="">
-                                </div>
-                                <p>등록일 : 2021. 03. 07</p>
-                            </div>
-                            <div class="review-contents">
-                                <b>울 옵빠 만나고 싶어효!</b>
-                                <p>몇 번이나 사는지 몰라요 이번에는 제발 팬싸인회 당첨 좀ㅠㅠㅠㅠ 이렇게나 원하는데</p>
-                            </div>
-                        </div> -->
-                    </div>
-                </article>
-                <article class="product">
-                    <div class="product-background">
-                        <img src="${ contextPath }/resources/images/store/1stAlbumBts.png" alt="">
-                    </div>
-                    <div class="product-info">
-                        <p>BTS</p>
-                        <b>The 1st Album - Dark & Wild</b>
-                    </div>
-                    <div class="product-operation">
-                        <!-- <button class="write-photo">포토리뷰 등록하기</button>
-                        <p class="not-confirmed-product">구매 미확정 상품</p> -->
-                        <div class="completed-review">
-                            <div class="date-created">
-                                <div class="product-score">
-                                    <img src="${ contextPath }/resources/images/store/star-pink.png" alt="">
-                                    <img src="${ contextPath }/resources/images/store/star-pink.png" alt="">
-                                    <img src="${ contextPath }/resources/images/store/star-pink.png" alt="">
-                                    <img src="${ contextPath }/resources/images/store/star-pink.png" alt="">
-                                    <img src="${ contextPath }/resources/images/store/star-gray.png" alt="">
-                                </div>
-                                <p>등록일 : 2021. 03. 07</p>
-                            </div>
-                            <div class="review-contents">
-                                <b>울 옵빠 만나고 싶어효!</b>
-                                <p>몇 번이나 사는지 몰라요 이번에는 제발 팬싸인회 당첨 좀ㅠㅠㅠㅠ 이렇게나 원하는데</p>
-                            </div>
-                        </div>
-                    </div>
-                </article>
-                <article class="product">
-                    <div class="product-background">
-                        <img src="${ contextPath }/resources/images/store/1stAlbumBts.png" alt="">
-                    </div>
-                    <div class="product-info">
-                        <p>BTS</p>
-                        <b>The 1st Album - Dark & Wild</b>
-                    </div>
-                    <div class="product-operation">
-                        <!-- <button class="write-photo">포토리뷰 등록하기</button> -->
-                        <p class="not-confirmed-product">구매 미확정 상품</p>
-                        <!-- <div class="completed-review">
-                            <div class="date-created">
-                                <div class="product-score">
-                                    <img src="../resource/images/store/star-pink.png" alt="">
-                                    <img src="../resource/images/store/star-pink.png" alt="">
-                                    <img src="../resource/images/store/star-pink.png" alt="">
-                                    <img src="../resource/images/store/star-pink.png" alt="">
-                                    <img src="../resource/images/store/star-gray.png" alt="">
-                                </div>
-                                <p>등록일 : 2021. 03. 07</p>
-                            </div>
-                            <div class="review-contents">
-                                <b>울 옵빠 만나고 싶어효!</b>
-                                <p>몇 번이나 사는지 몰라요 이번에는 제발 팬싸인회 당첨 좀ㅠㅠㅠㅠ 이렇게나 원하는데</p>
-                            </div>
-                        </div> -->
-                    </div>
-                </article>
-                <article class="product">
-                    <div class="product-background">
-                        <img src="${ contextPath }/resources/images/store/1stAlbumBts.png" alt="">
-                    </div>
-                    <div class="product-info">
-                        <p>BTS</p>
-                        <b>The 1st Album - Dark & Wild</b>
-                    </div>
-                    <div class="product-operation">
-                        <!-- <button class="write-photo">포토리뷰 등록하기</button> -->
-                        <p class="not-confirmed-product">구매 미확정 상품</p>
-                        <!-- <div class="completed-review">
-                            <div class="date-created">
-                                <div class="product-score">
-                                    <img src="../resource/images/store/star-pink.png" alt="">
-                                    <img src="../resource/images/store/star-pink.png" alt="">
-                                    <img src="../resource/images/store/star-pink.png" alt="">
-                                    <img src="../resource/images/store/star-pink.png" alt="">
-                                    <img src="../resource/images/store/star-gray.png" alt="">
-                                </div>
-                                <p>등록일 : 2021. 03. 07</p>
-                            </div>
-                            <div class="review-contents">
-                                <b>울 옵빠 만나고 싶어효!</b>
-                                <p>몇 번이나 사는지 몰라요 이번에는 제발 팬싸인회 당첨 좀ㅠㅠㅠㅠ 이렇게나 원하는데</p>
-                            </div>
-                        </div> -->
-                    </div>
-                </article>
+                </c:forEach>
             </div>
+            <div class="more-product">
+           		<button type="button" class="more-btn">+MORE</button>
+           	</div>
         </section>
     </section>
     <script>
@@ -192,12 +108,37 @@
 		$(".toggle-switch input").on('click', function(e) {
 		    if(flag == true) {
 		        // 토글이 true일 경우(기본키 일 경우)
-		        $(".area p").text("과거순");
+		        $(".area p").text("영상");
 		        $.ajax({
-		        	url : "",
+		        	url : "${ pageContext.request.contextPath }/pay/collectionMedia",
 		        	dataType : "json",
 		        	success : function(data) {
 		        		console.log(data);
+		        		var stand = $(".display-stand");
+		        		stand.html("");
+		        		for(var i in data) {
+		        			var product = $("<article class='product'>");
+		        			var productBg = $("<div class='product-background'>");
+		        			var url = "${ contextPath }/resources/uploadFiles/" + data[i].attMedia.attSvName
+		        			var mediaImg = $("<img alt=''>").attr("src", url);
+		        			var productInfo = $("<div class='product-info'>");
+		        			var artiName = $("<p>").text(data[i].mcategory.artiNameEn);
+		        			var mediaTtl = $("<p>").text(data[i].official.mediaTtl);
+		        			var mediaCtt = $("<p class='mediaCtt'>").text(data[i].official.mediaCtt);
+		        			var productOper = $("<div class='product-operation'>");
+		        			var mediaNum = $("<input type='hidden' class='mediaNum'>").val(data[i].official.mediaNum)
+		        			productBg.append(mediaImg)
+		        			productInfo.append(artiName, mediaTtl)
+		        			productOper.append(mediaCtt, mediaNum)
+		        			product.append(productBg, productInfo, productOper)
+		        			stand.append(product)
+		        		}
+		        		height = parseInt(($(".display-stand").css("height")).replace(/[a-z]/gi,""));
+		        		length = $(".product").length;
+		        		if(height > 1200) {
+		        			$(".display-stand").css("height", "1200px");
+		        		}
+		        		
 		        	},
 		        	error : function(e) {
 		        		console.log(e);
@@ -206,29 +147,45 @@
 		        flag = false;
 		    } else {
 		        // 토글이 false일 경우(체크된 경우)
-		        $(".area p").text("최신순");
-		        $.ajax({
-		        	url : "",
-		        	dataType : "json",
-		        	success : function(data) {
-		        		console.log(data);
-		        	},
-		        	error : function(e) {
-		        		console.log(e);
-		        	}
-		        });
+		        $(".area p").text("상품");
+		        location.href="${contextPath}/store/collectionStore";
 		        flag = true;
 		    }
 		});
+		
 	 	// 포토리뷰 등록
 	    $('.write-photo').click(function() {
-	        location.href="review_write.html"
+	    	$(".insert-section").fadeIn();
 	    })
 	
 	    // 포토리뷰 보기
 	    $('.completed-review').click(function() {
-	        location.href="review_read.html"
+	    	$(".read-section").fadeIn();
 	    })
+	    
+	    // 더보기 버튼 클릭시
+	    let height = parseInt(($(".display-stand").css("height")).replace(/[a-z]/gi,""));
+		let length = $(".product").length;
+		$(".more-btn").on('click', function() {
+		    if(length - 6 > 0) {
+		        length -= 6;
+		        length > 6 
+		        ? height+=1200
+		        : height+=600
+		        $(".display-stand").css("height", height)
+		    } else {
+		        alert("더 이상 목록이 없습니다.")
+		    }
+		})
     </script>
+    </c:if>
+    <c:if test="${ empty loginUser }">
+	<script>
+		$(function() {
+			alert("로그인을 해주세요");
+			location.href="${contextPath}/main"
+		})
+	</script>
+	</c:if>
 </body>
 </html>

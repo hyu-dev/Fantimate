@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -98,8 +99,6 @@ public class PaymentController {
 	@ResponseBody
 	public Map<String, String> insertStoreOnePayment(Payment payment, ProductBuy pbuy) {
 		
-		System.out.println(payment);
-		System.out.println(pbuy);
 		PayCollection paycoll = new PayCollection();
 		paycoll.setPayment(payment);
 		paycoll.setPbuy(pbuy);
@@ -113,7 +112,8 @@ public class PaymentController {
 	
 	@PostMapping("/cart/payment")
 	@ResponseBody
-	public Map<String, String> insertCartPayment(Payment payment, 
+	public Map<String, String> insertCartPayment(HttpServletRequest request,
+												 Payment payment, 
 												 @RequestParam(value="pcode[]") List<Integer> pcode,
 												 @RequestParam(value="productQ[]") List<Integer> productQ,
 												 @RequestParam(value="cartCodes[]") List<Integer> cartCodes) {
@@ -126,6 +126,7 @@ public class PaymentController {
 				pbuy.setPayCode(payment.getPayCode());
 				pbuy.setPcode(pcode.get(i));
 				pbuy.setProductQ(productQ.get(i));
+				pbuy.setId(((Member)request.getSession().getAttribute("loginUser")).getId());
 				pbuyList.add(pbuy);
 			}
 		}
@@ -135,5 +136,24 @@ public class PaymentController {
 		Map<String, String> map = new HashMap<>();
 		map.put("msg", msg);
 		return map;
+	}
+	
+	@GetMapping("/collectionMedia")
+	@ResponseBody
+	public List<CartCollection> selectCollectionMedia(HttpServletRequest request) {
+		
+		List<CartCollection> list = null;
+		String userId = ((Member)request.getSession().getAttribute("loginUser")).getId();
+		// 미디어 리스트 호출
+		list = pService.selectCollectionMedia(userId);
+		
+		HttpSession session = request.getSession();
+		if(list != null && !list.isEmpty()) {
+			session.setAttribute("collection", list);
+		} else {
+			session.setAttribute("msg", "구입한 상품이 없습니다.");
+			session.setAttribute("referer", request.getHeader("Referer"));
+		}
+		return list;
 	}
 }
