@@ -26,5 +26,8 @@ public interface PaymentService {
 
 	// 장바구니에서 결제
 	int insertCartPayment(Payment payment, List<ProductBuy> pbuyList, List<Integer> cartCodes);
+
+	// 미디어컬렉션 불러오기
+	List<CartCollection> selectCollectionMedia(String userId);
 	
 }

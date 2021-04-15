@@ -76,9 +76,15 @@ public class PaymentDaoImpl implements PaymentDao{
 		sqlSession.update("payMapper.updateStoreSalesQList", pbuyList);
 		
 	}
+	// 장바구니 구매여부 업데이트
 	@Override
 	public void updateCartIsBought(List<Integer> cartCodes) {
 		sqlSession.update("payMapper.updateCartIsBought", cartCodes);
+	}
+	// 미디어컬렉션 불러오기
+	@Override
+	public List<CartCollection> selectCollectionMedia(String userId) {
+		return sqlSession.selectList("payMapper.selectCollectionMedia", userId);
 	}
 	
 	

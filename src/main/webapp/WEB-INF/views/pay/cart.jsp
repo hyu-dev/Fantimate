@@ -164,6 +164,10 @@
         </div>
     </section>
     <script>
+    	// 임시 (컬렉션 넘어가기)
+    	$(".cart-title").click(function() {
+    		location.href="${contextPath}/store/collectionStore";
+    	})
 	 	// 삭제 아이콘 호버시, 클릭시
 	    $('.delete-product').hover(function() {
 	        $(this).attr('src', '${ contextPath }/resources/images/pay/trash-red.png')

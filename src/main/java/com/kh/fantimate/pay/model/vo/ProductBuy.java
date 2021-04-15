@@ -16,4 +16,5 @@ public class ProductBuy {
 	private int productQ; 	// 상품 수량
 	private String payCode; // 결제 번호
 	private int pcode; 		// 상품 코드
+	private String id;		// 구매자 아이디
 }

@@ -6,6 +6,8 @@ import java.util.Map;
 
 import com.kh.fantimate.common.model.vo.Attachment;
 import com.kh.fantimate.pay.model.vo.Cart;
+import com.kh.fantimate.pay.model.vo.CartCollection;
+import com.kh.fantimate.store.model.vo.BuyCollection;
 import com.kh.fantimate.store.model.vo.Review;
 import com.kh.fantimate.store.model.vo.ReviewCollection;
 import com.kh.fantimate.store.model.vo.StoreCategory;
@@ -97,4 +99,7 @@ public interface StoreDao {
 	// 상세페이지 첨부파일 수정을 위한 코드번호 확인하기
 	public List<Integer> selectAttCode(int pcode);
 
+	// 스토어 컬렉션 불러오기
+	public List<BuyCollection> selectCollectionStore(String userId);
+	
 }

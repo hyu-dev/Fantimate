@@ -7,7 +7,6 @@
     align-items: center;
     width: 100%;
     height: 100%;
-    /* border: 2px solid red; */
     box-sizing: border-box;
 }
 
@@ -18,7 +17,6 @@
     align-items: center;
     max-width: 1100px;
     width: 90%;
-    /* border: 2px solid blue; */
 }
 
 .collection-title {
@@ -28,7 +26,6 @@
     justify-content: center;
     align-items: center;
     position: relative;
-    /* border: 2px solid red; */
     font-family: Wemakeprice;
     font-style: normal;
     font-weight: bold;
@@ -39,7 +36,6 @@
 .toggle-area {
     width: auto;
     height: auto;
-    /* border: 2px solid red; */
     position: absolute;
     right: 0px;
     top: 5px;
@@ -52,238 +48,272 @@
     --handle-size: calc(var(--height) - var(--padding) * 2);
     display: inline-block;
     outline-width: 0;
-  }
-  
-  .toggle-switch > input {
-    position: absolute;
-    clip: rect(1px, 1px, 1px, 1px);
-    clip-path: inset(50%);
-    height: 1px;
-    width: 1px;
-    margin: -1px;
-    overflow: hidden;
-  }
-  
-  .area {
-    padding: 4px;
-    margin: -4px;
-    position: relative;
+}
+
+.toggle-switch > input {
+  position: absolute;
+  clip: rect(1px, 1px, 1px, 1px);
+  clip-path: inset(50%);
+  height: 1px;
+  width: 1px;
+  margin: -1px;
+  overflow: hidden;
+}
+
+.area {
+  padding: 4px;
+  margin: -4px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  /* border: 2px solid red; */
+}
+
+.area p {
+    margin: 0;
+    padding: 1px 3px 0;
+    font-size: 13px;
+   position: absolute;
+   right: 13px;
+   font-family: "Wemakeprice-bold";
+}
+
+.background,
+.handle,
+.area p {
+  transition: all 0.3s ease;
+}
+
+.background {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  width: var(--width);
+  height: var(--height);
+  border-radius: var(--height);
+  padding: 0 var(--padding);
+  vertical-align: text-bottom;
+  user-select: none;
+  background-color: #ebebeb;
+  box-shadow: inset 0px 0px 5px 2px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  transition: background-color .15s ease;
+  cursor: pointer;
+}
+
+
+.handle {
+  width: var(--handle-size);
+  height: var(--handle-size);
+  background-color: white;
+  border-radius: 50%;
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.5),
+    inset 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+input:checked + label .area .background {
+  background-color: #5C5F78;
+}
+
+input:checked + label .area .handle {
+  /* background-color: white; */
+  transform: translateX(calc(var(--width) - var(--handle-size)));
+}
+
+input:checked + label .area p {
+  position: absolute;
+  left: 12px;
+  color: white;
+}
+
+
+.display-stand {
+    width: 100%;
+    height: 1200px;
     display: flex;
-    align-items: center;
-    /* border: 2px solid red; */
-  }
-
-  .area p {
-      margin: 0;
-      padding: 1px 3px 0;
-      font-size: 13px;
-     position: absolute;
-     right: 13px;
-     font-family: "Wemakeprice-bold";
-  }
-  
-  .background,
-  .handle,
-  .area p {
-    transition: all 0.3s ease;
-  }
-  
-  .background {
-    display: inline-flex;
-    flex-direction: row;
-    align-items: center;
-    width: var(--width);
-    height: var(--height);
-    border-radius: var(--height);
-    padding: 0 var(--padding);
-    vertical-align: text-bottom;
-    user-select: none;
-    background-color: #ebebeb;
-    box-shadow: inset 0px 0px 5px 2px rgba(0, 0, 0, 0.15);
+    justify-content: space-evenly [left];
+    align-items: flex-start;
+    flex-wrap: wrap;
     overflow: hidden;
-    transition: background-color .15s ease;
-    cursor: pointer;
-  }
+}
 
-  
-  .handle {
-    width: var(--handle-size);
-    height: var(--handle-size);
-    background-color: white;
-    border-radius: 50%;
-    box-shadow:
-      0 2px 4px rgba(0, 0, 0, 0.5),
-      inset 0 2px 4px rgba(0, 0, 0, 0.15);
-  }
-  input:checked + label .area .background {
-    background-color: #5C5F78;
-  }
-  
-  input:checked + label .area .handle {
-    /* background-color: white; */
-    transform: translateX(calc(var(--width) - var(--handle-size)));
-  }
-
-  input:checked + label .area p {
-    position: absolute;
-    left: 12px;
-    color: white;
-  }
-
-
-  .display-stand {
-      width: 100%;
-      /* border: 2px solid red; */
-      display: flex;
-      justify-content: space-evenly [left];
-      align-items: center;
-      flex-wrap: wrap;
-  }
-
-  .product {
-      width: 300px;
-      height: 500px;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-start;
-      align-items: center;
-      /* border: 2px solid red; */
-      margin: 50px 32px;
-  }
-
-  .product-background {
-      width: 300px;
-      height: 300px;
-      background: #ebebeb;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-  }
-
-  .product-info {
-      align-self: flex-start;
-      /* margin: 0 0 20px; */
-      /* padding: 0 0 20px; */
-  }
-
-  .product-info p, .product-info b {
-      margin: 5px;
-  }
-
-  .product-info p {
-    font-family: Yoon Minguk;
-    font-style: normal;
-    font-weight: bold;
-    font-size: 15px;
-  }
-
-  .product-info b {
-    font-family: Yoon Minguk;
-    font-style: normal;
-    font-weight: bold;
-    font-size: 18px;
-  }
-
-  .product-operation {
+.product {
+    width: 300px;
+    height: 500px;
     display: flex;
     flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    margin: 50px 32px;
+    box-sizing: border-box;
+}
+
+.product-background {
+    width: 300px;
+    height: 300px;
+    background: #ebebeb;
+    display: flex;
     justify-content: center;
     align-items: center;
-  }
+}
 
-  .write-photo {
-      width: 230px;
-      height: 70px;
-      background: #F4D4D4;
-      outline: none;
-      border: none;
-      font-family: Yoon Minguk;
-    font-style: normal;
-    font-weight: bold;
-    font-size: 20px;
-    line-height: 24px;
-    color: #5C5F78;
-    margin: 40px 0;
-    cursor: pointer;
-    position: relative;
-    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
-    /* display: none; */
-  }
+.product-background img {
+	width: 220px;
+}
 
-  .write-photo:active {
-    top: 3px;
-    box-shadow: none;
-  }
+.product-info {
+    align-self: flex-start;
+}
 
+.product-info p, .product-info b {
+    margin: 5px;
+}
 
+.product-info p {
+  font-family: Yoon Minguk;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 15px;
+}
 
-  .not-confirmed-product {
-      width: 230px;
-      height: 70px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      /* border: 2px solid red; */
-      box-sizing: border-box;
-      /* display: none; */
-      margin: 40px 0;
-  }
+.product-info b {
+  font-family: Yoon Minguk;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 18px;
+}
 
-  .completed-review {
-    width: auto;
-    height: auto;
+.product-operation {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.mediaCtt {
+  font-family: Yoon Minguk;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 15px;
+  padding: 5px;
+}
+
+.write-photo {
+  width: 230px;
+  height: 70px;
+  background: #F4D4D4;
+  outline: none;
+  border: none;
+  font-family: Yoon Minguk;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 24px;
+  color: #5C5F78;
+  margin: 40px 0;
+  cursor: pointer;
+  position: relative;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+}
+
+.write-photo:active {
+  top: 3px;
+  box-shadow: none;
+}
+
+.not-confirmed-product {
+    width: 230px;
+    height: 70px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     box-sizing: border-box;
-    cursor: pointer;
-    /* border: 2px solid red; */
-  }
+    margin: 40px 0;
+}
+
+.completed-review {
+  width: 100%;
+  height: auto;
+  box-sizing: border-box;
+  cursor: pointer;
+}
 
 
-  .date-created {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin: 10px 0;
-  }
+.date-created {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px 0;
+    
+}
 
-  .product-score {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-  }
+.product-score {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 
-  .product-score img {
-      display: block;
-      width: 25px;
-      height: 25px;
-      margin: 0;
-      padding: 0;
-      /* border: 1px solid red; */
-      box-sizing: border-box;
-  }
-
-  .date-created p {
-    font-family: Yoon Minguk;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 10px;
-    line-height: 12px;
+.product-score img {
+    display: block;
+    width: 25px;
+    height: 25px;
     margin: 0;
     padding: 0;
-  }
+    box-sizing: border-box;
+}
+
+.date-created p {
+  font-family: Yoon Minguk;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 10px;
+  line-height: 12px;
+  margin: 0;
+  padding: 0;
+}
 
 
-  .review-contents b {
-    font-family: Yoon Minguk;
-    font-style: normal;
-    font-weight: bold;
-    font-size: 15px;
-    line-height: 18px;
-  }
+.review-contents b {
+  font-family: Yoon Minguk;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 15px;
+  line-height: 18px;
+}
 
-  .review-contents p {
-    font-family: Yoon Minguk;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 12px;
-    line-height: 14px;
-  }
+.review-contents p {
+  font-family: Yoon Minguk;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 14px;
+}
+
+.more-product {
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.more-btn {
+    width: 200px;
+    height: 150px;
+    font-size: 33px;
+    text-align: center;
+    font-family: "Wemakeprice-bold";
+    color: #E5D2D2;
+    border: none;
+    background-color: #fbf6f6;
+    outline: none;
+    text-shadow: 0 3px 5px rgba(0, 0, 0, 0.15);
+    position: relative;
+}
+
+.more-btn:active {
+    top: 3px;
+    text-shadow: none;
+}
+

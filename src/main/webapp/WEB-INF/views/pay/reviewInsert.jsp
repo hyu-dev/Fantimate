@@ -16,8 +16,8 @@
     <title>Fantimate</title>
 </head>
 <body>
-	<section class="main-section">
-        <form class="main-template" action="" method="">
+	<section class="insert-section">
+        <form class="main-template" action="" method="POST" enctype="multipart/form-data">
             <div class="my-score">
                 <article>
                     <div class="product-background">
@@ -48,8 +48,8 @@
                 </div>
             </div>
             <div class="my-photo">
-                <label for="mainPhoto" class="main-photo">대표사진첨부<input id="mainPhoto" class="photo" type="file" style="display: none;"></label>
-                <!-- <label for="addPhoto" class="add-photo">추가사진첨부<input id="addPhoto" class="photo" type="file" style="display: none;"></label> -->
+                <label for="mainPhoto" class="main-photo">대표사진첨부</label>
+                <input id="mainPhoto" name="mainPhoto" class="photo" type="file" style="display: none;" required>
                 <label class="add-photo click-btn">+</label>
             </div>
             <div class="review-btn">
@@ -82,17 +82,13 @@
 	    // 사진첨부시
 	    // 문제 : 추가사진이 왜 ㅠㅠ 0번째만 적용되지?
 	    $(document).on('change', ".photo", function(e) {
-	        let target = $(this)
 	        let files = e.target.files;
 	        let filesArr = Array.prototype.slice.call(files);
 	        let mainImg = $("<img class='main-photo-img'>");
-	        let mainInput = $("<input id='mainPhoto' class='photo' type='file' style='display: none;'>");
 	        let addImg = $("<img class='add-photo-img'>");
-	        let addInput = $("<input id='addPhoto' class='photo' type='file' style='display: none;'>");
-	        let label = $(this).parent();
+	        let label = $(this).prev("label");
 	        let id = $(this).attr('id');
 	
-	        console.log(target.prev());
 	        filesArr.forEach(function(f) {
 	            if(!f.type.match("image.*")) {
 	                alert("확장자는 이미지 확장자만 가능합니다");
@@ -105,14 +101,14 @@
 	                reader.onload = function(e) {
 	                    label.html('');
 	                    mainImg.attr("src", e.target.result);
-	                    label.append(mainImg, mainInput);
+	                    label.append(mainImg);
 	                }
 	            } else {
 	                // 추가사진을 변경한 경우
 	                reader.onload = function(e) {
 	                    label.html('');
-	                    label.append(addImg, addInput);
-	                    // target.attr("src", e.target.result);
+	                    addImg.attr("src", e.target.result);
+	                    label.append(addImg);
 	                }
 	            }
 	            reader.readAsDataURL(f);
@@ -120,15 +116,17 @@
 	    });
 	
 	    let count = 0;
+	    let n = 1;
 	    // 사진 추가시
 	    $(document).on('click', '.click-btn', function() {
-	        let addImg = $("<img class='add-photo-img'>");
-	        let addInput = $("<input id='addPhoto' class='photo' type='file' style='display: none;'>");
-	        let label = $("<label for='addPhoto' class='add-photo'>추가사진첨부</label>")
+	        let addInput = $("<input id='addPhoto"+ n +"' name='subPhotos' class='photo' type='file' style='display: none;'>");
+	        let label = $("<label for='addPhoto"+ n +"' class='add-photo'>추가사진첨부</label>")
 	        if(count < 4) {
-	            $('.click-btn').before(label.append(addImg, addInput));
+	            $('.click-btn').before(label);
+	            label.after(addInput);
 	            $('.my-photo').stop().animate( { scrollLeft : '+=1000' } )
 	            count++;
+	            n++;
 	        } else {
 	            $('.click-btn').remove()
 	            alert('사진 첨부는 최대 5장만 가능합니다')
@@ -169,22 +167,29 @@
 	
 	    // 등록하기를 클릭했을 떄
 	     $(document).on('click', '.enroll-review', function() {
+	    	 console.log($("#mainPhoto").attr("src"))
 	         if(sum == 0) { // 평점이 0점(누락) 된 경우
 	            alert('평점을 등록하세요(최소 1점)')
 	         } else if($('.my-review > input').val() == '') { // 제목이 누락된 경우
 	            alert('제목을 입력하세요')
 	         } else if($('.my-review textarea').val() == '') {
 	            alert('내용을 입력하세요')
-	         } else if($('.main-photo').children('img').attr('src') == undefined) {
-	            alert('대표사진을 등록하세요')
+	         } else if($("#mainPhoto").attr("src") == null) {
+	        	 alert('대표사진을 등록하세요')
 	         } else {
+	        	var url = "${contextPath}/store/reviewInsert";
+				$(".main-template").attr("action", url);
 	            $('.main-template').submit();
 	         }
 	     })
 	
 	     // 취소하기를 클릭했을 때
 	     $('.cancel-review').click(function() {
-	        $('.main-template').fadeOut();
+	    	 if(confirm('리뷰작성 취소시 입력한 정보가 모두 삭제됩니다. 취소하시겠습니까?')) {
+	    		 $('.insert-section').fadeOut();
+	    		 location.reload(true);
+		     }
+	        
 	     })
     </script>
 </body>

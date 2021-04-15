@@ -46,6 +46,7 @@
 		<typeAlias type="com.kh.fantimate.pay.model.vo.Payment" alias="Payment"/>
 		<typeAlias type="com.kh.fantimate.pay.model.vo.ProductBuy" alias="ProductBuy"/>
 		<typeAlias type="com.kh.fantimate.pay.model.vo.PayCollection" alias="PayCollection"/>
+		<typeAlias type="com.kh.fantimate.store.model.vo.BuyCollection" alias="BuyCollection"/>
 	</typeAliases>
 	
 	<!-- mappers -->

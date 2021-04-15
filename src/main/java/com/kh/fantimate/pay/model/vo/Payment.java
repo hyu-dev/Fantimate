@@ -14,7 +14,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class Payment {
-	private String payCode; 		// 결제 번호
+	private String payCode; 	// 결제 번호
 	private String payMethod; 	// 결제 수단
 	private String payStatus; 	// 결제상태(1. 결제완료 / 2. 구매확정 / 3. 환불)
 	private int payPrice; 		// 결제 가격

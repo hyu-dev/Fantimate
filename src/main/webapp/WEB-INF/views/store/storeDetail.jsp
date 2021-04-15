@@ -19,6 +19,7 @@
 </head>
 <body>  
 	<c:if test="${ !empty loginUser }">
+	<c:set var="flag" value="yes" scope="session"/>
 	<jsp:include page="storeInsert.jsp"/>
 	<!-- 네비바 인클루드 -->
 	<jsp:include page="../common/navbar.jsp"/>
@@ -309,7 +310,6 @@
              </div>
          </section>
 	</section>
-	<input type="hidden" name="flag" id="flag" value="no"/>
 	
 	<!-- 스크립트 -->
 	<script>
@@ -584,7 +584,6 @@
 		$(".update-store").click(function() {
 			$(".main-template").css("display", "block");
 			$(".insert-section").css("display", "block");
-			$("#flag").val("yes");
 		});
 	</script>
 	</c:if>

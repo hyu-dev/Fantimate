@@ -34,7 +34,9 @@ import com.google.gson.GsonBuilder;
 import com.kh.fantimate.common.model.vo.Attachment;
 import com.kh.fantimate.member.model.vo.Member;
 import com.kh.fantimate.pay.model.vo.Cart;
+import com.kh.fantimate.pay.model.vo.CartCollection;
 import com.kh.fantimate.store.model.service.StoreService;
+import com.kh.fantimate.store.model.vo.BuyCollection;
 import com.kh.fantimate.store.model.vo.Review;
 import com.kh.fantimate.store.model.vo.ReviewCollection;
 import com.kh.fantimate.store.model.vo.Store;
@@ -240,6 +242,7 @@ public class StoreController {
 			if(renameFileName != null) {
 				att.setAttClName(main.getOriginalFilename());
 				att.setAttSvName(renameFileName);
+				att.setAttStatus("Y");
 				att.setAttMain("Y");
 				attList.add(att);
 			}
@@ -252,6 +255,7 @@ public class StoreController {
 				if(renameFileName != null) {
 					att.setAttClName(sub.getOriginalFilename());
 					att.setAttSvName(renameFileName);
+					att.setAttStatus("Y");
 					att.setAttMain("N");
 					attList.add(att);
 				}
@@ -560,6 +564,30 @@ public class StoreController {
 				.create();
 	
 		return gson.toJson(list);
+	}
+	
+	@GetMapping("/collectionStore")
+	public ModelAndView selectCollectionStore(ModelAndView mv, 
+								   			 HttpServletRequest request) {
+		
+		if(((Member)request.getSession().getAttribute("loginUser")) == null) {
+			mv.addObject(request.getHeader("referer"));
+			mv.setViewName("common/main");
+		} else {
+			String userId = ((Member)request.getSession().getAttribute("loginUser")).getId();
+			// 스토어 리스트 호출
+			List<BuyCollection> list = sService.selectCollectionStore(userId);
+			
+			if(list != null && !list.isEmpty()) {
+				request.getSession().setAttribute("collection", list);
+				mv.addObject("list", list);
+				mv.setViewName("pay/collection");
+			} else {
+				mv.addObject("msg", "구입한 상품이 없습니다.");
+				mv.setViewName("pay/collection");
+			}
+		}
+		return mv;
 	}
 	
 }
