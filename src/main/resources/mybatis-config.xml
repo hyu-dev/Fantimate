@@ -20,6 +20,8 @@
 		<typeAlias type="com.kh.fantimate.member.model.vo.Admin" alias="Admin"/>
 		<typeAlias type="com.kh.fantimate.common.model.vo.Attachment" alias="Attachment"/>
 		<typeAlias type="com.kh.fantimate.common.model.vo.Alarm" alias="Alarm"/>
+		<typeAlias type="com.kh.fantimate.common.model.vo.Message" alias="Message"/>
+		<typeAlias type="com.kh.fantimate.common.model.vo.Report" alias="Report"/>
 		<typeAlias type="com.kh.fantimate.main.model.vo.FavoriteArtist" alias="FavoriteArtist"/>
 		<typeAlias type="com.kh.fantimate.store.model.vo.Store" alias="Store"/>
 		<typeAlias type="com.kh.fantimate.store.model.vo.StoreCollection" alias="StoreCollection"/>

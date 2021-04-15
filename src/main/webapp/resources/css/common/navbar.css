@@ -230,7 +230,7 @@ input[type="checkbox"]{
 } */
 #mailList{
     display: block;
-    width: 600px;
+    width: 650px;
     height: 626px;
     background-color: white;
     border-radius: 8px;
@@ -260,7 +260,7 @@ input[type="checkbox"]{
     margin-top: 50px;
 }
 #mailList p.mail-date{
-    padding-left:40px;
+    padding-left:20px;
     color: #000000;
     font-style: normal;
     font-weight: bold;
@@ -314,11 +314,17 @@ input[type="checkbox"]{
     font-size: 16px;
 }
 
+.mail-content:hover{
+	background:rgba(229, 210, 210, 0.30);
+}
+
 
 .alarm-time, .mail-time{
     display: inline-block;
     color:#ACACAC;
     margin-left: 5px;
+    font-size: 15px;
+    font-weight:540;
 }
 
 .mail-id{
@@ -596,14 +602,13 @@ input[id*="friend"]:checked + label em{
 /* 로그인 회원가입 */
 input[id*="loginBtn"]{
     outline: none;
-    width: 140px;
-    height: 40px;
+    width: 100px;
+    height: 37px;
     border:#F4D4D4;
     background: #F4D4D4;
     border-radius: 10px;
     font-style: normal;
-    font-weight: bold;
-    font-size: 20px;
+    font-size: 18px;
     line-height: 24px;
     text-align: center;
     color: #FFFFFF;
@@ -613,14 +618,13 @@ input[id*="loginBtn"]{
 }
 input[id*="joinBtn"]{
     outline: none;
-    width: 160px;
-    height: 40px;
+    width: 110px;
+    height: 37px;
     border: 1px solid #E5D2D2;
     background: #FFFFFF;
     border-radius: 10px;
     font-style: normal;
-    font-weight: bold;
-    font-size: 20px;
+    font-size: 18px;
     line-height: 24px;
     text-align: center;
     color: #E5D2D2;
@@ -658,7 +662,7 @@ input[id*="joinBtn"]{
     cursor: pointer;
 }
 
-#mainCount{
+#mailCount{
     position: absolute;
     top: 25px;
     right: 96px;
@@ -677,4 +681,7 @@ li.alarm-content:hover{
 	background:rgba(229, 210, 210, 0.30);
 }
 
+#friendContent{
+	display:none;
+}
 
