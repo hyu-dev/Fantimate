@@ -171,4 +171,9 @@ public class StoreDaoImpl implements StoreDao {
 		return sqlSession.selectList("storeMapper.selectCollectionStore", userId);
 	}
 
+	@Override
+	public StoreCollection readStoreMain(int pcode) {
+		return sqlSession.selectOne("storeMapper.readStoreMain", pcode);
+	}
+
 }

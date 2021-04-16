@@ -153,4 +153,9 @@ public class StoreServiceImpl implements StoreService {
 		return sDao.selectCollectionStore(userId);
 	}
 
+	@Override
+	public StoreCollection readStoreMain(int pcode) {
+		return sDao.readStoreMain(pcode);
+	}
+
 }

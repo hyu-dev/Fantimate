@@ -709,4 +709,36 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		   AND  PAY_STATUS != 3
 	  ORDER BY  B_CODE DESC
 	</select>
+	<select id="readStoreMain" parameterType="_int" resultMap="storeCollResultSet">
+		SELECT
+				P_CODE
+			  , P_NAME
+			  , SALES_Q
+			  , Q_PRICE
+			  , DISCOUNT
+			  , INFORMATION
+			  , IS_VIEW
+			  , VIEWCOUNT
+			  , IS_SOLDOUT
+			  , IS_ACTIVE
+			  , C_CODE
+			  , C_NAME
+			  , ARTI_NAME_EN
+			  , ATT_CODE
+			  , ATT_ROOT
+			  , ATT_CL_NAME
+			  , ATT_SV_NAME
+			  , ATT_STATUS
+			  , IS_MAIN_ATT
+		  FROM 
+		  		STORE
+		  JOIN 
+		  		ATT_STORE USING(P_CODE)
+          LEFT JOIN
+                S_CATEGORY USING(C_CODE)
+        WHERE
+                P_CODE = #{pcode}
+		   AND  IS_ACTIVE = 'Y'
+           AND  IS_MAIN_ATT = 'Y'
+	</select>
 </mapper>

@@ -53,10 +53,10 @@
             <div class="display-stand">
             	<c:forEach var="coll" items="${ collection }">
                 <article class="product">
-                    <div class="product-background">
+                    <div class="product-background list-product">
                         <img src="${ contextPath }/resources/uploadFiles/${ coll.att.attSvName }" alt="">
                     </div>
-                    <div class="product-info">
+                    <div class="product-info list-info">
                         <p>${ coll.storeCate.artiNameEn }</p>
                         <b>${ coll.store.pname }</b>
                     </div>
@@ -155,11 +155,42 @@
 		
 	 	// 포토리뷰 등록
 	    $('.write-photo').click(function() {
+	    	var pcode = $(this).siblings(".pcode").val();
+	    	var insertProd = $(".insert-product").children("img");
+	    	var artiName = $(".insert-info").children("p");
+	    	var pName = $(".insert-info").children("b")
+	    	$.ajax({
+	    		url : "${ pageContext.request.contextPath }/store/" + pcode,
+	    		data : "get",
+	    		dataType : "json",
+	    		success : function(data) {
+	    			console.log(data)
+	    			var src = "${contextPath}/resources/uploadFiles/" + data.att.attSvName;
+	    			insertProd.attr("src", src)
+	    			artiName.text(data.storeCate.artiNameEn)
+	    			pName.text(data.store.pname)
+	    		},
+	    		error : function(e) {
+	    			console.log(e)
+	    		}
+	    	});
 	    	$(".insert-section").fadeIn();
 	    })
 	
 	    // 포토리뷰 보기
 	    $('.completed-review').click(function() {
+	    	var pcode = $(this).siblings(".pcode").val();
+	    	$.ajax({
+	    		url : "${ pageContext.request.contextPath }/store/review/" + pcode + "/" + userId,
+	    		dataType : "json",
+	    		success : function(data) {
+	    			
+	    		},
+	    		error : function(e) {
+	    			console.log(e)
+	    		}
+	    		
+	    	});
 	    	$(".read-section").fadeIn();
 	    })
 	    
