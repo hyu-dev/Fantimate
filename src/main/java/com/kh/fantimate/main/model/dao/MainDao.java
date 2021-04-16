@@ -6,6 +6,7 @@ import com.kh.fantimate.common.model.vo.Alarm;
 import com.kh.fantimate.common.model.vo.Attachment;
 import com.kh.fantimate.common.model.vo.Message;
 import com.kh.fantimate.common.model.vo.Report;
+import com.kh.fantimate.main.model.vo.FriendCollection;
 import com.kh.fantimate.main.model.vo.MainCollection;
 import com.kh.fantimate.main.model.vo.SubscribeArtist;
 
@@ -46,5 +47,9 @@ public interface MainDao {
 	public int insertAlarmR(int refId);
 
 	public int selectMailCount(String user);
+
+	public List<FriendCollection> selectFriendInfo(String user);
+
+	public List<FriendCollection> selectFriendMsg(String user);
 
 }

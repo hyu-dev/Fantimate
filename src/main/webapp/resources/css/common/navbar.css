@@ -312,6 +312,7 @@ input[type="checkbox"]{
     color: #000000;
     font-style: normal;
     font-size: 16px;
+    width:575px;
 }
 
 .mail-content:hover{
@@ -319,7 +320,7 @@ input[type="checkbox"]{
 }
 
 
-.alarm-time, .mail-time{
+.alarm-time, .mail-time ,.fr-time{
     display: inline-block;
     color:#ACACAC;
     margin-left: 5px;
@@ -525,6 +526,7 @@ input[id*="friend"]:checked + label + div {
     max-height: 300px;
 }
 
+/* 친구 아코디언 화살표 체크 되었을때 */
 input[id*="friend"]:checked + label em{
    /*background-position: 0 -30px;*/
    -webkit-transform: rotate(180deg);
@@ -551,7 +553,7 @@ input[id*="friend"]:checked + label em{
     outline: none;
     width: 120px;
     height: 40px;
-    border: 1px solid #E5D2D2;
+    border: 1px solid #dfb9b9;
     background: #FFFFFF;
     border-radius: 10px;
     font-style: normal;
@@ -559,7 +561,7 @@ input[id*="friend"]:checked + label em{
     font-size: 18px;
     line-height: 24px;
     text-align: center;
-    color: #E5D2D2;
+    color: #dfb9b9;
     outline: none;
 }
 
@@ -574,7 +576,7 @@ input[id*="friend"]:checked + label em{
     line-height: 24px;
     color: #000000;
     margin-left: 15px;
-    font-weight: bold;
+    font-weight: 500;
 }
 
 /* 쪽지함 - 친구 프로필 css*/

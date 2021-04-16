@@ -7,6 +7,7 @@ import com.kh.fantimate.common.model.vo.Alarm;
 import com.kh.fantimate.common.model.vo.Attachment;
 import com.kh.fantimate.common.model.vo.Message;
 import com.kh.fantimate.common.model.vo.Report;
+import com.kh.fantimate.main.model.vo.FriendCollection;
 import com.kh.fantimate.main.model.vo.MainCollection;
 import com.kh.fantimate.main.model.vo.SubscribeArtist;
 
@@ -65,5 +66,11 @@ public interface MainService {
 
 	// 18. 쪽지 총 갯수 카운트 
 	public int selectMailCount(String user);
+
+	// 19. 친구 정보 select (프로필, 아이디)
+	public List<FriendCollection> selectFriendInfo(String user);
+
+	// 20. 친구가 보낸 메세지 select
+	public List<FriendCollection> selectFriendMsg(String user);
 
 }
