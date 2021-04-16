@@ -69,8 +69,8 @@ public class OfficialDaoImpl implements OfficialDao{
 
 	// 클릭한 미디어 호출
 	@Override
-	public List<MediaCollection> selectMedia(Map<Object, Object> map) {
-		return sqlSession.selectList("officialMapper.selectMedia", map);
+	public MediaCollection selectMedia(Map<Object, Object> map) {
+		return sqlSession.selectOne("officialMapper.selectMedia", map);
 	}
 
 	// 클릭한 미디어 조회수 추가

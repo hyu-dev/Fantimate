@@ -33,10 +33,8 @@
                         <c:if test="${ m.official.isPay eq 'Y' }">
                         <div class="media-pay-sign">유료</div>
                         </c:if>
-                        <c:if test="${ m.attachment.attMain eq 'Y' }">
-                        <img src="${ contextPath }/resources/images/official/${ m.attachment.attSvName }"  
+                        <img src="${ contextPath }/resources/images/official/${ m.mediaFile.picSvName }"  
                         	 onclick="selectMedia(${ m.official.mediaNum }, '${ m.official.isPay }', ${ m.official.mediaPay })">
-                        </c:if>
                         <div class="media-title nanumsquare">${ m.official.mediaTtl }</div>
                         <div class="media-date nanumsquare">${ m.official.mediaDate }</div>
                     </div>
