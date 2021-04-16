@@ -614,7 +614,7 @@ public class StoreController {
 							@RequestParam(value="mainPhoto") MultipartFile main,
 							@RequestParam(value="subPhotos") MultipartFile[] subs) 
 							throws IOException{
-		
+		System.out.println(review);
 		List<Attachment> attList = new ArrayList<>();
 		Attachment att = null;
 		// 업로드 파일 서버에 저장
@@ -649,7 +649,7 @@ public class StoreController {
 		int result = sService.insertReview(review, attList);
 		
 		if(result > 0) {
-			response.sendRedirect("pay/collection");
+			response.sendRedirect("collectionStore");
 		} else {
 			System.out.println("등록안됨");
 		}

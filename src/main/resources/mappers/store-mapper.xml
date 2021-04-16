@@ -783,7 +783,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		  , ATT_STATUS
 		  , IS_MAIN_ATT
 		)
-		SELECT SEQ_ATT_REVIEW.NEXTVAL, SEQ_REVIEW_CURRVAL, A.*
+		SELECT SEQ_ATT_REVIEW.NEXTVAL, SEQ_REVIEW.CURRVAL, A.*
 		FROM
 		(
 		  <foreach collection="list" item="i" separator="UNION ALL">

@@ -17,7 +17,7 @@
 </head>
 <body>
 	<section class="read-section">
-        <form class="main-template" action="" method="POST">
+        <div class="main-template">
             <div class="my-score">
                 <article>
                     <div class="product-background">
@@ -56,7 +56,7 @@
             <div class="btn-area">
                 <button type="button" class="alright">확인</button>
             </div>
-        </form>
+        </div>
     </section>
     <script>
 	    // 리뷰 읽기

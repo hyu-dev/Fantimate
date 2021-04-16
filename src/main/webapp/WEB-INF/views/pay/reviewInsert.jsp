@@ -179,7 +179,7 @@
 	            alert('제목을 입력하세요')
 	         } else if($('.my-review textarea').val() == '') {
 	            alert('내용을 입력하세요')
-	         } else if($("#mainPhoto").attr("src") == null) {
+	         } else if($("#mainPhoto").attr("src") == '') {
 	        	 alert('대표사진을 등록하세요')
 	         } else {
 	        	 if(confirm("리뷰 등록시 수정/삭제가 불가능 합니다. 등록하시겠습니까?")) {
