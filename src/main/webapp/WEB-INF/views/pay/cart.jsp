@@ -60,7 +60,7 @@
             <c:forEach var="cl" items="${ cartList }">
             <c:choose>
             <c:when test="${ cl.store.pcode eq null }">
-	            <c:if test="${ cl.attMedia.attMain eq 'Y'}">
+	            <c:if test="${ cl.attMedia.picSvName ne ''}">
 	           	<tr>
 	                <td>
 	                    <label class="jelly-checkbox">
@@ -71,7 +71,7 @@
 	                <td>
 	                    <div class="product-area">
 	                        <div class="product-img">
-	                            <img src="${ contextPath }/resources/uploadFiles/${ cl.attMedia.attSvName }" alt="">
+	                            <img src="${ contextPath }/resources/uploadFiles/${ cl.attMedia.picSvName }" alt="">
 	                        </div>
 	                        <p><sub>${ cl.mcategory.artiNameEn }</sub><br>${ cl.official.mediaTtl }</p>
 	                        <input type="hidden" class="cart-mCode" value="${ cl.cart.mediaNum }">

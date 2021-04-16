@@ -119,7 +119,7 @@
 		        		for(var i in data) {
 		        			var product = $("<article class='product'>");
 		        			var productBg = $("<div class='product-background'>");
-		        			var url = "${ contextPath }/resources/uploadFiles/" + data[i].attMedia.attSvName
+		        			var url = "${ contextPath }/resources/uploadFiles/" + data[i].attMedia.picSvName
 		        			var mediaImg = $("<img alt=''>").attr("src", url);
 		        			var productInfo = $("<div class='product-info'>");
 		        			var artiName = $("<p>").text(data[i].mcategory.artiNameEn);
