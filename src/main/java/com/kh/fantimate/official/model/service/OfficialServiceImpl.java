@@ -6,6 +6,11 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kh.fantimate.common.model.vo.Alarm;
+import com.kh.fantimate.common.model.vo.Like;
+import com.kh.fantimate.common.model.vo.Message;
+import com.kh.fantimate.common.model.vo.Reply;
+import com.kh.fantimate.common.model.vo.Report;
 import com.kh.fantimate.member.model.vo.Member;
 import com.kh.fantimate.official.model.dao.OfficialDao;
 import com.kh.fantimate.official.model.vo.MediaCategory;
@@ -70,7 +75,7 @@ public class OfficialServiceImpl implements OfficialService{
 
 	// 클릭한 미디어 호출
 	@Override
-	public List<MediaCollection> selectMedia(Map<Object, Object> map) {
+	public MediaCollection selectMedia(Map<Object, Object> map) {
 		return oDao.selectMedia(map);
 	}
 
@@ -78,5 +83,59 @@ public class OfficialServiceImpl implements OfficialService{
 	@Override
 	public int updateHitCount(int mediaNum) {
 		return oDao.updateHitCount(mediaNum);
+	}
+
+	@Override
+	public List<Reply> selectReplyList(int mediaNum) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Reply insertReply(Map<Object, Object> map) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Reply deleteReply(Map<Object, Object> map) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Like insertLike(Map<Object, Object> map) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Like deleteLike(Map<Object, Object> map) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Report insertReport(Map<Object, Object> map) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Alarm insertUserReplyAlarm(Map<Object, Object> map) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Alarm insertArtistReplyAlarm(Map<Object, Object> map) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Message insertMessage(Map<Object, Object> map) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

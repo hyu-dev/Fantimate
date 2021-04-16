@@ -177,7 +177,7 @@ public class OfficialController {
 		map.put("artiName", artiName);
 		
 		// 클릭한 미디어 호출
-		List<MediaCollection> media = oService.selectMedia(map);
+		MediaCollection media = oService.selectMedia(map);
 		System.out.println("클릭한 미디어 호출 : " + media);
 		
 		if(media != null) {

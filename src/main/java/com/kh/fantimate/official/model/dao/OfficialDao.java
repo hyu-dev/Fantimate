@@ -37,7 +37,7 @@ public interface OfficialDao {
 	List<MediaCollection> searchMediaList(Map<String, String> map);
 
 	// 클릭한 미디어 호출
-	List<MediaCollection> selectMedia(Map<Object, Object> map);
+	MediaCollection selectMedia(Map<Object, Object> map);
 
 	// 클릭한 미디어 조회수 추가
 	int updateHitCount(int mediaNum);

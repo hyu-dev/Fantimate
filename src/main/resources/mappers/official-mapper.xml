@@ -18,14 +18,15 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<result property="cateName" column="CATE_NAME"/>
 		<result property="artiNameEn" column="ARTI_NAME_EN"/>
 	</resultMap>
-	<resultMap type="Attachment" id="attachResultSet">
+	<resultMap type="MediaFile" id="attachResultSet">
 		<id property="attCode" column="ATT_CODE"/>
 		<result property="attRoot" column="ATT_ROOT"/>
-		<result property="attClName" column="ATT_CL_NAME"/>
-		<result property="attSvName" column="ATT_SV_NAME"/>
+		<result property="vidClName" column="VID_CL_NAME"/>
+		<result property="vidSvName" column="VID_SV_NAME"/>
 		<result property="attStatus" column="ATT_STATUS"/>
 		<result property="refId" column="MEDIA_NUM"/>
-		<result property="attMain" column="IS_THUMB"/>
+		<result property="picClName" column="PIC_CL_NAME"/>
+		<result property="picSvName" column="PIC_SV_NAME"/>
 	</resultMap>
 	<resultMap type="HitCount" id="hitCountResultSet">
 		<id property="mediaNum" column="MEDIA_NUM"/>
@@ -41,7 +42,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	<resultMap type="MediaCollection" id="mediaCollResultSet">
 		<collection property="official" resultMap="mediaResultSet"/>
 		<collection property="category" resultMap="category"/>
-		<collection property="attachment" resultMap="attachResultSet"/>
+		<collection property="mediaFile" resultMap="attachResultSet"/>
 		<collection property="hitCount" resultMap="hitCountResultSet"/>
 	</resultMap>
 	
@@ -81,10 +82,11 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
          , ARTI_NAME_EN
 	     , ATT_CODE
 	     , ATT_ROOT
-	     , ATT_CL_NAME
-	     , ATT_SV_NAME
+	     , VID_CL_NAME
+	     , VID_SV_NAME
 	     , ATT_STATUS
-	     , IS_THUMB
+	     , PIC_CL_NAME
+		 , PIC_SV_NAME
 	  FROM 
 	       MEDIA
       JOIN
@@ -93,8 +95,6 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	       MD_FILE USING(MEDIA_NUM)
 	 WHERE
            ARTI_NAME_EN = #{artiNameEn}
-       AND
-       	   IS_THUMB = 'Y'
        AND
 	       MEDIA_STATUS = 'Y'
 	   AND
@@ -121,10 +121,11 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		         , ARTI_NAME_EN
 			     , ATT_CODE
 			     , ATT_ROOT
-			     , ATT_CL_NAME
-			     , ATT_SV_NAME
+			     , VID_CL_NAME
+			     , VID_SV_NAME
 			     , ATT_STATUS
-			     , IS_THUMB
+			     , PIC_CL_NAME
+				 , PIC_SV_NAME
 			  FROM 
 			       MEDIA
 		      JOIN
@@ -134,7 +135,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 			 WHERE
 		           ARTI_NAME_EN = #{artiNameEn}
 		       AND
-		       	   IS_THUMB = 'Y'
+		       	   IS_PAY = 'N'
 		       AND
 			       MEDIA_STATUS = 'Y'
 			   AND
@@ -204,10 +205,11 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
          , ARTI_NAME_EN
 	     , ATT_CODE
 	     , ATT_ROOT
-	     , ATT_CL_NAME
-	     , ATT_SV_NAME
+	     , VID_CL_NAME
+	     , VID_SV_NAME
 	     , ATT_STATUS
-	     , IS_THUMB
+	     , PIC_CL_NAME
+		 , PIC_SV_NAME
 	  FROM 
 	       MEDIA
       JOIN
@@ -224,8 +226,6 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	       )
 	   AND
            ARTI_NAME_EN = #{artiNameEn}
-       AND
-       	   IS_THUMB = 'Y'
        AND
 	       MEDIA_STATUS = 'Y'
 	   AND
@@ -245,13 +245,14 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	     , MEDIA_PAY
          , CATE_CODE
          , CATE_NAME
-         , ARTI_NAME_EN
-	     , ATT_CODE
+         , ARTI_NAME_EN	     
+         , ATT_CODE
 	     , ATT_ROOT
-	     , ATT_CL_NAME
-	     , ATT_SV_NAME
+	     , VID_CL_NAME
+	     , VID_SV_NAME
 	     , ATT_STATUS
-	     , IS_THUMB
+	     , PIC_CL_NAME
+		 , PIC_SV_NAME
 	  FROM 
 	       MEDIA
       JOIN
@@ -262,8 +263,6 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	 	   CATE_NAME = #{category}
 	   AND
            ARTI_NAME_EN = #{artiName}
-       AND
-       	   IS_THUMB = 'Y'
        AND
 	       MEDIA_STATUS = 'Y'
 	   AND
@@ -297,18 +296,23 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
          , CATE_CODE
          , CATE_NAME
          , ARTI_NAME_EN
-	     , ATT_CODE
+         , ATT_CODE
 	     , ATT_ROOT
-	     , ATT_CL_NAME
-	     , ATT_SV_NAME
+	     , VID_CL_NAME
+	     , VID_SV_NAME
 	     , ATT_STATUS
-	     , IS_THUMB
+	     , PIC_CL_NAME
+		 , PIC_SV_NAME
+	     , COUNT
+		 , COUNT_DATE
 	  FROM 
 	       MEDIA
       JOIN
            M_CATEGORY USING(CATE_CODE)
 	  JOIN
 	       MD_FILE USING(MEDIA_NUM)
+	  JOIN
+	  	   MD_COUNT USING(MEDIA_NUM)
 	 WHERE
 	 	   MEDIA_NUM = #{mediaNum}
 	   AND
