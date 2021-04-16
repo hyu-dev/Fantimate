@@ -36,6 +36,7 @@ import com.kh.fantimate.common.model.vo.Subscribe;
 import com.kh.fantimate.member.model.vo.Member;
 import com.kh.fantimate.pay.model.vo.Cart;
 import com.kh.fantimate.pay.model.vo.CartCollection;
+import com.kh.fantimate.pay.model.vo.ProductBuy;
 import com.kh.fantimate.store.model.service.StoreService;
 import com.kh.fantimate.store.model.vo.BuyCollection;
 import com.kh.fantimate.store.model.vo.Review;
@@ -595,11 +596,63 @@ public class StoreController {
 		return mv;
 	}
 	
-	@GetMapping("/{pcode}")
-	public StoreCollection storeReadPage(@PathVariable int pcode,
-										 HttpServletRequest request) {
-		StoreCollection store = sService.readStoreMain(pcode);
+	@GetMapping("/{pcode}/{bcode}")
+	public BuyCollection storeReadPage(@PathVariable int pcode,
+									   @PathVariable int bcode,
+									   HttpServletRequest request) {
+		ProductBuy pb = new ProductBuy();
+		pb.setBcode(bcode);
+		pb.setPcode(pcode);
+		BuyCollection store = sService.readStoreMain(pb);
 		return store;
+	}
+	
+	@RequestMapping("/insertReview")
+	public void insertReview(HttpServletResponse response,
+							Review review,
+							HttpServletRequest request,
+							@RequestParam(value="mainPhoto") MultipartFile main,
+							@RequestParam(value="subPhotos") MultipartFile[] subs) 
+							throws IOException{
+		
+		List<Attachment> attList = new ArrayList<>();
+		Attachment att = null;
+		// 업로드 파일 서버에 저장
+		// 메인파일 첨부가 정상적으로 동작했다면
+		if(!main.getOriginalFilename().equals("")) {
+			att = new Attachment();
+			String renameFileName = saveFile(main, request);
+			// DB에 저장하기 위한 파일명 세팅
+			if(renameFileName != null) {
+				att.setAttClName(main.getOriginalFilename());
+				att.setAttSvName(renameFileName);
+				att.setAttStatus("Y");
+				att.setAttMain("Y");
+				attList.add(att);
+			}
+		}
+		// 서브파일 첨부가 정상적으로 동작했다면
+		for(MultipartFile sub : subs) {
+			att = new Attachment();
+			if(!sub.getOriginalFilename().equals("")) {
+				String renameFileName = saveFile(sub, request);
+				if(renameFileName != null) {
+					att.setAttClName(sub.getOriginalFilename());
+					att.setAttSvName(renameFileName);
+					att.setAttStatus("Y");
+					att.setAttMain("N");
+					attList.add(att);
+				}
+			}
+		}
+		
+		int result = sService.insertReview(review, attList);
+		
+		if(result > 0) {
+			response.sendRedirect("pay/collection");
+		} else {
+			System.out.println("등록안됨");
+		}
 	}
 	
 }

@@ -62,6 +62,7 @@
                     </div>
                     <div class="product-operation">
                     	<input type="hidden" class="pcode" value="${ coll.store.pcode }">
+                    	<input type="hidden" class="bcode" value="${ coll.pbuy.bcode }">
                     	<c:choose>
                     		<c:when test="${ coll.review.rvCode eq '' && coll.payment.payStatus eq 2 }">
                     			<button class="write-photo">포토리뷰 등록하기</button>
@@ -156,11 +157,14 @@
 	 	// 포토리뷰 등록
 	    $('.write-photo').click(function() {
 	    	var pcode = $(this).siblings(".pcode").val();
+	    	var bcode = $(this).siblings(".bcode").val();
 	    	var insertProd = $(".insert-product").children("img");
 	    	var artiName = $(".insert-info").children("p");
 	    	var pName = $(".insert-info").children("b")
+	    	var pCode = $(".insert-pcode");
+	    	var bCode = $(".insert-bcode");
 	    	$.ajax({
-	    		url : "${ pageContext.request.contextPath }/store/" + pcode,
+	    		url : "${ pageContext.request.contextPath }/store/" + pcode + "/" + bcode,
 	    		data : "get",
 	    		dataType : "json",
 	    		success : function(data) {
@@ -169,6 +173,8 @@
 	    			insertProd.attr("src", src)
 	    			artiName.text(data.storeCate.artiNameEn)
 	    			pName.text(data.store.pname)
+	    			pCode.val(pcode)
+	    			bCode.val(bcode)
 	    		},
 	    		error : function(e) {
 	    			console.log(e)
