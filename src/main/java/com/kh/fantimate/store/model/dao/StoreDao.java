@@ -101,5 +101,8 @@ public interface StoreDao {
 
 	// 스토어 컬렉션 불러오기
 	public List<BuyCollection> selectCollectionStore(String userId);
+
+	// 스토어 메인사진 정보만 불러오기
+	public StoreCollection readStoreMain(int pcode);
 	
 }

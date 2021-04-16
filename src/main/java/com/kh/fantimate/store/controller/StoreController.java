@@ -32,6 +32,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.kh.fantimate.common.model.vo.Attachment;
+import com.kh.fantimate.common.model.vo.Subscribe;
 import com.kh.fantimate.member.model.vo.Member;
 import com.kh.fantimate.pay.model.vo.Cart;
 import com.kh.fantimate.pay.model.vo.CartCollection;
@@ -56,39 +57,45 @@ public class StoreController {
 	public ModelAndView StoreList(ModelAndView mv, 
 								  HttpServletRequest request
 								  ) {
-		// 카테고리 리스트 호출
-		// 아티스트 이름 임의로 조정 (세션으로 변경 필요)
-		String artiName = "IU";
-		List<StoreCategory> cateList = (ArrayList<StoreCategory>)sService.selectcategoryList(artiName);
-		String cateName = "";
-		if(cateList != null && !cateList.isEmpty()) {
-			// 카테고리리스트로부터 가져온 데이터에서 첫번째 값 도출
-			cateName = cateList.get(0).getCateName();
-		} else {
-			mv.addObject("msg", "등록된 스토어가 없습니다.");
-			String referer = request.getHeader("Referer");
-			request.getSession().setAttribute("referer", referer);
+		
+		if(((List<Subscribe>)request.getSession().getAttribute("subList")).get(0) == null) {
 			mv.setViewName("store/storeList");
 			return mv;
-		}
-		
-		// 스토어 리스트 호출
-		List<StoreCollection> list = (ArrayList<StoreCollection>)sService.selectStoreList(cateName);
-		
-		if(list != null && !list.isEmpty()) {
-			HttpSession session = request.getSession();
-			session.removeAttribute("toggle");
-			session.setAttribute("cateName", cateList.get(0).getCateName());
-			session.setAttribute("artiName", artiName);
-			session.setAttribute("list", list);
-			
-			mv.addObject("cateList", cateList);
-			mv.addObject("list", list);
 		} else {
-			mv.addObject("msg", "등록된 스토어가 없습니다.");
-			String referer = request.getHeader("Referer");
-			request.getSession().setAttribute("referer", referer);
-			mv.setViewName("store/storeList");
+			// 아티스트 이름 세션에서 불러오기
+			String artiName = ((List<Subscribe>)request.getSession().getAttribute("subList")).get(0).getArtiname();
+			// 카테고리 리스트 호출
+			List<StoreCategory> cateList = (ArrayList<StoreCategory>)sService.selectcategoryList(artiName);
+			String cateName = "";
+			if(cateList != null && !cateList.isEmpty()) {
+				// 카테고리리스트로부터 가져온 데이터에서 첫번째 값 도출
+				cateName = cateList.get(0).getCateName();
+			} else {
+				mv.addObject("msg", "등록된 스토어가 없습니다.");
+				String referer = request.getHeader("Referer");
+				request.getSession().setAttribute("referer", referer);
+				mv.setViewName("store/storeList");
+				return mv;
+			}
+			
+			// 스토어 리스트 호출
+			List<StoreCollection> list = (ArrayList<StoreCollection>)sService.selectStoreList(cateName);
+			
+			if(list != null && !list.isEmpty()) {
+				HttpSession session = request.getSession();
+				session.removeAttribute("toggle");
+				session.setAttribute("cateName", cateList.get(0).getCateName());
+				session.setAttribute("artiName", artiName);
+				session.setAttribute("list", list);
+				
+				mv.addObject("cateList", cateList);
+				mv.addObject("list", list);
+			} else {
+				mv.addObject("msg", "등록된 스토어가 없습니다.");
+				String referer = request.getHeader("Referer");
+				request.getSession().setAttribute("referer", referer);
+				mv.setViewName("store/storeList");
+			}
 		}
 		return mv;
 	}
@@ -97,8 +104,8 @@ public class StoreController {
 	public List<StoreCollection> sortStoreByCategory(@PathVariable String cateName, 
 													 @PathVariable String toggle,
 													 HttpServletRequest request) {
-		// 아티스트 이름 임의로 조정 (세션으로 변경 필요)
-		String artiName = "IU";
+		
+		String artiName = (String)request.getSession().getAttribute("artiName");
 		
 		Map<String, String> map = new HashMap<>();
 		map.put("artiName", artiName);
@@ -128,8 +135,7 @@ public class StoreController {
 		map.put("pcode", pcode);
 		int result = sService.enrollWish(map);
 		
-		// 아티스트 이름 임의로 조정 (세션으로 변경 필요)
-		String artiName = "IU";
+		String artiName = (String)request.getSession().getAttribute("artiName");
 		
 		Map<String, String> map2 = new HashMap<>();
 		map2.put("artiName", artiName);
@@ -151,8 +157,7 @@ public class StoreController {
 		map.put("pcode", pcode);
 		int result = sService.cancelWish(map);
 		
-		// 아티스트 이름 임의로 조정 (세션으로 변경 필요)
-		String artiName = "IU";
+		String artiName = (String)request.getSession().getAttribute("artiName");
 		
 		Map<String, String> map2 = new HashMap<>();
 		map2.put("artiName", artiName);
@@ -588,6 +593,13 @@ public class StoreController {
 			}
 		}
 		return mv;
+	}
+	
+	@GetMapping("/{pcode}")
+	public StoreCollection storeReadPage(@PathVariable int pcode,
+										 HttpServletRequest request) {
+		StoreCollection store = sService.readStoreMain(pcode);
+		return store;
 	}
 	
 }

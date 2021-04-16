@@ -20,12 +20,12 @@
         <form class="main-template" action="" method="POST" enctype="multipart/form-data">
             <div class="my-score">
                 <article>
-                    <div class="product-background">
-                        <img src="${ contextPath }/resources/images/store/1stAlbumBts.png" alt="">
+                    <div class="product-background insert-product">
+                        <img src="${ contextPath }/resources/uploadFiles/아이유_밤편지.jpg" alt="">
                     </div>
-                    <div class="product-info">
-                        <p>BTS</p>
-                        <b>The 1st Album - Dark & Wild</b>
+                    <div class="product-info insert-info">
+                        <p></p>
+                        <b></b>
                     </div>
                 </article>
                 <article>

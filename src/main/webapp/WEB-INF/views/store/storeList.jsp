@@ -64,7 +64,7 @@
                    		<p>SOLD OUT</p>
                    		</c:when>
                    		<c:otherwise>
-                   		<p>세션에서 아티스트명 불러오기 입니다잉</p>
+                   		<p>${ artiName }</p>
                         <b>${ list.store.pname }</b>
                         <p>
                         	<fmt:formatNumber type="number" value="${ list.store.qprice * (1 - list.store.discount/100) }"/> 
@@ -255,7 +255,7 @@
 							var article = $("<article class='product-background'>");
 							var div = $("<div class='product-info'>");
 							var soldout = $("<p>").text("SOLD OUT");
-							var artiName = $("<p>").text("세션값을 넣는다");
+							var artiName = $("<p>").text("${ artiName }");
 							var pName = $("<b>").text(data[i].store.pname);
 							var price = $("<p>")
 							var sub = $("<sub>")
