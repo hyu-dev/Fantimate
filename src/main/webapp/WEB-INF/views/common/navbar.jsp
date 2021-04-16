@@ -36,7 +36,15 @@
 	        }
 	    }
     	
-     
+    	// 검색
+    	function searchList(){
+    		if($('.search-result').css('display', 'block')){
+    			$('.search-result').css('display', 'none');
+    			$('#search-input').val('');
+    		}
+    	}
+	
+    
      // 언어 설정 팝업창 
      function langSetting(){
          location.href="language";
@@ -114,7 +122,6 @@
 			                <img src="${ contextPath }/resources/icon/email.svg" alt="" class="nav-icon" id="mail-icon" onclick="mailList()">
 			                <!-- 쪽지 갯수 카운트 -->
 			                <div id="mailCount">
-			                    50
 			                </div>
 		                </c:if>
 		                <c:if test ="${ loginUser.classifyMem ne 1}">
@@ -134,8 +141,8 @@
             </c:choose>
         </nav>
     </header>
-     
- 
+    
+    
 	<!-- 알람 구간 -->
     <div class="alarm-hide-show">
         <section class="alarm-section">
@@ -338,6 +345,7 @@
     </script>
     </c:if>
     
+    
     <!-- 쪽지부분 ajax -->
     <script>
     function mailList(){
@@ -370,12 +378,17 @@
 	       $('#wholeMailContent').hide();
 	       $('#friendContent').show();
 	       
-	       // 공통 ajax
-	       callAjax(); 
+	       //console.log("친구");
+	      
+	       // 친구 ajax
+	       callFriendAjax();
 	        
 	    } else {
 	       $('#wholeMailContent').show();
 	       $('#friendContent').hide();
+	       
+	       // 공통 ajax
+	       callAjax(); 
 	    }
 	}
 	 
@@ -498,6 +511,81 @@
 	 		location.href='${contextPath}/main/readMessage?messCode=' + messCode + "&messTitle=" + messTitle +"&messContent=" + messContent +"&messSendId=" + messSendId;
 	 		
 	 	}
+	 	
+	 	// 친구 쪽지 ajax
+	 	function callFriendAjax(){
+	 		
+	 		$.ajax({
+				url: "${contextPath}/main/friendMessage",
+				dataType : "json",
+				success : function(data){
+					console.log(data);
+					
+					var friendContent = $("#friendContent");
+					friendContent.html("");
+					
+					var toggle = $("<div class='toggle-date-section'><p class='mail-title'>"+"친구 쪽지 목록"+"</p></div>");
+					
+					friendContent.append(toggle);
+					
+					for(var i in data.flist){
+						
+						var friendInfoDiv = $("<div class='accordion-friendInfo'>");
+						var checkbox = $("<input type='checkbox' id='friend"+i+"'>");
+						var label = $("<label for='friend"+i+"'>");
+                        var friendInfo = $("<div class='friend-info-section'>");
+                        var profileInfo = $("<div class='profile-info'>");
+                        var friendProfile = $("<div class='profile-circle'><img src='${ contextPath }/resources/images/main/"+ data.flist[i].att.attSvName+"' alt='' class='friend-profile'></div>")
+                        var friendId = $("<p class='friend-profile-name'>"+ data.flist[i].att.id +"</p>");
+                        var sendBtn = $("<div class='sendBtn-section'><button class='sendBtn'>"+ "쪽지 보내기" +"</button></div>");
+                        var arrow = $("<em></em>");
+                        
+                        friendInfo.append(profileInfo,sendBtn);
+                        profileInfo.append(friendProfile,friendId);
+                        label.append(friendInfo,arrow);
+                        friendInfoDiv.append(checkbox,label);
+                        friendContent.append(friendInfoDiv);
+                        
+                        var fmailList = $("<div style='overflow:auto' class='friend-mailList'>");
+                        var ul2 = $("<ul class='friendMail-contentList'>");
+                        
+                        for(var j in data.fmlist){
+                        	
+                        	if(data.fmlist[j].msg.messSendId == data.flist[i].att.id){
+                        		
+                        		// 쪽지 읽음 여부 
+								var readStatus;
+								if(data.fmlist[j].msg.messRead == 'Y'){
+									readStatus = " ";
+								} else {
+									readStatus = "안 읽음";
+								}
+                        		
+								var li2 = $("<li class='friendMail-content' onclick='readMessage(" + data.fmlist[j].msg.messCode + "," + "\""  + data.fmlist[j].msg.messTitle + "\"" + ",\"" + data.fmlist[j].msg.messContent + "\"" + ",\"" + data.fmlist[j].msg.messSendId + "\"" + ")'><p class='mail-id'>"+data.fmlist[j].msg.messSendId+"</p>"+data.fmlist[j].msg.messTitle+"<p class='fr-time'></p><p class='mail-read'>"+readStatus+"</p></li>");
+
+								ul2.append(li2);
+								fmailList.append(ul2);
+								friendInfoDiv.append(fmailList);
+								
+					
+								
+                        	}
+                        	
+                        }
+						
+					}
+					
+					
+					
+				},
+				error : function(e){
+					alert("code : " + e.status + "\n"
+							+ "message : " + e.responseText);
+				}
+				
+			});
+	 		
+	 	}
 	 
     </script>
     
@@ -540,13 +628,12 @@
 
                  <!-- 2. 친구 쪽지 목록 -->
                  <div id="friendContent">
-                    <div class="toggle-date-section">
+                   <!--  <div class="toggle-date-section">
                         <p class="mail-title">친구 쪽지 목록</p>
-                        
-                    </div>
+                    </div> -->
                      <!-- #1-->
-                    <div class="accordion-friendInfo">
-                        <input type="checkbox" id="friend01">
+                    <%-- <div class="accordion-friendInfo">
+                       <input type="checkbox" id="friend01">
                         <label for="friend01">
                             <!-- 친구 정보, 보내기 버튼 둘러싸는 div-->
                             <div class="friend-info-section">
@@ -564,8 +651,8 @@
                             </div>
                             <!-- 화살표 사진 -->
                             <em></em>
-                        </label>
-                        <div style="overflow:auto" class="friend-mailList">
+                        </label> 
+                         <div style="overflow:auto" class="friend-mailList">
                             <ul class="friendMail-contentList">
                                 <li class="friendMail-content"><p class="mail-id">tmddk12</p>000입니다. 답장 부탁드려요~~! <p class="mail-time">1시간 전</p><p class="mail-read">읽음</p></li>
                                 <li class="friendMail-content"><p class="mail-id">tmddk12</p>000입니다. 회원님의 중고상품을 사고싶습니다. <p class="mail-time">1시간 전</p><p class="mail-read">읽음</p></li>
@@ -574,209 +661,9 @@
                                 <li class="friendMail-content"><p class="mail-id">tmddk12</p>000입니다. 답장 부탁드려요~~! <p class="mail-time">1시간 전</p><p class="mail-read">읽음</p></li>
                                 <li class="friendMail-content"><p class="mail-id">tmddk12</p>000입니다. 회원님의 중고상품을 사고싶습니다. <p class="mail-time">1시간 전</p><p class="mail-read">읽음</p></li>
                             </ul>
-                        </div>
-                    </div>
-                    <!-- #2-->
-                    <div class="accordion-friendInfo">
-                        <input type="checkbox" id="friend02">
-                        <label for="friend02">
-                            <!-- 친구 정보, 보내기 버튼 둘러싸는 div-->
-                            <div class="friend-info-section">
-                                <!-- 프로필사진 , 이름-->
-                                <div class="profile-info">
-                                    <div class="profile-circle">
-                                        <img src="${ contextPath }/resources/images/main/feed1.svg" alt="" class="friend-profile">
-                                    </div>
-                                    <p class="friend-profile-name">tmddk12</p>
-                                </div>
-                                <!-- 쪽지 보내기 버튼 div-->
-                                <div class="sendBtn-section">
-                                    <button class="sendBtn">쪽지 보내기</button>
-                                </div>
-                            </div>
-                            <!-- 화살표 사진 -->
-                            <em></em>
-                        </label>
-                        <div style="overflow:auto" class="friend-mailList">
-                            <ul class="friendMail-contentList">
-                                <li class="friendMail-content"><p class="mail-id">tmddk12</p>000입니다. 답장 부탁드려요~~! <p class="mail-time">1시간 전</p><p class="mail-read">읽음</p></li>
-                                <li class="friendMail-content"><p class="mail-id">tmddk12</p>000입니다. 회원님의 중고상품을 사고싶습니다. <p class="mail-time">1시간 전</p><p class="mail-read">읽음</p></li>
-                                <li class="friendMail-content"><p class="mail-id">tmddk12</p>000입니다. 답장 부탁드려요~~! <p class="mail-time">1시간 전</p><p class="mail-read">읽음</p></li>
-                                <li class="friendMail-content"><p class="mail-id">tmddk12</p>000입니다. 회원님의 중고상품을 사고싶습니다. <p class="mail-time">1시간 전</p></li>
-                                <li class="friendMail-content"><p class="mail-id">tmddk12</p>000입니다. 답장 부탁드려요~~! <p class="mail-time">1시간 전</p><p class="mail-read">읽음</p></li>
-                                <li class="friendMail-content"><p class="mail-id">tmddk12</p>000입니다. 회원님의 중고상품을 사고싶습니다. <p class="mail-time">1시간 전</p><p class="mail-read">읽음</p></li>
-                            </ul>
-                        </div>
-                    </div>
-
-                     <!-- #3-->
-                     <div class="accordion-friendInfo">
-                        <input type="checkbox" id="friend03">
-                        <label for="friend03">
-                            <!-- 친구 정보, 보내기 버튼 둘러싸는 div-->
-                            <div class="friend-info-section">
-                                <!-- 프로필사진 , 이름-->
-                                <div class="profile-info">
-                                    <div class="profile-circle">
-										<img src="${ contextPath }/resources/images/main/feed1.svg" alt="" class="friend-profile">                                    </div>
-                                    <p class="friend-profile-name">tmddk12</p>
-                                </div>
-                                <!-- 쪽지 보내기 버튼 div-->
-                                <div class="sendBtn-section">
-                                    <button class="sendBtn">쪽지 보내기</button>
-                                </div>
-                            </div>
-                            <!-- 화살표 사진 -->
-                            <em></em>
-                        </label>
-                        <div style="overflow:auto" class="friend-mailList">
-                            <ul class="friendMail-contentList">
-                                <li class="friendMail-content"><p class="mail-id">tmddk12</p>000입니다. 답장 부탁드려요~~! <p class="mail-time">1시간 전</p><p class="mail-read">읽음</p></li>
-                                <li class="friendMail-content"><p class="mail-id">tmddk12</p>000입니다. 회원님의 중고상품을 사고싶습니다. <p class="mail-time">1시간 전</p><p class="mail-read">읽음</p></li>
-                                <li class="friendMail-content"><p class="mail-id">tmddk12</p>000입니다. 답장 부탁드려요~~! <p class="mail-time">1시간 전</p><p class="mail-read">읽음</p></li>
-                                <li class="friendMail-content"><p class="mail-id">tmddk12</p>000입니다. 회원님의 중고상품을 사고싶습니다. <p class="mail-time">1시간 전</p></li>
-                                <li class="friendMail-content"><p class="mail-id">tmddk12</p>000입니다. 답장 부탁드려요~~! <p class="mail-time">1시간 전</p><p class="mail-read">읽음</p></li>
-                                <li class="friendMail-content"><p class="mail-id">tmddk12</p>000입니다. 회원님의 중고상품을 사고싶습니다. <p class="mail-time">1시간 전</p><p class="mail-read">읽음</p></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <!---->
-
-                      <!-- #4-->
-                      <div class="accordion-friendInfo">
-                        <input type="checkbox" id="friend04">
-                        <label for="friend04">
-                            <!-- 친구 정보, 보내기 버튼 둘러싸는 div-->
-                            <div class="friend-info-section">
-                                <!-- 프로필사진 , 이름-->
-                                <div class="profile-info">
-                                    <div class="profile-circle">
-                                        <img src="${ contextPath }/resources/images/main/feed1.svg" alt="" class="friend-profile">
-                                    </div>
-                                    <p class="friend-profile-name">tmddk12</p>
-                                </div>
-                                <!-- 쪽지 보내기 버튼 div-->
-                                <div class="sendBtn-section">
-                                    <button class="sendBtn">쪽지 보내기</button>
-                                </div>
-                            </div>
-                            <!-- 화살표 사진 -->
-                            <em></em>
-                        </label>
-                        <div style="overflow:auto" class="friend-mailList">
-                            <ul class="friendMail-contentList">
-                                <li class="friendMail-content"><p class="mail-id">tmddk12</p>000입니다. 답장 부탁드려요~~! <p class="mail-time">1시간 전</p><p class="mail-read">읽음</p></li>
-                                <li class="friendMail-content"><p class="mail-id">tmddk12</p>000입니다. 회원님의 중고상품을 사고싶습니다. <p class="mail-time">1시간 전</p><p class="mail-read">읽음</p></li>
-                                <li class="friendMail-content"><p class="mail-id">tmddk12</p>000입니다. 답장 부탁드려요~~! <p class="mail-time">1시간 전</p><p class="mail-read">읽음</p></li>
-                                <li class="friendMail-content"><p class="mail-id">tmddk12</p>000입니다. 회원님의 중고상품을 사고싶습니다. <p class="mail-time">1시간 전</p></li>
-                                <li class="friendMail-content"><p class="mail-id">tmddk12</p>000입니다. 답장 부탁드려요~~! <p class="mail-time">1시간 전</p><p class="mail-read">읽음</p></li>
-                                <li class="friendMail-content"><p class="mail-id">tmddk12</p>000입니다. 회원님의 중고상품을 사고싶습니다. <p class="mail-time">1시간 전</p><p class="mail-read">읽음</p></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <!---->
-
-                    <!-- #5-->
-                    <div class="accordion-friendInfo">
-                        <input type="checkbox" id="friend05">
-                        <label for="friend05">
-                            <!-- 친구 정보, 보내기 버튼 둘러싸는 div-->
-                            <div class="friend-info-section">
-                                <!-- 프로필사진 , 이름-->
-                                <div class="profile-info">
-                                    <div class="profile-circle">
-										<img src="${ contextPath }/resources/images/main/feed1.svg" alt="" class="friend-profile">                                    </div>
-                                    <p class="friend-profile-name">tmddk12</p>
-                                </div>
-                                <!-- 쪽지 보내기 버튼 div-->
-                                <div class="sendBtn-section">
-                                    <button class="sendBtn">쪽지 보내기</button>
-                                </div>
-                            </div>
-                            <!-- 화살표 사진 -->
-                            <em></em>
-                        </label>
-                        <div style="overflow:auto" class="friend-mailList">
-                            <ul class="friendMail-contentList">
-                                <li class="friendMail-content"><p class="mail-id">tmddk12</p>000입니다. 답장 부탁드려요~~! <p class="mail-time">1시간 전</p><p class="mail-read">읽음</p></li>
-                                <li class="friendMail-content"><p class="mail-id">tmddk12</p>000입니다. 회원님의 중고상품을 사고싶습니다. <p class="mail-time">1시간 전</p><p class="mail-read">읽음</p></li>
-                                <li class="friendMail-content"><p class="mail-id">tmddk12</p>000입니다. 답장 부탁드려요~~! <p class="mail-time">1시간 전</p><p class="mail-read">읽음</p></li>
-                                <li class="friendMail-content"><p class="mail-id">tmddk12</p>000입니다. 회원님의 중고상품을 사고싶습니다. <p class="mail-time">1시간 전</p></li>
-                                <li class="friendMail-content"><p class="mail-id">tmddk12</p>000입니다. 답장 부탁드려요~~! <p class="mail-time">1시간 전</p><p class="mail-read">읽음</p></li>
-                                <li class="friendMail-content"><p class="mail-id">tmddk12</p>000입니다. 회원님의 중고상품을 사고싶습니다. <p class="mail-time">1시간 전</p><p class="mail-read">읽음</p></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <!---->
-
-
-                    <!-- #6-->
-                    <div class="accordion-friendInfo">
-                        <input type="checkbox" id="friend06">
-                        <label for="friend06">
-                            <!-- 친구 정보, 보내기 버튼 둘러싸는 div-->
-                            <div class="friend-info-section">
-                                <!-- 프로필사진 , 이름-->
-                                <div class="profile-info">
-                                    <div class="profile-circle">
-                                        <img src="${ contextPath }/resources/images/main/feed1.svg" alt="" class="friend-profile">
-                                    </div>
-                                    <p class="friend-profile-name">tmddk12</p>
-                                </div>
-                                <!-- 쪽지 보내기 버튼 div-->
-                                <div class="sendBtn-section">
-                                    <button class="sendBtn">쪽지 보내기</button>
-                                </div>
-                            </div>
-                            <!-- 화살표 사진 -->
-                            <em></em>
-                        </label>
-                        <div style="overflow:auto" class="friend-mailList">
-                            <ul class="friendMail-contentList">
-                                <li class="friendMail-content"><p class="mail-id">tmddk12</p>000입니다. 답장 부탁드려요~~! <p class="mail-time">1시간 전</p><p class="mail-read">읽음</p></li>
-                                <li class="friendMail-content"><p class="mail-id">tmddk12</p>000입니다. 회원님의 중고상품을 사고싶습니다. <p class="mail-time">1시간 전</p><p class="mail-read">읽음</p></li>
-                                <li class="friendMail-content"><p class="mail-id">tmddk12</p>000입니다. 답장 부탁드려요~~! <p class="mail-time">1시간 전</p><p class="mail-read">읽음</p></li>
-                                <li class="friendMail-content"><p class="mail-id">tmddk12</p>000입니다. 회원님의 중고상품을 사고싶습니다. <p class="mail-time">1시간 전</p></li>
-                                <li class="friendMail-content"><p class="mail-id">tmddk12</p>000입니다. 답장 부탁드려요~~! <p class="mail-time">1시간 전</p><p class="mail-read">읽음</p></li>
-                                <li class="friendMail-content"><p class="mail-id">tmddk12</p>000입니다. 회원님의 중고상품을 사고싶습니다. <p class="mail-time">1시간 전</p><p class="mail-read">읽음</p></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <!---->
-
-
-                    <!-- #7-->
-                    <div class="accordion-friendInfo">
-                        <input type="checkbox" id="friend07">
-                        <label for="friend07">
-                            <!-- 친구 정보, 보내기 버튼 둘러싸는 div-->
-                            <div class="friend-info-section">
-                                <!-- 프로필사진 , 이름-->
-                                <div class="profile-info">
-                                    <div class="profile-circle">
-                                        <img src="${ contextPath }/resources/images/main/feed1.svg" alt="" class="friend-profile">
-                                    </div>
-                                    <p class="friend-profile-name">tmddk12</p>
-                                </div>
-                                <!-- 쪽지 보내기 버튼 div-->
-                                <div class="sendBtn-section">
-                                    <button class="sendBtn">쪽지 보내기</button>
-                                </div>
-                            </div>
-                            <!-- 화살표 사진 -->
-                            <em></em>
-                        </label>
-                        <div style="overflow:auto" class="friend-mailList">
-                            <ul class="friendMail-contentList">
-                                <li class="friendMail-content"><p class="mail-id">tmddk12</p>000입니다. 답장 부탁드려요~~! <p class="mail-time">1시간 전</p><p class="mail-read">읽음</p></li>
-                                <li class="friendMail-content"><p class="mail-id">tmddk12</p>000입니다. 회원님의 중고상품을 사고싶습니다. <p class="mail-time">1시간 전</p><p class="mail-read">읽음</p></li>
-                                <li class="friendMail-content"><p class="mail-id">tmddk12</p>000입니다. 답장 부탁드려요~~! <p class="mail-time">1시간 전</p><p class="mail-read">읽음</p></li>
-                                <li class="friendMail-content"><p class="mail-id">tmddk12</p>000입니다. 회원님의 중고상품을 사고싶습니다. <p class="mail-time">1시간 전</p></li>
-                                <li class="friendMail-content"><p class="mail-id">tmddk12</p>000입니다. 답장 부탁드려요~~! <p class="mail-time">1시간 전</p><p class="mail-read">읽음</p></li>
-                                <li class="friendMail-content"><p class="mail-id">tmddk12</p>000입니다. 회원님의 중고상품을 사고싶습니다. <p class="mail-time">1시간 전</p><p class="mail-read">읽음</p></li>
-                            </ul>
-                        </div>
-                    </div>
+                        </div> 
+                    </div>  --%>
+                    <!-- 끝끝 -->
 
                 </div>
                 <!---->
@@ -793,7 +680,7 @@
                     <c:if test="${ loginUser.classifyMem eq 1}">
                     	<li class="etc-content" id="fanStore">팬 스토어</li>
                     </c:if>
-                    <li class="etc-content" id="notice">공지사항</li>
+                    <li class="etc-content" id="notice" onclick="location.href='${ contextPath }/notice/list'">공지사항</li>
                     <li class="etc-content" id="logout" onclick="location.href='${ contextPath }/member/logout'">로그아웃</li>
                 </ul>
             </div>

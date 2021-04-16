@@ -10,6 +10,7 @@ import com.kh.fantimate.common.model.vo.Alarm;
 import com.kh.fantimate.common.model.vo.Attachment;
 import com.kh.fantimate.common.model.vo.Message;
 import com.kh.fantimate.common.model.vo.Report;
+import com.kh.fantimate.main.model.vo.FriendCollection;
 import com.kh.fantimate.main.model.vo.MainCollection;
 import com.kh.fantimate.main.model.vo.SubscribeArtist;
 import com.kh.fantimate.member.model.vo.Member;
@@ -129,6 +130,18 @@ public class MainDaoImpl implements MainDao{
 	public int selectMailCount(String user) {
 		
 		return sqlSession.selectOne("mainMapper.selectMailCount",user);
+	}
+
+	@Override
+	public List<FriendCollection> selectFriendInfo(String user) {
+		
+		return sqlSession.selectList("mainMapper.selectFriendInfo",user);
+	}
+
+	@Override
+	public List<FriendCollection> selectFriendMsg(String user) {
+		
+		return sqlSession.selectList("mainMapper.selectFriendMsg",user);
 	}
 	
 	

@@ -10,6 +10,7 @@ import com.kh.fantimate.common.model.vo.Attachment;
 import com.kh.fantimate.common.model.vo.Message;
 import com.kh.fantimate.common.model.vo.Report;
 import com.kh.fantimate.main.model.dao.MainDao;
+import com.kh.fantimate.main.model.vo.FriendCollection;
 import com.kh.fantimate.main.model.vo.MainCollection;
 import com.kh.fantimate.main.model.vo.SubscribeArtist;
 
@@ -126,6 +127,18 @@ public class MainServiceImpl implements MainService{
 	public int selectMailCount(String user) {
 		
 		return mpDao.selectMailCount(user);
+	}
+
+	@Override
+	public List<FriendCollection> selectFriendInfo(String user) {
+		
+		return mpDao.selectFriendInfo(user);
+	}
+
+	@Override
+	public List<FriendCollection> selectFriendMsg(String user) {
+		
+		return mpDao.selectFriendMsg(user);
 	}
 
 }
