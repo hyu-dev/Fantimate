@@ -57,14 +57,15 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<result property="cateName" column="M_CATE_NAME"/>
 		<result property="artiNameEn" column="M_ARTI_NAME_EN"/>
 	</resultMap>
-	<resultMap type="Attachment" id="attMediaResultSet">
+	<resultMap type="MediaFile" id="mediaFileResultSet">
 		<id property="attCode" column="M_ATT_CODE"/>
 		<result property="attRoot" column="M_ATT_ROOT"/>
-		<result property="attClName" column="M_ATT_CL_NAME"/>
-		<result property="attSvName" column="M_ATT_SV_NAME"/>
+		<result property="vidClName" column="VID_CL_NAME"/>
+		<result property="vidSvName" column="VID_SV_NAME"/>
 		<result property="attStatus" column="M_ATT_STATUS"/>
 		<result property="refId" column="MEDIA_NUM"/>
-		<result property="attMain" column="IS_THUMB"/>
+		<result property="picClName" column="PIC_CL_NAME"/>
+		<result property="picSvName" column="PIC_SV_NAME"/>
 	</resultMap>
 	<resultMap type="CartCollection" id="cartCollResultSet">
 		<collection property="cart" resultMap="cartResultSet"/>
@@ -73,7 +74,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<collection property="att" resultMap="attResultSet" />
 		<collection property="official" resultMap="mediaResultSet" />
 		<collection property="mcategory" resultMap="mcateResultSet" />
-		<collection property="attMedia" resultMap="attMediaResultSet" />
+		<collection property="attMedia" resultMap="mediaFileResultSet" />
 	</resultMap>
 	<resultMap type="Payment" id="paymentResultSet">
 		<id property="payCode" column="PAY_CODE"/>
@@ -134,10 +135,11 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
               , CATE_NAME AS "M_CATE_NAME"
               , MC.ARTI_NAME_EN AS "M_ARTI_NAME_EN"
               , MATT.ATT_CODE AS "M_ATT_CODE"
-              , MATT.ATT_CL_NAME AS "M_ATT_CL_NAME"
-              , MATT.ATT_SV_NAME AS "M_ATT_SV_NAME"
+              , VID_CL_NAME
+              , VID_SV_NAME
               , MATT.ATT_STATUS AS "M_ATT_STATUS"
-              , IS_THUMB
+              , PIC_CL_NAME
+              , PIC_SV_NAME
 		  FROM 	
 		  		CART C
 		  LEFT JOIN 
@@ -330,23 +332,23 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
               , CATE_NAME AS "M_CATE_NAME"
               , MC.ARTI_NAME_EN AS "M_ARTI_NAME_EN"
               , MATT.ATT_CODE AS "M_ATT_CODE"
-              , MATT.ATT_CL_NAME AS "M_ATT_CL_NAME"
-              , MATT.ATT_SV_NAME AS "M_ATT_SV_NAME"
+              , VID_CL_NAME
+              , VID_SV_NAME
               , MATT.ATT_STATUS AS "M_ATT_STATUS"
-              , IS_THUMB
+              , PIC_CL_NAME
+              , PIC_SV_NAME
 		  FROM 	
 		  		CART C
-		  LEFT JOIN
+		  JOIN
 		  		MEDIA M USING(MEDIA_NUM)
-		  LEFT JOIN
+		  JOIN
 		  		MD_FILE MATT USING(MEDIA_NUM)
-		  LEFT JOIN
+		  JOIN
 		  		M_CATEGORY MC USING(CATE_CODE)
 		 WHERE 
 				ID = #{userId}
 		   AND
 		   		IS_BOUGHT = 'Y'
-           AND  IS_THUMB = 'Y'
 	  ORDER BY 	BOUGHT_DATE DESC
 	</select>
 </mapper>
