@@ -171,4 +171,9 @@ public class StoreServiceImpl implements StoreService {
 		return result;
 	}
 
+	@Override
+	public List<StoreCollection> selectOneReview(Review rv) {
+		return sDao.selectOneReview(rv);
+	}
+
 }

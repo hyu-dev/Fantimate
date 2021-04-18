@@ -186,16 +186,42 @@
 	    // 포토리뷰 보기
 	    $('.completed-review').click(function() {
 	    	var pcode = $(this).siblings(".pcode").val();
+	    	var bcode = $(this).siblings(".bcode").val();
 	    	$.ajax({
-	    		url : "${ pageContext.request.contextPath }/store/review/" + pcode + "/" + userId,
+	    		url : "${ pageContext.request.contextPath }/store/review/" + pcode + "/" + bcode,
+	    		data : "get",
 	    		dataType : "json",
 	    		success : function(data) {
+	    			console.log(data)
+	    			var src = "${contextPath}/resources/uploadFiles/" + data[0].att.attSvName;
+	    			$(".read-product img").attr("src", src);
+	    			$(".read-info p").text(data[0].storeCate.artiNameEn);
+	    			$(".read-info b").text(data[0].store.pname);
+	    			$(".read-score").text(data[0].review.rvScore + ".0");
+	    			$(".read-title").val(data[0].review.rvTitle);
+	    			$(".read-content").text(data[0].review.rvContent);
+	    			var star = $(".read-star").html("");
+	    			for(var i = 1; i <= 5; i++) {
+	    				var img = $("<img alt=''>");
+	    				if(i <= data[0].review.rvScore) {
+	    					img.attr("src", "${ contextPath }/resources/images/store/star-pink.png");
+	    				} else {
+	    					img.attr("src", "${ contextPath }/resources/images/store/star-gray.png");
+	    				}
+	    				star.append(img);
+	    			}
+	    			
+	    			var photo = $(".read-photo").html("");
+	    			for(var i in data) {
+	    				var src = "${contextPath}/resources/uploadFiles/" + data[i].attReview.attSvName;
+	    				var img = $("<img class='main-photo'>").attr("src", src);
+	    				photo.append(img);
+	    			}
 	    			
 	    		},
 	    		error : function(e) {
 	    			console.log(e)
 	    		}
-	    		
 	    	});
 	    	$(".read-section").fadeIn();
 	    })

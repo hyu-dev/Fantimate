@@ -655,4 +655,16 @@ public class StoreController {
 		}
 	}
 	
+	@GetMapping("/review/{pcode}/{bcode}")
+	public List<StoreCollection> reviewPage(@PathVariable int pcode,
+			   								 @PathVariable int bcode,
+			   								 HttpServletRequest request) {
+		Review rv = new Review();
+		rv.setPcode(pcode);
+		rv.setBcode(bcode);
+		rv.setId(((Member)request.getSession().getAttribute("loginUser")).getId());
+		List<StoreCollection> list = sService.selectOneReview(rv);
+		return list;
+	}
+	
 }

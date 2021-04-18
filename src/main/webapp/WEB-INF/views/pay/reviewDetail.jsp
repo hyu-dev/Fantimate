@@ -20,37 +20,33 @@
         <div class="main-template">
             <div class="my-score">
                 <article>
-                    <div class="product-background">
-                        <img src="${ contextPath }/resources/images/store/1stAlbumBts.png" alt="">
+                    <div class="product-background read-product">
+                        <img src="${ contextPath }/resources/uploadFiles/아이유_밤편지.jpg" alt="">
                     </div>
-                    <div class="product-info">
+                    <div class="product-info read-info">
                         <p>BTS</p>
                         <b>The 1st Album - Dark & Wild</b>
                     </div>
                 </article>
                 <article>
                     <p>내 평점</p>
-                    <div class="my-score-star">
+                    <div class="my-score-star read-star">
                         <img src="${ contextPath }/resources/images/store/star-pink.png" alt="">
                         <img src="${ contextPath }/resources/images/store/star-pink.png" alt="">
                         <img src="${ contextPath }/resources/images/store/star-pink.png" alt="">
                         <img src="${ contextPath }/resources/images/store/star-pink.png" alt="">
                         <img src="${ contextPath }/resources/images/store/star-gray.png" alt="">
                     </div>
-                    <p class="score-number">4.0</p>
+                    <p class="score-number read-score"></p>
                 </article>
             </div>
             <div class="read-review">
-                <input type="text" name="" readonly value="울 옵빠 넘흐 멋져효~">
+                <input type="text" class="read-title" readonly value="">
                 <div>
-                    <textarea name="" readonly>ㅠㅠㅠ 초기때부터 넘 좋아했는데 이렇게 갑자기 빵뜰 줄 누가 알았나요? 아셨어요? 저는 알았습니닿ㅎ 1집때부터 좋아했는데 잘생긴 우리 뷔님을 보면서 나는 알았지효.. 우리 방탄</textarea>
+                    <textarea class="read-content" readonly></textarea>
                 </div>
             </div>
             <div class="read-photo">
-                <img class="main-photo" src="${ contextPath }/resources/images/store/1stAlbumBts.png" alt=""></img>
-                <img class="main-photo" src="${ contextPath }/resources/images/store/1stAlbumBts.png" alt=""></img>
-                <img class="main-photo" src="${ contextPath }/resources/images/store/1stAlbumBts.png" alt=""></img>
-                <img class="main-photo" src="${ contextPath }/resources/images/store/1stAlbumBts.png" alt=""></img>
                 <img class="main-photo" src="${ contextPath }/resources/images/store/1stAlbumBts.png" alt=""></img>
             </div>
             <div class="btn-area">

@@ -111,5 +111,8 @@ public interface StoreDao {
 
 	// 리뷰 사진 등록
 	public int insertReviewAtt(List<Attachment> attList);
+
+	// 등록된 리뷰 불러오기
+	public List<StoreCollection> selectOneReview(Review rv);
 	
 }

@@ -73,4 +73,7 @@ public interface StoreService {
 	// 리뷰 등록
 	public int insertReview(Review review, List<Attachment> attList);
 
+	// 등록된 리뷰 불러오기
+	public List<StoreCollection> selectOneReview(Review rv);
+
 }

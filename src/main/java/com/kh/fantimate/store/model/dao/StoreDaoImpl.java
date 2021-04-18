@@ -187,4 +187,9 @@ public class StoreDaoImpl implements StoreDao {
 		return sqlSession.insert("storeMapper.insertReviewAtt", attList);
 	}
 
+	@Override
+	public List<StoreCollection> selectOneReview(Review rv) {
+		return sqlSession.selectList("storeMapper.selectOneReview", rv);
+	}
+
 }
