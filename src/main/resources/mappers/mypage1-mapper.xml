@@ -1,0 +1,444 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="mypage1Mapper">
+	<!-- 공통 유저 정보 -->
+	<resultMap type="Member" id="commonResultSet">
+		<id property = "id" column="ID"/>
+		<result property="pwd" column="PWD"/>
+		<result property="name" column="NAME"/>
+		<result property="status" column="STATUS"/>
+		<result property="signupDate" column="SIGNUP_DATE"/>
+		<result property="classifyMem" column="CLASSIFY_MEM"/>
+	</resultMap>
+	
+	<!-- 신고 쪽지객체(참) -->
+	<resultMap type="Report" id="rptMessage">
+		<id property="rptCode" column="RPT_CODE"/>
+		<result property="rptType" column="RPT_TYPE"/>
+		<result property="rptReason" column="RPT_REASON"/>
+		<result property="rptDate" column="RPT_DATE"/>
+		<result property="isReported" column="IS_REPORTED"/>
+		<result property="rptId" column="U_ID"/>
+		<result property="refId" column="MESS_NO"/>
+	</resultMap>
+	<!-- 쪽지 객체(참) -->
+	<resultMap type="MessageList" id="MessageList">
+		<id property="messCode" column="MESS_NO"/>
+		<result property="messTitle" column="MESS_TITLE"/>
+		<result property="messContent" column="MESS_CONTENT"/>
+		<result property="messDate" column="MESS_DATE"/>
+		<result property="messRead" column="MESS_READ"/>
+		<result property="messSendId" column="U_ID_SEND"/>
+		<result property="messRecId" column="U_ID_RECEIVE"/>
+		<result property="messStatus" column="MESS_STATUS"/>
+		<collection property="report" resultMap="rptMessage"/>
+	</resultMap>
+	
+<!-- 신고객체 Fanstore -->
+	<resultMap type="Report" id="rptFanstore">
+		<id property="rptCode" column="RPT_CODE"/>
+		<result property="rptType" column="RPT_TYPE"/>
+		<result property="rptReason" column="RPT_REASON"/>
+		<result property="rptDate" column="RPT_DATE"/>
+		<result property="isReported" column="IS_REPORTED"/>
+		<result property="rptId" column="rsendid"/>
+		<result property="refId" column="F_CODE"/>
+	</resultMap>
+	 	<!-- 팬스토어 객체 -->
+		<resultMap type="FanStore2" id="FanStore2">
+			<id property="fcode" column="F_CODE"/>
+			<result property="fname" column="F_NAME"/>
+			<result property="offerprice" column="OFFER_PRICE"/>
+			<result property="contect" column="CONTECT"/>
+			<result property="deal" column="DEAL"/>
+			<result property="finfo" column="F_INFO"/>
+			<result property="isactive" column="IS_ACTIVE"/>
+			<result property="id" column="rrecid"/>
+			<result property="areacode" column="AREA_CODE"/>
+		</resultMap>
+	 	<!-- 팬스토어신고 --> 
+		<resultMap type="FanstoreList" id="fanstoreListMap">
+			<collection property="fanStore" resultMap="FanStore2"/>
+			<collection property="report" resultMap="rptFanstore"/>
+		</resultMap>
+		
+<!-- 신고객체 FanstoreR -->
+		<resultMap type="Report" id="rptFanstoreR">
+			<id property="rptCode" column="RPT_CODE"/>
+			<result property="rptType" column="RPT_TYPE"/>
+			<result property="rptReason" column="RPT_REASON"/>
+			<result property="rptDate" column="RPT_DATE"/>
+			<result property="isReported" column="IS_REPORTED"/>
+			<result property="rptId" column="sendid"/>
+			<result property="refId" column="FR_CODE"/>
+		</resultMap>
+	 	<!-- 팬스토어댓글 객체 -->
+		<resultMap type="FanStoreR" id="fanStoreRset">
+			<id property="frcode" column="FR_CODE"/>
+			<result property="frdate" column="FR_DATE"/>
+			<result property="frcontent" column="FR_CONTENT"/>
+			<result property="fcode" column="F_CODE"/>
+			<result property="id" column="recid"/>
+		</resultMap>
+	 	<!-- 팬스토어 댓글신고 --> 
+		<resultMap type="FanstoreRList" id="fanstoreRListMap">
+			<collection property="fanStoreR" resultMap="fanStoreRset"/>
+			<collection property="report" resultMap="rptFanstoreR"/>
+		</resultMap>
+	
+	
+<!-- 신고객체미디어댓글  -->
+		<resultMap type="Report" id="rptMediaR">
+			<id property="rptCode" column="RPT_NUM"/>
+			<result property="rptType" column="RPT_TYPE"/>
+			<result property="rptReason" column="RPT_REASON"/>
+			<result property="rptDate" column="RPT_DATE"/>
+			<result property="isReported" column="IS_REPORTED"/>
+			<result property="rptId" column="sendid"/>
+			<result property="refId" column="CMT_NUM"/>
+		</resultMap>
+	 	<!-- 미디어댓글 객체, 똑같이 만들어서 생략 가능? -->
+		<resultMap type="MediaR" id="mediarset">
+			<id property="cmtnum" column="CMT_NUM"/>
+			<result property="cmtctt" column="CMT_CTT"/>
+			<result property="cmtdate" column="CMT_DATE"/>
+			<result property="rptcount" column="RPT_COUNT"/>
+			<result property="cmtstatus" column="CMT_STATUS"/>
+			<result property="id" column="recid"/>
+			<result property="recmtnum" column="RE_CMT_NUM"/>
+			<result property="medianum" column="MEDIA_NUM"/>
+		</resultMap>
+	
+	 	<!-- 미디어 댓글신고 --> 
+		<resultMap type="MediaRList" id="mediaRListMap">
+			<collection property="mediar" resultMap="mediarset"/>
+			<collection property="report" resultMap="rptMediaR"/>
+		</resultMap>
+	
+	
+	
+	
+	<select id="checkId" parameterType="string" resultType="integer">
+		SELECT
+				COUNT(*)
+		  FROM
+		  		COMMON
+		 WHERE 
+		 		ID = #{id}
+	</select>
+
+	<insert id="insertCommon" parameterType="Member">
+		INSERT
+		INTO COMMON
+		(
+			ID
+		  , PWD
+		  , NAME
+		  , STATUS
+		  , SIGNUP_DATE
+		  , CLASSIFY_MEM
+		)
+		VALUES
+		(
+		    #{id}
+		  , #{pwd}
+		  , #{name}
+		  , DEFAULT
+		  , SYSDATE
+		  , 3 
+		)
+	</insert>
+	
+	<insert id="insertAgency" parameterType="Agency">
+		INSERT
+		INTO AGENCY
+		(
+		       AG_ID
+		     , AG_NUM
+		     , AG_PHONE
+		     , AG_EMAIL
+		)
+		VALUES
+		( 
+			#{agId}
+		  , #{agNum}
+		  , #{agPhone}
+		  , #{agEmail}
+		)		
+	</insert>
+	
+	<select id="reportListCountMessage" resultType="_int">
+		SELECT
+				COUNT(*)
+		  FROM
+		  		RPT_MESSAGE
+	</select>
+	<select id="selectMsgList" resultMap="MessageList">
+		SELECT  
+				RPT_CODE
+			  , RPT_TYPE
+			  , RPT_REASON
+			  , RPT_DATE
+			  , IS_REPORTED
+			  , U_ID
+			  
+			  , a.MESS_NO
+			  , MESS_CONTENT
+			  , MESS_TITLE
+			  , MESS_DATE
+			  , MESS_READ
+			  , U_ID_SEND
+			  , U_ID_RECEIVE
+			  , MESS_STATUS
+		  FROM
+		   	 	RPT_MESSAGE a
+	 LEFT JOIN
+		    	MESSAGE b
+		    ON
+		    	a.MESS_NO = b.MESS_NO
+	  ORDER BY 	RPT_DATE
+	</select>
+	
+	<select id="reportListCountfanstore" resultType="_int">
+		SELECT
+				COUNT(*)
+		  FROM
+		  		RPT_FSTORE
+	</select>
+	
+	<!-- 팬스토어신고 -->
+	<select id="selectfanstoreList" resultMap="fanstoreListMap">
+		SELECT  
+			    r.F_CODE
+			  ,	RPT_CODE
+			  , RPT_TYPE
+			  , RPT_REASON
+			  , RPT_DATE
+			  , IS_REPORTED
+			  , r.ID as rsendid		<!-- 신고한 회원 -->
+			  
+			  ,	f.F_CODE	
+			  ,	F_NAME
+			  ,	OFFER_PRICE
+			  ,	CONTECT
+			  ,	DEAL
+			  ,	F_INFO
+			  ,	IS_ACTIVE
+			  ,	f.ID as rrecid		<!-- 신고당한 회원 -->
+			  ,	AREA_CODE
+		  FROM
+    			RPT_FSTORE r
+	 LEFT JOIN
+    		 	F_STORE f
+			ON
+    			r.F_CODE = f.F_CODE
+      ORDER BY 	RPT_DATE
+	</select>
+	
+	
+	<select id="RListCountMethod" resultType="_int" parameterType="string">
+		SELECT 
+				COUNT(*)
+		  FROM
+		  <choose>
+		  		
+		  		<when test="_parameter == 'PRT_MESSAGE'">
+					PRT_MESSAGE
+				</when>
+				<when test="_parameter == 'RPT_FSTORE'">
+					RPT_FSTORE
+				</when>
+		  		<when test="_parameter == 'RPT_FREPLY'">
+					RPT_FREPLY
+				</when>
+				<when test="_parameter == 'MD_CMT_RPT'">
+					MD_CMT_RPT
+				</when>
+		  		<when test="_parameter == 'B_RPT'">
+					B_RPT
+				</when>
+				<when test="_parameter == 'B_RE_RPT'">
+					B_RE_RPT
+				</when>
+				<when test="_parameter == 'COMMON'">
+					COMMON
+				</when>
+			  <otherwise>
+			  		RPT_MESSAGE
+			  </otherwise>
+		  </choose>
+<!-- 방법5		 
+잘못된 비교 : java.util.LinkedHashMap 및 java.lang.String
+### 원인 : java.lang.IllegalArgumentException : 유효하지 않은 비교 :   -->
+<!-- 		 			<if test="#{category} == 'RPT_MESSAGE'.toString()"> -->
+<!-- 		 				RPT_MESSAGE -->
+<!-- 		 			</if> -->
+<!-- 		 			<if test="#{category} == 'RPT_FSTORE'.toString()"> -->
+<!-- 		 				RPT_FSTORE -->
+<!-- 		 			</if> -->
+<!-- 		 			<if test="#{category} == 'RPT_FREPLY'.toString()"> -->
+<!-- 		 				RPT_FREPLY -->
+<!-- 		 			</if> -->
+<!-- 		 			<if test="#{category} == 'MD_CMT_RPT'.toString()"> -->
+<!-- 		 				MD_CMT_RPT -->
+<!-- 		 			</if> -->
+<!-- 		 			<if test="#{category} == 'B_RPT'.toString()"> -->
+<!-- 		 				B_RPT -->
+<!-- 		 			</if> -->
+<!-- 		 			<if test="#{category} == 'B_RE_RPT'.toString()"> -->
+<!-- 		 				B_RE_RPT -->
+<!-- 		 			</if> -->
+		  
+<!-- 방법4 -->		  
+<!-- 		        <if test='#{category} == "RPT_MESSAGE"'> -->
+<!-- 		  			RPT_MESSAGE -->
+<!-- 		  	 	</if> -->
+<!-- 		        <if test='#{category} == "RPT_FSTORE"'> -->
+<!-- 		  			RPT_FSTORE -->
+<!-- 		  	 	</if> -->
+<!-- 		        <if test='#{category} == "RPT_FREPLY"'> -->
+<!-- 		  			RPT_FREPLY -->
+<!-- 		  	 	</if> -->
+<!-- 		        <if test='#{category} == "MD_CMT_RPT"'> -->
+<!-- 		  			MD_CMT_RPT -->
+<!-- 		  	 	</if> -->
+<!-- 		        <if test='#{category} == "B_RPT"'> -->
+<!-- 		  			B_RPT -->
+<!-- 		  	 	</if> -->
+<!-- 		        <if test='#{category} == "B_RE_RPT"'> -->
+<!-- 		  			B_RE_RPT -->
+<!-- 		  	 	</if> -->
+		  	 	
+<!-- 방법3 -->
+<!-- 		  	  <if test='#{category}.equals("RPT_MESSAGE")'> -->
+<!-- 			  		RPT_MESSAGE -->
+<!-- 			  </if> -->
+<!-- 			  <if test='#{category}.equals("RPT_FSTORE")'> -->
+<!-- 			  		RPT_FSTORE -->
+<!-- 			  </if> -->
+<!-- 			  <if test='#{category}.equals("RPT_FREPLY")'> -->
+<!-- 			  		RPT_FREPLY -->
+<!-- 			  </if> -->
+<!-- 			  <if test='#{category}.equals("MD_CMT_RPT")'> -->
+<!-- 			  		MD_CMT_RPT -->
+<!-- 			  </if> -->
+<!-- 			  <if test='#{category}.equals("B_RPT")'> -->
+<!-- 			  		B_RPT -->
+<!-- 			  </if> -->
+<!-- 			  <if test='#{category}.equals("B_RE_RPT")'> -->
+<!-- 			  		B_RE_RPT -->
+<!-- 			  </if> -->
+<!-- 방법1			   -->
+<!-- 		  		#{category} -->
+<!-- 방법2 -->
+<!-- 		  <choose> -->
+<!-- 		  <when test="'RPT_MESSAGE'.equals(#{category})"> -->
+<!-- 		  		RPT_MESSAGE -->
+<!-- 		  </when> -->
+<!-- 		  <when test="'RPT_FSTORE'.equals(#{category})"> -->
+<!-- 		  		RPT_FSTORE -->
+<!-- 		  </when> -->
+<!-- 		  <when test="'RPT_FREPLY'.equals(#{category})"> -->
+<!-- 		  		RPT_FREPLY -->
+<!-- 		  </when> -->
+<!-- 		  <when test="'MD_CMT_RPT'.equals(#{category})"> -->
+<!-- 		  		MD_CMT_RPT -->
+<!-- 		  </when> -->
+<!-- 		  <when test="'B_RPT'.equals(#{category})"> -->
+<!-- 		  		B_RPT -->
+<!-- 		  </when> -->
+<!-- 		  <when test="'B_RE_RPT'.equals(#{category})"> -->
+<!-- 		  		B_RE_RPT -->
+<!-- 		  </when> -->
+<!-- 		  <otherwise> -->
+<!-- 		  		RPT_MESSAGE -->
+<!-- 		  </otherwise> -->
+<!-- 		  </choose> -->
+	</select>
+	
+	<!-- 팬스토어 댓글 신고 -->
+	<select id="selectfanstoreRList" resultMap="fanstoreRListMap">
+        SELECT
+                RPT_CODE
+              , RPT_TYPE
+              , RPT_REASON
+              , RPT_DATE
+              , IS_REPORTED
+              , r.FR_CODE
+              , r.ID as sendid
+              
+              , f.FR_CODE
+              , FR_DATE
+              , FR_CONTENT
+              , F_CODE
+              , f.ID as recid
+          FROM
+                RPT_FREPLY r
+     LEFT JOIN
+                F_REPLY f
+            ON
+                r.FR_CODE = f.FR_CODE
+      ORDER BY 	RPT_DATE
+	</select>
+	
+	<!-- 미디어 댓글 신고 -->
+	<select id="requestReportMediaList" resultMap="mediaRListMap">
+        SELECT
+	            m.CMT_NUM
+	          , CMT_CTT
+	          , CMT_DATE
+	          , RPT_COUNT
+	          , CMT_STATUS
+	          , m.ID as recid
+	          , RE_CMT_NUM
+	          , MEDIA_NUM
+	          
+	          , RPT_NUM
+	          , RPT_TYPE
+	          , RPT_REASON
+	          , RPT_DATE
+	          , IS_REPORTED
+	          , r.ID as sendid
+	          , r.CMT_NUM
+	      FROM
+	            MD_CMT_RPT r
+	 LEFT JOIN
+	            MD_CMT m
+	        ON
+	            r.CMT_NUM = m.CMT_NUM
+	  ORDER BY 	RPT_DATE
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<select id="requestCommonList" resultMap="commonResultSet">
+	   SELECT
+                ID
+              , STATUS
+              , NAME
+              , SIGNUP_DATE
+              , CLASSIFY_MEM
+         FROM
+                COMMON
+        WHERE   
+                CLASSIFY_MEM &lt;= 3
+     ORDER BY 
+                SIGNUP_DATE, 
+    CASE WHEN   STATUS = 'Y' THEN 0 END
+	</select>
+</mapper>

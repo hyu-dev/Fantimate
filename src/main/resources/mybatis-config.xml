@@ -19,6 +19,14 @@
 		<typeAlias type="com.kh.fantimate.member.model.vo.Artist" alias="Artist"/>
 		<typeAlias type="com.kh.fantimate.member.model.vo.Admin" alias="Admin"/>
 		<typeAlias type="com.kh.fantimate.common.model.vo.Attachment" alias="Attachment"/>
+		<typeAlias type="com.kh.fantimate.common.model.vo.Report" alias="Report"/>
+		<typeAlias type="com.kh.fantimate.mypage1.model.vo.MessageList" alias="MessageList"/>
+		<typeAlias type="com.kh.fantimate.mypage1.model.vo.FanstoreList" alias="FanstoreList"/>
+		<typeAlias type="com.kh.fantimate.mypage1.model.vo.FanStoreR" alias="FanStoreR"/>
+		<typeAlias type="com.kh.fantimate.mypage1.model.vo.FanstoreRList" alias="FanstoreRList"/>
+		<typeAlias type="com.kh.fantimate.mypage1.model.vo.FanStore2" alias="FanStore2"/>
+		<typeAlias type="com.kh.fantimate.mypage1.model.vo.MediaR" alias="MediaR"/>
+		<typeAlias type="com.kh.fantimate.mypage1.model.vo.MediaRList" alias="MediaRList"/>
 		<typeAlias type="com.kh.fantimate.common.model.vo.Alarm" alias="Alarm"/>
 		<typeAlias type="com.kh.fantimate.common.model.vo.Message" alias="Message"/>
 		<typeAlias type="com.kh.fantimate.common.model.vo.Report" alias="Report"/>
@@ -58,6 +66,7 @@
 		<mapper resource="mappers/store-mapper.xml"/>
 		<mapper resource="mappers/fanfeed-mapper.xml"/>
 		<mapper resource="mappers/notice-mapper.xml"/>
+		<mapper resource="mappers/mypage1-mapper.xml"/>
 		<mapper resource="mappers/official-mapper.xml"/>
 		<mapper resource="mappers/main-mapper.xml"/>
 		<mapper resource="mappers/pay-mapper.xml"/>

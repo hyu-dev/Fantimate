@@ -16,6 +16,9 @@
 	<!--소속사 정보 등록창 -->
 	<jsp:include page="insertAgency.jsp"/>
 	
+	<!-- 신고 상세 -->
+	<jsp:include page="reportDetail.jsp"/>
+	
     <!-- 밑에 섹션 -->
     <section id="mypageAdminSection">
     
@@ -28,7 +31,6 @@
         <!-- 오른쪽 테이블 -->
         <article id="mypageContent">
             <h3>공지사항</h3>
-            <div></div>
             <table id="mypageAdminNotice">
                 <thead>
                     <tr>
@@ -39,7 +41,7 @@
                 </thead>
 
                 <tbody>
-                <c:if test="${ list } == null">
+                <c:if test="${ list.size() } == 0">
                 	<div>
                 		등록된 공지사항이 없습니다.
                 	</div>	

@@ -345,6 +345,19 @@ body{
     display: flex;
 }
 
+#agencyForm #idCheckAgency{
+    width: 60px;
+    height: 31px;
+    margin: 5px 10px 8px 27px;
+    border: 1px #D8D8D8 solid;
+    background: #5C5F78;
+    color: #FFFFFF;
+    position: absolute;
+    top: 263px;
+    left: 489px;
+    text-align: center;
+}
+
 #mypageUserUpdateLeft{
     display: inline-block;
     
@@ -591,6 +604,12 @@ body{
     padding: 172px 0;
    
 }
+#mypageContentListDiv{
+	margin: 5px 5px 5px 10px;
+}
+#mypageContentListDiv > a{
+	color:rgb(92, 95, 120);
+}
 #mypageContent >h3{
     font-size: 36px;
     margin-bottom: 18px;
@@ -611,6 +630,7 @@ body{
 /* 결제내역 테이블 */
 #mypageAdminpaylist,
 #mypageAdminReportlist,
+#mypageAdminFanstorelist,
 #mypageAdminNotice,
 #mypageAdminManage{
     width: 100%; 
@@ -623,6 +643,8 @@ body{
 }
 #mypageAdminpaylist thead,
 #mypageAdminReportlist thead,
+#mypageAdminFanstorelist thead,
+
 #mypageAdminNotice thead,
 #mypageAdminManage thead{
     background-color: #5C5F78;
@@ -630,6 +652,7 @@ body{
 }
 #mypageAdminpaylist thead tr,
 #mypageAdminReportlist thead tr,
+#mypageAdminFanstorelist, thead tr,
 #mypageAdminNotice thead tr,
 #mypageAdminManage thead tr{
     height: 50px;
@@ -660,6 +683,7 @@ body{
 
 #mypageAdminpaylist tbody td,
 #mypageAdminReportlist tbody td,
+#mypageAdminFanstorelist tbody td,
 #mypageAdminNotice tbody td,
 #mypageAdminManage tbody td{
     margin-top: 10px;
@@ -668,28 +692,35 @@ body{
 
 
 /* Admin 신고 */
-#mypageAdminReportlist{
-     /* table-layout:fixed; */
+#mypageAdminReportlist,
+#mypageAdminFanstorelist{
+/*      table-layout:fixed; */
 }
-#mypageAdminReportlist th:nth-child(1){
+#mypageAdminReportlist th:nth-child(1),
+#mypageAdminFanstorelist th:nth-child(1){
     width: 120px;
 }
-#mypageAdminReportlist th:nth-child(2){
+#mypageAdminReportlist th:nth-child(2),
+#mypageAdminFanstorelist th:nth-child(2){
     width: 100px;
 }
-#mypageAdminReportlist th:nth-child(3){
+#mypageAdminReportlist th:nth-child(3),
+#mypageAdminFanstorelist th:nth-child(3){
     width: 100px;
 }
-#mypageAdminReportlist th:nth-child(4){
+#mypageAdminReportlist th:nth-child(4),
+#mypageAdminFanstorelist th:nth-child(4){
     width: 400px;
     /* table-layout:fixed; */
     text-overflow:ellipsis; overflow:hidden; white-space:nowrap;    /*...처리*/
 
 }
-#mypageAdminReportlist th:nth-child(5){
+#mypageAdminReportlist th:nth-child(5),
+#mypageAdminFanstorelist th:nth-child(5){
     width: 100px;
 }
-#mypageAdminReportlist th:nth-child(6){
+#mypageAdminReportlist th:nth-child(6),
+#mypageAdminFanstorelist th:nth-child(6){
     width: 100px;
 }
 
@@ -945,16 +976,27 @@ textarea{
 /* 신고 상세내역 */
 #mypageReportDetail{
     /* .신고{ */
-    border: 1px solid #000;
     background: #fbf6f6;
     width: 538px;
     height: 607px;
     padding: 25px 69px 50px 35px;
 }
-
+#mypageReportDetail{
+    margin : 0 auto;
+	top: 100px;
+    border: 1px solid black;
+    
+    /*팝업창때매 추가*/
+    display: none;
+    position: relative;
+	z-index: 2;
+	
+	display: none;
+}
 /* 소속사 정보 등록*/
 /* 팝업떄매 추가된 div */
-#mypageAdminSignInWrap{
+#mypageAdminSignInWrap,
+#mypageReportDetailWrap{
 z-index: 1;
 width: 100%;
 height: 100vmax;
