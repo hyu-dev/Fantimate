@@ -44,29 +44,52 @@ public class Mypage1ServiceImpl implements Mypage1Service{
 		return mDao.insertCommon(common);
 	}
 
-	@Override
-	public int reportListCountMessage() {
-		return mDao.reportListCountMessage();
-	}
+//	@Override
+//	public int reportListCountMessage() {
+//		return mDao.reportListCountMessage();
+//	}
 
 	@Override
 	public List<Report> selectMsgList(ReportPageInfo pi) {
 		return mDao.selectMsgList(pi);
 	}
 
-	@Override
-	public int reportListCountfanstore() {
-		return mDao.reportListCountfanstore();
-	}
+//	@Override
+//	public int reportListCountfanstore() {
+//		return mDao.reportListCountfanstore();
+//	}
 
 	@Override
 	public List<Report> selectfanstoreList(ReportPageInfo pi) {
 		return mDao.selectfanstoreList(pi);
 	}
 
+//	@Override
+//	public int reportListCountfanstoreR() {
+//		return mDao.reportListCountfanstoreR();
+//	}
+
 	@Override
-	public int reportListCountfanstoreR() {
-		return mDao.reportListCountfanstoreR();
+	public int RListCountMethod(String category) {
+		return mDao.RListCountMethod(category);
+	}
+
+	@Override
+	public int RListCountMethod2(String category) {
+		return mDao.RListCountMethod2(category);
+	}
+
+	@Override
+	public List<Report> selectfanstoreRList(ReportPageInfo pi) {
+		return mDao.selectfanstoreRList(pi);
+	}
+	@Override
+	public List<Report> requestReportMediaList(ReportPageInfo pi) {
+		return mDao.requestReportMediaList(pi);
+	}
+	@Override
+	public List<Member> requestCommonList(ReportPageInfo pi) {
+		return mDao.requestCommonList(pi);
 	}
 
 }

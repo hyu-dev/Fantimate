@@ -13,7 +13,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class FanstoreList {
-	private FanStore2 fanStore;
+public class FanstoreRList {
+	private FanStoreR fanStoreR;
 	private Report report;	//신고객체
 }

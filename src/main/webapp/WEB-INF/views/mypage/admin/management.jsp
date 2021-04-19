@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" import="java.util.Date"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -35,100 +37,163 @@
                         <th>활동상태</th>
                         <th>회원유형</th>
                         <th>아이디</th>
-                        <th>연락처</th>
+                        <th>이름</th>		<!-- 연락처가 낫나 -->
                         <th>가입일</th>
                         <th>활동정지일</th>
                     </tr>
                 </thead>
 
                 <tbody>
-                    <tr>
-                        <td>222</td>
-                        <td>아티스트</td>
-                        <td>manager22</td>
-                        <td>010-1234-1234</td>
-                        <td>2021.03.14</td>
-                        <td>2021.03.14</td>
-                    </tr>
-                    <tr>
-                        <td>222</td>
-                        <td>아티스트</td>
-                        <td>manager22</td>
-                        <td>010-1234-1234</td>
-                        <td>2021.03.14</td>
-                        <td>2021.03.14</td>
-                    </tr>
-                    <tr>
-                        <td>222</td>
-                        <td>아티스트</td>
-                        <td>manager22</td>
-                        <td>010-1234-1234</td>
-                        <td>2021.03.14</td>
-                        <td>2021.03.14</td>
-                    </tr>
-                    <tr>
-                        <td>222</td>
-                        <td>아티스트</td>
-                        <td>manager22</td>
-                        <td>010-1234-1234</td>
-                        <td>2021.03.14</td>
-                        <td>2021.03.14</td>
-                    </tr>
-                    <tr>
-                        <td>222</td>
-                        <td>아티스트</td>
-                        <td>manager22</td>
-                        <td>010-1234-1234</td>
-                        <td>2021.03.14</td>
-                        <td>2021.03.14</td>
-                    </tr>
-                    <tr>
-                        <td>222</td>
-                        <td>아티스트</td>
-                        <td>manager22</td>
-                        <td>010-1234-1234</td>
-                        <td>2021.03.14</td>
-                        <td>2021.03.14</td>
-                    </tr>
-                    <tr>
-                        <td>222</td>
-                        <td>아티스트</td>
-                        <td>manager22</td>
-                        <td>010-1234-1234</td>
-                        <td>2021.03.14</td>
-                        <td>2021.03.14</td>
-                    </tr>
-                    <tr>
-                        <td>222</td>
-                        <td>아티스트</td>
-                        <td>manager22</td>
-                        <td>010-1234-1234</td>
-                        <td>2021.03.14</td>
-                        <td>2021.03.14</td>
-                    </tr>
-                    <tr>
-                        <td>222</td>
-                        <td>아티스트</td>
-                        <td>manager22</td>
-                        <td>010-1234-1234</td>
-                        <td>2021.03.14</td>
-                        <td>2021.03.14</td>
-                    </tr>
-                    <tr>
-                        <td>222</td>
-                        <td>아티스트</td>
-                        <td>manager22</td>
-                        <td>010-1234-1234</td>
-                        <td>2021.03.14</td>
-                        <td>2021.03.14</td>
-                    </tr>
+                	<c:forEach var="m" items="${ list }">
+                	<tr>
+                		<td>
+                		<c:if test="${ m.status eq 'Y' }">
+                			활동중
+                		</c:if>
+                		<c:if test="${ m.status eq 'N' }">
+                			정지
+                		</c:if>
+                		</td>	<!-- 활동상태 -->
+                		<td>
+                		<c:if test="${ m.classifyMem eq '1' }">
+                			일반회원
+                		</c:if>
+                		<c:if test="${ m.classifyMem eq '2' }">
+                			아티스트회원
+                		</c:if>
+                		<c:if test="${ m.classifyMem eq '3' }">
+                			소속사
+                		</c:if></td>		<!-- 회원유형 -->
+                		<td>${ m.id }</td>		<!-- 아이디 -->
+                		<td>${ m.name }</td>		<!-- 연락처/이름? -->
+                		<c:set var="date" value="<%= new Date() %>"/>
+                		<td><fmt:formatDate type="date" value="${ m.signupDate }"/></td>		<!-- 가입일 -->
+                		<td></td>		<!-- 활동정지일 -->
+                	</tr>
+                	</c:forEach>
+<!--                     <tr> -->
+<!--                         <td>222</td> -->
+<!--                         <td>아티스트</td> -->
+<!--                         <td>manager22</td> -->
+<!--                         <td>010-1234-1234</td> -->
+<!--                         <td>2021.03.14</td> -->
+<!--                         <td>2021.03.14</td> -->
+<!--                     </tr> -->
+<!--                     <tr> -->
+<!--                         <td>222</td> -->
+<!--                         <td>아티스트</td> -->
+<!--                         <td>manager22</td> -->
+<!--                         <td>010-1234-1234</td> -->
+<!--                         <td>2021.03.14</td> -->
+<!--                         <td>2021.03.14</td> -->
+<!--                     </tr> -->
+<!--                     <tr> -->
+<!--                         <td>222</td> -->
+<!--                         <td>아티스트</td> -->
+<!--                         <td>manager22</td> -->
+<!--                         <td>010-1234-1234</td> -->
+<!--                         <td>2021.03.14</td> -->
+<!--                         <td>2021.03.14</td> -->
+<!--                     </tr> -->
+<!--                     <tr> -->
+<!--                         <td>222</td> -->
+<!--                         <td>아티스트</td> -->
+<!--                         <td>manager22</td> -->
+<!--                         <td>010-1234-1234</td> -->
+<!--                         <td>2021.03.14</td> -->
+<!--                         <td>2021.03.14</td> -->
+<!--                     </tr> -->
+<!--                     <tr> -->
+<!--                         <td>222</td> -->
+<!--                         <td>아티스트</td> -->
+<!--                         <td>manager22</td> -->
+<!--                         <td>010-1234-1234</td> -->
+<!--                         <td>2021.03.14</td> -->
+<!--                         <td>2021.03.14</td> -->
+<!--                     </tr> -->
+<!--                     <tr> -->
+<!--                         <td>222</td> -->
+<!--                         <td>아티스트</td> -->
+<!--                         <td>manager22</td> -->
+<!--                         <td>010-1234-1234</td> -->
+<!--                         <td>2021.03.14</td> -->
+<!--                         <td>2021.03.14</td> -->
+<!--                     </tr> -->
+<!--                     <tr> -->
+<!--                         <td>222</td> -->
+<!--                         <td>아티스트</td> -->
+<!--                         <td>manager22</td> -->
+<!--                         <td>010-1234-1234</td> -->
+<!--                         <td>2021.03.14</td> -->
+<!--                         <td>2021.03.14</td> -->
+<!--                     </tr> -->
+<!--                     <tr> -->
+<!--                         <td>222</td> -->
+<!--                         <td>아티스트</td> -->
+<!--                         <td>manager22</td> -->
+<!--                         <td>010-1234-1234</td> -->
+<!--                         <td>2021.03.14</td> -->
+<!--                         <td>2021.03.14</td> -->
+<!--                     </tr> -->
+<!--                     <tr> -->
+<!--                         <td>222</td> -->
+<!--                         <td>아티스트</td> -->
+<!--                         <td>manager22</td> -->
+<!--                         <td>010-1234-1234</td> -->
+<!--                         <td>2021.03.14</td> -->
+<!--                         <td>2021.03.14</td> -->
+<!--                     </tr> -->
+<!--                     <tr> -->
+<!--                         <td>222</td> -->
+<!--                         <td>아티스트</td> -->
+<!--                         <td>manager22</td> -->
+<!--                         <td>010-1234-1234</td> -->
+<!--                         <td>2021.03.14</td> -->
+<!--                         <td>2021.03.14</td> -->
+<!--                     </tr> -->
 
                 </tbody>
             </table>
             
 
             <!-- 나중에 페이징처리 따로 -->
-            <p style="text-align: center; margin-top: 50px;"> &lt;&lt;&nbsp; &lt;&nbsp; 1  2  3  4  5  6  7  8  9  10 &nbsp;&gt; &nbsp;&gt;&gt;</p>
+            <div class="mypage-pagination-area">
+						<!-- [이전] -->
+						<c:if test="${ pi.currentPage <= 1 }">
+							&lt; &nbsp;
+						</c:if>
+<!-- 숨기면안되나?						 -->
+						<c:if test="${ pi.currentPage > 1 }">
+							<c:url var="before" value="/mypage/admin/management">
+								<c:param name="page" value="${ pi.currentPage - 1 }"/>
+							</c:url>
+							<a href="${ before }"> &lt; </a> &nbsp;
+						</c:if>
+						
+						<!-- 페이지 숫자 -->
+						<c:forEach var="p" begin="${ pi.startPage }" end="${ pi.endPage }">
+							<c:if test="${ p eq pi.currentPage }">
+								<b>[${ p }]</b>								
+							</c:if>
+							<c:if test="${ p ne pi.currentPage }">
+								<c:url var="pagination" value="/mypage/admin/management">
+									<c:param name="page" value="${ p }"/>
+								</c:url>
+								<a href="${ pagination }">${ p }</a>
+							</c:if>
+						</c:forEach>
+						
+						<!-- [다음] -->
+						<c:if test="${ pi.currentPage >= pi.maxPage }">
+							&gt;
+						</c:if>
+						<c:if test="${ pi.currentPage < pi.maxPage }">
+							<c:url var="after" value="/mypage/admin/management">
+								<c:param name="page" value="${ pi.currentPage + 1 }" />
+							</c:url>
+							<a href="${ after }">&gt;</a>
+						</c:if>
+            </div>
         </article>
     </section>
 <!--     </div> -->

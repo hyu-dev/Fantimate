@@ -43,10 +43,10 @@ public class Mypage1DaoImpl implements Mypage1Dao{
 
 	
 	// 신고
-	@Override
-	public int reportListCountMessage() {
-		return sqlSession.selectOne("mypage1Mapper.reportListCountMessage");
-	}
+//	@Override
+//	public int reportListCountMessage() {
+//		return sqlSession.selectOne("mypage1Mapper.reportListCountMessage");
+//	}
 
 	@Override
 	public List<Report> selectMsgList(ReportPageInfo pi) {
@@ -57,10 +57,10 @@ public class Mypage1DaoImpl implements Mypage1Dao{
 		return sqlSession.selectList("mypage1Mapper.selectMsgList", null, rowBounds);
 	}
 
-	@Override
-	public int reportListCountfanstore() {
-		return sqlSession.selectOne("mypage1Mapper.reportListCountfanstore");
-	}
+//	@Override
+//	public int reportListCountfanstore() {
+//		return sqlSession.selectOne("mypage1Mapper.reportListCountfanstore");
+//	}
 
 	@Override
 	public List<Report> selectfanstoreList(ReportPageInfo pi) {
@@ -69,9 +69,62 @@ public class Mypage1DaoImpl implements Mypage1Dao{
 		return sqlSession.selectList("mypage1Mapper.selectfanstoreList", null, rowBounds);
 	}
 
+//	@Override
+//	public int reportListCountfanstoreR() {
+//		return sqlSession.selectOne("mypage1Mapper.reportListCountfanstoreR");
+//	}
+
 	@Override
-	public int reportListCountfanstoreR() {
-		return sqlSession.selectOne("mypage1Mapper.reportListCountfanstoreR");
+	public int RListCountMethod2(String category) {
+		return sqlSession.selectOne("mypage1Mapper.RListCountMethod2", category);
+	}
+	
+	@Override
+	public int RListCountMethod(String category) {
+		System.out.println("-------------------------------");
+		System.out.println("넘어온 카테고리 : " + category);
+		System.out.println("DAO에서 listCount 결과 : " + sqlSession.selectOne("mypage1Mapper.RListCountMethod", category));
+		return sqlSession.selectOne("mypage1Mapper.RListCountMethod", category);
 	}
 
+
+	@Override
+	public List<Report> selectfanstoreRList(ReportPageInfo pi) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return sqlSession.selectList("mypage1Mapper.selectfanstoreRList", null, rowBounds);
+	}
+
+	@Override
+	public List<Report> requestReportMediaList(ReportPageInfo pi) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return sqlSession.selectList("mypage1Mapper.requestReportMediaList", null, rowBounds);
+	}
+
+	@Override
+	public List<Member> requestCommonList(ReportPageInfo pi) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return sqlSession.selectList("mypage1Mapper.requestCommonList", null, rowBounds);
+	}
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

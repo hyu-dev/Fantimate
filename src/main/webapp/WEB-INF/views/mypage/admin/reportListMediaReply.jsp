@@ -2,6 +2,7 @@
     pageEncoding="UTF-8" import="java.util.Date"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -59,7 +60,7 @@
                 <a class="mypageContentCategory"
                 href="${contextPath}/mypage/admin/report/feedReply">피드,아티스트 댓글</a>
             </div>
-            <table id="mypageAdminReportlist">
+            <table id="mypageAdminFanstorelist">
                 <thead>
                     <tr>
                         <th>신고날짜</th>
@@ -73,30 +74,24 @@
 
                 <tbody>
                 	<c:forEach var="r" items="${ list }">
-                	
-                		<tr 
+                		<tr
 <%--                 		 onclick="selectReport(${ r.rptCode })" --%>
 <%--링크도 추가하기 --%>
-<%-- style 왜안먹을까 --%> 		<c:if test="${ r.report.isReported eq Y }"> style="color:red"</c:if>
                 		 >
                 		 	<!-- 쪽지번호 hidden으로 -->
                 			<input type="hidden" value="${ r.report.isReported }">	<!-- 0 -->
-                			<input type="hidden" value="${ r.report.rptReason }">	
+                			<input type="hidden" value="${ r.report.rptReason }">
                 			<input type="hidden" value="${ r.report.rptCode }">
                 		 	<c:set var="date" value="<%= new Date() %>"/>
                 			<td><fmt:formatDate type="date" value="${ r.report.rptDate }"/></td>	<!-- 3 -->
-                			<td>${ r.report.rptId }</td>		<!-- 4 -->
-                			<td>${ r.messSendId }</td>
-                			<td>${ r.messTitle }</td>
-               				<td>${ r.report.rptType }</td>				<!-- 7 -->
+                			<td>${ r.report.rptId }</td>		<!-- 신고인 4 -->
+                			<td>${ r.mediar.id }</td>			<!-- 피의자 -->
+                			<td>${ r.mediar.cmtctt }</td>		<!-- 신고 게시물 정보 -->
+               				<td>${ r.report.rptType }</td>		<!-- 신고유형 7 -->
                 			<td>주석
 <%--                 			${ r.messCode } --%>
 <%--                 				<a onclick="${contextPath}/"> --%>
                 			</td>
-                			<script>
-                				console.log(${r.report.isReported});
-                			</script>
-                			<input id="isReported" type="hidden" value="${ r.report.isReported }">	<!-- 9 -->
                 		</tr>
                 	</c:forEach>
                 	
@@ -110,7 +105,7 @@
 						</c:if>
 <!-- 숨기면안되나?						 -->
 						<c:if test="${ pi.currentPage > 1 }">
-							<c:url var="before" value="/notice/list">
+							<c:url var="before" value="/mypage/admin/media">
 								<c:param name="page" value="${ pi.currentPage - 1 }"/>
 							</c:url>
 							<a href="${ before }"> &lt; </a> &nbsp;
@@ -122,7 +117,7 @@
 								<b>[${ p }]</b>								
 							</c:if>
 							<c:if test="${ p ne pi.currentPage }">
-								<c:url var="pagination" value="/notice/list">
+								<c:url var="pagination" value="/mypage/admin/media">
 									<c:param name="page" value="${ p }"/>
 								</c:url>
 								<a href="${ pagination }">${ p }</a>
@@ -134,7 +129,7 @@
 							&gt;
 						</c:if>
 						<c:if test="${ pi.currentPage < pi.maxPage }">
-							<c:url var="after" value="/notice/list">
+							<c:url var="after" value="/mypage/admin/media">
 								<c:param name="page" value="${ pi.currentPage + 1 }" />
 							</c:url>
 							<a href="${ after }">&gt;</a>
@@ -147,13 +142,6 @@
     		//게시판 pk값과 현재 페이지값 파라미터로 넘겨주기 
 //     		location.href='${contextPath}/notice/detail?nid=' + nid + '&page=${ pi.currentPage }';
     	}
-    	// 처리된 글 회식으로
-    	$(document).ready(function() {
-	    	var isReported = $("#isReported").val(); 
-	    	if($("#mypageAdminReportlist tbody tr").children().eq(9).val() == "Y"){
-	    		$("#mypageAdminReportlist tbody tr").childrens().css("color:red");
-	    	}
-    	});
     </script>
     </c:if>
     <c:if test="${ loginUser.classifyMem != '4' }">

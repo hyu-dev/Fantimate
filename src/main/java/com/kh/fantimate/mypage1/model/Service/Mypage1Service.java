@@ -23,15 +23,31 @@ public interface Mypage1Service {
 
 	public int insertCommon(Member common);
 
-	public int reportListCountMessage();
+//	public int reportListCountMessage();
 
 	public List<Report> selectMsgList(ReportPageInfo pi);
 
-	public int reportListCountfanstore();
+//	public int reportListCountfanstore();
 
 	public List<Report> selectfanstoreList(ReportPageInfo pi);
 
-	public int reportListCountfanstoreR();
+//	public int reportListCountfanstoreR();
+
+	
+	
+	// **해당 카테고리 Count 메소드
+	public int RListCountMethod(String category);
+	
+	// 해당 카테고리 Count 메소드(String테스트)
+	public int RListCountMethod2(String category);
+
+	// 팬스토어 댓글 
+	public List<Report> selectfanstoreRList(ReportPageInfo pi);
+
+	public List<Report> requestReportMediaList(ReportPageInfo pi);
+	
+	// 회원 리스트 갯수
+	public List<Member> requestCommonList(ReportPageInfo pi);
 
 	
 }

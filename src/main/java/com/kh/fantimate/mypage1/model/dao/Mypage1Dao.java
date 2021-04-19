@@ -18,14 +18,23 @@ public interface Mypage1Dao {
 
 	public int insertCommon(Member common);
 
-	public int reportListCountMessage();
+//	public int reportListCountMessage();
 
 	public List<Report> selectMsgList(ReportPageInfo pi);
 
-	public int reportListCountfanstore();
+//	public int reportListCountfanstore();
 
 	public List<Report> selectfanstoreList(ReportPageInfo pi);
 
-	public int reportListCountfanstoreR();
+//	public int reportListCountfanstoreR();
+
+	public int RListCountMethod(String category);
+	public int RListCountMethod2(String category);
+
+	public List<Report> selectfanstoreRList(ReportPageInfo pi);
+	public List<Report> requestReportMediaList(ReportPageInfo pi);
+
+	// 회원관리
+	public List<Member> requestCommonList(ReportPageInfo pi);
 
 }

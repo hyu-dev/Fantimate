@@ -84,8 +84,8 @@
                 		 	<c:set var="date" value="<%= new Date() %>"/>
                 			<td><fmt:formatDate type="date" value="${ r.report.rptDate }"/></td>	<!-- 3 -->
                 			<td>${ r.report.rptId }</td>		<!-- 신고인 4 -->
-                			<td>${ r.fanStore.id }</td>			<!-- 피의자 -->
-                			<td>${ r.fanStore.finfo }</td>		<!-- 신고 게시물 정보 -->
+                			<td>${ r.fanStoreR.id }</td>			<!-- 피의자 -->
+                			<td>${ r.fanStoreR.frcontent }</td>		<!-- 신고 게시물 정보 -->
                				<td>${ r.report.rptType }</td>		<!-- 신고유형 7 -->
                 			<td>주석
 <%--                 			${ r.messCode } --%>

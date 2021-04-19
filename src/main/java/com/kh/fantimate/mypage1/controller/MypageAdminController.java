@@ -2,7 +2,9 @@ package com.kh.fantimate.mypage1.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -17,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.kh.fantimate.common.model.vo.Notice;
 import com.kh.fantimate.common.model.vo.Report;
 import com.kh.fantimate.member.model.service.MemberService;
 import com.kh.fantimate.member.model.vo.Agency;
@@ -25,7 +26,6 @@ import com.kh.fantimate.member.model.vo.Member;
 import com.kh.fantimate.mypage1.model.Service.Mypage1Service;
 import com.kh.fantimate.mypage1.model.vo.ReportPageInfo;
 import com.kh.fantimate.notice.model.Service.NoticeService;
-import com.kh.fantimate.notice.model.vo.NoticePageInfo;
 
 
 @Controller
@@ -48,12 +48,14 @@ public class MypageAdminController {
 				HttpSession session) {
 			
 			// 메세지 신고리스트 개수(신고 처리된 개수만으로 해야하나)
-			int listCount = mService.reportListCountMessage();
+//			int listCount = mService.reportListCountMessage();
+			int listCount = RListCountMethod(0);
 			System.out.println("메세지 신고 개수 : " + listCount);
 			
 			// 요청 페이지에 맞는 리스트 조회
 			ReportPageInfo pi = pagingReport(currentPage, listCount);
 			List<Report> list = mService.selectMsgList(pi);
+			System.out.println("읽어온 쪽지 리스트 : " + list);
 			
 			if(list != null) {
 				mv.addObject("list", list);
@@ -72,7 +74,8 @@ public class MypageAdminController {
 				HttpSession session) {
 			
 			// 신고리스트 개수(신고 처리된 개수만해야하나)
-			int listCount = mService.reportListCountfanstore();
+//			int listCount = mService.reportListCountfanstore();
+			int listCount = RListCountMethod(1);
 			System.out.println("팬스토어신고 개수 : " + listCount);
 			
 			// 요청 페이지에 맞는 리스트 조회
@@ -96,13 +99,14 @@ public class MypageAdminController {
 				HttpSession session) {
 			
 			// 신고리스트 개수(신고 처리된 개수만해야하나)
-			int listCount = mService.reportListCountfanstoreR();
+			int listCount = RListCountMethod(2);
 			System.out.println("팬스토어댓글신고 개수 : " + listCount);
 			
 			// 요청 페이지에 맞는 리스트 조회
 			ReportPageInfo pi = pagingReport(currentPage, listCount);
 			List<Report> list = mService.selectfanstoreRList(pi);
 			System.out.println("읽어온 팬스토어댓글신고 : " + list);
+			
 			if(list != null) {
 				mv.addObject("list", list);
 				mv.addObject("pi", pi);
@@ -114,26 +118,98 @@ public class MypageAdminController {
 			return mv;
 		}
 		
-		
-		
-		/*
-		@PostMapping("/detail")
-		public String noticeDetail() {
+		@GetMapping("/report/media")
+		public ModelAndView requestReportMediaList(ModelAndView mv,
+				@RequestParam(value="page", required=false, defaultValue="1") int currentPage,
+				HttpSession session) {
 			
-			return "/mypage/admin/noticeDetail"; 
+			// 신고리스트 개수(신고 처리된 개수만해야하나)
+//			int listCount = mService.reportListCountfanstoreR();
+			int listCount = RListCountMethod(3);
+			System.out.println("미디어댓글신고 개수 : " + listCount);
+			
+			// 요청 페이지에 맞는 리스트 조회
+			ReportPageInfo pi = pagingReport(currentPage, listCount);
+			List<Report> list = mService.requestReportMediaList(pi);
+			System.out.println("읽어온 미디어댓글신고 : " + list);
+			if(list != null) {
+				mv.addObject("list", list);
+				mv.addObject("pi", pi);
+				mv.setViewName("mypage/admin/reportListMediaReply");
+			}else{
+				mv.addObject("msg", "조회에 실패하였습니다.");
+				mv.setViewName("mypage/admin/errorpage");
+			}
+			return mv;
 		}
-		*/
-		@GetMapping("/management")
-		public ModelAndView memberManagement(ModelAndView mv) {
-//			List<Feed> dibs = nService.selelctList();
+		@GetMapping("/report/feed")
+		public ModelAndView requestReportFeedList(ModelAndView mv,
+				@RequestParam(value="page", required=false, defaultValue="1") int currentPage,
+				HttpSession session) {
 			
-//			if(dibs != null) {
-//				mv.addObject("dibs", dibs);
+			// 신고리스트 개수(신고 처리된 개수만해야하나)
+//			int listCount = mService.reportListCountfanstoreR();
+			int listCount = RListCountMethod(4);
+			System.out.println("피드/아티스트 신고 개수 : " + listCount);
+			
+			// 요청 페이지에 맞는 리스트 조회
+			ReportPageInfo pi = pagingReport(currentPage, listCount);
+			List<Report> list = mService.requestReportFeedList(pi);	// 아직
+			System.out.println("읽어온 피드/아티스트 신고 : " + list);
+			if(list != null) {
+				mv.addObject("list", list);
+				mv.addObject("pi", pi);
+				mv.setViewName("mypage/admin/reportListFanstoreReply");
+			}else{
+				mv.addObject("msg", "조회에 실패하였습니다.");
+				mv.setViewName("mypage/admin/errorpage");
+			}
+			return mv;
+		}
+		@GetMapping("/report/feedReply")
+		public ModelAndView requestReportFeedRList(ModelAndView mv,
+				@RequestParam(value="page", required=false, defaultValue="1") int currentPage,
+				HttpSession session) {
+			
+			// 신고리스트 개수(신고 처리된 개수만해야하나)
+//			int listCount = mService.reportListCountfanstoreR();
+			int listCount = RListCountMethod(5);
+			System.out.println("피드/아티스트 댓글신고 개수 : " + listCount);
+			
+			// 요청 페이지에 맞는 리스트 조회
+			ReportPageInfo pi = pagingReport(currentPage, listCount);
+			List<Report> list = mService.requestReportFeedRList(pi);	//아직 
+			System.out.println("읽어온 피드아티스트 댓글신고 : " + list);
+			if(list != null) {
+				mv.addObject("list", list);
+				mv.addObject("pi", pi);
+				mv.setViewName("mypage/admin/reportListFanstoreReply");
+			}else{
+				mv.addObject("msg", "조회에 실패하였습니다.");
+				mv.setViewName("mypage/admin/errorpage");
+			}
+			return mv;
+		}
+		
+		// 회원 관리
+		@GetMapping("/management")
+		public ModelAndView memberManagement(ModelAndView mv,
+				@RequestParam(value="page", required=false, defaultValue="1") int currentPage,
+				HttpSession session) {
+				
+			int listCount = RListCountMethod(6);
+			System.out.println("읽어온 회원정보 갯수 : " + listCount);
+			ReportPageInfo pi = pagingReport(currentPage, listCount);
+			List<Member> list = mService.requestCommonList(pi);
+			System.out.println("읽어온 회원정보 : " + list);
+			if(list != null) {
+				mv.addObject("list", list);
+				mv.addObject("pi", pi);
 				mv.setViewName("mypage/admin/management");
-//			}else{
-//				mv.addObject("msg", "피드 조회에 실패하였습니다.");
-//				mv.setViewName("common/errorpage");
-//			}
+			}else{
+				mv.addObject("msg", "조회에 실패하였습니다.");
+				mv.setViewName("mypage/admin/errorpage");
+			}
 			return mv;
 		}
 		
@@ -165,8 +241,7 @@ public class MypageAdminController {
 			}
 		}
 		
-		
-		
+		// Agency 등록
 		@PostMapping("/insertAgency")
 		public String insertAgency(@ModelAttribute Member common,
 										  @ModelAttribute Agency agency,
@@ -210,8 +285,28 @@ public class MypageAdminController {
 		
 		
 		
-		
-		
+		// 검색조건에 맞는 페이징 구하기
+		public int RListCountMethod(int category) {
+			/*
+			 	--> 조회하고 싶은 카테고리를 인자로 전달
+			 	0 : 쪽지
+			 	1 : 팬스토어
+			 	2 : 팬스토어 댓글
+			 	3 : 미디어댓글
+			 	4 : 피드, 아티스트
+			 	5 : 피드, 아티스트 댓글
+			 	6 : 회원관리(COMMON)
+			 */ 
+			String[] Reportcategory = { "RPT_MESSAGE", "RPT_FSTORE", "RPT_FREPLY", "MD_CMT_RPT",  "B_RPT", "B_RE_RPT"
+										, "COMMON" };
+			System.out.println("RListName : " + Reportcategory[category]);
+			
+//			Rcategory rName = new Rcategory(Reportcategory[category]);
+			
+			int listCountResult = mService.RListCountMethod(Reportcategory[category]);
+			System.out.println("페이징 처리 결과 listCountValue : " + listCountResult);
+			return listCountResult;
+		}
 		
 		// 신고 페이징처리
 		public ReportPageInfo pagingReport(int currentPage, int listCount) {
