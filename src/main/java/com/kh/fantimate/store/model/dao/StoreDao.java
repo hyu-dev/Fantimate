@@ -6,6 +6,11 @@ import java.util.Map;
 
 import com.kh.fantimate.common.model.vo.Attachment;
 import com.kh.fantimate.pay.model.vo.Cart;
+import com.kh.fantimate.pay.model.vo.CartCollection;
+import com.kh.fantimate.pay.model.vo.ProductBuy;
+import com.kh.fantimate.store.model.vo.BuyCollection;
+import com.kh.fantimate.store.model.vo.Review;
+import com.kh.fantimate.store.model.vo.ReviewCollection;
 import com.kh.fantimate.store.model.vo.StoreCategory;
 import com.kh.fantimate.store.model.vo.StoreCollection;
 import com.kh.fantimate.store.model.vo.Wish;
@@ -71,4 +76,43 @@ public interface StoreDao {
 	// 유저 찜여부
 	public Wish selectWish(String userId, String pcode);
 
+	// 카테고리에 맞는 스토어 리스트 호출(추천상품용)
+	public List<StoreCollection> recommandStoreListByCate(Map<String, String> map);
+
+	// 상세페이지 리뷰 불러오기
+	public List<ReviewCollection> selectReviewList(String pcode);
+
+	// 상세페이지 리뷰 하나 불러오기
+	public List<ReviewCollection> selectReview(int rvCode);
+	
+	// 상세페이지 카테고리 수정하기
+	public void updateStoreCategory(StoreCollection sc);
+
+	// 상세페이지 수정하기
+	public void updateStore(StoreCollection sc);
+
+	// 상세페이지 스토어정보 수정하기
+	public void updateStoreInfo(StoreCollection sc);
+
+	// 상세페이지 첨부파일 수정하기
+	public int updateStoreAtt(List<Attachment> attList);
+	
+	// 상세페이지 첨부파일 수정을 위한 코드번호 확인하기
+	public List<Integer> selectAttCode(int pcode);
+
+	// 스토어 컬렉션 불러오기
+	public List<BuyCollection> selectCollectionStore(String userId);
+
+	// 스토어 메인사진 정보만 불러오기
+	public BuyCollection readStoreMain(ProductBuy pb);
+
+	// 리뷰 등록
+	public int insertReview(Review review);
+
+	// 리뷰 사진 등록
+	public int insertReviewAtt(List<Attachment> attList);
+
+	// 등록된 리뷰 불러오기
+	public List<StoreCollection> selectOneReview(Review rv);
+	
 }

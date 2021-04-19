@@ -3,10 +3,13 @@ package com.kh.fantimate.main.model.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.kh.fantimate.common.model.vo.Alarm;
 import com.kh.fantimate.common.model.vo.Attachment;
+import com.kh.fantimate.common.model.vo.Message;
+import com.kh.fantimate.common.model.vo.Report;
+import com.kh.fantimate.main.model.vo.FriendCollection;
 import com.kh.fantimate.main.model.vo.MainCollection;
 import com.kh.fantimate.main.model.vo.SubscribeArtist;
-import com.kh.fantimate.member.model.vo.Member;
 
 public interface MainService {
 
@@ -33,5 +36,41 @@ public interface MainService {
 
 	// 8. 아티스트명 검색 
 	public List<MainCollection> selectArtistSearchList(String artistName);
+
+	// 9. 일반 유저 알람 불러오기 
+	public List<Alarm> selectAlarmList(Alarm al);
+
+	// 10. 알람 갯수 카운트
+	public int selectAlarmCount(Alarm al);
+
+	// 11. 메세지 리스트 셀렉
+	public List<Message> selectMessageWholeList(String user);
+
+	// 12. 메세지 날짜만 셀렉
+	public List<Message> selectMessageDate(String user);
+
+	// 13. 쪽지 읽음으로 표시 
+	public int updateRead(int messCode);
+
+	// 14. 쪽지 답장보내기 
+	public int insertMessage(Message m);
+
+	// 15. 쪽지 신고하기
+	public int insertReportm(Report r);
+
+	// 16. 신고된 쪽지 쪽지함에서 가리기
+	public int updateMessage(int refId);
+
+	// 17. 신고된 쪽지 알람 insert (관리자에게)
+	public int insertAlarmR(int refId);
+
+	// 18. 쪽지 총 갯수 카운트 
+	public int selectMailCount(String user);
+
+	// 19. 친구 정보 select (프로필, 아이디)
+	public List<FriendCollection> selectFriendInfo(String user);
+
+	// 20. 친구가 보낸 메세지 select
+	public List<FriendCollection> selectFriendMsg(String user);
 
 }

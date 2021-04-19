@@ -23,20 +23,14 @@
         <section class="main-contents">
             <div class="media-container">
                 <div class="media-upper">
-                    <div id="mediaTitle">BREAK THE SILENCE</div>
+                    <div id="mediaTitle">${ media.official.mediaTtl }</div>
                     <a href="media-list.html" id="backLink">뒤로 가기</a>
                 </div>
                 <div class="media-center">
-                    <video src="${ contextPath }/resources/images/official/BTS-video.mp4"
-                    controls="controls" poster="${ contextPath }/resources/images/official/category-media.jpg"></video>
+                    <video src="${ contextPath }/resources/images/official/${ media.mediaFile.vidSvName }"
+                    controls="controls" poster="${ contextPath }/resources/images/official/${ media.mediaFile.picSvName }"></video>
                     <div class="media-main">
-                        <textarea class="media-content nanumsquare" style="resize:none;">2020. 05. 12. TUE
-Coming Soon
-                            
-LOVE YOURSELF 부터 LOVE YOURSELF: SPEAK YOURSELF까지 351일간의 여정을 담은 BREAK THE SILENCE 다큐시리즈.
-BTS와 ARMY 그들의 빛나는 순간들을 함께한 콘서트 투어 현장을 기록했다.
-많은 시간 그들이 함께 할 수 있었던 진솔한 이야기 그리고 무대 위와 아래에서 그들이 어떻게 살아가며 서로의 존재에 대해 어떻게 생각하는지를 엿 볼 수 있다.
-                        </textarea>
+                        <textarea class="media-content nanumsquare" style="resize:none;">${ media.official.mediaCtt }</textarea>
                         <img id="bookMark" src="${ contextPath }/resources/images/official/bookmark.svg" style="width: 30px; height: 30px;">
                         <div class="media-info">
                             <span>댓글</span>&nbsp;<span>1000</span>&nbsp;
@@ -44,16 +38,16 @@ BTS와 ARMY 그들의 빛나는 순간들을 함께한 콘서트 투어 현장�
                                 <option>&nbsp;최신순</option>
                                 <option>&nbsp;인기순</option>
                             </select>
-                            <input type="checkbox" id="myComment" name="myComment" value="myComment">
+                            <input type="checkbox" id="myComment" name="myComment" value="myComment" checked>
                             <label for="myComment">내 댓글만</label>
-                            <span id="watchingCount" class="watching-count">100,000,000</span><span class="watching-count">조회수&nbsp;</span>
+                            <span id="watchingCount" class="watching-count">${ media.hitCount.count }</span><span class="watching-count">조회수&nbsp;</span>
                         </div>
                     </div>
                 </div>
                 <div class="media-lower">
                     <div class="comment-container">
                         <div class="comment-area">
-                            <textarea class="nanumsquare" style="resize: none;" rows="1">댓글을 입력하세요.</textarea>
+                            <textarea id="comment" class="nanumsquare" style="resize: none;" rows="1">댓글을 입력하세요.</textarea>
                         </div>&nbsp;&nbsp;&nbsp;
                         <img class="send-btn" src="${ contextPath }/resources/images/official/send.svg">
                     </div>
@@ -266,13 +260,18 @@ BTS와 ARMY 그들의 빛나는 순간들을 함께한 콘서트 투어 현장�
         
         <script>
         // 북마크 클릭 여부 확인하기
-        $('#bookMark').click(function () {
+        $("#bookMark").click(function() {
             if(document.getElementById("bookMark").getAttribute('src') == "${ contextPath }/resources/images/official/bookmark.svg") {
                 document.getElementById("bookMark").src = "${ contextPath }/resources/images/official/bookmark-black.svg";
             } else {
                 document.getElementById("bookMark").src = "${ contextPath }/resources/images/official/bookmark.svg";
             }
         });
+        
+        // 댓글란 클릭하면 내용 지우기
+        $("#comment").click(function() {
+        	$(this).text("");
+        })
 
 
         // 댓글 프로필 클릭했을 때 프로필 풍선 생성

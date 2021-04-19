@@ -8,43 +8,7 @@ html, body {
     color: #5C5F78;
 }
 
-.main-header {
-    width: 100%;
-    height: auto;
-    box-sizing: border-box;
-    
-}
 
-.main-nav {
-    width: 100%;
-    height: 70px;
-    background: #fbf6f6;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 10px;
-    box-sizing: border-box;
-    box-shadow: 0 2px 2px rgba(150, 150, 150, 0.3);
-}
-
-.main-logo {
-    width: auto;
-    margin: 0 30px 0 0;
-    font-size: 25px;
-    font-family: "Wemakeprice-bold";
-}
-
-.main-menu {
-    max-width: 200px;
-    display: flex;
-    justify-content: flex-end;
-}
-
-.nav-icon {
-    width: 30px;
-    height: 30px;
-    margin: 2px 5px;
-}
 
 /************************************************************************/
 /* 메인 section 시작 */

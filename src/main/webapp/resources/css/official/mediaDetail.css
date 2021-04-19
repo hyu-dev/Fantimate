@@ -109,6 +109,10 @@ html, body {
     outline-style: none;
 }
 
+#myComment {
+	display: inline;
+}
+
 .watching-count {
     float: right;
 }

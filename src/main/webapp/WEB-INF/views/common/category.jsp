@@ -23,7 +23,7 @@
         <div class="category">
             <a href="#">FAN</a>
             <a href="#">ARTIST</a>
-            <a href="${ contextPath }/official/media/main">OFFICIAL</a>
+            <a class="official-url" href="${ contextPath }/official/media/main">OFFICIAL</a>
             <a href="${ contextPath }/store/storeList">STORE</a>
         </div>
         <if test="${ page eq 'http://localhost:8800/fantimate/WEB-INF/views/store/storeList.jsp' }">
@@ -32,7 +32,7 @@
                 <input type="text" name="search" class="contents-search-input">
                 <img src="${ contextPath }/resources/icon/search-icon.svg" class="search-icon" alt="">
             </div>
-            <div class="search-result"></div>
+            <div class="category-search-result"></div>
         </div>
         </if>
         <if test="${ page eq 'http://localhost:8800/fantimate/WEB-INF/views/official/media/main.jsp' }">
@@ -41,7 +41,7 @@
                 <input type="search" class="contents-search-input">
                 <img src="${ contextPath }/resources/icon/search-icon.svg" class="search-icon" alt="">
             </div>
-            <div class="search-result"></div>
+            <div class="category-search-result"></div>
         </form>
         </if>
      </aside>
@@ -77,7 +77,7 @@
 	    // 카테고리 검색창에 데이터 입력시
 		$(".contents-search-input").on('keyup', function() {
 			var search = $(this).val();
-			var div = $(".search-result");
+			var div = $(".category-search-result");
 	        // 스토어에서 검색한 것이라면
 	        if($('.category a').eq(3).css('color') == 'rgb(92, 95, 120)') {
 		    	$.ajax({
@@ -88,13 +88,13 @@
 					success : function(data) {
 						div.html("");
 						if(data.length > 0) {
-							$('.search-result').css('display', 'block');
+							$('.category-search-result').css('display', 'block');
 							for(var i in data) {
 								var p = $("<p>").text(data[i].store.pname);
 								div.append(p);
 							}
 						} else {
-							$('.search-result').css('display', 'block');
+							$('.category-search-result').css('display', 'block');
 							var p = $("<p>").text("검색된 데이터가 없습니다");
 							div.append(p);
 						}
@@ -114,13 +114,13 @@
 					success : function(data) {
 						div.html("");
 						if(data.length > 0) {
-							$('.search-result').css('display', 'block');
+							$('.category-search-result').css('display', 'block');
 							for(var i in data) {
-								var p = $("<p>").text(data[i].store.pname);
+								var p = $("<p>").text(data[i].official.mediaTtl);
 								div.append(p);
 							}
 						} else {
-							$('.search-result').css('display', 'block');
+							$('.category-search-result').css('display', 'block');
 							var p = $("<p>").text("검색된 데이터가 없습니다");
 							div.append(p);
 						}
@@ -132,16 +132,39 @@
 		    }
 	        // 인풋값이 비어있다면
 	        if(search == '') {
-	        	$('.search-result').css('display', 'none');
+	        	$('.category-search-result').css('display', 'none');
 	        }
 		})
 		
 		// 카테고리 검색창 결과 데이터 클릭시
-		$(document).on('click', '.search-result p', function() {
-			if($(".search-result p").eq(1).text() != '검색된 데이터가 없습니다') {
+		$(document).on('click', '.category-search-result p', function() {
+			if($(".category-search-result p").eq(1).text() != '검색된 데이터가 없습니다') {
 				$(".contents-search-input").val($(this).text());
 			}
 		})
+		
+		// 오피셜 페이지를 클릭 시
+	    $(".official-url").click(function() {
+	    	// 미디어 데이터가 존재하는지 확인
+	    	$.ajax({
+	    		url : "${ contextPath }/official/countMedia",
+	    		data : {},
+	    		type : "post",
+				dateType : "json",
+				contentType : "application/json; charset=utf-8",
+				success : function(data) {
+					if(data > 1) {
+						console.log(data);
+					} else {
+						alert("미디어가 존재하지 않습니다.");
+						location.href = "${ contextPath }/official/schedule";
+					}
+				},
+				error : function(e) {
+					console.log(e)
+				}
+	    	})
+		});
      </script>
 </body>
 </html>

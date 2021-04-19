@@ -54,7 +54,7 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	@Override
-	public boolean checkId(String id) {
+	public int checkId(String id) {
 		// 5. 회원 아이디 중복 테스트 // 오류남 ~
 		return mDao.checkId(id);
 	}

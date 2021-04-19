@@ -1,18 +1,17 @@
 package com.kh.fantimate.store.model.vo;
 
-import java.io.Serializable;
-
 import com.kh.fantimate.common.model.vo.Attachment;
+import com.kh.fantimate.pay.model.vo.Payment;
+import com.kh.fantimate.pay.model.vo.ProductBuy;
 
 import lombok.Data;
 
 @Data
-public class StoreCollection implements Serializable {
+public class BuyCollection {
 	private Store store;
 	private Attachment att;
-	private Wish wish;
 	private StoreCategory storeCate;
-	private StoreInfo storeInfo;
 	private Review review;
-	private Attachment attReview;
+	private ProductBuy pbuy;
+	private Payment payment;
 }

@@ -20,7 +20,8 @@ public class Cart {
 	private String fee; 		// 배송비 
 	private Date enrollDate; 	// 등록일
 	private String isBought; 	// 구매 여부
+	private Date boughtDate;	// 구매 일자
 	private int pcode; 			// 상품 코드
-	private String mediaNum; 	// 미디어 번호
+	private int mediaNum; 	// 미디어 번호
 	private String id; 			// 아이디 
 }

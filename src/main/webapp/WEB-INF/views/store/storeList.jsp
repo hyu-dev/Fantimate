@@ -64,7 +64,7 @@
                    		<p>SOLD OUT</p>
                    		</c:when>
                    		<c:otherwise>
-                   		<p>세션에서 아티스트명 불러오기 입니다잉</p>
+                   		<p>${ artiName }</p>
                         <b>${ list.store.pname }</b>
                         <p>
                         	<fmt:formatNumber type="number" value="${ list.store.qprice * (1 - list.store.discount/100) }"/> 
@@ -235,7 +235,7 @@
 			// ajax 호출
 			callAjax(clickMe, url);
 		    $(".contents-search-input").val("").focus();
-	        $('.search-result').css('display', 'none');
+	        $('.category-search-result').css('display', 'none');
 		})
 		
 		// 반복하는 AJAX 공통 함수로 구분
@@ -255,19 +255,19 @@
 							var article = $("<article class='product-background'>");
 							var div = $("<div class='product-info'>");
 							var soldout = $("<p>").text("SOLD OUT");
-							var artiName = $("<p>").text("세션값을 넣는다");
+							var artiName = $("<p>").text("${ artiName }");
 							var pName = $("<b>").text(data[i].store.pname);
 							var price = $("<p>")
 							var sub = $("<sub>")
-							var s = $("<s>").text(data[i].store.qprice);
+							var s = $("<s>").text(" " + numberWithCommas(data[i].store.qprice));
 							var cart = $("<img class='cart-icon store-icon' src='${ contextPath }/resources/icon/shopping.png' alt=''>");
 							var ddim = $("<img class='ddim-icon store-icon ddim' src='${ contextPath }/resources/icon/heart.png' alt=''>");
 							var noddim = $("<img class='ddim-icon store-icon noddim' src='${ contextPath }/resources/icon/heart-pink.png' alt=''>");
 							var imgSrc = "${ contextPath }/resources/uploadFiles/" + data[i].att.attSvName;
 							var img = $("<img src='' alt=''>").attr("src", imgSrc);
 							var pCode = $("<input type='hidden' id='pcode'>").val(data[i].store.pcode);
-							sub.append(s, data[i].store.discount + "%").trigger("create");
-							price.append((data[i].store.qprice * (1- data[i].store.discount/100)), sub).trigger("create");
+							sub.append(s, " " + data[i].store.discount + "%").trigger("create");
+							price.append(numberWithCommas(data[i].store.qprice * (1- data[i].store.discount/100)), sub).trigger("create");
 							
 							if(data[i].store.isSoldout == 'Y') {
 								div.append(soldout);

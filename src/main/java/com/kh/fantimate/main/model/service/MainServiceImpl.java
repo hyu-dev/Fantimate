@@ -1,16 +1,18 @@
 package com.kh.fantimate.main.model.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kh.fantimate.common.model.vo.Alarm;
 import com.kh.fantimate.common.model.vo.Attachment;
+import com.kh.fantimate.common.model.vo.Message;
+import com.kh.fantimate.common.model.vo.Report;
 import com.kh.fantimate.main.model.dao.MainDao;
+import com.kh.fantimate.main.model.vo.FriendCollection;
 import com.kh.fantimate.main.model.vo.MainCollection;
 import com.kh.fantimate.main.model.vo.SubscribeArtist;
-import com.kh.fantimate.member.model.vo.Member;
 
 @Service
 public class MainServiceImpl implements MainService{
@@ -65,6 +67,78 @@ public class MainServiceImpl implements MainService{
 	public List<MainCollection> selectArtistSearchList(String artistName) {
 		
 		return mpDao.selectArtistSearchList(artistName);
+	}
+
+	@Override
+	public List<Alarm> selectAlarmList(Alarm al) {
+		// 알람 불러오기
+		return mpDao.selectAlarmList(al);
+	}
+
+	@Override
+	public int selectAlarmCount(Alarm al) {
+		
+		return mpDao.selectAlarmCount(al);
+	}
+
+	@Override
+	public List<Message> selectMessageWholeList(String user) {
+		
+		return mpDao.selectMessageWholeList(user);
+	}
+
+	@Override
+	public List<Message> selectMessageDate(String user) {
+		// 메세지 날짜만 셀렉 
+		return mpDao.selectMessageDate(user);
+	}
+
+	@Override
+	public int updateRead(int messCode) {
+		// 쪽지 읽음으로 표시
+		return mpDao.updateRead(messCode);
+	}
+
+	@Override
+	public int insertMessage(Message m) {
+		// 쪽지 답장하기
+		return mpDao.insertMessage(m);
+	}
+
+	@Override
+	public int insertReportm(Report r) {
+		
+		return mpDao.insertReportm(r);
+	}
+
+	@Override
+	public int updateMessage(int refId) {
+		
+		return mpDao.updateMessage(refId);
+	}
+
+	@Override
+	public int insertAlarmR(int refId) {
+		
+		return mpDao.insertAlarmR(refId);
+	}
+
+	@Override
+	public int selectMailCount(String user) {
+		
+		return mpDao.selectMailCount(user);
+	}
+
+	@Override
+	public List<FriendCollection> selectFriendInfo(String user) {
+		
+		return mpDao.selectFriendInfo(user);
+	}
+
+	@Override
+	public List<FriendCollection> selectFriendMsg(String user) {
+		
+		return mpDao.selectFriendMsg(user);
 	}
 
 }

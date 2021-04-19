@@ -131,7 +131,7 @@
     right: 0px;
 }
 
-.search-result {
+.category-search-result {
     background: white;
     width: 210px;
     margin: 0 auto;
@@ -143,12 +143,12 @@
     display: none;
 }
 
-.search-result::-webkit-scrollbar {
+.category-search-result::-webkit-scrollbar {
     background: white;
     width: 6px;
 }
 
-.search-result::-webkit-scrollbar-thumb {
+.category-search-result::-webkit-scrollbar-thumb {
     background: #5C5F78;
     border-radius: 4px;
     border: 2px solid transparent;

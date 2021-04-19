@@ -7,6 +7,6 @@ import lombok.Data;
 public class MediaCollection {
 	private Official official;
 	private MediaCategory category;
-	private Attachment attachment;
+	private MediaFile mediaFile;
 	private HitCount hitCount;
 }

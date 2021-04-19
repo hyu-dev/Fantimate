@@ -1,14 +1,22 @@
 package com.kh.fantimate.official.model.service;
 
 import java.util.List;
+import java.util.Map;
 
-import com.kh.fantimate.member.model.vo.Member;
+import com.kh.fantimate.common.model.vo.Alarm;
+import com.kh.fantimate.common.model.vo.Like;
+import com.kh.fantimate.common.model.vo.Message;
+import com.kh.fantimate.common.model.vo.Reply;
+import com.kh.fantimate.common.model.vo.Report;
 import com.kh.fantimate.official.model.vo.MediaCategory;
 import com.kh.fantimate.official.model.vo.MediaCollection;
 import com.kh.fantimate.pay.model.vo.Cart;
 
 public interface OfficialService {
 	/* 미디어 메인 페이지 */
+	
+	// 미디어 개수 조회하기
+	public int countMedia(String artiName);
 	
 	// 미디어 전체 리스트 호출을 위한 카테고리 선택
 	public List<MediaCategory> selectCategory(String artiName);
@@ -19,25 +27,49 @@ public interface OfficialService {
 	// 업로드 최신순으로 4개의 미디어 리스트 호출
 	public List<MediaCollection> selectNewMediaList(String artiName);
 	
-	// 멤버십 여부 확인
-	public Member checkMembership(String id);
-	
 	// 장바구니에 해당 미디어 추가(유료)
 	public int insertCart(Cart cart);
 	
 	// 해당 카테고리 미디어 리스트 호출
-	public List<MediaCollection> selectMediaList(String category);
+	public List<MediaCollection> selectMediaList(Map<String, String> map);
+	
+	// 해당 카테고리 미디어 개수 조회하기
+	public int countCategory(Map<String, String> map);
 	
 	// 해당 검색어가 포함된 미디어 리스트 호출
-	public List<MediaCollection> searchMediaList(String search);
+	public List<MediaCollection> searchMediaList(Map<String, String> map);
 	
 	// 클릭한 미디어 호출
-	public MediaCollection selectMedia(int mediaNum);
+	public MediaCollection selectMedia(Map<Object, Object> map);
 	
 	// 클릭한 미디어 조회수 추가
-	public int insertHitCount(int mediaNum);
-
-
+	public int updateHitCount(int mediaNum);
 	
+	// 댓글 리스트 호출
+	public List<Reply> selectReplyList(int mediaNum);
+	
+	// 새 댓글 입력
+	public Reply insertReply(Map<Object, Object> map);
+	
+	// 댓글 삭제
+	public Reply deleteReply(Map<Object, Object> map);
+
+	// 좋아요 +1
+	public Like insertLike(Map<Object, Object> map);
+	
+	// 좋아요 -1
+	public Like deleteLike(Map<Object, Object> map);
+
+	// 댓글 신고
+	public Report insertReport(Map<Object, Object> map);
+	
+	// 회원 댓글 알림 입력
+	public Alarm insertUserReplyAlarm(Map<Object, Object> map);
+	
+	// 아티스트 댓글 알림 입력
+	public Alarm insertArtistReplyAlarm(Map<Object, Object> map);
+	
+	// 쪽지 보내기
+	public Message insertMessage(Map<Object, Object> map);
 
 }

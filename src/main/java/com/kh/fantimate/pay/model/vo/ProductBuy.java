@@ -14,6 +14,7 @@ import lombok.ToString;
 public class ProductBuy {
 	private int bcode; 		// 상품 구매 코드
 	private int productQ; 	// 상품 수량
-	private int payCode; 	// 결제 번호
+	private String payCode; // 결제 번호
 	private int pcode; 		// 상품 코드
+	private String id;		// 구매자 아이디
 }
