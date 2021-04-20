@@ -142,7 +142,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
         	,   ID
 	FROM 		ATT_SUBSCRIBE
 	JOIN 		BOARD ON(U_ID = ID)
-	WHERE		U_ID = #{feed.writer}
+	WHERE		U_ID = #{writer}
 	
 	
 	</select>

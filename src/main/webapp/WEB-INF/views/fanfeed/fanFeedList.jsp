@@ -62,7 +62,7 @@
                         	<!-- 게시글작성자의 아이디와 구독유저의 아이디가 같다면 닉네임 불러오기 -->
                         	 <c:forEach var="sb" items="${ subList }">
                         	 <c:if test="${ sb.uid eq f.writer }">
-                            <pre class="nicknameArea">${ sb.unickname }</pre>
+                            <pre class="nicknameArea" name="uid" value="${ f.writer }">${ sb.unickname }</pre>
                         	 </c:if>
                         	 </c:forEach>
                           	
