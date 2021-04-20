@@ -146,7 +146,7 @@ public class FanStoreController {
 	}
 	
 	@PostMapping("/wish")
-	public @ResponseBody String enrollOrCancelWish(Wish wish,
+	public @ResponseBody Map<String, String> enrollOrCancelWish(Wish wish,
 												   @RequestParam(value="type")String type) {
 		System.out.println(wish);
 		System.out.println(type);
@@ -165,6 +165,6 @@ public class FanStoreController {
 		
 		Map<String, String> map = new HashMap<>();
 		map.put("msg", msg);
-		return msg;
+		return map;
 	}
 }

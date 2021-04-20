@@ -186,13 +186,13 @@
 	    	var data;
 	    	var fcode = $(this).parent().siblings("#fcode").val();
 	    	var img = $(this)
-	        if($(this).hasClass('ddim')) {
+	        if($(this).attr('src') == "${ contextPath }/resources/icon/heart.png") {
 	            data = {
 	        		code : fcode,
 	        		id : "${loginUser.id}",
 	        		type : '등록'
 	        	}
-	        } else {
+	        } else if($(this).attr('src') == "${ contextPath }/resources/icon/heart-pink.png"){
 	            data = {
 	        		code : fcode,
 	        		id : "${loginUser.id}",
@@ -242,6 +242,8 @@
 		        }
 		        callAjaxFanStoreList(url, data);
 	        }
+	        $(this).siblings('.fstore-search-result').css('display', 'none');
+        	$(this).siblings("input").val("").focus();
 	    })
 	
 	    // 해시태그 아이콘 클릭시
@@ -347,11 +349,11 @@
 	        	data : data,
 				dateType : "json",
 	        	success : function(msg) {
-	        		alert(msg)
+	        		alert(msg.msg)
 	        		var src = "${ contextPath }/resources/icon/"
-	        		if(msg == '찜목록에 등록되었습니다') {
+	        		if(msg.msg == '찜목록에 등록되었습니다') {
 	        			img.attr("src", src + "heart-pink.png");
-	        		} else if(msg == '찜목록에서 제거되었습니다') {
+	        		} else if(msg.msg == '찜목록에서 제거되었습니다') {
 	        			img.attr("src", src + "heart.png");
 	        		}
 	        		console.log("적용후 : ", img.attr("src"))
@@ -402,10 +404,12 @@
 									}
 								}
 								hash.append(ul)
-								if(list[i].wish.id == "${loginUser.id}" && list[i].wish.isWish == 'Y') {
+								if(list[i].wish.id == "${loginUser.id}" && list[i].wish.isWish == 'Y' && list[i].fstore.id != "${loginUser.id}") {
 									div.append(hash, artiName, fName, price, noddim).trigger("create");
-								} else {
+								} else if(list[i].fstore.id != "${loginUser.id}"){
 									div.append(hash, artiName, fName, price, ddim).trigger("create");
+								} else {
+									div.append(hash, artiName, fName, price).trigger("create");
 								}
 								article.append(div, img, fCode).trigger("create");
 								area.append(article).trigger("create");
