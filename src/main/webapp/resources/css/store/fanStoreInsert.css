@@ -3,13 +3,24 @@
 html, body {
     margin: 0;
     padding: 0;
-    color: #5C5F78;
-    background: rgba(0,0,0,0.5);
+    position: relative;
+    z-index: 2;
 }
+
+.insert-section {
+	position: fixed;
+	top: 0;
+	left: 0;
+	background: rgba(0,0,0,0.5);
+	z-index: 3;
+	height: 100%;
+	width: 100%;
+	display: none;
+}
+
 .main-template {
     width: 800px;
     height: 980px;
-    /* border: 2px solid red; */
     position: fixed;
     top: 50%;
     left: 50%;
@@ -17,6 +28,7 @@ html, body {
     background: #fbf6f6;
     box-sizing: border-box;
     overflow-y: auto;
+    z-index: 4;
 }
 
 .main-template::-webkit-scrollbar {

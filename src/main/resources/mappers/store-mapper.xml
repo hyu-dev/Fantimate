@@ -21,15 +21,6 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<result property="isActive" column="IS_ACTIVE"/>
 		<result property="cateCode" column="C_CODE"/>
 	</resultMap>
-	<resultMap type="Attachment" id="attResultSet">
-		<id property="attCode" column="ATT_CODE"/>
-		<result property="attRoot" column="ATT_ROOT"/>
-		<result property="attClName" column="ATT_CL_NAME"/>
-		<result property="attSvName" column="ATT_SV_NAME"/>
-		<result property="attStatus" column="ATT_STATUS"/>
-		<result property="attMain" column="IS_MAIN_ATT"/>
-		<result property="refId" column="P_CODE"/>
-	</resultMap>
 	<resultMap type="Wish" id="wishResultSet">
 		<id property="code" column="P_CODE"/>
 		<result property="wishDate" column="WISH_DATE"/>
@@ -69,6 +60,15 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<result property="uSuspendStart" column="U_SUSPEND_START"/>
 		<result property="uSuspendEnd" column="U_SUSPEND_END"/>
 		<result property="uProfile" column="U_PROFILE"/>
+	</resultMap>
+	<resultMap type="Attachment" id="attResultSet">
+		<id property="attCode" column="ATT_CODE"/>
+		<result property="attRoot" column="ATT_ROOT"/>
+		<result property="attClName" column="ATT_CL_NAME"/>
+		<result property="attSvName" column="ATT_SV_NAME"/>
+		<result property="attStatus" column="ATT_STATUS"/>
+		<result property="attMain" column="IS_MAIN_ATT"/>
+		<result property="refId" column="P_CODE"/>
 	</resultMap>
 	<resultMap type="Attachment" id="attUserResultSet">
 		<id property="attCode" column="UP_CODE"/>

@@ -16,8 +16,8 @@
     <title>Fantimate</title>
 </head>
 <body>
-	<section class="main-section">
-        <form class="main-template" action="" method="">
+	<section class="insert-section">
+        <form class="main-template" action="" method="POST" enctype="multipart/form-data">
             <h3 class="store-write-title">팬스토어등록</h3>
             <table class="store-write">
                 <tbody>
@@ -114,15 +114,12 @@
     </section>
     <script>
 		 // 사진첨부시
-		 // 문제 : 추가사진이 왜 ㅠㅠ 0번째만 적용되지?
 		 $(document).on('change', ".photo", function(e) {
 		     let target = $(this)
 		     let files = e.target.files;
 		     let filesArr = Array.prototype.slice.call(files);
 		     let mainImg = $("<img class='main-photo-img'>");
-		     let mainInput = $("<input id='mainPhoto' class='photo' type='file' style='display: none;'>");
 		     let addImg = $("<img class='add-photo-img'>");
-		     let addInput = $("<input id='addPhoto' class='photo' type='file' style='display: none;'>");
 		     let label = $(this).parent();
 		     let id = $(this).attr('id');
 		
@@ -139,14 +136,14 @@
 		             reader.onload = function(e) {
 		                 label.html('');
 		                 mainImg.attr("src", e.target.result);
-		                 label.append(mainImg, mainInput);
+		                 label.append(mainImg);
 		             }
 		         } else {
 		             // 추가사진을 변경한 경우
 		             reader.onload = function(e) {
 		                 label.html('');
 		                 addImg.attr("src", e.target.result);
-		                 label.append(addImg, addInput);
+		                 label.append(addImg);
 		             }
 		         }
 		         reader.readAsDataURL(f);
@@ -201,7 +198,9 @@
 		 }  
 		
 		 $('.cancel-btn').click(function() {
-		     confirm('상품등록 취소시 입력한 정보가 모두 삭제됩니다. 취소하시겠습니까?')
+		     if(confirm('상품등록 취소시 입력한 정보가 모두 삭제됩니다. 취소하시겠습니까?')) {
+		    	 $(".insert-section").fadeOut()
+		     }
 		 })
 		
 		 // 아티스트 검색란에 데이터 입력시
