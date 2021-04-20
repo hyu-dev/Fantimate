@@ -85,7 +85,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 				,	DEFAULT
 				,	DEFAULT
 				,	#{writer}
-				,	#{artiName}
+				,	#{artNameEn}
 		)
 	</insert>
 	
@@ -131,7 +131,9 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		
 		WHERE
 					BTYPE = 'F'
-		AND			BSTATUS = 'Y'	
+		AND			BSTATUS = 'Y'
+		
+			
 		ORDER BY BCREATE DESC
 	</select>
 	
@@ -139,10 +141,11 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	<select id="selectSubList" resultMap="subscribeResultSet">
 	SELECT  	
 				U_NICKNAME
+			,	U_ID
         	,   ID
 	FROM 		ATT_SUBSCRIBE
 	JOIN 		BOARD ON(U_ID = ID)
-	WHERE		U_ID = #{writer}
+	
 	
 	
 	</select>
