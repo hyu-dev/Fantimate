@@ -20,4 +20,6 @@ public class FanStore {
 	private String finfo; 		// 상품소개글
 	private String isActive; 	// 활성화 여부
 	private String id; 			// 아이디
+	private int areaCode;		// 지역 코드
+	private String artiNameEn;	// 아티스트명
 }

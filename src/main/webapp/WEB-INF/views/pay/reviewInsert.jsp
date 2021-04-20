@@ -25,7 +25,7 @@
             <div class="my-score">
                 <article>
                     <div class="product-background insert-product">
-                        <img src="${ contextPath }/resources/uploadFiles/아이유_밤편지.jpg" alt="">
+                        <img src="" alt="">
                     </div>
                     <div class="product-info insert-info">
                         <p></p>

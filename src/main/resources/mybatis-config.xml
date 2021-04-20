@@ -50,6 +50,11 @@
 		<typeAlias type="com.kh.fantimate.pay.model.vo.ProductBuy" alias="ProductBuy"/>
 		<typeAlias type="com.kh.fantimate.pay.model.vo.PayCollection" alias="PayCollection"/>
 		<typeAlias type="com.kh.fantimate.store.model.vo.BuyCollection" alias="BuyCollection"/>
+		<typeAlias type="com.kh.fantimate.store.model.vo.FanStore" alias="FanStore"/>
+		<typeAlias type="com.kh.fantimate.store.model.vo.Area" alias="Area"/>
+		<typeAlias type="com.kh.fantimate.store.model.vo.HashTag" alias="HashTag"/>
+		<typeAlias type="com.kh.fantimate.store.model.vo.FStoreListCollection" alias="FStoreListCollection"/>
+		<typeAlias type="com.kh.fantimate.member.model.vo.UserCollection" alias="UserCollection"/>
 	</typeAliases>
 	
 	<!-- mappers -->
@@ -61,5 +66,6 @@
 		<mapper resource="mappers/official-mapper.xml"/>
 		<mapper resource="mappers/main-mapper.xml"/>
 		<mapper resource="mappers/pay-mapper.xml"/>
+		<mapper resource="mappers/fanStore-mapper.xml"/>
 	</mappers>
 </configuration>

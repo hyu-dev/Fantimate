@@ -1,0 +1,387 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="fanStoreMapper">
+	<resultMap type="FanStore" id="fstoreResultSet">
+		<id property="fcode" column="F_CODE"/>
+		<result property="fname" column="F_NAME"/>
+		<result property="offerPrice" column="OFFER_PRICE"/>
+		<result property="contact" column="CONTECT"/>
+		<result property="deal" column="DEAL"/>
+		<result property="finfo" column="F_INFO"/>
+		<result property="isActive" column="IS_ACTIVE"/>
+		<result property="id" column="ID"/>
+		<result property="areaCode" column="AREA_CODE"/>
+		<result property="artiNameEn" column="ARTI_NAME_EN"/>
+	</resultMap>
+	<resultMap type="Attachment" id="attResultSet">
+		<id property="attCode" column="ATT_CODE"/>
+		<result property="attRoot" column="ATT_ROOT"/>
+		<result property="attClName" column="ATT_CL_NAME"/>
+		<result property="attSvName" column="ATT_SV_NAME"/>
+		<result property="attStatus" column="ATT_STATUS"/>
+		<result property="attMain" column="IS_MAIN_ATT"/>
+		<result property="refId" column="F_CODE"/>
+	</resultMap>
+	<resultMap type="Wish" id="wishResultSet">
+		<id property="code" column="F_CODE"/>
+		<result property="wishDate" column="WISH_DATE"/>
+		<result property="isWish" column="IS_WISH"/>
+		<result property="id" column="W_ID"/>
+	</resultMap>
+	<resultMap type="Area" id="areaResultSet">
+		<id property="areaCode" column="AREA_CODE"/>
+		<result property="areaName" column="AREA_NAME"/>
+	</resultMap>
+	<resultMap type="hashTag" id="hashResultSet">
+		<id property="tagCode" column="TAG_CODE"/>
+		<result property="tagName" column="TAG_NAME"/>
+		<result property="searchCount" column="SEARCH_COUNT"/>
+		<result property="fcode" column="F_CODE"/>
+	</resultMap>
+	<resultMap type="User" id="userResultSet">
+		<id property="id" column="U_ID"/>
+		<result property="uaddress" column="U_ADD"/>
+		<result property="uemail" column="U_EMAIL"/>
+		<result property="ucountry" column="U_COUNTRY"/>
+		<result property="areaReg" column="AREA_REGISTER"/>
+		<result property="areaCertify" column="AREA_CERTIFY"/>
+		<result property="areaCode" column="AREA_CODE"/>
+		<result property="isMembership" column="IS_MEMBERSHIP"/>
+		<result property="uPaidStart" column="U_PAID_START"/>
+		<result property="uPaidEnd" column="U_PAID_END"/>
+		<result property="uSuspendStart" column="U_SUSPEND_START"/>
+		<result property="uSuspendEnd" column="U_SUSPEND_END"/>
+		<result property="uProfile" column="U_PROFILE"/>
+	</resultMap>
+	<resultMap type="Attachment" id="attUserResultSet">
+		<id property="attCode" column="UP_CODE"/>
+		<result property="attRoot" column="UP_ROOT"/>
+		<result property="attClName" column="UP_CL_NAME"/>
+		<result property="attSvName" column="UP_SV_NAME"/>
+		<result property="attStatus" column="UP_STATUS"/>
+		<result property="id" column="U_ID"/>
+	</resultMap>
+	<resultMap type="FStoreListCollection" id="fsListCollResultSet">
+		<collection property="fstore" resultMap="fstoreResultSet" />
+		<collection property="hash" resultMap="hashResultSet" />
+		<collection property="att"  resultMap="attResultSet" />
+		<collection property="area"  resultMap="areaResultSet" />
+		<collection property="user" resultMap="userResultSet" />
+		<collection property="wish" resultMap="wishResultSet" />
+	</resultMap>
+	<resultMap type="UserCollection" id="userCollResultSet">
+		<collection property="user" resultMap="userResultSet" />
+		<collection property="area"  resultMap="areaResultSet" />
+		<collection property="attUser"  resultMap="attUserResultSet" />
+	</resultMap>
+	<select id="isSettingArea" parameterType="string" resultMap="userResultSet">
+		SELECT
+				U_ID
+			  , U_ADD
+			  , U_EMAIL
+			  , U_COUNTRY
+			  , AREA_REGISTER
+			  , AREA_CERTIFY
+			  , AREA_CODE
+			  , IS_MEMBERSHIP
+			  , U_PAID_START
+			  , U_PAID_END
+			  , U_SUSPEND_START
+			  , U_SUSPEND_END
+			  , U_PROFILE
+		  FROM
+		  		USER_
+		 WHERE
+		 		U_ID = #{userId}
+	</select>
+	<select id="selectFanStoreList" parameterType="_int" resultMap="fsListCollResultSet">
+		SELECT
+		        F_CODE
+		      , F_NAME
+		      , OFFER_PRICE
+		      , CONTECT
+		      , DEAL
+		      , F_INFO
+		      , IS_ACTIVE
+		      , F.ID AS ID
+		      , AREA_CODE
+		      , ARTI_NAME_EN
+		      , ATT_CODE
+		      , ATT_CL_NAME
+		      , ATT_SV_NAME
+		      , ATT_STATUS
+		      , IS_MAIN_ATT
+		      , TAG_CODE
+		      , TAG_NAME
+		      , SEARCH_COUNT
+		      , AREA_NAME
+		      , WISH_DATE
+		      , IS_WISH
+		      , W.ID AS W_ID
+		  FROM
+		        F_STORE F
+		  LEFT JOIN
+		        ATT_FSTORE USING(F_CODE)
+		  LEFT JOIN
+		        ENROLL_TAG USING(F_CODE)
+		  LEFT JOIN
+		        TAG USING(TAG_CODE)
+		  LEFT JOIN
+		        USER_AREA USING(AREA_CODE)
+		  LEFT JOIN
+		  		F_WISH W USING(F_CODE)
+		 WHERE
+		        AREA_CODE = #{areaCode}
+           AND
+                IS_MAIN_ATT = 'Y'
+           AND  IS_ACTIVE = 'Y'
+      ORDER BY  F_CODE DESC
+	</select>
+	<select id="selectAreaList" parameterType="string" resultMap="areaResultSet">
+		SELECT
+				AREA_CODE
+			  , AREA_NAME
+		  FROM
+		  		USER_AREA
+		 WHERE  
+		 		AREA_NAME LIKE '%' || #{search} || '%'
+	</select>
+	<select id="selectAreaCode" parameterType="string" resultType="_int">
+		SELECT
+				AREA_CODE
+		  FROM
+		  		USER_AREA
+		 WHERE
+		 		AREA_NAME = #{area}
+	</select>
+	<update id="settingArea" parameterType="User">
+		UPDATE
+				USER_
+		   SET
+		   		AREA_REGISTER = 'Y'
+		   	  , AREA_CERTIFY = 'N'
+		   	  , AREA_CODE = #{areaCode}
+		 WHERE
+		 		U_ID = #{id}
+	</update>
+	<select id="selectUserCollection" parameterType="string" resultMap="userCollResultSet">
+		SELECT
+				U_ID
+			  , U_ADD
+			  , U_EMAIL
+			  , U_COUNTRY
+			  , AREA_REGISTER
+			  , AREA_CERTIFY
+			  , AREA_CODE
+			  , IS_MEMBERSHIP
+			  , U_PAID_START
+			  , U_PAID_END
+			  , U_SUSPEND_START
+			  , U_SUSPEND_END
+			  , U_PROFILE
+			  , AREA_NAME
+		  FROM
+		  		USER_
+		  LEFT JOIN
+		  		USER_AREA USING(AREA_CODE)
+		 WHERE
+		 		U_ID = #{userId}
+	</select>
+	<select id="selectHashList" resultMap="hashResultSet">
+		SELECT
+				TAG_CODE
+			  , TAG_NAME
+			  , SEARCH_COUNT
+              , F_CODE
+		  FROM
+		  		TAG
+          JOIN
+                ENROLL_TAG USING(TAG_CODE)
+          LEFT JOIN
+                F_STORE USING(F_CODE)
+         WHERE
+         		AREA_CODE = #{areaCode}
+      ORDER BY
+		 		SEARCH_COUNT DESC
+	</select>
+	<select id="selectMyStoreList" parameterType="User" resultMap="fsListCollResultSet">
+		SELECT
+		        F_CODE
+		      , F_NAME
+		      , OFFER_PRICE
+		      , CONTECT
+		      , DEAL
+		      , F_INFO
+		      , IS_ACTIVE
+		      , F.ID AS ID
+		      , AREA_CODE
+		      , ARTI_NAME_EN
+		      , ATT_CODE
+		      , ATT_CL_NAME
+		      , ATT_SV_NAME
+		      , ATT_STATUS
+		      , IS_MAIN_ATT
+		      , TAG_CODE
+		      , TAG_NAME
+		      , SEARCH_COUNT
+		      , AREA_NAME
+		      , WISH_DATE
+		      , IS_WISH
+		      , W.ID AS W_ID
+		  FROM
+		        F_STORE F
+		  LEFT JOIN
+		        ATT_FSTORE USING(F_CODE)
+		  LEFT JOIN
+		        ENROLL_TAG USING(F_CODE)
+		  LEFT JOIN
+		        TAG USING(TAG_CODE)
+		  LEFT JOIN
+		        USER_AREA USING(AREA_CODE)
+		  LEFT JOIN
+		  		F_WISH W USING(F_CODE)
+		 WHERE
+		        AREA_CODE = #{areaCode}
+           AND
+                IS_MAIN_ATT = 'Y'
+           AND  IS_ACTIVE = 'Y'
+           AND  F.ID = #{id}
+      ORDER BY  F_CODE DESC
+	</select>
+	<select id="selectHashListBySearch" parameterType="hashMap" resultMap="hashResultSet">
+		SELECT
+				TAG_CODE
+			  , TAG_NAME
+			  , SEARCH_COUNT
+              , F_CODE
+		  FROM
+		  		TAG
+          JOIN
+                ENROLL_TAG USING(TAG_CODE)
+          LEFT JOIN
+                F_STORE USING(F_CODE)
+         WHERE
+         		AREA_CODE = #{areaCode}
+           AND  TAG_NAME LIKE '%' || #{search} || '%'
+      ORDER BY  TAG_NAME ASC
+	</select>
+	<select id="selectFNameListBySearch" parameterType="hashMap" resultMap="fstoreResultSet">
+		SELECT
+				F_CODE
+		      , F_NAME
+		      , OFFER_PRICE
+		      , CONTECT
+		      , DEAL
+		      , F_INFO
+		      , IS_ACTIVE
+		      , ID
+		      , AREA_CODE
+		      , ARTI_NAME_EN
+		  FROM
+		  		F_STORE
+		 WHERE
+		 		AREA_CODE = #{areaCode}
+		   AND
+		   		F_NAME LIKE '%' || #{search} || '%'
+	  ORDER BY
+	  			F_NAME ASC
+	</select>
+	<select id="selectfStoreListBySearch" parameterType="hashMap" resultMap="fsListCollResultSet">
+		SELECT
+		        F_CODE
+		      , F_NAME
+		      , OFFER_PRICE
+		      , CONTECT
+		      , DEAL
+		      , F_INFO
+		      , IS_ACTIVE
+		      , F.ID AS ID
+		      , AREA_CODE
+		      , ARTI_NAME_EN
+		      , ATT_CODE
+		      , ATT_CL_NAME
+		      , ATT_SV_NAME
+		      , ATT_STATUS
+		      , IS_MAIN_ATT
+		      , TAG_CODE
+		      , TAG_NAME
+		      , SEARCH_COUNT
+		      , AREA_NAME
+		      , WISH_DATE
+		      , IS_WISH
+		      , W.ID AS W_ID
+		  FROM
+		        F_STORE F
+		  LEFT JOIN
+		        ATT_FSTORE USING(F_CODE)
+		  LEFT JOIN
+		        ENROLL_TAG USING(F_CODE)
+		  LEFT JOIN
+		        TAG USING(TAG_CODE)
+		  LEFT JOIN
+		        USER_AREA USING(AREA_CODE)
+		  LEFT JOIN
+		  		F_WISH W USING(F_CODE)
+		 WHERE
+		        AREA_CODE = #{areaCode}
+           AND
+                IS_MAIN_ATT = 'Y'
+           AND  IS_ACTIVE = 'Y'
+           <if test='type.equals("상품")'>
+           AND  F_NAME LIKE '%' || #{search} || '%'
+           </if>
+           <if test='type.equals("태그")'>
+           AND  TAG_NAME LIKE '%' || #{search} || '%'
+           </if>
+      ORDER BY  F_CODE DESC
+	</select>
+	<select id="isEnrollWish" parameterType="Wish" resultType="_int">
+		SELECT
+				COUNT(*)
+		  FROM
+		  		F_WISH
+		 WHERE
+		 		ID = #{id}
+		   AND
+		   		F_CODE = #{code}
+	</select>
+	<update id="enrollUpdateWish" parameterType="Wish">
+		UPDATE
+				F_WISH
+		   SET
+		   		IS_WISH = 'Y'
+		 WHERE
+		 		ID = #{id}
+		   AND
+		   		F_CODE = #{code}
+	</update>
+	<insert id="enrollWish" parameterType="Wish">
+		INSERT
+		INTO F_WISH
+		(
+			F_CODE
+		  , WISH_DATE
+		  , IS_WISH
+		  , ID
+		)
+		VALUES
+		(
+			#{code}
+		  , SYSDATE
+		  , DEFAULT
+		  , #{id}
+		)
+	</insert>
+	<update id="cancelWish" parameterType="Wish">
+		UPDATE
+				F_WISH
+		   SET
+		   		IS_WISH = 'N'
+		 WHERE
+		 		ID = #{id}
+		   AND
+		   		F_CODE = #{code}
+	</update>
+</mapper>
