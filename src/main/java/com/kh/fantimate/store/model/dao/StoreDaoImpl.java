@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.kh.fantimate.common.model.vo.Attachment;
 import com.kh.fantimate.pay.model.vo.Cart;
 import com.kh.fantimate.pay.model.vo.CartCollection;
+import com.kh.fantimate.pay.model.vo.ProductBuy;
 import com.kh.fantimate.store.model.vo.BuyCollection;
 import com.kh.fantimate.store.model.vo.Review;
 import com.kh.fantimate.store.model.vo.ReviewCollection;
@@ -172,8 +173,23 @@ public class StoreDaoImpl implements StoreDao {
 	}
 
 	@Override
-	public StoreCollection readStoreMain(int pcode) {
-		return sqlSession.selectOne("storeMapper.readStoreMain", pcode);
+	public BuyCollection readStoreMain(ProductBuy pb) {
+		return sqlSession.selectOne("storeMapper.readStoreMain", pb);
+	}
+
+	@Override
+	public int insertReview(Review review) {
+		return sqlSession.insert("storeMapper.insertReview", review);
+	}
+
+	@Override
+	public int insertReviewAtt(List<Attachment> attList) {
+		return sqlSession.insert("storeMapper.insertReviewAtt", attList);
+	}
+
+	@Override
+	public List<StoreCollection> selectOneReview(Review rv) {
+		return sqlSession.selectList("storeMapper.selectOneReview", rv);
 	}
 
 }

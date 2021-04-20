@@ -32,6 +32,7 @@ import com.kh.fantimate.common.model.vo.Attachment;
 import com.kh.fantimate.common.model.vo.Message;
 import com.kh.fantimate.common.model.vo.Report;
 import com.kh.fantimate.main.model.service.MainService;
+import com.kh.fantimate.main.model.vo.FriendCollection;
 import com.kh.fantimate.main.model.vo.MainCollection;
 import com.kh.fantimate.main.model.vo.SubscribeArtist;
 import com.kh.fantimate.member.model.vo.Member;
@@ -441,6 +442,38 @@ public class MainController {
 		
 
 		return new Gson().toJson(mailCount);
+		
+	}
+	
+	// 친구 아코디언
+	@RequestMapping(value="/friendMessage", produces="application/json; charset=utf-8")
+	public @ResponseBody String friendMessage(HttpSession session) {
+		
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		// 로그인 유저의 아이디 가지고 가기 
+		String user = loginUser.getId();
+		
+		// 친구 아이디 & 친구 프로필 select
+		List<FriendCollection> flist = (ArrayList<FriendCollection>)mpService.selectFriendInfo(user);
+		// 친구가 보낸 메세지 select
+		List<FriendCollection> fmlist = (ArrayList<FriendCollection>)mpService.selectFriendMsg(user);
+		
+		// 날짜 포맷하기 위해 GsonBuilder를 이용해서 GSON 객체 생성
+		Gson gson = new GsonBuilder()
+					.setDateFormat("yyyy-MM-dd")
+					.create();
+		
+		// 날짜랑 전체리스트 보내기
+		JSONObject sendJson = new JSONObject();
+		sendJson.put("flist", flist);
+		sendJson.put("fmlist", fmlist);
+		
+		//System.out.println("친구프로필: " + flist);
+		//System.out.println("친구메시지: " + fmlist);
+		
+		session.setAttribute("sendJson", sendJson);
+
+		return gson.toJson(sendJson);
 		
 	}
 	

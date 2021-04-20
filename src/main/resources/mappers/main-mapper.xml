@@ -4,11 +4,13 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="mainMapper">
 
+	<!-- 아티스트 정보 -->
 	<resultMap type="ArtistGroup" id="artistgroupResultSet">
 		<id property = "artNameEn" column="ARTI_NAME_EN"/>
 		<result property="artNameKr" column="ARTI_NAME_KR"/>
 		<result property="agId" column="AG_ID"/>
 	</resultMap>
+	<!-- 사진 첨부 (메인사진)-->
 	<resultMap type="Attachment" id="attResultSet">
 		<id property="attCode" column="ATT_CODE"/>
 		<result property="attRoot" column="ATT_ROOT"/>
@@ -16,6 +18,16 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<result property="attSvName" column="ATT_SV_NAME"/>
 		<result property="attStatus" column="ATT_STATUS"/>
 	</resultMap>
+	<!-- 사진 첨부 (친구프로필)-->
+	<resultMap type="Attachment" id="frAttResultSet">
+		<id property="attCode" column="UP_CODE"/>
+		<result property="attRoot" column="UP_ROOT"/>
+		<result property="attClName" column="UP_CL_NAME"/>
+		<result property="attSvName" column="UP_SV_NAME"/>
+		<result property="attStatus" column="UP_STATUS"/>
+		<result property="id" column="U_ID"/>
+	</resultMap>
+	<!-- 관심아티스트 -->
 	<resultMap type="FavoriteArtist" id="favArtistResultSet">
 		<id property = "favCode" column="FAV_CODE"/>
 		<result property="id" column="U_ID"/>
@@ -60,6 +72,13 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<result property="id" column="U_ID"/>
 		<result property="refId" column="MESS_NO"/>
 	</resultMap> 
+	<!-- 친구 -->
+	<resultMap type="Friend" id="friendResultSet">
+		<id property = "frCode" column="FR_CODE"/>
+		<result property="frSend" column="U_ID_SEND"/>
+		<result property="frRecId" column="U_ID_RECEIVE"/>
+		<result property="frStatus" column="FR_STATUS"/>
+	</resultMap> 
 	
 	<!-- collection -->
 	<resultMap type="MainCollection" id="mainCollResultSet">
@@ -67,6 +86,12 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<collection property="att"  resultMap="attResultSet" />
 		<collection property="afv"  resultMap="favArtistResultSet" />
 	</resultMap>
+	<resultMap type="FriendCollection" id="friendCollResultSet">
+		<collection property="fr" resultMap="friendResultSet" />
+		<collection property="att"  resultMap="frAttResultSet" />
+		<collection property="msg"  resultMap="messageResultSet" />
+	</resultMap>
+	
 
 	
 	
@@ -387,6 +412,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		)
 	</insert>
 	
+	<!-- 총 메일 갯수 카운트 -->
 	<select id="selectMailCount" resultType="_int" parameterType="String">
 		SELECT
 		     COUNT(*)
@@ -398,6 +424,94 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		    MESS_READ = 'N'
 		AND
 		    MESS_STATUS = 'Y'
+	</select>
+	
+	<!-- 친구 정보 select -->
+	<select id="selectFriendInfo" resultMap="friendCollResultSet">
+		SELECT 
+		      F.FR_CODE
+		    , F.U_ID_SEND
+		    , F.U_ID_RECEIVE
+		    , F.FR_STATUS
+		    , U.UP_CODE
+		    , U.UP_ROOT
+		    , U.UP_CL_NAME
+		    , U.UP_SV_NAME
+		    , U.UP_STATUS
+		    , U.U_ID
+		FROM FRIEND F
+		JOIN USER_PROFILE U ON (U.U_ID = F.U_ID_SEND)
+		WHERE 
+		     (F.U_ID_RECEIVE = #{frRecId}
+		     OR F.U_ID_SEND = #{frSend})
+		AND  F.FR_STATUS = 2
+		AND  (U.U_ID = F.U_ID_SEND OR U.U_ID = F.U_ID_RECEIVE)
+		AND U.U_ID NOT IN (#{id})
+	UNION
+		SELECT 
+		      F.FR_CODE
+		    , F.U_ID_SEND
+		    , F.U_ID_RECEIVE
+		    , F.FR_STATUS
+		    , U.UP_CODE
+		    , U.UP_ROOT
+		    , U.UP_CL_NAME
+		    , U.UP_SV_NAME
+		    , U.UP_STATUS
+		    , U.U_ID
+		FROM FRIEND F
+		JOIN USER_PROFILE U ON (U.U_ID = F.U_ID_RECEIVE)
+		WHERE 
+		     (F.U_ID_RECEIVE = #{frRecId}
+		     OR F.U_ID_SEND = #{frSend})
+		AND  F.FR_STATUS = 2
+		AND  (U.U_ID = F.U_ID_SEND OR U.U_ID = F.U_ID_RECEIVE)
+		AND U.U_ID NOT IN (#{id})
+	</select>
+	
+	<!-- 친구에게 받은 편지 select -->
+	<select id="selectFriendMsg" resultMap="friendCollResultSet">
+		SELECT
+		      M.MESS_NO
+		    , M.MESS_CONTENT
+		    , M.MESS_DATE
+		    , M.MESS_READ
+		    , M.U_ID_SEND
+		    , M.U_ID_RECEIVE
+		    , M.MESS_TITLE
+		    , M.MESS_STATUS
+		    , F.FR_CODE
+		    , F.U_ID_SEND
+		    , F.U_ID_RECEIVE
+		    , F.FR_STATUS
+		FROM MESSAGE M
+		JOIN FRIEND F ON (F.U_ID_SEND = M.U_ID_RECEIVE)
+		WHERE 
+		     ((F.U_ID_RECEIVE = #{frRecId} AND M.U_ID_RECEIVE = #{id}) OR (F.U_ID_SEND = #{frSend} AND M.U_ID_RECEIVE = #{id}))
+		AND F.FR_STATUS = 2
+		AND MESS_STATUS = 'Y'
+		AND (F.U_ID_SEND = M.U_ID_SEND OR F.U_ID_RECEIVE = M.U_ID_SEND)
+	UNION
+		SELECT
+		      M.MESS_NO
+		    , M.MESS_CONTENT
+		    , M.MESS_DATE
+		    , M.MESS_READ
+		    , M.U_ID_SEND
+		    , M.U_ID_RECEIVE
+		    , M.MESS_TITLE
+		    , M.MESS_STATUS
+		    , F.FR_CODE
+		    , F.U_ID_SEND
+		    , F.U_ID_RECEIVE
+		    , F.FR_STATUS
+		FROM MESSAGE M
+		JOIN FRIEND F ON (F.U_ID_RECEIVE = M.U_ID_RECEIVE)
+		WHERE 
+		     ((F.U_ID_RECEIVE = #{frRecId} AND M.U_ID_RECEIVE = #{id}) OR (F.U_ID_SEND = #{frSend} AND M.U_ID_RECEIVE = #{id}))
+		AND   F.FR_STATUS = 2
+		AND MESS_STATUS = 'Y'
+		AND (F.U_ID_SEND = M.U_ID_SEND OR F.U_ID_RECEIVE = M.U_ID_SEND)
 	</select>
 	
 </mapper>
