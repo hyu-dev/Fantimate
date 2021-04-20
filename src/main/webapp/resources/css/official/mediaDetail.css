@@ -87,7 +87,7 @@ html, body {
     border: none;
     width: 90%;
     height: 100px;
-    font-size: 15px;
+    font-size: 17px;
     outline-style: none;
     margin-left: 30px;
 }
@@ -115,12 +115,6 @@ html, body {
 
 .watching-count {
     float: right;
-}
-
-#watchingCount {
-    /* border: 1px solid maroon; */
-    display: inline-block;
-    width: 90px;
 }
 
 /* 댓글 */
@@ -237,9 +231,21 @@ html, body {
     vertical-align: top;
 }
 
-#artist-comment {
+.artist-comment {
     background: #fceae5;
-    border-radius: 10px;
+    /* border-radius: 10px; */
+}
+
+.user-comment {
+	background: #f3f3f3;
+}
+
+.re-artist-comment {
+	background: #fceae5 !important;
+}
+
+.re-user-comment {
+	background: #f3f3f3 !important;
 }
 
 .comment-box {
@@ -261,7 +267,6 @@ html, body {
     width: 95%;
     height: 100%;
     line-height: 40px;
-    background: #f3f3f3;
     border-radius: 10px;
     box-sizing: border-box;
     padding-right: 30px;
@@ -307,7 +312,7 @@ html, body {
     border: 2px solid black;
     border-radius: 0 10px 10px 10px;
     width: 100px;
-    height: 90px;
+    height: auto;
     background: white;
     text-align: center;
     font-size: 16px !important;
@@ -476,6 +481,7 @@ html, body {
 }
 
 .recommend-container {
+	min-width: 55%;
     width: 55%;
     box-sizing: border-box;
 }

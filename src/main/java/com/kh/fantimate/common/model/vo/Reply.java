@@ -17,8 +17,10 @@ public class Reply {
 	private int rid;			// 댓글번호
 	private String rcontent;	// 내용
 	private Date rcreate;		// 작성일
+	private int rrcount;		// 신고 수
+	private int likeCount;	 	// 좋아요 수
 	private String rstatus;		// 댓글 활성화 상태
 	private int refId;			// 게시물 참조 번호
 	private String writer;		// 작성자 id
-	private int refRid;		// 댓글 참조 번호
+	private int refRid;			// 댓글 참조 번호
 }
