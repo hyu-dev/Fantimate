@@ -182,7 +182,7 @@
     	});
 	
 	    // 찜 아이콘 클릭시
-	    $('.ddim-icon').click(function() {
+	    $(document).on('click', '.ddim-icon', function() {
 	    	var data;
 	    	var fcode = $(this).parent().siblings("#fcode").val();
 	    	var img = $(this)
