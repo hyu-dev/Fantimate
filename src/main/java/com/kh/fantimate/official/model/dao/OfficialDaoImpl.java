@@ -1,5 +1,6 @@
 package com.kh.fantimate.official.model.dao;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -7,10 +8,14 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.fantimate.common.model.vo.BookMark;
+import com.kh.fantimate.common.model.vo.Reply;
+import com.kh.fantimate.common.model.vo.ReplyCollection;
 import com.kh.fantimate.member.model.vo.Member;
 import com.kh.fantimate.official.model.vo.MediaCategory;
 import com.kh.fantimate.official.model.vo.MediaCollection;
 import com.kh.fantimate.official.model.vo.Official;
+import com.kh.fantimate.official.model.vo.Schedule;
 import com.kh.fantimate.pay.model.vo.Cart;
 
 @Repository
@@ -77,5 +82,95 @@ public class OfficialDaoImpl implements OfficialDao{
 	@Override
 	public int updateHitCount(int mediaNum) {
 		return sqlSession.update("officialMapper.updateHitCount", mediaNum);
+	}
+	
+	// 북마크 여부 확인
+	@Override
+	public BookMark selectBookMark(int mediaNum) {
+		return sqlSession.selectOne("officialMapper.selectBookMark", mediaNum);
+	}
+	
+	// 댓글 개수 조회하기
+	@Override
+	public int countReply(int mediaNum) {
+		return sqlSession.selectOne("officialMapper.countReply", mediaNum);
+	}
+
+	// 댓글 리스트 호출
+	@Override
+	public List<ReplyCollection> selectReplyList(Map<Object, Object> map) {
+		return sqlSession.selectList("officialMapper.selectReplyList", map);
+	}
+
+	// 새 댓글 입력
+	@Override
+	public int insertReply(Reply r) {
+		return sqlSession.insert("officialMapper.insertReply", r);
+	}
+
+	// 댓글 삭제
+	@Override
+	public int deleteReply(int rid) {
+		return sqlSession.update("officialMapper.deleteReply", rid);
+	}
+
+	// 좋아요 +1
+	@Override
+	public int insertLike(Map<Object, Object> map) {
+		return sqlSession.insert("officialMapper.insertLike", map);
+	}
+
+	// 좋아요 -1
+	@Override
+	public int deleteLike(Map<Object, Object> map) {
+		return sqlSession.delete("officialMapper.deleteLike", map);
+	}
+
+	// 댓글 신고
+	@Override
+	public int insertReport(Map<Object, Object> map) {
+		return sqlSession.insert("officialMapper.insertReport", map);
+	}
+
+	// 회원 댓글 알림 입력
+	@Override
+	public int insertUserReplyAlarm(Map<Object, Object> map) {
+		return sqlSession.insert("officialMapper.insertUserReplyAlarm", map);
+	}
+
+	// 아티스트 댓글 알림 입력
+	@Override
+	public int insertArtistReplyAlarm(Map<Object, Object> map) {
+		return sqlSession.insert("officialMapper.insertArtistReplyAlarm", map);
+	}
+
+	// 쪽지 보내기
+	@Override
+	public int insertMessage(Map<Object, Object> map) {
+		return sqlSession.insert("officialMapper.insertMessage", map);
+	}
+
+	// 친구 신청
+	@Override
+	public int ApplyFriend(Map<Object, Object> map) {
+		return sqlSession.insert("officialMapper.ApplyFriend", map);
+	}
+
+	// 스케줄 호출
+	@Override
+	public Schedule selectSchedule(String artiName) {
+		return sqlSession.selectOne("officialMapper.selectSchedule", artiName);
+	}
+
+	// 스케줄 추가
+	@Override
+	public int insertSchedule(Map<Object, Object> map) {
+		return sqlSession.insert("officialMapper.insertSchedule", map);
+	}
+
+	// 스케줄 삭제
+	@Override
+	public int deleteSchedule(Date scheDate) {
+		return sqlSession.delete("officialMapper.deleteSchedule", scheDate);
 	}
 }

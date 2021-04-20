@@ -28,8 +28,11 @@
 		<typeAlias type="com.kh.fantimate.mypage1.model.vo.MediaR" alias="MediaR"/>
 		<typeAlias type="com.kh.fantimate.mypage1.model.vo.MediaRList" alias="MediaRList"/>
 		<typeAlias type="com.kh.fantimate.common.model.vo.Alarm" alias="Alarm"/>
+		<typeAlias type="com.kh.fantimate.common.model.vo.BookMark" alias="BookMark"/>
 		<typeAlias type="com.kh.fantimate.common.model.vo.Message" alias="Message"/>
 		<typeAlias type="com.kh.fantimate.common.model.vo.Report" alias="Report"/>
+		<typeAlias type="com.kh.fantimate.common.model.vo.Reply" alias="Reply"/>
+		<typeAlias type="com.kh.fantimate.common.model.vo.ReplyCollection" alias="ReplyCollection"/>
 		<typeAlias type="com.kh.fantimate.common.model.vo.Friend" alias="Friend"/>
 		<typeAlias type="com.kh.fantimate.main.model.vo.FavoriteArtist" alias="FavoriteArtist"/>
 		<typeAlias type="com.kh.fantimate.store.model.vo.Store" alias="Store"/>

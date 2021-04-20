@@ -5,11 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.print.attribute.standard.Media;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,6 +19,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.fantimate.common.model.vo.BookMark;
+import com.kh.fantimate.common.model.vo.Reply;
+import com.kh.fantimate.common.model.vo.ReplyCollection;
 import com.kh.fantimate.member.model.vo.Member;
 import com.kh.fantimate.member.model.vo.User;
 import com.kh.fantimate.official.model.service.OfficialService;
@@ -167,7 +171,7 @@ public class OfficialController {
 	}
 	
 	@GetMapping("/media/detail")
-	public ModelAndView selectMedia(int mediaNum, ModelAndView mv) {
+	public ModelAndView selectMedia(int mediaNum, ModelAndView mv, HttpServletRequest request) {
 		String artiName = "BTS";
 		
 		System.out.println("미디어 번호 : " + mediaNum);
@@ -179,23 +183,74 @@ public class OfficialController {
 		// 클릭한 미디어 호출
 		MediaCollection media = oService.selectMedia(map);
 		System.out.println("클릭한 미디어 호출 : " + media);
+		Member loginUser = (Member)request.getSession().getAttribute("loginUser");
 		
 		if(media != null) {
 			mv.addObject("media", media);
 			mv.setViewName("official/media/detail");
+			mv.addObject("loginUser", loginUser);
 			
-			// 클릭한 미디어 조회수 추가
+			// 클릭한 미디어 조회수 추가(머지 인투)
 			int count = oService.updateHitCount(mediaNum);
-			//머지 인투
+			// 북마크 여부 확인
+			BookMark bmark = oService.selectBookMark(mediaNum);
+			// 댓글 개수 조회하기
+			int rcount = oService.countReply(mediaNum);
+			// 댓글 리스트 호출
+			List<ReplyCollection> comment = oService.selectReplyList(map);
+			
+			System.out.println("댓글 리스트 : " + comment);
+			System.out.println("댓글 개수 : " + rcount);
+			System.out.println("북마크 여부 : " + bmark);
 			
 			if(count > 0) {
 				System.out.println("조회수 추가 성공");
 			} else {
 				System.out.println("조회수 추가 실패");
 			}
+			
+			mv.addObject("bmark", bmark);
+			mv.addObject("comment", comment);
+			mv.addObject("rcount", rcount);
  		} 
 		
 		return mv;
+	}
+	
+	@PostMapping(value="/insertReply", produces="application/json; charset=utf-8")
+	public @ResponseBody String insertReply(Reply r, HttpSession session, Model model) {
+		String artiName = "BTS";
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		String writer = loginUser.getId();
+		r.setWriter(writer);
+		System.out.println("전송된 댓글 데이터 : " + r);
+		
+		List<ReplyCollection> comment = oService.insertReply(r, artiName);
+		
+		if(comment != null) {
+			model.addAttribute("comment", comment);
+		} else {
+			System.out.println("댓글없음");
+		}
+		
+		return "abc";
+	}
+	
+	@PostMapping(value="/deleteReply", produces="application/json; charset=utf-8")
+	public @ResponseBody String deleteReply(Reply r, HttpSession session, Model model) {
+		String artiName = "BTS";
+		
+		System.out.println("전송된 댓글 : " + r);
+		
+		List<ReplyCollection> comment = oService.deleteReply(r, artiName);
+		
+		if(comment != null) {
+			model.addAttribute("comment", comment);
+		} else {
+			System.out.println("댓글없음");
+		}
+		
+		return "abc";
 	}
 	/*
 	// 파라미터를 넘겨줘야 하므로 수정 예정
