@@ -8,6 +8,7 @@ import com.kh.fantimate.main.model.vo.FavoriteArtist;
 import com.kh.fantimate.member.model.vo.Admin;
 import com.kh.fantimate.member.model.vo.Agency;
 import com.kh.fantimate.member.model.vo.Artist;
+import com.kh.fantimate.member.model.vo.ArtistCollection;
 import com.kh.fantimate.member.model.vo.ArtistGroup;
 import com.kh.fantimate.member.model.vo.Member;
 import com.kh.fantimate.member.model.vo.User;
@@ -42,7 +43,7 @@ public interface MemberService {
 	public Agency loginAgency(String id);
 
 	// 7_3. 아티스트 로그인
-	public Artist loginArtist(String id);
+	public ArtistCollection loginArtist(String id);
 
 	// 7_4. 관리자 로그인
 	public Admin loginAdmin(String id);

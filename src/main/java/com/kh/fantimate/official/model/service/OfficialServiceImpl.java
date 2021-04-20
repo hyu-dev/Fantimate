@@ -22,7 +22,7 @@ public class OfficialServiceImpl implements OfficialService{
 	@Autowired
 	private OfficialDao oDao;
 	
-	/* 미디어 메인 페이지 */
+	/* 미디어 메인&리스트 페이지 */
 	
 	// 미디어 개수 조회하기
 	@Override
@@ -71,6 +71,8 @@ public class OfficialServiceImpl implements OfficialService{
 	public List<MediaCollection> searchMediaList(Map<String, String> map) {
 		return oDao.searchMediaList(map);
 	}
+	
+	/* 미디어 상세페이지 */
 
 	// 클릭한 미디어 호출
 	@Override

@@ -12,6 +12,7 @@ import com.kh.fantimate.member.model.dao.MemberDao;
 import com.kh.fantimate.member.model.vo.Admin;
 import com.kh.fantimate.member.model.vo.Agency;
 import com.kh.fantimate.member.model.vo.Artist;
+import com.kh.fantimate.member.model.vo.ArtistCollection;
 import com.kh.fantimate.member.model.vo.ArtistGroup;
 import com.kh.fantimate.member.model.vo.Member;
 import com.kh.fantimate.member.model.vo.User;
@@ -76,7 +77,7 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	@Override
-	public Artist loginArtist(String id) {
+	public ArtistCollection loginArtist(String id) {
 		return mDao.selectLoginArtist(id);
 	}
 

@@ -13,7 +13,7 @@ import com.kh.fantimate.official.model.vo.Schedule;
 import com.kh.fantimate.pay.model.vo.Cart;
 
 public interface OfficialService {
-	/* 미디어 메인 페이지 */
+	/* 미디어 메인&리스트 페이지 */
 	
 	// 미디어 개수 조회하기
 	public int countMedia(String artiName);
@@ -38,6 +38,8 @@ public interface OfficialService {
 	
 	// 해당 검색어가 포함된 미디어 리스트 호출
 	public List<MediaCollection> searchMediaList(Map<String, String> map);
+	
+	/* 미디어 상세페이지 */
 	
 	// 클릭한 미디어 호출
 	public MediaCollection selectMedia(Map<Object, Object> map);
