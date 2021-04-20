@@ -47,34 +47,20 @@
 
                 <!-- 토글으로 대체.
                  -->
-                <h3 class="mypage-friend-list" style="font-weight:700; font-size:15px;" onclick="javascript:location.href='${contextPath}/mypage/user/friends'">친구목록 / </h3>
-                <h3 class="mypage-friend-list" onclick="javascript:location.href='${contextPath}/mypage/user/friendsReq'">친구신청 목록</h3>
+                <h3 class="mypage-friend-list" onclick="javascript:location.href='${contextPath}/mypage/user/friends'">친구목록 / </h3>
+                <h3 class="mypage-friend-list" style="font-weight:700; font-size:15px;" onclick="javascript:location.href='${contextPath}/mypage/user/friendsReq'">친구신청 목록</h3>
 					
-<!--                     <div class="mypage-content-friends"> -->
-<%--                         <img src="${ contextPath }/resources/images/mypage/user/profile/user/user.png"> --%>
-<!--                         <h3>ManSik</h3> -->
-<!--                         <button>친구삭제</button> -->
-<!--                     </div> -->
-
+                    
                 	<c:forEach var="f" items="${ list }">
                 		<div class="mypage-content-friends">
-<%--f.attachment.attMain => 친구아이디 --%>
-	                        <img src="${ contextPath }/resources/images/mypage/user/profile/${ f.attachment.attMain }/${ f.attachment.attSvName }">
+	                        <img src="${ contextPath }/resources/images/mypage/user/profile/${ f.friend.frSend }/${ f.attachment.attSvName }">
 <%--                 			<img src="${  }"> --%>
-                			<h3>${ f.attachment.attMain }</h3>
-                			<button type="button" onclick="deleteFriend('${f.attachment.attMain}');">친구삭제</button>
+                			<h3>${ f.friend.frSend }</h3>
+                			<button type="button" onclick="acceptFriend('${f.friend.frSend}');">수락하기</button>
+                			<button type="button" onclick="rejectFriend('${f.friend.frSend}');">거절하기</button>
                 		</div>
                 	</c:forEach>
                 	
-<%--                 	<C:FOREACH VAR="F" ITEMS="${ LIST }"> --%>
-<!--                 		<DIV CLASS="MYPAGE-CONTENT-FRIENDS"> -->
-<%-- 							<C:IF TEST="${ PI.ID NE F.ATTACHMENT.ID }"> --%>
-<%-- 	                        <IMG SRC="${ CONTEXTPATH }/RESOURCES/IMAGES/MYPAGE/USER/PROFILE/${ F.FRIEND.FRSEND }/${ F.ATTACHMENT.ATTSVNAME }"> --%>
-<%--                 			<H3>${ F.FRIEND.FRSEND }</H3> --%>
-<%--                 			<BUTTON TYPE="BUTTON" ONCLICK="DELETEFRIEND(${F.FRIEND.FRSEND});">친구삭제</BUTTON> --%>
-<%-- 							</C:IF> --%>
-<!--                 		</DIV> -->
-<%--                 	</C:FOREACH> --%>
                 <!-- 나중에 페이징처리 따로 -->
             <div class="mypage-pagination-area">
 						<!-- [이전] -->
@@ -83,7 +69,7 @@
 						</c:if>
 <!-- 숨기면안되나?						 -->
 						<c:if test="${ pi.currentPage > 1 }">
-							<c:url var="before" value="/mypage/user/friends">
+							<c:url var="before" value="/mypage/user/friendsReq">
 								<c:param name="page" value="${ pi.currentPage - 1 }"/>
 							</c:url>
 							<a href="${ before }"> &lt; </a> &nbsp;
@@ -95,7 +81,7 @@
 								<b>[${ p }]</b>								
 							</c:if>
 							<c:if test="${ p ne pi.currentPage }">
-								<c:url var="pagination" value="/mypage/user/friends">
+								<c:url var="pagination" value="/mypage/user/friendsReq">
 									<c:param name="page" value="${ p }"/>
 								</c:url>
 								<a href="${ pagination }">${ p }</a>
@@ -107,7 +93,7 @@
 							&nbsp; &gt;
 						</c:if>
 						<c:if test="${ pi.currentPage < pi.maxPage }">
-							<c:url var="after" value="/mypage/user/friends">
+							<c:url var="after" value="/mypage/user/friendsReq">
 								<c:param name="page" value="${ pi.currentPage + 1 }" />
 							</c:url>
 							<a href="${ after }">&gt;</a>
@@ -117,12 +103,34 @@
 
             </div>
         </article>
+<script>
+function deleteFriend(fid){
+	// 친구아이디, 페이지 값, 하려는행위(update 몇으로 할지) 넘겨주기 
+	// stat = 1 : 신청중
+    //		= 2 : 신청완료
+    //		= 3 : 거절 or 삭제
+	console.log("넘겨지는 id값");
+	location.href='${contextPath}/mypage/user/friends/update?fid=' + fid + '&url=/friends=${ pi.currentPage }&stat=3';
+	console.log(deleteId);
+}
+// 친구 수락
+function acceptFriend(fid){
+	console.log("수락버튼 정상작동, 전달받은 아이디값");
+	console.log(fid);
+	location.href='${contextPath}/mypage/user/friends/update?fid=' + fid + '&url=/friendsReq=${ pi.currentPage }&stat=2';
+}
+// 친구거절
+function rejectFriend(fid){
+	console.log("수락버튼 정상작동, 전달받은 아이디값");
+	console.log(fid);
+	location.href='${contextPath}/mypage/user/friends/update?fid=' + fid + '&url=/friendsReq=${ pi.currentPage }&stat=3';
+}
+</script>
 	
 <!-- 	메뉴 -->
 	<jsp:include page="menu.jsp"/>
 	</section>
 <script>
-	// 
     $(document).ready(function(){
             console.log("메소드 동작");
             
@@ -132,23 +140,6 @@
             $("#mypageMenuBtn").children().eq(3).addClass("mypage-btn-DN");
             console.log("addClass 동작");
     });
-    
-    // Alert
-    $(function(){
-        var responseMessage = "<c:out value="${message}" />";
-        if (responseMessage != ""){
-            alert(responseMessage);
-            <c:remove var="message"/>;
-        }
-    })
-</script>
-<script>
-function deleteFriend(fid){
-	// 친구아이디, 페이지 값 넘겨주기 
-	console.log("넘겨지는 id값");
-	location.href='${contextPath}/mypage/user/friends/update?fid=' + fid + '&url=/friends=${ pi.currentPage }&stat=3';
-	console.log(deleteId);
-}
 </script>
 </body>
 </html>
