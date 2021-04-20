@@ -2,11 +2,13 @@ package com.kh.fantimate.mypage1.model.Service;
 
 import java.util.List;
 
+import com.kh.fantimate.common.model.vo.Friend;
 import com.kh.fantimate.common.model.vo.Notice;
 import com.kh.fantimate.common.model.vo.PageInfo;
 import com.kh.fantimate.common.model.vo.Report;
 import com.kh.fantimate.member.model.vo.Agency;
 import com.kh.fantimate.member.model.vo.Member;
+import com.kh.fantimate.mypage1.model.vo.FriendPageInfo;
 import com.kh.fantimate.mypage1.model.vo.ReportPageInfo;
 
 public interface Mypage1Service {
@@ -49,5 +51,20 @@ public interface Mypage1Service {
 	// 회원 리스트 갯수
 	public List<Member> requestCommonList(ReportPageInfo pi);
 
+	
+	
+	
+	//마이페이지 유저					////////////////////////////////////
+	// 친구 목록조회
+	public int RListCountFriend(Member m);
+	public List<Friend> requestFriendList(FriendPageInfo pi);
+
+	public int RListCountFriendReq(Member m);
+	public List<Friend> requestFriendList2(FriendPageInfo pi);
+
+	// 친구상태 2로 (수락 한 경우)
+	public int userFriendUpdate2(Friend f);
+
+	
 	
 }

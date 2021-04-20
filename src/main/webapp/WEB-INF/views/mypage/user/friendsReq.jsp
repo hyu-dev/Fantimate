@@ -48,7 +48,7 @@
                 <!-- 토글으로 대체.
                  -->
                 <h3 class="mypage-friend-list" onclick="javascript:location.href='${contextPath}/mypage/user/friends'">친구목록 / </h3>
-                <h3 class="mypage-friend-list" style="font-weight:700; font-size:15px;" onclick="javascript:location.href='${contextPath}/mypage/user/friendsReq'">친구신청 목록</h3>
+                <h3 class="mypage-friend-list" style="font-weight:700; font-size:15px;" onclick="javascript:location.href='${contextPath}/mypage/user/friendsReq'">친구 요청 목록</h3>
 					
                     
                 	<c:forEach var="f" items="${ list }">

@@ -7,9 +7,11 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.fantimate.common.model.vo.Friend;
 import com.kh.fantimate.common.model.vo.Report;
 import com.kh.fantimate.member.model.vo.Agency;
 import com.kh.fantimate.member.model.vo.Member;
+import com.kh.fantimate.mypage1.model.vo.FriendPageInfo;
 import com.kh.fantimate.mypage1.model.vo.ReportPageInfo;
 
 @Repository
@@ -108,6 +110,38 @@ public class Mypage1DaoImpl implements Mypage1Dao{
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 		return sqlSession.selectList("mypage1Mapper.requestCommonList", null, rowBounds);
 	}
+
+	// User 친구 목록 조회
+	@Override
+	public int RListCountFriend(Member m) {
+		return sqlSession.selectOne("mypage1Mapper.RListCountFriend", m);
+	}
+	@Override
+	public List<Friend> requestFriendList(FriendPageInfo pi) {
+		System.out.println("pi.getSerchCondition() : " + pi.getSerchCondition());
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return sqlSession.selectList("mypage1Mapper.requestFriendList", pi.getSerchCondition(), rowBounds);
+	}
+
+	// User 친구요청 목록 조회
+	@Override
+	public int RListCountFriendReq(Member m) {
+		return sqlSession.selectOne("mypage1Mapper.RListCountFriendReq", m);
+	}
+	@Override
+	public List<Friend> requestFriendList2(FriendPageInfo pi) {
+		System.out.println("pi.getSerchCondition() : " + pi.getSerchCondition());
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return sqlSession.selectList("mypage1Mapper.requestFriendList2", pi.getSerchCondition(), rowBounds);
+	}
+
+	@Override
+	public int userFriendUpdate2(Friend f) {
+		return sqlSession.update("mypage1Mapper.userFriendUpdate2", f);
+	}
+
 
 	
 	

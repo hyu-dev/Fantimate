@@ -2,9 +2,11 @@ package com.kh.fantimate.mypage1.model.dao;
 
 import java.util.List;
 
+import com.kh.fantimate.common.model.vo.Friend;
 import com.kh.fantimate.common.model.vo.Report;
 import com.kh.fantimate.member.model.vo.Agency;
 import com.kh.fantimate.member.model.vo.Member;
+import com.kh.fantimate.mypage1.model.vo.FriendPageInfo;
 import com.kh.fantimate.mypage1.model.vo.ReportPageInfo;
 
 public interface Mypage1Dao {
@@ -36,5 +38,15 @@ public interface Mypage1Dao {
 
 	// 회원관리
 	public List<Member> requestCommonList(ReportPageInfo pi);
+
+
+	public int RListCountFriend(Member m);
+	public List<Friend> requestFriendList(FriendPageInfo pi);
+
+	public int RListCountFriendReq(Member m);
+	public List<Friend> requestFriendList2(FriendPageInfo pi);
+
+	// 친구 수락한 경우(2로 업데이트)
+	public int userFriendUpdate2(Friend f);
 
 }
