@@ -317,6 +317,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		 WHERE
 		 		ID = #{id}
 		   AND  P_CODE = #{pcode}
+		   AND  IS_BOUGHT = 'N'
 	</select>
 	<insert id="insertCart" parameterType="Cart">
 		INSERT
