@@ -12,6 +12,7 @@ import com.kh.fantimate.main.model.vo.FavoriteArtist;
 import com.kh.fantimate.member.model.vo.Admin;
 import com.kh.fantimate.member.model.vo.Agency;
 import com.kh.fantimate.member.model.vo.Artist;
+import com.kh.fantimate.member.model.vo.ArtistCollection;
 import com.kh.fantimate.member.model.vo.ArtistGroup;
 import com.kh.fantimate.member.model.vo.Member;
 import com.kh.fantimate.member.model.vo.User;
@@ -70,7 +71,7 @@ public class MemberDaoImpl implements MemberDao{
 	}
 
 	@Override
-	public Artist selectLoginArtist(String id) {
+	public ArtistCollection selectLoginArtist(String id) {
 		return sqlSession.selectOne("memberMapper.selectArtist",id);
 	}
 

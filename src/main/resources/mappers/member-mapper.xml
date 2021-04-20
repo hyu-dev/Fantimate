@@ -54,6 +54,22 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<result property="artiNameEn" column="ARTI_NAME_EN"/>
 	</resultMap>
 	
+	<!-- 아티스트 프로필 -->
+	<resultMap type="Attachment" id="artiProfileResultSet">
+		<id property = "attCode" column="ATT_CODE"/>
+		<result property="attRoot" column="ATT_ROOT"/>
+		<result property="attClName" column="ATT_CL_NAME"/>
+		<result property="attSvName" column="ATT_SV_NAME"/>
+		<result property="attStatus" column="ATT_STATUS"/>
+		<result property="id" column="ARTI_ID"/>
+	</resultMap>
+	
+	<!-- 아티스트 컬렉션 -->
+	<resultMap type="ArtistCollection" id="artistCollResultSet">
+		<collection property="artist" resultMap="artistResultSet"/>
+		<collection property="attachment" resultMap="artiProfileResultSet"/>
+	</resultMap>
+	
 	<!-- 관리자 -->
 	<resultMap type="Admin" id="adminResultSet">
 		<id property = "adId" column="AD_ID"/>
@@ -236,8 +252,8 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	</select>
 	
 	<!-- 아티스트 테이블 select -->
-	<select id="selectArtist" parameterType="Artist" resultMap="artistResultSet">
-	SELECT
+	<select id="selectArtist" parameterType="Artist" resultMap="artistCollResultSet">
+      SELECT
 	         ARTI_ID
 	       , ARTI_ONE_NAME
 	       , NICKNAME
@@ -248,10 +264,14 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	       , IS_TEAM
 	       , ID
 	       , ARTI_NAME_EN
-	FROM 
-	      ART_PERSON
-	WHERE 
-	      ARTI_ID = #{id}
+           , ATT_ROOT
+           , ATT_SV_NAME
+	   FROM 
+	         ART_PERSON
+       JOIN
+             ART_PIC USING(ARTI_ID)
+      WHERE 
+	         ARTI_ID = #{id}
 	</select>
 	
 	<!-- 관리자 테이블 select -->
