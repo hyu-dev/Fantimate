@@ -15,7 +15,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<result property="artiName" column="ARTI_NAME_EN"/>
 	</resultMap>
 	
-	<resultMap type="Attachment" id="attResultSet">
+	<resultMap type="AttachmentF" id="attResultSet">
 		<id property="attCode" column="BPID"/>
 		<result property="attRoot" column="BP_PATH"/>
 		<result property="attClName" column="BP_OGNAME"/>
@@ -45,6 +45,18 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<collection property="feed" resultMap="fanfeedResultSet"/>
 		<collection property="subscribe" resultMap="subscribeResultSet"/>
 		<collection property="attachment" resultMap="usattResultSet"/>
+		<collection property="attachmentf" resultMap="attResultSet"/>
+		<collection property="reply" resultMap="replyResultSet"/>
+	</resultMap>
+	
+	<resultMap type="Reply" id="replyResultSet">
+		<id property="rid" column="BRID"/>
+		<result property="rcontent" column="BRCONTENT"/>
+		<result property="rcreate" column="BRCREATE"/>
+		<result property="rstatus" column="BR_STATUS"/>
+		<result property="refId" column="BID"/>
+		<result property="writer" column="ID"/>
+		<result property="refRid" column="BRRID"/>
 	</resultMap>
 	
 	
@@ -159,22 +171,79 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 				,	BMODIFY
 				,	BLIKE
 				,	BSTATUS
-				,	ID
+				,	B.ID
 				,  	U_NICKNAME
 				,	UP_CL_NAME
 				,	UP_SV_NAME
+				,   BP_OGNAME
+                ,   BP_CHNAME
+                ,	BRCONTENT
+                ,	BRCREATE
 		
 		FROM
-					BOARD
+					BOARD B
 		JOIN 		ATT_SUBSCRIBE ON(ID = U_ID)
 		JOIN		USER_PROFILE USING(U_ID)
+		JOIN     	ATT_BOARD USING(BID)
+		JOIN		B_REPLY USING(BID)
+		
 		WHERE
 					BTYPE = 'F'
 		AND			BSTATUS = 'Y'
 		ORDER BY BCREATE DESC
 	</select>
 	
+	<!-- 게시글 사진 조회 -->
+	<select id="selectptList" resultMap="attResultSet">
+	SELECT
+				BPID
+			,	BP_PATH
+			,	BP_OGNAME
+			,	BP_CHNAME
+			,	AB_STATUS
+			,	BID
+	FROM
+				ATT_BOARD
+	ORDER BY 	BPID DESC		
+	</select>
 	
+	<!-- 댓글 등록 -->
+	<insert id="insertReply">
+		INSERT
+		INTO B_REPLY
+		(
+						BRID
+					,	BRCONTENT
+					,	BRCREATE
+					,	BR_STATUS
+					,	BID
+					,	ID
+		)
+		VALUES
+		(
+					SEQ_B_REPLY.NEXTVAL
+				,	#{rcontent}
+				,	SYSDATE
+				,	DEFAULT
+				,	#{refId}
+				,	#{writer}   
+		)
+	</insert>
 	
-
+	<!-- 댓글 리스트 조회 -->
+	<select id="selectReplyList" resultMap="replyResultSet">
+	SELECT
+					BRID
+				,	BRCONTENT
+				,	BRCREATE
+				,	BR_STATUS
+				,	BID
+				,	ID
+				,	BRRID
+	FROM
+					B_REPLY
+	
+	ORDER BY
+				BRID DESC				
+	</select>
 </mapper>

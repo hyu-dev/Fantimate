@@ -7,8 +7,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.fantimate.common.model.vo.Attachment;
+import com.kh.fantimate.common.model.vo.Reply;
 import com.kh.fantimate.common.model.vo.Subscribe;
 import com.kh.fantimate.feed.model.dao.FanFeedDao;
+import com.kh.fantimate.feed.model.vo.AttachmentF;
 import com.kh.fantimate.feed.model.vo.Feed;
 import com.kh.fantimate.feed.model.vo.FeedCollection;
 
@@ -19,7 +21,7 @@ public class FanFeedServiceImpl implements FanFeedService {
 	
 	// 게시글 작성
 	@Override
-	public int insertFeed(Feed f, List<Attachment> attList) {
+	public int insertFeed(Feed f, List<AttachmentF> attList) {
 		fDao.insertFeed(f);
 		
 		int result = fDao.insertFeedAtt(attList);
@@ -50,6 +52,24 @@ public class FanFeedServiceImpl implements FanFeedService {
 	@Override
 	public List<Attachment> selectatList() {
 		return fDao.selectatList();
+	}
+
+	// 게시글 사진 조회
+	@Override
+	public List<AttachmentF> selectptList() {
+		return fDao.selectptList();
+	}
+	
+	// 댓글 작성
+	@Override
+	public int insertReply(Reply r) {
+		return fDao.insertReply(r);
+	}
+
+	// 댓글 조회
+	@Override
+	public List<Reply> selectReplyList() {
+		return fDao.selectReplyList();
 	}
 
 	

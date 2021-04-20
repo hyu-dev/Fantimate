@@ -25,10 +25,14 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.fantimate.common.model.vo.Attachment;
+import com.kh.fantimate.common.model.vo.Reply;
+import com.kh.fantimate.common.model.vo.Report;
 import com.kh.fantimate.common.model.vo.Subscribe;
 import com.kh.fantimate.feed.model.service.FanFeedService;
+import com.kh.fantimate.feed.model.vo.AttachmentF;
 import com.kh.fantimate.feed.model.vo.Feed;
 import com.kh.fantimate.feed.model.vo.FeedCollection;
+import com.kh.fantimate.member.model.vo.Member;
 
 
 @Controller
@@ -57,10 +61,17 @@ public class FanFeedController {
 	public ModelAndView fanFeedList(ModelAndView mv,
 									@ModelAttribute Subscribe s,
 									@ModelAttribute FeedCollection fc,
+									@ModelAttribute Member m,
+									@ModelAttribute Feed f,
+									@ModelAttribute Attachment at,
+									@ModelAttribute AttachmentF pt,
+									@ModelAttribute Reply r,
 									Model model,
 									HttpServletRequest request) {
 		
 		// 세션에 로그인 유저 닉네임 담아서 리스트 페이지로 보내기
+		
+		// 게시글 불러올 때 필요한 리스트
 		
 		List<Subscribe> subList = fService.selectSubList();
 		System.out.println("구독 유저 리스트 : " + subList);
@@ -71,13 +82,25 @@ public class FanFeedController {
 		List<Attachment> atlist = fService.selectatList();
 		System.out.println("유저 프로필 사진 리스트 : " + atlist);
 		
+		List<AttachmentF> ptlist = fService.selectptList();
+		System.out.println("게시글 사진 리스트 : " + ptlist);
+		
 		List<FeedCollection> flist = fService.selectfcList();
 		System.out.println("컬렉션 리스트 : " + flist);
+		
+		List<Reply> rlist = fService.selectReplyList();
+		System.out.println("댓글 리스트 : " + rlist);
+		
+		
 		
 		
 		if(flist != null && !flist.isEmpty()) {
 			model.addAttribute("subList", subList);
-			mv.addObject("flist",flist);
+			mv.addObject("list", list);
+			mv.addObject("flist", flist);
+			mv.addObject("rlist", rlist);
+			mv.addObject("ptlist", ptlist);
+			mv.addObject("atlist", atlist);
 			mv.setViewName("fanfeed/fanFeedList");
 			
 		} else {
@@ -98,13 +121,13 @@ public class FanFeedController {
 						   HttpServletRequest request)
 							throws IOException{
 		
-		List<Attachment> attList = new ArrayList<>();
-		Attachment att = null;
+		List<AttachmentF> attList = new ArrayList<>();
+		AttachmentF att = null;
 		
 		// 업로드 파일 서버에 저장
 		// 파일이 첨부 되었다면
 		if(!one.getOriginalFilename().equals("")) {
-			att = new Attachment();
+			att = new AttachmentF();
 			String reNameFileName = saveFile(one, request);
 			// DB에 저장하기 위한 파일명 세팅
 			if(reNameFileName != null) {
@@ -113,7 +136,7 @@ public class FanFeedController {
 				attList.add(att);
 			}
 		} if(!two.getOriginalFilename().equals("")) {
-			att = new Attachment();
+			att = new AttachmentF();
 			String reNameFileName = saveFile(two, request);
 			// DB에 저장하기 위한 파일명 세팅
 			if(reNameFileName != null) {
@@ -122,7 +145,7 @@ public class FanFeedController {
 				attList.add(att);
 			}
 		} if(!three.getOriginalFilename().equals("")) {
-			att = new Attachment();
+			att = new AttachmentF();
 			String reNameFileName = saveFile(three, request);
 			// DB에 저장하기 위한 파일명 세팅
 			if(reNameFileName != null) {
@@ -131,7 +154,7 @@ public class FanFeedController {
 				attList.add(att);
 			}
 		} if(!four.getOriginalFilename().equals("")) {
-			att = new Attachment();
+			att = new AttachmentF();
 			String reNameFileName = saveFile(four, request);
 			// DB에 저장하기 위한 파일명 세팅
 			if(reNameFileName != null) {
@@ -151,6 +174,7 @@ public class FanFeedController {
 		int result = fService.insertFeed(f, attList);
 		
 		if(result > 0) {
+			request.getSession().setAttribute("msg", "게시글이 등록되었습니다.");
 			response.sendRedirect("fanFeedList");
 		} else {
 			System.out.println("게시글 등록에 실패하였습니다");
@@ -185,5 +209,57 @@ public class FanFeedController {
 		return renameFileName;
 	}
 	
-
+	// 게시글 수정 팝업창 열기
+	@GetMapping("/updateView")
+	public String updateFeedView() {
+		return "fanfeed/fanfeedupdate";
+	}
+	
+	// 게시글 수정
+	@RequestMapping("/update")
+	public void updateFeed(HttpServletResponse response,
+						   Feed f,
+						   HttpServletRequest request,
+						   @RequestParam(value="uploadFile1") MultipartFile one,
+						   @RequestParam(value="uploadFile2") MultipartFile two,
+						   @RequestParam(value="uploadFile3") MultipartFile three,
+						   @RequestParam(value="uploadFile4") MultipartFile four) {
+		
+		List<Attachment> attList = new ArrayList<>();
+		Attachment att = null;
+		
+		// 업로드 파일 서버에 저장
+		// 파일 첨부가 정상적으로 동작했다면
+		if(!one.getOriginalFilename().equals("")) {
+			// 새로운 데이터가 담겼다면 기존 데이터 삭제
+		}
+	}
+	
+	// 게시글 삭제
+	
+	// 댓글 작성
+	@PostMapping("/insertReply")
+	public void insertReply(HttpServletResponse response,
+							Reply r,
+							HttpServletRequest request) throws IOException {
+		
+		System.out.println(r);
+		
+		int result = fService.insertReply(r);
+		
+		if(result > 0) {
+			request.getSession().setAttribute("msg", "댓글이 등록되었습니다.");
+			response.sendRedirect("fanFeedList");
+		} else {
+			System.out.println("댓글 등록에 실패하였습니다");
+		}
+	}
+	
+	// 게시글 신고 팝업창 열기
+	@GetMapping("/reportView")
+	public String reportView() {
+		return "common/report";
+	}
+	
+	
 }
