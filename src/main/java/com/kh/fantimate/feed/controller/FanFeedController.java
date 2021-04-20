@@ -75,7 +75,7 @@ public class FanFeedController {
 		// 게시글 불러올 때 필요한 리스트
 		
 		List<Subscribe> subList = fService.selectSubList();
-	//	System.out.println("구독 유저 리스트 : " + subList);
+		System.out.println("구독 유저 리스트 : " + subList);
 		
 		List<Feed> list = fService.selectFeedList();
 		System.out.println("게시글 리스트 : " + list);
@@ -96,7 +96,7 @@ public class FanFeedController {
 		
 		
 		if(flist != null && !flist.isEmpty()) {
-			mv.addObject("subList", subList);
+			model.addAttribute("subList", subList);
 			mv.addObject("list", list);
 			mv.addObject("flist", flist);
 			mv.addObject("rlist", rlist);
