@@ -108,8 +108,7 @@
 	            <c:when test="${ !empty sessionScope.loginUser}">
 		            <div class="main-menu">
 		                <!-- 회원가입 버튼 생성전 예시 -->
-		                <img src="${ contextPath }/resources/icon/user.svg" alt="" class="nav-icon">
-		                <img src="${ contextPath }/resources/icon/alarm.svg" alt="" class="nav-icon" id="alarm-icon" onclick="alarmPage()">
+						<img src="${ contextPath }/resources/icon/user.svg" alt="" class="nav-icon" onclick="location.href='${ contextPath }/mypage/artist/feed'">		                <img src="${ contextPath }/resources/icon/alarm.svg" alt="" class="nav-icon" id="alarm-icon" onclick="alarmPage()">
 		                <!-- 알람 갯수 카운트 -->
 		                <div id="alarmCount">
 		                </div>
@@ -678,7 +677,8 @@
                 <ul class="etc-area">
                     <li class="etc-content" id="langSetting" onclick="langSetting()">언어 설정</li>
                     <c:if test="${ loginUser.classifyMem eq 1}">
-                    	<li class="etc-content" id="fanStore">팬 스토어</li>
+                    	<li class="etc-content" id="fanStore" onclick="location.href='${ contextPath }/fanStore/list'">팬 스토어</li>
+                    	<li class="etc-content" id="payPlan" onclick="location.href='${ contextPath }/Pay/plan'">요금 플랜</li>
                     </c:if>
                     <li class="etc-content" id="notice" onclick="location.href='${ contextPath }/notice/list'">공지사항</li>
                     <li class="etc-content" id="logout" onclick="location.href='${ contextPath }/member/logout'">로그아웃</li>
