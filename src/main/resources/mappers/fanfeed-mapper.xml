@@ -85,7 +85,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 				,	DEFAULT
 				,	DEFAULT
 				,	#{writer}
-				,	#{artNameEn}
+				,	#{artiName}
 		)
 	</insert>
 	

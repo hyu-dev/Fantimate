@@ -87,7 +87,7 @@ public class FanFeedController {
 		System.out.println("게시글 사진 리스트 : " + ptlist);
 		
 		List<FeedCollection> flist = fService.selectfcList();
-		System.out.println("컬렉션 리스트 : " + flist);
+	//	System.out.println("컬렉션 리스트 : " + flist);
 		
 		List<Reply> rlist = fService.selectReplyList();
 	//	System.out.println("댓글 리스트 : " + rlist);
