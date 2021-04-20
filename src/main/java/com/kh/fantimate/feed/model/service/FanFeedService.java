@@ -2,6 +2,7 @@ package com.kh.fantimate.feed.model.service;
 
 import java.util.List;
 
+
 import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.fantimate.common.model.vo.Attachment;
@@ -36,4 +37,8 @@ public interface FanFeedService {
 	
 	// 게시글 당 댓글 리스트 조회
 	public List<Reply> selectReplyList();
+
+	
+
+	
 }

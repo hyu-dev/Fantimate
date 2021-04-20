@@ -42,7 +42,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	</resultMap>
 	
 	<resultMap type="FeedCollection" id="feedcollectionResultSet">
-		<collection property="feed" resultMap="fanfeedResultSet"/>
+		
 		<collection property="subscribe" resultMap="subscribeResultSet"/>
 		<collection property="attachment" resultMap="usattResultSet"/>
 		<collection property="attachmentf" resultMap="attResultSet"/>
@@ -135,16 +135,14 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		ORDER BY BCREATE DESC
 	</select>
 	
-	<!-- 구독 유저 조회 -->
+	<!-- 구독 유저 닉네임 조회 -->
 	<select id="selectSubList" resultMap="subscribeResultSet">
-	SELECT 
-				SUB_CODE
-			,	U_ID
-			,	U_NICKNAME
-			,	SUB_STATUS
-			,	ARTI_NAME_EN
-	FROM
-				ATT_SUBSCRIBE
+	SELECT  	
+				U_NICKNAME
+        	,   ID
+	FROM 		ATT_SUBSCRIBE
+	JOIN 		BOARD ON(U_ID = ID)
+	WHERE		U_ID = #{feed.writer}
 	
 	
 	</select>

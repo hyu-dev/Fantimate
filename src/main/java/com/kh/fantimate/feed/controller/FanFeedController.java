@@ -2,6 +2,7 @@ package com.kh.fantimate.feed.controller;
 
 import java.io.File;
 
+
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -74,13 +75,13 @@ public class FanFeedController {
 		// 게시글 불러올 때 필요한 리스트
 		
 		List<Subscribe> subList = fService.selectSubList();
-		System.out.println("구독 유저 리스트 : " + subList);
+	//	System.out.println("구독 유저 리스트 : " + subList);
 		
 		List<Feed> list = fService.selectFeedList();
 		System.out.println("게시글 리스트 : " + list);
 		
 		List<Attachment> atlist = fService.selectatList();
-		System.out.println("유저 프로필 사진 리스트 : " + atlist);
+	//	System.out.println("유저 프로필 사진 리스트 : " + atlist);
 		
 		List<AttachmentF> ptlist = fService.selectptList();
 		System.out.println("게시글 사진 리스트 : " + ptlist);
@@ -89,13 +90,13 @@ public class FanFeedController {
 		System.out.println("컬렉션 리스트 : " + flist);
 		
 		List<Reply> rlist = fService.selectReplyList();
-		System.out.println("댓글 리스트 : " + rlist);
+	//	System.out.println("댓글 리스트 : " + rlist);
 		
 		
 		
 		
 		if(flist != null && !flist.isEmpty()) {
-			model.addAttribute("subList", subList);
+			mv.addObject("subList", subList);
 			mv.addObject("list", list);
 			mv.addObject("flist", flist);
 			mv.addObject("rlist", rlist);

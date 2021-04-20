@@ -34,8 +34,9 @@
 		
 			
 			<!-- 게시글 구분할수 있는 조건문 큰 영역에 게시글 갯수만 불러올 수 있도록 -->
+			
 			<c:forEach var="f" items="${ list }">
-		
+			
              <!-- 게시글 리스트 영역 -->
              <div class="boardArea">
 
@@ -54,20 +55,22 @@
                             </div>
                              <%-- <c:if test="${ loginUser.id eq fc.feed.writer }"> --%>
                             
-                            <img class="profile-picture" src="${ contextPath }/resources/uploadFiles/${ fc.attachment.attSvName }">
+                             <img class="profile-picture" src="${ contextPath }/resources/uploadFiles/${ fc.attachment.attSvName }">
                         </td>
                         
                         <td> 
-                        
-                        	 
-                            <pre class="nicknameArea">${ fc.subscribe.unickname }</pre>
-                        
+                        	<!-- 게시글작성자의 아이디와 구독유저의 아이디가 같다면 닉네임 불러오기 -->
+                        	 <c:forEach var="sb" items="${ subList }">
+                        	 <c:if test="${ sb.uid eq f.writer }">
+                            <pre class="nicknameArea">${ sb.unickname }</pre>
+                        	 </c:if>
+                        	 </c:forEach>
                           	
                             <pre class="boarddateArea"><fmt:formatDate value="${ f.fcreate }" pattern="yyyy.MM.dd HH:mm"/></pre>
                         </td>
-                       <input type="hidden" name="refId" value="${ f.fid }"> 
+                       
                         <!-- 게시글 작성자와 로그인 유저가 같다면 ...아이콘 띄우기(게시글 수정, 삭제) -->
-                        <c:if test="${ loginUser.id eq fc.feed.writer }">
+                        <c:if test="${ loginUser.id eq f.writer }">
                         <td>
                             <div class="board-menu">
                                 <p onclick="showUpdateFeed();">수정하기</p>
@@ -89,16 +92,17 @@
                        
                         <!-- 이미지 영역 -->
                         <!-- 게시글 bid와 사진이 참조하고 있는 bid가 같고, 사진 리스트가 있다면 반복문돌려서 이미지 갯수만큼 불러오기 -->
-                        
-                        
+                        <c:forEach var="pt" items="${ ptlist }">
+                        <c:if test="${ f.fid eq pt.refId }">
                         <div>
                         	
                             <img src="${ contextPath }/resources/uploadFiles/${ pt.attSvName }" alt="이미지" width="300px">
                             <p>${ pt.attClName }</p>
                             
                         </div>
-                        
-                        
+                        </c:if>
+                        </c:forEach>
+                       
                         
                     </div>
                     <br><br>
@@ -134,28 +138,28 @@
                                     <p>친구 신청</p>
                                     <p>쪽지 보내기</p>
                                 </div>
-                                <img class="profile-picture" src="${ contextPath }/resources/uploadFiles/${ fc.attachment.attSvName }">
+                                <img class="profile-picture" src="${ contextPath }/resources/uploadFiles/${ f.attachment.attSvName }">
                             </td>
                             
                            
                             <td>
                                 <div class="comment-box">
                                     <div id="artist-comment" class="comment-main comment-center nanumsquare">
-                                        <span class="comment-name">${ fc.subscribe.unickname }</span>
+                                        <span class="comment-name">${ f.subscribe.unickname }</span>
                                         <span class="comment-content">
-                                            ${ r.rcontent }
+                                            ${ f.reply.rcontent }
                                         </span>
                                         <span class="re-commentBtn">답글 열기</span>
                                     </div>
                                     <div class="comment-etc">
                                     	<span class="comment-etc" >···</span>
-                                    	<c:if test="${ loginUser.id ne fc.reply.writer }">
+                                    	<c:if test="${ loginUser.id ne f.reply.writer }">
                                         <div class="comment-bubble">
                                             <p class="add-comment">답글 달기</p>
                                             <p>댓글 신고</p>
                                         </div>
                                         </c:if>
-                                        <c:if test="${ loginUser.id eq fc.reply.writer }">
+                                        <c:if test="${ loginUser.id eq f.reply.writer }">
                                         <div class="comment-bubble">
                                             <p class="add-comment">답글 달기</p>
                                             <form>
@@ -170,7 +174,7 @@
                                 <div class="comment-info comment-center nanumsquare">
                                     <img class="likeBtn" src="../resources/images/feed/like-icon.png">
                                     <span class="like-count">1,000</span>
-                                    <span class="comment-date"><fmt:formatDate value="${ r.rcreate }" pattern="yyyy.MM.dd HH:mm"/></span>
+                                    <span class="comment-date"><fmt:formatDate value="${ f.reply.rcreate }" pattern="yyyy.MM.dd HH:mm"/></span>
                                 </div>
                                 <div class="comment-toggle">
                                     <div class="re-comment-container">
@@ -227,7 +231,7 @@
                     <form action="${ contextPath }/fanfeed/insertReply" method="post">
                     <div class="insert-replyArea">
                      <input type="hidden" name="writer" value="${ loginUser.id }">
-                     <input type="hidden" name="refId" value="${ fc.feed.fid }">
+                     <input type="hidden" name="refId" value="${ f.fid }">
                         <div class="replyArea">
                             <div class="insert-reply">
                                 <textarea  id="replyContent" class="nanumsquare" name="rcontent" style="resize: none;" rows="1" placeholder="댓글을 입력하세요..."></textarea>
@@ -242,7 +246,9 @@
                
 
              </div>
+             
              </c:forEach>
+          
              
             
              
