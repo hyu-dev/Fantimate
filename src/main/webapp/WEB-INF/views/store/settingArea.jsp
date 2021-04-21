@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="${ contextPath }/resources/css/store/settingArea.css">
     <link rel="icon" type="image/png" sizes="16x16" href="${ contextPath }/resources/icon/faviconF.png">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=160e31e7c671f4f6dce038e8e409529e&libraries=services"></script>
     <title>Fantimate</title>
 </head>
 <body>
@@ -36,18 +37,22 @@
             </div>
             <div class="confirm-content">
                 <p class="call-my-area">현재 위치 정보를 불러옵니다</p>
+                <div class="map_wrap">
+				    <div id="map" style="width:100%;height:100%;position:relative;overflow:hidden;"></div>
+				</div>
                 <div class="setting-area">
                     <div class="search">
                         <input type="text" class="contents-search" value="">
                         <img src="${ contextPath }/resources/icon/search-icon.svg" class="search-icon" alt="">
                     </div>
                     <div class="result"></div>
-                    <p class="search-text"></p>
+                    <p class="search-text"><c:if test="${ !empty userColl }">${ userColl.area.areaName }</c:if></p>
                 </div>
             </div>
             <div class="btn-container">
                 <button class="btn yes">설정하기</button>
                 <button class="location-loading">불러오기</button>
+                <button class="enroll-area">등록하기</button>
                 <button class="btn no">취소하기</button>
             </div>
         </div>
@@ -152,17 +157,73 @@
 	            $(".confirm-title b").text("지역설정");
 	            $(".call-my-area").css("display", "none");
 	            $(".setting-area").css("display", "flex");
+	            $(".map_wrap").css("display", "none");
 	            $(".yes").css("display", "block");
 	            $(".location-loading").css("display", "none");
+	            $(".enroll-area").css("display", "none");
 	            area = true;
 	        }
 	    });
-	    // 불러오기 버튼 클릭시
+	    
+	 	// 불러오기 버튼 클릭시
 	    $(".location-loading").click(function() {
 	    	navigator.geolocation.getCurrentPosition(function(position) {
-	    		console.log(position.coords.latitude, position.coords.longitude);
+	    		var x = position.coords.latitude	// 위도
+	    		var y = position.coords.longitude	// 경도
+	    		var container = document.getElementById('map');	// 지도를 담을 영역의 DOM 래퍼런스
+		    	var options = {	// 지도를 생성할 때 필요한 기본 옵션
+		    			center: new kakao.maps.LatLng(x, y),	// 지도의 중심 좌표
+		    			level: 6	// 지도의 레벨 (확대, 축소 정도)
+		    	}
+		    	
+		    	var map = new kakao.maps.Map(container, options);	// 지도 생성 및 객체 리턴
+	    		console.log(x, y)
+	    		
+	    		// 주소-좌표 변환 객체를 생성합니다
+				var geocoder = new kakao.maps.services.Geocoder();
+	    		
+	    		var marker = new kakao.maps.Marker()	// 클릭한 위치를 표시할 마커입니다
+	    		var infowindow = new kakao.maps.InfoWindow({zindex:1});	// 클릭한 위치에 대한 주소를 표시할 인포윈도우입니다
+	    		
+	    		// 현재 지도 중심좌표로 주소를 검색해서 지도 좌측 상단에 표시합니다
+	    		searchAddrFromCoords(map.getCenter(), displayCenterInfo);
+	    		
+	    		function searchAddrFromCoords(coords, callback) {
+	    		    // 좌표로 행정동 주소 정보를 요청합니다
+	    		    geocoder.coord2RegionCode(coords.getLng(), coords.getLat(), callback);         
+	    		}
+
+	    		function searchDetailAddrFromCoords(coords, callback) {
+	    		    // 좌표로 법정동 상세 주소 정보를 요청합니다
+	    		    geocoder.coord2Address(coords.getLng(), coords.getLat(), callback);
+	    		}
+
+	    		// 지도 좌측상단에 지도 중심좌표에 대한 주소정보를 표출하는 함수입니다
+	    		function displayCenterInfo(result, status) {
+	    		    if (status === kakao.maps.services.Status.OK) {
+	    		        var infoDiv = document.getElementsByClassName('call-my-area')[0];
+
+	    		        for(var i = 0; i < result.length; i++) {
+	    		            // 행정동의 region_type 값은 'H' 이므로
+	    		            if (result[i].region_type === 'H') {
+	    		                infoDiv.innerHTML = result[i].region_1depth_name + " " + result[i].region_2depth_name;
+	    		                break;
+	    		            }
+	    		        }
+	    		    }    
+	    		}
 	    	});
+	    	$(".map_wrap").css("display", "block");
+	    	$(".location-loading").css("display", "none");
+	    	$(".enroll-area").css("display", "block");
 	    });
+	 	
+	 	// 등록하기 버튼 클릭시
+	 	$(".enroll-area").click(function() {
+	 		var area = $(".call-my-area").text();
+	 		location.href="${ pageContext.request.contextPath }/fanStore/certifyArea?area=" + area;
+	 	});
+	    
 	    // 돌아가기 버튼 클릭시
 	    $(".btn.no").click(function() {
 	    	location.href="${referer}";

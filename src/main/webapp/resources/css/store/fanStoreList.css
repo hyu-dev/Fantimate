@@ -33,14 +33,27 @@
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
-    /* border: 2px solid blue; */
+}
+
+.my-zone {
+	font-family: Yoon Minguk;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 12px;
+}
+
+.isEnrollfstore {
+	font-family: Yoon Minguk;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 12px;
 }
 
 .set-area > div {
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    min-width: 300px;
+    min-width: 320px;
     box-sizing: border-box;
     position: relative;
 }
@@ -352,6 +365,20 @@ input:checked + label .area p {
     flex-wrap: wrap;
     height: 1230px;
     overflow: hidden;
+}
+
+.empty-fanStore {
+	width: 100%;
+	height: 100%;
+	display: flex;
+    justify-content: center;
+    align-content: center;
+    padding: 0;
+    margin: 200px 0;
+    font-family: "Wemakeprice-bold";
+    font-style: normal;
+    font-weight: bold;
+    font-size: 55px;
 }
 
 .product-background {

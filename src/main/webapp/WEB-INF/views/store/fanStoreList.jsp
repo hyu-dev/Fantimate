@@ -40,7 +40,7 @@
 	</c:if>
 	
 	<jsp:include page="settingArea.jsp"/>
-	<c:if test="${ !empty loginUser && !empty fanStoreList}">
+	<c:if test="${ !empty loginUser }">
 	<jsp:include page="fanStoreInsert.jsp"/>
 	<!-- 네비바 인클루드 -->
 	<jsp:include page="../common/navbar.jsp"></jsp:include>
@@ -105,6 +105,7 @@
                 </div>
              </div>
              <div class="store-product">
+             	<c:if test="${ !empty fanStoreList }">
              	<c:set var="code" value=""/>
              	<c:forEach var="fs" items="${ fanStoreList }">
              	<c:if test="${ code ne fs.fstore.fcode }">
@@ -139,6 +140,10 @@
                 <c:set var="code" value="${ fs.fstore.fcode }"/>
                 </c:if>
                 </c:forEach>
+                </c:if>
+                <c:if test="${ empty fanStoreList }">
+                <h1 class="empty-fanStore">등록된 상품이 없습니다</h1>
+                </c:if>
              </div>
              <div class="more-product">
                 <button type="button" class="more-btn">+MORE</button>
@@ -472,17 +477,6 @@
 		$(function() {
 			alert("로그인을 해주세요");
 			location.href="${contextPath}/main";
-		})
-	</script>
-	</c:when>
-	<c:when test="${ empty fanStoreList }">
-	<script>
-		$(function() {
-			if(confirm("해당 지역에 등록된 정보가 없습니다. 지역설정을 다시하겠습니까?")) {
-				$(".confirm-background").css("display", "block");
-			} else {
-				location.href="${contextPath}/main";
-			}
 		})
 	</script>
 	</c:when>

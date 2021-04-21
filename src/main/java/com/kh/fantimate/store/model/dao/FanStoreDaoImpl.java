@@ -94,5 +94,10 @@ public class FanStoreDaoImpl implements FanStoreDao{
 	public int cancelWish(Wish wish) {
 		return sqlSession.update("fanStoreMapper.cancelWish", wish);
 	}
+
+	@Override
+	public int certifyArea(User user) {
+		return sqlSession.update("fanStoreMapper.certifyArea", user);
+	}
 	
 }

@@ -172,7 +172,7 @@ input:checked + label .area-alert p {
     font-family: Yoon Minguk;
     outline: none;
     border: none;
-    /* display: none; */
+    cursor: pointer;
 }
 
 .btn.yes {
@@ -194,6 +194,20 @@ input:checked + label .area-alert p {
     border: none;
     display: none;
     background: #F4D4D4;
+    cursor: pointer;
+    color: #5C5F78;
+}
+
+.enroll-area {
+	width: 130px;
+    height: 40px;
+    font-size: 20px;
+    font-family: Yoon Minguk;
+    outline: none;
+    border: none;
+    display: none;
+    background: #F4D4D4;
+    cursor: pointer;
     color: #5C5F78;
 }
 
@@ -220,6 +234,13 @@ input:checked + label .area-alert p {
     justify-content: flex-start;
     align-items: center;
     /* display: none; */
+}
+
+.map_wrap {
+	position:relative;
+	width:100%;
+	height:200px;
+	display:none;
 }
 
 .search {

@@ -89,6 +89,11 @@ public class FanStoreServiceImpl implements FanStoreService{
 	public int cancelWish(Wish wish) {
 		return fDao.cancelWish(wish);
 	}
+
+	@Override
+	public int certifyArea(User user) {
+		return fDao.certifyArea(user);
+	}
 	
 	
 	
