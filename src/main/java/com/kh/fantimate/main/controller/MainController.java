@@ -578,7 +578,7 @@ public class MainController {
 			model.addAttribute("msg", "fail");
 		}
 		
-		return "common/navSearch";
+		return "common/main";
 		
 	}
 	
@@ -610,7 +610,7 @@ public class MainController {
 			model.addAttribute("msg", "fail");
 		}
 		
-		return "common/navSearch";
+		return "common/main";
 		
 	}
 	
