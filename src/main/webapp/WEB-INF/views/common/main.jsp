@@ -37,11 +37,32 @@
     </script>
 </head>
 <body>
+	<jsp:include page="navSearch.jsp"></jsp:include>
+	
 	<!-- 메시지 -->
 	 <c:if test="${ !empty msg }">
-	 	alert("${ msg }<%= request.getAttribute("javax.servlet.error.message") %>");
-	 </c:if>
-	<jsp:include page="navSearch.jsp"></jsp:include>
+		 <c:choose>
+			 <c:when test="${ msg eq 'accept'}">
+			 	<script>
+				    alert("친구를 수락하셨습니다!");
+				    location.href="${ contextPath }";
+			    </script>
+			 </c:when>
+			 <c:when test="${ msg eq 'decline'}">
+			 	<script>
+			 		alert("친구를 거절하셨습니다!");
+			 		location.href="${ contextPath }";
+			 	</script>
+			 </c:when>
+			  <c:when test="${ msg eq 'fail'}">
+			 	<script>
+				    alert("친구 수락, 또는 거절 실패!");
+			    </script>
+			 </c:when>
+		</c:choose>
+	</c:if>
+	
+	
 	 <!-- 메인 페이지 -->
     <section class="mainPage-section">
         <!-- 로그인 했을 경우에 관심아티스트 + 그외 아티스트 리스트 보이기 / 안 했을 경우 전체 리스트 / 로그인한 유저가 관리자, 소속사, 아티스트일때 전체 리스트 보이게-->

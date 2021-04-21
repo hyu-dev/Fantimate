@@ -96,29 +96,7 @@
 </script>
 </head>
 <body>
-	<!-- 메시지 -->
-	 <c:if test="${ !empty msg }">
-		 <c:choose>
-			 <c:when test="${ msg eq 'accept'}">
-			 	<script>
-				    alert("친구를 수락하셨습니다!");
-				    location.href="${ contextPath }";
-			    </script>
-			 </c:when>
-			 <c:when test="${ msg eq 'decline'}">
-			 	<script>
-			 		alert("친구를 거절하셨습니다!");
-			 		location.href="${ contextPath }";
-			 	</script>
-			 </c:when>
-			 <c:otherwise>
-			 	<script>
-				    alert("친구 수락, 또는 거절 실패!");
-			    </script>
-			 </c:otherwise>
-		</c:choose>
-	</c:if>
-	
+
 	
 	<header class="main-header">
         <nav class="main-nav">
