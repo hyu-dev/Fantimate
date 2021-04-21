@@ -16,6 +16,24 @@
     <title>Fantimate</title>
     <script>
     
+ /*    $(function(){
+        $('.mainPage-artistFeed').mouseenter(function(){
+            $('#right').show();
+        });
+        $('.mainPage-artistFeed').mouseleave(function(){
+            $('#right').hide();
+        });
+
+        $('.mainPage-artistFeed').mouseenter(function(){
+            $('#left').show();
+        });
+        $('.mainPage-artistFeed').mouseleave(function(){
+            $('#left').hide();
+        });
+
+    }); */
+
+    
     </script>
 </head>
 <body>
@@ -174,6 +192,23 @@
         })
         
         function feedTopNine(){
+        	
+        	
+     	        $('.mainPage-artistFeed').mouseenter(function(){
+     	            $('.mainPage-artistFeed .slide-list .right').show('nomal');
+     	        });
+     	        $('.mainPage-artistFeed').mouseleave(function(){
+     	            $('.mainPage-artistFeed .slide-list .right').hide('slow');
+     	        });
+
+     	        $('.mainPage-artistFeed').mouseenter(function(){
+     	            $('.mainPage-artistFeed .slide-list .left').show('nomal');
+     	        });
+     	        $('.mainPage-artistFeed').mouseleave(function(){
+     	            $('.mainPage-artistFeed .slide-list .left').hide('slow');
+     	        });
+
+        	    
         	$.ajax({
         		url: "${contextPath}/main/feedTopNine",
         		dataType : "json",
@@ -356,6 +391,20 @@
          
          function mediaTopNine(){
         	 
+        	 $('.mainPage-media').mouseenter(function(){
+  	            $('.mainPage-media .slide-list .right').show('nomal');
+  	        });
+  	        $('.mainPage-media').mouseleave(function(){
+  	            $('.mainPage-media .slide-list .right').hide('slow');
+  	        });
+
+  	        $('.mainPage-media').mouseenter(function(){
+  	            $('.mainPage-media .slide-list .left').show('nomal');
+  	        });
+  	        $('.mainPage-media').mouseleave(function(){
+  	            $('.mainPage-media .slide-list .left').hide('slow');
+  	        });
+        	 
         	 $.ajax({
          		url: "${contextPath}/main/mediaTopNine",
          		dataType : "json",
@@ -475,6 +524,20 @@
          })
          
          function storeTopNine(){
+        	 
+        	 $('.mainPage-store').mouseenter(function(){
+   	            $('.mainPage-store .slide-list .right').show('nomal');
+   	        });
+   	        $('.mainPage-store').mouseleave(function(){
+   	            $('.mainPage-store .slide-list .right').hide('slow');
+   	        });
+
+   	        $('.mainPage-store').mouseenter(function(){
+   	            $('.mainPage-store .slide-list .left').show('nomal');
+   	        });
+   	        $('.mainPage-store').mouseleave(function(){
+   	            $('.mainPage-store .slide-list .left').hide('slow');
+   	        });
         	 
         	 $.ajax({
          		url: "${contextPath}/main/storeTopNine",
