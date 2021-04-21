@@ -2,12 +2,14 @@ package com.kh.fantimate.main.model.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.fantimate.common.model.vo.Alarm;
 import com.kh.fantimate.common.model.vo.Attachment;
+import com.kh.fantimate.common.model.vo.Friend;
 import com.kh.fantimate.common.model.vo.Message;
 import com.kh.fantimate.common.model.vo.Report;
 import com.kh.fantimate.main.model.dao.MainDao;
@@ -161,6 +163,30 @@ public class MainServiceImpl implements MainService{
 	public List<StoreTopNineCollection> selectStoreTopNineCollection(String user) {
 		
 		return mpDao.selectStoreTopCollection(user);
+	}
+
+	@Override
+	public int updateAcceptFriend(Friend fr) {
+		
+		return mpDao.updateAcceptFriend(fr);
+	}
+
+	@Override
+	public int updateDeclineFriend(Friend fr) {
+		
+		return mpDao.updateDeclineFriend(fr);
+	}
+
+	@Override
+	public int insertAlarmF(Map<String, String> map) {
+		
+		return mpDao.insertAlarmF(map);
+	}
+
+	@Override
+	public int updateAlarmStatus(int alCode) {
+		
+		return mpDao.updateAlarmStatus(alCode);
 	}
 
 
