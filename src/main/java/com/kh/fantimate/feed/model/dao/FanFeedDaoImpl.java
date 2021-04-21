@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.fantimate.common.model.vo.Attachment;
 import com.kh.fantimate.common.model.vo.Reply;
+import com.kh.fantimate.common.model.vo.Report;
 import com.kh.fantimate.common.model.vo.Subscribe;
 import com.kh.fantimate.feed.model.vo.AttachmentF;
 import com.kh.fantimate.feed.model.vo.Feed;
@@ -72,6 +73,45 @@ public class FanFeedDaoImpl implements FanFeedDao{
 	public List<Reply> selectReplyList() {
 		return sqlSession.selectList("fanfeedMapper.selectReplyList");
 	}
+
+	// 게시글 수정
+	@Override
+	public void updateFeed(Feed f) {
+		sqlSession.update("fanfeedMapper.updateFeed");
+		
+	}
+
+	// 게시글 수정 시 사진 수정
+	@Override
+	public int updateFeedAtt(List<AttachmentF> attList) {
+		return sqlSession.insert("fanfeedMapper.updateFeedAtt", attList);
+	}
+
+	// fid로 게시글 조회
+	@Override
+	public List<Feed> selectFeed(int fid) {
+		return sqlSession.selectList("fanfeedMapper.selectFeed", fid);
+	}
+
+	// refId로 게시글 사진 조회
+	@Override
+	public List<AttachmentF> selectAttachmentF(int refId) {
+		return sqlSession.selectList("fanfeedMapper.selectAttachmentF", refId);
+	}
+
+	// 게시글 삭제(활성화 N으로 바꿔줌)
+	@Override
+	public int deleteFeed(int fid) {
+		return sqlSession.update("fanfeedMapper.deleteFeed", fid);
+	}
+
+	// 게시글 신고
+	@Override
+	public int insertFeedReport(Report r) {
+		return sqlSession.insert("fanfeedMapper.insertFeedReport", r);
+	}
+
+	
 
 	
 	

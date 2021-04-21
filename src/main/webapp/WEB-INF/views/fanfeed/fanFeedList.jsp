@@ -11,7 +11,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="${ contextPath }/resources/css/common/font.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css">
-    <link rel="stylesheet" href="${ contextPath }/resources/css/feed/fanFeedList.css?after">
+    <link rel="stylesheet" href="${ contextPath }/resources/css/feed/fanFeedList.css?afters">
     <link rel="icon" type="image/png" sizes="16x16" href="${ contextPath }/resources/icon/faviconF.png">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 <title>Insert title here</title>
@@ -47,22 +47,25 @@
                     <col width="15%"/>
                     <col width="15%"/>
                     <tr>
-                     
+                      <c:forEach var="at" items="${ atlist }">
+                     		<c:if test="${ at.refuid eq f.writer }">
                         <td>
                             <div class="profile-bubble">
                                 <p>친구 신청</p>
-                                <p>쪽지 보내기</p>
+                                <p onclick="insertMessage();">쪽지 보내기</p>
                             </div>
-                             <%-- <c:if test="${ loginUser.id eq fc.feed.writer }"> --%>
+                             
                             
-                             <img class="profile-picture" src="${ contextPath }/resources/uploadFiles/${ fc.attachment.attSvName }">
+                             <img class="profile-picture" src="${ contextPath }/resources/uploadFiles/${ at.attSvName }">
                         </td>
-                        
+                        </c:if>
+                        </c:forEach>
                         <td> 
                         	<!-- 게시글작성자의 아이디와 구독유저의 아이디가 같다면 닉네임 불러오기 -->
                         	 <c:forEach var="sb" items="${ subList }">
-                        	 <c:if test="${ sb.uid eq f.writer }">
-                            <pre class="nicknameArea" name="uid" value="${ f.writer }">${ sb.unickname }</pre>
+                        	 <c:if test="${ f.writer eq sb.uid }">
+                            <pre class="nicknameArea">${ sb.unickname }</pre>
+                            <input type="hidden" name="fid" value="${ f.fid }">
                         	 </c:if>
                         	 </c:forEach>
                           	
@@ -71,15 +74,21 @@
                        
                         <!-- 게시글 작성자와 로그인 유저가 같다면 ...아이콘 띄우기(게시글 수정, 삭제) -->
                         <c:if test="${ loginUser.id eq f.writer }">
+                        
+                     
+                    
                         <td>
+                        	
                             <div class="board-menu">
-                                <p onclick="showUpdateFeed();">수정하기</p>
-                                <p onclick="deleteFeed();">삭제하기</p>
+                                <p onclick="showUpdateFeed(${f.fid});">수정하기</p>
+                                <p onclick="deleteFeed(${f.fid});">삭제하기</p>
                             </div>
-                            <img class="board-more-icon" src="../resources/images/feed/board-more-icon.png" onclick="report();">
+                            <img class="board-more-icon" src="../resources/images/feed/board-more-icon.png">
                         </td>
                         </c:if>
-                        <td><img class="report-icon" src="../resources/images/feed/report-icon.png" id="siren"></td>   
+                      
+                        
+                        <td><img class="report-icon" src="../resources/images/feed/report-icon.png" id="siren" onclick="reportFeed(${f.fid});"></td>   
                     </tr>
                 </table>
                     <!-- 게시글 컨텐츠 영역 -->
@@ -98,7 +107,11 @@
                         	
                             <img src="${ contextPath }/resources/uploadFiles/${ pt.attSvName }" alt="이미지" width="300px">
                             <p>${ pt.attClName }</p>
-                            
+                            <p>${ pt.attCode }</p>
+                            <input type="hidden" name="attCode" value="${ pt.attCode }">
+                            <input type="hidden" name="fid" value="${ f.fid }">
+                            <input type="hidden" name="refId" value="${ pt.refId }">
+                            <p>${ pt.refId }</p>
                         </div>
                         </c:if>
                         </c:forEach>
@@ -124,6 +137,8 @@
                     <hr width="90%">
                     <br>
                    
+                   <c:forEach var="r" items="${ rlist }">
+                   <c:if test="${ f.fid eq r.refId }">
                     
                     <!-- 댓글 리스트 영역 -->
                     <table id="replyTable" class="original-comment">
@@ -133,33 +148,38 @@
                             <col width="95%"/>
                         </colgroup>
                         <tr class="comment-line">
+                         <c:forEach var="at" items="${ atlist }">
+                     	 <c:if test="${ at.refuid eq r.writer }">
                             <td>
                                 <div class="profile-bubble">
                                     <p>친구 신청</p>
-                                    <p>쪽지 보내기</p>
+                                    <p onclick="insertMessage();">쪽지 보내기</p>
                                 </div>
-                                <img class="profile-picture" src="${ contextPath }/resources/uploadFiles/${ f.attachment.attSvName }">
+                               
+                                <img class="profile-picture" src="${ contextPath }/resources/uploadFiles/${ at.attSvName }">
                             </td>
-                            
-                           
+                            </c:if>
+                            </c:forEach>
+                             <c:forEach var="sb" items="${ subList }">
+                        	 <c:if test="${ r.writer eq sb.uid }">
                             <td>
                                 <div class="comment-box">
                                     <div id="artist-comment" class="comment-main comment-center nanumsquare">
-                                        <span class="comment-name">${ f.subscribe.unickname }</span>
+                                        <span class="comment-name">${ sb.unickname }</span>
                                         <span class="comment-content">
-                                            ${ f.reply.rcontent }
+                                            ${ r.rcontent }
                                         </span>
                                         <span class="re-commentBtn">답글 열기</span>
                                     </div>
                                     <div class="comment-etc">
                                     	<span class="comment-etc" >···</span>
-                                    	<c:if test="${ loginUser.id ne f.reply.writer }">
+                                    	<c:if test="${ loginUser.id ne r.writer }">
                                         <div class="comment-bubble">
                                             <p class="add-comment">답글 달기</p>
                                             <p>댓글 신고</p>
                                         </div>
                                         </c:if>
-                                        <c:if test="${ loginUser.id eq f.reply.writer }">
+                                        <c:if test="${ loginUser.id eq f.writer }">
                                         <div class="comment-bubble">
                                             <p class="add-comment">답글 달기</p>
                                             <form>
@@ -170,11 +190,14 @@
                                     </div>
 
                                     </div>
+                                   
+                                    </c:if>
+                                    </c:forEach>
                                 
                                 <div class="comment-info comment-center nanumsquare">
                                     <img class="likeBtn" src="../resources/images/feed/like-icon.png">
                                     <span class="like-count">1,000</span>
-                                    <span class="comment-date"><fmt:formatDate value="${ f.reply.rcreate }" pattern="yyyy.MM.dd HH:mm"/></span>
+                                    <span class="comment-date"><fmt:formatDate value="${ r.rcreate }" pattern="yyyy.MM.dd HH:mm"/></span>
                                 </div>
                                 <div class="comment-toggle">
                                     <div class="re-comment-container">
@@ -225,16 +248,18 @@
                         </tr>
              
                     </table>
-                 	
+                 	</c:if>
+                 	</c:forEach>
                     <button class="reply-more">. . .</button>
                     
+                    <!-- 댓글 등록 -->
                     <form action="${ contextPath }/fanfeed/insertReply" method="post">
                     <div class="insert-replyArea">
                      <input type="hidden" name="writer" value="${ loginUser.id }">
                      <input type="hidden" name="refId" value="${ f.fid }">
                         <div class="replyArea">
                             <div class="insert-reply">
-                                <textarea  id="replyContent" class="nanumsquare" name="rcontent" style="resize: none;" rows="1" placeholder="댓글을 입력하세요..."></textarea>
+                                <textarea class="nanumsquare" name="rcontent" style="resize: none;" rows="1" placeholder="댓글을 입력하세요..."></textarea>
                             </div>&nbsp;&nbsp;&nbsp;
                             <button type="submit" class="insert-replyBtn"><img id="addReply" src="../resources/icon/send.png" onclick="insertReply();"></button>
                             <!-- <img class="insert-replyBtn" id="addReply" src="../resources/icon/send.png" onclick="insertReply();"> -->
@@ -351,9 +376,9 @@
 	  </script>
     <!-- 게시물 신고하기 창 열기  -->
     <script>
-    function report(){
+    function reportFeed(fid){
         // 팝업 가운데에 띄우기
-        var popupWidth = 1200;
+        var popupWidth = 600;
         var popupHeight = 500;
 
         var popupX = Math.ceil((window.screen.width - popupWidth)/2);
@@ -362,7 +387,7 @@
         var popupY = Math.ceil((window.screen.width - popupHeight)/2);
         // 만들 팝업창 height 크기의 1/2 만큼 보정값으로 빼주었음
         
-        var url = "${ contextPath }/fanfeed/reportView";
+        var url = "${ contextPath }/fanfeed/reportView?fid=" + fid;
 
         window.open(url, "신고하기", 'width=' + popupWidth  + ', height=' + popupHeight  + ', left='+ popupX + ', top='+ popupY);
     }
@@ -378,8 +403,10 @@
 	<!-- 게시글 수정 창 열기 -->
 	 <script>
 	  // 게시글 수정 팝업창
-     function showUpdateFeed(){
-
+	  
+     function showUpdateFeed(fid){
+		
+			
          // 팝업 가운데에 띄우기
          var popupWidth = 1200;
          var popupHeight = 500;
@@ -389,18 +416,23 @@
 
          var popupY = Math.ceil((window.screen.width - popupHeight)/2);
          // 만들 팝업창 height 크기의 1/2 만큼 보정값으로 빼주었음
-         
-         var url = "${ contextPath }/fanfeed/updateView?fid="${ fc.feed.fid };
-
+        
+         var refId = $('input[name=refId]').val();
+         var url = "${ contextPath }/fanfeed/updateView?fid=" + fid + '&refId=' + refId;
+        // var url = "${ contextPath }/fanfeed/updateView?fid=" + fid + '&attCode=' + attCode;
+      
          window.open(url, "게시글 수정", 'width=' + popupWidth  + ', height=' + popupHeight  + ', left='+ popupX + ', top='+ popupY);
+	 		
      }
+      
      </script>
      
      <!-- 게시글 삭제하기 -->
     <script>
-    function deleteFeed(){
+    function deleteFeed(fid){
     	if (confirm("정말 삭제하시겠습니까??") == true){    //확인
-    	    document.form.submit();
+    	 //   document.form.submit();
+    		location.href='${contextPath}/fanfeed/delete?fid=' + fid;
     	} else {   //취소
     	    return;
     	}
@@ -420,5 +452,27 @@
 	    $(this).siblings(".comment-bubble").toggleClass('open-area', 500);
 	});
    </script>
+   
+   <!-- 쪽지 창 열기 -->
+   <script>
+   function insertMessage(){
+	// 팝업 가운데에 띄우기
+       var popupWidth = 1200;
+       var popupHeight = 500;
+
+       var popupX = Math.ceil((window.screen.width - popupWidth)/2);
+       // 만들 팝업창 width 크기의 1/2 만큼 보정값으로 빼주었음
+
+       var popupY = Math.ceil((window.screen.width - popupHeight)/2);
+       // 만들 팝업창 height 크기의 1/2 만큼 보정값으로 빼주었음
+      
+       var url = "${ contextPath }/fanfeed/messageView";
+      
+    
+       window.open(url, "쪽지", 'width=' + popupWidth  + ', height=' + popupHeight  + ', left='+ popupX + ', top='+ popupY);
+	   
+   }
+   </script>
+   
 </body>
 </html>

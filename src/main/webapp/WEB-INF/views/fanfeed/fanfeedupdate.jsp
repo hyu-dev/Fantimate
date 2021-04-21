@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,7 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="${ contextPath }/resources/css/common/font.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css">
-    <link rel="stylesheet" href="${ contextPath }/resources/css/feed/fanFeedUpdate.css">
+    <link rel="stylesheet" href="${ contextPath }/resources/css/feed/fanFeedUpdate.css?ver=1">
     <link rel="icon" type="image/png" sizes="16x16" href="${ contextPath }/resources/icon/faviconF.png">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 <title>게시글 수정</title>
@@ -16,20 +18,24 @@
 <body>
 <div class="post-outer">
                 <div class="introArea">
-                    <p class="post-intro">포스트 수정</p>    
+                    <p class="post-intro">포스트 수정${ param.fid }</p>    
                 </div>
                 
+                <!-- 해당 게시글의 fid와 유저 프로필사진 불러와야함 -->
                 
-                <c:forEach var="f" items="${ list }">
-                <!-- 포스트 작성 -->
+                <!-- 포스트 수정 -->
                 <form action="${ contextPath }/fanfeed/update" method="post" enctype="multipart/form-data">
                     <div class="postArea">
                     <input type="hidden" name="writer" value="${ loginUser.id }">
-                    <input type="hidden" name="artiName" value="${ param.artNameEn }"> 
-                     
-                   	
-                    <img src="${ contextPath }/resources/uploadFiles/${ fc.attachment.attSvName }" class="post-icon" alt="이미지">
-                     
+                    <input type="hidden" name="artiName" value="${ param.artNameEn }">
+                    <input type="hidden" name="fid" value="${ param.fid }"> 
+                    
+                   	<!-- 로그인 유저 프사 불러오기 -->
+                   	<c:forEach var="at" items="${ atlist }">
+                    <c:if test="${ loginUser.id eq at.id }">
+                    <img src="${ contextPath }/resources/uploadFiles/${ at.attSvName }" class="post-icon" alt="이미지">
+                     </c:if>
+                     </c:forEach>
                     <textarea class="textArea" placeholder="FANTIMATE에 남겨보세요" name="fcontent"></textarea>
                     <img src="../resources/icon/photo-icon.png" class="photo-icon">
                     </div>
@@ -38,21 +44,29 @@
                         
                         <label for="mainPhoto" class="main-photo" style="display: none;">
                         <input id="mainPhoto" class="photo" type="file" name="uploadFile1" style="display: none;">
+                        <input type="hidden" name="oneClName" value="${ at.attClName }">
+						<input type="hidden" name="oneSvName" value="${ at.attSvName }">
                         </label>
                         
                         <label for="addPhoto" class="add-photo click-btn" style="display: none;">
                         <input id='addPhoto' class='photo' type='file' name='uploadFile2' style='display: none;'>
+                        <input type="hidden" name="twoClName" value="${ at.attClName }">
+						<input type="hidden" name="twoSvName" value="${ at.attSvName }">
                         <p class="plus">+</p>
                         </label>
                         
                         
                         <label for="addPhoto1" class="add-photo1 click-btn" style="display: none;">
                         <input id='addPhoto1' class='photo' type='file' name='uploadFile3' style='display: none;'>
+                        <input type="hidden" name="threeClName" value="${ at.attClName }">
+						<input type="hidden" name="threeSvName" value="${ at.attSvName }">
                         <p class="plus">+</p>
                         </label>
                         
                         <label for="addPhoto2" class="add-photo2 click-btn" style="display: none;">
                         <input id='addPhoto2' class='photo' type='file' name='uploadFile4' style='display: none;'>
+                        <input type="hidden" name="fourClName" value="${ at.attClName }">
+						<input type="hidden" name="fourSvName" value="${ at.attSvName }">
                         <p class="plus">+</p>
                         </label>
                     </div>  
@@ -63,7 +77,7 @@
                     </div>
                     <br>
                 </form>
-                 </c:forEach>
+                 
              </div>
 
 <!-- 포스트 작성 첨부파일 아이콘 클릭 시 이벤트 -->

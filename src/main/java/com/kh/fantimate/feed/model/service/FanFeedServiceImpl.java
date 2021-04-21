@@ -8,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.fantimate.common.model.vo.Attachment;
 import com.kh.fantimate.common.model.vo.Reply;
+import com.kh.fantimate.common.model.vo.Report;
 import com.kh.fantimate.common.model.vo.Subscribe;
 import com.kh.fantimate.feed.model.dao.FanFeedDao;
 import com.kh.fantimate.feed.model.vo.AttachmentF;
@@ -71,6 +72,43 @@ public class FanFeedServiceImpl implements FanFeedService {
 	public List<Reply> selectReplyList() {
 		return fDao.selectReplyList();
 	}
+
+	// 게시글 수정
+	@Override
+	public int updateFeed(Feed f, List<AttachmentF> attList) {
+		fDao.updateFeed(f);
+		
+		int result = fDao.updateFeedAtt(attList);
+		
+		return result;
+		
+		
+	}
+
+	// fid로 게시글 조회
+	@Override
+	public List<Feed> selectFeed(int fid) {
+		return fDao.selectFeed(fid);
+	}
+
+	// refId로 게시글 사진 조회
+	@Override
+	public List<AttachmentF> selectptList(int refId) {
+		return fDao.selectAttachmentF(refId);
+	}
+
+	// 게시글 삭제(활성화 N으로 바꿔줌)
+	@Override
+	public int deleteFeed(int fid) {
+		return fDao.deleteFeed(fid);
+	}
+
+	// 게시글 신고
+	@Override
+	public int insertFeedReport(Report r) {
+		return fDao.insertFeedReport(r);
+	}
+
 
 	
 	

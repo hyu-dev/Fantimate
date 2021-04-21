@@ -3,12 +3,14 @@ package com.kh.fantimate.feed.controller;
 import java.io.File;
 
 
+
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -33,12 +35,15 @@ import com.kh.fantimate.feed.model.service.FanFeedService;
 import com.kh.fantimate.feed.model.vo.AttachmentF;
 import com.kh.fantimate.feed.model.vo.Feed;
 import com.kh.fantimate.feed.model.vo.FeedCollection;
+import com.kh.fantimate.member.model.vo.ArtistGroup;
 import com.kh.fantimate.member.model.vo.Member;
+
+
 
 
 @Controller
 @RequestMapping("/fanfeed")
-@SessionAttributes({"subList"})
+@SessionAttributes({"subList", "artNameEn"})
 public class FanFeedController {
 	
 	@Autowired
@@ -60,6 +65,7 @@ public class FanFeedController {
 	// 게시글 조회
 	@GetMapping("/fanFeedList")
 	public ModelAndView fanFeedList(ModelAndView mv,
+									@ModelAttribute ArtistGroup ag,
 									@ModelAttribute Subscribe s,
 									@ModelAttribute FeedCollection fc,
 									@ModelAttribute Member m,
@@ -81,7 +87,7 @@ public class FanFeedController {
 		System.out.println("게시글 리스트 : " + list);
 		
 		List<Attachment> atlist = fService.selectatList();
-	//	System.out.println("유저 프로필 사진 리스트 : " + atlist);
+		System.out.println("유저 프로필 사진 리스트 : " + atlist);
 		
 		List<AttachmentF> ptlist = fService.selectptList();
 		System.out.println("게시글 사진 리스트 : " + ptlist);
@@ -90,7 +96,7 @@ public class FanFeedController {
 	//	System.out.println("컬렉션 리스트 : " + flist);
 		
 		List<Reply> rlist = fService.selectReplyList();
-	//	System.out.println("댓글 리스트 : " + rlist);
+		System.out.println("댓글 리스트 : " + rlist);
 		
 		
 		
@@ -172,6 +178,7 @@ public class FanFeedController {
 		System.out.println("사진이름4 : " + four.getOriginalFilename());
 		System.out.println("사진 리스트 : " + attList);
 		
+		
 		int result = fService.insertFeed(f, attList);
 		
 		if(result > 0) {
@@ -211,8 +218,24 @@ public class FanFeedController {
 	}
 	
 	// 게시글 수정 팝업창 열기
-	@GetMapping("/updateView")
-	public String updateFeedView() {
+	@RequestMapping("/updateView")
+	public String updateFeedView(Model model,
+								HttpServletResponse response,
+			   					@RequestParam(value="fid") int fid,
+			   					@RequestParam(value="refId") int refId,
+			   					HttpServletRequest request) {
+		// 피드 정보
+		List<Feed> f = fService.selectFeed(fid);
+		model.addAttribute("feed", f);
+		System.out.println("fid : " + fid);
+		// 유저 프로필 사진 정보
+		List<Attachment> atlist = fService.selectatList();
+		model.addAttribute("atlist", atlist);
+		// 게시글 사진 정보
+		List<AttachmentF> ptlist = fService.selectptList(refId);
+		model.addAttribute("ptlist", ptlist);
+		
+		System.out.println("refId : " + refId);
 		return "fanfeed/fanfeedupdate";
 	}
 	
@@ -222,22 +245,172 @@ public class FanFeedController {
 						   Feed f,
 						   HttpServletRequest request,
 						   @RequestParam(value="uploadFile1") MultipartFile one,
+						   @RequestParam(value="oneSvName") String oneSvName,
+						   @RequestParam(value="oneClName") String oneClName,
 						   @RequestParam(value="uploadFile2") MultipartFile two,
+						   @RequestParam(value="twoSvName") String twoSvName,
+						   @RequestParam(value="twoClName") String twoClName,
 						   @RequestParam(value="uploadFile3") MultipartFile three,
-						   @RequestParam(value="uploadFile4") MultipartFile four) {
+						   @RequestParam(value="threeSvName") String threeSvName,
+						   @RequestParam(value="threeClName") String threeClName,
+						   @RequestParam(value="uploadFile4") MultipartFile four,
+						   @RequestParam(value="fourSvName") String fourSvName,
+						   @RequestParam(value="fourClName") String fourClName
+						  ) throws IOException {
 		
-		List<Attachment> attList = new ArrayList<>();
-		Attachment att = null;
+		List<AttachmentF> attList = new ArrayList<>();
+		AttachmentF att = null;
 		
 		// 업로드 파일 서버에 저장
 		// 파일 첨부가 정상적으로 동작했다면
 		if(!one.getOriginalFilename().equals("")) {
 			// 새로운 데이터가 담겼다면 기존 데이터 삭제
+			if(oneSvName != null) {
+				deleteFile(("resources/uploadFiles/" + oneSvName), request);
+			}
+			att = new AttachmentF();
+			String renameFileName = saveFile(one, request);
+			// DB에 저장하기 위한 파일명 세팅
+			if(renameFileName != null) {
+				att.setAttClName(one.getOriginalFilename());
+				att.setAttSvName(renameFileName);
+				attList.add(att);
+			}
+		} else {
+				// 파일이 변경되지 않았다면 기존파일을 넣는다
+				att = new AttachmentF();
+				att.setAttClName(oneClName);
+				att.setAttSvName(oneSvName);
+				attList.add(att);
 		}
+		
+		 if(!two.getOriginalFilename().equals("")) {
+			if(twoSvName != null) {
+				deleteFile(("resources/uploadFiles/" + twoSvName), request);
+			}
+			att = new AttachmentF();
+			String renameFileName = saveFile(two, request);
+			if(renameFileName != null) {
+				att.setAttClName(two.getOriginalFilename());
+				att.setAttSvName(renameFileName);
+				attList.add(att);
+			}
+		} else {
+			// 파일이 변경되지 않았다면 기존파일을 넣는다
+			att = new AttachmentF();
+			att.setAttClName(twoClName);
+			att.setAttSvName(twoSvName);
+			attList.add(att);
+		}
+		 
+		 if(!three.getOriginalFilename().equals("")) {
+			if(threeSvName != null) {
+				deleteFile(("resources/uploadFiles/" + threeSvName), request);
+			}
+			att = new AttachmentF();
+			String renameFileName = saveFile(three, request);
+			if(renameFileName != null) {
+				att.setAttClName(three.getOriginalFilename());
+				att.setAttSvName(renameFileName);
+				attList.add(att);
+			}
+		} else {
+				// 파일이 변경되지 않았다면 기존파일을 넣는다
+				att = new AttachmentF();
+				att.setAttClName(threeClName);
+				att.setAttSvName(threeSvName);
+				attList.add(att);
+		}
+		 
+		 if(!four.getOriginalFilename().equals("")) {
+			if(fourSvName != null) {
+				deleteFile(("resources/uploadFiles/" + fourSvName), request);
+			}
+			att = new AttachmentF();
+			String renameFileName = saveFile(three, request);
+			if(renameFileName != null) {
+				att.setAttClName(four.getOriginalFilename());
+				att.setAttSvName(renameFileName);
+				attList.add(att);
+			}
+		} else {
+			// 파일이 변경되지 않았다면 기존파일을 넣는다
+			att = new AttachmentF();
+			att.setAttClName(fourClName);
+			att.setAttSvName(fourSvName);
+			attList.add(att);
+		}
+		 	System.out.println(f);
+			System.out.println("바뀐사진이름1 : " + one.getOriginalFilename());
+			System.out.println("바뀐사진이름2 : " + two.getOriginalFilename());
+			System.out.println("바뀐사진이름3 : " + three.getOriginalFilename());
+			System.out.println("바뀐사진이름4 : " + four.getOriginalFilename());
+			System.out.println("사진 리스트 : " + attList);
+		
+			
+			
+		 
+			int result = fService.updateFeed(f, attList);
+			
+			if(result > 0) {
+				request.getSession().setAttribute("msg", "게시글이 등록되었습니다.");
+				response.sendRedirect("fanFeedList");
+			} else {
+				System.out.println("게시글 수정에 실패하였습니다.");
+			}
+		 
 	}
 	
 	// 게시글 삭제
+	@GetMapping("/delete")
+	public void deleteFeed(HttpServletResponse response,
+							@ModelAttribute ArtistGroup ag,
+							@ModelAttribute Subscribe s,
+							int fid,
+							Model model,
+							HttpServletRequest request
+							) throws IOException {
+		// 1. 서버에서 첨부파일 있을 시 삭제 (deleteFile 메소드 호출)
+//		List<AttachmentF> af = fService.selectptList(refId);
+		
+//		if(af.getRenameFileName() != null) {
+//			deleteFile(af.getRenameFileName(), request);
+//		}
+		
+		// 2. fid 가져가서 DB에서 update(bstatus -> N)
+			int result = fService.deleteFeed(fid);
+			
+		// 3. 게시글 목록으로 재요청
+		if(result > 0) {
+		//	String artNameEn = ((List<Subscribe>)request.getSession().getAttribute("subList")).get(0).getArtiname();
+		//	HttpSession session = request.getSession();
+		//	model.addAttribute("artNameEn", artNameEn);
+		//	model.addAttribute("subList", subList);
+			
+		//	session.setAttribute("artNameEn", artNameEn);
+			
+			request.getSession().setAttribute("msg", "게시글이 삭제되었습니다.");
+			response.sendRedirect("fanFeedList");
+		
+		} else {
+			System.out.println("게시글 삭제에 실패하였습니다.");
+		}
+		
+		
+	}
 	
+	// 파일 삭제
+	private void deleteFile(String filePath, HttpServletRequest request) {
+		String root = request.getSession().getServletContext().getRealPath("resources");
+		
+		File deleteFile = new File(root + filePath);
+		
+		if(deleteFile.exists()) {
+			deleteFile.delete();
+		}
+		
+	}
+
 	// 댓글 작성
 	@PostMapping("/insertReply")
 	public void insertReply(HttpServletResponse response,
@@ -257,9 +430,61 @@ public class FanFeedController {
 	}
 	
 	// 게시글 신고 팝업창 열기
-	@GetMapping("/reportView")
-	public String reportView() {
-		return "common/report";
+	@RequestMapping("/reportView")
+	public String reportView(Model model,
+							HttpServletResponse response,
+							int fid,
+							HttpServletRequest request) {
+		
+		System.out.println("신고할 게시글 번호 : " + fid);
+		
+		List<Feed> f = fService.selectFeed(fid);
+		
+		return "fanfeed/feedreport";
+	}
+	
+	// 게시글 신고
+	@RequestMapping("/report")
+	
+	public String reportFeed(HttpServletResponse response,
+			   				Feed f,
+			   				Report r,
+			   				HttpServletRequest request,
+			   				@RequestParam(value="rptType") String rptType,
+			   				@RequestParam(value="rptReason") String rptReason,
+			   				@RequestParam(value="id") String id,
+			   				@RequestParam(value="refId") String refId,
+			   				Model model,
+			   				HttpSession session) {
+		System.out.println(rptType);
+		System.out.println(rptReason);
+		System.out.println(id);
+		System.out.println(refId);
+		
+		int result = fService.insertFeedReport(r);
+		
+		if(result > 0) {
+			model.addAttribute("msg", "success");
+			return "fanfeed/feedreport";
+			
+		} else {
+			model.addAttribute("msg", "fail");
+			return "fanfeed/feedreport";
+		}	
+	}
+	
+	// 쪽지 창 열기
+	@RequestMapping("/messageView")
+	
+	public String messageView(Model model,
+							  HttpServletResponse response,
+							  
+							  HttpServletRequest request) {
+		
+	//	System.out.println("받는이 : " + writer);
+		
+		return "fanfeed/fmessage";
+		
 	}
 	
 	

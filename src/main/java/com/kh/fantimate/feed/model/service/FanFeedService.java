@@ -7,6 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.fantimate.common.model.vo.Attachment;
 import com.kh.fantimate.common.model.vo.Reply;
+import com.kh.fantimate.common.model.vo.Report;
 import com.kh.fantimate.common.model.vo.Subscribe;
 import com.kh.fantimate.feed.model.vo.AttachmentF;
 import com.kh.fantimate.feed.model.vo.Feed;
@@ -37,6 +38,21 @@ public interface FanFeedService {
 	
 	// 게시글 당 댓글 리스트 조회
 	public List<Reply> selectReplyList();
+
+	// 게시글 수정
+	public int updateFeed(Feed f, List<AttachmentF> attList);
+	
+	// fid로 게시글 조회
+	public List<Feed> selectFeed(int fid);
+	
+	// refId로 게시글 사진 조회
+	public List<AttachmentF> selectptList(int refId);
+	
+	// 게시글 삭제(활성화 N으로 바꿔줌)
+	public int deleteFeed(int fid);
+
+	// 게시글 신고
+	public int insertFeedReport(Report r);
 
 	
 
