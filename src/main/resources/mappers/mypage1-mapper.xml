@@ -119,7 +119,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 
 
 <!-- 마이페이지 User -->
-		<!-- 친구 -->
+<!-- 친구 -->
 		<resultMap type="Friend" id="FriendRset">
 			<id property="frCode" column="FR_CODE"/>
 			<result property="frSend" column="U_ID_SEND"/>
@@ -141,7 +141,97 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 			<collection property="friend" resultMap="FriendRset"/>
 			<collection property="attachment" resultMap="UserProfileRset"/>
 		</resultMap>
-	
+<!-- Payment -->
+		<!-- STORE -1-->	
+		<resultMap type="Store" id="storeRSet">
+			<id property="pcode" column="P_CODE"/>
+			<result property="pname" column="P_NAME"/>
+			<result property="salesQ" column="SALES_Q"/>
+			<result property="qprice" column="Q_PRICE"/>
+			
+			<result property="discount" column="DISCOUNT"/>
+			<result property="info" column="INFORMATION"/>
+			<result property="isView" column="IS_VIEW"/>
+			
+			<result property="viewCount" column="VIEWCOUNT"/>
+			<result property="isSoldout" column="IS_SOLDOUT"/>
+			<result property="isActive" column="IS_ACTIVE"/>
+			<result property="cateCode" column="C_CODE"/>
+		</resultMap>
+		
+		<!-- S_CATEGORY -2-->		
+		<resultMap type="StoreCategory" id="StoreCategoryRSet">
+			<id property="cateCode" column="C_CODE"/>
+			<result property="cateName" column="C_NAME"/>
+			<result property="artiNameEn" column="ARTI_NAME_EN"/>
+		</resultMap>
+		
+		<!-- ATT_STORE -3-->
+		<resultMap type="Attachment" id="AttachmentRSet">
+			<id property="attCode" column="ATT_CODE"/>
+			<result property="attRoot" column="ATT_ROOT"/>
+			<result property="attClName" column="ATT_CL_NAME"/>
+			
+			<result property="attSvName" column="ATT_SV_NAME"/>
+			<result property="attStatus" column="ATT_STATUS"/>
+<!-- 			<result property="id" column="ARTI_NAME_EN"/> -->
+			
+			<!-- 참조 Store 코드 -->
+			<result property="refId" column="P_CODE"/>
+<!-- 			<result property="refuid" column="ARTI_NAME_EN"/> -->
+			<result property="attMain" column="IS_MAIN_ATT"/>
+		</resultMap>
+		
+		<!-- P_INFO -4-->
+		<resultMap type="StoreInfo" id="StoreInfoRSet">
+			<id property="pcode" column="P_CODE"/>
+			<result property="origin" column="ORIGIN"/>
+			<result property="brand" column="BRAND"/>
+			
+			<result property="contact" column="CONTACT"/>
+			<result property="useTerm" column="USE_TERM"/>
+			<result property="offerings" column="OFFERINGS"/>
+			<result property="cancelInfo" column="CANCEL_INFO"/>
+		</resultMap>
+		
+		<!-- PAYMENT -5-->
+		<resultMap type="Payment" id="PaymentRSet">
+			<id property="payCode" column="PAY_CODE"/>
+			<result property="payMethod" column="PAY_METHOD"/>
+			<result property="payStatus" column="PAY_STATUS"/>
+			<result property="payPrice" column="PAY_PRICE"/>
+			
+			<result property="payDate" column="PAY_DATE"/>
+			<result property="id" column="ID"/>
+			<result property="payDivision" column="PAY_DIVISION"/>
+			<result property="payPlan" column="PAY_PLAN"/>
+		</resultMap>
+		
+		<!-- P_BUY -6-->
+		<resultMap type="ProductBuy" id="ProductBuyRSet">
+			<id property="bcode" column="B_CODE"/>
+			<result property="productQ" column="PROD_Q"/>
+			<result property="payCode" column="PAY_CODE"/>
+			<result property="pcode" column="P_CODE"/>
+			<result property="id" column="userid"/>
+		</resultMap>
+		
+		<!-- UserPaymentCol User Payment 컬렉션 -->
+		<resultMap type="UserPaymentCol" id="UserPaymentColRSet">
+			<collection property="store" resultMap="storeRSet"/>
+			<collection property="storeCate" resultMap="StoreCategoryRSet"/>
+			<collection property="att" resultMap="AttachmentRSet"/>
+			<collection property="pinfo" resultMap="StoreInfoRSet"/>
+			<collection property="payment" resultMap="PaymentRSet"/>
+			<collection property="pbuy" resultMap="ProductBuyRSet"/>
+		</resultMap>
+
+
+
+
+
+		
+		
 	<select id="checkId" parameterType="string" resultType="integer">
 		SELECT
 				COUNT(*)
@@ -536,5 +626,95 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
      WHERE
             U_ID_SEND = #{frSend}
        AND  U_ID_RECEIVE  = #{frRecId}
+	</update>
+
+	<select id="RListCountPayList" parameterType="Member" resultType="integer">
+		SELECT
+				COUNT(*)
+		  FROM
+		  		P_BUY pb
+	INNER JOIN            
+            	PAYMENT pay
+        	ON
+            	pb.PAY_CODE = pay.PAY_CODE
+ 	INNER JOIN
+            	STORE s
+        	ON
+            	pb.P_CODE = s.P_CODE
+ 	INNER JOIN
+            	ATT_STORE statt
+        	ON 
+            	s.P_CODE = statt.P_CODE
+    	 WHERE
+            	statt.IS_MAIN_ATT = 'Y'
+      	   AND  pb.ID = #{id}
+	</select>			
+	
+<!-- User 결제리스트 불러오기 -->
+	<select id="requestPayList" resultMap="UserPaymentColRSet">
+	    SELECT  
+	            B_CODE
+	          , PROD_Q
+	          , pb.ID AS userid  
+	          , pb.P_CODE 
+	          
+	          , pay.PAY_CODE
+	          , PAY_STATUS 
+	          , PAY_PRICE
+	          , PAY_DATE
+	          
+	          , P_NAME
+	           
+	          , ATT_SV_NAME 
+    
+      	  FROM 
+            	P_BUY pb
+	INNER JOIN            
+            	PAYMENT pay
+        	ON
+            	pb.PAY_CODE = pay.PAY_CODE
+ 	INNER JOIN
+            	STORE s
+        	ON
+            	pb.P_CODE = s.P_CODE
+ 	INNER JOIN
+            	ATT_STORE statt
+        	ON 
+            	s.P_CODE = statt.P_CODE
+    	 WHERE
+            	statt.IS_MAIN_ATT = 'Y'
+      	   AND  pb.ID = #{serchCondition}
+      ORDER BY
+            	PAY_DATE
+	</select>	
+	
+<!-- 결제내역 업데이트 -->
+	<update id="userMypaymentsUpdate" parameterType="UserPaymentCol" >
+			UPDATE
+                   (
+                    SELECT  
+                            B_CODE
+                          , PROD_Q
+                          , pb.ID AS userid  
+                          , pb.P_CODE 
+                          , pb.PAY_CODE AS UP_PAY_CODE
+                          
+                          , pay.PAY_CODE
+                          , PAY_STATUS 
+                          , PAY_PRICE
+                          , PAY_DATE
+                      FROM 
+                            P_BUY pb
+                INNER JOIN            
+                            PAYMENT pay
+                        ON
+                            pb.PAY_CODE = pay.PAY_CODE
+                     WHERE
+                            pb.ID = #{ payment.id }
+                       AND  pb.B_CODE = #{ pbuy.bcode }
+                    )
+                SET 
+                	PAY_STATUS = #{ payment.payStatus }
+	
 	</update>
 </mapper>

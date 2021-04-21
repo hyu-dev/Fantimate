@@ -10,6 +10,7 @@ import com.kh.fantimate.member.model.vo.Agency;
 import com.kh.fantimate.member.model.vo.Member;
 import com.kh.fantimate.mypage1.model.vo.FriendPageInfo;
 import com.kh.fantimate.mypage1.model.vo.ReportPageInfo;
+import com.kh.fantimate.mypage1.model.vo.UserPaymentCol;
 
 public interface Mypage1Service {
 	//  Notice List All 카운트(0)
@@ -64,6 +65,12 @@ public interface Mypage1Service {
 
 	// 친구상태 2로 (수락 한 경우)
 	public int userFriendUpdate2(Friend f);
+
+	// 결제내역 카운트
+	public int RListCountPayList(Member m);
+	public List<UserPaymentCol> requestPayList(FriendPageInfo pi);
+
+	public int userMypaymentsUpdate(UserPaymentCol u);
 
 	
 	

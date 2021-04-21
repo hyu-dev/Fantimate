@@ -28,6 +28,7 @@
 		<typeAlias type="com.kh.fantimate.mypage1.model.vo.MediaR" alias="MediaR"/>
 		<typeAlias type="com.kh.fantimate.mypage1.model.vo.MediaRList" alias="MediaRList"/>
 		<typeAlias type="com.kh.fantimate.mypage1.model.vo.FriendList1" alias="FriendList1"/>
+		<typeAlias type="com.kh.fantimate.mypage1.model.vo.UserPaymentCol" alias="UserPaymentCol"/>
 		<typeAlias type="com.kh.fantimate.common.model.vo.Alarm" alias="Alarm"/>
 		<typeAlias type="com.kh.fantimate.common.model.vo.Message" alias="Message"/>
 		<typeAlias type="com.kh.fantimate.common.model.vo.Report" alias="Report"/>

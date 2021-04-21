@@ -14,6 +14,7 @@ import com.kh.fantimate.member.model.vo.Member;
 import com.kh.fantimate.mypage1.model.dao.Mypage1Dao;
 import com.kh.fantimate.mypage1.model.vo.FriendPageInfo;
 import com.kh.fantimate.mypage1.model.vo.ReportPageInfo;
+import com.kh.fantimate.mypage1.model.vo.UserPaymentCol;
 
 @Service
 public class Mypage1ServiceImpl implements Mypage1Service{
@@ -115,6 +116,21 @@ public class Mypage1ServiceImpl implements Mypage1Service{
 	@Override
 	public int userFriendUpdate2(Friend f) {
 		return mDao.userFriendUpdate2(f);
+	}
+
+	@Override
+	public int RListCountPayList(Member m) {
+		return mDao.RListCountPayList(m);
+	}
+
+	@Override
+	public List<UserPaymentCol> requestPayList(FriendPageInfo pi) {
+		return mDao.requestPayList(pi);
+	}
+
+	@Override
+	public int userMypaymentsUpdate(UserPaymentCol u) {
+		return mDao.userMypaymentsUpdate(u);
 	}
 
 

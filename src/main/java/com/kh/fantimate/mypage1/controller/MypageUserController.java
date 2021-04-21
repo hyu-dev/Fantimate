@@ -21,6 +21,9 @@ import com.kh.fantimate.common.model.vo.Friend;
 import com.kh.fantimate.member.model.vo.Member;
 import com.kh.fantimate.mypage1.model.Service.Mypage1Service;
 import com.kh.fantimate.mypage1.model.vo.FriendPageInfo;
+import com.kh.fantimate.mypage1.model.vo.UserPaymentCol;
+import com.kh.fantimate.pay.model.vo.Payment;
+import com.kh.fantimate.pay.model.vo.ProductBuy;
 
 @Controller
 @RequestMapping("/mypage/user")
@@ -71,6 +74,13 @@ public class MypageUserController {
 		public ModelAndView userMyFriends(ModelAndView mv,
 				@RequestParam(value="page", required=false, defaultValue="1") int currentPage,
 				HttpSession session) {
+			// 비로그인 처리
+			if(session.getAttribute("loginUser") == null) {
+				mv.addObject("msg", "로그인이 필요합니다.");
+				mv.setViewName("mypage/admin/errorpage");
+				return mv;
+			}
+			
 			Member m = (Member) session.getAttribute("loginUser");
 			System.out.println("m.getId() : " + m.getId());
 			
@@ -98,6 +108,12 @@ public class MypageUserController {
 		public ModelAndView userMyFriendsReq(ModelAndView mv,
 				@RequestParam(value="page", required=false, defaultValue="1") int currentPage,
 				HttpSession session) {
+			if(session.getAttribute("loginUser") == null) {
+				mv.addObject("msg", "로그인이 필요합니다.");
+				mv.setViewName("mypage/admin/errorpage");
+				return mv;
+			}
+			
 			Member m = (Member) session.getAttribute("loginUser");
 			System.out.println("m.getId() : " + m.getId());
 			
@@ -151,18 +167,12 @@ public class MypageUserController {
 					System.out.println("업데이트 실패");
 					mv.addObject("msg", "업데이트에 실패하였습니다..");
 					mv.setViewName("mypage/admin/errorpage");
-					
 				}
-				
 			}else {
 				System.out.println("잘못된 접근입니다.");
 				mv.addObject("msg", "잘못된 접근입니다.");
 				mv.setViewName("mypage/admin/errorpage");
 			}
-			
-			
-			
-			
 			return mv;
 		}
 		
@@ -191,11 +201,74 @@ public class MypageUserController {
 		}
 		
 		@GetMapping("/payments")
-		public ModelAndView userMypayments(ModelAndView mv) {
+		public ModelAndView userMypayments(ModelAndView mv,
+				@RequestParam(value="page", required=false, defaultValue="1") int currentPage,
+				HttpSession session) {
 			
-			mv.setViewName("mypage/user/payments");
+			if(session.getAttribute("loginUser") == null) {
+				mv.addObject("msg", "로그인이 필요합니다.");
+				mv.setViewName("mypage/admin/errorpage");
+				return mv;
+			}
 			
+			Member m = (Member) session.getAttribute("loginUser");
+			System.out.println("m.getId() : " + m.getId());
+			
+			// 친구개수
+			int listCount = mService.RListCountPayList(m);
+			System.out.println("결제 수: " + listCount);
+			
+			// 요청 페이지에 맞는 리스트 조회
+			FriendPageInfo pi = pagingFriend(currentPage, listCount, m.getId());
+			List<UserPaymentCol> list = mService.requestPayList(pi);	// 아직
+			System.out.println("읽어온 결제정보 : " + list);
+			
+			if(list != null) {
+				mv.addObject("list", list);
+				mv.addObject("pi", pi);
+				mv.setViewName("mypage/user/payments");
+			}else{
+				mv.addObject("msg", "조회에 실패하였습니다.");
+				mv.setViewName("mypage/admin/errorpage");
+			}
 			return mv;
+		}
+		// bcode를 받아서 update
+		@GetMapping("/payments/update")
+		public String userMypaymentsUpdate(ModelAndView mv,
+				@RequestParam(value="page", required=false, defaultValue="1") int currentPage,
+				@RequestParam(value="PBUYbcode", required=true) String bcode,
+				@RequestParam(value="paystatus", required=true) String paystatus,
+				HttpSession session) {
+			//객체에 값 저장하여 넘기기
+			String userid = ((Member)session.getAttribute("loginUser")).getId();
+			UserPaymentCol u = new UserPaymentCol();
+			Payment p = new Payment();
+			ProductBuy pb = new ProductBuy();
+			System.out.println("bcode : " + bcode);
+			System.out.println("paystatus : " + paystatus);
+			
+			p.setId(userid);
+			p.setPayStatus(paystatus);
+			pb.setBcode(Integer.parseInt(bcode));
+			u.setPayment(p);
+			u.setPbuy(pb);
+			System.out.println("객체 p : " + p);
+			System.out.println("객체 pb : " + pb);
+			System.out.println("객체 u : " + u);
+			
+			int result = mService.userMypaymentsUpdate(u);
+			
+			if(result > 0) {
+//				mv.addObject("pi", pi);
+//				mv.setViewName("mypage/user/payments");
+				return "redirect:/mypage/user/payments";
+			}else {
+//				mv.addObject("msg", "조회에 실패하였습니다.");
+				mv.setViewName("mypage/admin/errorpage");
+				session.setAttribute("msg", "조회에 실패하였습니다.");
+				return "redirect:/mypage/user/payments";
+			}
 		}
 		
 		//파일 저장 아직
@@ -234,7 +307,7 @@ public class MypageUserController {
 			return listCountResult;
 		}
 				
-		// 신고 페이징처리
+		// 친구 페이징처리
 		public FriendPageInfo pagingFriend(int currentPage, int listCount, String userId) {
 				FriendPageInfo pi = null;	// 페이지 정보를 담아 줄 PageInfo 참조변수 선언
 				
