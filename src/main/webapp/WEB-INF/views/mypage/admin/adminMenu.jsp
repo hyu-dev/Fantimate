@@ -16,27 +16,51 @@
 <title>Insert Agency</title>
 </head>
 <body>
+	 <!-- 메시지 -->
+	 <c:if test="${ !empty msg }">
+		 <c:choose>
+			 <c:when test="${ msg eq 'success'}">
+				<script>
+					alert("회원가입이 완료되었습니다!");
+					
+					$(document).ready(function() {
+						$(this).closest("#mypageAdminSignInWrap").fadeOut();
+						//$(this).fadeOut();
+						console.log("닫기버튼");
+					});
+				</script>
+			</c:when>
+			 <c:otherwise>
+			 	<script>
+				    alert("회원가입 실패!");
+			    </script>
+			 </c:otherwise>
+		</c:choose>
+	</c:if>
+	
+	
+		<c:if test="${ loginUser.classifyMem eq '4' }">
 	<div id="mypageAdminMenuDiv">
 		<!-- <h2 id="mypageUserContentDivTitle">My Subscribes</h2> -->
 		<h2>Menu</h2>
 		<ul>
 <%-- 			<li><a onclick="javascript:location.href='${contextPath}/mypage/admin/insertAgency' 'target=_blank'">소속사등록</a></li> --%>
-		<c:if test="${ loginUser.classifyMem eq '4' }">
 			<li id="insertAgency"><a>소속사등록</a></li>
-		</c:if>
 			<li><a onclick="javascript:location.href='${contextPath}/mypage/admin/report'">신고관리</a></li>
 			<li><a onclick="javascript:location.href='${contextPath}/notice/list'">공지사항</a></li>
 			<li><a onclick="javascript:location.href='${contextPath}/mypage/admin/management'">회원관리</a></li>
 			<li><a onclick="javascript:location.href='${contextPath}/mypage/admin/paylist'">결제내역</a></li>
 		</ul>
 	</div>
+		</c:if>
+	
 	<script>
 	$(document).ready(function(){
-		$("#mypageAdminMenuDiv li:eq(5)").click(function(){
-			console.log("정상클릭");
-			//alert(${loginUser});
-			//alert(Member(id=admin, pwd=1234, name=관리자, status=Y, signupDate=Tue Mar 30 17:29:18 KST 2021, classifyMem=4));
-		});
+// 		$("#mypageAdminMenuDiv li:eq(5)").click(function(){
+// 			console.log("정상클릭");
+// 			//alert(${loginUser});
+// 			//alert(Member(id=admin, pwd=1234, name=관리자, status=Y, signupDate=Tue Mar 30 17:29:18 KST 2021, classifyMem=4));
+// 		});
 		
 	});
 	</script>

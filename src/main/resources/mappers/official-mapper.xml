@@ -3,6 +3,7 @@
 PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="officialMapper">
+	<!-- 미디어 -->
 	<resultMap type="Official" id="mediaResultSet">
 		<id property="mediaNum" column="MEDIA_NUM"/>
 		<result property="mediaTtl" column="MEDIA_TTL"/>
@@ -13,12 +14,14 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<result property="cateCode" column="CATE_CODE"/>
 		<result property="mediaPay" column="MEDIA_PAY"/>
 	</resultMap>
+	<!-- 미디어 카테고리 -->
 	<resultMap type="Category" id="category">
 		<id property="cateCode" column="CATE_CODE"/>
 		<result property="cateName" column="CATE_NAME"/>
 		<result property="artiNameEn" column="ARTI_NAME_EN"/>
 	</resultMap>
-	<resultMap type="MediaFile" id="attachResultSet">
+	<!-- 미디어 파일 -->
+	<resultMap type="MediaFile" id="mediaFileResultSet">
 		<id property="attCode" column="ATT_CODE"/>
 		<result property="attRoot" column="ATT_ROOT"/>
 		<result property="vidClName" column="VID_CL_NAME"/>
@@ -28,24 +31,96 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<result property="picClName" column="PIC_CL_NAME"/>
 		<result property="picSvName" column="PIC_SV_NAME"/>
 	</resultMap>
+	<!-- 미디어 조회수 -->
 	<resultMap type="HitCount" id="hitCountResultSet">
 		<id property="mediaNum" column="MEDIA_NUM"/>
 		<result property="count" column="COUNT"/>
 		<result property="countDate" column="COUNT_DATE"/>
 	</resultMap>
+	<!-- 미디어 컬렉션 -->
+	<resultMap type="MediaCollection" id="mediaCollResultSet">
+		<collection property="official" resultMap="mediaResultSet"/>
+		<collection property="category" resultMap="category"/>
+		<collection property="mediaFile" resultMap="mediaFileResultSet"/>
+		<collection property="hitCount" resultMap="hitCountResultSet"/>
+	</resultMap>
+	<!-- 미디어 북마크 -->
+	<resultMap type="BookMark" id="bookMarkResultSet">
+		<id property="id" column="ID"/>
+		<result property="refId" column="BID"/>
+		<result property="bmCreate" column="BMCREATE"/>
+		<result property="bmstatus" column="BM_STATUS"/>
+	</resultMap>
+	
+	<!-- 스케줄 -->
 	<resultMap type="Schedule" id="scheduleResultSet">
 		<id property="artiNameEn" column="ARTI_NAME_EN"/>
 		<result property="scheDate" column="SCHE_DATE"/>
 		<result property="scheCtt" column="SCHE_CTT"/>
 		<result property="scheStatus" column="SCHE_STATUS"/>
 	</resultMap>
-	<resultMap type="MediaCollection" id="mediaCollResultSet">
-		<collection property="official" resultMap="mediaResultSet"/>
-		<collection property="category" resultMap="category"/>
-		<collection property="mediaFile" resultMap="attachResultSet"/>
-		<collection property="hitCount" resultMap="hitCountResultSet"/>
-	</resultMap>
 	
+	<!-- 댓글 -->
+	<resultMap type="Reply" id="replyResultSet">
+		<id property="rid" column="CMT_NUM"/>
+		<result property="rcontent" column="CMT_CTT"/>
+		<result property="rcreate" column="CMT_DATE"/>
+		<result property="rrcount" column="RPT_COUNT"/>
+		<result property="rstatus" column="CMT_STATUS"/>
+		<result property="refId" column="MEDIA_NUM"/>
+		<result property="writer" column="ID"/>
+		<result property="refRid" column="RE_CMT_NUM"/>
+		<result property="likeCount" column="LIKE_COUNT"/>
+	</resultMap>
+	<!-- 구독한 유저 정보 -->
+	<resultMap type="Subscribe" id="subscribe">
+		<id property="subCode" column="SUB_CODE"/>
+		<result property="uid" column="U_ID"/>
+		<result property="unickname" column="U_NICKNAME"/>
+		<result property="subStatus" column="SUB_STATUS"/>
+		<result property="artiname" column="ARTI_NAME_EN"/>
+	</resultMap>
+	<!-- 유저 프로필 -->
+	<resultMap type="Attachment" id="userAttachResultSet">
+		<id property="attCode" column="UP_CODE"/>
+		<result property="attRoot" column="UP_ROOT"/>
+		<result property="attClName" column="UP_CL_NAME"/>
+		<result property="attSvName" column="UP_SV_NAME"/>
+		<result property="attStatus" column="UP_STATUS"/>
+		<result property="id" column="U_ID"/>
+	</resultMap>
+	<!-- 아티스트 -->
+	<resultMap type="Artist" id="artistResultSet">
+		<id property="artiId" column="ARTI_ID"/>
+		<result property="artiName" column="ARTI_ONE_NAME"/>
+		<result property="artiNickname" column="NICKNAME"/>
+		<result property="artiFacebook" column="FACEBOOK"/>
+		<result property="artiInsta" column="INSTAGRAM"/>
+		<result property="artiTwitter" column="TWITTER"/>
+		<result property="artiDailymsg" column="DAILY_MSG"/>
+		<result property="isTeam" column="IS_TEAM"/>
+		<result property="agencyId" column="ID"/>
+		<result property="artiNameEn" column="ARTI_NAME_EN"/>
+	</resultMap>
+	<!-- 아티스트 프로필 -->
+	<resultMap type="Attachment" id="artiAttachResultSet">
+		<id property="attCode" column="ATT_CODE"/>
+		<result property="attRoot" column="ATT_ROOT"/>
+		<result property="attClName" column="ATT_CL_NAME"/>
+		<result property="attSvName" column="ATT_SV_NAME"/>
+		<result property="attStatus" column="ATT_STATUS"/>
+		<result property="id" column="ARTI_ID"/>
+	</resultMap>
+	<!-- 댓글 컬렉션 -->
+	<resultMap type="ReplyCollection" id="replyCollResultSet">
+		<collection property="reply" resultMap="replyResultSet"/>
+		<collection property="subscribe" resultMap="subscribe"/>
+		<collection property="artist" resultMap="artistResultSet"/>
+		<collection property="artiAttach" resultMap="artiAttachResultSet"/>
+		<collection property="userAttach" resultMap="userAttachResultSet"/>
+	</resultMap>
+
+	<!-- 미디어 개수 조회하기 -->
 	<select id="countMedia" parameterType="string" resultType="int">
 	SELECT 
 	       COUNT(*)
@@ -57,6 +132,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	       ARTI_NAME_EN = #{artiNameEn}
 	</select>
 	
+	<!-- 미디어 전체 리스트 호출을 위한 카테고리 선택 -->
 	<select id="selectCategory" parameterType="string" resultMap="category">
 	SELECT 
 	       CATE_CODE
@@ -68,6 +144,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	       ARTI_NAME_EN = #{artiNameEn}
 	</select>
 	
+	<!-- 미디어 전체 리스트 호출 -->
 	<select id="selectAllMediaList" parameterType="string" resultMap="mediaCollResultSet">	
 	SELECT 
 	       MEDIA_NUM
@@ -103,6 +180,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	       MEDIA_DATE DESC
 	</select>
 	
+	<!-- 업로드 최신순으로 4개의 미디어 리스트 호출 -->
 	<select id="selectNewMediaList" parameterType="string" resultMap="mediaCollResultSet">
 	SELECT 
 		   *
@@ -147,6 +225,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
            ROWNUM &lt; 5
 	</select>
 	
+	<!--  
 	<select id="checkMediaPay" parameterType="_int" resultMap="mediaResultSet">
 	SELECT 
 	       MEDIA_NUM
@@ -162,7 +241,9 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	 WHERE
 	       MEDIA_NUM = #{mediaNum}
 	</select>
+	-->
 	
+	<!-- 장바구니에 해당 미디어 추가(유료) -->
 	<insert id="insertCart" parameterType="Cart">
 	INSERT
 	  INTO CART
@@ -191,6 +272,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	       )
 	</insert>
 	
+	<!-- 해당 검색어가 포함된 미디어 리스트 호출 -->
 	<select id="searchMediaList" parameterType="hashMap" resultMap="mediaCollResultSet">
 	SELECT 
 	       MEDIA_NUM
@@ -234,6 +316,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	       MEDIA_DATE DESC
 	</select>
 	
+	<!-- 해당 카테고리 미디어 리스트 호출 -->
 	<select id="selectMediaList" parameterType="hashMap" resultMap="mediaCollResultSet">
 	SELECT 
 	       MEDIA_NUM
@@ -271,6 +354,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	       MEDIA_DATE DESC	
 	</select>
 	
+	<!-- 해당 카테고리 미디어 개수 조회하기 -->
 	<select id="countCategory" parameterType="hashMap" resultType="int">
     SELECT 
 	       COUNT(*)
@@ -284,6 +368,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	       ARTI_NAME_EN = #{artiName}
 	</select>
 	
+	<!-- 클릭한 미디어 호출 -->
 	<select id="selectMedia" parameterType="hashMap" resultMap="mediaCollResultSet">
 	SELECT 
 	       MEDIA_NUM
@@ -307,11 +392,11 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		 , COUNT_DATE
 	  FROM 
 	       MEDIA
-      JOIN
+ LEFT JOIN
            M_CATEGORY USING(CATE_CODE)
-	  JOIN
+ LEFT JOIN
 	       MD_FILE USING(MEDIA_NUM)
-	  JOIN
+ LEFT JOIN
 	  	   MD_COUNT USING(MEDIA_NUM)
 	 WHERE
 	 	   MEDIA_NUM = #{mediaNum}
@@ -323,6 +408,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	       ATT_STATUS = 'Y'
 	</select>
 	
+	<!-- 클릭한 미디어 조회수 추가 -->
 	<update id="updateHitCount" parameterType="_int">
      MERGE 
       INTO 
@@ -342,5 +428,113 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
            (COUNT, COUNT_DATE, MEDIA_NUM)
     VALUES 
            (DEFAULT, SYSDATE, #{mediaNum})
+	</update>
+	
+	<!-- 북마크 여부 확인 -->
+	<select id="selectBookMark" parameterType="_int" resultMap="bookMarkResultSet">
+	SELECT
+	       BM_STATUS
+	     , BM_DATE
+	     , ID
+	     , MEDIA_NUM
+	  FROM
+	       MD_BMARK
+	 WHERE
+	       MEDIA_NUM = #{mediaNum}
+	</select>
+	
+	<!-- 댓글 개수 조회하기 -->
+	<select id="countReply" parameterType="_int" resultType="int">
+	SELECT 
+	       COUNT(*)
+	  FROM 
+	       MD_CMT
+	 WHERE
+	       MEDIA_NUM = #{mediaNum}	
+	</select>
+	
+	<!-- 댓글 리스트 호출 -->
+	<select id="selectReplyList" parameterType="hashMap" resultMap="replyCollResultSet">
+	SELECT
+           CMT_NUM
+         , CMT_CTT
+         , CMT_DATE
+         , RPT_COUNT
+         , CMT_STATUS
+         , A.ID
+         , RE_CMT_NUM
+         , MEDIA_NUM
+         , LIKE_COUNT
+         , B.NICKNAME
+         , C.U_NICKNAME
+         , D.UP_SV_NAME
+         , E.ATT_SV_NAME
+	  FROM
+	       MD_CMT A
+ LEFT JOIN
+           ART_PERSON B ON(A.ID = B.ARTI_ID)
+ LEFT JOIN
+           ATT_SUBSCRIBE C ON(A.ID = C.U_ID)
+ LEFT JOIN
+           USER_PROFILE D ON(A.ID = D.U_ID)
+ LEFT JOIN
+           ART_PIC E ON(A.ID = E.ARTI_ID)
+	 WHERE
+	       MEDIA_NUM = #{mediaNum}
+	   AND
+          (
+           B.ARTI_NAME_EN = #{artiName} 
+        OR
+           C.ARTI_NAME_EN = #{artiName}
+          )
+       AND
+          (
+           E.ATT_STATUS = 'Y'
+        OR
+           D.UP_STATUS = 'Y'
+           )
+       AND
+           A.CMT_STATUS = 'Y'
+  ORDER BY
+           CMT_DATE DESC
+	</select>
+	
+	<!-- 새 댓글 입력 -->
+	<insert id="insertReply" parameterType="Reply">
+    INSERT
+	  INTO MD_CMT
+	      (
+	       CMT_NUM
+         , CMT_CTT
+         , CMT_DATE
+         , RPT_COUNT
+         , CMT_STATUS
+         , ID
+         , RE_CMT_NUM
+         , MEDIA_NUM
+         , LIKE_COUNT
+	       )
+	VALUES
+	      (
+	       SEQ_MD_CMT.NEXTVAL
+	     , #{rcontent}
+	     , SYSDATE
+	     , DEFAULT
+	     , DEFAULT
+	     , #{writer}
+	     , NULL
+	     , #{refId}
+	     , 0
+	       )	
+	</insert>
+	
+	<!-- 댓글 삭제 -->
+	<update id="deleteReply" parameterType="_int">
+	UPDATE 
+		   MD_CMT
+	   SET
+	       CMT_STATUS = 'N'
+     WHERE
+           CMT_NUM = #{rid}
 	</update>
 </mapper>

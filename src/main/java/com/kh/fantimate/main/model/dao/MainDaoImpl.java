@@ -1,6 +1,7 @@
 package com.kh.fantimate.main.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,10 +9,14 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.fantimate.common.model.vo.Alarm;
 import com.kh.fantimate.common.model.vo.Attachment;
+import com.kh.fantimate.common.model.vo.Friend;
 import com.kh.fantimate.common.model.vo.Message;
 import com.kh.fantimate.common.model.vo.Report;
+import com.kh.fantimate.main.model.vo.FeedTopNineCollection;
 import com.kh.fantimate.main.model.vo.FriendCollection;
 import com.kh.fantimate.main.model.vo.MainCollection;
+import com.kh.fantimate.main.model.vo.MediaTopNineCollection;
+import com.kh.fantimate.main.model.vo.StoreTopNineCollection;
 import com.kh.fantimate.main.model.vo.SubscribeArtist;
 import com.kh.fantimate.member.model.vo.Member;
 
@@ -143,9 +148,49 @@ public class MainDaoImpl implements MainDao{
 		
 		return sqlSession.selectList("mainMapper.selectFriendMsg",user);
 	}
-	
-	
-	
+
+	@Override
+	public List<FeedTopNineCollection> selectFeedTopNineCollection(String user) {
+		
+		return sqlSession.selectList("mainMapper.selectFeedTopNine",user);
+	}
+
+	@Override
+	public List<MediaTopNineCollection> selectMediaTopCollection(String user) {
+		
+		return sqlSession.selectList("mainMapper.selectMediaTopNine",user);
+	}
+
+	@Override
+	public List<StoreTopNineCollection> selectStoreTopCollection(String user) {
+		
+		return sqlSession.selectList("mainMapper.selectStoreTopNine",user);
+	}
+
+	@Override
+	public int updateAcceptFriend(Friend fr) {
+		
+		return sqlSession.update("mainMapper.updateAcceptFriend",fr);
+	}
+
+	@Override
+	public int updateDeclineFriend(Friend fr) {
+		
+		return sqlSession.update("mainMapper.updateDeclineFriend",fr);
+	}
+
+	@Override
+	public int insertAlarmF(Map<String, String> map) {
+		
+		return sqlSession.insert("mainMapper.insertAlarmF",map);
+	}
+
+	@Override
+	public int updateAlarmStatus(int alCode) {
+		
+		return sqlSession.update("mainMapper.updateAlarmStatus",alCode);
+	}
+
 	
 	
 	

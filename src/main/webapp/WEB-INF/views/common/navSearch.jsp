@@ -96,10 +96,29 @@
 </script>
 </head>
 <body>
-	<c:if test="${ !empty msg }">
-		<script>alert('${msg}');</script>
-		<c:remove var="msg"/>
+	<!-- 메시지 -->
+	 <c:if test="${ !empty msg }">
+		 <c:choose>
+			 <c:when test="${ msg eq 'accept'}">
+			 	<script>
+				    alert("친구를 수락하셨습니다!");
+				    location.href="${ contextPath }";
+			    </script>
+			 </c:when>
+			 <c:when test="${ msg eq 'decline'}">
+			 	<script>
+			 		alert("친구를 거절하셨습니다!");
+			 		location.href="${ contextPath }";
+			 	</script>
+			 </c:when>
+			 <c:otherwise>
+			 	<script>
+				    alert("친구 수락, 또는 거절 실패!");
+			    </script>
+			 </c:otherwise>
+		</c:choose>
 	</c:if>
+	
 	
 	<header class="main-header">
         <nav class="main-nav">
@@ -114,7 +133,7 @@
 		                    	<label for="check"><img src="${ contextPath }/resources/icon/search-icon.svg" alt="" class="nav-icon"></label>
 		                </div>
 		                <!-- 회원가입 버튼 생성전 예시 -->
-		                <img src="${ contextPath }/resources/icon/user.svg" alt="" class="nav-icon">
+		                <img src="${ contextPath }/resources/icon/user.svg" alt="" class="nav-icon" onclick="location.href='${ contextPath }/mypage/artist/feed'">
 		                <img src="${ contextPath }/resources/icon/alarm.svg" alt="" class="nav-icon" id="alarm-icon" onclick="alarmPage()">
 		                <!-- 알람 갯수 카운트 -->
 		                <div id="alarmCount">
@@ -273,7 +292,33 @@
 					
 				for(var i in data){
 					
-					alarmList.append("<li class='alarm-content'>"+ data[i].alContent +"<p class='alarm-time'></p></li>");
+					if(data[i].refAlCode == 16){
+						var sendId = data[i].alContent.substr(0,data[i].alContent.indexOf("님"));
+						alarmList.append("<li class='alarm-content'>"+ data[i].alContent +"<p class='alarm-time'></p><button id='acceptBtn' onclick='acceptFriend(" + data[i].alCode + "," + "\"" + sendId + "\"" + ")'>"+"수락"+"</button><button id='noBtn' onclick='declineFriend(" + data[i].alCode + "," + "\"" + sendId + "\"" + ")'>"+"거절"+"</button></li>");
+					} else if(data[i].refAlCode == 2 || data[i].refAlCode == 3){
+						// 팬피드 디테일 
+						alarmList.append("<li class='alarm-content' onclick='fanFeed(" + data[i].ref_id + ")'>"+ data[i].alContent +"<p class='alarm-time'></p></li>");
+					} else if (data[i].refAlCode == 1){
+						// 아티스트피드 디테일 
+						alarmList.append("<li class='alarm-content' onclick='artistFeed(" + data[i].ref_id + ")'>"+ data[i].alContent +"<p class='alarm-time'></p></li>");
+					} else if(data[i].refAlCode == 6 || data[i].refAlCode == 7 || data[i].refAlCode == 11 || data[i].refAlCode == 13 || data[i].refAlCode == 14 || data[i].refAlCode == 15){
+						// 신고 디테일
+						alarmList.append("<li class='alarm-content' onclick='reportDetail()'>"+ data[i].alContent +"<p class='alarm-time'></p></li>");
+					} else if(data[i].refAlCode == 10){
+						// 오피셜 디테일
+						alarmList.append("<li class='alarm-content' onclick='mediaDetail(" + data[i].ref_id + ")'>"+ data[i].alContent +"<p class='alarm-time'></p></li>");
+					} else if(data[i].refAlCode == 9){
+						// 오피셜 스케줄 등록
+						alarmList.append("<li class='alarm-content' onclick='schedule(" + data[i].ref_id + ")'>"+ data[i].alContent +"<p class='alarm-time'></p></li>");
+					} else if (data[i].refAlCode == 12){
+						// 팬스토어 상세페이지
+						alarmList.append("<li class='alarm-content' onclick='fanStore(" + data[i].ref_id + ")'>"+ data[i].alContent +"<p class='alarm-time'></p></li>");
+					} else if(data[i].refAlCode == 18){
+						// 공지사항 상세페이지
+						alarmList.append("<li class='alarm-content' onclick='notice(" + data[i].ref_id + ")'>"+ data[i].alContent +"<p class='alarm-time'></p></li>");
+					} else {
+						alarmList.append("<li class='alarm-content'>"+ data[i].alContent +"<p class='alarm-time'></p></li>");
+					}
 					
 					// 현재 시간 가져옴
 					var now = new Date();
@@ -322,7 +367,44 @@
 		});  	
     }
     
+    function acceptFriend(alCode,sendId){
+		location.href='${contextPath}/main/acceptFriend?alCode=' + alCode + "&sendId=" + sendId;
+    }
     
+    function declineFriend(alCode,sendId){
+		location.href='${contextPath}/main/declineFriend?alCode=' + alCode + "&sendId=" + sendId;
+    }
+    
+    function fanFeed(refId){
+    	// refId 추후 수정 
+		location.href='${contextPath}/fanfeed/detail?refId=' + refId;
+    }
+    
+    function artistFeed(refId){
+    	// refId 추후 수정 
+		location.href='${contextPath}/artistfeed/detail?refId=' + refId;
+    }
+    
+    function reportDetail(){
+		location.href='${contextPath}/mypage/admin/report';
+    }
+    
+    function mediaDetail(mediaNum){
+		location.href='${contextPath}/official/detail?mediaNum=' + mediaNum;
+    }
+    
+    function schedule(){
+    	// 추후 수정 
+		location.href='${contextPath}/official/detail?mediaNum=' + mediaNum;
+    }
+    
+    function fanStore(fcode){
+		location.href='${contextPath}/fanStore/detail?fcode=' + fcode;
+    }
+    
+    function notice(nid){
+		location.href='${contextPath}/notice/detail?nid=' + nid;
+    }
     </script>
     
     <!-- 알람 카운트 ajax -->
@@ -736,7 +818,8 @@
                 <ul class="etc-area">
                     <li class="etc-content" id="langSetting" onclick="langSetting()">언어 설정</li>
                     <c:if test="${ loginUser.classifyMem eq 1}">
-                    	<li class="etc-content" id="fanStore">팬 스토어</li>
+                    	<li class="etc-content" id="fanStore" onclick="location.href='${ contextPath }/fanStore/list'">팬 스토어</li>
+                    	<li class="etc-content" id="payPlan" onclick="location.href='${ contextPath }/Pay/plan'">요금 플랜</li>
                     </c:if>
                     <li class="etc-content" id="notice" onclick="location.href='${ contextPath }/notice/list'">공지사항</li>
                     <li class="etc-content" id="logout" onclick="location.href='${ contextPath }/member/logout'">로그아웃</li>

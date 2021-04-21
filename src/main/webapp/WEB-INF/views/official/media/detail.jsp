@@ -31,228 +31,339 @@
                     controls="controls" poster="${ contextPath }/resources/images/official/${ media.mediaFile.picSvName }"></video>
                     <div class="media-main">
                         <textarea class="media-content nanumsquare" style="resize:none;">${ media.official.mediaCtt }</textarea>
+                        <c:choose>
+                        <c:when test="${ bmark eq null }">
                         <img id="bookMark" src="${ contextPath }/resources/images/official/bookmark.svg" style="width: 30px; height: 30px;">
+                        </c:when>
+                        <c:otherwise>
+                        <img id="bookMark" src="${ contextPath }/resources/images/official/bookmark-black.svg" style="width: 30px; height: 30px;">
+                        </c:otherwise>
+                        </c:choose>
                         <div class="media-info">
-                            <span>댓글</span>&nbsp;<span>1000</span>&nbsp;
+                            <span>댓글</span>&nbsp;<span>${ rcount }</span>&nbsp;
                             <select class="comment-category">
                                 <option>&nbsp;최신순</option>
                                 <option>&nbsp;인기순</option>
                             </select>
-                            <input type="checkbox" id="myComment" name="myComment" value="myComment" checked>
+                            <input type="checkbox" id="myComment" name="myComment" value="myComment">
                             <label for="myComment">내 댓글만</label>
-                            <span id="watchingCount" class="watching-count">${ media.hitCount.count }</span><span class="watching-count">조회수&nbsp;</span>
+                            <span class="watching-count">${ media.hitCount.count }</span><span class="watching-count">조회수&nbsp;</span>
                         </div>
                     </div>
                 </div>
                 <div class="media-lower">
                     <div class="comment-container">
                         <div class="comment-area">
-                            <textarea id="comment" class="nanumsquare" style="resize: none;" rows="1">댓글을 입력하세요.</textarea>
+                            <textarea class="comment nanumsquare" style="resize: none;" rows="1">댓글을 입력하세요.</textarea>
                         </div>&nbsp;&nbsp;&nbsp;
                         <img class="send-btn" src="${ contextPath }/resources/images/official/send.svg">
                     </div>
-                    <!-- 원댓글 -->
                     <table class="original-comment">
                         <colgroup>
                             <col width="5%"/>
                             <col width="95%"/>
                         </colgroup>
-                        <tr class="comment-line">
-                            <td>
-                                <div class="profile-bubble">
-                                    <p>프로필 보기</p>
-                                    <p>피드로 이동</p>
-                                </div>
-                                <img class="profile-picture" src="${ contextPath }/resources/images/official/뷔_프로필.jpg">
-                            </td>
-                            <td>
-                                <div class="comment-box">
-                                    <div id="artist-comment" class="comment-main comment-center nanumsquare">
-                                        <div>
-                                            <span class="comment-name">뷔</span>
-                                            <div class="comment-content">
-                                                영상 재밌게 보셨나요?
-                                            </div>
-                                        </div>
-                                        <span class="re-commentBtn">답글 열기</span>
-                                    </div>
-                                    <div class="comment-etc">···
-                                        <div class="comment-bubble">
-                                            <p class="add-comment">답글 달기</p>
-                                            <p>댓글 신고</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="comment-info comment-center nanumsquare">
-                                    <img class="likeBtn" src="${ contextPath }/resources/images/official/like.svg">
-                                    <span class="like-count">1,000</span><span class="comment-date">2021.03.08</span>
-                                </div>
-                                <div class="comment-toggle">
-                                    <div class="re-comment-container">
-                                        <div class="comment-area">
-                                            <textarea class="nanumsquare" style="resize: none;" rows="1">댓글을 입력하세요.</textarea>
-                                        </div>&nbsp;&nbsp;&nbsp;
-                                        <img class="re-send-btn" src="${ contextPath }/resources/images/official/send.svg">
-                                    </div>
-                                </div>
-                                <!-- 대댓글 -->
-                                <table class="re-comment">
-                                    <colgroup>
-                                        <col width="5%"/>
-                                        <col width="95%"/>
-                                    </colgroup>
-                                    <tr class="comment-line">
-                                        <td>
-                                            <div class="re-profile-bubble">
-                                                <p>친구 신청</p>
-                                                <p>쪽지 보내기</p>
-                                            </div>
-                                            <img class="re-profile-picture" src="${ contextPath }/resources/images/official/noPicture.png">
-                                        </td>
-                                        <td>
-                                            <div class="comment-box">
-                                                <div class="comment-main comment-center nanumsquare">
-                                                    <div>
-                                                        <span class="comment-name">뷔바라기</span>
-                                                        <div class="comment-content">
-                                                            당연하죠. 완전 꿀잼ㅠㅠㅠㅠㅠ
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="re-comment-etc">···
-                                                    <div class="re-comment-bubble">
-                                                        <p>댓글 신고</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="re-comment-info comment-center nanumsquare">
-                                                <img class="likeBtn" src="${ contextPath }/resources/images/official/like.svg">
-                                                <span class="like-count">10</span><span class="comment-date">2021.03.08</span>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </td>
-                        </tr>
-                        <tr class="comment-line">
-                            <td>
-                                <div class="profile-bubble">
-                                    <p>피드로 이동</p>
-                                    <p>쪽지 보내기</p>
-                                </div>
-                                <img class="profile-picture" src="${ contextPath }/resources/images/official/스마일.jpg">
-                            </td>
-                            <td>
-                                <div class="comment-box">
-                                    <div class="comment-main comment-center nanumsquare">
-                                        <div>
-                                            <span class="comment-name">방탄1호팬</span>
-                                            <div class="comment-content">
-                                                풀영상 기대하고 있어요!!
-                                                <br>완전 기대
-                                                <br>또 뭐가 있나요??
-                                            </div>
-                                        </div>
-                                        <span class="re-commentBtn">답글 열기</span>
-                                    </div>
-                                    <div class="comment-etc">···
-                                        <div class="comment-bubble">
-                                            <p class="add-comment">답글 달기</p>
-                                            <p>댓글 신고</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="comment-info comment-center nanumsquare">
-                                    <img class="likeBtn" src="${ contextPath }/resources/images/official/like.svg">
-                                    <span class="like-count">100</span><span class="comment-date">2021.03.08</span>
-                                </div>
-                                <div class="comment-toggle">
-                                    <div class="re-comment-container">
-                                        <div class="comment-area">
-                                            <textarea class="nanumsquare" style="resize: none;" rows="1">댓글을 입력하세요.</textarea>
-                                        </div>&nbsp;&nbsp;&nbsp;
-                                        <img class="re-send-btn" src="${ contextPath }/resources/images/official/send.svg">
-                                    </div>
-                                </div>
-                                <!-- 대댓글 -->
-                                <table class="re-comment">
-                                    <colgroup>
-                                        <col width="5%"/>
-                                        <col width="95%"/>
-                                    </colgroup>
-                                    <tr class="comment-line">
-                                        <td>
-                                            <div class="re-profile-bubble">
-                                                <p>친구 신청</p>
-                                                <p>쪽지 보내기</p>
-                                            </div>
-                                            <img class="re-profile-picture" src="${ contextPath }/resources/images/official/noPicture.png">
-                                        </td>
-                                        <td>
-                                            <div class="comment-box">
-                                                <div class="comment-main comment-center nanumsquare">
-                                                    <div>
-                                                        <span class="comment-name">뷔바라기</span>
-                                                        <div class="comment-content">
-                                                            저두요ㅎㅎ
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="re-comment-etc">···
-                                                    <div class="re-comment-bubble">
-                                                        <p>댓글 신고</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="re-comment-info comment-center nanumsquare">
-                                                <img class="likeBtn" src="${ contextPath }/resources/images/official/like.svg">
-                                                <span class="like-count">10</span><span class="comment-date">2021.03.08</span>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </td>
-                        </tr>
-                        <tr class="comment-line">
-                            <td>
-                                <div class="profile-bubble">
-                                    <p>피드로 이동</p>
-                                    <p>쪽지 보내기</p>
-                                </div>
-                                <img class="profile-picture" src="${ contextPath }/resources/images/official/스마일.jpg">
-                            </td>
-                            <td>
-                                <div class="comment-box">
-                                    <div class="comment-main comment-center nanumsquare">
-                                        <div>
-                                            <span class="comment-name">불타오르네</span>
-                                            <div class="comment-content">
-                                                풀영상 기대하고 있어요!!
-                                            </div>
-                                        </div>
-                                        <span class="re-commentBtn">답글 열기</span>
-                                    </div>
-                                    <div class="comment-etc">···
-                                        <div class="comment-bubble">
-                                            <p class="add-comment">답글 달기</p>
-                                            <p>댓글 신고</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="comment-info comment-center nanumsquare">
-                                    <img class="likeBtn" src="${ contextPath }/resources/images/official/like.svg">
-                                    <span class="like-count">100</span><span class="comment-date">2021.03.08</span>
-                                </div>
-                                <div class="comment-toggle">
-                                    <div class="re-comment-container">
-                                        <div class="comment-area">
-                                            <textarea class="nanumsquare" style="resize: none;" rows="1">댓글을 입력하세요.</textarea>
-                                        </div>&nbsp;&nbsp;&nbsp;
-                                        <img class="re-send-btn" src="${ contextPath }/resources/images/official/send.svg">
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
+                        <c:forEach var="c" items="${ comment }">
+                        <c:if test="${ c.reply.refRid eq '' }">
+	                        <c:choose>
+	                        <c:when test="${ c.artist.artiNickname ne null }">
+	                        <tr class="comment-line">
+	                            <td>
+	                            	<c:if test="${ loginUser.id ne c.reply.writer }">
+	                                <div class="profile-bubble">
+	                                    <p>프로필 보기</p>
+	                                    <p>피드로 이동</p>
+	                                </div>
+	                                </c:if>
+	                                <img class="profile-picture" src="${ contextPath }/resources/images/member/${ c.artiAttach.attSvName }">
+	                            </td>
+	                            <td>
+	                                <div class="comment-box">
+	                                    <div class="artist-comment comment-main comment-center nanumsquare">
+	                                        <div>
+	                                            <span class="comment-name">${ c.artist.artiNickname }</span>
+	                                            <div class="comment-content">${ c.reply.rcontent }</div>
+	                                        </div>
+							                <c:set var="check" value="N"/>
+						                    <c:forEach var="r" items="${ comment }">
+						                	<c:if test="${ r.reply.refRid eq c.reply.rid }">
+						                	<c:set var="check" value="Y"/>
+						                	</c:if>
+						                	</c:forEach>
+						                	<c:if test="${ check eq 'Y' }">
+	                                        <span class="re-commentBtn">답글 열기</span>
+	                                        </c:if>
+	                                    </div>
+	                                    <div class="comment-etc">···
+	                                        <div class="comment-bubble">
+	                                        	<c:choose>
+	                                        	<c:when test="${ loginUser.id ne c.reply.writer }">
+	                                            <p class="add-comment">답글 달기</p>
+	                                            </c:when>
+	                                            <c:when test="${ loginUser.id eq c.reply.writer }">
+	                                            <p class="add-comment">답글 달기</p>
+	                                            <p class="delete-comment" onclick="deleteComment(${ c.reply.rid })">댓글 삭제</p>
+	                                            </c:when>
+	                                            </c:choose>
+	                                        </div>
+	                                    </div>
+	                                </div>
+	                                <div class="comment-info comment-center nanumsquare">
+	                                    <img class="likeBtn" src="${ contextPath }/resources/images/official/like.svg">
+	                                    <span class="like-count">${ c.reply.likeCount }</span><span class="comment-date">${ c.reply.rcreate }</span>
+	                                </div>
+	                                <div class="comment-toggle">
+	                                    <div class="re-comment-container">
+	                                        <div class="comment-area">
+	                                            <textarea class="comment nanumsquare" style="resize: none;" rows="1">댓글을 입력하세요.</textarea>
+	                                        </div>&nbsp;&nbsp;&nbsp;
+	                                        <img class="re-send-btn" src="${ contextPath }/resources/images/official/send.svg">
+	                                    </div>
+	                                </div>
+	                                <table class="re-comment">
+	                                    <colgroup>
+	                                        <col width="5%"/>
+	                                        <col width="95%"/>
+	                                    </colgroup>
+	                                    <c:forEach var="r" items="${ comment }">
+	                                    <c:if test="${ r.reply.refRid ne '' && (r.reply.refRid eq c.reply.rid) }">
+	                                    	<c:choose>
+		                                    <c:when test="${ r.artist.artiNickname ne null }">
+		                                    <tr class="comment-line">
+		                                        <td>
+					                            	<c:if test="${ loginUser.id ne r.reply.writer }">
+					                                <div class="re-profile-bubble">
+					                                    <p>프로필 보기</p>
+					                                    <p>피드로 이동</p>
+					                                </div>
+					                                </c:if>
+		                                            <img class="re-profile-picture" src="${ contextPath }/resources/images/member/${ r.artiAttach.attSvName }">
+		                                        </td>
+		                                        <td>
+		                                            <div class="comment-box">
+		                                                <div class="artist-comment comment-main comment-center nanumsquare">
+		                                                    <div>
+		                                                        <span class="comment-name">${ r.artist.artiNickname }</span>
+		                                                        <div class="comment-content">${ r.reply.rcontent }</div>
+		                                                    </div>
+		                                                </div>
+		                                                <div class="re-comment-etc">···
+					                                        <c:if test="${ loginUser.id eq r.reply.writer }">
+		                                                    <div class="re-comment-bubble">
+					                                            <p class="delete-comment" onclick="deleteComment(${ r.reply.rid })">댓글 삭제</p>
+		                                                    </div>
+					                                        </c:if>
+		                                                </div>
+		                                            </div>
+		                                            <div class="re-comment-info comment-center nanumsquare">
+		                                            	<c:if test="${ like eq null }">
+		                                                <img class="likeBtn" src="${ contextPath }/resources/images/official/like.svg">
+		                                                </c:if>
+		                                                <c:if test="${ like ne null }">
+		                                                <img class="likeBtn" src="${ contextPath }/resources/images/official/like-black.svg">
+		                                                </c:if>
+		                                                <span class="like-count">${ r.reply.likeCount }</span><span class="comment-date">${ r.reply.rcreate }</span>
+		                                            </div>
+		                                        </td>
+		                                    </tr>
+		                                    </c:when>
+		                                    <c:otherwise>
+		                                    <tr class="comment-line">
+		                                        <td>
+					                            	<c:if test="${ loginUser.id ne r.reply.writer }">
+					                                <div class="re-profile-bubble">
+					                                    <p>프로필 보기</p>
+					                                    <p>쪽지 보내기</p>
+					                                </div>
+					                                </c:if>
+		                                            <img class="re-profile-picture" src="${ contextPath }/resources/images/account/${ r.userAttach.attSvName }">
+		                                        </td>
+		                                        <td>
+		                                            <div class="comment-box">
+		                                                <div class="re-user-comment comment-main comment-center nanumsquare">
+		                                                    <div>
+		                                                        <span class="comment-name">${ r.subscribe.unickname }</span>
+		                                                        <div class="comment-content">${ r.reply.rcontent }</div>
+		                                                    </div>
+		                                                </div>
+		                                                <div class="re-comment-etc">···
+		                                                    <div class="re-comment-bubble">
+					                                        	<c:choose>
+					                                            <c:when test="${ loginUser.id ne r.reply.writer }">
+					                                            <p>댓글 신고</p>
+					                                            </c:when>
+					                                            <c:when test="${ loginUser.id eq r.reply.writer }">
+					                                            <p class="delete-comment" onclick="deleteComment(${ r.reply.rid })">댓글 삭제</p>
+					                                            </c:when>
+					                                            </c:choose>
+		                                                    </div>
+		                                                </div>
+		                                            </div>
+		                                            <div class="re-comment-info comment-center nanumsquare">
+		                                            	<c:if test="${ like eq null }">
+		                                                <img class="likeBtn" src="${ contextPath }/resources/images/official/like.svg">
+		                                                </c:if>
+		                                                <c:if test="${ like ne null }">
+		                                                <img class="likeBtn" src="${ contextPath }/resources/images/official/like-black.svg">
+		                                                </c:if>
+		                                                <span class="like-count">10</span><span class="comment-date">${ r.reply.rcreate }</span>
+		                                            </div>
+		                                        </td>
+		                                    </tr>
+		                                    </c:otherwise>
+		                                    </c:choose>
+	                                    </c:if>
+	                                    </c:forEach>
+	                                </table>
+	                            </td>
+	                        </tr>
+	                        </c:when>
+	                        <c:otherwise>
+	                          <tr class="comment-line">
+	                            <td>
+	                                <c:if test="${ loginUser.id ne c.reply.writer }">
+	                                <div class="profile-bubble">
+	                                    <p>피드로 이동</p>
+	                                    <p>쪽지 보내기</p>
+	                                </div>
+	                                </c:if>
+	                                <img class="profile-picture" src="${ contextPath }/resources/images/account/${ c.userAttach.attSvName }">
+	                            </td>
+	                            <td>
+	                                <div class="comment-box">
+	                                    <div class="user-comment comment-main comment-center nanumsquare">
+	                                        <div>
+	                                            <span class="comment-name">${ c.subscribe.unickname }</span>
+	                                            <div class="comment-content">${ c.reply.rcontent }</div>
+	                                        </div>
+	                                        <c:set var="check" value="N"/>
+						                    <c:forEach var="r" items="${ comment }">
+						                	<c:if test="${ r.reply.refRid eq c.reply.rid }">
+						                	<c:set var="check" value="Y"/>
+						                	</c:if>
+						                	</c:forEach>
+						                	<c:if test="${ check eq 'Y' }">
+	                                        <span class="re-commentBtn">답글 열기</span>
+	                                        </c:if>
+	                                    </div>
+	                                    <div class="comment-etc">···
+	                                        <div class="comment-bubble">
+	                                        	<c:choose>
+	                                            <c:when test="${ loginUser.id ne c.reply.writer }">
+	                                            <p class="add-comment">답글 달기</p>
+	                                            <p>댓글 신고</p>
+	                                            </c:when>
+	                                            <c:when test="${ loginUser.id eq c.reply.writer }">
+	                                            <p class="add-comment">답글 달기</p>
+	                                            <p class="delete-comment" onclick="deleteComment(${ c.reply.rid })">댓글 삭제</p>
+	                                            </c:when>
+	                                            </c:choose>
+	                                        </div>
+	                                    </div>
+	                                </div>
+	                                <div class="comment-info comment-center nanumsquare">
+	                                    <img class="likeBtn" src="${ contextPath }/resources/images/official/like.svg">
+	                                    <span class="like-count">${ c.reply.likeCount }</span><span class="comment-date">${ c.reply.rcreate }</span>
+	                                </div>
+	                                <div class="comment-toggle">
+	                                    <div class="re-comment-container">
+	                                        <div class="comment-area">
+	                                            <textarea class="comment nanumsquare" style="resize: none;" rows="1">댓글을 입력하세요.</textarea>
+	                                        </div>&nbsp;&nbsp;&nbsp;
+	                                        <img class="re-send-btn" src="${ contextPath }/resources/images/official/send.svg">
+	                                    </div>
+	                                </div>
+	                                <table class="re-comment">
+	                                    <colgroup>
+	                                        <col width="5%"/>
+	                                        <col width="95%"/>
+	                                    </colgroup>
+	                                    <c:forEach var="r" items="${ comment }">
+	                                    <c:if test="${ r.reply.refRid ne '' && r.reply.refRid eq c.reply.rid }">
+		                                    <c:choose>
+		                                    <c:when test="${ r.artist.artiNickname ne null }">
+		                                    <tr class="comment-line">
+		                                        <td>
+					                            	<c:if test="${ loginUser.id ne r.reply.writer }">
+					                                <div class="re-profile-bubble">
+					                                    <p>프로필 보기</p>
+					                                    <p>피드로 이동</p>
+					                                </div>
+					                                </c:if>
+		                                            <img class="re-profile-picture" src="${ contextPath }/resources/images/member/${ r.artiAttach.attSvName }">
+		                                        </td>
+		                                        <td>
+		                                            <div class="comment-box">
+		                                                <div class="re-artist-comment comment-main comment-center nanumsquare">
+		                                                    <div>
+		                                                        <span class="comment-name">${ r.artist.artiNickname }</span>
+		                                                        <div class="comment-content">${ r.reply.rcontent }</div>
+		                                                    </div>
+		                                                </div>
+		                                                <div class="re-comment-etc">···
+		                                                    <div class="re-comment-bubble">
+					                                            <c:if test="${ loginUser.id eq r.reply.writer }">
+					                                            <p class="delete-comment" onclick="deleteComment(${ r.reply.rid })">댓글 삭제</p>
+					                                            </c:if>
+		                                                    </div>
+		                                                </div>
+		                                            </div>
+		                                            <div class="re-comment-info comment-center nanumsquare">
+		                                                <img class="likeBtn" src="${ contextPath }/resources/images/official/like.svg">
+		                                                <span class="like-count">${ r.reply.likeCount }</span><span class="comment-date">${ r.reply.rcreate }</span>
+		                                            </div>
+		                                        </td>
+		                                    </tr>
+		                                    </c:when>
+		                                    <c:otherwise>
+		                                      <tr class="comment-line">
+		                                        <td>
+					                                <c:if test="${ loginUser.id ne r.reply.writer }">
+					                                <div class="re-profile-bubble">
+					                                    <p>피드로 이동</p>
+					                                    <p>쪽지 보내기</p>
+					                                </div>
+					                                </c:if>
+		                                            <img class="re-profile-picture" src="${ contextPath }/resources/images/account/${ r.userAttach.attSvName }">
+		                                        </td>
+		                                        <td>
+		                                            <div class="comment-box">
+		                                                <div class="comment-main comment-center nanumsquare">
+		                                                    <div>
+		                                                        <span class="comment-name">${ r.subscribe.unickname }</span>
+		                                                        <div class="comment-content">${ r.reply.rcontent }</div>
+		                                                    </div>
+		                                                </div>
+		                                                <div class="re-comment-etc">···
+		                                                    <div class="re-comment-bubble">
+		                                                        <c:choose>
+					                                            <c:when test="${ loginUser.id ne r.reply.writer }">
+					                                            <p>댓글 신고</p>
+					                                            </c:when>
+					                                            <c:when test="${ loginUser.id eq r.reply.writer }">
+					                                            <p class="delete-comment" onclick="deleteComment(${ r.reply.rid })">댓글 삭제</p>
+					                                            </c:when>
+					                                            </c:choose>
+		                                                    </div>
+		                                                </div>
+		                                            </div>
+		                                            <div class="re-comment-info comment-center nanumsquare">
+		                                                <img class="likeBtn" src="${ contextPath }/resources/images/official/like.svg">
+		                                                <span class="like-count">${ r.reply.likeCount }</span><span class="comment-date">${ r.reply.rcreate }</span>
+		                                            </div>
+		                                        </td>
+		                                    </tr>
+		                                    </c:otherwise>
+		                                    </c:choose>
+	                                    </c:if>
+	                                    </c:forEach>
+	                                </table>
+	                            </td>
+	                        </tr>
+	                        </c:otherwise>
+	                        </c:choose>
+                        </c:if>
+                        </c:forEach>
                     </table>
                 </div>
             </div>
@@ -268,11 +379,49 @@
             }
         });
         
+        // 좋아요 버튼 처리
+        $("")
+        
         // 댓글란 클릭하면 내용 지우기
-        $("#comment").click(function() {
+        $(".comment").click(function() {
         	$(this).text("");
-        })
-
+        });
+        
+        // 댓글 ajax 처리하기
+        $(".send-btn").click(function() {
+        	var rcontent = $("#comment").val();
+        	var refId = ${ media.official.mediaNum }
+        	console.log(comment);
+        	
+    		$.ajax({
+    			url : "${ contextPath }/official/insertReply",
+    			data : { rcontent : rcontent, refId : refId },
+    			type : "post",
+    			dataType : "json",
+    			success : function(data) {
+    				console.log(data);	// 해당 게시글에 작성된 댓글 리스트 받아오기
+    				
+    				// -> 댓글 작성 <textarea> 비워주기
+    				$("#comment").text("");
+    			} 
+    		});
+        });
+        
+        // 댓글 삭제하기
+        function deleteComment(rid) {
+        	if(confirm("댓글을 삭제하시겠습니까?")) {
+        		var refId = ${ media.official.mediaNum }
+        		$.ajax({
+        			url : "${ contextPath }/official/deleteReply",
+        			data : { rid : rid, refId : refId },
+        			type : "post",
+        			dataType : "json",
+        			success : function(data) {
+        				console.log(data);	// 해당 게시글에 작성된 댓글 리스트 받아오기
+        			} 
+        		});
+        	}
+        }
 
         // 댓글 프로필 클릭했을 때 프로필 풍선 생성
         $('.profile-picture').click(function () {

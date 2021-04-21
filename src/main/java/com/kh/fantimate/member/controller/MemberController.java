@@ -27,6 +27,7 @@ import com.kh.fantimate.member.model.service.MemberService;
 import com.kh.fantimate.member.model.vo.Admin;
 import com.kh.fantimate.member.model.vo.Agency;
 import com.kh.fantimate.member.model.vo.Artist;
+import com.kh.fantimate.member.model.vo.ArtistCollection;
 import com.kh.fantimate.member.model.vo.ArtistGroup;
 import com.kh.fantimate.member.model.vo.Member;
 import com.kh.fantimate.member.model.vo.User;
@@ -191,7 +192,7 @@ public class MemberController {
 			} else if(loginUser.getClassifyMem() == 2) {
 			// loginUser.class == 2 (소속아티스트) 일때
 				
-				Artist artist = mService.loginArtist(loginUser.getId());
+				ArtistCollection artist = mService.loginArtist(loginUser.getId());
 				model.addAttribute("loginUser", loginUser);
 				session.setAttribute("artist", artist);
 				model.addAttribute("msg", "success");

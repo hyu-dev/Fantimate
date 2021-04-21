@@ -1,13 +1,18 @@
 package com.kh.fantimate.main.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.kh.fantimate.common.model.vo.Alarm;
 import com.kh.fantimate.common.model.vo.Attachment;
+import com.kh.fantimate.common.model.vo.Friend;
 import com.kh.fantimate.common.model.vo.Message;
 import com.kh.fantimate.common.model.vo.Report;
+import com.kh.fantimate.main.model.vo.FeedTopNineCollection;
 import com.kh.fantimate.main.model.vo.FriendCollection;
 import com.kh.fantimate.main.model.vo.MainCollection;
+import com.kh.fantimate.main.model.vo.MediaTopNineCollection;
+import com.kh.fantimate.main.model.vo.StoreTopNineCollection;
 import com.kh.fantimate.main.model.vo.SubscribeArtist;
 
 public interface MainDao {
@@ -51,5 +56,19 @@ public interface MainDao {
 	public List<FriendCollection> selectFriendInfo(String user);
 
 	public List<FriendCollection> selectFriendMsg(String user);
+
+	public List<FeedTopNineCollection> selectFeedTopNineCollection(String user);
+
+	public List<MediaTopNineCollection> selectMediaTopCollection(String user);
+
+	public List<StoreTopNineCollection> selectStoreTopCollection(String user);
+
+	public int updateAcceptFriend(Friend fr);
+
+	public int updateDeclineFriend(Friend fr);
+
+	public int insertAlarmF(Map<String, String> map);
+
+	public int updateAlarmStatus(int alCode);
 
 }

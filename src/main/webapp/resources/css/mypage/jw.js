@@ -19,6 +19,37 @@ $(document).ready(function() {
 		//$(this).fadeOut();
 		console.log("닫기버튼");
 	});
-		
+	
+	// 쪽지 신고관리
+    		$("#mypageAdminReportlist tbody tr").click(function() { 
+    			console.log('정상클릭');
+    			$("#reportDetail1").val($(this).children().eq(4).text());	// 유저아이디
+    			$("#reportDetail2").val($(this).children().eq(3).text());
+    			$("#reportDetail3").val($(this).children().eq(5).text());
+    			$("#reportDetail4").val($(this).children().eq(6).text()); 
+    			$("#reportDetail5").val($(this).children().eq(7).text());
+    			$("#reportDetail6").val($(this).children().eq(1).val()); 
+    			$("#mypageReportDetailWrap").fadeIn().addClass("mypagebground");
+    			$("#mypageReportDetail").fadeIn();
+    		});
+    // 팬스토어 신고관리
+    		$("#mypageAdminFanstorelist tbody tr").click(function() { 
+    			console.log('정상클릭');
+    			$("#reportDetail1").val($(this).children().eq(4).text());	// 유저아이디
+    			$("#reportDetail2").val($(this).children().eq(3).text());
+    			$("#reportDetail3").val($(this).children().eq(5).text());
+    			$("#reportDetail4").val($(this).children().eq(6).text()); 
+    			$("#reportDetail5").val($(this).children().eq(7).text());
+    			$("#reportDetail6").val($(this).children().eq(1).val()); 
+    			$("#mypageReportDetailWrap").fadeIn().addClass("mypagebground");
+    			$("#mypageReportDetail").fadeIn();
+    		});
+    			
+    		// 취소하기
+    		$("#mypageReportDetailWrap .mypage-pop-Btn-navi").click(function () {				// article
+    			$(this).closest("#mypageReportDetailWrap").fadeOut();
+    			//$(this).fadeOut();
+    			console.log("닫기버튼");
+    		});
 		
 });

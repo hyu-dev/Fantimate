@@ -228,7 +228,7 @@
 
 }
 
-.mainPage-artistFeed, .mainPage-media, .mainPage-chart{
+.mainPage-artistFeed, .mainPage-media, .mainPage-chart ,.mainPage-store{
     max-width: 1200px;
     height: 430px;
     margin: auto;
@@ -272,7 +272,9 @@
 .store-pic{
     position: absolute;
     left: 15%;
-    top:17%;
+    top: 12%;
+    width: 200px;
+    height: 200px;
 }
 
 .slide-btn{
@@ -311,8 +313,8 @@
 /*프로필 동그라미*/
 .profile-circle{
     margin-top: 10px;
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
     border-radius: 70%;
     overflow: hidden;
 }
@@ -333,6 +335,7 @@
 }
 
 .feed-info-section, .media-info-section{
+	background:white;
     display: flex;
     justify-content: space-between;
 }
@@ -351,7 +354,7 @@
 .profile-name{
     font-style: normal;
     font-weight: 500;
-    font-size: 20px;
+    font-size: 17px;
     line-height: 24px;
     color: #5C5F78;
 }
@@ -363,6 +366,7 @@
     display: flex;
     align-items: center;
     gap: 0.5em;
+    margin-right:10px;
 }
 
 .like-img, .play-img{
@@ -395,14 +399,14 @@
 .feed-text{
     position:absolute;
     top:50%;
-    left:2%;
+    left:0.5%;
     transform: translateY(-50%);
     width: 100%;
     font-style: normal;
-    font-weight: bold;
     font-size: 18px;
     line-height: 22px;
-    color: #000000;
+    color: #fff;
+    text-align:center;
 }
 
 /* 스크롤바 꾸미기 시작 */
@@ -456,31 +460,32 @@ body::-webkit-scrollbar-track {
     transform:translate(-50%,-50%) scale(1.2);
 }
 
+
 /* 슬라이드 처리 */
 
-.mainPage-artistFeed input[id*="slide"]{
+.mainPage-artistFeed input[id*="slide"] , .mainPage-media input[id*="slide"] ,.mainPage-store input[id*="slide"]{
     display: none;
 }
 
-.mainPage-artistFeed .slide-wrap{
+.mainPage-artistFeed .slide-wrap , .mainPage-media .slide-wrap , .mainPage-store .slide-wrap  {
     max-width: 1200px;
     margin: 0 auto;
     overflow: hidden;
 
 }
 
-.mainPage-artistFeed .slide-list{
+.mainPage-artistFeed .slide-list , .mainPage-media .slide-list ,.mainPage-store .slide-list  {
     white-space: nowrap;
 }
 
-.mainPage-artistFeed .slide-list > li{
+.mainPage-artistFeed .slide-list > li , .mainPage-media .slide-list > li ,.mainPage-store .slide-list > li{
     display: inline-block;
     vertical-align: middle;
     width: 100%;
     transition: all .5s;
 }
 
-.mainPage-artistFeed .slide-list label{
+.mainPage-artistFeed .slide-list label , .mainPage-media .slide-list label ,.mainPage-store .slide-list label{
     /*position: absolute;*/
     z-index: 10;
     top:50%;
@@ -490,29 +495,56 @@ body::-webkit-scrollbar-track {
 }
 
 .mainPage-artistFeed .slide-list .left{
+	display:none;
     left: 30px;
     background:url("/fantimate/resources/images/main/left-arrow.svg") center center / 100% no-repeat;
 }
 
-.mainPage-artistFeed .slide-list .right{
+.mainPage-artistFeed .slide-list .right {
+	display:none;
+    right: 30px;
+    background:url("/fantimate/resources/images/main/right-arrow.svg") center center / 100% no-repeat;
+}
+
+.mainPage-media .slide-list .left{
+	display:none;
+    left: 30px;
+    background:url("/fantimate/resources/images/main/left-arrow.svg") center center / 100% no-repeat;
+}
+
+.mainPage-store .slide-list .left{
+	display:none;
+	left: 30px;
+    background:url("/fantimate/resources/images/main/left-arrow.svg") center center / 100% no-repeat;
+}
+
+.mainPage-media .slide-list .right{
+	display:none;
     right: 30px;
     background:url("/fantimate/resources/images/main/right-arrow.svg") center center / 100% no-repeat;
 
 }
 
-.mainPage-artistFeed [id="slide01"]:checked ~ .slide-wrap .slide-list > li {
+.mainPage-store .slide-list .right{
+	display:none;
+	 right: 30px;
+    background:url("/fantimate/resources/images/main/right-arrow.svg") center center / 100% no-repeat;
+}
+
+.mainPage-artistFeed [id="slide01"]:checked ~ .slide-wrap .slide-list > li , .mainPage-media [id="slide04"]:checked ~ .slide-wrap .slide-list > li ,.mainPage-store [id="slide07"]:checked ~ .slide-wrap .slide-list > li{
     transform: translateX(0%);
 }
-.mainPage-artistFeed [id="slide02"]:checked ~ .slide-wrap .slide-list > li {
+.mainPage-artistFeed [id="slide02"]:checked ~ .slide-wrap .slide-list > li , .mainPage-media [id="slide05"]:checked ~ .slide-wrap .slide-list > li ,.mainPage-store [id="slide08"]:checked ~ .slide-wrap .slide-list > li{
     transform: translateX(-100%);
 }
-.mainPage-artistFeed [id="slide03"]:checked ~ .slide-wrap .slide-list > li {
+.mainPage-artistFeed [id="slide03"]:checked ~ .slide-wrap .slide-list > li , .mainPage-media [id="slide06"]:checked ~ .slide-wrap .slide-list > li , .mainPage-store [id="slide09"]:checked ~ .slide-wrap .slide-list > li {
     transform: translateX(-200%);
 }
 
 .slide-list{
     padding-left: 0px;
 }
+
 
 /*푸터*/
 #footer-section{

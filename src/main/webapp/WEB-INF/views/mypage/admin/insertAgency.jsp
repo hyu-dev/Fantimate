@@ -18,7 +18,8 @@
 <body>
 	<div id="mypageAdminSignInWrap">
 		<div id="mypageAdminSignIn">
-			<form id="agencyForm">
+			<form id="agencyForm" method="post" action="${ contextPath }/mypage/admin/insertAgency"
+			onsubmit="return joinValidate();">
 				<h2>소속사 정보 등록</h2>
 				<div id="mypageAgencySignInContents">
 					<div id="mypageAgencySignIn">
@@ -28,22 +29,129 @@
 					</div>
 					<div id="mypageUserUpdateRight">
 						<%-- value="${}""--%>
-						<input type="text" name="bsName" value="SM"> 
-						<input type="text" name="bsNum" value="1438812345"> 
-						<input type="email" name="email" value="smenter33@sm.town">
-						<input type="text" name="tel" value="0252523333"> 
-						<input type="text" name="id" value="01012341234"> 
-						<input type="password" name="pwd1" placeholder="비밀번호는 8-20자의 영문, 숫자, 특수문자를 조합하여 설정해주세요."> 
-						<input type="password" name="pwd2" placeholder="비밀번호는 8-20자의 영문, 숫자, 특수문자를 조합하여 설정해주세요.">
+						<input type="text" name="name" value="SM">
+						<input type="text" name="agNum" value="143-88-12345" placeholder="143-24-12345"> 
+						<input type="email" name="agEmail" value="smenter33@sm.town">
+						<input type="text" name="agPhone" value="010-1234-4321" placeholder="010-0000-0000(-포함)"> 
+						<input type="text" name="id" value="edam1">
+						<button type="button" id="idCheckAgency" onclick="" name="idCheck">중복확인</button>
+						<input type="password" name="pwd" value="qwe123!@#" placeholder="비밀번호는 8-20자의 영문, 숫자, 특수문자를 조합하여 설정해주세요."> 
+						<input type="password" name="pwd2" value="qwe123!@#" placeholder="비밀번호는 8-20자의 영문, 숫자, 특수문자를 조합하여 설정해주세요.">
 					</div>
 				</div>
 
 				<div class="mypage-Btn-align-center">
-					<button class="mypage-pop-Btn-pink">등록하기</button>
+					<button class="mypage-pop-Btn-pink" id="joinBtn" disabled="disabled">등록하기</button>
 					<button class="mypage-pop-Btn-navi" type="button">취소하기</button>
 				</div>
 			</form>
 		</div>
 	</div>
+<script>
+		// 중복검사
+		// 아이디 중복검사
+		
+		$(function(){
+			// 아이디 중복 시 false, 아이디 사용 가능 시 true --> 유효성 검사를 위한 변수 
+			var isUsable = false;
+			
+			$("#idCheckAgency").click(function(){
+				var userId = $("#agencyForm input[name='id']");
+				
+				// UserId가 잘 가져와졌을때, 4글자 이상일 떄  발동하도록
+				if(!userId || userId.val().length < 4){
+					alert("아이디는 최소 4자리 이상이어야 합니다.");
+					userId.focus();
+				}else{
+					// 4자리 이상의 userId 값을 입력했을 경우 $.ajax() 통신
+					$.ajax({
+						url : "${ contextPath }/mypage/admin/idCheck", 
+						type : "post",
+						data : {userId : userId.val()},
+						success : function(data){
+							console.log(data);
+							if(data == "fail"){
+								alert("사용할 수 없는 아이디입니다.");
+								userId.focus();
+							}else{
+								//alert("사용 가능한 아이디입니다.");
+								if(confirm("사용 가능한 아이디입니다. 사용하시겠습니까?")){
+									userId.prop('readonly', true);	// 더이상 id 수정 불가능
+									isUsable = true; 	// 사용 가능한 아이디라는 flag 값
+								}else{
+									// confirm창에서 취소 누를경우 (처음, 또는 반복해서)
+									userId.prop('readonly', false);	// 수정 가능하도록
+									isUsable = false;
+									userId.focus();
+								}
+							}
+							
+							// 아이디 중복 체크 후 중복이 아니며 사용하겠다고 선택한 경우
+							// joinBtn disabled 제거 
+							if(isUsable){
+								$("#joinBtn").removeAttr("disabled");
+							}else{
+								$("#joinBtn").attr("disabled", true);
+							}
+						},
+						error : function(e){
+							console.log(e);
+						}
+					});
+				}
+				
+			});
+		});
+
+
+
+		// 유효성 검사
+		function joinValidate(){
+			if(!(/^[a-z0-9가-힣A-Z]{2,20}$/.test($("input[name=name]").val()))){
+				alert('소속사명은 2~20글자 입력(영어,숫자 한글 포함 가능)');
+				$("input[name=name]").select();
+				return false;
+			}
+			if(!(/^\d{3}-\d{2}-\d{5}$/).test($("input[name=agNum]").val())){
+				alert('사업자번호를 다시 확인해 주세요.');
+				$("input[name=agNum]").select();
+				return false;
+			}
+			if(!(/^(?=.*[a-zA-Z])(?=.*\d)(?=.*\W).{8,20}$/.test($("input[name=pwd]").val()))){
+				alert('비밀번호는 영어,숫자,특수문자를 포함한 8자리~20자리로 설정해 주세요.');
+				$("input[name=pwd]").select();
+				return false;
+			}
+			if($("input[name=pwd2]").val() != $("input[name=pwd]").val()){
+				alert('비밀번호가 일치하지 않습니다.');
+				$("input[name=pwd2]").select();
+				return false;
+			}
+			if(!(/^[가-힣a-zA-z0-9]{2,10}$/).test($("input[name=name]").val())){
+				alert('이름은 2~10글자 사이 한글 숫자 영어만 가능');
+				$("#name").select();
+				return false;
+			}
+			if(!((/^[a-z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i).test($("input[name=agEmail]").val()))){
+				alert('이메일주소를 확인해주세요.');
+				$("input[name=agEmail]").select();
+				return false;
+			} 
+			
+			if(!(/^01[01]-\D?\d{4}-\D?\d{4}$|^01[6-9]-\D?\d{3}-\D?\d{4}$/).test($("input[name=agPhone]").val())){
+				alert('휴대전화번호를 확인해주세요.');
+				$("input[name=agPhone]").select();
+				return false;
+			}
+			// 아이디
+			if(!(/^[a-z][a-z0-9]{3,19}$/.test($("input[name=id]").val()))){
+				alert('아이디는 영어 4~20글자로 입력해주세요.');
+				$("input[name=id]").select();
+				return false;
+			}
+			
+			return true;
+		}
+	</script>
 </body>
 </html>

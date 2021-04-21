@@ -272,7 +272,7 @@
 							if(data[i].store.isSoldout == 'Y') {
 								div.append(soldout);
 							} else {
-								if(data[i].wish.id == 'user' && data[i].wish.isWish == 'Y') {
+								if(data[i].wish.id == "${loginUser.id}" && data[i].wish.isWish == 'Y') {
 									div.append(artiName, pName, price, cart, noddim).trigger("create");
 								} else {
 									div.append(artiName, pName, price, cart, ddim).trigger("create");

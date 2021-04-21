@@ -18,10 +18,14 @@
 <body>
 	<section class="insert-section">
         <form class="main-template" action="" method="POST" enctype="multipart/form-data">
+        	<input type="hidden" name="pcode" class="insert-pcode">
+        	<input type="hidden" name="bcode" class="insert-bcode">
+        	<input type="hidden" name="rvScore" class="insert-score">
+        	<input type="hidden" name="id" value="${ loginUser.id }">
             <div class="my-score">
                 <article>
                     <div class="product-background insert-product">
-                        <img src="${ contextPath }/resources/uploadFiles/아이유_밤편지.jpg" alt="">
+                        <img src="" alt="">
                     </div>
                     <div class="product-info insert-info">
                         <p></p>
@@ -41,9 +45,9 @@
                 </article>
             </div>
             <div class="my-review">
-                <input type="text" name="" placeholder="제목을 입력하세요 (20자 이내)">
+                <input type="text" name="rvTitle" placeholder="제목을 입력하세요 (20자 이내)">
                 <div>
-                    <textarea onkeyup="chkword(this, 100)" name="" placeholder="내용을 입력하세요 (100자 이내)"></textarea>
+                    <textarea onkeyup="chkword(this, 100)" name="rvContent" placeholder="내용을 입력하세요 (100자 이내)"></textarea>
                     <div class="limit-text">0 / 100</div>
                 </div>
             </div>
@@ -77,6 +81,7 @@
 	        }
 	        // 평점 숫자로 변환
 	        $('.score-number').text(sum + ".0");
+	        $('.insert-score').val(sum);
 	    })
 	
 	    // 사진첨부시
@@ -174,12 +179,14 @@
 	            alert('제목을 입력하세요')
 	         } else if($('.my-review textarea').val() == '') {
 	            alert('내용을 입력하세요')
-	         } else if($("#mainPhoto").attr("src") == null) {
+	         } else if($("#mainPhoto").attr("src") == '') {
 	        	 alert('대표사진을 등록하세요')
 	         } else {
-	        	var url = "${contextPath}/store/reviewInsert";
-				$(".main-template").attr("action", url);
-	            $('.main-template').submit();
+	        	 if(confirm("리뷰 등록시 수정/삭제가 불가능 합니다. 등록하시겠습니까?")) {
+	        		 var url = "${contextPath}/store/insertReview";
+	 				$(".main-template").attr("action", url);
+	 	            $('.main-template').submit();
+	        	 }
 	         }
 	     })
 	

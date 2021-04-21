@@ -14,4 +14,5 @@ public class StoreCollection implements Serializable {
 	private StoreCategory storeCate;
 	private StoreInfo storeInfo;
 	private Review review;
+	private Attachment attReview;
 }

@@ -1,21 +1,20 @@
 package com.kh.fantimate.official.model.service;
 
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.kh.fantimate.common.model.vo.Alarm;
-import com.kh.fantimate.common.model.vo.Like;
-import com.kh.fantimate.common.model.vo.Message;
+import com.kh.fantimate.common.model.vo.BookMark;
 import com.kh.fantimate.common.model.vo.Reply;
-import com.kh.fantimate.common.model.vo.Report;
-import com.kh.fantimate.member.model.vo.Member;
+import com.kh.fantimate.common.model.vo.ReplyCollection;
 import com.kh.fantimate.official.model.dao.OfficialDao;
 import com.kh.fantimate.official.model.vo.MediaCategory;
 import com.kh.fantimate.official.model.vo.MediaCollection;
-import com.kh.fantimate.official.model.vo.Official;
+import com.kh.fantimate.official.model.vo.Schedule;
 import com.kh.fantimate.pay.model.vo.Cart;
 
 @Service
@@ -23,7 +22,7 @@ public class OfficialServiceImpl implements OfficialService{
 	@Autowired
 	private OfficialDao oDao;
 	
-	/* 미디어 메인 페이지 */
+	/* 미디어 메인&리스트 페이지 */
 	
 	// 미디어 개수 조회하기
 	@Override
@@ -72,6 +71,8 @@ public class OfficialServiceImpl implements OfficialService{
 	public List<MediaCollection> searchMediaList(Map<String, String> map) {
 		return oDao.searchMediaList(map);
 	}
+	
+	/* 미디어 상세페이지 */
 
 	// 클릭한 미디어 호출
 	@Override
@@ -84,58 +85,106 @@ public class OfficialServiceImpl implements OfficialService{
 	public int updateHitCount(int mediaNum) {
 		return oDao.updateHitCount(mediaNum);
 	}
-
+	
+	// 북마크 여부 확인
 	@Override
-	public List<Reply> selectReplyList(int mediaNum) {
-		// TODO Auto-generated method stub
-		return null;
+	public BookMark selectBookMark(int mediaNum) {
+		return oDao.selectBookMark(mediaNum);
+	}
+	
+	// 댓글 개수 조회하기
+	@Override
+	public int countReply(int mediaNum) {
+		return oDao.countReply(mediaNum);
 	}
 
+	// 댓글 리스트 호출
 	@Override
-	public Reply insertReply(Map<Object, Object> map) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<ReplyCollection> selectReplyList(Map<Object, Object> map) {
+		return oDao.selectReplyList(map);
 	}
 
+	// 새 댓글 입력
 	@Override
-	public Reply deleteReply(Map<Object, Object> map) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<ReplyCollection> insertReply(Reply r, String artiName) {
+		oDao.insertReply(r);
+		
+		Map<Object, Object> map = new HashMap<>();
+		map.put("mediaNum", r.getRefId());
+		map.put("artiName", artiName);
+		
+		return oDao.selectReplyList(map);
 	}
 
+	// 댓글 삭제
 	@Override
-	public Like insertLike(Map<Object, Object> map) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<ReplyCollection> deleteReply(Reply r, String artiName) {
+		oDao.deleteReply(r.getRid());
+		
+		Map<Object, Object> map = new HashMap<>();
+		map.put("mediaNum", r.getRefId());
+		map.put("artiName", artiName);
+		
+		return oDao.selectReplyList(map);
 	}
 
+	// 좋아요 +1
 	@Override
-	public Like deleteLike(Map<Object, Object> map) {
-		// TODO Auto-generated method stub
-		return null;
+	public int insertLike(Map<Object, Object> map) {
+		return oDao.insertLike(map);
 	}
 
+	// 좋아요 -1
 	@Override
-	public Report insertReport(Map<Object, Object> map) {
-		// TODO Auto-generated method stub
-		return null;
+	public int deleteLike(Map<Object, Object> map) {
+		return oDao.deleteLike(map);
 	}
 
+	// 댓글 신고
 	@Override
-	public Alarm insertUserReplyAlarm(Map<Object, Object> map) {
-		// TODO Auto-generated method stub
-		return null;
+	public int insertReport(Map<Object, Object> map) {
+		return oDao.insertReport(map);
 	}
 
+	// 회원 댓글 알림 입력
 	@Override
-	public Alarm insertArtistReplyAlarm(Map<Object, Object> map) {
-		// TODO Auto-generated method stub
-		return null;
+	public int insertUserReplyAlarm(Map<Object, Object> map) {
+		return oDao.insertUserReplyAlarm(map);
 	}
 
+	// 아티스트 댓글 알림 입력
 	@Override
-	public Message insertMessage(Map<Object, Object> map) {
-		// TODO Auto-generated method stub
-		return null;
+	public int insertArtistReplyAlarm(Map<Object, Object> map) {
+		return oDao.insertArtistReplyAlarm(map);
+	}
+
+	// 쪽지 보내기
+	@Override
+	public int insertMessage(Map<Object, Object> map) {
+		return oDao.insertMessage(map);
+	}
+
+	// 친구 신청
+	@Override
+	public int ApplyFriend(Map<Object, Object> map) {
+		return oDao.ApplyFriend(map);
+	}
+
+	// 스케줄 호출
+	@Override
+	public Schedule selectSchedule(String artiName) {
+		return oDao.selectSchedule(artiName);
+	}
+
+	// 스케줄 추가
+	@Override
+	public int insertSchedule(Map<Object, Object> map) {
+		return oDao.insertSchedule(map);
+	}
+
+	// 스케줄 삭제
+	@Override
+	public int deleteSchedule(Date scheDate) {
+		return oDao.deleteSchedule(scheDate);
 	}
 }
