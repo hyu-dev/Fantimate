@@ -7,8 +7,11 @@ import com.kh.fantimate.common.model.vo.Alarm;
 import com.kh.fantimate.common.model.vo.Attachment;
 import com.kh.fantimate.common.model.vo.Message;
 import com.kh.fantimate.common.model.vo.Report;
+import com.kh.fantimate.main.model.vo.FeedTopNineCollection;
 import com.kh.fantimate.main.model.vo.FriendCollection;
 import com.kh.fantimate.main.model.vo.MainCollection;
+import com.kh.fantimate.main.model.vo.MediaTopNineCollection;
+import com.kh.fantimate.main.model.vo.StoreTopNineCollection;
 import com.kh.fantimate.main.model.vo.SubscribeArtist;
 
 public interface MainService {
@@ -72,5 +75,15 @@ public interface MainService {
 
 	// 20. 친구가 보낸 메세지 select
 	public List<FriendCollection> selectFriendMsg(String user);
+
+	// 21. 회원이 구독한 아티스트 인기피드 탑 9 조회 
+	public List<FeedTopNineCollection> selectFeedTopNineCollection(String user);
+
+	// 22. 회원이 구독한 아티스트 인기 미디어 탑 9 조회 
+	public List<MediaTopNineCollection> selectmediaTopNineCollection(String user);
+
+	// 23. 회원이 구독한 아티스트 스토어 조회수 탑 9조회 
+	public List<StoreTopNineCollection> selectStoreTopNineCollection(String user);
+
 
 }

@@ -23,6 +23,7 @@
 		<typeAlias type="com.kh.fantimate.common.model.vo.Message" alias="Message"/>
 		<typeAlias type="com.kh.fantimate.common.model.vo.Report" alias="Report"/>
 		<typeAlias type="com.kh.fantimate.common.model.vo.Friend" alias="Friend"/>
+		<typeAlias type="com.kh.fantimate.common.model.vo.Like" alias="Like"/>
 		<typeAlias type="com.kh.fantimate.main.model.vo.FavoriteArtist" alias="FavoriteArtist"/>
 		<typeAlias type="com.kh.fantimate.store.model.vo.Store" alias="Store"/>
 		<typeAlias type="com.kh.fantimate.store.model.vo.StoreCollection" alias="StoreCollection"/>
@@ -37,6 +38,9 @@
 		<typeAlias type="com.kh.fantimate.official.model.vo.Schedule" alias="Schedule"/>
 		<typeAlias type="com.kh.fantimate.main.model.vo.MainCollection" alias="MainCollection"/>
 		<typeAlias type="com.kh.fantimate.main.model.vo.FriendCollection" alias="FriendCollection"/>
+		<typeAlias type="com.kh.fantimate.main.model.vo.FeedTopNineCollection" alias="FeedTopNineCollection"/>
+		<typeAlias type="com.kh.fantimate.main.model.vo.MediaTopNineCollection" alias="MediaTopNineCollection"/>
+		<typeAlias type="com.kh.fantimate.main.model.vo.StoreTopNineCollection" alias="StoreTopNineCollection"/>
 		<typeAlias type="com.kh.fantimate.main.model.vo.SubscribeArtist" alias="SubscribeArtist"/>
 		<typeAlias type="com.kh.fantimate.store.model.vo.StoreInfo" alias="StoreInfo"/>
 		<typeAlias type="com.kh.fantimate.feed.model.vo.Feed" alias="Feed"/>

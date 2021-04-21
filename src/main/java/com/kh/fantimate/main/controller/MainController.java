@@ -32,8 +32,11 @@ import com.kh.fantimate.common.model.vo.Attachment;
 import com.kh.fantimate.common.model.vo.Message;
 import com.kh.fantimate.common.model.vo.Report;
 import com.kh.fantimate.main.model.service.MainService;
+import com.kh.fantimate.main.model.vo.FeedTopNineCollection;
 import com.kh.fantimate.main.model.vo.FriendCollection;
 import com.kh.fantimate.main.model.vo.MainCollection;
+import com.kh.fantimate.main.model.vo.MediaTopNineCollection;
+import com.kh.fantimate.main.model.vo.StoreTopNineCollection;
 import com.kh.fantimate.main.model.vo.SubscribeArtist;
 import com.kh.fantimate.member.model.vo.Member;
 
@@ -477,6 +480,64 @@ public class MainController {
 		
 	}
 	
+	// 회원이 구독한 아티스트 피드 탑 9 조회 
+	@RequestMapping(value="/feedTopNine", produces="application/json; charset=utf-8")
+	public @ResponseBody String feedTopNine(HttpSession session) {
+		
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		// 로그인 유저의 아이디 가지고 가기 
+		String user = loginUser.getId();
+		
+		// 게시물 사진 제외한 리스트 select
+		List<FeedTopNineCollection> tnlist = (ArrayList<FeedTopNineCollection>)mpService.selectFeedTopNineCollection(user);
+		
+		// 날짜랑 전체리스트 보내기
+		//JSONObject sendJson = new JSONObject();
+		//sendJson.put("tnlist", tnlist);
+		//sendJson.put("piclist", piclist);
+		
+		//System.out.println("피드 탑 9: " + tnlist);
+		
+		//session.setAttribute("tnlist", tnlist);
+
+		return new Gson().toJson(tnlist);
+		
+	}
 	
+	// 회원이 구독한 아티스트 미디어 탑 9 조회 
+	@RequestMapping(value = "/mediaTopNine", produces = "application/json; charset=utf-8")
+	public @ResponseBody String mediaTopNine(HttpSession session) {
+
+		Member loginUser = (Member) session.getAttribute("loginUser");
+		// 로그인 유저의 아이디 가지고 가기
+		String user = loginUser.getId();
+
+		// 게시물 사진 제외한 리스트 select
+		List<MediaTopNineCollection> tmlist = (ArrayList<MediaTopNineCollection>) mpService
+				.selectmediaTopNineCollection(user);
+
+		//System.out.println("미디어 탑 9: " + tmlist);
+
+		return new Gson().toJson(tmlist);
+
+	}
+	
+	// 회원이 구독한 스토어 탑 9 조회 
+	@RequestMapping(value = "/storeTopNine", produces = "application/json; charset=utf-8")
+	public @ResponseBody String storeTopNine(HttpSession session) {
+
+		Member loginUser = (Member) session.getAttribute("loginUser");
+		// 로그인 유저의 아이디 가지고 가기
+		String user = loginUser.getId();
+
+		// 게시물 사진 제외한 리스트 select
+		List<StoreTopNineCollection> slist = (ArrayList<StoreTopNineCollection>) mpService
+				.selectStoreTopNineCollection(user);
+
+		//System.out.println("스토어 탑 9: " + slist);
+
+		return new Gson().toJson(slist);
+
+	}
 
 }
