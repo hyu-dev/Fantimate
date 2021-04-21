@@ -758,6 +758,10 @@ html, body {
     cursor: pointer;
     margin-top: 10px;
     margin-bottom: 20px;
+    border : 0;
+    outline: 0;
+    background: white;
+    
 }
 
 .insert-reply > textarea {

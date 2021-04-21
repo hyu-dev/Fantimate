@@ -5,7 +5,10 @@ import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.fantimate.common.model.vo.Attachment;
+import com.kh.fantimate.common.model.vo.Reply;
+import com.kh.fantimate.common.model.vo.Report;
 import com.kh.fantimate.common.model.vo.Subscribe;
+import com.kh.fantimate.feed.model.vo.AttachmentF;
 import com.kh.fantimate.feed.model.vo.Feed;
 import com.kh.fantimate.feed.model.vo.FeedCollection;
 
@@ -15,7 +18,7 @@ public interface FanFeedDao {
 	public int insertFeed(Feed f);
 
 	// 게시글 작성 시 사진 추가
-	public int insertFeedAtt(List<Attachment> attList);
+	public int insertFeedAtt(List<AttachmentF> attList);
 
 	// 게시글 조회
 	public List<Feed> selectFeedList();
@@ -28,4 +31,31 @@ public interface FanFeedDao {
 
 	// 유저 프로필 사진 조회
 	public List<Attachment> selectatList();
+
+	// 게시글 사진 조회
+	public List<AttachmentF> selectptList();
+
+	// 댓글 작성
+	public int insertReply(Reply r);
+
+	// 게시글 당 댓글 리스트 조회
+	public List<Reply> selectReplyList();
+	
+	// 게시글 수정
+	public void updateFeed(Feed f);
+
+	// 게시글 수정 시 사진 수정
+	public int updateFeedAtt(List<AttachmentF> attList);
+
+	// fid로 게시글 조회
+	public List<Feed> selectFeed(int fid);
+
+	// refId로 게시글 사진 조회
+	public List<AttachmentF> selectAttachmentF(int refId);
+
+	// 게시글 삭제(활성화 N으로 바꿔줌)
+	public int deleteFeed(int fid);
+
+	// 게시글 신고
+	public int insertFeedReport(Report r);
 }

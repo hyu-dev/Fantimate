@@ -1,0 +1,56 @@
+@charset "UTF-8";
+.top {
+    margin-left: 10px;
+    font-family: "Wemakeprice-bold";
+}
+
+.first {
+    margin-left: 10px;
+    font-family: "Wemakeprice-regular";
+}
+
+.rpt-reason {
+    margin-left: 25px;
+    text-align: center;
+}
+
+.second {
+    margin-left: 10px;
+    font-family: "Wemakeprice-regular";
+}
+
+.rpt-content {
+    border : 1px solid #EBEBEB;
+    width  : 90%;
+    height : 150px;
+    resize : none;
+    font-family: "Wemakeprice-regular";
+    margin-left: 10px;
+}
+
+/* 버튼 영역 */
+.btnArea {
+    text-align: center;
+}
+
+/* 보내기 버튼 */
+.insert-report {
+    background-color: #F4D4D4;
+    color: #5C5F78;
+    width : 80px;
+    height : 30px;
+    border: 0;
+    outline: 0;
+
+}
+
+/* 취소하기 버튼 */
+.cancel-report {
+    background-color: #5C5F78;
+    color : white;
+    width : 80px;
+    height : 30px;
+    border: 0;
+    outline: 0;
+}
+
