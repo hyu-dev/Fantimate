@@ -86,16 +86,9 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<result property="payDivision" column="PAY_DIVISION"/>
 		<result property="payPlan" column="PAY_PLAN"/>
 	</resultMap>
-	<resultMap type="ProductBuy" id="pbuyResultSet">
-		<id property="bcode" column="B_CODE"/>
-		<result property="productQ" column="PROD_Q"/>
-		<result property="payCode" column="PAY_CODE"/>
-		<result property="pcode" column="P_CODE"/>
-		<result property="id" column="ID"/>
-	</resultMap>
 	<resultMap type="PayCollection" id="payCollResultSet">
 		<collection property="payment" resultMap="paymentResultSet"/>
-		<collection property="pbuy" resultMap="pbuyResultSet" />
+		<collection property="cart" resultMap="cartResultSet" />
 	</resultMap>
 	<select id="selectCartList" parameterType="string" resultMap="cartCollResultSet">
 		SELECT 
@@ -216,32 +209,42 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		  , #{payment.payDivision}
 		)
 	</insert>
-	<insert id="insertProductBuy" parameterType="PayCollection">
+	<insert id="insertCartStoreOne" parameterType="PayCollection">
 		INSERT
-		INTO P_BUY
+		INTO CART
 		(
-			B_CODE
-		  , PROD_Q
-		  , PAY_CODE
+			CART_CODE
+		  , BUY_Q
+		  , B_PRICE
+		  , FEE
+		  , ENROLL_DATE
+		  , IS_BOUGHT
 		  , P_CODE
 		  , ID
+		  , BOUGHT_DATE
+		  , PAY_CODE
 		)
 		VALUES
 		(
-			SEQ_P_BUY.NEXTVAL
-		  , #{pbuy.productQ}
-		  , #{pbuy.payCode}
-		  , #{pbuy.pcode}
-		  , #{pbuy.id}
+			SEQ_CART.NEXTVAL
+		  , #{cart.buyQ}
+		  , #{payment.payPrice}
+		  , DEFAULT
+		  , SYSDATE
+		  , 'Y'
+		  , #{cart.pcode}
+		  , #{payment.id}
+		  , SYSDATE
+		  , #{payment.payCode}
 		)
 	</insert>
 	<update id="updateStoreSalesQ" parameterType="PayCollection">
 		UPDATE
 				STORE
 		   SET
-		   		SALES_Q = SALES_Q - #{pbuy.productQ}
+		   		SALES_Q = SALES_Q - #{cart.buyQ}
 		 WHERE
-		 		P_CODE = #{pbuy.pcode}
+		 		P_CODE = #{cart.pcode}
 	</update>
 	<insert id="insertCartPayment" parameterType="Payment">
 		INSERT
@@ -266,47 +269,26 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		  , #{payDivision}
 		)
 	</insert>
-	<insert id="insertProductBuyList" parameterType="list">
-		INSERT
-		INTO P_BUY
-		(
-			B_CODE
-		  , PROD_Q
-		  , PAY_CODE
-		  , P_CODE
-		  , ID
-		)
-		SELECT SEQ_P_BUY.NEXTVAL, A.*
-	    FROM
-	    (
-	      <foreach collection="list" item="i" separator="UNION ALL">
-		  SELECT #{i.productQ} AS PROD_Q
-			   , #{i.payCode} AS PAY_CODE
-			   , #{i.pcode} AS P_CODE
-			   , #{i.id} AS ID
-		    FROM DUAL
-	      </foreach>
-	    ) A
-	</insert>
 	<update id="updateStoreSalesQList" parameterType="list">
 		<foreach collection="list" item="i" open="BEGIN" close="; END;" separator=";">
 		UPDATE
 				STORE
 		   SET
-		   		SALES_Q = SALES_Q - #{i.productQ}
+		   		SALES_Q = SALES_Q - #{i.buyQ}
 		 WHERE
 		 		P_CODE = #{i.pcode}
 		</foreach>
 	</update>
-	<update id="updateCartIsBought">
+	<update id="updateCartIsBought" parameterType="hashMap">
 		UPDATE
 				CART
 		   SET
-		   		IS_BOUGHT = 'Y',
-		   		BOUGHT_DATE = SYSDATE
+		   		IS_BOUGHT = 'Y'
+		   	  , BOUGHT_DATE = SYSDATE
+		   	  , PAY_CODE = #{payCode}
 		 WHERE
 		 		CART_CODE IN
- 		<foreach collection="list" item="item" open="(" separator="," close=")">
+ 		<foreach collection="cartCodes" item="item" open="(" separator="," close=")">
 	    		#{item}
 	    </foreach>
 	</update>

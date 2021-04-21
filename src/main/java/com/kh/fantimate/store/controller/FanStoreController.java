@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.kh.fantimate.member.model.vo.ArtistGroup;
 import com.kh.fantimate.member.model.vo.Member;
 import com.kh.fantimate.member.model.vo.User;
 import com.kh.fantimate.member.model.vo.UserCollection;
@@ -189,5 +190,11 @@ public class FanStoreController {
 		Map<String, String> map = new HashMap<>();
 		map.put("msg", msg);
 		return map;
+	}
+	
+	@PostMapping("/search/artiName")
+	public @ResponseBody List<ArtistGroup> selectArtiNameList(@RequestParam(value="search")String search) {
+		List<ArtistGroup> artiNameList = fService.selectArtiNameList(search);
+		return artiNameList;
 	}
 }

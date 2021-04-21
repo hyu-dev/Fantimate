@@ -36,7 +36,6 @@ import com.kh.fantimate.common.model.vo.Subscribe;
 import com.kh.fantimate.member.model.vo.Member;
 import com.kh.fantimate.pay.model.vo.Cart;
 import com.kh.fantimate.pay.model.vo.CartCollection;
-import com.kh.fantimate.pay.model.vo.ProductBuy;
 import com.kh.fantimate.store.model.service.StoreService;
 import com.kh.fantimate.store.model.vo.BuyCollection;
 import com.kh.fantimate.store.model.vo.Review;
@@ -59,7 +58,7 @@ public class StoreController {
 								  HttpServletRequest request
 								  ) {
 		
-		if(((List<Subscribe>)request.getSession().getAttribute("subList")).get(0) == null) {
+		if(((List<Subscribe>)request.getSession().getAttribute("subList")) == null) {
 			mv.setViewName("store/storeList");
 			return mv;
 		} else {
@@ -588,22 +587,19 @@ public class StoreController {
 				request.getSession().setAttribute("collection", list);
 				mv.addObject("list", list);
 				mv.setViewName("pay/collection");
-			} else {
-				mv.addObject("msg", "구입한 상품이 없습니다.");
-				mv.setViewName("pay/collection");
-			}
+			} 
 		}
 		return mv;
 	}
 	
-	@GetMapping("/{pcode}/{bcode}")
+	@GetMapping("/{pcode}/{cartCode}")
 	public BuyCollection storeReadPage(@PathVariable int pcode,
-									   @PathVariable int bcode,
+									   @PathVariable int cartCode,
 									   HttpServletRequest request) {
-		ProductBuy pb = new ProductBuy();
-		pb.setBcode(bcode);
-		pb.setPcode(pcode);
-		BuyCollection store = sService.readStoreMain(pb);
+		Cart cart = new Cart();
+		cart.setCartCode(cartCode);
+		cart.setPcode(pcode);
+		BuyCollection store = sService.readStoreMain(cart);
 		return store;
 	}
 	
@@ -655,13 +651,13 @@ public class StoreController {
 		}
 	}
 	
-	@GetMapping("/review/{pcode}/{bcode}")
+	@GetMapping("/review/{pcode}/{cartCode}")
 	public List<StoreCollection> reviewPage(@PathVariable int pcode,
-			   								 @PathVariable int bcode,
+			   								 @PathVariable int cartCode,
 			   								 HttpServletRequest request) {
 		Review rv = new Review();
 		rv.setPcode(pcode);
-		rv.setBcode(bcode);
+		rv.setCartCode(cartCode);
 		rv.setId(((Member)request.getSession().getAttribute("loginUser")).getId());
 		List<StoreCollection> list = sService.selectOneReview(rv);
 		return list;

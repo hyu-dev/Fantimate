@@ -551,7 +551,7 @@
 			        		 		payPrice : rsp.paid_amount,
 			        		 		id : rsp.buyer_name,
 			        		 		payDivision : 1,
-			        		 		productQ : quantity,
+			        		 		buyQ : quantity,
 			        		 		pcode : pcode
 			        		 	},
 			        	 method : "POST",

@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.fantimate.member.model.vo.ArtistGroup;
 import com.kh.fantimate.member.model.vo.User;
 import com.kh.fantimate.member.model.vo.UserCollection;
 import com.kh.fantimate.store.model.vo.Area;
@@ -98,6 +99,11 @@ public class FanStoreDaoImpl implements FanStoreDao{
 	@Override
 	public int certifyArea(User user) {
 		return sqlSession.update("fanStoreMapper.certifyArea", user);
+	}
+
+	@Override
+	public List<ArtistGroup> selectArtiNameList(String search) {
+		return sqlSession.selectList("fanStoreMapper.selectArtiNameList", search);
 	}
 	
 }

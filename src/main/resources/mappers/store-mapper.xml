@@ -42,7 +42,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<result property="rvTitle" column="RV_TITLE"/>
 		<result property="rvContent" column="RV_CONTENT"/>
 		<result property="id" column="ID"/>
-		<result property="bcode" column="B_CODE"/>
+		<result property="cartCode" column="CART_CODE"/>
 		<result property="pcode" column="P_CODE"/>
 		<result property="enrollDate" column="ENROLL_DATE"/>
 	</resultMap>
@@ -78,13 +78,6 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<result property="attStatus" column="UP_STATUS"/>
 		<result property="id" column="U_ID"/>
 	</resultMap>
-	<resultMap type="ProductBuy" id="pbuyResultSet">
-		<id property="bcode" column="B_CODE"/>
-		<result property="productQ" column="PROD_Q"/>
-		<result property="payCode" column="PAY_CODE"/>
-		<result property="pcode" column="P_CODE"/>
-		<result property="id" column="ID"/>
-	</resultMap>
 	<resultMap type="Payment" id="paymentResultSet">
 		<id property="payCode" column="PAY_CODE"/>
 		<result property="payMethod" column="PAY_METHOD"/>
@@ -103,6 +96,18 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<result property="attStatus" column="R_ATT_STATUS"/>
 		<result property="attMain" column="R_IS_MAIN_ATT"/>
 		<result property="refId" column="RV_CODE"/>
+	</resultMap>
+	<resultMap type="Cart" id="cartResultSet">
+		<id property="cartCode" column="CART_CODE"/>
+		<result property="buyQ" column="BUY_Q"/>
+		<result property="buyPrice" column="B_PRICE"/>
+		<result property="fee" column="FEE"/>
+		<result property="enrollDate" column="ENROLL_DATE"/>
+		<result property="isBought" column="IS_BOUGHT"/>
+		<result property="boughtDate" column="BOUGHT_DATE"/>
+		<result property="pcode" column="P_CODE"/>
+		<result property="mediaNum" column="MEDIA_NUM"/>
+		<result property="id" column="ID"/>
 	</resultMap>
 	<resultMap type="StoreCollection" id="storeCollResultSet">
 		<collection property="storeCate" resultMap="category" />
@@ -124,7 +129,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<collection property="att"  resultMap="attResultSet" />
 		<collection property="storeCate" resultMap="category" />
 		<collection property="review" resultMap="reviewResultSet" />
-		<collection property="pbuy" resultMap="pbuyResultSet" />
+		<collection property="cart" resultMap="cartResultSet" />
 		<collection property="payment" resultMap="paymentResultSet" />
 	</resultMap>
 	<select id="selectCategoryList" parameterType="string" resultMap="category">
@@ -557,7 +562,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
               , RV_CONTENT
               , ID
               , P_CODE
-              , B_CODE
+              , CART_CODE
               , ENROLL_DATE
               , ATT_CODE
               , ATT_ROOT
@@ -591,7 +596,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
               , RV_CONTENT
               , ID
               , P_CODE
-              , B_CODE
+              , CART_CODE
               , ENROLL_DATE
               , ATT_CODE
               , ATT_ROOT
@@ -674,11 +679,17 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	</update>
 	<select id="selectCollectionStore" parameterType="string" resultMap="buyCollResultSet">
 		SELECT
-		        B_CODE
-		      , PROD_Q
-		      , PAY_CODE
+		        CART_CODE
+		      , BUY_Q
+		      , B_PRICE
+		      , FEE
+		      , C.ENROLL_DATE
+		      , IS_BOUGHT
 		      , P_CODE
-		      , PB.ID
+		      , MEDIA_NUM
+		      , C.ID
+		      , BOUGHT_DATE
+		      , PAY_CODE
 		      , P_NAME
 		      , SALES_Q
 		      , Q_PRICE
@@ -701,26 +712,26 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		      , RV_SCORE
 		      , RV_TITLE
 		      , RV_CONTENT
-		      , ENROLL_DATE
+		      , R.ENROLL_DATE
               , PAY_STATUS
 		  FROM
-		        P_BUY PB
+		        CART C
 		  LEFT JOIN
-		        REVIEW USING(B_CODE)
+		        REVIEW R USING(CART_CODE)
 		  LEFT JOIN
-		        STORE S ON(PB.P_CODE = S.P_CODE)
+		        STORE S ON(C.P_CODE = S.P_CODE)
 		  LEFT JOIN
 		        S_CATEGORY USING(C_CODE)
 		  LEFT JOIN
 		        ATT_STORE USING(P_CODE)
           LEFT JOIN
                 PAYMENT USING(PAY_CODE)
-		 WHERE  PB.ID = #{userId}
+		 WHERE  C.ID = #{userId}
 		   AND  IS_MAIN_ATT = 'Y'
 		   AND  PAY_STATUS != 3
-	  ORDER BY  B_CODE DESC
+	  ORDER BY  BOUGHT_DATE DESC
 	</select>
-	<select id="readStoreMain" parameterType="ProductBuy" resultMap="buyCollResultSet">
+	<select id="readStoreMain" parameterType="Cart" resultMap="buyCollResultSet">
 		SELECT
 				P_CODE
 			  , P_NAME
@@ -741,7 +752,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 			  , ATT_SV_NAME
 			  , ATT_STATUS
 			  , IS_MAIN_ATT
-              , B_CODE
+			  , CART_CODE
 		  FROM 
 		  		STORE
 		  JOIN 
@@ -749,12 +760,12 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
           LEFT JOIN
                 S_CATEGORY USING(C_CODE)
           LEFT JOIN
-                P_BUY PB USING(P_CODE)
+                CART C USING(P_CODE)
           LEFT JOIN
                 PAYMENT USING(PAY_CODE)
         WHERE
                 P_CODE = #{pcode}
-           AND  B_CODE = #{bcode}
+           AND  CART_CODE = #{cartCode}
 		   AND  IS_ACTIVE = 'Y'
            AND  IS_MAIN_ATT = 'Y'
 	</select>
@@ -767,7 +778,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		  , RV_TITLE
 		  , RV_CONTENT
 		  , ID
-		  , B_CODE
+		  , CART_CODE
 		  , P_CODE
 		  , ENROLL_DATE
 		)
@@ -778,7 +789,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		  , #{rvTitle}
 		  , #{rvContent}
 		  , #{id}
-		  , #{bcode}
+		  , #{cartCode}
 		  , #{pcode}
 		  , SYSDATE
 		)
@@ -813,7 +824,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 			  , RV_TITLE
 			  , RV_CONTENT
 			  , ID
-			  , B_CODE
+			  , CART_CODE
 			  , P_CODE
 			  , ENROLL_DATE
 			  , RATT.ATT_CODE AS R_ATT_CODE
@@ -849,7 +860,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		  LEFT JOIN
 		  		S_CATEGORY USING(C_CODE)
 		 WHERE
-		 		B_CODE = #{bcode}
+		 		CART_CODE = #{cartCode}
 		   AND  P_CODE = #{pcode}
 		   AND  ID = #{id}
            AND  SATT.IS_MAIN_ATT = 'Y'

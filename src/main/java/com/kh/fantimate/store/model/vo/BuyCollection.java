@@ -1,8 +1,8 @@
 package com.kh.fantimate.store.model.vo;
 
 import com.kh.fantimate.common.model.vo.Attachment;
+import com.kh.fantimate.pay.model.vo.Cart;
 import com.kh.fantimate.pay.model.vo.Payment;
-import com.kh.fantimate.pay.model.vo.ProductBuy;
 
 import lombok.Data;
 
@@ -12,6 +12,6 @@ public class BuyCollection {
 	private Attachment att;
 	private StoreCategory storeCate;
 	private Review review;
-	private ProductBuy pbuy;
+	private Cart cart;
 	private Payment payment;
 }

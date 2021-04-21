@@ -68,10 +68,16 @@ html, body {
     /* border: 2px solid red; */
 }
 
+.store-write > tbody > tr:nth-of-type(4) > td {
+	height: 80px;
+}
+
+
 .artist-search {
     position: relative;
     width: 90%;
     height: 100%;
+    border: 2px solid red;
 }
 
 .artist-search img {
@@ -83,6 +89,10 @@ html, body {
 
 .artist-search input {
     width: 100%;
+}
+
+.tag-search input {
+	height: 50px;
 }
 
 .search-area {
@@ -117,11 +127,40 @@ html, body {
     cursor: pointer;
 }
 
+.tagArea {
+	padding: 0;
+	display: flex;
+	justify-content: space-evenly;
+	align-content: center;
+	flex-wrap: wrap;
+	border: 2px solid blue;
+	margin: 0;
+}
+
+.tagArea > li {
+	min-width: 80px;
+    height: 30px;
+    background: #FCEAE5;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: Yoon Minguk;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 18px;
+    margin: 10px 0;
+    padding: 0 15px;
+    box-shadow: 0 1px 3px rgba(100, 100, 100, 0.15);
+    box-sizing: border-box;
+    position: relative;
+    cursor: pointer;
+}
+
 .artist-search.tag-search img {
     position: absolute;
     left: 20px;
-    top: 50%;
-    transform: translateY(-50%);
+    top: 25px;
 }
 
 .artist-search.tag-search input.input-data {

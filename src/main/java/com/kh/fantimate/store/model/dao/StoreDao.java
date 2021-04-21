@@ -7,7 +7,6 @@ import java.util.Map;
 import com.kh.fantimate.common.model.vo.Attachment;
 import com.kh.fantimate.pay.model.vo.Cart;
 import com.kh.fantimate.pay.model.vo.CartCollection;
-import com.kh.fantimate.pay.model.vo.ProductBuy;
 import com.kh.fantimate.store.model.vo.BuyCollection;
 import com.kh.fantimate.store.model.vo.Review;
 import com.kh.fantimate.store.model.vo.ReviewCollection;
@@ -104,7 +103,7 @@ public interface StoreDao {
 	public List<BuyCollection> selectCollectionStore(String userId);
 
 	// 스토어 메인사진 정보만 불러오기
-	public BuyCollection readStoreMain(ProductBuy pb);
+	public BuyCollection readStoreMain(Cart cart);
 
 	// 리뷰 등록
 	public int insertReview(Review review);
