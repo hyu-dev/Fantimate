@@ -69,7 +69,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<result property="rptReason" column="RPT_REASON"/>
 		<result property="rptDate" column="RPT_DATE"/>
 		<result property="isReported" column="IS_REPORTED"/>
-		<result property="id" column="U_ID"/>
+		<result property="rptId" column="U_ID"/>
 		<result property="refId" column="MESS_NO"/>
 	</resultMap> 
 	<!-- 친구 -->
@@ -498,7 +498,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		  , #{rptReason}
 		  , SYSDATE
 		  , DEFAULT
-		  , #{id}
+		  , #{rptId}
 		  , #{refId}
 		)
 	
@@ -760,6 +760,59 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		AND ATS.IS_MAIN_ATT = 'Y'
 		ORDER BY S.VIEWCOUNT DESC
 	</select>
+	
+	<update id="updateAcceptFriend" parameterType="Friend">
+		UPDATE 
+		    FRIEND
+		SET 
+		    FR_STATUS = 2
+		WHERE
+		    U_ID_SEND = #{frSend}
+		AND 
+		    U_ID_RECEIVE = #{frRecId}
+	</update>
+	
+	<update id="updateDeclineFriend" parameterType="Friend">
+		UPDATE 
+		    FRIEND
+		SET 
+		    FR_STATUS = 3
+		WHERE
+		    U_ID_SEND = #{frSend}
+		AND 
+		    U_ID_RECEIVE = #{frRecId}
+	</update>
+	
+	<insert id="insertAlarmF" parameterType="hashMap">
+		INSERT 
+		INTO ALARM
+		(
+			AL_MADE_CODE
+	      , AL_CONTENT
+	      , AL_TIME
+	      , AL_STATUS
+	      , AL_CODE
+	      , ID
+		)
+		VALUES
+		(
+		    SEQ_ALARM.NEXTVAL
+		  , #{user} || '님이 친구를 수락했습니다.'
+		  , SYSDATE
+		  , DEFAULT
+		  , 17
+		  , #{sendId}
+		)
+	</insert>
+	
+	<update id="updateAlarmStatus" parameterType="_int">
+	UPDATE 
+		  ALARM
+	   SET
+	   	  AL_STATUS = 'N'
+	WHERE 
+		  AL_MADE_CODE = #{alCode}
+	</update>
 	
 	
 </mapper>

@@ -2,9 +2,11 @@ package com.kh.fantimate.main.model.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.kh.fantimate.common.model.vo.Alarm;
 import com.kh.fantimate.common.model.vo.Attachment;
+import com.kh.fantimate.common.model.vo.Friend;
 import com.kh.fantimate.common.model.vo.Message;
 import com.kh.fantimate.common.model.vo.Report;
 import com.kh.fantimate.main.model.vo.FeedTopNineCollection;
@@ -84,6 +86,18 @@ public interface MainService {
 
 	// 23. 회원이 구독한 아티스트 스토어 조회수 탑 9조회 
 	public List<StoreTopNineCollection> selectStoreTopNineCollection(String user);
+
+	// 24. 친구 수락
+	public int updateAcceptFriend(Friend fr);
+	
+	// 25. 친구 거절
+	public int updateDeclineFriend(Friend fr);
+
+	// 26. 친구 수락 알람 insert
+	public int insertAlarmF(Map<String, String> map);
+
+	// 27. 알람 상태 업데이트
+	public int updateAlarmStatus(int alCode);
 
 
 }

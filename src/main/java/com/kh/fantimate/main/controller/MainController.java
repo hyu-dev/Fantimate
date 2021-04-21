@@ -8,7 +8,9 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -29,6 +31,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.kh.fantimate.common.model.vo.Alarm;
 import com.kh.fantimate.common.model.vo.Attachment;
+import com.kh.fantimate.common.model.vo.Friend;
 import com.kh.fantimate.common.model.vo.Message;
 import com.kh.fantimate.common.model.vo.Report;
 import com.kh.fantimate.main.model.service.MainService;
@@ -539,5 +542,82 @@ public class MainController {
 		return new Gson().toJson(slist);
 
 	}
+	
+	// 친구 수락
+	@GetMapping("/acceptFriend")
+	public String acceptFriend(String sendId,
+										  HttpSession session,
+										  Friend fr,
+										  Model model,
+										  int alCode) {
+		
+		Member loginUser = (Member) session.getAttribute("loginUser");
+		// 로그인 유저의 아이디 가지고 가기
+		String user = loginUser.getId();
+		
+		fr.setFrRecId(user);
+		fr.setFrSend(sendId);
+		
+		Map<String, String> map = new HashMap<>();
+		map.put("user", user);
+		map.put("sendId", sendId);
+		
+		int result = mpService.updateAcceptFriend(fr);
+		// 알람 insert
+		int alarmFriend = mpService.insertAlarmF(map);
+		// 알림에서 가리기
+		int hideAlarm = mpService.updateAlarmStatus(alCode);
+		
+		System.out.println("result:" + result);
+		System.out.println("alarmFriend:" + alarmFriend);
+		System.out.println("hideAlarm:" + hideAlarm);
+		
+		if(result > 0 && alarmFriend > 0 && hideAlarm > 0) {
+			model.addAttribute("msg", "accept");
+		} else {
+			model.addAttribute("msg", "fail");
+		}
+		
+		return "common/navSearch";
+		
+	}
+	
+	// 친구 거절 
+	@GetMapping("/declineFriend")
+	public String declineFriend(String sendId,
+										  HttpSession session,
+										  Friend fr,
+										  Model model,
+										  int alCode) {
+		
+		Member loginUser = (Member) session.getAttribute("loginUser");
+		// 로그인 유저의 아이디 가지고 가기
+		String user = loginUser.getId();
+		
+		fr.setFrRecId(user);
+		fr.setFrSend(sendId);
+		
+		int result = mpService.updateDeclineFriend(fr);
+		// 알림에서 가리기
+		int hideAlarm = mpService.updateAlarmStatus(alCode);
+		
+		System.out.println("거절result:" + result);
+		System.out.println("거절hideAlarm:" + hideAlarm);
+		
+		if(result > 0 && hideAlarm > 0) {
+			model.addAttribute("msg", "decline");
+		}else {
+			model.addAttribute("msg", "fail");
+		}
+		
+		return "common/navSearch";
+		
+	}
+	
+	
+
+		
+	
+	
 
 }

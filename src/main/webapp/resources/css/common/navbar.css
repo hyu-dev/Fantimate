@@ -210,7 +210,7 @@ input[type="checkbox"]{
 
 .alarm-list{
     display: block;
-    width: 550px;
+    width: 600px;
     height: 626px;
     background-color: white;
     border-radius: 8px;
@@ -685,5 +685,37 @@ li.alarm-content:hover{
 
 #friendContent{
 	display:none;
+}
+
+
+
+#acceptBtn{
+    background: transparent;
+    width: 70px;
+    height: 35px;
+    font-style: normal;
+    font-size: 15px;
+    text-align: center;
+    color: #dfb9b9;
+    border: 1px solid #dfb9b9;
+    margin-left: 15px;
+    border-radius: 5px;
+    font-weight: 500;
+    cursor : pointer;
+}
+
+#noBtn{
+    width: 70px;
+    height: 35px;
+    background: transparent;
+    font-style: normal;
+    font-size: 15px;
+    text-align: center;
+    color: #5C5F78;
+    border: 1px solid #5C5F78;
+    margin-left: 10px;
+    border-radius: 5px;
+    font-weight: 500;
+    cursor : pointer;
 }
 
