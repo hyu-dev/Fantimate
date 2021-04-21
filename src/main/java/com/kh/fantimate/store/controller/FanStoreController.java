@@ -99,6 +99,29 @@ public class FanStoreController {
 		}
 	}
 	
+	@GetMapping("/certifyArea")
+	public String certifyArea(@RequestParam(value="area") String area, 
+					  		  Model model, HttpServletRequest request) {
+		System.out.println(area);
+		
+		// 지역코드 불러오기
+		int areaCode = fService.selectAreaCode(area);
+		// 유저 객체에 담기
+		User user = new User();
+		user.setAreaCode(areaCode);
+		user.setAreaReg("Y");
+		user.setId(((Member)request.getSession().getAttribute("loginUser")).getId());
+		
+		int result = fService.certifyArea(user);
+		
+		if(result > 0) {
+			return "redirect:/fanStore/list";
+		} else {
+			model.addAttribute("error", "지역인증에 실패하였습니다");
+			return "store/fanStoreList";
+		}
+	}
+	
 	@PostMapping("/myStore")
 	public @ResponseBody List<FStoreListCollection> selectMyStoreList(User user,
 																	  HttpServletRequest request) {

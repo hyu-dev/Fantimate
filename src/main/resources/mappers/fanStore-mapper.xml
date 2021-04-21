@@ -132,11 +132,13 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		        USER_AREA USING(AREA_CODE)
 		  LEFT JOIN
 		  		F_WISH W USING(F_CODE)
-		 WHERE
+		 <trim prefix="WHERE" prefixOverrides="AND|OR">
+		 <if test='_parameter != 1'>
 		        AREA_CODE = #{areaCode}
-           AND
-                IS_MAIN_ATT = 'Y'
+		 </if>
+           AND  IS_MAIN_ATT = 'Y'
            AND  IS_ACTIVE = 'Y'
+         </trim>
       ORDER BY  F_CODE DESC
 	</select>
 	<select id="selectAreaList" parameterType="string" resultMap="areaResultSet">
@@ -154,7 +156,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		  FROM
 		  		USER_AREA
 		 WHERE
-		 		AREA_NAME = #{area}
+		 		AREA_NAME LIKE '%' || #{area} || '%'
 	</select>
 	<update id="settingArea" parameterType="User">
 		UPDATE
@@ -162,6 +164,16 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		   SET
 		   		AREA_REGISTER = 'Y'
 		   	  , AREA_CERTIFY = 'N'
+		   	  , AREA_CODE = #{areaCode}
+		 WHERE
+		 		U_ID = #{id}
+	</update>
+	<update id="certifyArea" parameterType="User">
+		UPDATE
+				USER_
+		   SET
+		   		AREA_REGISTER = 'N'
+		   	  , AREA_CERTIFY = 'Y'
 		   	  , AREA_CODE = #{areaCode}
 		 WHERE
 		 		U_ID = #{id}

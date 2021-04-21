@@ -54,5 +54,8 @@ public interface FanStoreService {
 
 	// 찜 목록 제거
 	int cancelWish(Wish wish);
+
+	// 지역인증하기
+	int certifyArea(User user);
 	
 }
