@@ -1,5 +1,6 @@
 package com.kh.fantimate.main.model.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,8 +11,11 @@ import com.kh.fantimate.common.model.vo.Attachment;
 import com.kh.fantimate.common.model.vo.Message;
 import com.kh.fantimate.common.model.vo.Report;
 import com.kh.fantimate.main.model.dao.MainDao;
+import com.kh.fantimate.main.model.vo.FeedTopNineCollection;
 import com.kh.fantimate.main.model.vo.FriendCollection;
 import com.kh.fantimate.main.model.vo.MainCollection;
+import com.kh.fantimate.main.model.vo.MediaTopNineCollection;
+import com.kh.fantimate.main.model.vo.StoreTopNineCollection;
 import com.kh.fantimate.main.model.vo.SubscribeArtist;
 
 @Service
@@ -140,5 +144,24 @@ public class MainServiceImpl implements MainService{
 		
 		return mpDao.selectFriendMsg(user);
 	}
+
+	@Override
+	public List<FeedTopNineCollection> selectFeedTopNineCollection(String user) {
+		
+		return mpDao.selectFeedTopNineCollection(user);
+	}
+
+	@Override
+	public List<MediaTopNineCollection> selectmediaTopNineCollection(String user) {
+		
+		return mpDao.selectMediaTopCollection(user);
+	}
+
+	@Override
+	public List<StoreTopNineCollection> selectStoreTopNineCollection(String user) {
+		
+		return mpDao.selectStoreTopCollection(user);
+	}
+
 
 }
