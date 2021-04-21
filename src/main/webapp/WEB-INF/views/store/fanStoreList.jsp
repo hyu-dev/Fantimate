@@ -380,6 +380,12 @@
 	        		console.log(list)
 	        		if(list.length < 1) {
 	        			alert("상품목록이 존재하지 않습니다")
+	        			if($(".toggle-switch input").is(":checked")) {
+	        				$(".area p").text("전체");
+	        				$(".toggle-switch input").prop("checked", false)
+	        				flag = true;
+	        				console.log("왜 안바껴")
+	        			}
 	        		} else {
 	        			var area = $(".store-product").html("");
 						var fcode = '';
@@ -468,7 +474,6 @@
 	        	}
 	        });
 		}
-		
     </script>
     </c:if>
     <c:choose>

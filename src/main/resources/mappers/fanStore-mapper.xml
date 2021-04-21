@@ -63,6 +63,11 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<result property="attStatus" column="UP_STATUS"/>
 		<result property="id" column="U_ID"/>
 	</resultMap>
+	<resultMap type="ArtistGroup" id="artiGroupResultSet">
+		<id property="artNameEn" column="ARTI_NAME_EN"/>
+		<result property="artNameKr" column="ARTI_NAME_KR"/>
+		<result property="agId" column="AG_ID"/>
+	</resultMap>
 	<resultMap type="FStoreListCollection" id="fsListCollResultSet">
 		<collection property="fstore" resultMap="fstoreResultSet" />
 		<collection property="hash" resultMap="hashResultSet" />
@@ -396,4 +401,16 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		   AND
 		   		F_CODE = #{code}
 	</update>
+	<select id="selectArtiNameList" parameterType="string" resultMap="artiGroupResultSet">
+		SELECT
+				ARTI_NAME_EN
+			  , ARTI_NAME_KR
+			  , AG_ID
+		  FROM
+		  		ART_MAIN
+		 WHERE
+		 		ARTI_NAME_EN = #{search}
+		    OR
+		    	ARTI_NAME_KR = #{search}
+	</select>
 </mapper>

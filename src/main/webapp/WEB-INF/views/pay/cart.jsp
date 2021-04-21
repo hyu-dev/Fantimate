@@ -284,15 +284,15 @@
 	    	// 상품명, 상품코드, 상품수량, 장바구니코드
 	    	var pname = []
 	    	var pcode = []
-	    	var productQ = []
+	    	var buyQ = []
 	    	var cartCodes = []
 			var flag = true;
 			$('td .jelly-checkbox input:checked').each(function(index) {
 				if($(this).parents("td").next().children().children(".cart-pCode").val() != null) {
 					pcode.push($(this).parents("td").next().children().children(".cart-pCode").val());
-					productQ.push($(this).parents("td").next().next().children().children(".product-quantity").text())
+					buyQ.push($(this).parents("td").next().next().children().children(".product-quantity").text())
 					pname.push($(this).parents("td").next().children().children(".cart-pName").val())
-					if($(this).parents("td").next().next().children().children(".product-quantity").text() > $(this).parents("td").next().children().children(".cart-pCode").val())
+					if($(this).parents("td").next().next().children().children(".product-quantity").text() > $(this).parents("td").next().children().children(".salesQ").val())
 						flag = false
 				} else {
 					pname.push($(this).parents("td").next().children().children(".media-ttl").val())
@@ -302,7 +302,7 @@
 			// 상품코드가 없다면
 			if(pcode.length < 1) {
 				pcode.push(0)
-				productQ.push(0)
+				buyQ.push(0)
 			}
 			// 구매전 재고확인
 			if(!flag) {
@@ -331,7 +331,7 @@
 		        		 		payPrice : rsp.paid_amount,
 		        		 		id : rsp.buyer_name,
 		        		 		payDivision : 1,
-		        		 		productQ : productQ,
+		        		 		buyQ : buyQ,
 		        		 		pcode : pcode,
 		        		 		cartCodes : cartCodes
 		        		 	},

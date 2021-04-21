@@ -3,6 +3,7 @@ package com.kh.fantimate.store.model.dao;
 import java.util.List;
 import java.util.Map;
 
+import com.kh.fantimate.member.model.vo.ArtistGroup;
 import com.kh.fantimate.member.model.vo.User;
 import com.kh.fantimate.member.model.vo.UserCollection;
 import com.kh.fantimate.store.model.vo.Area;
@@ -59,5 +60,8 @@ public interface FanStoreDao {
 
 	// 지역인증하기
 	int certifyArea(User user);
+
+	// 아티스트명 검색 리스트
+	List<ArtistGroup> selectArtiNameList(String search);
 
 }

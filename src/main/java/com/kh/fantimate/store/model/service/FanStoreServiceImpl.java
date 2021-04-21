@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kh.fantimate.member.model.vo.ArtistGroup;
 import com.kh.fantimate.member.model.vo.User;
 import com.kh.fantimate.member.model.vo.UserCollection;
 import com.kh.fantimate.store.model.dao.FanStoreDao;
@@ -93,6 +94,11 @@ public class FanStoreServiceImpl implements FanStoreService{
 	@Override
 	public int certifyArea(User user) {
 		return fDao.certifyArea(user);
+	}
+
+	@Override
+	public List<ArtistGroup> selectArtiNameList(String search) {
+		return fDao.selectArtiNameList(search);
 	}
 	
 	

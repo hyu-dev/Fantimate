@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import com.kh.fantimate.common.model.vo.Attachment;
 import com.kh.fantimate.pay.model.vo.Cart;
 import com.kh.fantimate.pay.model.vo.CartCollection;
-import com.kh.fantimate.pay.model.vo.ProductBuy;
 import com.kh.fantimate.store.model.dao.StoreDao;
 import com.kh.fantimate.store.model.vo.BuyCollection;
 import com.kh.fantimate.store.model.vo.Review;
@@ -155,8 +154,8 @@ public class StoreServiceImpl implements StoreService {
 	}
 
 	@Override
-	public BuyCollection readStoreMain(ProductBuy pb) {
-		return sDao.readStoreMain(pb);
+	public BuyCollection readStoreMain(Cart cart) {
+		return sDao.readStoreMain(cart);
 	}
 
 	@Override

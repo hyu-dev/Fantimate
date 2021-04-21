@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.kh.fantimate.member.model.vo.ArtistGroup;
 import com.kh.fantimate.member.model.vo.User;
 import com.kh.fantimate.member.model.vo.UserCollection;
 import com.kh.fantimate.store.model.dao.FanStoreDao;
@@ -57,5 +58,8 @@ public interface FanStoreService {
 
 	// 지역인증하기
 	int certifyArea(User user);
+
+	// 아티스트명 검색리스트 불러오기
+	List<ArtistGroup> selectArtiNameList(String search);
 	
 }
