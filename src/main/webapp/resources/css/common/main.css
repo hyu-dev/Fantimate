@@ -494,15 +494,41 @@ body::-webkit-scrollbar-track {
     cursor: pointer;
 }
 
-.mainPage-artistFeed .slide-list .left , .mainPage-media .slide-list .left ,.mainPage-store .slide-list .left{
+.mainPage-artistFeed .slide-list .left{
+	display:none;
     left: 30px;
     background:url("/fantimate/resources/images/main/left-arrow.svg") center center / 100% no-repeat;
 }
 
-.mainPage-artistFeed .slide-list .right , .mainPage-media .slide-list .right ,.mainPage-store .slide-list .right{
+.mainPage-artistFeed .slide-list .right {
+	display:none;
+    right: 30px;
+    background:url("/fantimate/resources/images/main/right-arrow.svg") center center / 100% no-repeat;
+}
+
+.mainPage-media .slide-list .left{
+	display:none;
+    left: 30px;
+    background:url("/fantimate/resources/images/main/left-arrow.svg") center center / 100% no-repeat;
+}
+
+.mainPage-store .slide-list .left{
+	display:none;
+	left: 30px;
+    background:url("/fantimate/resources/images/main/left-arrow.svg") center center / 100% no-repeat;
+}
+
+.mainPage-media .slide-list .right{
+	display:none;
     right: 30px;
     background:url("/fantimate/resources/images/main/right-arrow.svg") center center / 100% no-repeat;
 
+}
+
+.mainPage-store .slide-list .right{
+	display:none;
+	 right: 30px;
+    background:url("/fantimate/resources/images/main/right-arrow.svg") center center / 100% no-repeat;
 }
 
 .mainPage-artistFeed [id="slide01"]:checked ~ .slide-wrap .slide-list > li , .mainPage-media [id="slide04"]:checked ~ .slide-wrap .slide-list > li ,.mainPage-store [id="slide07"]:checked ~ .slide-wrap .slide-list > li{
