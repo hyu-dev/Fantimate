@@ -110,7 +110,7 @@
 						</c:if>
 <!-- 숨기면안되나?						 -->
 						<c:if test="${ pi.currentPage > 1 }">
-							<c:url var="before" value="/notice/list">
+							<c:url var="before" value="/mypage/admin/report">
 								<c:param name="page" value="${ pi.currentPage - 1 }"/>
 							</c:url>
 							<a href="${ before }"> &lt; </a> &nbsp;
@@ -122,7 +122,7 @@
 								<b>[${ p }]</b>								
 							</c:if>
 							<c:if test="${ p ne pi.currentPage }">
-								<c:url var="pagination" value="/notice/list">
+								<c:url var="pagination" value="/mypage/admin/report">
 									<c:param name="page" value="${ p }"/>
 								</c:url>
 								<a href="${ pagination }">${ p }</a>
@@ -131,10 +131,10 @@
 						
 						<!-- [다음] -->
 						<c:if test="${ pi.currentPage >= pi.maxPage }">
-							&gt;
+							&nbsp; &gt;
 						</c:if>
 						<c:if test="${ pi.currentPage < pi.maxPage }">
-							<c:url var="after" value="/notice/list">
+							<c:url var="after" value="/mypage/admin/report">
 								<c:param name="page" value="${ pi.currentPage + 1 }" />
 							</c:url>
 							<a href="${ after }">&gt;</a>
