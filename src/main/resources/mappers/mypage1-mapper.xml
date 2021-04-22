@@ -207,14 +207,6 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 			<result property="payPlan" column="PAY_PLAN"/>
 		</resultMap>
 		
-		<!-- P_BUY -6-->
-		<resultMap type="ProductBuy" id="ProductBuyRSet">
-			<id property="bcode" column="B_CODE"/>
-			<result property="productQ" column="PROD_Q"/>
-			<result property="payCode" column="PAY_CODE"/>
-			<result property="pcode" column="P_CODE"/>
-			<result property="id" column="userid"/>
-		</resultMap>
 		
 		<!-- UserPaymentCol User Payment 컬렉션 -->
 		<resultMap type="UserPaymentCol" id="UserPaymentColRSet">
@@ -223,7 +215,6 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 			<collection property="att" resultMap="AttachmentRSet"/>
 			<collection property="pinfo" resultMap="StoreInfoRSet"/>
 			<collection property="payment" resultMap="PaymentRSet"/>
-			<collection property="pbuy" resultMap="ProductBuyRSet"/>
 		</resultMap>
 
 
@@ -711,7 +702,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
                             pb.PAY_CODE = pay.PAY_CODE
                      WHERE
                             pb.ID = #{ payment.id }
-                       AND  pb.B_CODE = #{ pbuy.bcode }
+<!--                        AND  pb.B_CODE = #{ pbuy.bcode }  -->
                     )
                 SET 
                 	PAY_STATUS = #{ payment.payStatus }
