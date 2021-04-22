@@ -14,6 +14,7 @@ import com.kh.fantimate.member.model.vo.Member;
 import com.kh.fantimate.mypage1.model.vo.FriendPageInfo;
 import com.kh.fantimate.mypage1.model.vo.ReportPageInfo;
 import com.kh.fantimate.mypage1.model.vo.UserPaymentCol;
+import com.kh.fantimate.mypage1.model.vo.UserPaymentCol2;
 
 @Repository
 public class Mypage1DaoImpl implements Mypage1Dao{
@@ -149,26 +150,46 @@ public class Mypage1DaoImpl implements Mypage1Dao{
 	}
 
 	@Override
-	public List<UserPaymentCol> requestPayList(FriendPageInfo pi) {
+	public List<UserPaymentCol2> requestPayList(FriendPageInfo pi) {
 		System.out.println("pi.getSerchCondition() : " + pi.getSerchCondition());
 		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 		return sqlSession.selectList("mypage1Mapper.requestPayList", pi.getSerchCondition(), rowBounds);
 	}
 
-	@Override
-	public int userMypaymentsUpdate(UserPaymentCol u) {
+//	@Override
+//	public int userMypaymentsUpdate(UserPaymentCol2 u) {
 			/* 
 		p.setPayStatus(paystatus);
 		pb.setBcode(Integer.parseInt(bcode));
 		u.setPayment(p);
 		u.setPbuy(pb);
 			 */
-		
+//		System.out.println("u.getPayment().getPayStatus() : " + u.getPayment().getPayStatus());
+//		System.out.println("u.getPbuy().getBcode() : " + u.getCart().getCartCode());
 //		u.getPayment().getPayStatus();
 //		u.getPbuy().getBcode();
 		
-		return sqlSession.update("mypage1Mapper.userMypaymentsUpdate", u);
+//		return sqlSession.update("mypage1Mapper.userMypaymentsUpdate", u);
+//	}
+
+	@Override
+	public int CountCartCodeList(UserPaymentCol2 u) {
+		return sqlSession.selectOne("mypage1Mapper.CountCartCodeList", u);
+	}
+
+	@Override
+	public String selectPayCodeList(UserPaymentCol2 u) {
+		return sqlSession.selectOne("mypage1Mapper.selectPayCodeList", u);
+	}
+
+	@Override
+	public int userpaymentMConfirmUpdateC(UserPaymentCol2 u) {
+		return sqlSession.update("mypage1Mapper.userpaymentMConfirmUpdateC", u);
+	}
+	@Override
+	public int userpaymentMConfirmUpdateP(UserPaymentCol2 u) {
+		return sqlSession.update("mypage1Mapper.userpaymentMConfirmUpdateP", u);
 	}
 
 
