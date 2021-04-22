@@ -43,6 +43,18 @@ public interface PaymentDao {
 	// 미디어 컬렉션 불러오기
 	List<CartCollection> selectCollectionMedia(String userId);
 
+	// 결제등록
+	int insertPayment(Payment payment);
+
+	// 멤버십 여부 확인
+	String isMembership(Payment payment);
+
+	// 멤버십 기간 연장
+	void updateMembershipDate(Payment payment);
+
+	// 멤버십 등록
+	void updateUserMembership(Payment payment);
+
 	
 
 	

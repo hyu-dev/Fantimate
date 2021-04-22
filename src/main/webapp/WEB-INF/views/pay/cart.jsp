@@ -339,7 +339,7 @@
 		        	 dateType : "json",
 		        	 success : function(msg) {
 		        		 alert(msg.msg)
-		        		 location.href = "${contextPath}/pay/cart";
+		        		 location.href="${ pageContext.request.contextPath }/pay/cart"
 		        	 },
 		        	 error: function(e) {
 		        		 console.log(e)

@@ -156,4 +156,20 @@ public class PaymentController {
 		}
 		return list;
 	}
+	
+	@GetMapping("/plan")
+	public String planPage() {
+		return "pay/plan";
+	}
+	
+	@PostMapping("/membership")
+	@ResponseBody
+	public Map<String, String> enrollMembership(HttpServletRequest request,
+												Payment payment) {
+		String msg = "";
+		msg = pService.enrollMembership(payment) > 0 ? "결제가 완료되었습니다" : "결제가 취소되었습니다";
+		Map<String, String> map = new HashMap<>();
+		map.put("msg", msg);
+		return map;
+	}
 }

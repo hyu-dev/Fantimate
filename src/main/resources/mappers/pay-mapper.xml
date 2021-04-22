@@ -90,6 +90,21 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<collection property="payment" resultMap="paymentResultSet"/>
 		<collection property="cart" resultMap="cartResultSet" />
 	</resultMap>
+	<resultMap type="User" id="userResultSet">
+		<id property="id" column="U_ID"/>
+		<result property="uaddress" column="U_ADD"/>
+		<result property="uemail" column="U_EMAIL"/>
+		<result property="ucountry" column="U_COUNTRY"/>
+		<result property="areaReg" column="AREA_REGISTER"/>
+		<result property="areaCertify" column="AREA_CERTIFY"/>
+		<result property="areaCode" column="AREA_CODE"/>
+		<result property="isMembership" column="IS_MEMBERSHIP"/>
+		<result property="uPaidStart" column="U_PAID_START"/>
+		<result property="uPaidEnd" column="U_PAID_END"/>
+		<result property="uSuspendStart" column="U_SUSPEND_START"/>
+		<result property="uSuspendEnd" column="U_SUSPEND_END"/>
+		<result property="uProfile" column="U_PROFILE"/>
+	</resultMap>
 	<select id="selectCartList" parameterType="string" resultMap="cartCollResultSet">
 		SELECT 
 				CART_CODE
@@ -333,4 +348,55 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		   		IS_BOUGHT = 'Y'
 	  ORDER BY 	BOUGHT_DATE DESC
 	</select>
+	<insert id="insertPayment" parameterType="Payment">
+		INSERT
+		INTO PAYMENT
+		(
+			PAY_CODE
+		  , PAY_METHOD
+		  , PAY_STATUS
+		  , PAY_PRICE
+		  , PAY_DATE
+		  , ID
+		  , PAY_DIVISION
+		  , PAY_PLAN
+		)
+		VALUES
+		(
+			#{payCode}
+		  , #{payMethod}
+		  , #{payStatus}
+		  , #{payPrice}
+		  , SYSDATE
+		  , #{id}
+		  , #{payDivision}
+		  , #{payPlan}
+		)
+	</insert>
+	<select id="isMembership" parameterType="Payment" resultType="string">
+		SELECT
+				IS_MEMBERSHIP
+		  FROM
+		  		USER_
+		 WHERE
+		 		U_ID = #{id}
+	</select>
+	<update id="updateMembershipDate" parameterType="Payment">
+		UPDATE
+				USER_
+		   SET
+		   		U_PAID_END = ADD_MONTHS(U_PAID_END, #{payPlan})
+		 WHERE
+		 		U_ID = #{id}
+	</update>
+	<update id="updateUserMembership" parameterType="Payment">
+		UPDATE
+				USER_
+		   SET
+		   		IS_MEMBERSHIP = 'Y'
+		   	  , U_PAID_START = SYSDATE
+		   	  , U_PAID_END = ADD_MONTHS(SYSDATE, #{payPlan})
+		 WHERE
+		 		U_ID = #{id}
+	</update>
 </mapper>

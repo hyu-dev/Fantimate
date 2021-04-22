@@ -80,6 +80,24 @@ public class PaymentServiceImpl implements PaymentService {
 	public List<CartCollection> selectCollectionMedia(String userId) {
 		return pDao.selectCollectionMedia(userId);
 	}
+	// 멤버십 등록
+	@Override
+	public int enrollMembership(Payment payment) {
+		// 결제등록
+		int result = pDao.insertPayment(payment);
+		if(result > 0) {
+			// 멤버십여부 확인
+			String is = pDao.isMembership(payment);
+			if(is.equals("Y")) {
+				// 기간 연장
+				pDao.updateMembershipDate(payment);
+			} else {
+				// 기간 새로 등록
+				pDao.updateUserMembership(payment);
+			}
+		} 
+		return result;
+	}
 	
 	
 }

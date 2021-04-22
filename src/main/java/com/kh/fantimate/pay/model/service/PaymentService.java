@@ -29,5 +29,8 @@ public interface PaymentService {
 
 	// 미디어컬렉션 불러오기
 	List<CartCollection> selectCollectionMedia(String userId);
+
+	// 멤버십등록
+	int enrollMembership(Payment payment);
 	
 }

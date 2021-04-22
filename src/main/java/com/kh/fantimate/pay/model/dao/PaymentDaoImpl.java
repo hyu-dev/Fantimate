@@ -79,6 +79,24 @@ public class PaymentDaoImpl implements PaymentDao{
 	public void insertCartStoreOne(PayCollection paycoll) {
 		sqlSession.insert("payMapper.insertCartStoreOne", paycoll);
 	}
+	// 결제등록
+	@Override
+	public int insertPayment(Payment payment) {
+		return sqlSession.insert("payMapper.insertPayment", payment);
+	}
+	// 멤버십여부확인
+	@Override
+	public String isMembership(Payment payment) {
+		return sqlSession.selectOne("payMapper.isMembership", payment);
+	}
+	@Override
+	public void updateMembershipDate(Payment payment) {
+		sqlSession.update("payMapper.updateMembershipDate", payment);
+	}
+	@Override
+	public void updateUserMembership(Payment payment) {
+		sqlSession.update("payMapper.updateUserMembership", payment);
+	}
 	
 	
 }
