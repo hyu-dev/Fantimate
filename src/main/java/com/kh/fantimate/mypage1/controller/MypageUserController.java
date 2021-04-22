@@ -23,7 +23,6 @@ import com.kh.fantimate.mypage1.model.Service.Mypage1Service;
 import com.kh.fantimate.mypage1.model.vo.FriendPageInfo;
 import com.kh.fantimate.mypage1.model.vo.UserPaymentCol;
 import com.kh.fantimate.pay.model.vo.Payment;
-import com.kh.fantimate.pay.model.vo.ProductBuy;
 
 @Controller
 @RequestMapping("/mypage/user")
@@ -244,17 +243,17 @@ public class MypageUserController {
 			String userid = ((Member)session.getAttribute("loginUser")).getId();
 			UserPaymentCol u = new UserPaymentCol();
 			Payment p = new Payment();
-			ProductBuy pb = new ProductBuy();
+//수정필요			ProductBuy pb = new ProductBuy();
 			System.out.println("bcode : " + bcode);
 			System.out.println("paystatus : " + paystatus);
 			
 			p.setId(userid);
 			p.setPayStatus(paystatus);
-			pb.setBcode(Integer.parseInt(bcode));
+////			pb.setBcode(Integer.parseInt(bcode));
 			u.setPayment(p);
-			u.setPbuy(pb);
+//			u.setPbuy(pb);
 			System.out.println("객체 p : " + p);
-			System.out.println("객체 pb : " + pb);
+//			System.out.println("객체 pb : " + pb);
 			System.out.println("객체 u : " + u);
 			
 			int result = mService.userMypaymentsUpdate(u);
