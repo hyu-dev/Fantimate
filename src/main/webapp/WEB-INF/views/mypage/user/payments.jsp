@@ -17,6 +17,33 @@
 <title>payments</title>
 </head>
 <body>
+<!-- 메세지 -->
+	 <c:if test="${ !empty msg }">
+	 	<script>
+	 		alert(${ msg });
+	 	</script>
+<%-- 		 <c:choose> --%>
+<%-- 			 <c:when test="${ msg eq 'successRefund'}"> --%>
+<!-- 			 	<script> -->
+// 				    alert("환불신청이 완료되었습니다.");
+<!-- 			    </script> -->
+<%-- 			    <c:remove var="msg"/> --%>
+<%-- 			 </c:when> --%>
+<%-- 			 <c:when test="${ msg eq 'successConfirm'}"> --%>
+<!-- 			 	<script> -->
+// 				    alert("구매확정이 완료되었습니다.");
+<!-- 			    </script> -->
+<%-- 			    <c:remove var="msg"/> --%>
+<%-- 			 </c:when> --%>
+<%-- 			 <c:otherwise> --%>
+<!-- 			 	<script> -->
+// 				    alert("회원가입 실패!");
+<!-- 			    </script> -->
+<%-- 			 </c:otherwise> --%>
+<%-- 		</c:choose> --%>
+	</c:if>
+	
+	
 	<jsp:include page="../../common/navbar.jsp"></jsp:include>
 <%-- 	<jsp:include page="${ contextPath }'WEB-INF/views/common/navbar.jsp'"></jsp:include> --%>
 	<!-- 	상단 -->
@@ -59,12 +86,41 @@
                     	<tr>
                         	<c:set var="date" value="<%= new Date() %>"/>
                     		<td><fmt:formatDate type="date" value="${ p.payment.payDate }"/></td><!-- 주문일자 -->
-                    		<td>${ p.att.attSvName }</td><!-- 상품사진 -->
-                    		<td>${ p.store.pname }</td><!-- 주문상품정보 -->
-                    		<td>${ p.payment.payPrice }</td><!-- 금액(수량) -->
+                    		
+                    		<c:choose>
+                    			<c:when test="${ p.cart.pcode eq 0 }">
+                    				<td>${ p.mdatt.attSvName }</td>
+                    				<td>${ p.media.mediaTtl }</td>
+                    			</c:when>
+                    			<c:when test="${ p.cart.pcode ne 0 }">
+		                    		<!-- 상품사진 -->
+		                    		<td>
+		                    		${ p.att.attSvName }
+		                    		</td>
+		                    		<td>${ p.store.pname }</td><!-- 주문상품정보 -->
+                    			</c:when>
+                    		</c:choose>
+                    		
+<%-- style="white-space:pre-wrap; word_wrap:break-word; word-break: break-all;" pre처럼 --%>                    		
+                    		<td style="white-space:pre-wrap; word_wrap:break-word; word-break: break-all;"
+                    		>${ p.cart.buyPrice }원
+(${ p.cart.buyQ }개)</td><!-- 금액(수량) -->
                     		<td>
 	                    		<c:choose>
-	<%--                     		${ p.payment.payStatus } --%>
+<%-- 	                    		${ p.cart.isBought } --%>
+									<c:when test="${ p.cart.isBought == 'Y' }">
+										결제완료
+									</c:when>
+									<c:when test="${ p.cart.isBought == 'W' }">
+										환불신청
+									</c:when>
+									<c:when test="${ p.cart.isBought == 'R' }">
+										환불완료
+									</c:when>
+									<c:when test="${ p.cart.isBought == 'C' }">
+										구매확정
+									</c:when>
+<%--                     		${ p.payment.payStatus } 
 	                    			<c:when test="${ p.payment.payStatus == 1}">
 	                    				결제완료
 	                    			</c:when>
@@ -77,12 +133,29 @@
 	                    			<c:when test="${ p.payment.payStatus == 4}">
 	                    				환불완료
 	                    			</c:when>
+	                    			<c:when test="${ p.payment.payStatus == 5}">
+	                    				환불진행
+	                    			</c:when>
+	                    			<c:when test="${ p.payment.payStatus == 6}">
+	                    				환불완료
+	                    			</c:when> --%>
 	                    		</c:choose>
                     		</td><!-- 주문상태 -->
                     		<td>
                     			<div class="mypage-user-pay-btn-div"><!--수정 class로-->
-                                    <button onclick="confirmStatus('${ p.pbuy.bcode }')">구매확정</button>
-                                    <button onclick="refundStatus('${ p.pbuy.bcode }') ">환불신청</button>
+                    			<c:choose>
+                   					<c:when test="${ p.cart.pcode eq 0 }">
+<%-- 	                                    <button onclick="confirmMStatus('${ p.cart.cartCode}','${ p.payment.payStatus }')">구매확정</button> --%>
+	                                    <button onclick="confirmMStatus('${ p.cart.cartCode}','${ p.cart.isBought }')">구매확정</button>
+	                                    <button onclick="mediarefund()">환불신청</button>
+                   					</c:when>
+                   					<c:when test="${ p.cart.pcode ne 0}">
+<%-- 	                                    <button onclick="confirmSStatus('${ p.cart.cartCode }','${ p.payment.payStatus }')">구매확정</button> --%>
+<%-- 	                                    <button onclick="refundSStatus('${ p.cart.cartCode }','${ p.payment.payStatus }')) ">환불신청</button> --%>
+	                                    <button onclick="confirmSStatus('${ p.cart.cartCode }','${ p.cart.isBought }')">구매확정</button>
+	                                    <button onclick="refundSStatus('${ p.cart.cartCode }','${ p.cart.isBought }') ">환불신청</button>
+									</c:when>
+                    			</c:choose>
                                 </div>
                     		</td><!-- 확인/취소/리뷰 버튼 -->
                     		
@@ -133,7 +206,7 @@
             		</div>
             
             
-            
+            	</div>
             </div>
         </article>
 	
@@ -151,15 +224,16 @@ $(document).ready(function(){
     console.log("addClass 동작");
     
 });
-// 구매확정
-function confirmStatus(PBUYbcode){
-	// bcode받아서 해당 글 업데이트  
+// 구매확정 (store)
+function confirmSStatus(Cartcode,isBought){
+	// Cartcode받아서 해당 글 업데이트  
 	// 단, 결제완료(1)인 상태와 환불진행중인 경우에만 가능
-	if(PBUYbcode == 1){
+// 	if(payStatus == 1){
+	if(isBought == 'Y'){
 		if(confirm("구매확정을 하시겠습니까?")){
-			console.log("구매확정 " + PBUYbcode);
+			console.log("구매확정 " + Cartcode);
 			
-			location.href='${contextPath}/mypage/user/payments/update?PBUYbcode=' + PBUYbcode + '&paystatus=2';
+			location.href='${contextPath}/mypage/user/payments/update?Cartcode=' + 'S-' + Cartcode + '&isBought=C';
 			console.log("구매확정 완료")
 			// 확정으로 업데이트 하기
 			
@@ -169,53 +243,94 @@ function confirmStatus(PBUYbcode){
 			alert("구매확정이 취소되었습니다.");
 		}
 		
-	}else if(PBUYbcode == 2){
+	}else if(isBought == 'C'){
 		alert("이미 구매확정된 상품입니다.")
-	}else if(PBUYbcode == 3){
+	}else if(isBought == 'W'){
 		if(confirm("환불진행중인 상품입니다. 환불신청을 취소하고 구매확정을 하시겠습니까?")){
-			location.href='${contextPath}/mypage/user/payments/update?PBUYbcode=' + PBUYbcode + '&paystatus=3';
+			location.href='${contextPath}/mypage/user/payments/update?Cartcode=' + 'S-' + Cartcode + '&isBought=C';
 		}else{
 			alert("구매확정이 취소되었습니다.");
 		}
-	}else if(PBUYbcode == 4){
-		alert("이미 환불이 완료된 상품입니다.");
+	}else {
+		alert("구매확정이 불가능한 상품입니다.");
 	}
-// 	else{
-// 		alert("구매확정을 할 수 없습니다.");
-// 	}
 }
-// 환불신청
-function refundStatus(PBUYbcode){
-	// bcode받아서 해당 글 업데이트 
-	// 단, 결제완료인 상태에만  
-	if(PBUYbcode == 1){
-		if(confirm("환불 신청을 하시겠습니까?")){
-			console.log("환불신청 " + PBUYbcode);
+// 구매확정 (media)
+function confirmMStatus(Cartcode,isBought){
+	// bcode받아서 해당 글 업데이트  
+	// 단, 결제완료(1)인 상태와 환불진행중인 경우에만 가능
+// 	if(payStatus == 1){
+// 		if(confirm("구매확정을 하시겠습니까?")){
+// 			console.log("구매확정 " + Cartcode);
 			
-			// 해당 게시글을 갖고 요청  // 페이지값과 status도 줘야할듯?
-			location.href='${contextPath}/mypage/user/payments/update?PBUYbcode=' + PBUYbcode + '&paystatus=3';
+// 			location.href='${contextPath}/mypage/user/payments/update?Cartcode=' + 'M-' + Cartcode + '&isBought=C';
+// 			console.log("구매확정 완료")
+// 			// 확정으로 업데이트 하기
 			
+// 			alert("구매가 확정되었습니다.");
+// 		}else{
+// 			console.log("구매확정 취소");
+// 			alert("구매확정이 취소되었습니다.");
+// 		}
+		
+// 	}else if(payStatus == 2){
+// 		alert("이미 구매확정된 상품입니다.")
+// 	}else {
+// 		alert("구매확정이 불가능한 상품입니다.");
+// 	}
+	if(isBought == 'Y'){
+		if(confirm("구매확정을 하시겠습니까?")){
+			console.log("구매확정 " + Cartcode);
+			
+			location.href='${contextPath}/mypage/user/payments/update?Cartcode=' + 'M-' + Cartcode + '&isBought=C';
 			console.log("구매확정 완료")
 			// 확정으로 업데이트 하기
-			
-			alert("환불신청이 완료되었습니다.");
+			alert("구매가 확정되었습니다.");
 		}else{
-			console.log("환불신청 취소");
-			alert("환불신청이 취소되었습니다.");
+			console.log("구매확정 취소");
+			alert("구매확정이 취소되었습니다.");
 		}
+		
+	}else if(isBought == 'C'){
+		alert("이미 구매확정된 상품입니다.")
+	}else {
+		alert("구매확정이 불가능한 상품입니다.");
 	}
-// 환불신청을 한 후에 결제완료로 다시 바꾸기
-// 	else if(PBUYbcode == 3){
+}
+// 환불신청(store만 가능)  --> R로(paystatus상태 3으로 생략04.23결정됨)
+function refundSStatus(Cartcode,isBought){
+	// bcode받아서 해당 글 업데이트 
+	// 단, 결제완료인 상태에만  
+	if(isBought == 'Y'){
+		if(confirm("환불 신청을 하시겠습니까?")){
+			console.log("환불신청 " + Cartcode);
+			// 해당 게시글을 갖고 요청  // 페이지값과 status도 줘야할듯?
+			location.href='${contextPath}/mypage/user/payments/update?Cartcode=' + 'S-' + Cartcode + '&isBought=W';
+			console.log("구매확정 완료")
+			// 확정으로 업데이트 하기
+			alert("환불신청이 완료되었습니다.");
+		}
+// 다시눌렀을때 환불신청 취소할 것인지.
+	}else if(isBought == 'W'){
+		alert("이미 환불신청한 제품입니다.");
+	}else if(isBought == 'C'){
+		alert("이미 구매확정된 제품입니다.");
+	}else{
+		alert("환불이 불가능한 상품입니다.");
+	}
+//환불신청을 한 후에 결제완료로 다시 바꾸기
+// 	else if(payStatus == 3){
 // 		if(confirm("환불신청을 취소하시겠습니까?")){
-//			location.href='${contextPath}/mypage/user/payments/update?PBUYbcode=' + PBUYbcode + '&paystatus=1';		
+// 			location.href='${contextPath}/mypage/user/payments/update?Cartcode=' + Cartcode + '&paystatus=1';		
 // 			alert("환불신청이 취소되었습니다.");
 // 		}
 // 	}
-	else{
-		alert("환불신청이 불가능합니다.");
-	}
 }
 
+// 미디어 환불 불가 알람
+function mediarefund(){
+	alert("미디어 상품은 환불이 불가합니다.");
+}
 </script>	
 </body>
 </html>

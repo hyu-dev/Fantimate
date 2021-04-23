@@ -9,6 +9,8 @@ import com.kh.fantimate.member.model.vo.Member;
 import com.kh.fantimate.mypage1.model.vo.FriendPageInfo;
 import com.kh.fantimate.mypage1.model.vo.ReportPageInfo;
 import com.kh.fantimate.mypage1.model.vo.UserPaymentCol;
+import com.kh.fantimate.mypage1.model.vo.UserPaymentCol2;
+import com.kh.fantimate.mypage1.model.vo.UserPaymentCol2;
 
 public interface Mypage1Dao {
 	
@@ -52,9 +54,15 @@ public interface Mypage1Dao {
 
 	// 회원 결제내역 카운트
 	public int RListCountPayList(Member m);
-	public List<UserPaymentCol> requestPayList(FriendPageInfo pi);
+	public List<UserPaymentCol2> requestPayList(FriendPageInfo pi);
 
-	// 결제내역 업데이트
-	public int userMypaymentsUpdate(UserPaymentCol u);
+	public String selectPayCodeList(UserPaymentCol2 u);
+	public int CountCartCodeList(UserPaymentCol2 u);
+
+	public int userpaymentMConfirmUpdateC(UserPaymentCol2 u);
+	public int userpaymentMConfirmUpdateP(UserPaymentCol2 u);
+
+	public int userpaymentSConfirmUpdateC(UserPaymentCol2 u);
+
 
 }

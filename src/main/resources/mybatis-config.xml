@@ -26,10 +26,12 @@
 		<typeAlias type="com.kh.fantimate.mypage1.model.vo.FanStoreR" alias="FanStoreR"/>
 		<typeAlias type="com.kh.fantimate.mypage1.model.vo.FanstoreRList" alias="FanstoreRList"/>
 		<typeAlias type="com.kh.fantimate.mypage1.model.vo.FanStore2" alias="FanStore2"/>
+		<typeAlias type="com.kh.fantimate.mypage1.model.vo.Media" alias="Media"/>
 		<typeAlias type="com.kh.fantimate.mypage1.model.vo.MediaR" alias="MediaR"/>
 		<typeAlias type="com.kh.fantimate.mypage1.model.vo.MediaRList" alias="MediaRList"/>
 		<typeAlias type="com.kh.fantimate.mypage1.model.vo.FriendList1" alias="FriendList1"/>
 		<typeAlias type="com.kh.fantimate.mypage1.model.vo.UserPaymentCol" alias="UserPaymentCol"/>
+		<typeAlias type="com.kh.fantimate.mypage1.model.vo.UserPaymentCol2" alias="UserPaymentCol2"/>
 		<typeAlias type="com.kh.fantimate.common.model.vo.Alarm" alias="Alarm"/>
 		<typeAlias type="com.kh.fantimate.common.model.vo.BookMark" alias="BookMark"/>
 		<typeAlias type="com.kh.fantimate.common.model.vo.Message" alias="Message"/>
