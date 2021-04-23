@@ -71,4 +71,10 @@ public interface MainDao {
 
 	public int updateAlarmStatus(int alCode);
 
+	public List<MediaTopNineCollection> selectChartTopThree();
+
+	public List<MediaTopNineCollection> selectChartDay();
+
+	public List<MediaTopNineCollection> selectChartWeek();
+
 }

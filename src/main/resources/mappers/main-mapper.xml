@@ -126,6 +126,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<result property="isPay" column="IS_PAY"/>
 		<result property="cateCode" column="CATE_CODE"/>
 		<result property="mediaPay" column="MEDIA_PAY"/>
+		<result property="mediaCount" column="MEDIA_COUNT"/>
 	</resultMap>
 	<!-- 미디어 카테고리 -->
 	<resultMap type="Category" id="category">
@@ -564,8 +565,10 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		    , U.UP_SV_NAME
 		    , U.UP_STATUS
 		    , U.U_ID
-		FROM FRIEND F
-		JOIN USER_PROFILE U ON (U.U_ID = F.U_ID_SEND)
+		FROM
+			FRIEND F
+		JOIN
+			USER_PROFILE U ON (U.U_ID = F.U_ID_SEND)
 		WHERE 
 		     (F.U_ID_RECEIVE = #{frRecId}
 		     OR F.U_ID_SEND = #{frSend})
@@ -584,8 +587,10 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		    , U.UP_SV_NAME
 		    , U.UP_STATUS
 		    , U.U_ID
-		FROM FRIEND F
-		JOIN USER_PROFILE U ON (U.U_ID = F.U_ID_RECEIVE)
+		FROM
+			FRIEND F
+		JOIN
+			USER_PROFILE U ON (U.U_ID = F.U_ID_RECEIVE)
 		WHERE 
 		     (F.U_ID_RECEIVE = #{frRecId}
 		     OR F.U_ID_SEND = #{frSend})
@@ -609,10 +614,14 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		    , F.U_ID_SEND
 		    , F.U_ID_RECEIVE
 		    , F.FR_STATUS
-		FROM MESSAGE M
-		JOIN FRIEND F ON (F.U_ID_SEND = M.U_ID_RECEIVE)
+		FROM
+			MESSAGE M
+		JOIN
+			FRIEND F ON (F.U_ID_SEND = M.U_ID_RECEIVE)
 		WHERE 
-		     ((F.U_ID_RECEIVE = #{frRecId} AND M.U_ID_RECEIVE = #{id}) OR (F.U_ID_SEND = #{frSend} AND M.U_ID_RECEIVE = #{id}))
+		     ((F.U_ID_RECEIVE = #{frRecId} AND M.U_ID_RECEIVE = #{id})
+		OR
+			 (F.U_ID_SEND = #{frSend} AND M.U_ID_RECEIVE = #{id}))
 		AND F.FR_STATUS = 2
 		AND MESS_STATUS = 'Y'
 		AND (F.U_ID_SEND = M.U_ID_SEND OR F.U_ID_RECEIVE = M.U_ID_SEND)
@@ -630,10 +639,14 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		    , F.U_ID_SEND
 		    , F.U_ID_RECEIVE
 		    , F.FR_STATUS
-		FROM MESSAGE M
-		JOIN FRIEND F ON (F.U_ID_RECEIVE = M.U_ID_RECEIVE)
+		FROM
+			MESSAGE M
+		JOIN
+			FRIEND F ON (F.U_ID_RECEIVE = M.U_ID_RECEIVE)
 		WHERE 
-		     ((F.U_ID_RECEIVE = #{frRecId} AND M.U_ID_RECEIVE = #{id}) OR (F.U_ID_SEND = #{frSend} AND M.U_ID_RECEIVE = #{id}))
+		     ((F.U_ID_RECEIVE = #{frRecId} AND M.U_ID_RECEIVE = #{id})
+		OR
+			 (F.U_ID_SEND = #{frSend} AND M.U_ID_RECEIVE = #{id}))
 		AND   F.FR_STATUS = 2
 		AND MESS_STATUS = 'Y'
 		AND (F.U_ID_SEND = M.U_ID_SEND OR F.U_ID_RECEIVE = M.U_ID_SEND)
@@ -669,21 +682,26 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		    , AB.AB_STATUS
 		FROM 
 		     BOARD B
-		JOIN ATT_SUBSCRIBE A ON( B.ARTI_NAME_EN = A.ARTI_NAME_EN)
-		JOIN B_LIKE L ON (B.BID = L.BID)
-		JOIN ART_PIC P ON (P.ARTI_ID = B.ID)
-		LEFT JOIN ATT_BOARD AB ON ( AB.BID = B.BID)
+		JOIN
+			ATT_SUBSCRIBE A ON( B.ARTI_NAME_EN = A.ARTI_NAME_EN)
+		JOIN
+			B_LIKE L ON (B.BID = L.BID)
+		JOIN
+			ART_PIC P ON (P.ARTI_ID = B.ID)
+		LEFT JOIN
+			ATT_BOARD AB ON ( AB.BID = B.BID)
 		WHERE 
 		     A.U_ID = #{id}
 		AND  B.BTYPE ='A'
 		AND  B.BSTATUS = 'Y'
 		AND  A.SUB_STATUS = 'N'
 		AND  P.ATT_STATUS = 'Y'
-		GROUP BY L.BID, A.SUB_CODE, A.U_ID, A.SUB_STATUS, A.ARTI_NAME_EN, 
-		B.BID, B.BTYPE, B.BCONTENT, B.BLIKE, B.BSTATUS, 
-		B.ID, B.ARTI_NAME_EN, P.ATT_CODE, P.ATT_ROOT, P.ATT_CL_NAME, 
-		P.ATT_SV_NAME, P.ATT_STATUS, P.ARTI_ID, AB.BID, AB.BPID, 
-		AB.BP_PATH, AB.BP_OGNAME, AB.BP_CHNAME, AB.AB_STATUS
+		GROUP BY
+			L.BID, A.SUB_CODE, A.U_ID, A.SUB_STATUS, A.ARTI_NAME_EN, 
+			B.BID, B.BTYPE, B.BCONTENT, B.BLIKE, B.BSTATUS, 
+			B.ID, B.ARTI_NAME_EN, P.ATT_CODE, P.ATT_ROOT, P.ATT_CL_NAME, 
+			P.ATT_SV_NAME, P.ATT_STATUS, P.ARTI_ID, AB.BID, AB.BPID, 
+			AB.BP_PATH, AB.BP_OGNAME, AB.BP_CHNAME, AB.AB_STATUS
 	</select>
 	
 	<select id="selectMediaTopNine" resultMap="MediaTopNineCollection">
@@ -697,6 +715,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		    , M.MEDIA_NUM
 		    , M.MEDIA_STATUS
 		    , M.CATE_CODE
+            , M.MEDIA_COUNT
 		    , MP.ATT_CL_NAME
 		    , MP.ATT_SV_NAME
 		    , MP.ATT_STATUS
@@ -709,21 +728,22 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		    , MF.PIC_CL_NAME
 		    , MF.PIC_SV_NAME
 		    , MF.MEDIA_NUM
-		    , MH.COUNT
-		    , MH.COUNT_DATE
-		    , MH.MEDIA_NUM
 		FROM 
 		     MEDIA M
-		JOIN M_CATEGORY MC ON( MC.CATE_CODE = M.CATE_CODE)
-		JOIN ATT_SUBSCRIBE A ON(A.ARTI_NAME_EN = MC.ARTI_NAME_EN)
-		JOIN ART_MAIN_PIC MP ON(MP.ARTI_NAME_EN = MC.ARTI_NAME_EN)
-		JOIN MD_FILE MF ON (MF.MEDIA_NUM = M.MEDIA_NUM)
-		JOIN MD_COUNT MH ON (MH.MEDIA_NUM = M.MEDIA_NUM)
+		JOIN
+			M_CATEGORY MC ON( MC.CATE_CODE = M.CATE_CODE)
+		JOIN
+			ATT_SUBSCRIBE A ON(A.ARTI_NAME_EN = MC.ARTI_NAME_EN)
+		JOIN
+			ART_MAIN_PIC MP ON(MP.ARTI_NAME_EN = MC.ARTI_NAME_EN)
+		JOIN
+			MD_FILE MF ON (MF.MEDIA_NUM = M.MEDIA_NUM)
 		WHERE 
 		     A.U_ID = #{id}
 		AND  M.MEDIA_STATUS = 'Y'
-		AND MP.ATT_STATUS = 'Y'
-		ORDER BY MH.COUNT DESC
+		AND MP.ATT_STATUS = 'Y' 
+		ORDER BY
+			M.MEDIA_COUNT DESC
 	</select>
 	
 	<select id="selectStoreTopNine" resultMap="StoreTopNineCollection">
@@ -750,15 +770,19 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		    , ATS.P_CODE
 		FROM 
 		    STORE S
-		JOIN S_CATEGORY SC ON (SC.C_CODE = S.C_CODE)
-		JOIN ATT_SUBSCRIBE A ON (A.ARTI_NAME_EN = SC.ARTI_NAME_EN)
-		JOIN ATT_STORE ATS ON(ATS.P_CODE = S.P_CODE)
+		JOIN
+			S_CATEGORY SC ON (SC.C_CODE = S.C_CODE)
+		JOIN
+			ATT_SUBSCRIBE A ON (A.ARTI_NAME_EN = SC.ARTI_NAME_EN)
+		JOIN
+			ATT_STORE ATS ON(ATS.P_CODE = S.P_CODE)
 		WHERE 
 		     A.U_ID = #{id}
 		AND  S.IS_ACTIVE = 'Y'
 		AND  S.IS_SOLDOUT = 'N'
 		AND ATS.IS_MAIN_ATT = 'Y'
-		ORDER BY S.VIEWCOUNT DESC
+		ORDER BY
+			S.VIEWCOUNT DESC
 	</select>
 	
 	<update id="updateAcceptFriend" parameterType="Friend">
@@ -813,6 +837,124 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	WHERE 
 		  AL_MADE_CODE = #{alCode}
 	</update>
+	
+	<select id="selectChartTopThree" resultMap="MediaTopNineCollection">
+		 SELECT 
+		      MC.CATE_CODE
+		    , MC.ARTI_NAME_EN
+		    , M.MEDIA_NUM
+		    , M.MEDIA_STATUS
+		    , M.CATE_CODE
+            , M.MEDIA_COUNT
+            , M.MEDIA_TTL
+		    , MP.ATT_CL_NAME
+		    , MP.ATT_SV_NAME
+		    , MP.ATT_STATUS
+		    , MP.ARTI_NAME_EN
+		    , MF.ATT_CODE
+		    , MF.ATT_ROOT
+		    , MF.VID_CL_NAME
+		    , MF.VID_SV_NAME
+		    , MF.ATT_STATUS
+		    , MF.PIC_CL_NAME
+		    , MF.PIC_SV_NAME
+		    , MF.MEDIA_NUM
+		FROM 
+		     MEDIA M
+		JOIN
+			M_CATEGORY MC ON( MC.CATE_CODE = M.CATE_CODE)
+		JOIN
+			ART_MAIN_PIC MP ON(MP.ARTI_NAME_EN = MC.ARTI_NAME_EN)
+		JOIN
+			MD_FILE MF ON (MF.MEDIA_NUM = M.MEDIA_NUM)
+		WHERE
+			M.MEDIA_STATUS = 'Y'
+		AND MP.ATT_STATUS = 'Y' 
+		ORDER BY
+			M.MEDIA_COUNT DESC
+	</select>
+	
+	<select id="selectChartDay" resultMap="MediaTopNineCollection">
+		SELECT
+		      M.MEDIA_NUM
+		    , M.MEDIA_TTL
+		    , M.MEDIA_CTT
+		    , M.MEDIA_DATE
+		    , M.MEDIA_STATUS
+		    , M.CATE_CODE
+		    , M.MEDIA_COUNT
+		    , MC.COUNT
+		    , COUNT(MC.MEDIA_NUM)
+		    , MF.ATT_CODE
+		    , MF.ATT_ROOT
+		    , MF.VID_CL_NAME
+		    , MF.VID_SV_NAME
+		    , MF.ATT_STATUS
+		    , MF.PIC_CL_NAME
+		    , MF.PIC_SV_NAME
+		    , MF.MEDIA_NUM
+		    , C.CATE_CODE
+		    , C.CATE_NAME
+		    , C.ARTI_NAME_EN
+		FROM
+		     MEDIA M 
+		JOIN
+			MD_COUNT MC ON (MC.MEDIA_NUM = M.MEDIA_NUM)
+		JOIN
+			MD_FILE MF ON (MF.MEDIA_NUM = M.MEDIA_NUM)
+		JOIN
+			M_CATEGORY C ON( C.CATE_CODE = M.CATE_CODE)
+		WHERE
+			MC.COUNT_DATE = TO_CHAR(SYSDATE,'YY/MM/DD')
+		group by
+			M.MEDIA_NUM, M.MEDIA_TTL, M.MEDIA_CTT, M.MEDIA_DATE, M.MEDIA_STATUS, 
+			M.CATE_CODE, M.MEDIA_COUNT, MC.COUNT, MF.ATT_CODE, MF.ATT_ROOT, 
+			MF.VID_CL_NAME, MF.VID_SV_NAME, MF.ATT_STATUS, MF.PIC_CL_NAME, MF.PIC_SV_NAME, 
+			MF.MEDIA_NUM, C.CATE_CODE, C.CATE_NAME, C.ARTI_NAME_EN
+		ORDER BY
+			COUNT(MC.MEDIA_NUM) DESC
+	</select>
+	
+	<select id="selectChartWeek" resultMap="MediaTopNineCollection">
+		SELECT
+		      M.MEDIA_NUM
+		    , M.MEDIA_TTL
+		    , M.MEDIA_CTT
+		    , M.MEDIA_DATE
+		    , M.MEDIA_STATUS
+		    , M.CATE_CODE
+		    , M.MEDIA_COUNT
+		    , MC.COUNT
+		    , COUNT(MC.MEDIA_NUM)
+		    , MF.ATT_CODE
+		    , MF.ATT_ROOT
+		    , MF.VID_CL_NAME
+		    , MF.VID_SV_NAME
+		    , MF.ATT_STATUS
+		    , MF.PIC_CL_NAME
+		    , MF.PIC_SV_NAME
+		    , MF.MEDIA_NUM
+		    , C.CATE_CODE
+		    , C.CATE_NAME
+		    , C.ARTI_NAME_EN
+		FROM
+		     MEDIA M 
+		JOIN
+			MD_COUNT MC ON (MC.MEDIA_NUM = M.MEDIA_NUM)
+		JOIN
+			MD_FILE MF ON (MF.MEDIA_NUM = M.MEDIA_NUM)
+		JOIN
+			M_CATEGORY C ON( C.CATE_CODE = M.CATE_CODE)
+		WHERE
+			MC.COUNT_DATE BETWEEN TO_CHAR(SYSDATE-7,'YY/MM/DD') AND TO_CHAR(SYSDATE-1,'YY/MM/DD')
+		group by
+			M.MEDIA_NUM, M.MEDIA_TTL, M.MEDIA_CTT, M.MEDIA_DATE, M.MEDIA_STATUS, 
+			M.CATE_CODE, M.MEDIA_COUNT, MC.COUNT, MF.ATT_CODE, MF.ATT_ROOT, 
+			MF.VID_CL_NAME, MF.VID_SV_NAME, MF.ATT_STATUS, MF.PIC_CL_NAME, MF.PIC_SV_NAME, 
+			MF.MEDIA_NUM, C.CATE_CODE, C.CATE_NAME, C.ARTI_NAME_EN
+		ORDER BY
+			COUNT(MC.MEDIA_NUM) DESC
+	</select>
 	
 	
 </mapper>

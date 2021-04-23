@@ -191,6 +191,24 @@ public class MainDaoImpl implements MainDao{
 		return sqlSession.update("mainMapper.updateAlarmStatus",alCode);
 	}
 
+	@Override
+	public List<MediaTopNineCollection> selectChartTopThree() {
+		
+		return sqlSession.selectList("mainMapper.selectChartTopThree");
+	}
+
+	@Override
+	public List<MediaTopNineCollection> selectChartDay() {
+		
+		return sqlSession.selectList("mainMapper.selectChartDay");
+	}
+
+	@Override
+	public List<MediaTopNineCollection> selectChartWeek() {
+		
+		return sqlSession.selectList("mainMapper.selectChartWeek");
+	}
+
 	
 	
 	
