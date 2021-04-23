@@ -20,27 +20,10 @@
 <!-- 메세지 -->
 	 <c:if test="${ !empty msg }">
 	 	<script>
-	 		alert(${ msg });
+	 		var message = "<c:out value="${msg}"/>";
+	 		alert(message);
 	 	</script>
-<%-- 		 <c:choose> --%>
-<%-- 			 <c:when test="${ msg eq 'successRefund'}"> --%>
-<!-- 			 	<script> -->
-// 				    alert("환불신청이 완료되었습니다.");
-<!-- 			    </script> -->
 <%-- 			    <c:remove var="msg"/> --%>
-<%-- 			 </c:when> --%>
-<%-- 			 <c:when test="${ msg eq 'successConfirm'}"> --%>
-<!-- 			 	<script> -->
-// 				    alert("구매확정이 완료되었습니다.");
-<!-- 			    </script> -->
-<%-- 			    <c:remove var="msg"/> --%>
-<%-- 			 </c:when> --%>
-<%-- 			 <c:otherwise> --%>
-<!-- 			 	<script> -->
-// 				    alert("회원가입 실패!");
-<!-- 			    </script> -->
-<%-- 			 </c:otherwise> --%>
-<%-- 		</c:choose> --%>
 	</c:if>
 	
 	
@@ -49,22 +32,6 @@
 	<!-- 	상단 -->
 	<section id="mypageUserProfile">
 		<jsp:include page="userDiv.jsp"/>
-        <%-- UserDiv include로 대체
-        <div id="mypageUserProfileWrap">
-            <div id="mypageUserProfileImgDiv">
-                <img id="mypageUserProfileImg" src="${ contextPath }/resources/images/mypage/user/mansik.png">
-            </div>
-            <div id="mypageUserProfileImgDivRight">
-                <h3 class="font-30">만식 김</h3>
-                <h4 class="font-16">&nbsp;</h4>
-                <h4 class="font-16">mansik@gmail.com</h4>
-            </div>
-            <div id="mypageUserProfileImgDivRightRight">
-                <button class="mypage-btn-pink-14">수정하기</button>
-                <h4 class="font-16">&nbsp;</h4>
-                <button class="mypage-btn-blueblack-14">탈퇴하기</button>
-            </div>
-        </div> --%>
     </section>
     <!-- 프로필 밑에 섹션 -->
     <section id="mypageUserSection">
@@ -89,13 +56,17 @@
                     		
                     		<c:choose>
                     			<c:when test="${ p.cart.pcode eq 0 }">
-                    				<td>${ p.mdatt.attSvName }</td>
+                    				<td><!-- 미디어일때 -->
+                    					<img class="new-media-img" src="${ contextPath }/resources/images/official/${ p.mdatt.attSvName }" alt="이미지">
+<%--                     				${ p.mdatt.attSvName } --%>
+                    				</td>
                     				<td>${ p.media.mediaTtl }</td>
                     			</c:when>
                     			<c:when test="${ p.cart.pcode ne 0 }">
 		                    		<!-- 상품사진 -->
 		                    		<td>
-		                    		${ p.att.attSvName }
+                    					<img src="${ contextPath }/resources/uploadFiles/${ p.mdatt.attSvName }" alt="이미지">
+<%-- 		                    		${ p.att.attSvName } --%>
 		                    		</td>
 		                    		<td>${ p.store.pname }</td><!-- 주문상품정보 -->
                     			</c:when>
@@ -224,6 +195,8 @@ $(document).ready(function(){
     console.log("addClass 동작");
     
 });
+
+$(document).ready
 // 구매확정 (store)
 function confirmSStatus(Cartcode,isBought){
 	// Cartcode받아서 해당 글 업데이트  
