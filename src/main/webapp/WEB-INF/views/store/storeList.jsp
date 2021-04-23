@@ -56,39 +56,54 @@
                 </div>
              </div>
              <div class="store-product">
+             	<c:set var="pcode" value=""/>
              	<c:forEach var="list" items="${ list }">
+             	<c:if test="${ pcode ne list.store.pcode }">
                 <article class="product-background">
                     <div class="product-info">
                    	<c:choose>
                    		<c:when test="${ list.store.isSoldout eq 'Y' }">
-                   		<p>SOLD OUT</p>
+                   			<p>SOLD OUT</p>
                    		</c:when>
                    		<c:otherwise>
-                   		<p>${ artiName }</p>
-                        <b>${ list.store.pname }</b>
-                        <p>
-                        	<fmt:formatNumber type="number" value="${ list.store.qprice * (1 - list.store.discount/100) }"/> 
-                        	&nbsp;
-                        	<sub>
-                        		<s><fmt:formatNumber type="number" value="${ list.store.qprice }"/></s>&nbsp;
-                        		${ list.store.discount }%
-                        	</sub>
-                        </p>
-                        <img class="cart-icon store-icon" src="${ contextPath }/resources/icon/shopping.png" alt="">
-                        <c:choose>
-	                        <c:when test="${ list.wish.id eq 'user' && list.wish.isWish eq 'Y'}">
-	                        <img class="ddim-icon store-icon noddim" src="${ contextPath }/resources/icon/heart-pink.png" alt="">
-	                        </c:when>
-	                        <c:otherwise>
-	                        <img class="ddim-icon store-icon ddim" src="${ contextPath }/resources/icon/heart.png" alt="">
-	                        </c:otherwise>
-                        </c:choose>
+	                   		<p>${ artiName }</p>
+	                        <b>${ list.store.pname }</b>
+	                        <p>
+	                        	<c:choose>
+		                        	<c:when test="${ user.isMembership eq 'Y' }">
+		                        	\ <fmt:formatNumber type="number" value="${ list.store.qprice * (1 - list.store.discount/100) }"/> 
+		                        	&nbsp;
+		                        	<sub>
+		                        		<s><fmt:formatNumber type="number" value="${ list.store.qprice }"/></s>&nbsp;
+		                        		${ list.store.discount }%
+		                        	</sub>
+		                        	</c:when>
+		                        	<c:otherwise>
+		                        	\ <fmt:formatNumber type="number" value="${ list.store.qprice }"/> 
+		                        	</c:otherwise>
+	                        	</c:choose>
+	                        </p>
+	                        <c:if test="${ loginUser.classifyMem eq 1 }">
+		                        <img class="cart-icon store-icon" src="${ contextPath }/resources/icon/shopping.png" alt="">
+		                        <c:set var="ddimCheck" value="0"/>
+		                        <c:forEach var="wishList" items="${ wishList }">
+			                        <c:if test="${ list.store.pcode eq wishList.code && wishList.isWish eq 'Y' }">
+				                    <img class="ddim-icon store-icon noddim" src="${ contextPath }/resources/icon/heart-pink.png" alt="">
+				                    <c:set var="ddimCheck" value="1"/>
+			                        </c:if>
+		                        </c:forEach>
+		                        <c:if test="${ ddimCheck eq 0 }">
+		                        <img class="ddim-icon store-icon ddim" src="${ contextPath }/resources/icon/heart.png" alt="">
+		                        </c:if>
+	                        </c:if>
                    		</c:otherwise>
                    	</c:choose>
                     </div>
                     <img src="${ contextPath }/resources/uploadFiles/${ list.att.attSvName }" alt="이미지">
                     <input type="hidden" id="pcode" value="${ list.store.pcode }"/>
                 </article>
+                <c:set var="pcode" value="${ list.store.pcode }"/>
+                </c:if>
                 </c:forEach>
              </div>
              <div class="more-product">
@@ -246,35 +261,45 @@
 				dateType : "json",
 				contentType : "application/json; charset=utf-8",
 	        	success : function(data) {
-	        		if(data.length < 1) {
+	        		console.log(data);
+	        		if(data.list.length < 1) {
 	        			alert("상품목록이 존재하지 않습니다")
 	        		} else {
 	        			var area = $(".store-product").html("");
 						
-						for(var i in data) {
+						for(var i in data.list) {
 							var article = $("<article class='product-background'>");
 							var div = $("<div class='product-info'>");
 							var soldout = $("<p>").text("SOLD OUT");
 							var artiName = $("<p>").text("${ artiName }");
-							var pName = $("<b>").text(data[i].store.pname);
+							var pName = $("<b>").text(data.list[i].store.pname);
 							var price = $("<p>")
 							var sub = $("<sub>")
-							var s = $("<s>").text(" " + numberWithCommas(data[i].store.qprice));
+							var s = $("<s>").text("\ " + numberWithCommas(data.list[i].store.qprice));
 							var cart = $("<img class='cart-icon store-icon' src='${ contextPath }/resources/icon/shopping.png' alt=''>");
 							var ddim = $("<img class='ddim-icon store-icon ddim' src='${ contextPath }/resources/icon/heart.png' alt=''>");
 							var noddim = $("<img class='ddim-icon store-icon noddim' src='${ contextPath }/resources/icon/heart-pink.png' alt=''>");
-							var imgSrc = "${ contextPath }/resources/uploadFiles/" + data[i].att.attSvName;
+							var imgSrc = "${ contextPath }/resources/uploadFiles/" + data.list[i].att.attSvName;
 							var img = $("<img src='' alt=''>").attr("src", imgSrc);
-							var pCode = $("<input type='hidden' id='pcode'>").val(data[i].store.pcode);
-							sub.append(s, " " + data[i].store.discount + "%").trigger("create");
-							price.append(numberWithCommas(data[i].store.qprice * (1- data[i].store.discount/100)), sub).trigger("create");
+							var pCode = $("<input type='hidden' id='pcode'>").val(data.list[i].store.pcode);
+							sub.append(s, " " + data.list[i].store.discount + "%").trigger("create");
+							price.append("\ " + numberWithCommas(data.list[i].store.qprice * (1- data.list[i].store.discount/100)), sub).trigger("create");
 							
-							if(data[i].store.isSoldout == 'Y') {
+							var wishFlag = false;
+							if(data.list[i].store.isSoldout == 'Y') {
 								div.append(soldout);
 							} else {
-								if(data[i].wish.id == "${loginUser.id}" && data[i].wish.isWish == 'Y') {
-									div.append(artiName, pName, price, cart, noddim).trigger("create");
-								} else {
+								for(var j in data.wishList) {
+									if(data.wishList[j].code == data.list[i].store.pcode) {
+										if(data.wishList[j].id == "${loginUser.id}" && data.wishList[j].isWish == 'Y') {
+											div.append(artiName, pName, price, cart, noddim).trigger("create");
+										} else {
+											div.append(artiName, pName, price, cart, ddim).trigger("create");
+										}
+										wishFlag = true;
+									}
+								}
+								if(wishFlag == false) {
 									div.append(artiName, pName, price, cart, ddim).trigger("create");
 								}
 							}
