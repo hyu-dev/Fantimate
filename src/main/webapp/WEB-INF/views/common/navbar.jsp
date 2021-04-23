@@ -748,7 +748,7 @@
                     <li class="etc-content" id="langSetting" onclick="langSetting()">언어 설정</li>
                     <c:if test="${ loginUser.classifyMem eq 1}">
                     	<li class="etc-content" id="fanStore" onclick="location.href='${ contextPath }/fanStore/list'">팬 스토어</li>
-                    	<li class="etc-content" id="payPlan" onclick="location.href='${ contextPath }/Pay/plan'">요금 플랜</li>
+                    	<li class="etc-content" id="payPlan" onclick="location.href='${ contextPath }/pay/plan'">요금 플랜</li>
                     </c:if>
                     <li class="etc-content" id="notice" onclick="location.href='${ contextPath }/notice/list'">공지사항</li>
                     <li class="etc-content" id="logout" onclick="location.href='${ contextPath }/member/logout'">로그아웃</li>

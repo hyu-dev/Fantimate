@@ -45,13 +45,13 @@
 			 <c:when test="${ msg eq 'accept'}">
 			 	<script>
 				    alert("친구를 수락하셨습니다!");
-				    location.href="${ contextPath }";
+				    //location.href="${ contextPath }";
 			    </script>
 			 </c:when>
 			 <c:when test="${ msg eq 'decline'}">
 			 	<script>
 			 		alert("친구를 거절하셨습니다!");
-			 		location.href="${ contextPath }";
+			 		//location.href="${ contextPath }";
 			 	</script>
 			 </c:when>
 			  <c:when test="${ msg eq 'fail'}">
@@ -67,7 +67,7 @@
     <section class="mainPage-section">
         <!-- 로그인 했을 경우에 관심아티스트 + 그외 아티스트 리스트 보이기 / 안 했을 경우 전체 리스트 / 로그인한 유저가 관리자, 소속사, 아티스트일때 전체 리스트 보이게-->
         <c:if test="${ empty sessionScope.loginUser}">
-        <div id="mainPage-wholeList" class="artists-L">
+        <div id="mainPage-wholeList">
         <!-- ajax -->
         </div>
         <script>
@@ -112,7 +112,7 @@
         
         <c:if test="${ !empty sessionScope.loginUser}">
         <!-- 전체 아티스트 리스트 (상단에는 loginUser 관심아티스트 3명 -->
-    	<div id="mainPage-artistFavList" class="artists-L">
+    	<div id="mainPage-artistFavList">
     	</div>
         <div id="mainPage-artistList" class="artists-L">
            <!-- ajax로 전체 아티스트 리스트 뿌려주기 -->
@@ -121,6 +121,25 @@
                 <span class="artist-name">Alexander 23</span>
             </div> --%>
         </div>
+        
+        <c:if test="${ loginUser.classifyMem eq 2}">
+        <script>
+        	$(".artists-L").css("height","1200px");
+        </script>
+        </c:if>
+        
+         <c:if test="${ loginUser.classifyMem eq 3}">
+        <script>
+        	$(".artists-L").css("height","1200px");
+        </script>
+        </c:if>
+        
+         <c:if test="${ loginUser.classifyMem eq 4}">
+        <script>
+        	$(".artists-L").css("height","1200px");
+        </script>
+        </c:if>
+        
         <!-- 1. 관심아티스트 3개 상단에 -->
         <script>
         $(function(){
@@ -466,7 +485,7 @@
 	        					var aSlide1=$("<video src='${ contextPath }/resources/images/official/"+ data[i].mf.vidSvName+"' controls='controls' poster='${ contextPath }/resources/images/official/"+ data[i].mf.picSvName+"' class='media-pic'></video>")
 	        					var feedSlide1= $("<div class='media-info-section'>");
 	        					var profileSlide1=$("<div class='profile-info'><div class='profile-circle'><img src='${ contextPath }/resources/images/main/"+ data[i].att.attSvName+"' alt='' class='feed-profile'></div><p class='profile-name'>"+ data[i].sb.artNameEn+"</p></div>");
-	        					var likeSlide1 =$("<div class='play-info'><img src='${ contextPath }/resources/images/main/play.svg' alt='' class='play-img'><p class='like-count'>"+ data[i].hc.count +"</p></div>");
+	        					var likeSlide1 =$("<div class='play-info'><img src='${ contextPath }/resources/images/main/play.svg' alt='' class='play-img'><p class='like-count'>"+ data[i].of.mediaCount +"</p></div>");
 	        					
 	        					feedSlide1.append(profileSlide1,likeSlide1);
 	        					feedInfoSlide1.append(aSlide1,feedSlide1);
@@ -483,7 +502,7 @@
 	        					var aSlide2=$("<video src='${ contextPath }/resources/images/official/"+ data[i].mf.vidSvName+"' controls='controls' poster='${ contextPath }/resources/images/official/"+ data[i].mf.picSvName+"' class='media-pic'></video>")
 	        					var feedSlide2= $("<div class='media-info-section'>");
 	        					var profileSlide2=$("<div class='profile-info'><div class='profile-circle'><img src='${ contextPath }/resources/images/main/"+ data[i].att.attSvName+"' alt='' class='feed-profile'></div><p class='profile-name'>"+ data[i].sb.artNameEn+"</p></div>");
-	        					var likeSlide2 =$("<div class='play-info'><img src='${ contextPath }/resources/images/main/play.svg' alt='' class='play-img'><p class='like-count'>"+ data[i].hc.count +"</p></div>");
+	        					var likeSlide2 =$("<div class='play-info'><img src='${ contextPath }/resources/images/main/play.svg' alt='' class='play-img'><p class='like-count'>"+ data[i].of.mediaCount +"</p></div>");
 	        					
 	        					feedSlide2.append(profileSlide2,likeSlide2);
 	        					feedInfoSlide2.append(aSlide2,feedSlide2);
@@ -500,7 +519,7 @@
 	        					var aSlide3=$("<video src='${ contextPath }/resources/images/official/"+ data[i].mf.vidSvName+"' controls='controls' poster='${ contextPath }/resources/images/official/"+ data[i].mf.picSvName+"' class='media-pic'></video>")
 	        					var feedSlide3= $("<div class='media-info-section'>");
 	        					var profileSlide3=$("<div class='profile-info'><div class='profile-circle'><img src='${ contextPath }/resources/images/main/"+ data[i].att.attSvName+"' alt='' class='feed-profile'></div><p class='profile-name'>"+ data[i].sb.artNameEn+"</p></div>");
-	        					var likeSlide3 =$("<div class='play-info'><img src='${ contextPath }/resources/images/main/play.svg' alt='' class='play-img'><p class='like-count'>"+ data[i].hc.count +"</p></div>");
+	        					var likeSlide3 =$("<div class='play-info'><img src='${ contextPath }/resources/images/main/play.svg' alt='' class='play-img'><p class='like-count'>"+ data[i].of.mediaCount +"</p></div>");
 	        					
 	        					feedSlide3.append(profileSlide3,likeSlide3);
 	        					feedInfoSlide3.append(aSlide3,feedSlide3);
@@ -658,198 +677,164 @@
          
          </script>
          </c:if>
-        
-        
-        <!-- 아티스트 인기 게시물 (좋아요 순)-->
-        <c:choose>
-        <c:when test="${ !empty sessionScope.loginUser}">
-        <c:if test="${ loginUser.classifyMem eq 1}">
-        <div class="mainPage-artistFeed">
-			<!-- ajax 공간 -->            
-        </div>
-        </c:if>
-		</c:when>
-		<c:otherwise>
-		<script>
-		$(".mainPage-artistFeed").removeAttr("height");
-		</script>
-		</c:otherwise>
-		</c:choose>
-		
-		
-         <!-- 아티스트 인기 미디어 -->
-         <c:choose>
-         <c:when test="${ !empty sessionScope.loginUser}">
-         <c:if test="${ loginUser.classifyMem eq 1}">
-         <div class="mainPage-media">
-           <!-- ajax 공간 -->  
-        </div>
-        </c:if>
-        </c:when>
-        <c:otherwise>
-        <script>
-		$(".mainPage-media").removeAttr("height");
-		</script>
-        </c:otherwise>
-        </c:choose>
-
-        <!-- 아티스트 스토어 -->
-        <c:choose>
-        <c:when test="${ !empty sessionScope.loginUser}">
-        <c:if test="${ loginUser.classifyMem eq 1}">
-        <div class="mainPage-store">
-            <!-- ajax 공간 --> 
-        </div>
-        </c:if>
-        </c:when>
-        <c:otherwise>
-        <script>
-		$(".mainPage-store").removeAttr("height");
-		</script>
-        </c:otherwise>
-        </c:choose>
-
-        <!-- 전체 순위 차트 -->
-        
-        <c:choose>
-        <c:when test="${ empty sessionScope.loginUser}">
-        <div class="mainPage-chart">
-            <!-- 제목 -->
-            <div class="chart-title">
-                <p class="mainPage-artistChart-title">Fantimate Chart</p>
-                <a href="chart.html" id="goTo-chart">더보기</a>
-            </div>
-            <!-- 슬라이드 공간 -->
-            <div class="chart-slide-section">
-                <!-- 아티스트 인기 미디어 1번-->
-                <div class="media-feed-info">
-                    <!-- 인기 미디어 영상 (크게)-->
-                    <img src="${ contextPath }/resources/images/main/artist7.svg" alt="" class="chart-pic">
-                    <!-- 프로필 정보와 조회수 정보 -->
-                    <div class="chart-info-section">
-                        <!-- 프로필사진 , 이름-->
-                        <div class="profile-info">
-                            <p class="chart-rank">#2</p>
-                            <p class="profile-name">해피 버스데이 투</p>
-                        </div>
-                        <!-- 조회수 -->
-                        <div class="play-info">
-                            <img src="${ contextPath }/resources/images/main/play.svg" alt="" class="play-img">
-                            <p class="like-count">1,200</p>
-                        </div>
-                    </div>
-                </div>
-                <!-- 아티스트 인기 미디어 2번-->
-                <div class="media-feed-info">
-                    <img src="${ contextPath }/resources/images/main/artist3.svg" alt="" id="numberOneChart">
-                    <!-- 프로필 정보와 조회수 정보 -->
-                    <div class="rank1-info-section">
-                        <!-- 프로필사진 , 이름-->
-                        <div class="profile-info">
-                            <p class="chart-rank">#1</p>
-                            <p class="profile-name">해피 버스데이 투</p>
-                        </div>
-                        <!-- 조회수 -->
-                        <div class="play-info">
-                            <img src="${ contextPath }/resources/images/main/play.svg" alt="" class="play-img">
-                            <p class="like-count">1,200</p>
-                        </div>
-                    </div>
-                </div>
-                <!-- 아티스트 인기 미디어 3번-->
-                <div class="media-feed-info">
-                    <img src="${ contextPath }/resources/images/main/artist4.svg" alt="" class="chart-pic">
-                    <!-- 프로필 정보와 조회수 정보 -->
-                    <div class="chart-info-section">
-                        <!-- 프로필사진 , 이름-->
-                        <div class="profile-info">
-                            <p class="chart-rank">#3</p>
-                            <p class="profile-name">해피 버스데이 투</p>
-                        </div>
-                        <!-- 조회수 -->
-                        <div class="play-info">
-                            <img src="${ contextPath }/resources/images/main/play.svg" alt="" class="play-img">
-                            <p class="like-count">1,200</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+         
+         <!-- 전체 순위 차트 (메인에는 탑 3) -->
          <script>
-        $(".mainPage-chart").removeAttr("height");
-        </script>
-        </c:when>
-        <c:otherwise>
-        <div class="mainPage-chart">
-            <!-- 제목 -->
-            <div class="chart-title">
-                <p class="mainPage-artistChart-title">Fantimate Chart</p>
-                <a href="chart.html" id="goTo-chart">더보기</a>
-            </div>
-            <!-- 슬라이드 공간 -->
-            <div class="chart-slide-section">
-                <!-- 아티스트 인기 미디어 1번-->
-                <div class="media-feed-info">
-                    <!-- 인기 미디어 영상 (크게)-->
-                    <img src="${ contextPath }/resources/images/main/artist7.svg" alt="" class="chart-pic">
-                    <!-- 프로필 정보와 조회수 정보 -->
-                    <div class="chart-info-section">
-                        <!-- 프로필사진 , 이름-->
-                        <div class="profile-info">
-                            <p class="chart-rank">#2</p>
-                            <p class="profile-name">해피 버스데이 투</p>
-                        </div>
-                        <!-- 조회수 -->
-                        <div class="play-info">
-                            <img src="${ contextPath }/resources/images/main/play.svg" alt="" class="play-img">
-                            <p class="like-count">1,200</p>
-                        </div>
-                    </div>
-                </div>
-                <!-- 아티스트 인기 미디어 2번-->
-                <div class="media-feed-info">
-                    <img src="${ contextPath }/resources/images/main/artist3.svg" alt="" id="numberOneChart">
-                    <!-- 프로필 정보와 조회수 정보 -->
-                    <div class="rank1-info-section">
-                        <!-- 프로필사진 , 이름-->
-                        <div class="profile-info">
-                            <p class="chart-rank">#1</p>
-                            <p class="profile-name">해피 버스데이 투</p>
-                        </div>
-                        <!-- 조회수 -->
-                        <div class="play-info">
-                            <img src="${ contextPath }/resources/images/main/play.svg" alt="" class="play-img">
-                            <p class="like-count">1,200</p>
-                        </div>
-                    </div>
-                </div>
-                <!-- 아티스트 인기 미디어 3번-->
-                <div class="media-feed-info">
-                    <img src="${ contextPath }/resources/images/main/artist4.svg" alt="" class="chart-pic">
-                    <!-- 프로필 정보와 조회수 정보 -->
-                    <div class="chart-info-section">
-                        <!-- 프로필사진 , 이름-->
-                        <div class="profile-info">
-                            <p class="chart-rank">#3</p>
-                            <p class="profile-name">해피 버스데이 투</p>
-                        </div>
-                        <!-- 조회수 -->
-                        <div class="play-info">
-                            <img src="${ contextPath }/resources/images/main/play.svg" alt="" class="play-img">
-                            <p class="like-count">1,200</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <script>
-        $(".mainPage-chart").css("height","430px");
-        </script>
-        </c:otherwise>
-        </c:choose>
+         $(function(){
+         	// onload 직후 호출
+         	chartTopThree();
+         })
+         
+         function chartTopThree(){
+        	 
+        	 
+        	 $.ajax({
+         		url: "${contextPath}/main/chartTopThree",
+         		dataType : "json",
+         		success : function(data){
+         			console.log(data);
+         			
+         			var chartContent = $(".mainPage-chart");
+         			chartContent.html("");
+        			var mediaTitle = $("<div class='chart-title'><p class='mainPage-artistChart-title'>"+"Fantimate Chart"+"</p><a href='${contextPath}/main/chart' id='goTo-chart'>더보기</a></div>");
+         			var chartSection = $("<div class='chart-slide-section'>");
+         			
+
+         			
+         			for(var i in data){
+         				
+         				var length = 20; // 표시할 글자수 기준
+             			if (data[i].of.mediaTtl.length > length) {
+             				data[i].of.mediaTtl = data[i].of.mediaTtl.substr(0, length-2) + '...';
+             			}
+         				
+         				if(i == 1){
+         					
+         					var mediaInfo1 = $("<div class='media-feed-info'>");
+         					var video1 = $("<video src='${ contextPath }/resources/images/official/"+ data[i].mf.vidSvName+"' controls='controls' poster='${ contextPath }/resources/images/official/"+ data[i].mf.picSvName+"' class='chart-pic'></video>");
+         					var div1 = $("<div class='chart-info-section'>");
+         					var title1=$("<div class='profile-info'><p class='chart-rank'>"+"#2"+"</p><p class='profile-name'>"+data[i].of.mediaTtl+"</p></div>");
+         					var hit1=$("<div class='play-info'><img src='${ contextPath }/resources/images/main/play.svg' alt='' class='play-img'><p class='like-count'>"+data[i].hc.count+"</p></div>");
+         					
+         					div1.append(title1,hit1);
+         					mediaInfo1.append(video1,div1);
+         					
+         				}else if(i == 0){
+         					
+         					var mediaInfo2 = $("<div class='media-feed-info'>");
+         					var video2 = $("<video src='${ contextPath }/resources/images/official/"+ data[i].mf.vidSvName+"' controls='controls' poster='${ contextPath }/resources/images/official/"+ data[i].mf.picSvName+"' id='numberOneChart'></video>");
+         					var div2 = $("<div class='rank1-info-section'>");
+         					var title2=$("<div class='profile-info'><p class='chart-rank'>"+"#1"+"</p><p class='profile-name'>"+data[i].of.mediaTtl+"</p></div>");
+         					var hit2=$("<div class='play-info'><img src='${ contextPath }/resources/images/main/play.svg' alt='' class='play-img'><p class='like-count'>"+data[i].hc.count+"</p></div>");
+         					
+         					div2.append(title2,hit2);
+         					mediaInfo2.append(video2,div2);
+         					
+         				}else if(i == 2){
+         					
+         					var mediaInfo3 = $("<div class='media-feed-info'>");
+         					var video3 = $("<video src='${ contextPath }/resources/images/official/"+ data[i].mf.vidSvName+"' controls='controls' poster='${ contextPath }/resources/images/official/"+ data[i].mf.picSvName+"' class='chart-pic'></video>");
+         					var div3 = $("<div class='chart-info-section'>");
+         					var title3=$("<div class='profile-info'><p class='chart-rank'>"+"#3"+"</p><p class='profile-name'>"+data[i].of.mediaTtl+"</p></div>");
+         					var hit3=$("<div class='play-info'><img src='${ contextPath }/resources/images/main/play.svg' alt='' class='play-img'><p class='like-count'>"+data[i].hc.count+"</p></div>");
+         					
+         					div3.append(title3,hit3);
+         					mediaInfo3.append(video3,div3);
+         					
+         				}
+         				
+         			}
+         			
+        			
+         			chartSection.append(mediaInfo1,mediaInfo2,mediaInfo3);
+         			chartContent.append(mediaTitle,chartSection);
+         			
+         			
+         		},
+         		error : function(e){
+ 					alert("code : " + e.status + "\n"
+ 							+ "message : " + e.responseText);
+ 				}
+         		
+         	});
+        	 
+         }
+         
+         </script>
 
 
-    </section>
+		<!-- 아티스트 인기 게시물 (좋아요 순)-->
+		<c:choose>
+			<c:when test="${ !empty sessionScope.loginUser}">
+				<c:if test="${ loginUser.classifyMem eq 1}">
+					<div class="mainPage-artistFeed">
+						<!-- ajax 공간 -->
+					</div>
+				</c:if>
+			</c:when>
+			<c:otherwise>
+				<script>
+					$(".mainPage-artistFeed").removeAttr("height");
+				</script>
+			</c:otherwise>
+		</c:choose>
+
+
+		<!-- 아티스트 인기 미디어 -->
+		<c:choose>
+			<c:when test="${ !empty sessionScope.loginUser}">
+				<c:if test="${ loginUser.classifyMem eq 1}">
+					<div class="mainPage-media">
+						<!-- ajax 공간 -->
+					</div>
+				</c:if>
+			</c:when>
+			<c:otherwise>
+				<script>
+					$(".mainPage-media").removeAttr("height");
+				</script>
+			</c:otherwise>
+		</c:choose>
+
+		<!-- 아티스트 스토어 -->
+		<c:choose>
+			<c:when test="${ !empty sessionScope.loginUser}">
+				<c:if test="${ loginUser.classifyMem eq 1}">
+					<div class="mainPage-store">
+						<!-- ajax 공간 -->
+					</div>
+				</c:if>
+			</c:when>
+			<c:otherwise>
+				<script>
+					$(".mainPage-store").removeAttr("height");
+				</script>
+			</c:otherwise>
+		</c:choose>
+
+		<!-- 전체 순위 차트 -->
+
+		<c:choose>
+			<c:when test="${ empty sessionScope.loginUser}">
+				<div class="mainPage-chart">
+					<!-- ajax -->
+				</div>
+				<script>
+					$(".mainPage-chart").removeAttr("height");
+				</script>
+			</c:when>
+			<c:otherwise>
+				<div class="mainPage-chart">
+					<!-- ajax -->
+				</div>
+				<script>
+					$(".mainPage-chart").css("height", "430px");
+				</script>
+			</c:otherwise>
+		</c:choose>
+
+
+	</section>
 
     <footer>
         <div id="footer-section">
