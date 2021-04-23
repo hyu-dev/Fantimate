@@ -8,6 +8,9 @@ import org.springframework.stereotype.Repository;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.fantimate.common.model.vo.Attachment;
+import com.kh.fantimate.common.model.vo.Friend;
+import com.kh.fantimate.common.model.vo.Like;
+import com.kh.fantimate.common.model.vo.Message;
 import com.kh.fantimate.common.model.vo.Reply;
 import com.kh.fantimate.common.model.vo.Report;
 import com.kh.fantimate.common.model.vo.Subscribe;
@@ -34,14 +37,14 @@ public class FanFeedDaoImpl implements FanFeedDao{
 
 	// 게시글 조회
 	@Override
-	public List<Feed> selectFeedList() {
-		return sqlSession.selectList("fanfeedMapper.selectFeedList");
+	public List<Feed> selectFeedList(String artNameEn) {
+		return sqlSession.selectList("fanfeedMapper.selectFeedList", artNameEn);
 	}
 
 	// 구독 유저 조회
 	@Override
-	public List<Subscribe> selectSubList() {
-		return sqlSession.selectList("fanfeedMapper.selectSubList");
+	public List<Subscribe> selectSubList(String artNameEn) {
+		return sqlSession.selectList("fanfeedMapper.selectSubList", artNameEn);
 	}
 
 	// 피드 컬렉션
@@ -111,6 +114,59 @@ public class FanFeedDaoImpl implements FanFeedDao{
 		return sqlSession.insert("fanfeedMapper.insertFeedReport", r);
 	}
 
+	// 댓글 삭제
+	@Override
+	public int deleteReply(int rid) {
+		return sqlSession.delete("fanfeedMapper.deleteReply", rid);
+	}
+
+	// rid로 댓글 조회
+	@Override
+	public List<Reply> selectReply(int rid) {
+		return sqlSession.selectList("fanfeedMapper.selectReply", rid);
+	}
+
+	// 댓글 신고
+	@Override
+	public int insertReplyReport(Report r) {
+		return sqlSession.insert("fanfeedMapper.insertReplyReport", r);
+	}
+
+	// 게시글 좋아요 누른 유저 추가
+	@Override
+	public int insertLike(Like l) {
+		return sqlSession.insert("fanfeedMapper.insertLike", l);
+	}
+
+	// 게시글 좋아요 누르면 board테이블 blike 컬럼 업데이트
+	@Override
+	public int updateFeedLike(Feed f) {
+		System.out.println(f);
+		return sqlSession.update("fanfeedMapper.updateFeedLike", f);
+	}
+
+	// 쪽지 보내기
+	@Override
+	public int insertMessage(Message m) {
+		return sqlSession.insert("fanfeedMapper.insertMessage", m);
+	}
+
+	// 친구 신청
+	@Override
+	public int insertFriend(Friend f) {
+		return sqlSession.insert("fanfeedMapper.insertFriend", f);
+	}
+
+	// 좋아요 누른 유저 리스트
+	@Override
+	public List<Like> selectLikeList() {
+		return sqlSession.selectList("fanfeedMapper.selectLikeList");
+	}
+
+	
+	
+
+	
 	
 
 	

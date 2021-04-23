@@ -7,6 +7,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.fantimate.common.model.vo.Attachment;
+import com.kh.fantimate.common.model.vo.Friend;
+import com.kh.fantimate.common.model.vo.Like;
+import com.kh.fantimate.common.model.vo.Message;
 import com.kh.fantimate.common.model.vo.Reply;
 import com.kh.fantimate.common.model.vo.Report;
 import com.kh.fantimate.common.model.vo.Subscribe;
@@ -33,14 +36,14 @@ public class FanFeedServiceImpl implements FanFeedService {
 
 	// 게시글 조회
 	@Override
-	public List<Feed> selectFeedList() {
-		return fDao.selectFeedList();
+	public List<Feed> selectFeedList(String artNameEn) {
+		return fDao.selectFeedList(artNameEn);
 	}
 
 	// 구독 유저 조회
 	@Override
-	public List<Subscribe> selectSubList() {
-		return fDao.selectSubList();
+	public List<Subscribe> selectSubList(String artNameEn) {
+		return fDao.selectSubList(artNameEn);
 	}
 
 	// 피드 컬렉션
@@ -88,7 +91,8 @@ public class FanFeedServiceImpl implements FanFeedService {
 	// fid로 게시글 조회
 	@Override
 	public List<Feed> selectFeed(int fid) {
-		return fDao.selectFeed(fid);
+		 	fDao.selectFeed(fid);
+	 return fDao.selectFeed(fid);	
 	}
 
 	// refId로 게시글 사진 조회
@@ -109,6 +113,57 @@ public class FanFeedServiceImpl implements FanFeedService {
 		return fDao.insertFeedReport(r);
 	}
 
+	// 댓글 삭제
+	@Override
+	public int deleteReply(int rid) {
+		return fDao.deleteReply(rid);
+	}
+
+	// rid로 댓글 조회
+	@Override
+	public List<Reply> selectReply(int rid) {
+		return fDao.selectReply(rid);
+	}
+
+	// 댓글 신고
+	@Override
+	public int insertReplyReport(Report r) {
+		return fDao.insertReplyReport(r);
+	}
+
+	// 게시글 좋아요 누른 유저 추가
+	@Override
+	public int insertLike(Like l, Feed f) {
+		 fDao.insertLike(l);
+		return fDao.updateFeedLike(f);
+	}
+
+	// 쪽지 보내기
+	@Override
+	public int insertMessage(Message m) {
+		return fDao.insertMessage(m);
+	}
+
+	// 친구 신청
+	@Override 
+	public int insertFriend(Friend f) { 
+		return fDao.insertFriend(f);
+	}
+
+	// 좋아요 누른 유저 리스트
+	@Override
+	public List<Like> selectLikeList() {
+		return fDao.selectLikeList();
+	}
+
+	
+
+	
+
+	
+	
+	
+	
 
 	
 	

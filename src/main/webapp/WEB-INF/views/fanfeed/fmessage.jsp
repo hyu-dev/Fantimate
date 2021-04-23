@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,20 +17,38 @@
 
 </head>
 <body>
+<!-- 메시지 -->
+	 <c:if test="${ !empty msg }">
+		 <c:choose>
+			 <c:when test="${ msg eq 'success'}">
+			 	<script>
+				    alert("쪽지를 전송하였습니다.");
+					opener.location.href="${ contextPath }";
+					window.close();
+			    </script>
+			 </c:when>
+			 
+		</c:choose>
+	</c:if>
 <!-- 쪽지 form -->
-    <form>
-        <!-- 수신자 영역 -->
-        <h3>To.성현2</h3>
+    <form action="${ contextPath }/fanfeed/message" method="post">
+        <!-- 수신자 영역 쪽지받는사람(글 작성자 id)  messRecId--> 
+        <div class="message-info">
+            <p class="message-id">TO. <span name="messRecId" class="message-id">${ param.writer }</span></p>
+        </div>
         <!-- 제목 영역 -->
         <div>
-            <input type="text" class="titleArea" placeholder="제목을 입력하세요">
+            <input type="text" class="titleArea" name="messTitle" placeholder="제목을 입력하세요">
         </div>
         <br>
         <!-- 내용 영역 -->
         <div>
-            <textarea class="contentArea" placeholder="내용을 입력하세요"></textarea>
+            <textarea class="contentArea" name="messContent" placeholder="내용을 입력하세요"></textarea>
         </div>
         <br><br>
+        <!-- 쪽지 보내는 사람 -->
+        <input type="hidden" name="messSendId" value="${ loginUser.id }">
+        <input type="hidden" name="messRecId" value="${ param.writer }">
         <!-- 버튼 영역 -->
         <div class="btnArea">
         <button type="submit" class="insert-message">보내기</button>&nbsp;&nbsp;

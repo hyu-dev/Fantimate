@@ -5,6 +5,9 @@ import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.fantimate.common.model.vo.Attachment;
+import com.kh.fantimate.common.model.vo.Friend;
+import com.kh.fantimate.common.model.vo.Like;
+import com.kh.fantimate.common.model.vo.Message;
 import com.kh.fantimate.common.model.vo.Reply;
 import com.kh.fantimate.common.model.vo.Report;
 import com.kh.fantimate.common.model.vo.Subscribe;
@@ -21,10 +24,10 @@ public interface FanFeedDao {
 	public int insertFeedAtt(List<AttachmentF> attList);
 
 	// 게시글 조회
-	public List<Feed> selectFeedList();
+	public List<Feed> selectFeedList(String artNameEn);
 
 	// 구독 유저 조회
-	public List<Subscribe> selectSubList();
+	public List<Subscribe> selectSubList(String artNameEn);
 
 	// 피드 컬렉션
 	public List<FeedCollection> selectfcList();
@@ -58,4 +61,32 @@ public interface FanFeedDao {
 
 	// 게시글 신고
 	public int insertFeedReport(Report r);
+
+	// 댓글 삭제
+	public int deleteReply(int rid);
+
+	// rid로 댓글 조회
+	public List<Reply> selectReply(int rid);
+
+	// 댓글 신고
+	public int insertReplyReport(Report r);
+
+	// 게시글 좋아요 누른 유저 추가
+	public int insertLike(Like l);
+
+	// 게시글 좋아요 누르면 board테이블 blike 컬럼 업데이트
+	public int updateFeedLike(Feed f);
+
+	// 쪽지 보내기
+	public int insertMessage(Message m);
+
+	// 친구 신청
+	public int insertFriend(Friend f);
+
+	// 좋아요 누른 유저 리스트
+	public List<Like> selectLikeList();
+
+	
+
+	
 }

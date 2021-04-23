@@ -23,11 +23,17 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.kh.fantimate.common.model.vo.Attachment;
+import com.kh.fantimate.common.model.vo.Friend;
+import com.kh.fantimate.common.model.vo.Like;
+import com.kh.fantimate.common.model.vo.Message;
 import com.kh.fantimate.common.model.vo.Reply;
 import com.kh.fantimate.common.model.vo.Report;
 import com.kh.fantimate.common.model.vo.Subscribe;
@@ -73,17 +79,27 @@ public class FanFeedController {
 									@ModelAttribute Attachment at,
 									@ModelAttribute AttachmentF pt,
 									@ModelAttribute Reply r,
+									@ModelAttribute Like lk,
+									
 									Model model,
+									@RequestParam(value="artNameEn") String artNameEn,
 									HttpServletRequest request) {
 		
-		// 세션에 로그인 유저 닉네임 담아서 리스트 페이지로 보내기
 		
+		
+		
+		f.setArtiName(artNameEn);
+		
+		s.setArtiname(artNameEn);
+		System.out.println(f);
+		
+		System.out.println("어떤 아티스트 팬 피드인가? : " + artNameEn);
 		// 게시글 불러올 때 필요한 리스트
 		
-		List<Subscribe> subList = fService.selectSubList();
+		List<Subscribe> subList = fService.selectSubList(artNameEn);
 		System.out.println("구독 유저 리스트 : " + subList);
 		
-		List<Feed> list = fService.selectFeedList();
+		List<Feed> list = fService.selectFeedList(artNameEn);
 		System.out.println("게시글 리스트 : " + list);
 		
 		List<Attachment> atlist = fService.selectatList();
@@ -93,15 +109,21 @@ public class FanFeedController {
 		System.out.println("게시글 사진 리스트 : " + ptlist);
 		
 		List<FeedCollection> flist = fService.selectfcList();
-	//	System.out.println("컬렉션 리스트 : " + flist);
+		System.out.println("컬렉션 리스트 : " + flist);
 		
 		List<Reply> rlist = fService.selectReplyList();
 		System.out.println("댓글 리스트 : " + rlist);
 		
+		List<Like> lklist = fService.selectLikeList();
+		System.out.println("좋아유 누른 유저 리스트 : " + lklist);
 		
 		
 		
-		if(flist != null && !flist.isEmpty()) {
+		
+		if(list != null && !list.isEmpty()) {
+			// artiName 세션에 저장
+			HttpSession session = request.getSession(); // 세션을 생성해서
+			session.setAttribute("artiName", artNameEn); // userid로 uid값을 넘기자
 			model.addAttribute("subList", subList);
 			mv.addObject("list", list);
 			mv.addObject("flist", flist);
@@ -452,13 +474,13 @@ public class FanFeedController {
 			   				HttpServletRequest request,
 			   				@RequestParam(value="rptType") String rptType,
 			   				@RequestParam(value="rptReason") String rptReason,
-			   				@RequestParam(value="id") String id,
-			   				@RequestParam(value="refId") String refId,
+			   				@RequestParam(value="rptId") String rptId,
+			   				@RequestParam(value="refId") int refId,
 			   				Model model,
 			   				HttpSession session) {
 		System.out.println(rptType);
 		System.out.println(rptReason);
-		System.out.println(id);
+		System.out.println(rptId);
 		System.out.println(refId);
 		
 		int result = fService.insertFeedReport(r);
@@ -478,14 +500,151 @@ public class FanFeedController {
 	
 	public String messageView(Model model,
 							  HttpServletResponse response,
-							  
-							  HttpServletRequest request) {
+							  String writer,
+							  HttpServletRequest request,
+							  HttpSession session) {
 		
-	//	System.out.println("받는이 : " + writer);
+		System.out.println("받는이 : " + writer);
 		
 		return "fanfeed/fmessage";
 		
 	}
 	
+	// 쪽지 보내기
+	@RequestMapping("/message")
+	public String insertMessage(HttpServletResponse response,
+							  HttpServletRequest request,
+							  Model model,
+							  Message m,
+							  @RequestParam(value="messRecId") String messRecId,
+				   			  @RequestParam(value="messTitle") String messTitle,
+				   			  @RequestParam(value="messContent") String messContent,
+				   			  @RequestParam(value="messSendId") String messSendId) {
+		
+		System.out.println("받는이 : " + messRecId);
+		System.out.println("제목 : " + messTitle);
+		System.out.println("내용 : " + messContent);
+		System.out.println("보내는 사람 : " + messSendId);
+		
+		int result = fService.insertMessage(m);
+		
+		if(result > 0) {
+			model.addAttribute("msg", "success");
+			return "fanfeed/fmessage";
+		} else {
+			model.addAttribute("msg", "fail");
+			return "fanfeed/fmessage";
+		}
+		
+	}
 	
+   // 댓글 삭제
+	@RequestMapping("/deleteReply")
+	public void deleteReply(HttpServletResponse response,
+							Reply r,
+							int rid,
+							HttpServletRequest request,
+							HttpSession session) throws IOException {
+		
+		System.out.println(rid);
+		
+		int result = fService.deleteReply(rid);
+		
+		if(result > 0) {
+			request.getSession().setAttribute("msg", "댓글이 삭제되었습니다.");
+			response.sendRedirect("fanFeedList");
+		} else {
+			request.getSession().setAttribute("msg", "댓글삭제에 실패하였습니다.");
+		}
+	}
+	
+	// 댓글 신고 팝업창 열기
+		@RequestMapping("/reportReplyView")
+		public String reportReplyView(Model model,
+								HttpServletResponse response,
+								int rid,
+								HttpServletRequest request) {
+			
+			System.out.println("신고할 댓글 번호 : " + rid);
+			
+			List<Reply> r = fService.selectReply(rid);
+			
+			return "fanfeed/replyreport";
+		}
+	
+	// 댓글 신고
+	@RequestMapping("/reportReply")
+	public String reportReply(HttpServletResponse response,
+			   				Report r,
+			   				Reply rp,
+			   				HttpServletRequest request,
+			   				@RequestParam(value="rptType") String rptType,
+			   				@RequestParam(value="rptReason") String rptReason,
+			   				@RequestParam(value="rptId") String rptId,
+			   				@RequestParam(value="refId") int refId,
+			   				Model model,
+			   				HttpSession session) {
+		System.out.println(rptType);
+		System.out.println(rptReason);
+		System.out.println(rptId);
+		System.out.println(refId);
+		
+		int result = fService.insertReplyReport(r);
+		
+		if(result > 0) {
+			model.addAttribute("msg", "success");
+			return "fanfeed/replyreport";
+			
+		} else {
+			model.addAttribute("msg", "fail");
+			return "fanfeed/feedreport";
+		}	
+	}
+	
+   // 게시글 좋아요 처리
+	@PostMapping(value="/insertLike", produces="application/json; charset=utf-8")
+	public @ResponseBody String insertLike(Like l, int refId, 
+										   int flike,
+										   Feed f,
+										   HttpSession session) {
+		f.setFid(refId);
+		int result = fService.insertLike(l, f);
+		
+		// 응답 작성
+		Gson gson = new GsonBuilder()
+					.create();
+		
+		return gson.toJson(result);
+		
+	}
+	
+	// 친구 신청
+	@RequestMapping("/insertFriend")
+	public void insertFriend(HttpServletResponse response,
+							Friend f,
+							String frRecId,
+							String frSend,
+							HttpServletRequest request,
+							HttpSession session) throws IOException { 
+	
+//	String frSend = ((Member)request.getSession().getAttribute("loginUser")).getId();
+	
+	System.out.println("친구 신청한 유저 : " + frSend);
+	System.out.println("친구 신청 받은 유저 : " + frRecId);
+	
+		int result = fService.insertFriend(f);
+		
+		
+		
+		  if(result > 0) { 
+			  request.getSession().setAttribute("msg", "친구신청이 완료되었습니다.");
+			  response.sendRedirect("fanFeedList");
+		  } else {
+			  request.getSession().setAttribute("msg", "친구신청에 실패하였습니다.");
+			  response.sendRedirect("fanFeedList");
+		  }
+		
+		  
+		 
+	}
 }
