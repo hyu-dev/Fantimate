@@ -835,6 +835,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
            SET 
            		IS_BOUGHT = #{ cart.isBought }
 	</update>
+<!-- 04.23 결정으로 생략된과정 -->
 	<update id="userpaymentMConfirmUpdateP" parameterType="UserPaymentCol2" >
 			UPDATE 
               (
@@ -855,6 +856,25 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
                 PAY_STATUS = #{ payment.payStatus }
 	</update>
 
-
+<!-- 1개 구매확정 스토어 -->
+		<update id="userpaymentSConfirmUpdateC" parameterType="UserPaymentCol2" >
+			UPDATE 
+              (
+               SELECT
+                        CART_CODE
+                      , IS_BOUGHT
+                      , PAY_STATUS
+                 FROM
+                        PAYMENT p
+           INNER JOIN
+                        CART c
+                   ON
+                        c.PAY_CODE = p.PAY_CODE
+                WHERE
+                        CART_CODE = #{ cart.cartCode }
+              ) 
+           SET 
+           		IS_BOUGHT = #{ cart.isBought }
+	</update>
 
 </mapper>

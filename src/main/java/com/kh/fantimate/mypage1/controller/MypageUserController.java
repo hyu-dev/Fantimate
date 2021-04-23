@@ -239,7 +239,7 @@ public class MypageUserController {
 		public String userMypaymentsUpdate(
 				@RequestParam(value="page", required=false, defaultValue="1") int currentPage,
 				@RequestParam(value="Cartcode", required=true) String Cartcode,
-				@RequestParam(value="paystatus", required=true) String paystatus,
+				@RequestParam(value="isBought", required=true) String isBought,
 				HttpSession session,
 				Model model){
 			
@@ -257,7 +257,7 @@ public class MypageUserController {
 			Payment p = new Payment();
 			Cart c = new Cart();
 			System.out.println("Cartcode : " + Cartcode);			// ex) M-29
-			System.out.println("paystatus : " + paystatus);			// ex) 2
+			System.out.println("isBought : " + isBought);			// ex) Y결제완료,W대기,R환불,C확정
 			
 			// 아이디와 넘어온 cartCode 대입
 			c.setId(userid);
@@ -279,79 +279,88 @@ public class MypageUserController {
 			
 			
 			// 해당 PayCode로 1개밖에 없다면 바로 로직수행(구매확정 혹은 환불신청)
-			if(countCartCode == 1) {
+//			if(countCartCode == 1) {
 				if(payCategory[0].equals("M")) {	// 미디어라면
-					if(Integer.parseInt(paystatus) == 2) {	// 구매확정이라면
+//					if(Integer.parseInt(paystatus) == 2) {	// 구매확정이라면
+					if(isBought.equals("C")) {
 						c.setIsBought("C");
-						System.out.println("Cart에 C가 제대로 설정됨? : " + c);
-						p.setPayStatus(paystatus);	// 넘어온 2를 대입
-						
 						u.setCart(c);
-						u.setPayment(p);
+						System.out.println("Cart에 C가 제대로 설정됨? : " + c);
+//						p.setPayStatus(paystatus);	// 넘어온 2를 대입
+//						u.setPayment(p);
+						
 						// join_view update 오류 구문으로 하나씩 업데이트
 						// PAYMENT -> PAY_STATUS 2로, CART ->IS_BOUGHT "C"
 						int result1 = mService.userpaymentMConfirmUpdateC(u);
 						System.out.println("수행후 result 1 : " + result1);
-						int result2 = mService.userpaymentMConfirmUpdateP(u);
-						System.out.println("수행후 result 2 : " + result2);
-						
-						if(result1 < 0 && result2 < 0) {
-							model.addAttribute("msg", "구매확정에 실패하였습니다(-1)");
+						if(result1 < 0) {
+							model.addAttribute("msg", "미디어 구매확정에 실패하였습니다(-1)");
 						}
+						
+						// 만약 2가지 다로 할경우 밑에 추가로 로직 다시 작성
+//						int result2 = mService.userpaymentMConfirmUpdateP(u);
+//						System.out.println("수행후 result 2 : " + result2);
+						
+//						if(result1 < 0 && result2 < 0) {
+//							model.addAttribute("msg", "구매확정에 실패하였습니다(-1)");
+//						}
 						
 					}
 				}else if(payCategory[0].equals("S")) { // 스토어라면
 					// 구매확정인경우
+					if(isBought.equals("C")) {
+						c.setIsBought("C");
+						u.setCart(c);
+						System.out.println("Cart에 C가 제대로 설정됨? : " + c);
+						
+						int result1 = mService.userpaymentSConfirmUpdateC(u);
+						System.out.println("수행후 result 1 : " + result1);
+						if(result1 < 0) {
+							model.addAttribute("msg", "스토어 구매확정에 실패하였습니다(-1)");
+						}
+					}
 					
 					// 환불인경우
+					if(isBought.equals("W")) {
+						c.setIsBought("W");
+						u.setCart(c);
+						System.out.println("Cart에 W가 제대로 설정됨? : " + c);
+						
+						// 이제는 환불도 같은 로직으로 가능
+						int result1 = mService.userpaymentSConfirmUpdateC(u);
+						System.out.println("수행후 result 1 : " + result1);
+						if(result1 < 0) {
+							model.addAttribute("msg", "스토어 환불신청에 실패하였습니다(-1)");
+						}
+					}
 					
 				}else {
 					// 이런경우는 아직 없음
 					System.out.println("오류발생 M, S가아닌 다른 경우가 발생함.");
 				}
-				
+/*			
+// 나중에 
 			}else if(countCartCode > 1) {
 				// countCartCode 1개보다 크다면 배열 받아오기
-				
-				// 받아온 배열 사이즈 구하기 --> ? 필요있나
 				
 				// 수정하기
 				
 				// 해당 PAYCODE의 상태 싹 조회해서 모두가 환불완료 혹은 구매확정이라면
 				// 전체 구매확정(PAY STATUS 2로 설정하기)
-			}
-			
-			
-			if(payCategory[0].equals("M")) {	// 미디어라면
 				
-			}else if(payCategory[0].equals("S")) { // 스토어라면
-		
+				if(payCategory[0].equals("M")) {	// 미디어라면
+					
+				}else if(payCategory[0].equals("S")) { // 스토어라면
+					
+				}
 			}
+*/			
 			
 			System.out.println("객체 p : " + p);
 			System.out.println("객체 c : " + c);
 			System.out.println("객체 u : " + u);
 			
 			
-			
-			
-			if(cartCode == 2) {// 구매확정
-				
-			}else if(cartCode == 3) {	// 환불신청
-				
-			}
-			
-//			if(result > 0) {
-//				mv.addObject("pi", pi);
-//				mv.setViewName("mypage/user/payments");
-//				return "redirect:/mypage/user/payments";
-//			}else {
-//				mv.addObject("msg", "조회에 실패하였습니다.");
-//				mv.setViewName("mypage/admin/errorpage");
-//				session.setAttribute("msg", "조회에 실패하였습니다.");
-//				model.addAtt
-//				return "redirect:/mypage/user/payments";
-//			}
 			return "redirect:/mypage/user/payments";
 		}
 		

@@ -80,7 +80,9 @@ public interface Mypage1Service {
 	// 1개일때 미디어 구매확정
 	public int userpaymentMConfirmUpdateC(UserPaymentCol2 u);
 	public int userpaymentMConfirmUpdateP(UserPaymentCol2 u);
-
+	
+	// 1개일떄 스토어 구매확정
+	public int userpaymentSConfirmUpdateC(UserPaymentCol2 u);
 
 	
 	

@@ -62,5 +62,7 @@ public interface Mypage1Dao {
 	public int userpaymentMConfirmUpdateC(UserPaymentCol2 u);
 	public int userpaymentMConfirmUpdateP(UserPaymentCol2 u);
 
+	public int userpaymentSConfirmUpdateC(UserPaymentCol2 u);
+
 
 }

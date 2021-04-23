@@ -187,9 +187,15 @@ public class Mypage1DaoImpl implements Mypage1Dao{
 	public int userpaymentMConfirmUpdateC(UserPaymentCol2 u) {
 		return sqlSession.update("mypage1Mapper.userpaymentMConfirmUpdateC", u);
 	}
+	// 나중에 추가로 실행될 구문
 	@Override
 	public int userpaymentMConfirmUpdateP(UserPaymentCol2 u) {
 		return sqlSession.update("mypage1Mapper.userpaymentMConfirmUpdateP", u);
+	}
+
+	@Override
+	public int userpaymentSConfirmUpdateC(UserPaymentCol2 u) {
+		return sqlSession.update("mypage1Mapper.userpaymentSConfirmUpdateC", u);
 	}
 
 

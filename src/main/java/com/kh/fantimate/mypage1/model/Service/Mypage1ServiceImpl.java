@@ -147,6 +147,11 @@ public class Mypage1ServiceImpl implements Mypage1Service{
 		return mDao.userpaymentMConfirmUpdateP(u);
 	}
 
+	@Override
+	public int userpaymentSConfirmUpdateC(UserPaymentCol2 u) {
+		return mDao.userpaymentSConfirmUpdateC(u);
+	}
+
 
 
 }
