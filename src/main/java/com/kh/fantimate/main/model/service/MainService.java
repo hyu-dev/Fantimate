@@ -99,5 +99,14 @@ public interface MainService {
 	// 27. 알람 상태 업데이트
 	public int updateAlarmStatus(int alCode);
 
+	// 28. 전체 아티스트 미디어 탑 3
+	public List<MediaTopNineCollection> selectChartTopThree();
+
+	// 29. 일간별 전체 미디어 차트 순위 
+	public List<MediaTopNineCollection> selectchartDay();
+
+	// 30. 주간별 전체 미디어 차트 순위 
+	public List<MediaTopNineCollection> selectchartWeek();
+
 
 }

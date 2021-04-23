@@ -22,4 +22,5 @@ public class Official {
 	private String isPay;			// 유료상품 여부
 	private String cateCode;		// 카테고리 코드
 	private int mediaPay;			// 상품 가격
+	private int mediaCount;         // 조회수
 }
