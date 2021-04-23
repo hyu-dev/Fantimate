@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,12 +18,13 @@
 <body>
 	<aside class="main-contents-left">
         <div class="artist-follower">
-            <p class="artist-name">BTS</p>
+            <p class="artist-name">${artiName}</p>
             <p class="artist-follower-count">5,555,555 FAN</p>
         </div>
         <div class="category">
-            <a href="#">FAN</a>
-            <a href="#">ARTIST</a>
+        	
+            <a href="${ contextPath }/fanfeed/fanFeedList?artNameEn=${artiName}">FAN</a> 
+            <a href="${ contextPath }/artistfeed/artistFeedList?artNameEn=${artiName}">ARTIST</a> 
             <a class="official-url" href="${ contextPath }/official/media/main">OFFICIAL</a>
             <a href="${ contextPath }/store/storeList">STORE</a>
         </div>
@@ -166,5 +168,6 @@
 	    	})
 		});
      </script>
+     
 </body>
 </html>

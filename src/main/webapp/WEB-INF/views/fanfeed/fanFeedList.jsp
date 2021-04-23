@@ -11,7 +11,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="${ contextPath }/resources/css/common/font.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css">
-    <link rel="stylesheet" href="${ contextPath }/resources/css/feed/fanFeedList.css?afters">
+    <link rel="stylesheet" href="${ contextPath }/resources/css/feed/fanFeedList.css?after">
     <link rel="icon" type="image/png" sizes="16x16" href="${ contextPath }/resources/icon/faviconF.png">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 <title>Insert title here</title>
@@ -27,11 +27,11 @@
          
          <!-- 메인 컨텐츠 영역 -->
          <section class="main-contents">
+ 
          <!-- 로그인 유저가 일반일때 포스트 작성 보이게 하기 -->
-         
-      
+        <c:if test="${ loginUser.classifyMem == 1 }">
           <jsp:include page="../fanfeed/fanfeedinsert.jsp"/>
-		
+		</c:if>
 			
 			<!-- 게시글 구분할수 있는 조건문 큰 영역에 게시글 갯수만 불러올 수 있도록 -->
 			
@@ -64,8 +64,8 @@
                         	<!-- 게시글작성자의 아이디와 구독유저의 아이디가 같다면 닉네임 불러오기 -->
                         	 <c:forEach var="sb" items="${ subList }">
                         	 <c:if test="${ f.writer eq sb.uid }">
-                            <pre class="nicknameArea">${ sb.unickname }</pre>
-                            <input type="hidden" name="fid" value="${ f.fid }">
+                            <pre class="nicknameArea">${ sb.unickname }${artiName}</pre>
+                            <input type="hidden" id="likeId"name="fid" value="${ f.fid }">
                         	 </c:if>
                         	 </c:forEach>
                           	
@@ -125,10 +125,17 @@
                         <col width="55%"/>
                         <col width="15%"/>
                         <col width="15%"/>
-					
+						
                         <tr>
-                            <td><img src="../resources/images/feed/like-icon.png" class="like-icon"></td>
+                        	
+                        	
+                        	<!-- 좋아요 누른애는 검정아이콘, 안누른애는 하얀아이콘 -->
+                            <td><img id="insertLike" src="../resources/images/feed/like-icon.png" class="like-icon" onclick="insertLike(${f.fid},${f.flike});"></td>
                             
+                            <%-- <td><img id="insertLike" src="../resources/images/feed/likeblack-icon.png" class="like-icon" onclick="insertLike(${f.fid},${f.flike});"></td> --%>
+                            
+                            
+                           
                             <td>${ f.flike }</td>
                             <td class="reply-info">댓글</td>
                             <td class="reply-count">2,300</td>
@@ -139,7 +146,7 @@
                    
                    <c:forEach var="r" items="${ rlist }">
                    <c:if test="${ f.fid eq r.refId }">
-                    
+                    <input type="hidden" value="${ r.writer }" name="messRecId" id="messRecId">
                     <!-- 댓글 리스트 영역 -->
                     <table id="replyTable" class="original-comment">
                     <tbody>
@@ -151,10 +158,18 @@
                          <c:forEach var="at" items="${ atlist }">
                      	 <c:if test="${ at.refuid eq r.writer }">
                             <td>
+                            <c:if test="${ loginUser.id ne r.writer }">
                                 <div class="profile-bubble">
-                                    <p>친구 신청</p>
-                                    <p onclick="insertMessage();">쪽지 보내기</p>
+                                    <p onclick="insertFriend('${r.writer}');">친구 신청</p>
+                                    <p onclick="insertMessage('${r.writer}');">쪽지 보내기</p>
                                 </div>
+                            </c:if>
+                             <c:if test="${ loginUser.id eq r.writer }">
+                            	<div class="profile-bubble">
+                                    <p onclick="insertFriend('${r.writer}');">친구 신청</p>
+                                    <p onclick="insertMessage('${r.writer}');">쪽지 보내기</p>
+                                </div>
+                            </c:if>     
                                
                                 <img class="profile-picture" src="${ contextPath }/resources/uploadFiles/${ at.attSvName }">
                             </td>
@@ -171,20 +186,19 @@
                                         </span>
                                         <span class="re-commentBtn">답글 열기</span>
                                     </div>
-                                    <div class="comment-etc">
+                                    <div class="">
                                     	<span class="comment-etc" >···</span>
                                     	<c:if test="${ loginUser.id ne r.writer }">
                                         <div class="comment-bubble">
                                             <p class="add-comment">답글 달기</p>
-                                            <p>댓글 신고</p>
+                                            <p onclick="reportReply(${r.rid });">댓글 신고</p>
                                         </div>
                                         </c:if>
-                                        <c:if test="${ loginUser.id eq f.writer }">
+                                        <c:if test="${ loginUser.id eq r.writer }">
                                         <div class="comment-bubble">
                                             <p class="add-comment">답글 달기</p>
-                                            <form>
-                                            <p>댓글 삭제</p>
-                                            </form>
+                                            <p onclick="deleteReply(${r.rid});">삭제하기</p>
+                                            
                                         </div>
                                         </c:if>
                                     </div>
@@ -195,7 +209,8 @@
                                     </c:forEach>
                                 
                                 <div class="comment-info comment-center nanumsquare">
-                                    <img class="likeBtn" src="../resources/images/feed/like-icon.png">
+                                
+                                    <img class="likeBtn" src="../resources/images/feed/like-icon.png" onclick="insertLike(${f.fid});">
                                     <span class="like-count">1,000</span>
                                     <span class="comment-date"><fmt:formatDate value="${ r.rcreate }" pattern="yyyy.MM.dd HH:mm"/></span>
                                 </div>
@@ -455,10 +470,12 @@
    
    <!-- 쪽지 창 열기 -->
    <script>
-   function insertMessage(){
+   function insertMessage(writer){
 	// 팝업 가운데에 띄우기
-       var popupWidth = 1200;
-       var popupHeight = 500;
+       var popupWidth = 600;
+       var popupHeight = 400;
+       
+     //  var messRecId = $("#messRecId").val();
 
        var popupX = Math.ceil((window.screen.width - popupWidth)/2);
        // 만들 팝업창 width 크기의 1/2 만큼 보정값으로 빼주었음
@@ -466,7 +483,10 @@
        var popupY = Math.ceil((window.screen.width - popupHeight)/2);
        // 만들 팝업창 height 크기의 1/2 만큼 보정값으로 빼주었음
       
-       var url = "${ contextPath }/fanfeed/messageView";
+       
+    //   var messRecId = $('input[id=messRecId]').val();
+       
+       var url = "${ contextPath }/fanfeed/messageView?writer=" + writer;
       
     
        window.open(url, "쪽지", 'width=' + popupWidth  + ', height=' + popupHeight  + ', left='+ popupX + ', top='+ popupY);
@@ -474,5 +494,77 @@
    }
    </script>
    
+   <!-- 댓글 삭제 -->
+   <script>
+   function deleteReply(rid){
+	   if (confirm("정말 삭제하시겠습니까??") == true){    //확인
+	    	 //   document.form.submit();
+	    		location.href='${contextPath}/fanfeed/deleteReply?rid=' + rid;
+	    	} else {   //취소
+	    	    return;
+	    	}
+   }
+   </script>
+   
+   <!-- 댓글 신고 -->
+   <script>
+	function reportReply(rid){
+	        // 팝업 가운데에 띄우기
+	        var popupWidth = 600;
+	        var popupHeight = 500;
+
+	        var popupX = Math.ceil((window.screen.width - popupWidth)/2);
+	        // 만들 팝업창 width 크기의 1/2 만큼 보정값으로 빼주었음
+
+	        var popupY = Math.ceil((window.screen.width - popupHeight)/2);
+	        // 만들 팝업창 height 크기의 1/2 만큼 보정값으로 빼주었음
+	        
+	        var url = "${ contextPath }/fanfeed/reportReplyView?rid=" + rid;
+
+	        window.open(url, "신고하기", 'width=' + popupWidth  + ', height=' + popupHeight  + ', left='+ popupX + ', top='+ popupY);
+	}   
+   </script>
+   
+   <!-- 좋아요 클릭시  누른 유저 추가 -->
+   <script>
+   function insertLike(fid,flike){
+	   var id = "${ loginUser.id }";	 // 좋아요 누른 유저 아이디
+	   var refId = fid;					 // 좋아요 누른 게시글 번호 
+	   var flike = flike;		 		 // 좋아요 갯수
+	   $.ajax({
+		  	url : "${ contextPath }/fanfeed/insertLike?refId=" + refId + '&flike=' + flike,
+			data : { id : id },
+			type : "post",
+			dataType : "json",
+			success : function(data){
+				console.log(data);	// (화면)좋아요 갯수 증가하면서 좋아요아이콘 검정색으로 바꾸기, db b_like테이블에 인서트 , BOARD테이블 B_LIKE 컬럼 +1 업데이트 
+				alert("좋아요 인서트 성공");
+				
+				if(document.getElementById("insertLike").getAttribute('src') == "${ contextPath }/resources/images/feed/like-icon.png") {
+	                document.getElementById("insertLike").src = "${ contextPath }/resources/images/feed/likeblack-icon.png";
+	                
+	            } else {
+	                document.getElementById("insertLike").src = "${ contextPath }/resources/images/feed/like-icon.png";
+	            }
+				
+			}
+	  });
+   }
+   </script>
+   
+   <!-- 친구 신청 -->
+   <script>
+   function insertFriend(writer){
+	   var frRecId = writer;
+	   var frSend = "${loginUser.id}";
+	   if (confirm(frRecId + "님에게 친구신청을 하시겠습니까??") == true){    //확인
+	    	 //   document.form.submit();
+	    		location.href='${contextPath}/fanfeed/insertFriend?frRecId=' + frRecId + '&frSend=' + frSend;
+	    	} else {   //취소 
+	    	    return;
+	    	}
+   }
+   </script> 
+  
 </body>
 </html>

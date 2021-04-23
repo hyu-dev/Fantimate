@@ -36,7 +36,7 @@
     <hr width="95%">
     <br>
     <!-- 신고 폼 -->
-    <form action="${ contextPath }/fanfeed/report" method="post">
+    <form action="${ contextPath }/fanfeed/reportReply" method="post">
     <h4 class="first">사유 선택</h4>
     <span>
         <input type="radio" class="rpt-reason" name="rptType" value="비속어 사용">비속어 사용
@@ -49,7 +49,7 @@
     <textarea id="test" class="rpt-content" placeholder="구체적인 내용을 300자 이내로 적어주세요" name="rptReason"></textarea>
     
     <input type="hidden" name="rptId" value="${ loginUser.id }">
-    <input type="hidden" name="refId" value="${ param.fid }">
+    <input type="hidden" name="refId" value="${ param.rid }">
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;

@@ -60,7 +60,7 @@
             
             <div class="post-outer">
                 <div class="introArea">
-                    <p class="post-intro">포스트 쓰기</p>    
+                    <p class="post-intro">포스트 쓰기${artiName}</p>    
                 </div>
  <!-- 포스트 작성 -->
                 <form>
