@@ -68,6 +68,14 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<result property="artNameKr" column="ARTI_NAME_KR"/>
 		<result property="agId" column="AG_ID"/>
 	</resultMap>
+	<resultMap type="Reply" id="replyResultSet">
+		<id property="rid" column="FR_CODE"/>
+		<result property="rcreate" column="FR_DATE"/>
+		<result property="rcontent" column="FR_CONTENT"/>
+		<result property="refId" column="F_CODE"/>
+		<result property="writer" column="ID"/>
+		<result property="refRid" column="REF_CODE"/>
+	</resultMap>
 	<resultMap type="FStoreListCollection" id="fsListCollResultSet">
 		<collection property="fstore" resultMap="fstoreResultSet" />
 		<collection property="hash" resultMap="hashResultSet" />
@@ -81,6 +89,13 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<collection property="area"  resultMap="areaResultSet" />
 		<collection property="attUser"  resultMap="attUserResultSet" />
 	</resultMap>
+	<resultMap type="FanStoreReplyCollection" id="fsReplyCollResultSet">
+		<collection property="user" resultMap="userResultSet" />
+		<collection property="attUser"  resultMap="attUserResultSet" />
+		<collection property="area"  resultMap="areaResultSet" />
+		<collection property="fsReply"  resultMap="replyResultSet" />
+	</resultMap>
+	
 	<select id="isSettingArea" parameterType="string" resultMap="userResultSet">
 		SELECT
 				U_ID
@@ -122,9 +137,6 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		      , TAG_NAME
 		      , SEARCH_COUNT
 		      , AREA_NAME
-		      , WISH_DATE
-		      , IS_WISH
-		      , W.ID AS W_ID
 		  FROM
 		        F_STORE F
 		  LEFT JOIN
@@ -135,8 +147,6 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		        TAG USING(TAG_CODE)
 		  LEFT JOIN
 		        USER_AREA USING(AREA_CODE)
-		  LEFT JOIN
-		  		F_WISH W USING(F_CODE)
 		 <trim prefix="WHERE" prefixOverrides="AND|OR">
 		 <if test='_parameter != 1'>
 		        AREA_CODE = #{areaCode}
@@ -244,9 +254,6 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		      , TAG_NAME
 		      , SEARCH_COUNT
 		      , AREA_NAME
-		      , WISH_DATE
-		      , IS_WISH
-		      , W.ID AS W_ID
 		  FROM
 		        F_STORE F
 		  LEFT JOIN
@@ -257,8 +264,6 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		        TAG USING(TAG_CODE)
 		  LEFT JOIN
 		        USER_AREA USING(AREA_CODE)
-		  LEFT JOIN
-		  		F_WISH W USING(F_CODE)
 		 WHERE
 		        AREA_CODE = #{areaCode}
            AND
@@ -326,9 +331,6 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		      , TAG_NAME
 		      , SEARCH_COUNT
 		      , AREA_NAME
-		      , WISH_DATE
-		      , IS_WISH
-		      , W.ID AS W_ID
 		  FROM
 		        F_STORE F
 		  LEFT JOIN
@@ -339,8 +341,6 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		        TAG USING(TAG_CODE)
 		  LEFT JOIN
 		        USER_AREA USING(AREA_CODE)
-		  LEFT JOIN
-		  		F_WISH W USING(F_CODE)
 		 WHERE
 		        AREA_CODE = #{areaCode}
            AND
@@ -412,5 +412,112 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		 		ARTI_NAME_EN = #{search}
 		    OR
 		    	ARTI_NAME_KR = #{search}
+	</select>
+	<select id="selectFanStore" parameterType="_int" resultMap="fsListCollResultSet">
+		SELECT
+		        F_CODE
+		      , F_NAME
+		      , OFFER_PRICE
+		      , CONTECT
+		      , DEAL
+		      , F_INFO
+		      , IS_ACTIVE
+		      , F.ID
+		      , AREA_CODE
+		      , AREA_NAME
+		      , ARTI_NAME_EN
+		      , ATT_CODE
+		      , ATT_ROOT
+		      , ATT_CL_NAME
+		      , ATT_SV_NAME
+		      , ATT_STATUS
+		      , IS_MAIN_ATT
+		      , TAG_CODE
+		      , TAG_NAME
+		      , SEARCH_COUNT
+		FROM
+		        F_STORE F
+		LEFT JOIN
+		        ATT_FSTORE USING(F_CODE)
+		LEFT JOIN
+		        ENROLL_TAG USING(F_CODE)
+		LEFT JOIN
+		        TAG USING(TAG_CODE)
+		LEFT JOIN
+		        USER_AREA USING(AREA_CODE)
+		WHERE
+		        F_CODE = #{fcode}
+	</select>
+	<select id="selectFanStoreReply" parameterType="_int" resultMap="fsReplyCollResultSet">
+		SELECT
+		        U_ID
+		      , U_ADD
+		      , U_EMAIL
+		      , U_COUNTRY
+		      , AREA_REGISTER
+		      , AREA_CERTIFY
+		      , AREA_CODE
+		      , AREA_NAME
+		      , IS_MEMBERSHIP
+		      , U_PAID_START
+		      , U_PAID_END
+		      , U_SUSPEND_START
+		      , U_SUSPEND_END
+		      , U_PROFILE
+		      , UP_CODE
+		      , UP_ROOT
+		      , UP_CL_NAME
+		      , UP_SV_NAME
+		      , UP_STATUS
+		      , FR_CODE
+		      , FR_DATE
+		      , FR_CONTENT
+		      , F_CODE
+		      , REF_CODE
+		FROM
+		        USER_
+		LEFT JOIN
+		        USER_AREA USING(AREA_CODE)
+		LEFT JOIN
+		        USER_PROFILE USING(U_ID)
+		LEFT JOIN
+		        F_REPLY ON(ID = U_ID)
+		WHERE
+		        F_CODE = #{fcode}
+	 ORDER BY   FR_CODE ASC
+	</select>
+	<select id="selectReplyCount" parameterType="FanStore" resultType="_int">
+		SELECT
+		        count(distinct U_ID)
+		FROM
+		        USER_
+		LEFT JOIN
+		        F_REPLY ON(ID = U_ID)
+		WHERE
+		        F_CODE = #{fcode}
+          AND   U_ID != #{id}
+	</select>
+	<select id="selectWish" parameterType="Wish" resultMap="wishResultSet">
+		SELECT
+				F_CODE
+			  , WISH_DATE
+			  , IS_WISH
+			  , ID AS W_ID
+		  FROM
+		  		F_WISH
+		 WHERE
+		 		ID = #{id}
+		   AND	F_CODE = #{code}
+	</select>
+	<select id="selectWishList" parameterType="string" resultMap="wishResultSet">
+		SELECT
+				F_CODE
+			  , WISH_DATE
+			  , IS_WISH
+			  , ID AS W_ID
+		  FROM
+		  		F_WISH
+		 WHERE
+		 		ID = #{id}
 	</select>
 </mapper>

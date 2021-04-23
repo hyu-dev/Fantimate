@@ -99,7 +99,7 @@
                 </tbody>
             </table>
             <div class="my-photo">
-                <sub class="guide">* 대표사진 등록 필수 / 추가사진은 최대 4장 등록가능</sub>
+                <sub class="addGuide">* 대표사진 등록 필수 / 추가사진은 최대 4장 등록가능</sub>
                 <label for="mainPhoto" class="main-photo">대표사진첨부</label>
                 <input id="mainPhoto" class="photo" type="file" style="display: none;">
                 <label class="add-photo click-btn">+</label>
