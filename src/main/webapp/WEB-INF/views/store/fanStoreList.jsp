@@ -210,8 +210,9 @@
 	
 	    // 상품 상세정보로 이동
 	    $('.product-background').click(function(e) {
+	    	var fcode = $(this).children("#fcode").val();
 	        if(!$(e.target).hasClass('store-icon')) {
-	            location.href='detail.html';
+	            location.href='${ contextPath }/fanStore/detail?fcode=' + fcode;
 	        }
 	    })
 	

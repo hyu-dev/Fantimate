@@ -16,8 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.kh.fantimate.member.model.vo.ArtistGroup;
 import com.kh.fantimate.member.model.vo.Member;
 import com.kh.fantimate.member.model.vo.User;
@@ -26,6 +24,7 @@ import com.kh.fantimate.store.model.service.FanStoreService;
 import com.kh.fantimate.store.model.vo.Area;
 import com.kh.fantimate.store.model.vo.FStoreListCollection;
 import com.kh.fantimate.store.model.vo.FanStore;
+import com.kh.fantimate.store.model.vo.FanStoreReplyCollection;
 import com.kh.fantimate.store.model.vo.HashTag;
 import com.kh.fantimate.store.model.vo.Wish;
 
@@ -196,5 +195,23 @@ public class FanStoreController {
 	public @ResponseBody List<ArtistGroup> selectArtiNameList(@RequestParam(value="search")String search) {
 		List<ArtistGroup> artiNameList = fService.selectArtiNameList(search);
 		return artiNameList;
+	}
+	
+	@GetMapping("/detail")
+	public String selectFanStore(Model model, @RequestParam(value="fcode")int fcode,
+								 HttpServletRequest request) {
+		if(((Member)request.getSession().getAttribute("loginUser")) != null) {
+			// 스토어 목록 불러오기
+			List<FStoreListCollection> fanStore = fService.selectFanStore(fcode);
+			// 스토어 댓글 불러오기
+			List<FanStoreReplyCollection> fanStoreReply = fService.selectFanStoreReply(fcode);
+			// 유저 찜 정보 불러오기
+			String userId = ((Member)request.getSession().getAttribute("loginUser")).getId();
+			Wish wish = fService.selectWish(userId, fcode);
+			model.addAttribute("fanStore", fanStore);
+			model.addAttribute("fanStoreReply", fanStoreReply);
+			model.addAttribute("wish", wish);
+		}
+		return "store/fanStoreDetail";
 	}
 }

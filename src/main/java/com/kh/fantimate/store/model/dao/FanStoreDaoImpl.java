@@ -13,6 +13,7 @@ import com.kh.fantimate.member.model.vo.UserCollection;
 import com.kh.fantimate.store.model.vo.Area;
 import com.kh.fantimate.store.model.vo.FStoreListCollection;
 import com.kh.fantimate.store.model.vo.FanStore;
+import com.kh.fantimate.store.model.vo.FanStoreReplyCollection;
 import com.kh.fantimate.store.model.vo.HashTag;
 import com.kh.fantimate.store.model.vo.Wish;
 
@@ -104,6 +105,24 @@ public class FanStoreDaoImpl implements FanStoreDao{
 	@Override
 	public List<ArtistGroup> selectArtiNameList(String search) {
 		return sqlSession.selectList("fanStoreMapper.selectArtiNameList", search);
+	}
+
+	@Override
+	public List<FStoreListCollection> selectFanStore(int fcode) {
+		return sqlSession.selectList("fanStoreMapper.selectFanStore", fcode);
+	}
+
+	@Override
+	public List<FanStoreReplyCollection> selectFanStoreReply(int fcode) {
+		return sqlSession.selectList("fanStoreMapper.selectFanStoreReply", fcode);
+	}
+
+	@Override
+	public Wish selectWish(String userId, int fcode) {
+		Wish w = new Wish();
+		w.setId(userId);
+		w.setCode(fcode);
+		return sqlSession.selectOne("fanStoreMapper.selectWish", w);
 	}
 	
 }

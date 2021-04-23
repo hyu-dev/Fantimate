@@ -13,6 +13,7 @@ import com.kh.fantimate.store.model.dao.FanStoreDao;
 import com.kh.fantimate.store.model.vo.Area;
 import com.kh.fantimate.store.model.vo.FStoreListCollection;
 import com.kh.fantimate.store.model.vo.FanStore;
+import com.kh.fantimate.store.model.vo.FanStoreReplyCollection;
 import com.kh.fantimate.store.model.vo.HashTag;
 import com.kh.fantimate.store.model.vo.Wish;
 
@@ -99,6 +100,21 @@ public class FanStoreServiceImpl implements FanStoreService{
 	@Override
 	public List<ArtistGroup> selectArtiNameList(String search) {
 		return fDao.selectArtiNameList(search);
+	}
+
+	@Override
+	public List<FStoreListCollection> selectFanStore(int fcode) {
+		return fDao.selectFanStore(fcode);
+	}
+
+	@Override
+	public List<FanStoreReplyCollection> selectFanStoreReply(int fcode) {
+		return fDao.selectFanStoreReply(fcode);
+	}
+
+	@Override
+	public Wish selectWish(String userId, int fcode) {
+		return fDao.selectWish(userId, fcode);
 	}
 	
 	

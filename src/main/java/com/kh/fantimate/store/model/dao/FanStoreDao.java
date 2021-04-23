@@ -9,6 +9,7 @@ import com.kh.fantimate.member.model.vo.UserCollection;
 import com.kh.fantimate.store.model.vo.Area;
 import com.kh.fantimate.store.model.vo.FStoreListCollection;
 import com.kh.fantimate.store.model.vo.FanStore;
+import com.kh.fantimate.store.model.vo.FanStoreReplyCollection;
 import com.kh.fantimate.store.model.vo.HashTag;
 import com.kh.fantimate.store.model.vo.Wish;
 
@@ -63,5 +64,14 @@ public interface FanStoreDao {
 
 	// 아티스트명 검색 리스트
 	List<ArtistGroup> selectArtiNameList(String search);
+	
+	// 팬스토어 불러오기
+	List<FStoreListCollection> selectFanStore(int fcode);
+
+	// 팬스토어 댓글정보 불러오기
+	List<FanStoreReplyCollection> selectFanStoreReply(int fcode);
+
+	// 로그인유저 팬스토어 찜목록 불러오기
+	Wish selectWish(String userId, int fcode);
 
 }
