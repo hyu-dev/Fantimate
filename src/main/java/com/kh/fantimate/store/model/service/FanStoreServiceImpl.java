@@ -113,8 +113,18 @@ public class FanStoreServiceImpl implements FanStoreService{
 	}
 
 	@Override
-	public Wish selectWish(String userId, int fcode) {
-		return fDao.selectWish(userId, fcode);
+	public Wish selectWish(Wish wish) {
+		return fDao.selectWish(wish);
+	}
+
+	@Override
+	public List<Wish> selectWishList(String userId) {
+		return fDao.selectWishList(userId);
+	}
+
+	@Override
+	public int selectReplyCount(FanStore f) {
+		return fDao.selectReplyCount(f);
 	}
 	
 	

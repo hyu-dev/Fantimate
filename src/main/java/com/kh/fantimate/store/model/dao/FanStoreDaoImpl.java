@@ -118,11 +118,18 @@ public class FanStoreDaoImpl implements FanStoreDao{
 	}
 
 	@Override
-	public Wish selectWish(String userId, int fcode) {
-		Wish w = new Wish();
-		w.setId(userId);
-		w.setCode(fcode);
-		return sqlSession.selectOne("fanStoreMapper.selectWish", w);
+	public Wish selectWish(Wish wish) {
+		return sqlSession.selectOne("fanStoreMapper.selectWish", wish);
+	}
+
+	@Override
+	public List<Wish> selectWishList(String userId) {
+		return sqlSession.selectList("fanStoreMapper.selectWishList", userId);
+	}
+
+	@Override
+	public int selectReplyCount(FanStore f) {
+		return sqlSession.selectOne("fanStoreMapper.selectReplyCount", f);
 	}
 	
 }

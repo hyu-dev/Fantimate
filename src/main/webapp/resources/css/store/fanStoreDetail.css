@@ -231,7 +231,7 @@ div.is-view img.small-img {
 
 .right-contents tr:nth-of-type(6) td {
     text-align: center;
-    padding: 5px 5px 20px;
+    padding: 5px;
     box-sizing: border-box;
     /* border: 1px solid red */
 }
@@ -259,10 +259,18 @@ div.is-view img.small-img {
 }
 
 h4.reply {
-    margin: 0 0 10px;
+    margin: 20px 0 10px;
     display: flex;
     align-items: center;
     justify-content: space-between;
+}
+
+h4.reply span {
+	font-family: Yoon Minguk;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 13px;
+    cursor: pointer;
 }
 
 /* 댓글 리스트 */
@@ -344,7 +352,6 @@ h4.reply {
 
 /* 댓글 내용 */
 .reply-content {
-    display: flex;
     flex-direction: column;
     justify-content: flex-start;
     width: 100%;

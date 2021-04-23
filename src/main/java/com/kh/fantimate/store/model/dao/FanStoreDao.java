@@ -72,6 +72,12 @@ public interface FanStoreDao {
 	List<FanStoreReplyCollection> selectFanStoreReply(int fcode);
 
 	// 로그인유저 팬스토어 찜목록 불러오기
-	Wish selectWish(String userId, int fcode);
+	Wish selectWish(Wish wish);
+
+	// 로그인 유저 찜리스트 불러오기
+	List<Wish> selectWishList(String userId);
+
+	// 댓글 개수 불러오기
+	int selectReplyCount(FanStore f);
 
 }

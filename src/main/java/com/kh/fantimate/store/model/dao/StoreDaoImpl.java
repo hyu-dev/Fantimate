@@ -44,23 +44,23 @@ public class StoreDaoImpl implements StoreDao {
 	}
 
 	@Override
-	public int enrollWish(Map<String, String> map) {
-		return sqlSession.insert("storeMapper.enrollWish", map);
+	public int enrollWish(Wish wish) {
+		return sqlSession.insert("storeMapper.enrollWish", wish);
 	}
 
 	@Override
-	public int isEnrollWish(Map<String, String> map) {
-		return sqlSession.selectOne("storeMapper.isEnrollWish", map);
+	public int isEnrollWish(Wish wish) {
+		return sqlSession.selectOne("storeMapper.isEnrollWish", wish);
 	}
 
 	@Override
-	public int updateWish(Map<String, String> map) {
-		return sqlSession.update("storeMapper.updateWish", map);
+	public int updateWish(Wish wish) {
+		return sqlSession.update("storeMapper.updateWish", wish);
 	}
 
 	@Override
-	public int cancelWish(Map<String, String> map) {
-		return sqlSession.update("storeMapper.cancelWish", map);
+	public int cancelWish(Wish wish) {
+		return sqlSession.update("storeMapper.cancelWish", wish);
 	}
 
 	@Override
@@ -104,11 +104,8 @@ public class StoreDaoImpl implements StoreDao {
 	}
 
 	@Override
-	public Wish selectWish(String userId, String pcode) {
-		Wish w = new Wish();
-		w.setId(userId);
-		w.setCode(Integer.parseInt(pcode));
-		return sqlSession.selectOne("storeMapper.selectWish", w);
+	public Wish selectWish(Wish wish) {
+		return sqlSession.selectOne("storeMapper.selectWish", wish);
 	}
 
 	@Override
@@ -189,6 +186,11 @@ public class StoreDaoImpl implements StoreDao {
 	@Override
 	public List<StoreCollection> selectOneReview(Review rv) {
 		return sqlSession.selectList("storeMapper.selectOneReview", rv);
+	}
+
+	@Override
+	public List<Wish> selectWishList(String userId) {
+		return sqlSession.selectList("storeMapper.selectWishList", userId);
 	}
 
 }

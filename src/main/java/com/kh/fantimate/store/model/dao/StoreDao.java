@@ -28,16 +28,16 @@ public interface StoreDao {
 	public List<StoreCollection> sortStoreByToggle(String toggle);
 
 	// 스토어 상품 찜등록
-	public int enrollWish(Map<String, String> map);
+	public int enrollWish(Wish wish);
 
 	// 스토어 상품 찜등록여부 확인
-	public int isEnrollWish(Map<String, String> map);
+	public int isEnrollWish(Wish wish);
 
 	// 스토어 상품 찜등록 업데이트
-	public int updateWish(Map<String, String> map);
+	public int updateWish(Wish wish);
 
 	// 스토어 상품 찜해제
-	public int cancelWish(Map<String, String> map);
+	public int cancelWish(Wish wish);
 
 	// 스토어 상품명 리스트 조회
 	public List<StoreCollection> searchStoreList(Map<String, String> map);
@@ -73,7 +73,7 @@ public interface StoreDao {
 	public void updateReadCount(String pcode);
 
 	// 유저 찜여부
-	public Wish selectWish(String userId, String pcode);
+	public Wish selectWish(Wish wish);
 
 	// 카테고리에 맞는 스토어 리스트 호출(추천상품용)
 	public List<StoreCollection> recommandStoreListByCate(Map<String, String> map);
@@ -113,5 +113,8 @@ public interface StoreDao {
 
 	// 등록된 리뷰 불러오기
 	public List<StoreCollection> selectOneReview(Review rv);
+
+	// 유저별 찜 리스트 불러오기
+	public List<Wish> selectWishList(String userId);
 	
 }

@@ -70,6 +70,12 @@ public interface FanStoreService {
 	List<FanStoreReplyCollection> selectFanStoreReply(int fcode);
 
 	// 로그인유저 팬스토어 찜목록 불러오기
-	Wish selectWish(String userId, int fcode);
+	Wish selectWish(Wish wish);
+
+	// 로그인 유저 찜 리스트 불러오기
+	List<Wish> selectWishList(String userId);
+
+	// 리플 개수 불러오기
+	int selectReplyCount(FanStore f);
 	
 }

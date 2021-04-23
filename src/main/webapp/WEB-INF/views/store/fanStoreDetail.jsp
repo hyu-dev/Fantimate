@@ -36,15 +36,16 @@
 	                </c:if>
 	            </c:forEach>
                 <!-- 찜아이콘 -->
+                <c:if test="${ fanStore.get(0).fstore.id ne loginUser.id }">
                 <c:choose>
-                	<c:when test="${ !empty wish && wish.isWish eq 'Y' }">
+                	<c:when test="${ wish.isWish eq 'Y' }">
 	                <img class="photo-icon ddim" src="${ contextPath }/resources/icon/heart-pink.png" alt="">
 	                </c:when>
 	                <c:otherwise>
 	                <img class="photo-icon ddim" src="${ contextPath }/resources/icon/heart.png" alt="">
 	                </c:otherwise>
                 </c:choose>
-                
+                </c:if>
                 <!-- 축소된 뷰 영역 -->
                 <div class="is-view">
                 	<c:set var="attName" value=""/>
@@ -112,7 +113,7 @@
                  	 <c:if test="${ loginUser.classifyMem eq 1 && loginUser.id ne fanStore.get(0).fstore.id }">
                      <td colspan="2">
                      <c:choose>
-                    	<c:when test="${ fanStore.get(0).wish.isWish eq 'Y'  }">
+                    	<c:when test="${ wish.isWish eq 'Y' }">
                         <button class="enroll-wish-btn">찜등록해제</button>
                         </c:when>
                         <c:otherwise>
@@ -126,10 +127,16 @@
                      </c:if>
                  </tr>
              </table>
-             <h4 class="reply">댓글(2) <span><img src="${ contextPath }/resources/icon/hand-point-left-solid.svg" alt="" width="25px"></span></h4>
+             <h4 class="reply">댓글
+             	<c:if test="${ loginUser.id eq fanStore.get(0).fstore.id }">
+             		(${ replyCount })<span id="backList">리스트보기</span>
+             	</c:if>
+             </h4>
              <div class="reply-area">
+             	 <c:if test="${ loginUser.id eq fanStore.get(0).fstore.id }">
                  <div class="reply-list">
                     <ul>
+                    	<c:forEach var="r" items="${ fanStoreReply }">
                         <li>
                             <div>
                                 <img class="user-profile" src="${ contextPath }/resources/images/mypage/만식프로필.png" alt="">
@@ -137,8 +144,10 @@
                             </div>
                             <span>2021. 03. 01</span>
                         </li>
+                        </c:forEach>
                     </ul>
                  </div>
+                 </c:if>
                  <div class="reply-content">
                      <div class="content-view">
                          <article>
@@ -170,35 +179,24 @@
          </section>
     </section>
     <script>
+    	// 로딩 시
+    	$(function() {
+    		var loginUser = "${loginUser.id}"
+    		var writer = "${ fanStore.get(0).fstore.id }"
+    		console.log(loginUser, writer);
+    		if(loginUser != writer) {
+    			$(".reply-content").css("display", "flex")
+    		}
+    	});
 	 	// 왼쪽 컨텐츠 메인 사진의 작은 사진 클릭시
 		$(".small-img").click(function() {
 			var url = $(this).attr("src");
 			$(".main-img").attr("src", url);
 		});
-	 	// 댓글 내용에 마우스 호버시
-	    $(".content-view article").hover(function() {
-	        console.log('호버함')
-	        $(this).children(".controller").css("display", "flex")
-	    }, function() {
-	        $(this).children(".controller").css("display", "none")
-	    })
-	
-	    // 댓글 컨트롤러 클릭시
-	    $(".controller").on('click', function() {
-	    	if($(this).next().css("display") == "block") {
-	    		$(this).next().css("display", "none")
-	    	} else {
-	    		$(this).next().css("display", "block")
-	    	}
-	    })
-	
-	    // 댓글 리스트 중 하나 클릭시
-	    $(".reply-list").on('click', function() {
-	        $(this).css("display", "none")
-	        $(".reply-content").css("display", "flex")
-	    })
-	    
-	    // 오른쪽 컨텐츠 찜하기 버튼 클릭시
+	 	
+	 	// 오른쪽 영역
+	 	// 쪽지보내기 클릭시
+	 	// 오른쪽 컨텐츠 찜하기 버튼 클릭시
 		let flag = true;
 		$("tr:nth-of-type(6) td:first-of-type").click(function() {
 		    if(flag == true) {
@@ -211,7 +209,34 @@
 		        flag = true;
 		    }
 		})
-
+	 	// 신고하기 클릭시
+	 	// 수정하기 클릭시
+	 	
+	 	// 댓글 내용에 마우스 호버시
+	    $(".content-view article").hover(function() {
+	        console.log('호버함')
+	        $(this).children(".controller").css("display", "flex")
+	    }, function() {
+	        $(this).children(".controller").css("display", "none")
+	    })
+	    // 댓글 컨트롤러 클릭시
+	    $(".controller").on('click', function() {
+	    	if($(this).next().css("display") == "block") {
+	    		$(this).next().css("display", "none")
+	    	} else {
+	    		$(this).next().css("display", "block")
+	    	}
+	    })
+	    // 댓글 리스트 중 하나 클릭시
+	    $(".reply-list").on('click', function() {
+	        $(this).css("display", "none")
+	        $(".reply-content").css("display", "flex")
+	    })
+	    // 댓글 리스트 보기 클릭시
+	    $("#backList").click(function() {
+	    	$(".reply-list").css("display", "flex")
+	    	$(".reply-content").css("display", "none")
+	    });
     </script>
     </c:if>
     <c:choose>
