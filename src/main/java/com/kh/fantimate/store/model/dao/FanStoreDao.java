@@ -3,6 +3,7 @@ package com.kh.fantimate.store.model.dao;
 import java.util.List;
 import java.util.Map;
 
+import com.kh.fantimate.common.model.vo.Reply;
 import com.kh.fantimate.member.model.vo.ArtistGroup;
 import com.kh.fantimate.member.model.vo.User;
 import com.kh.fantimate.member.model.vo.UserCollection;
@@ -69,7 +70,7 @@ public interface FanStoreDao {
 	List<FStoreListCollection> selectFanStore(int fcode);
 
 	// 팬스토어 댓글정보 불러오기
-	List<FanStoreReplyCollection> selectFanStoreReply(int fcode);
+	List<FanStoreReplyCollection> selectFanStoreReply(Map map);
 
 	// 로그인유저 팬스토어 찜목록 불러오기
 	Wish selectWish(Wish wish);
@@ -77,7 +78,10 @@ public interface FanStoreDao {
 	// 로그인 유저 찜리스트 불러오기
 	List<Wish> selectWishList(String userId);
 
-	// 댓글 개수 불러오기
-	int selectReplyCount(FanStore f);
+	// 댓글 작성자 리스트 불러오기
+	List<FanStoreReplyCollection> selectReplyWriter(Map map);
+
+	// 댓글 등록하기
+	int insertReply(Reply reply);
 
 }

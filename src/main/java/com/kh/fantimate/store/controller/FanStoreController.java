@@ -1,10 +1,12 @@
 package com.kh.fantimate.store.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -183,7 +185,7 @@ public class FanStoreController {
 	
 	@PostMapping("/wish")
 	public @ResponseBody Map<String, String> enrollOrCancelWish(Wish wish,
-												   @RequestParam(value="type")String type) {
+						 @RequestParam(value="type")String type) {
 		System.out.println(wish);
 		System.out.println(type);
 		String msg = "";
@@ -214,27 +216,54 @@ public class FanStoreController {
 	public String selectFanStore(Model model, @RequestParam(value="fcode")int fcode,
 								 HttpServletRequest request) {
 		if(((Member)request.getSession().getAttribute("loginUser")) != null) {
+			// 로그인유저 아이디
+			String userId = ((Member)request.getSession().getAttribute("loginUser")).getId();
 			// 스토어 목록 불러오기
 			List<FStoreListCollection> fanStore = fService.selectFanStore(fcode);
-			// 스토어 댓글 불러오기
-			List<FanStoreReplyCollection> fanStoreReply = fService.selectFanStoreReply(fcode);
+			System.out.println(fanStore);
+			// 팬스토어 작성자 아이디
+			String writer = fanStore.get(0).getFstore().getId();
+			Map map = new HashMap<>();
+			map.put("id", userId);
+			map.put("writer", writer);
+			map.put("fcode", fcode);
+			List<FanStoreReplyCollection> fanStoreReply = new ArrayList<>();
+			if(writer.equals(userId)) {
+			// 로그인유저와 팬스토어 작성자가 같다면 댓글작성자 리스트 불러오기
+				fanStoreReply = fService.selectReplyWriter(map);
+			} else {
+			// 로그인유저와 팬스토어 작성자가 다르다면 댓글리스트 불러오기
+				fanStoreReply = fService.selectFanStoreReply(map);
+			}
+			System.out.println(fanStoreReply);
 			// 유저 찜 정보 불러오기
-			String userId = ((Member)request.getSession().getAttribute("loginUser")).getId();
 			Wish wish = new Wish();
 			wish.setCode(fcode);
 			wish.setId(userId);
 			Wish userWish = fService.selectWish(wish);
-			// 스토어 댓글 개수 불러오기
-			FanStore f = new FanStore();
-			f.setId(userId);
-			f.setFcode(fcode);
-			int replyCount = fService.selectReplyCount(f);
+			
 			// 보내기
 			model.addAttribute("fanStore", fanStore);
 			model.addAttribute("fanStoreReply", fanStoreReply);
 			model.addAttribute("wish", userWish);
-			model.addAttribute("replyCount", replyCount);
 		}
 		return "store/fanStoreDetail";
+	}
+	
+	@PostMapping("/insertReply")
+	public @ResponseBody List<FanStoreReplyCollection> insertReply(
+						 Reply reply,
+						 @RequestParam(value="fanStoreWriter")String fwriter) {
+		
+		int result = fService.insertReply(reply);
+		
+		// 댓글 리스트 다시 불러오기
+		Map map = new HashMap<>();
+		map.put("id", reply.getWriter());
+		map.put("writer", fwriter);
+		map.put("fcode", reply.getRefId());
+		List<FanStoreReplyCollection> fanStoreReply = fService.selectFanStoreReply(map);
+		System.out.println(fanStoreReply);
+		return fanStoreReply;
 	}
 }
