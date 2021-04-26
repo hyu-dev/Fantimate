@@ -24,8 +24,8 @@ public class StoreServiceImpl implements StoreService {
 	private StoreDao sDao;
 	
 	@Override
-	public List<StoreCollection> selectStoreList(String cateName) {
-		return sDao.selectStoreList(cateName);
+	public List<StoreCollection> selectStoreList(Map<String, String> map) {
+		return sDao.selectStoreList(map);
 	}
 
 	@Override

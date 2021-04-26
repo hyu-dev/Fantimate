@@ -24,8 +24,8 @@ public class StoreDaoImpl implements StoreDao {
 	private SqlSessionTemplate sqlSession;
 	
 	@Override
-	public List<StoreCollection> selectStoreList(String cateName) {
-		return sqlSession.selectList("storeMapper.selectStoreList", cateName);
+	public List<StoreCollection> selectStoreList(Map<String, String> map) {
+		return sqlSession.selectList("storeMapper.selectStoreList", map);
 	}
 
 	@Override

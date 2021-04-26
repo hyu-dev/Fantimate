@@ -49,24 +49,10 @@ import com.kh.fantimate.member.model.vo.Member;
 
 @Controller
 @RequestMapping("/fanfeed")
-@SessionAttributes({"subList", "artNameEn"})
 public class FanFeedController {
 	
 	@Autowired
 	private FanFeedService fService;
-	
-	// 팬 피드로 이동
-//	@GetMapping("/fanFeedList")
-//	public String listpageView() {
-		
-//		return "fanfeed/fanFeedList";
-//	}
-	
-	// 구독유저 닉네임 조회
-	
-	
-	
-	
 	
 	// 게시글 조회
 	@GetMapping("/fanFeedList")
@@ -86,10 +72,7 @@ public class FanFeedController {
 									HttpServletRequest request) {
 		
 		
-		
-		
 		f.setArtiName(artNameEn);
-		
 		s.setArtiname(artNameEn);
 		System.out.println(f);
 		
@@ -119,11 +102,11 @@ public class FanFeedController {
 		
 		
 		
+		// artiName 세션에 저장
+		HttpSession session = request.getSession(); // 세션을 생성해서
+		session.setAttribute("artiName", artNameEn); // userid로 uid값을 넘기자
 		
 		if(list != null && !list.isEmpty()) {
-			// artiName 세션에 저장
-			HttpSession session = request.getSession(); // 세션을 생성해서
-			session.setAttribute("artiName", artNameEn); // userid로 uid값을 넘기자
 			model.addAttribute("subList", subList);
 			mv.addObject("list", list);
 			mv.addObject("flist", flist);

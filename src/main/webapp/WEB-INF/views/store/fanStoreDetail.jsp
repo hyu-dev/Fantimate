@@ -181,7 +181,7 @@
                          </c:if>
                      </div>
                     <div class="reply-write">
-                       <img class="user-profile" src="${ contextPath }/resources/uploadFiles/${ userColl.attUser.attSvName }" alt="">
+                       <img class="user-profile" src="${ contextPath }/resources/uploadFiles/${ user.get(0).attUser.attSvName }" alt="">
                        <textarea class="replyContent"></textarea>
                        <img id="sendReply" src="${ contextPath }/resources/icon/send.png" alt="">
                     </div>
