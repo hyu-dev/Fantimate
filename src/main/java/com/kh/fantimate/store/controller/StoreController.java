@@ -57,7 +57,7 @@ public class StoreController {
 	public ModelAndView StoreList(ModelAndView mv, 
 								  HttpServletRequest request
 								  ) {
-		
+	//	if(((String)request.getSession().getAttribute("artiName")) == null)
 		if(((List<Subscribe>)request.getSession().getAttribute("subList")) == null) {
 			mv.setViewName("store/storeList");
 			return mv;

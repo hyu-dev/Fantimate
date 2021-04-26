@@ -1,6 +1,7 @@
 package com.kh.fantimate.mypage1.controller;
 
 import java.io.File;
+
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -243,7 +244,7 @@ public class MypageUserController {
 			String userid = ((Member)session.getAttribute("loginUser")).getId();
 			UserPaymentCol u = new UserPaymentCol();
 			Payment p = new Payment();
-//수정필요			ProductBuy pb = new ProductBuy();
+//			ProductBuy pb = new ProductBuy();
 			System.out.println("bcode : " + bcode);
 			System.out.println("paystatus : " + paystatus);
 			
