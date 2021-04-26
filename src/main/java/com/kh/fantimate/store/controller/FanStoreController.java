@@ -235,7 +235,6 @@ public class FanStoreController {
 			// 로그인유저와 팬스토어 작성자가 다르다면 댓글리스트 불러오기
 				fanStoreReply = fService.selectFanStoreReply(map);
 			}
-			System.out.println(fanStoreReply);
 			// 유저 찜 정보 불러오기
 			Wish wish = new Wish();
 			wish.setCode(fcode);
@@ -253,17 +252,40 @@ public class FanStoreController {
 	@PostMapping("/insertReply")
 	public @ResponseBody List<FanStoreReplyCollection> insertReply(
 						 Reply reply,
-						 @RequestParam(value="fanStoreWriter")String fwriter) {
+						 @RequestParam(value="fanStoreWriter")String fanStoreWriter,
+						 @RequestParam(value="firstWriter")String firstWriter,
+						 HttpServletRequest request) {
 		
+		String userId = ((Member)request.getSession().getAttribute("loginUser")).getId();
+		// 댓글 등록
 		int result = fService.insertReply(reply);
-		
-		// 댓글 리스트 다시 불러오기
-		Map map = new HashMap<>();
-		map.put("id", reply.getWriter());
-		map.put("writer", fwriter);
-		map.put("fcode", reply.getRefId());
-		List<FanStoreReplyCollection> fanStoreReply = fService.selectFanStoreReply(map);
-		System.out.println(fanStoreReply);
+		List<FanStoreReplyCollection> fanStoreReply = new ArrayList<>();
+		if(result > 0) {
+			// 정상적으로 등록되었을 때
+			Map map = new HashMap<>();
+			if(userId.equals(fanStoreWriter)) {
+				// 로그인유저(댓글작성자)와 팬스토어 작성자가 동일하다면
+				map.put("id", firstWriter);
+				map.put("writer", fanStoreWriter);
+				map.put("fcode", reply.getRefId());
+			} else {
+				// 로그인유저(댓글작성자)와 팬스토어 작성자가 동일하지 않다면
+				map.put("id", reply.getWriter());
+				map.put("writer", fanStoreWriter);
+				map.put("fcode", reply.getRefId());
+			}
+			// 댓글 리스트 다시 불러오기
+			fanStoreReply = fService.selectFanStoreReply(map);
+			return fanStoreReply;
+		} else {
+			return fanStoreReply;
+		}
+	}
+	
+	@PostMapping("/replyOne")
+	public @ResponseBody List<FanStoreReplyCollection> insertReply(){
+		List<FanStoreReplyCollection> fanStoreReply = new ArrayList<>();
 		return fanStoreReply;
 	}
+			
 }

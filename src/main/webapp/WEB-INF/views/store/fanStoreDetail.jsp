@@ -259,7 +259,6 @@
 		});
 	 	// 신고하기 클릭시
 	 	$(".report-btn").click(function() {
-	 		console.log("신고하기 클릭됨")
 	 		$(".report-message-section").css({"display":"block", "z-index":"4"});
 	 	});
 	 	// 수정하기 클릭시
@@ -273,6 +272,7 @@
 	    }, function() {
 	        $(this).children(".controller").css("display", "none")
 	    })
+	    
 	    // 댓글 컨트롤러 클릭시
 	    $(".controller").on('click', function() {
 	    	if($(this).next().css("display") == "block") {
@@ -284,59 +284,82 @@
 	    // 댓글 리스트 중 하나 클릭시
 	    $(".reply-list").on('click', function() {
 	        $(this).css("display", "none")
+	        // 필요정보 변수에 담기
+	        // 댓글 ajax에 보낼 데이터 변수에 담기
+	        var url = "${ pageContext.request.contextPath }/fanStore/replyOne"
+	        var data = {
+	        		
+	        }
+	        // 댓글 ajax 호출
+	        ajaxReply(url, data)
 	        $(".reply-content").css("display", "flex")
 	    })
-	    // 댓글 리스트 보기 클릭시
+	    // 리스트 보기 클릭시
 	    $("#backList").click(function() {
 	    	$(".reply-list").css("display", "flex")
 	    	$(".reply-content").css("display", "none")
 	    });
 	 	// 댓글 작성 후 보내기
 	 	$("#sendReply").click(function() {
+	 		// 필요정보 변수에 담기
 	 		var rcontent = $(".replyContent").val();
 	 		var fcode = ${ fanStore.get(0).fstore.fcode };
 			var id = "${loginUser.id}";
 			var refRid = ${ fanStoreReply.get(0).fsReply.rid };
 			var fanStoreWriter = "${ fanStore.get(0).fstore.id }";
-	 		console.log(rcontent, fcode, id, refRid)
+			var firstWriter = "${ fanStoreReply.get(0).user.id }";
+	 		// 댓글 ajax에 보낼 데이터 변수에 담기
+	 		var url = "${ pageContext.request.contextPath }/fanStore/insertReply";
+	 		var data = {
+	 			rcontent : rcontent,
+ 				refId : fcode,
+ 				writer : id,
+ 				refRid : refRid,
+ 				fanStoreWriter : fanStoreWriter,
+ 				firstWriter : firstWriter
+	 		}
+	 		// 댓글 ajax 호출
+	 		ajaxReply(url, data)
+	 	});
+	 	
+	 	// 댓글관련 AJAX
+	 	function ajaxReply(url, data) {
 	 		$.ajax({
-	 			url : "${ pageContext.request.contextPath }/fanStore/insertReply",
+	 			url : url,
 	 			method : "POST",
-	 			data : {
-	 				rcontent : rcontent,
-	 				refId : fcode,
-	 				writer : id,
-	 				refRid : refRid,
-	 				fanStoreWriter : fanStoreWriter
-	 			},
+	 			data : data,
 	 			dataType : "json",
 	 			success : function(data) {
 	 				console.log(data)
-	 				$(".content-view").html("");
-	 				for(var i in data) {
-	 					var article = $("<article>")
-	 					var userProfile = $("<img class='user-profile'>").attr("src", "${contextPath}/resources/uploadFiles/" + data[i].attUser.attSvName);
-	 					var content = $("<div class='text-content'>").text(data[i].fsReply.rcontent)
-	 					var create = new Date(data[i].fsReply.rcreate);
-	 					var rcreate = $("<span class='text-write-date'>").text(create.getFullYear()+"."+create.getMonth()+"."+create.getDate())
-	 					var controller = $("<div class='controller'>")
-	 					var dot = $("<img>").attr("src", "${contextPath}/resources/icon/dot.png")
-	 					var rController = $("<div class='reply-controller'>")
-	 					var sendMessage = $("<div class='reply-controll'>").text("쪽지보내기")
-	 					var report = $("<div class='reply-controll'>").text("신고하기")
-	 					var deleteReply = $("<div class='reply-controll'>").text("삭제하기")
-	 					rController.append(sendMessage, report, deleteReply)
-	 					controller.append(dot)
-	 					article.append(userProfile, content, rcreate, controller, rController);
-	 					$(".content-view").append(article)
+	 				if(data.length < 1) {
+	 					alert("댓글 등록에 실패하였습니다")
+	 				} else {
+	 					$(".content-view").html("");
+		 				for(var i in data) {
+		 					var article = $("<article>")
+		 					var userProfile = $("<img class='user-profile'>").attr("src", "${contextPath}/resources/uploadFiles/" + data[i].attUser.attSvName);
+		 					var content = $("<div class='text-content'>").text(data[i].fsReply.rcontent)
+		 					var create = new Date(data[i].fsReply.rcreate);
+		 					var rcreate = $("<span class='text-write-date'>").text(create.getFullYear()+"."+create.getMonth()+"."+create.getDate())
+		 					var controller = $("<div class='controller'>")
+		 					var dot = $("<img>").attr("src", "${contextPath}/resources/icon/dot.png")
+		 					var rController = $("<div class='reply-controller'>")
+		 					var sendMessage = $("<div class='reply-controll'>").text("쪽지보내기")
+		 					var report = $("<div class='reply-controll'>").text("신고하기")
+		 					var deleteReply = $("<div class='reply-controll'>").text("삭제하기")
+		 					rController.append(sendMessage, report, deleteReply)
+		 					controller.append(dot)
+		 					article.append(userProfile, content, rcreate, controller, rController);
+		 					$(".content-view").append(article)
+		 				}
+		 				$(".replyContent").val("").focus();
 	 				}
-	 				$(".replyContent").val("").focus();
 	 			},
 	 			error : function(e) {
 	 				console.log(e)
 	 			}
 	 		})
-	 	});
+	 	}
     </script>
     </c:if>
     <c:choose>
