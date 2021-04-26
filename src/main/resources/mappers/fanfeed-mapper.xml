@@ -191,9 +191,6 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	FROM 		ATT_SUBSCRIBE 
 	WHERE		ARTI_NAME_EN = #{artiName}
 	ORDER BY SUB_CODE
-	
-	
-	
 	</select>
 	
 	<!-- 유저 프로필 사진 조회 -->

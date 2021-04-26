@@ -142,7 +142,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		 		ARTI_NAME_EN = #{arti}
 	  ORDER BY  C_NAME ASC
 	</select>
-	<select id="selectStoreList" resultMap="storeCollResultSet">
+	<select id="selectStoreList" parameterType="hashMap" resultMap="storeCollResultSet">
 		SELECT 
 				P_CODE
 			  , P_NAME
@@ -161,21 +161,17 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 			  , ATT_SV_NAME
 			  , ATT_STATUS
 			  , IS_MAIN_ATT
-			  , WISH_DATE
-              , IS_WISH
-              , ID
 		  FROM 
 		  		STORE
 		  JOIN 
 		  		ATT_STORE USING(P_CODE)
-		  LEFT JOIN
-		  		S_WISH USING(P_CODE)
 		  LEFT JOIN
 		  		S_CATEGORY USING(C_CODE)
 		 WHERE
 		 		C_NAME = #{cateName}
 		   AND	IS_MAIN_ATT = 'Y'
 		   AND  IS_ACTIVE = 'Y'
+		   AND  ARTI_NAME_EN = #{artiName}
 	  ORDER BY  P_CODE DESC
 	</select>
 	<select id="selectStoreListByCate" parameterType="hashMap" resultMap="storeCollResultSet">
@@ -197,15 +193,10 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 			  , ATT_SV_NAME
 			  , ATT_STATUS
 			  , IS_MAIN_ATT
-			  , WISH_DATE
-              , IS_WISH
-              , ID
 		  FROM 
 		  		STORE
 		  JOIN 
 		  		ATT_STORE USING(P_CODE)
-		  LEFT JOIN
-		  		S_WISH USING(P_CODE)
 	  <trim prefix="WHERE" prefixOverrides="AND|OR">
 		 		C_CODE IN (SELECT C_CODE FROM S_CATEGORY WHERE C_NAME = #{cateName} AND ARTI_NAME_EN = #{artiName})
 		   AND	IS_MAIN_ATT = 'Y'
@@ -218,7 +209,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	  </if>
 	  </trim>
 	</select>
-	<select id="isEnrollWish" parameterType="hashMap" resultType="_int">
+	<select id="isEnrollWish" parameterType="Wish" resultType="_int">
 		SELECT
 				COUNT(*)
 		  FROM
@@ -226,9 +217,9 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		 WHERE
 		 		ID = #{id}
 		   AND
-		   		P_CODE = #{pcode}
+		   		P_CODE = #{code}
 	</select>
-	<insert id="enrollWish" parameterType="hashMap">
+	<insert id="enrollWish" parameterType="Wish">
 		INSERT
 		INTO S_WISH
 		(
@@ -239,29 +230,29 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		)
 		VALUES
 		(
-			#{pcode}
+			#{code}
 		  , SYSDATE
 		  , DEFAULT
 		  , #{id}
 		)
 	</insert>
-	<update id="updateWish" parameterType="hashMap">
+	<update id="updateWish" parameterType="Wish">
 		UPDATE
 				S_WISH
 		   SET
 		   		IS_WISH = 'Y'
 		 WHERE
-		 		P_CODE = #{pcode}
+		 		P_CODE = #{code}
 		   AND
 		   		ID = #{id}
 	</update>
-	<update id="cancelWish" parameterType="hashMap">
+	<update id="cancelWish" parameterType="Wish">
 		UPDATE
 				S_WISH
 		   SET
 		   		IS_WISH = 'N'
 		 WHERE
-		 		P_CODE = #{pcode}
+		 		P_CODE = #{code}
 		   AND
 		   		ID = #{id}
 	</update>
@@ -284,15 +275,10 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 			  , ATT_SV_NAME
 			  , ATT_STATUS
 			  , IS_MAIN_ATT
-			  , WISH_DATE
-              , IS_WISH
-              , ID
 		  FROM 
 		  		STORE
 		  JOIN 
 		  		ATT_STORE USING(P_CODE)
-		  LEFT JOIN
-		  		S_WISH USING(P_CODE)
 	  <trim prefix="WHERE" prefixOverrides="AND|OR">
 		 		C_CODE IN (SELECT C_CODE FROM S_CATEGORY WHERE C_NAME = #{cateName} AND ARTI_NAME_EN = #{artiName})
 		   AND	IS_MAIN_ATT = 'Y'
@@ -475,9 +461,6 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 			  , ATT_SV_NAME
 			  , ATT_STATUS
 			  , IS_MAIN_ATT
-			  , WISH_DATE
-              , IS_WISH
-              , W.ID
               , ORIGIN
               , BRAND
               , CONTACT
@@ -488,8 +471,6 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		  		STORE
 		  JOIN 
 		  		ATT_STORE USING(P_CODE)
-		  LEFT JOIN
-		  		S_WISH W USING(P_CODE)
           LEFT JOIN
                 P_INFO USING(P_CODE)
           LEFT JOIN
@@ -519,6 +500,17 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		 		ID = #{id}
 		   AND	P_CODE = #{code}
 	</select>
+	<select id="selectWishList" parameterType="string" resultMap="wishResultSet">
+		SELECT
+				P_CODE
+			  , WISH_DATE
+			  , IS_WISH
+			  , ID
+		  FROM
+		  		S_WISH
+		 WHERE
+		 		ID = #{id}
+	</select>
 	<select id="recommandStoreListByCate" parameterType="hashMap" resultMap="storeCollResultSet">
 		SELECT
 				P_CODE
@@ -538,15 +530,10 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 			  , ATT_SV_NAME
 			  , ATT_STATUS
 			  , IS_MAIN_ATT
-			  , WISH_DATE
-              , IS_WISH
-              , ID
 		  FROM 
 		  		STORE
 		  JOIN 
 		  		ATT_STORE USING(P_CODE)
-		  LEFT JOIN
-		  		S_WISH USING(P_CODE)
 		 WHERE
 		 		C_CODE IN (SELECT C_CODE FROM S_CATEGORY WHERE C_NAME = #{cateName} AND ARTI_NAME_EN = #{artiName})
 		   AND	IS_MAIN_ATT = 'Y'

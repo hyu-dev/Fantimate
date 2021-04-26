@@ -4,9 +4,11 @@ import java.util.List;
 
 
 
+
 import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.fantimate.common.model.vo.Alarm;
+
 import com.kh.fantimate.common.model.vo.Attachment;
 import com.kh.fantimate.common.model.vo.Friend;
 import com.kh.fantimate.common.model.vo.Like;
@@ -17,7 +19,9 @@ import com.kh.fantimate.common.model.vo.Subscribe;
 import com.kh.fantimate.feed.model.vo.AttachmentF;
 import com.kh.fantimate.feed.model.vo.Feed;
 import com.kh.fantimate.feed.model.vo.FeedCollection;
+
 import com.kh.fantimate.member.model.vo.Artist;
+
 
 public interface FanFeedService {
 
@@ -35,6 +39,7 @@ public interface FanFeedService {
 	
 	// 유저 프로필 사진 조회
 	public List<Attachment> selectatList(String artNameEn);
+
 	
 	// 게시글 사진 조회
 	public List<AttachmentF> selectptList();
@@ -60,6 +65,7 @@ public interface FanFeedService {
 	// 게시글 신고
 	public int insertFeedReport(Report r, Alarm a);
 
+
 	// 댓글 삭제
 	public int deleteReply(int rid);
 
@@ -78,6 +84,7 @@ public interface FanFeedService {
 	// 친구 신청
 	public int insertFriend(Friend f, Alarm a);
 
+
 	// 좋아요 누른 유저 리스트
 	public List<Like> selectLikeList();
 
@@ -87,13 +94,6 @@ public interface FanFeedService {
 	// 아티스트 리스트
 	public List<Artist> selectArtistList();
 
-	
-
-	
-
-	
-
-	
 
 	
 }

@@ -7,12 +7,14 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.fantimate.common.model.vo.Reply;
 import com.kh.fantimate.member.model.vo.ArtistGroup;
 import com.kh.fantimate.member.model.vo.User;
 import com.kh.fantimate.member.model.vo.UserCollection;
 import com.kh.fantimate.store.model.vo.Area;
 import com.kh.fantimate.store.model.vo.FStoreListCollection;
 import com.kh.fantimate.store.model.vo.FanStore;
+import com.kh.fantimate.store.model.vo.FanStoreReplyCollection;
 import com.kh.fantimate.store.model.vo.HashTag;
 import com.kh.fantimate.store.model.vo.Wish;
 
@@ -104,6 +106,36 @@ public class FanStoreDaoImpl implements FanStoreDao{
 	@Override
 	public List<ArtistGroup> selectArtiNameList(String search) {
 		return sqlSession.selectList("fanStoreMapper.selectArtiNameList", search);
+	}
+
+	@Override
+	public List<FStoreListCollection> selectFanStore(int fcode) {
+		return sqlSession.selectList("fanStoreMapper.selectFanStore", fcode);
+	}
+
+	@Override
+	public List<FanStoreReplyCollection> selectFanStoreReply(Map map) {
+		return sqlSession.selectList("fanStoreMapper.selectFanStoreReply", map);
+	}
+
+	@Override
+	public Wish selectWish(Wish wish) {
+		return sqlSession.selectOne("fanStoreMapper.selectWish", wish);
+	}
+
+	@Override
+	public List<Wish> selectWishList(String userId) {
+		return sqlSession.selectList("fanStoreMapper.selectWishList", userId);
+	}
+
+	@Override
+	public List<FanStoreReplyCollection> selectReplyWriter(Map map) {
+		return sqlSession.selectList("fanStoreMapper.selectReplyWriter", map);
+	}
+
+	@Override
+	public int insertReply(Reply reply) {
+		return sqlSession.insert("fanStoreMapper.insertReply", reply);
 	}
 	
 }

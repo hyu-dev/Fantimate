@@ -40,16 +40,13 @@
     height: 50px;
     position: absolute;
     cursor: pointer;
-    
-}
-.main-photo-area img:nth-of-type(1) {
-    width: 500px;
-}
-
-.photo-icon {
     top: 10px;
     right: 10px;
     z-index: 2;
+}
+
+.main-photo-area img:nth-of-type(1) {
+    width: 500px;
 }
 
 .is-view {

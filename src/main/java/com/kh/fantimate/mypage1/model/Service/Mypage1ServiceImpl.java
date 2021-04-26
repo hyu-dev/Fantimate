@@ -14,7 +14,7 @@ import com.kh.fantimate.member.model.vo.Member;
 import com.kh.fantimate.mypage1.model.dao.Mypage1Dao;
 import com.kh.fantimate.mypage1.model.vo.FriendPageInfo;
 import com.kh.fantimate.mypage1.model.vo.ReportPageInfo;
-import com.kh.fantimate.mypage1.model.vo.UserPaymentCol;
+import com.kh.fantimate.mypage1.model.vo.UserPaymentCol2;
 
 @Service
 public class Mypage1ServiceImpl implements Mypage1Service{
@@ -124,14 +124,34 @@ public class Mypage1ServiceImpl implements Mypage1Service{
 	}
 
 	@Override
-	public List<UserPaymentCol> requestPayList(FriendPageInfo pi) {
+	public List<UserPaymentCol2> requestPayList(FriendPageInfo pi) {
 		return mDao.requestPayList(pi);
 	}
 
 	@Override
-	public int userMypaymentsUpdate(UserPaymentCol u) {
-		return mDao.userMypaymentsUpdate(u);
+	public int CountCartCodeList(UserPaymentCol2 u) {
+		return mDao.CountCartCodeList(u);
 	}
+
+	@Override
+	public String selectPayCodeList(UserPaymentCol2 u) {
+		return mDao.selectPayCodeList(u);
+	}
+
+	@Override
+	public int userpaymentMConfirmUpdateC(UserPaymentCol2 u) {
+		return mDao.userpaymentMConfirmUpdateC(u);
+	}
+	@Override
+	public int userpaymentMConfirmUpdateP(UserPaymentCol2 u) {
+		return mDao.userpaymentMConfirmUpdateP(u);
+	}
+
+	@Override
+	public int userpaymentSConfirmUpdateC(UserPaymentCol2 u) {
+		return mDao.userpaymentSConfirmUpdateC(u);
+	}
+
 
 
 }

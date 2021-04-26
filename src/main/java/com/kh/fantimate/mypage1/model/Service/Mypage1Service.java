@@ -11,6 +11,7 @@ import com.kh.fantimate.member.model.vo.Member;
 import com.kh.fantimate.mypage1.model.vo.FriendPageInfo;
 import com.kh.fantimate.mypage1.model.vo.ReportPageInfo;
 import com.kh.fantimate.mypage1.model.vo.UserPaymentCol;
+import com.kh.fantimate.mypage1.model.vo.UserPaymentCol2;
 
 public interface Mypage1Service {
 	//  Notice List All 카운트(0)
@@ -68,9 +69,20 @@ public interface Mypage1Service {
 
 	// 결제내역 카운트
 	public int RListCountPayList(Member m);
-	public List<UserPaymentCol> requestPayList(FriendPageInfo pi);
+	public List<UserPaymentCol2> requestPayList(FriendPageInfo pi);
 
-	public int userMypaymentsUpdate(UserPaymentCol u);
+
+	// 주어진 cartcode로 paycode 알아오기
+	public String selectPayCodeList(UserPaymentCol2 u);
+	// 해당 cartCode의 개수 세기
+	public int CountCartCodeList(UserPaymentCol2 u);
+	
+	// 1개일때 미디어 구매확정
+	public int userpaymentMConfirmUpdateC(UserPaymentCol2 u);
+	public int userpaymentMConfirmUpdateP(UserPaymentCol2 u);
+	
+	// 1개일떄 스토어 구매확정
+	public int userpaymentSConfirmUpdateC(UserPaymentCol2 u);
 
 	
 	

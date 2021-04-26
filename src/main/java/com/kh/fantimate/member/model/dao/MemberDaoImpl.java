@@ -16,6 +16,7 @@ import com.kh.fantimate.member.model.vo.ArtistCollection;
 import com.kh.fantimate.member.model.vo.ArtistGroup;
 import com.kh.fantimate.member.model.vo.Member;
 import com.kh.fantimate.member.model.vo.User;
+import com.kh.fantimate.member.model.vo.UserCollection;
 
 @Repository
 public class MemberDaoImpl implements MemberDao{
@@ -61,8 +62,8 @@ public class MemberDaoImpl implements MemberDao{
 	}
 
 	@Override
-	public User selectLoginUser(String id) {
-		return sqlSession.selectOne("memberMapper.selectUser",id);
+	public List<UserCollection> selectLoginUser(String id) {
+		return sqlSession.selectList("memberMapper.selectUser",id);
 	}
 
 	@Override

@@ -189,5 +189,23 @@ public class MainServiceImpl implements MainService{
 		return mpDao.updateAlarmStatus(alCode);
 	}
 
+	@Override
+	public List<MediaTopNineCollection> selectChartTopThree() {
+		
+		return mpDao.selectChartTopThree();
+	}
+
+	@Override
+	public List<MediaTopNineCollection> selectchartDay() {
+		
+		return mpDao.selectChartDay();
+	}
+
+	@Override
+	public List<MediaTopNineCollection> selectchartWeek() {
+		
+		return mpDao.selectChartWeek();
+	}
+
 
 }

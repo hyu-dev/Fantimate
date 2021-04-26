@@ -92,6 +92,19 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<result property="artiName" column="ARTI_NAME_EN"/>
 	</resultMap> 
 	
+	<!-- 지역 -->
+	<resultMap type="Area" id="areaResultSet">
+		<id property = "areaCode" column="AREA_CODE"/>
+		<result property="areaName" column="AREA_NAME"/>
+	</resultMap> 
+	
+	<!-- 컬렉션 -->
+	<resultMap type="UserCollection" id="userCollResultSet">
+		<collection property="user" resultMap="userResultSet" />
+		<collection property="area"  resultMap="areaResultSet" />
+		<collection property="attUser" resultMap="userProfileResultSet" />
+	</resultMap>
+	
 	<!-- 전체 아티스트 영어 이름 select -->
 	<select id="selectArtistList" parameterType="ArtistGroup" resultMap="artistgroupResultSet">
 		SELECT
@@ -217,25 +230,35 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	</select>
 	
 	<!-- 유저 테이블 select -->
-	<select id="selectUser" parameterType="User" resultMap="userResultSet">
+	<select id="selectUser" resultMap="userCollResultSet">
 		SELECT 
-	          U_ID
-	        , U_ADD
-	        , U_EMAIL
-	        , U_COUNTRY
-	        , AREA_REGISTER
-	        , AREA_CERTIFY
-	        , AREA_CODE
-	        , IS_MEMBERSHIP
-	        , U_PAID_START
-	        , U_PAID_END
-	        , U_SUSPEND_START
-	        , U_SUSPEND_END
-	        , U_PROFILE
+	          US.U_ID
+	        , US.U_ADD
+	        , US.U_EMAIL
+	        , US.U_COUNTRY
+	        , US.AREA_REGISTER
+	        , US.AREA_CERTIFY
+	        , US.AREA_CODE
+	        , US.IS_MEMBERSHIP
+	        , US.U_PAID_START
+	        , US.U_PAID_END
+	        , US.U_SUSPEND_START
+	        , US.U_SUSPEND_END
+	        , US.U_PROFILE
+            , P.UP_CODE
+            , P.UP_ROOT
+            , P.UP_CL_NAME
+            , P.UP_SV_NAME
+            , P.UP_STATUS
+            , P.U_ID
+            , A.AREA_CODE
+            , A.AREA_NAME
 		FROM 
-		     USER_
+		     USER_ US
+        JOIN USER_PROFILE P ON (US.U_ID = P.U_ID)
+        JOIN USER_AREA A ON (US.AREA_CODE = A.AREA_CODE)
 		WHERE
-		     U_ID = #{id}
+		     US.U_ID = #{id}
 	</select>
 	
 	<!-- 소속사 테이블 select -->

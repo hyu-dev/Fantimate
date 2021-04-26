@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.kh.fantimate.common.model.vo.Reply;
 import com.kh.fantimate.member.model.vo.ArtistGroup;
 import com.kh.fantimate.member.model.vo.User;
 import com.kh.fantimate.member.model.vo.UserCollection;
@@ -12,6 +13,7 @@ import com.kh.fantimate.store.model.dao.FanStoreDao;
 import com.kh.fantimate.store.model.vo.Area;
 import com.kh.fantimate.store.model.vo.FStoreListCollection;
 import com.kh.fantimate.store.model.vo.FanStore;
+import com.kh.fantimate.store.model.vo.FanStoreReplyCollection;
 import com.kh.fantimate.store.model.vo.HashTag;
 import com.kh.fantimate.store.model.vo.Wish;
 
@@ -61,5 +63,23 @@ public interface FanStoreService {
 
 	// 아티스트명 검색리스트 불러오기
 	List<ArtistGroup> selectArtiNameList(String search);
+
+	// 팬스토어 불러오기
+	List<FStoreListCollection> selectFanStore(int fcode);
+
+	// 팬스토어 댓글정보 불러오기
+	List<FanStoreReplyCollection> selectFanStoreReply(Map map);
+
+	// 로그인유저 팬스토어 찜목록 불러오기
+	Wish selectWish(Wish wish);
+
+	// 로그인 유저 찜 리스트 불러오기
+	List<Wish> selectWishList(String userId);
+
+	// 댓글 작성자 리스트 불러오기
+	List<FanStoreReplyCollection> selectReplyWriter(Map map);
+
+	// 댓글 등록하기
+	int insertReply(Reply reply);
 	
 }
