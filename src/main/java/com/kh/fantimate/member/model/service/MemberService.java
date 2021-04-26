@@ -12,6 +12,7 @@ import com.kh.fantimate.member.model.vo.ArtistCollection;
 import com.kh.fantimate.member.model.vo.ArtistGroup;
 import com.kh.fantimate.member.model.vo.Member;
 import com.kh.fantimate.member.model.vo.User;
+import com.kh.fantimate.member.model.vo.UserCollection;
 
 public interface MemberService {
 	
@@ -37,7 +38,7 @@ public interface MemberService {
 	public Member loginMember(Member m);
 
 	// 7_1. 일반 유저 로그인 
-	public User loginUser(String id);
+	public List<UserCollection> loginUser(String id);
 	
 	// 7_2. 소속사 로그인
 	public Agency loginAgency(String id);

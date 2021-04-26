@@ -57,7 +57,7 @@
      font-family: "Wemakeprice-bold";
   }
 
-  .area p.toggle-friend{
+  .area p.toggle-week{
       display: none; /* 디폴트 일때 "친구" 글자 가리기 */
   }
 
@@ -105,14 +105,14 @@
     transform: translateX(calc(var(--width) - var(--handle-size)));
   }
 
-  input:checked + label .area p.toggle-friend {
+  input:checked + label .area p.toggle-week {
     display: block; /* "친구" 글자 보이게 */
     position: absolute;
     left: 12px;
     color: white;
   }
 
-  input:checked + label .area p.toggle-default {
+  input:checked + label .area p.toggle-day {
     display: none;
   }
 
@@ -135,11 +135,11 @@
 }
 
 .chart-title{
-    padding-left:40px;
-    color: #000000;
-    font-family: Yoon Minguk;
+   padding-left: 40px;
+    /* color: #000000; */
+    font-family: 'Wemakeprice';
     font-style: normal;
-    font-weight: bold;
+    /* font-weight: bold; */
     font-size: 25px;
 }
 
@@ -224,7 +224,7 @@ ul.rest-info-section{
 }
 ul li.rest-info{
     display: flex;
-    margin: 35px;
+    margin: 15px;
 }
 
 .rest-media-info{
@@ -234,7 +234,7 @@ ul li.rest-info{
 
 .rank-num{
     margin-right: 20px;
-    font-family: Yoon Minguk;
+    font-family: 'Wemakeprice';
     font-style: normal;
     font-weight: normal;
     font-size: 30px;
@@ -246,7 +246,7 @@ ul li.rest-info{
 }
 
 .m-times, .m-artistName{
-    font-family: Yoon Minguk;
+	font-family: 'Wemakeprice';
     font-style: normal;
     font-weight: normal;
     font-size: 18px;
@@ -255,7 +255,7 @@ ul li.rest-info{
 }
 
 .rank-title{
-    font-family: Yoon Minguk;
+	font-family: 'Wemakeprice';
     font-style: normal;
     font-weight: normal;
     font-size: 20px;
@@ -266,7 +266,7 @@ ul li.rest-info{
 }
 
 .like-count{
-    font-family: Yoon Minguk;
+	font-family: 'Wemakeprice';
     font-style: normal;
     font-weight: bold;
     font-size: 18px;

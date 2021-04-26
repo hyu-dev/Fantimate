@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,7 +23,8 @@ import com.kh.fantimate.common.model.vo.Friend;
 import com.kh.fantimate.member.model.vo.Member;
 import com.kh.fantimate.mypage1.model.Service.Mypage1Service;
 import com.kh.fantimate.mypage1.model.vo.FriendPageInfo;
-import com.kh.fantimate.mypage1.model.vo.UserPaymentCol;
+import com.kh.fantimate.mypage1.model.vo.UserPaymentCol2;
+import com.kh.fantimate.pay.model.vo.Cart;
 import com.kh.fantimate.pay.model.vo.Payment;
 
 @Controller
@@ -214,13 +216,13 @@ public class MypageUserController {
 			Member m = (Member) session.getAttribute("loginUser");
 			System.out.println("m.getId() : " + m.getId());
 			
-			// 친구개수
+			// 결제개수
 			int listCount = mService.RListCountPayList(m);
 			System.out.println("결제 수: " + listCount);
 			
 			// 요청 페이지에 맞는 리스트 조회
 			FriendPageInfo pi = pagingFriend(currentPage, listCount, m.getId());
-			List<UserPaymentCol> list = mService.requestPayList(pi);	// 아직
+			List<UserPaymentCol2> list = mService.requestPayList(pi);	// 아직
 			System.out.println("읽어온 결제정보 : " + list);
 			
 			if(list != null) {
@@ -233,42 +235,134 @@ public class MypageUserController {
 			}
 			return mv;
 		}
-		// bcode를 받아서 update
+		// Cartcode를 받아서 update
 		@GetMapping("/payments/update")
-		public String userMypaymentsUpdate(ModelAndView mv,
+		public String userMypaymentsUpdate(
 				@RequestParam(value="page", required=false, defaultValue="1") int currentPage,
-				@RequestParam(value="PBUYbcode", required=true) String bcode,
-				@RequestParam(value="paystatus", required=true) String paystatus,
-				HttpSession session) {
+				@RequestParam(value="Cartcode", required=true) String Cartcode,
+				@RequestParam(value="isBought", required=true) String isBought,
+				HttpSession session,
+				Model model){
+			
+			// M, S 넘어옴 (Media, Store)
+			String[] payCategory = Cartcode.split("-");
+			System.out.println("payCategory[0] : " + payCategory[0]);
+			String payResult = payCategory[0];		// M or S	// 미디어 or 스토어
+			
+			// paystatus 2 면구매확정 3이면 환불신청
+			int cartCode = Integer.parseInt(payCategory[1]);	// String->int 형변환했을뿐 Cart의 cate_code
+			
 			//객체에 값 저장하여 넘기기
 			String userid = ((Member)session.getAttribute("loginUser")).getId();
-			UserPaymentCol u = new UserPaymentCol();
+			UserPaymentCol2 u = new UserPaymentCol2();
 			Payment p = new Payment();
-//			ProductBuy pb = new ProductBuy();
-			System.out.println("bcode : " + bcode);
-			System.out.println("paystatus : " + paystatus);
+			Cart c = new Cart();
+			System.out.println("Cartcode : " + Cartcode);			// ex) M-29
+			System.out.println("isBought : " + isBought);			// ex) Y결제완료,W대기,R환불,C확정
+
+			// 아이디와 넘어온 cartCode 대입
+			c.setId(userid);
+			c.setCartCode(cartCode);
 			
-			p.setId(userid);
-			p.setPayStatus(paystatus);
-////			pb.setBcode(Integer.parseInt(bcode));
-			u.setPayment(p);
-//			u.setPbuy(pb);
+			// u에 다시 cartcode, id 대입
+			u.setCart(c);
+			
+			System.out.println("여기까지 잘 넣어졌나 확인 u = " + u);
+			// 해당 cartCode의 Pay code 알아오기
+			String paycode = mService.selectPayCodeList(u);
+			System.out.println("paycode : " + paycode);
+			c.setPayCode(paycode);
+			u.setCart(c);
+			
+			// 해당 cartCode의 개수 리턴
+			int countCartCode = mService.CountCartCodeList(u);
+			System.out.println("조회된 countCartCode 갯수 : " + countCartCode);
+			
+			
+			// 해당 PayCode로 1개밖에 없다면 바로 로직수행(구매확정 혹은 환불신청)
+//			if(countCartCode == 1) {
+				if(payCategory[0].equals("M")) {	// 미디어라면
+//					if(Integer.parseInt(paystatus) == 2) {	// 구매확정이라면
+					if(isBought.equals("C")) {
+						c.setIsBought("C");
+						u.setCart(c);
+						System.out.println("Cart에 C가 제대로 설정됨? : " + c);
+//						p.setPayStatus(paystatus);	// 넘어온 2를 대입
+//						u.setPayment(p);
+						
+						// join_view update 오류 구문으로 하나씩 업데이트
+						// PAYMENT -> PAY_STATUS 2로, CART ->IS_BOUGHT "C"
+						int result1 = mService.userpaymentMConfirmUpdateC(u);
+						System.out.println("수행후 result 1 : " + result1);
+						if(result1 < 0) {
+							model.addAttribute("msg", "미디어 구매확정에 실패하였습니다(-1)");
+						}
+						
+						// 만약 2가지 다로 할경우 밑에 추가로 로직 다시 작성
+//						int result2 = mService.userpaymentMConfirmUpdateP(u);
+//						System.out.println("수행후 result 2 : " + result2);
+						
+//						if(result1 < 0 && result2 < 0) {
+//							model.addAttribute("msg", "구매확정에 실패하였습니다(-1)");
+//						}
+						
+					}
+				}else if(payCategory[0].equals("S")) { // 스토어라면
+					// 구매확정인경우
+					if(isBought.equals("C")) {
+						c.setIsBought("C");
+						u.setCart(c);
+						System.out.println("Cart에 C가 제대로 설정됨? : " + c);
+						
+						int result1 = mService.userpaymentSConfirmUpdateC(u);
+						System.out.println("수행후 result 1 : " + result1);
+						if(result1 < 0) {
+							model.addAttribute("msg", "스토어 구매확정에 실패하였습니다(-1)");
+						}
+					}
+					
+					// 환불인경우
+					if(isBought.equals("W")) {
+						c.setIsBought("W");
+						u.setCart(c);
+						System.out.println("Cart에 W가 제대로 설정됨? : " + c);
+						
+						// 이제는 환불도 같은 로직으로 가능
+						int result1 = mService.userpaymentSConfirmUpdateC(u);
+						System.out.println("수행후 result 1 : " + result1);
+						if(result1 < 0) {
+							model.addAttribute("msg", "스토어 환불신청에 실패하였습니다(-1)");
+						}
+					}
+					
+				}else {
+					// 이런경우는 아직 없음
+					System.out.println("오류발생 M, S가아닌 다른 경우가 발생함.");
+				}
+/*			
+// 나중에 
+			}else if(countCartCode > 1) {
+				// countCartCode 1개보다 크다면 배열 받아오기
+				
+				// 수정하기
+				
+				// 해당 PAYCODE의 상태 싹 조회해서 모두가 환불완료 혹은 구매확정이라면
+				// 전체 구매확정(PAY STATUS 2로 설정하기)
+				
+				if(payCategory[0].equals("M")) {	// 미디어라면
+					
+				}else if(payCategory[0].equals("S")) { // 스토어라면
+					
+				}
+			}
+*/			
+			
 			System.out.println("객체 p : " + p);
-//			System.out.println("객체 pb : " + pb);
+			System.out.println("객체 c : " + c);
 			System.out.println("객체 u : " + u);
 			
-			int result = mService.userMypaymentsUpdate(u);
 			
-			if(result > 0) {
-//				mv.addObject("pi", pi);
-//				mv.setViewName("mypage/user/payments");
-				return "redirect:/mypage/user/payments";
-			}else {
-//				mv.addObject("msg", "조회에 실패하였습니다.");
-				mv.setViewName("mypage/admin/errorpage");
-				session.setAttribute("msg", "조회에 실패하였습니다.");
-				return "redirect:/mypage/user/payments";
-			}
+			return "redirect:/mypage/user/payments";
 		}
 		
 		//파일 저장 아직

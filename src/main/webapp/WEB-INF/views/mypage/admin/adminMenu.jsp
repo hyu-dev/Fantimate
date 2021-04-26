@@ -21,7 +21,7 @@
 		 <c:choose>
 			 <c:when test="${ msg eq 'success'}">
 				<script>
-					alert("회원가입이 완료되었습니다!");
+					alert("소속사 등록에 성공하였습니다.");
 					
 					$(document).ready(function() {
 						$(this).closest("#mypageAdminSignInWrap").fadeOut();
@@ -32,7 +32,7 @@
 			</c:when>
 			 <c:otherwise>
 			 	<script>
-				    alert("회원가입 실패!");
+				    alert("소속사등록에 실패하였습니다.");
 			    </script>
 			 </c:otherwise>
 		</c:choose>

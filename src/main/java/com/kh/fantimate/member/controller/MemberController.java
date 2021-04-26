@@ -26,11 +26,11 @@ import com.kh.fantimate.main.model.vo.FavoriteArtist;
 import com.kh.fantimate.member.model.service.MemberService;
 import com.kh.fantimate.member.model.vo.Admin;
 import com.kh.fantimate.member.model.vo.Agency;
-import com.kh.fantimate.member.model.vo.Artist;
 import com.kh.fantimate.member.model.vo.ArtistCollection;
 import com.kh.fantimate.member.model.vo.ArtistGroup;
 import com.kh.fantimate.member.model.vo.Member;
 import com.kh.fantimate.member.model.vo.User;
+import com.kh.fantimate.member.model.vo.UserCollection;
 
 @Controller
 @RequestMapping("/member")
@@ -177,8 +177,9 @@ public class MemberController {
 			// loginUser.class == 1 (일반유저) 일때
 			if(loginUser.getClassifyMem() == 1) {
 				
-				User user = mService.loginUser(loginUser.getId());
-				
+
+				List<UserCollection> user = (ArrayList<UserCollection>)mService.loginUser(loginUser.getId());
+				System.out.println("유저 정보 : " + user);
 				model.addAttribute("loginUser", loginUser);
 				session.setAttribute("user", user);
 				model.addAttribute("msg", "success");
