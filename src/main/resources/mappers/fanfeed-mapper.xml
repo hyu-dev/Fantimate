@@ -88,6 +88,18 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<result property="lstatus" column="BL_STATUS"/>
 	</resultMap>
 	
+	<resultMap type="Artist" id="ArtistResultSet">
+		<id property="artiId" column="ARTI_ID"/>
+		<result property="artiName" column="ARTI_ONE_NAME"/>
+		<result property="artiNickname" column="NICKNAME"/>
+		<result property="artiFacebook" column="FACEBOOK"/>
+		<result property="artiInsta" column="INSTAGRAM"/>
+		<result property="artiTwitter" column="TWITTER"/>
+		<result property="artiDailymsg" column="DAILY_MSG"/>
+		<result property="isTeam" column="IS_TEAM"/>
+		<result property="agencyId" column="AG_ID"/>
+		<result property="artiNameEn" column="ARTI_NAME_EN"/>
+	</resultMap>
 	<!-- 게시글 등록 -->
 	<insert id="insertFeed">
 		INSERT
@@ -119,8 +131,9 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	
 	<!-- 게시글 사진 등록 -->
 	<insert id="insertFeedAtt">
+		
 		<foreach collection="list" item="i" index="index" open="INSERT ALL" close="SELECT * FROM DUAL">
-		 
+		
 		INTO ATT_BOARD
 		(
 					BPID
@@ -139,6 +152,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		  		,	DEFAULT
 		  		,	SEQ_BOARD.CURRVAL		
 		)
+		
 		</foreach>
 	</insert>
 	
@@ -168,16 +182,14 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	
 	<!-- 구독 유저 닉네임 조회 -->
 	<select id="selectSubList" resultMap="subscribeResultSet">
-	SELECT DISTINCT	
+	SELECT 	
 				SUB_CODE	
 			,	U_NICKNAME
 			,	U_ID
-        	,   ID
         	,	SUB_STATUS
-        	,	A.ARTI_NAME_EN
-	FROM 		ATT_SUBSCRIBE A
-	JOIN 		BOARD ON(U_ID = ID)
-	WHERE		A.ARTI_NAME_EN = #{artiName}
+        	,	ARTI_NAME_EN
+	FROM 		ATT_SUBSCRIBE 
+	WHERE		ARTI_NAME_EN = #{artiName}
 	ORDER BY SUB_CODE
 	
 	
@@ -193,10 +205,10 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 					,	UP_SV_NAME
 					,	UP_STATUS
 					,	U_ID
-            		,   ID
+            		
 	FROM
 				USER_PROFILE
-    JOIN BOARD ON(U_ID = ID)
+   
 	</select>
 	
 	<!-- 피드 컬렉션 조회 -->
@@ -542,5 +554,111 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 				B_LIKE
 	WHERE
 				BL_STATUS = 'Y'
+	
+	</select>
+	
+	<!-- fid로 게시글 정보 조회 -->
+	<select id="selectFeedInfo" parameterType="_int" resultMap="fanfeedResultSet">
+	SELECT
+				BID
+			,	BTYPE
+			,	BCONTENT
+			,	BCREATE
+			,	BMODIFY
+			,	BLIKE
+			,	BSTATUS
+			,	ID
+	FROM
+				BOARD
+	WHERE
+				BID = #{fid}
+			
+	</select>
+	
+	<!-- 친구 신청 시 알람 -->
+	<insert id="insertfriendAlarm">
+	INSERT 
+		INTO	ALARM
+		(
+				AL_MADE_CODE
+			,	AL_CONTENT
+			,	AL_TIME
+			,	AL_STATUS
+			,	AL_CODE
+			,	ID
+			
+		)
+		VALUES
+		(
+				SEQ_ALARM.NEXTVAL
+			,	#{alContent}
+			,	SYSDATE
+			,	DEFAULT
+			,	'16'
+			,	#{id}
+		)
+	</insert>
+	
+	<!-- 게시글, 댓글 신고 시 관리자에게 알람 -->
+	<insert id="insertReportAlarm">
+	INSERT
+		INTO	ALARM
+		(
+				AL_MADE_CODE
+			,	AL_CONTENT
+			,	AL_TIME
+			,	AL_STATUS
+			,	AL_CODE
+			,	ID
+		)
+		VALUES
+		(
+				SEQ_ALARM.NEXTVAL
+			,	#{alContent}
+			,	SYSDATE
+			,	DEFAULT
+			,	'7'
+			,	'admin'
+		)
+	</insert>
+	
+	<!-- 댓글 신고 시 관리자에게 알람 -->	
+		<insert id="insertReportReplyAlarm">
+	INSERT
+		INTO	ALARM
+		(
+				AL_MADE_CODE
+			,	AL_CONTENT
+			,	AL_TIME
+			,	AL_STATUS
+			,	AL_CODE
+			,	ID
+		)
+		VALUES
+		(
+				SEQ_ALARM.NEXTVAL
+			,	#{alContent}
+			,	SYSDATE
+			,	DEFAULT
+			,	'6'
+			,	'admin'
+		)
+	</insert>
+	
+	<!-- 아티스트 리스트 -->
+	<select id="selectArtistList" resultMap="ArtistResultSet">
+	SELECT
+				ARTI_ID
+			,	ARTI_ONE_NAME
+			,	NICKNAME
+			,	FACEBOOK
+			,	INSTAGRAM
+			,	TWITTER
+			,	DAILY_MSG
+			,	IS_TEAM
+			,	ID
+			,	ARTI_NAME_EN
+	FROM		
+				ART_PERSON
 	</select>			
 </mapper>

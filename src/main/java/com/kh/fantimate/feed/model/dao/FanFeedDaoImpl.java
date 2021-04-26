@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.kh.fantimate.common.model.vo.Alarm;
 import com.kh.fantimate.common.model.vo.Attachment;
 import com.kh.fantimate.common.model.vo.Friend;
 import com.kh.fantimate.common.model.vo.Like;
@@ -17,6 +18,7 @@ import com.kh.fantimate.common.model.vo.Subscribe;
 import com.kh.fantimate.feed.model.vo.AttachmentF;
 import com.kh.fantimate.feed.model.vo.Feed;
 import com.kh.fantimate.feed.model.vo.FeedCollection;
+import com.kh.fantimate.member.model.vo.Artist;
 
 @Repository
 public class FanFeedDaoImpl implements FanFeedDao{
@@ -55,8 +57,8 @@ public class FanFeedDaoImpl implements FanFeedDao{
 
 	// 유저 프로필 사진 조회
 	@Override
-	public List<Attachment> selectatList() {
-		return sqlSession.selectList("fanfeedMapper.selectatList");
+	public List<Attachment> selectatList(String artNameEn) {
+		return sqlSession.selectList("fanfeedMapper.selectatList", artNameEn);
 	}
 
 	// 게시글 사진 조회
@@ -161,6 +163,36 @@ public class FanFeedDaoImpl implements FanFeedDao{
 	@Override
 	public List<Like> selectLikeList() {
 		return sqlSession.selectList("fanfeedMapper.selectLikeList");
+	}
+
+	// fid로 상세페이지 게시글 정보 불러오기
+	@Override
+	public List<Feed> selectFeedList(int fid) {
+		return sqlSession.selectList("fanfeedMapper.selectFeedInfo", fid);
+	}
+
+	// 친구 신청 시 알람
+	@Override
+	public int insertAlarm(Alarm a) {
+		return sqlSession.insert("fanfeedMapper.insertfriendAlarm", a);
+	}
+
+	// 게시글 신고 시 알람
+	@Override
+	public int insertReportAlarm(Alarm a) {
+		return sqlSession.insert("fanfeedMapper.insertReportAlarm", a);
+	}
+
+	// 댓글 신고 시 알람
+	@Override
+	public int insertReportReplyAlarm(Alarm a) {
+		return sqlSession.insert("fanfeedMapper.insertReportReplyAlarm", a);
+	}
+
+	// 아티스트 리스트
+	@Override
+	public List<Artist> selectArtistList() {
+		return sqlSession.selectList("fanfeedMapper.selectArtistList");
 	}
 
 	

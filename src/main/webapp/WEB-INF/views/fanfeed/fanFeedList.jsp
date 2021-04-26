@@ -64,7 +64,7 @@
                         	<!-- 게시글작성자의 아이디와 구독유저의 아이디가 같다면 닉네임 불러오기 -->
                         	 <c:forEach var="sb" items="${ subList }">
                         	 <c:if test="${ f.writer eq sb.uid }">
-                            <pre class="nicknameArea">${ sb.unickname }${artiName}</pre>
+                            <pre class="nicknameArea">${ sb.unickname }</pre>
                             <input type="hidden" id="likeId"name="fid" value="${ f.fid }">
                         	 </c:if>
                         	 </c:forEach>
@@ -92,7 +92,7 @@
                     </tr>
                 </table>
                     <!-- 게시글 컨텐츠 영역 -->
-                    <div class="contentArea">
+                    <div class="contentArea" id="detailPage" onclick="detailPage(${f.fid});">
                         <!-- 텍스트 영역 -->
                         <div>
                         	
@@ -106,12 +106,11 @@
                         <div>
                         	
                             <img src="${ contextPath }/resources/uploadFiles/${ pt.attSvName }" alt="이미지" width="300px">
-                            <p>${ pt.attClName }</p>
-                            <p>${ pt.attCode }</p>
+                          
                             <input type="hidden" name="attCode" value="${ pt.attCode }">
                             <input type="hidden" name="fid" value="${ f.fid }">
                             <input type="hidden" name="refId" value="${ pt.refId }">
-                            <p>${ pt.refId }</p>
+                           
                         </div>
                         </c:if>
                         </c:forEach>
@@ -130,8 +129,13 @@
                         	
                         	
                         	<!-- 좋아요 누른애는 검정아이콘, 안누른애는 하얀아이콘 -->
+                        	
                             <td><img id="insertLike" src="../resources/images/feed/like-icon.png" class="like-icon" onclick="insertLike(${f.fid},${f.flike});"></td>
-                            
+			
+							
+						
+							<%-- <td><img id="insertLike" src="../resources/images/feed/likeblack-icon.png" class="like-icon" onclick="insertLike(${f.fid},${f.flike});"></td> --%>
+							                           
                             <%-- <td><img id="insertLike" src="../resources/images/feed/likeblack-icon.png" class="like-icon" onclick="insertLike(${f.fid},${f.flike});"></td> --%>
                             
                             
@@ -175,8 +179,11 @@
                             </td>
                             </c:if>
                             </c:forEach>
+                           
+                            
                              <c:forEach var="sb" items="${ subList }">
-                        	 <c:if test="${ r.writer eq sb.uid }">
+                             <c:if test="${ r.writer eq sb.uid }">
+                        	 
                             <td>
                                 <div class="comment-box">
                                     <div id="artist-comment" class="comment-main comment-center nanumsquare">
@@ -205,12 +212,14 @@
 
                                     </div>
                                    
-                                    </c:if>
+                                   </td>
+                                   </c:if>
                                     </c:forEach>
+                                  
                                 
                                 <div class="comment-info comment-center nanumsquare">
                                 
-                                    <img class="likeBtn" src="../resources/images/feed/like-icon.png" onclick="insertLike(${f.fid});">
+                                    <img class="likeBtn" src="../resources/images/feed/like-icon.png">
                                     <span class="like-count">1,000</span>
                                     <span class="comment-date"><fmt:formatDate value="${ r.rcreate }" pattern="yyyy.MM.dd HH:mm"/></span>
                                 </div>
@@ -265,6 +274,7 @@
                     </table>
                  	</c:if>
                  	</c:forEach>
+                 	<!-- 댓글 갯수가 3개 이상이면 버튼 보이게 하기 -->
                     <button class="reply-more">. . .</button>
                     
                     <!-- 댓글 등록 -->
@@ -565,6 +575,28 @@
 	    	}
    }
    </script> 
+   
+   <!-- 상세 페이지로 이동 -->
+   <script>
+   function detailPage(fid){
+	   // 팝업 가운데에 띄우기
+       var popupWidth = 1300;
+       var popupHeight = 600;
+
+       var popupX = 300;
+       // 만들 팝업창 width 크기의 1/2 만큼 보정값으로 빼주었음
+
+       var popupY = 250;
+       // 만들 팝업창 height 크기의 1/2 만큼 보정값으로 빼주었음
+	   
+	   var url = "${ contextPath }/fanfeed/detailView?fid=" + fid;
+
+       window.open(url, "상세페이지", 'width=' + popupWidth  + ', height=' + popupHeight  + ', left='+ popupX + ', top='+ popupY);
+	 
+       
+   //    window.open('fanFeedDetail.html','상세페이지','width=1300, height=600, left=300, top=250');
+   }
+   </script>
   
 </body>
 </html>
