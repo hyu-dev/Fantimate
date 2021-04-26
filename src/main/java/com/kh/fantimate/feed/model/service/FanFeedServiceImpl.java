@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.kh.fantimate.common.model.vo.Alarm;
 import com.kh.fantimate.common.model.vo.Attachment;
 import com.kh.fantimate.common.model.vo.Friend;
 import com.kh.fantimate.common.model.vo.Like;
@@ -17,6 +18,7 @@ import com.kh.fantimate.feed.model.dao.FanFeedDao;
 import com.kh.fantimate.feed.model.vo.AttachmentF;
 import com.kh.fantimate.feed.model.vo.Feed;
 import com.kh.fantimate.feed.model.vo.FeedCollection;
+import com.kh.fantimate.member.model.vo.Artist;
 
 @Service
 public class FanFeedServiceImpl implements FanFeedService {
@@ -26,11 +28,16 @@ public class FanFeedServiceImpl implements FanFeedService {
 	// 게시글 작성
 	@Override
 	public int insertFeed(Feed f, List<AttachmentF> attList) {
+	//	System.out.println("사진안올리고 등록할 떄 : " + attList);
+		
 		fDao.insertFeed(f);
-		
-		int result = fDao.insertFeedAtt(attList);
-		
-		return result;
+	
+		return fDao.insertFeedAtt(attList);
+		/*
+		 * int result = 0; //if(attList.) { result = fDao.insertFeedAtt(attList);
+		 * 
+		 * } return result;
+		 */
 		
 	}
 
@@ -54,8 +61,8 @@ public class FanFeedServiceImpl implements FanFeedService {
 
 	// 유저 프로필 사진 조회
 	@Override
-	public List<Attachment> selectatList() {
-		return fDao.selectatList();
+	public List<Attachment> selectatList(String artNameEn) {
+		return fDao.selectatList(artNameEn);
 	}
 
 	// 게시글 사진 조회
@@ -109,8 +116,9 @@ public class FanFeedServiceImpl implements FanFeedService {
 
 	// 게시글 신고
 	@Override
-	public int insertFeedReport(Report r) {
-		return fDao.insertFeedReport(r);
+	public int insertFeedReport(Report r, Alarm a) {
+		 fDao.insertFeedReport(r);
+		return fDao.insertReportAlarm(a);
 	}
 
 	// 댓글 삭제
@@ -127,8 +135,9 @@ public class FanFeedServiceImpl implements FanFeedService {
 
 	// 댓글 신고
 	@Override
-	public int insertReplyReport(Report r) {
-		return fDao.insertReplyReport(r);
+	public int insertReplyReport(Report r, Alarm a) {
+		 fDao.insertReplyReport(r);
+		return fDao.insertReportReplyAlarm(a);
 	}
 
 	// 게시글 좋아요 누른 유저 추가
@@ -146,14 +155,28 @@ public class FanFeedServiceImpl implements FanFeedService {
 
 	// 친구 신청
 	@Override 
-	public int insertFriend(Friend f) { 
-		return fDao.insertFriend(f);
+	public int insertFriend(Friend f, Alarm a) { 
+		 fDao.insertFriend(f);
+  return fDao.insertAlarm(a);
+		
 	}
 
 	// 좋아요 누른 유저 리스트
 	@Override
 	public List<Like> selectLikeList() {
 		return fDao.selectLikeList();
+	}
+
+	// fid로 상세페이지 게시글 정보 불러오기 
+	@Override
+	public List<Feed> selectFeedList(int fid) {
+		return fDao.selectFeedList(fid);
+	}
+
+	// 아티스트 리스트
+	@Override
+	public List<Artist> selectArtistList() {
+		return fDao.selectArtistList();
 	}
 
 	
