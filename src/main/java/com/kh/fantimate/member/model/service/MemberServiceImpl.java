@@ -16,6 +16,7 @@ import com.kh.fantimate.member.model.vo.ArtistCollection;
 import com.kh.fantimate.member.model.vo.ArtistGroup;
 import com.kh.fantimate.member.model.vo.Member;
 import com.kh.fantimate.member.model.vo.User;
+import com.kh.fantimate.member.model.vo.UserCollection;
 
 @Service
 public class MemberServiceImpl implements MemberService{
@@ -67,7 +68,7 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	@Override
-	public User loginUser(String id) {
+	public List<UserCollection> loginUser(String id) {
 		return mDao.selectLoginUser(id);
 	}
 
