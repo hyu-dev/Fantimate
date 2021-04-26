@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <c:set var="contextPath" value="${ pageContext.servletContext.contextPath }" scope="application" />
 <!DOCTYPE html>
 <html>
@@ -20,6 +21,8 @@
 	<c:if test="${ !empty loginUser }">
 	<c:set var="flag" value="yes" scope="session"/>
 	<jsp:include page="fanStoreInsert.jsp"/>
+	<jsp:include page="../common/report.jsp"/>
+	<jsp:include page="../common/messageSend.jsp"/>
 	<!-- 네비바 인클루드 -->
 	<jsp:include page="../common/navbar.jsp"></jsp:include>
 	<section class="main-section">
@@ -122,43 +125,49 @@
                    	 </c:choose>
                      </td>
                      <td colspan="2">
-                         <button>신고하기</button>
+                         <button class="report-btn">신고하기</button>
                      </td>
                      </c:if>
                  </tr>
              </table>
              <h4 class="reply">댓글
              	<c:if test="${ loginUser.id eq fanStore.get(0).fstore.id }">
-             		(${ replyCount })<span id="backList">리스트보기</span>
+             		(${ fn:length(fanStoreReply) })<span id="backList">리스트보기</span>
              	</c:if>
              </h4>
              <div class="reply-area">
-             	 <c:if test="${ loginUser.id eq fanStore.get(0).fstore.id }">
+           	 <c:if test="${ loginUser.id eq fanStore.get(0).fstore.id }">
+            	 <c:choose>
+            	 <c:when test="${ !empty fanStoreReply }">
                  <div class="reply-list">
-                    <ul>
-                    	<c:forEach var="r" items="${ fanStoreReply }">
-                        <li>
-                            <div>
-                                <img class="user-profile" src="${ contextPath }/resources/images/mypage/만식프로필.png" alt="">
-                                <span>bt******* 님이 댓글을 남겼습니다</span>
-                            </div>
-                            <span>2021. 03. 01</span>
-                        </li>
-                        </c:forEach>
-                    </ul>
+                   <ul>
+                   <c:forEach var="r" items="${ fanStoreReply }">
+                       <li>
+                           <div>
+                               <img class="user-profile" src="${ contextPath }/resources/uploadFiles/${r.attUser.attSvName}" alt="">
+                               <span>${ r.user.id } 님이 댓글을 남겼습니다</span>
+                           </div>
+                           <span><fmt:formatDate value="${ r.fsReply.rcreate }" type="date" /></span>
+                       </li>
+                   </c:forEach>
+                   </ul>
                  </div>
-                 </c:if>
+                 </c:when>
+                 <c:otherwise>
+                    <div class="notList">
+	                	<p>등록된 댓글이 없습니다</p>
+                    </div>
+                 </c:otherwise>
+                 </c:choose>
+              </c:if>
                  <div class="reply-content">
                      <div class="content-view">
+                         <c:if test="${ loginUser.id ne fanStore.get(0).fstore.id }">
+                     	 <c:forEach var="r" items="${ fanStoreReply }">
                          <article>
-                             <img class="user-profile" src="${ contextPath }/resources/images/mypage/만식프로필.png" alt="">
-                             <div class="text-content">bt******* 님이 댓글을 남겼습니다 bt******* 님이 댓글을 남겼습니다
-                                 bt******* 님이 댓글을 남겼습니다
-                                 bt******* 님이 댓글을 남겼습니다
-                                 bt******* 님이 댓글을 남겼습니다
-                                 bt******* 님이 댓글을 남겼습니다
-                             </div>
-                             <span class="text-write-date">2021. 03. 01</span>
+                             <img class="user-profile" src="${ contextPath }/resources/uploadFiles/${r.attUser.attSvName}" alt="">
+                             <div class="text-content">${ r.fsReply.rcontent }</div>
+                             <span class="text-write-date"><fmt:formatDate value="${ r.fsReply.rcreate }" type="date" /></span>
                              <div class="controller">
                                  <img src="${ contextPath }/resources/icon/dot.png" alt="">
                              </div>
@@ -168,12 +177,14 @@
                                  <div class="reply-controll">삭제하기</div>
                              </div>
                          </article>
+                         </c:forEach>
+                         </c:if>
                      </div>
-                    <form class="reply-write">
-                       <img class="user-profile" src="${ contextPath }/resources/images/mypage/만식프로필.png" alt="">
-                       <textarea name="replyContent"></textarea>
-                       <img src="${ contextPath }/resources/icon/send.png" alt="">
-                    </form>
+                    <div class="reply-write">
+                       <img class="user-profile" src="${ contextPath }/resources/uploadFiles/${ userColl.attUser.attSvName }" alt="">
+                       <textarea class="replyContent"></textarea>
+                       <img id="sendReply" src="${ contextPath }/resources/icon/send.png" alt="">
+                    </div>
                  </div>
              </div>
          </section>
@@ -183,7 +194,6 @@
     	$(function() {
     		var loginUser = "${loginUser.id}"
     		var writer = "${ fanStore.get(0).fstore.id }"
-    		console.log(loginUser, writer);
     		if(loginUser != writer) {
     			$(".reply-content").css("display", "flex")
     		}
@@ -194,31 +204,75 @@
 			$(".main-img").attr("src", url);
 		});
 	 	
-	 	// 오른쪽 영역
-	 	// 쪽지보내기 클릭시
+	 	// **************** 오른쪽 영역 ******************
 	 	// 오른쪽 컨텐츠 찜하기 버튼 클릭시
-		let flag = true;
-		$("tr:nth-of-type(6) td:first-of-type").click(function() {
-		    if(flag == true) {
-		        alert("찜목록에 등록되었습니다")
-		        $(".ddim").attr("src", "${ contextPath }/resources/icon/heart-pink.png")
-		        flag = false;
-		    } else {
-		        alert("찜목록에서 제거되었습니다")
-		        $(".ddim").attr("src", "${ contextPath }/resources/icon/heart.png")
-		        flag = true;
+		$(".enroll-wish-btn").click(function() {
+			var text = $(".enroll-wish-btn").text();
+			var fcode = ${ fanStore.get(0).fstore.fcode };
+			var id = "${loginUser.id}"
+			var type = "";
+		    if(text == '찜등록해제') {
+		    	type = "취소";
+		    	$.ajax({
+					url : "${pageContext.request.contextPath}/fanStore/wish",
+					method : "post",
+					data : {
+						code : fcode,
+						id : id,
+						type : type
+					},
+					dataType : "json",
+					success : function(data) {
+						alert(data.msg)
+						$(".ddim").attr("src", "${ contextPath }/resources/icon/heart.png")
+						$(".enroll-wish-btn").text("찜등록")
+					},
+					error : function(e) {
+						console.log(e)
+					}
+		    	})
+		    } else if(text == '찜등록'){
+		    	type = "등록";
+		    	$.ajax({
+					url : "${pageContext.request.contextPath}/fanStore/wish",
+					method : "post",
+					data : {
+						code : fcode,
+						id : id,
+						type : type
+					},
+					dataType : "json",
+					success : function(data) {
+						alert(data.msg)
+						$(".ddim").attr("src", "${ contextPath }/resources/icon/heart-pink.png")
+						$(".enroll-wish-btn").text("찜등록해제")
+					},
+					error : function(e) {
+						console.log(e)
+					}
+		    	})
 		    }
 		})
+		// 쪽지보내기 클릭시
+		$(".fs-send-message").click(function() {
+			$(".send-message-section").css({"display":"block", "z-index":"4"})
+		});
 	 	// 신고하기 클릭시
+	 	$(".report-btn").click(function() {
+	 		$(".report-message-section").css({"display":"block", "z-index":"4"});
+	 	});
 	 	// 수정하기 클릭시
+	 	$(".update-fanStore").click(function() {
+	 		$(".insert-section").css("display", "block");
+	 	});
 	 	
 	 	// 댓글 내용에 마우스 호버시
 	    $(".content-view article").hover(function() {
-	        console.log('호버함')
 	        $(this).children(".controller").css("display", "flex")
 	    }, function() {
 	        $(this).children(".controller").css("display", "none")
 	    })
+	    
 	    // 댓글 컨트롤러 클릭시
 	    $(".controller").on('click', function() {
 	    	if($(this).next().css("display") == "block") {
@@ -230,13 +284,82 @@
 	    // 댓글 리스트 중 하나 클릭시
 	    $(".reply-list").on('click', function() {
 	        $(this).css("display", "none")
+	        // 필요정보 변수에 담기
+	        // 댓글 ajax에 보낼 데이터 변수에 담기
+	        var url = "${ pageContext.request.contextPath }/fanStore/replyOne"
+	        var data = {
+	        		
+	        }
+	        // 댓글 ajax 호출
+	        ajaxReply(url, data)
 	        $(".reply-content").css("display", "flex")
 	    })
-	    // 댓글 리스트 보기 클릭시
+	    // 리스트 보기 클릭시
 	    $("#backList").click(function() {
 	    	$(".reply-list").css("display", "flex")
 	    	$(".reply-content").css("display", "none")
 	    });
+	 	// 댓글 작성 후 보내기
+	 	$("#sendReply").click(function() {
+	 		// 필요정보 변수에 담기
+	 		var rcontent = $(".replyContent").val();
+	 		var fcode = ${ fanStore.get(0).fstore.fcode };
+			var id = "${loginUser.id}";
+			var refRid = ${ fanStoreReply.get(0).fsReply.rid };
+			var fanStoreWriter = "${ fanStore.get(0).fstore.id }";
+			var firstWriter = "${ fanStoreReply.get(0).user.id }";
+	 		// 댓글 ajax에 보낼 데이터 변수에 담기
+	 		var url = "${ pageContext.request.contextPath }/fanStore/insertReply";
+	 		var data = {
+	 			rcontent : rcontent,
+ 				refId : fcode,
+ 				writer : id,
+ 				refRid : refRid,
+ 				fanStoreWriter : fanStoreWriter,
+ 				firstWriter : firstWriter
+	 		}
+	 		// 댓글 ajax 호출
+	 		ajaxReply(url, data)
+	 	});
+	 	
+	 	// 댓글관련 AJAX
+	 	function ajaxReply(url, data) {
+	 		$.ajax({
+	 			url : url,
+	 			method : "POST",
+	 			data : data,
+	 			dataType : "json",
+	 			success : function(data) {
+	 				console.log(data)
+	 				if(data.length < 1) {
+	 					alert("댓글 등록에 실패하였습니다")
+	 				} else {
+	 					$(".content-view").html("");
+		 				for(var i in data) {
+		 					var article = $("<article>")
+		 					var userProfile = $("<img class='user-profile'>").attr("src", "${contextPath}/resources/uploadFiles/" + data[i].attUser.attSvName);
+		 					var content = $("<div class='text-content'>").text(data[i].fsReply.rcontent)
+		 					var create = new Date(data[i].fsReply.rcreate);
+		 					var rcreate = $("<span class='text-write-date'>").text(create.getFullYear()+"."+create.getMonth()+"."+create.getDate())
+		 					var controller = $("<div class='controller'>")
+		 					var dot = $("<img>").attr("src", "${contextPath}/resources/icon/dot.png")
+		 					var rController = $("<div class='reply-controller'>")
+		 					var sendMessage = $("<div class='reply-controll'>").text("쪽지보내기")
+		 					var report = $("<div class='reply-controll'>").text("신고하기")
+		 					var deleteReply = $("<div class='reply-controll'>").text("삭제하기")
+		 					rController.append(sendMessage, report, deleteReply)
+		 					controller.append(dot)
+		 					article.append(userProfile, content, rcreate, controller, rController);
+		 					$(".content-view").append(article)
+		 				}
+		 				$(".replyContent").val("").focus();
+	 				}
+	 			},
+	 			error : function(e) {
+	 				console.log(e)
+	 			}
+	 		})
+	 	}
     </script>
     </c:if>
     <c:choose>

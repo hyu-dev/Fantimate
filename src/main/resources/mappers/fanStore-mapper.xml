@@ -448,7 +448,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		WHERE
 		        F_CODE = #{fcode}
 	</select>
-	<select id="selectFanStoreReply" parameterType="_int" resultMap="fsReplyCollResultSet">
+	<select id="selectFanStoreReply" parameterType="hashMap" resultMap="fsReplyCollResultSet">
 		SELECT
 		        U_ID
 		      , U_ADD
@@ -484,18 +484,12 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		        F_REPLY ON(ID = U_ID)
 		WHERE
 		        F_CODE = #{fcode}
+		  AND   (U_ID = #{writer} OR U_ID = #{id})
+          AND   (REF_CODE = (SELECT FR_CODE FROM F_REPLY
+                            WHERE REF_CODE IS NULL AND ID = #{id})
+           OR   FR_CODE = (SELECT FR_CODE FROM F_REPLY
+                            WHERE REF_CODE IS NULL AND ID = #{id}))
 	 ORDER BY   FR_CODE ASC
-	</select>
-	<select id="selectReplyCount" parameterType="FanStore" resultType="_int">
-		SELECT
-		        count(distinct U_ID)
-		FROM
-		        USER_
-		LEFT JOIN
-		        F_REPLY ON(ID = U_ID)
-		WHERE
-		        F_CODE = #{fcode}
-          AND   U_ID != #{id}
 	</select>
 	<select id="selectWish" parameterType="Wish" resultMap="wishResultSet">
 		SELECT
@@ -520,4 +514,41 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		 WHERE
 		 		ID = #{id}
 	</select>
+	<select id="selectReplyWriter" parameterType="hashMap" resultMap="fsReplyCollResultSet">
+		SELECT
+		        U_ID
+		      , MAX(FR_DATE) AS FR_DATE
+		      , UP_SV_NAME
+		  FROM  
+		  		F_REPLY
+		  LEFT JOIN
+		  		USER_ ON(ID = U_ID)
+		  LEFT JOIN
+		  		USER_PROFILE USING(U_ID)
+		 WHERE  
+		 		F_CODE = #{fcode}
+		   AND  ID != #{writer}
+	  GROUP BY  U_ID, UP_SV_NAME
+	</select>
+	<insert id="insertReply" parameterType="Reply">
+		INSERT
+		INTO F_REPLY
+		(
+			FR_CODE
+		  , FR_DATE
+		  , FR_CONTENT
+		  , F_CODE
+		  , ID
+		  , REF_CODE
+		)
+		VALUES
+		(
+			SEQ_F_REPLY.NEXTVAL
+		  , SYSDATE
+		  , #{rcontent}
+		  , #{refId}
+		  , #{writer}
+		  , #{refRid}
+		)
+	</insert>
 </mapper>
