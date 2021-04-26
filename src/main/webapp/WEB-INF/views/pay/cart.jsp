@@ -280,7 +280,7 @@
 	    	// 주문자명
 	    	var name = "${ loginUser.id }";
 	    	// 주문자 이메일
-	    	var email = "${ user.uemail }";
+	    	var email = "${ user.get(0).user.uemail }";
 	    	// 상품명, 상품코드, 상품수량, 장바구니코드
 	    	var pname = []
 	    	var pcode = []
@@ -292,8 +292,11 @@
 					pcode.push($(this).parents("td").next().children().children(".cart-pCode").val());
 					buyQ.push($(this).parents("td").next().next().children().children(".product-quantity").text())
 					pname.push($(this).parents("td").next().children().children(".cart-pName").val())
-					if($(this).parents("td").next().next().children().children(".product-quantity").text() > $(this).parents("td").next().children().children(".salesQ").val())
+					var quantity = parseInt($(this).parents("td").next().next().children().children(".product-quantity").text())
+					var salesQ = parseInt($(this).parents("td").next().children().children(".salesQ").val())
+					if(quantity > salesQ) {
 						flag = false
+					}
 				} else {
 					pname.push($(this).parents("td").next().children().children(".media-ttl").val())
 				}

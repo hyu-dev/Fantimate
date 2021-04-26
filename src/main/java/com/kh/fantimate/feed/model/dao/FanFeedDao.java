@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import com.kh.fantimate.common.model.vo.Alarm;
 import com.kh.fantimate.common.model.vo.Attachment;
 import com.kh.fantimate.common.model.vo.Friend;
 import com.kh.fantimate.common.model.vo.Like;
@@ -14,6 +15,7 @@ import com.kh.fantimate.common.model.vo.Subscribe;
 import com.kh.fantimate.feed.model.vo.AttachmentF;
 import com.kh.fantimate.feed.model.vo.Feed;
 import com.kh.fantimate.feed.model.vo.FeedCollection;
+import com.kh.fantimate.member.model.vo.Artist;
 
 public interface FanFeedDao {
 
@@ -33,7 +35,7 @@ public interface FanFeedDao {
 	public List<FeedCollection> selectfcList();
 
 	// 유저 프로필 사진 조회
-	public List<Attachment> selectatList();
+	public List<Attachment> selectatList(String artNameEn);
 
 	// 게시글 사진 조회
 	public List<AttachmentF> selectptList();
@@ -85,6 +87,21 @@ public interface FanFeedDao {
 
 	// 좋아요 누른 유저 리스트
 	public List<Like> selectLikeList();
+
+	// fid로 상세페이지 게시글 정보 불러오기
+	public List<Feed> selectFeedList(int fid);
+
+	// 친구 신청 시 알람
+	public int insertAlarm(Alarm a);
+
+	// 게시글 신고 시 알람
+	public int insertReportAlarm(Alarm a);
+
+	// 댓글 신고 시 알람
+	public int insertReportReplyAlarm(Alarm a);
+
+	// 아티스트 리스트
+	public List<Artist> selectArtistList();
 
 	
 

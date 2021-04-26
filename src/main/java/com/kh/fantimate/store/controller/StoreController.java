@@ -58,12 +58,13 @@ public class StoreController {
 								  HttpServletRequest request
 								  ) {
 		
-		if(((List<Subscribe>)request.getSession().getAttribute("subList")) == null) {
+		if(((Member)request.getSession().getAttribute("loginUser")) == null) {
 			mv.setViewName("store/storeList");
 			return mv;
 		} else {
 			// 아티스트 이름 세션에서 불러오기
-			String artiName = ((List<Subscribe>)request.getSession().getAttribute("subList")).get(0).getArtiname();
+			String artiName = ((String)request.getSession().getAttribute("artiName"));
+			System.out.println(artiName);
 			// 카테고리 리스트 호출
 			List<StoreCategory> cateList = (ArrayList<StoreCategory>)sService.selectcategoryList(artiName);
 			String cateName = "";
@@ -78,12 +79,16 @@ public class StoreController {
 				return mv;
 			}
 			
+			Map<String, String> map = new HashMap<>();
+			map.put("cateName", cateName);
+			map.put("artiName", artiName);
 			// 스토어 리스트 호출
-			List<StoreCollection> list = sService.selectStoreList(cateName);
+			List<StoreCollection> list = sService.selectStoreList(map);
+			System.out.println("리스트" + list);
 			// 유저별 찜 리스트 호출
 			String userId = ((Member)request.getSession().getAttribute("loginUser")).getId();
 			List<Wish> wishList = sService.selectWishList(userId);
-			if(list != null && !list.isEmpty()) {
+			if(!list.isEmpty() || list.size() > 0) {
 				// 세션에 담음 (상품 검색시 필요)
 				HttpSession session = request.getSession();
 				session.removeAttribute("toggle");
@@ -649,7 +654,9 @@ public class StoreController {
 				request.getSession().setAttribute("collection", list);
 				mv.addObject("list", list);
 				mv.setViewName("pay/collection");
-			} 
+			} else {
+				mv.setViewName("pay/collection");
+			}
 		}
 		return mv;
 	}

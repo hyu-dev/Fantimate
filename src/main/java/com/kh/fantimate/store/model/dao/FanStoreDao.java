@@ -3,6 +3,9 @@ package com.kh.fantimate.store.model.dao;
 import java.util.List;
 import java.util.Map;
 
+import com.kh.fantimate.common.model.vo.Message;
+import com.kh.fantimate.common.model.vo.Reply;
+import com.kh.fantimate.common.model.vo.Report;
 import com.kh.fantimate.member.model.vo.ArtistGroup;
 import com.kh.fantimate.member.model.vo.User;
 import com.kh.fantimate.member.model.vo.UserCollection;
@@ -30,7 +33,7 @@ public interface FanStoreDao {
 	int selectAreaCode(String area);
 
 	// 유저 지역정보 불러오기
-	UserCollection selectUserCollection(String userId);
+	List<UserCollection> selectUserCollection(String userId);
 
 	// 해시정보 불러오기
 	List<HashTag> selectHashList(int areaCode);
@@ -69,7 +72,7 @@ public interface FanStoreDao {
 	List<FStoreListCollection> selectFanStore(int fcode);
 
 	// 팬스토어 댓글정보 불러오기
-	List<FanStoreReplyCollection> selectFanStoreReply(int fcode);
+	List<FanStoreReplyCollection> selectFanStoreReply(Map map);
 
 	// 로그인유저 팬스토어 찜목록 불러오기
 	Wish selectWish(Wish wish);
@@ -77,7 +80,34 @@ public interface FanStoreDao {
 	// 로그인 유저 찜리스트 불러오기
 	List<Wish> selectWishList(String userId);
 
-	// 댓글 개수 불러오기
-	int selectReplyCount(FanStore f);
+	// 댓글 작성자 리스트 불러오기
+	List<FanStoreReplyCollection> selectReplyWriter(Map map);
+
+	// 댓글 등록하기
+	int insertReply(Reply reply);
+
+	// 구매자에게 팬스토어 댓글알림 보내기
+	void insertReplyNotiBuyer(Map map);
+
+	// 판매자에게 팬스토어 댓글알림 보내기
+	void insertReplyNotiSeller(Map map);
+
+	// 댓글 삭제하기
+	int deleteReply(int rid);
+
+	// 팬스토어 쪽지보내기
+	int sendMessage(Message message);
+
+	// 팬스토어 신고하기
+	int reportFanStore(Report report);
+
+	// 팬스토어 신고 관리자에게 알림
+	void insertNotiReportFanStore(Report report);
+
+	// 팬스토어 댓글 신고하기
+	int reportFanStoreReply(Report report);
+
+	// 팬스토어 댓글 신고 관리자에게 알림
+	void insertNotiReportFSReply(Report report);
 
 }

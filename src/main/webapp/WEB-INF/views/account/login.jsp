@@ -19,6 +19,7 @@
 				$('.login-section').show();
 			} else {
 				$('.login-section').hide();
+				$('.search-pass-section').hide();
 				$('.search-id-section').show();
 			}
 		}
@@ -28,9 +29,28 @@
 				$('.login-section').show();
 			} else {
 				$('.login-section').hide();
+				$('.search-id-section').hide();
 				$('.search-pass-section').show();
 			}
 		}
+		
+		function backFindId(){
+			if ($('.login-section').css('display') == 'none') {
+				$('.login-section').show();
+			} else {
+				$('.search-id-section').hide();
+			}
+		}
+		
+		function backFindPass(){
+			if ($('.login-section').css('display') == 'none') {
+				$('.login-section').show();
+			} else {
+				$('.search-pass-section').hide();
+			}
+		}
+		
+		
 	</script>
 </head>
 <body>
@@ -88,37 +108,200 @@
  </form>
  
     <!-- 아이디 찾기 -->
+    <form action="${ contextPath }/member/findId" method="post">
     <section class="search-id-section">
         <header class="search-id-header">
             <p class="join-title">Fantimate Account</p>
         </header>
         <p class="id-input-title">아이디 찾기</p>
         <div class="id-input">
-            <input type="text" class="id-input-info" name="fullName" placeholder="이름 입력" required>
-            <input type="email" class="id-input-info" name="email" placeholder="이메일 입력" required>
+            <input type="text" id="userName" class="id-input-info" name="fullName" placeholder="이름 입력" required>
+            <input type="email" id="userEmail" class="id-input-info" name="userEmail" placeholder="이메일 입력" required>
         </div>
         <div class="id-btn-section">
             <button id="searchIdBtn">아이디 찾기</button>
-            <button id="backBtn">뒤로가기</button>
+            <button type="button" id="backBtn" onclick="backFindId()">뒤로가기</button>
         </div>
     </section>
+    </form>
+    
+	<%-- <!-- 아이디 찾은 후 팝업창 띄어주기 -->
+	<c:if test="${ empty passMsg }">
+	<div id="my_modal">
+        <a id='close' class='modal_close_btn'>닫기</a>
+    </div>
+	</c:if>
+	 --%>
+	<!-- 회원 아이디 모달창 띄어주기 -->
+	<c:if test="${ !empty idMsg }">
+    <c:choose>
+	    <c:when test="${ idMsg eq 'success'}">
+		    <div id="my_modal">
+		    	<div id='idText'>${ fc.mem.name }님의 아이디는 <span id='idCss'>${ fc.us.id }</span>입니다</div>
+		        <a id='close' class='modal_close_btn'>닫기</a>
+		    </div>
+	    </c:when>
+	    <c:when test="${ idMsg eq 'fail'}">
+		    <div id="my_modal">
+		    	<div id='idText'>존재하는 이름 또는 이메일이 없습니다.</div>
+		        <a id='close' class='modal_close_btn'>닫기</a>
+		    </div>
+	    </c:when>
+    </c:choose>
+    </c:if>
+	
+	
+	<!-- 비번 모달창 띄어주기 -->
+    <c:if test="${ !empty passMsg }">
+    <c:choose>
+	    <c:when test="${ passMsg eq 'success'}">
+		    <div id="my_modal">
+		    	<div id='idText'>회원님 이메일로 비밀번호를 발송하였습니다.</div>
+		        <a id='close' class='modal_close_btn'>닫기</a>
+		    </div>
+	    </c:when>
+	    <c:when test="${ passMsg eq 'fail'}">
+		    <div id="my_modal">
+		    	<div id='idText'>존재하는 아이디가 없습니다.</div>
+		        <a id='close' class='modal_close_btn'>닫기</a>
+		    </div>
+	    </c:when>
+    </c:choose>
+    </c:if>
+    
+    
+    <script>
+    Element.prototype.setStyle = function(styles){
+    	for (var k in styles) this.style[k] = styles[k];
+    	return this;
+    }
+    </script>
+    
+    <script>
+    function commonModal(){
+    	var zIndex = 9999;
+    	var modal = document.getElementById('my_modal');
+    	
+		// 모달 div 뒤에 배경 
+    	var bg = document.createElement('div');
+    	bg.setStyle({
+    		position : 'fixed',
+    		zIndex: zIndex,
+    		left:'0px',
+    		top: '0px',
+    		width: '100%',
+    		height: '100%',
+    		overflow : 'auto',
+    		// 리에어 색깔은 여기서 바꾸기 
+    		backgroundColor:'rgba(0,0,0,0.4)'
+    	});
+    	document.body.append(bg);
+    	
+    	// 닫기 버튼 처리 , 시꺼면 레이어와 모달 div 지우기
+    	modal.querySelector('.modal_close_btn').addEventListener('click', function() {
+	        bg.remove();
+	        modal.style.display = 'none';
+	    });
+    	 
+   
+    	
+    	 modal.setStyle({
+    		position: "fixed",
+    		display: "block",
+    		boxShadow : "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
+    		
+    		// 레이어 보다 한칸 위에 보이기
+    		zIndex: zIndex + 1,
+    		
+    		// div center 정렬
+    		top: '50%',
+    		left: '50%',
+    		transform: 'translate(-50%, -50%)',
+            msTransform: 'translate(-50%, -50%)',
+            webkitTransform: 'translate(-50%, -50%)'
+    		
+    	});
+    	
+    }
+    
+    
+    </script>
+  
+     
+      <!-- 아이디 찾기  -->
+     <c:if test="${ !empty idMsg }">
+		 <c:choose>
+			 <c:when test="${ idMsg eq 'success'}">
+			 	<script>
+			 	commonModal();
+				</script>
+			 </c:when>
+			 <c:when test="${ idMsg eq 'fail'}">
+			 	<script>
+			 	commonModal();
+			    </script>
+			 </c:when>
+		</c:choose>
+	</c:if>
+     
+    
+   
 
     <!-- 비밀번호 찾기 -->
+    <form action="${ contextPath }/member/findPwd" method="post">
     <section class="search-pass-section">
         <header class="search-pass-header">
             <p class="join-title">Fantimate Account</p>
         </header>
         <p class="pass-input-title">비밀번호 찾기</p>
         <div class="pass-input">
-            <input type="text" class="pass-input-info" name="id" placeholder="아이디 입력" required>
-            <input type="email" class="pass-input-info" name="email" placeholder="이메일 입력" required>
+            <input type="text" id="uId" class="pass-input-info" name="id" placeholder="아이디 입력" required>
+            <input type="email" id="uEmail" class="pass-input-info" name="email" placeholder="이메일 입력" required>
         </div>
         <div class="pass-btn-section">
             <button id="searchPassBtn">비밀번호 찾기</button>
-            <button id="backBtn">뒤로가기</button>
+            <button type="button" id="backBtn" onclick="backFindPass()">뒤로가기</button>
         </div>
     </section>
-
+    </form>
+    
+    
+    <!-- 비밀번호 찾기  -->
+     <c:if test="${ !empty passMsg }">
+		 <c:choose>
+			 <c:when test="${ passMsg eq 'success'}">
+			 	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/emailjs-com@2/dist/email.min.js"></script>
+				<script type="text/javascript">
+					(function() {
+						emailjs.init("user_VSkDNH3A4JaE7ThmLy6n0");
+					})();
+				</script>
+				<script type="text/javascript">
+				
+				(function(){
+				var email = $("#userEmail").val();
+				
+				emailjs.send("Fantimate","template_47tfn1f",{
+					name: '${userInfo.name}',
+					pwd:  '${userInfo.pwd}',
+					email: 'email'
+					});
+				
+				})();
+				//alert("회원님 이메일로 비밀번호를 발송하였습니다.");
+				//window.close();
+				commonModal();
+				</script>
+			 </c:when>
+			 <c:when test="${ passMsg eq 'fail'}">
+			 	<script>
+			 	commonModal();
+			    </script>
+			 </c:when>
+		</c:choose>
+	</c:if>
+	
+	
 
 </body>
 </html>

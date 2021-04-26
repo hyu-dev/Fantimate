@@ -70,7 +70,7 @@
 	                        <b>${ list.store.pname }</b>
 	                        <p>
 	                        	<c:choose>
-		                        	<c:when test="${ user.isMembership eq 'Y' }">
+		                        	<c:when test="${ user.get(0).user.isMembership eq 'Y' }">
 		                        	\ <fmt:formatNumber type="number" value="${ list.store.qprice * (1 - list.store.discount/100) }"/> 
 		                        	&nbsp;
 		                        	<sub>

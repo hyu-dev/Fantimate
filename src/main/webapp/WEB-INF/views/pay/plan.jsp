@@ -82,7 +82,7 @@
                    </tr>
                    <tr>
                        <th>이메일</th>
-                       <td>${ user.uemail }</td>
+                       <td>${ user.get(0).user.uemail }</td>
                    </tr>
                    <tr>
                    		<th>결제플랜</th>
@@ -275,7 +275,7 @@
 	    	// 주문자명
 	    	var name = "${ loginUser.id }";
 	    	// 주문자 이메일
-	    	var email = "${ user.uemail }";
+	    	var email = "${ user.get(0).user.uemail }";
 	    	// 상품명
 	    	var pname = $(".payment-info tr:nth-of-type(3) td").text();
 			// 결제 진행

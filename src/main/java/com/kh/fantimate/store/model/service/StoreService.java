@@ -16,7 +16,7 @@ import com.kh.fantimate.store.model.vo.Wish;
 
 public interface StoreService {
 	// 스토어 리스트 호출
-	public List<StoreCollection> selectStoreList(String cateName);
+	public List<StoreCollection> selectStoreList(Map<String, String> map);
 	
 	// 카테고리 리스트 호출
 	public List<StoreCategory> selectcategoryList(String arti);

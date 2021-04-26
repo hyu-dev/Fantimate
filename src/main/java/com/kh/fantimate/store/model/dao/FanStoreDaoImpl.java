@@ -7,6 +7,9 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.fantimate.common.model.vo.Message;
+import com.kh.fantimate.common.model.vo.Reply;
+import com.kh.fantimate.common.model.vo.Report;
 import com.kh.fantimate.member.model.vo.ArtistGroup;
 import com.kh.fantimate.member.model.vo.User;
 import com.kh.fantimate.member.model.vo.UserCollection;
@@ -48,8 +51,8 @@ public class FanStoreDaoImpl implements FanStoreDao{
 	}
 
 	@Override
-	public UserCollection selectUserCollection(String userId) {
-		return sqlSession.selectOne("fanStoreMapper.selectUserCollection", userId);
+	public List<UserCollection> selectUserCollection(String userId) {
+		return sqlSession.selectList("fanStoreMapper.selectUserCollection", userId);
 	}
 
 	@Override
@@ -113,8 +116,8 @@ public class FanStoreDaoImpl implements FanStoreDao{
 	}
 
 	@Override
-	public List<FanStoreReplyCollection> selectFanStoreReply(int fcode) {
-		return sqlSession.selectList("fanStoreMapper.selectFanStoreReply", fcode);
+	public List<FanStoreReplyCollection> selectFanStoreReply(Map map) {
+		return sqlSession.selectList("fanStoreMapper.selectFanStoreReply", map);
 	}
 
 	@Override
@@ -128,8 +131,53 @@ public class FanStoreDaoImpl implements FanStoreDao{
 	}
 
 	@Override
-	public int selectReplyCount(FanStore f) {
-		return sqlSession.selectOne("fanStoreMapper.selectReplyCount", f);
+	public List<FanStoreReplyCollection> selectReplyWriter(Map map) {
+		return sqlSession.selectList("fanStoreMapper.selectReplyWriter", map);
+	}
+
+	@Override
+	public int insertReply(Reply reply) {
+		return sqlSession.insert("fanStoreMapper.insertReply", reply);
+	}
+
+	@Override
+	public void insertReplyNotiBuyer(Map map) {
+		sqlSession.insert("fanStoreMapper.insertReplyNotiBuyer", map);
+	}
+
+	@Override
+	public void insertReplyNotiSeller(Map map) {
+		sqlSession.insert("fanStoreMapper.insertReplyNotiSeller", map);
+	}
+
+	@Override
+	public int deleteReply(int rid) {
+		return sqlSession.update("fanStoreMapper.deleteReply", rid);
+	}
+
+	@Override
+	public int sendMessage(Message message) {
+		return sqlSession.insert("fanStoreMapper.sendMessage", message);
+	}
+
+	@Override
+	public int reportFanStore(Report report) {
+		return sqlSession.insert("fanStoreMapper.reportFanStore", report);
+	}
+
+	@Override
+	public void insertNotiReportFanStore(Report report) {
+		sqlSession.insert("fanStoreMapper.insertNotiReportFanStore", report);
+	}
+
+	@Override
+	public int reportFanStoreReply(Report report) {
+		return sqlSession.insert("fanStoreMapper.reportFanStoreReply", report);
+	}
+
+	@Override
+	public void insertNotiReportFSReply(Report report) {
+		sqlSession.insert("fanStoreMapper.insertNotiReportFSReply", report);
 	}
 	
 }

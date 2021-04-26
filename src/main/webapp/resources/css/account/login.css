@@ -131,8 +131,7 @@ body::-webkit-scrollbar-track{
     color: inherit;
     text-decoration: none;
     color: #5C5F78;
-    font-weight: bold;
-
+	cursor:pointer;
 }
 
 .login-section{
@@ -212,7 +211,7 @@ body::-webkit-scrollbar-track{
 
 .join-title{
     font-style: normal;
-    font-weight: bold;
+    font-weight: 500;
     font-size: 40px;
     line-height: 76px;
     color:#000000;
@@ -238,13 +237,12 @@ body::-webkit-scrollbar-track{
 
 
 .id-input-info, .pass-input-info{
-    width: 490px;
+    width: 440px;
     height: 60px;
     font-size: 20px;
     font-style: normal;
     font-weight: normal;
     line-height: 43px;
-    color: #ACACAC;
     margin: 10px;
     border: 1px solid #ACACAC;
     outline: none;
@@ -261,10 +259,9 @@ body::-webkit-scrollbar-track{
 
 #searchIdBtn , #searchPassBtn{
     background: #F4D4D4;
-    width: 150px;
+    width: 160px;
     height: 50px;
     font-style: normal;
-    font-weight: bold;
     font-size: 22px;
     line-height: 43px;
     text-align: center;
@@ -277,7 +274,6 @@ body::-webkit-scrollbar-track{
     height: 50px;
     background: #5C5F78;
     font-style: normal;
-    font-weight: bold;
     font-size: 22px;
     line-height: 43px;
     text-align: center;
@@ -289,4 +285,42 @@ body::-webkit-scrollbar-track{
 .search-id-section ,.search-pass-section{
     display: none;
 }
-/**/
+
+/*아이디 찾기 모달 창 css*/
+
+#my_modal {
+    display: none;
+    width: 330px;
+    height: 200px;
+    padding: 20px 60px;
+    background-color: #fefefe;
+    border: 1px solid #888;
+    border-radius: 3px;
+}
+
+#my_modal .modal_close_btn {
+     position: absolute;
+    top: 10px;
+    right: 10px;
+    font-family: Wemakeprice;
+    font-size: 23px;
+    text-shadow: 1px 1px 1px black;
+    cursor: pointer;
+}
+
+#idCss{
+    font-family: Wemakeprice;
+    font-size: 28px;
+    color: #f1a5a5;
+    text-shadow: 1px 1px 1px #f1a5a5;
+}
+
+#idText{
+    position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: Wemakeprice;
+  font-size: 20px;
+  text-align: center;
+}

@@ -139,9 +139,9 @@ body::-webkit-scrollbar-track ,.message-content::-webkit-scrollbar-track, .repor
     margin-left: 45px;
 }
 
-.send-message-section{
+/* .send-message-section{
     display: none;
-}
+} */
 
 .message-input-section{
     display: flex;
@@ -180,9 +180,9 @@ body::-webkit-scrollbar-track ,.message-content::-webkit-scrollbar-track, .repor
 
 /*신고하기 페이지*/
 
-.report-message-section{
+/* .report-message-section{
     display: none;
-}
+} */
 
 .report-img{
     width:30px;
