@@ -654,7 +654,9 @@ public class StoreController {
 				request.getSession().setAttribute("collection", list);
 				mv.addObject("list", list);
 				mv.setViewName("pay/collection");
-			} 
+			} else {
+				mv.setViewName("pay/collection");
+			}
 		}
 		return mv;
 	}
