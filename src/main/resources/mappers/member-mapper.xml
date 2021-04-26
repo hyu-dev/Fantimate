@@ -104,6 +104,11 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<collection property="area"  resultMap="areaResultSet" />
 		<collection property="attUser" resultMap="userProfileResultSet" />
 	</resultMap>
+	<!-- 아이디 찾기 -->
+	<resultMap type="FindIdCollection" id="findIdCollResultSet">
+		<collection property="us" resultMap="userResultSet" />
+		<collection property="mem"  resultMap="commonResultSet" />
+	</resultMap>
 	
 	<!-- 전체 아티스트 영어 이름 select -->
 	<select id="selectArtistList" parameterType="ArtistGroup" resultMap="artistgroupResultSet">
@@ -306,6 +311,30 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
  	 	   ADMIN
  	 WHERE
  	 	   AD_ID = #{id}
+	</select>
+	
+	<!-- 유저 아이디 찾기 -->
+	<select id="findUserId" parameterType="hashMap" resultMap="findIdCollResultSet">
+	SELECT 
+	      U.U_ID
+	    , C.NAME
+	FROM 
+		USER_ U
+	JOIN 
+		 COMMON C ON (C.ID = U.U_ID)
+	WHERE 
+	     U.U_EMAIL = #{userEmail}
+	AND 
+	     C.NAME = #{fullName}
+	</select>
+	
+	<select id="findUserPwd" parameterType="Member" resultMap="commonResultSet">
+	SELECT 
+		  PWD, NAME
+	FROM
+		  COMMON
+	WHERE
+		  ID= #{id}
 	</select>
 	
 </mapper>
