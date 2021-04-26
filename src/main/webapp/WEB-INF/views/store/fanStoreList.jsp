@@ -50,9 +50,9 @@
                  <div class="set-area">
                     <div>
                         <button class="set-btn my-area">내 지역</button>
-                        <p class="my-zone">${ userColl.area.areaName }</p>
+                        <p class="my-zone">${ user.get(0).area.areaName }</p>
                         <c:choose>
-	                        <c:when test="${ userColl.user.areaCertify eq 'Y' }">
+	                        <c:when test="${ user.get(0).user.areaCertify eq 'Y' }">
 	                        <img class="certification" src="${ contextPath }/resources/icon/location.png">
 	                        </c:when>
 	                        <c:otherwise>
@@ -64,7 +64,7 @@
                     <div>
                         <button class="set-btn enroll-fstore-btn">상품등록</button>
                         <c:choose>
-	                        <c:when test="${ userColl.user.areaCertify eq 'Y' }">
+	                        <c:when test="${ user.get(0).user.areaCertify eq 'Y' }">
 	                        <p class="isEnrollfstore">등록가능</p>
 	                        </c:when>
 	                        <c:otherwise>
@@ -235,7 +235,7 @@
 	        	// 상품명으로 상품 검색
 	        	var url = "${pageContext.request.contextPath}/fanStore/search"
 		        var data = {
-		        		areaCode : "${userColl.area.areaCode}",
+		        		areaCode : "${user.get(0).area.areaCode}",
 		        		search : result,
 		        		type : '상품'
 		        }
@@ -244,7 +244,7 @@
 	        	// 해시태그로 상품 검색
 	        	var url = "${pageContext.request.contextPath}/fanStore/search"
 		        var data = {
-		        		areaCode : "${userColl.area.areaCode}",
+		        		areaCode : "${user.get(0).area.areaCode}",
 		        		search : result,
 		        		type : '태그'
 		        }
@@ -280,7 +280,7 @@
 		        	// 상품명 검색시
 	        		var url = "${pageContext.request.contextPath}/fanStore/fNameList";
 	        		var data = {
-	        				areaCode: "${userColl.area.areaCode}",
+	        				areaCode: "${user.get(0).area.areaCode}",
 	        				search: search
 	        		}
 		            callAjaxSearch(url, data, '상품');
@@ -288,7 +288,7 @@
 	        		// 해시코드 검색시
 	        		var url = "${pageContext.request.contextPath}/fanStore/hashList";
 	        		var data = {
-	        				areaCode: "${userColl.area.areaCode}",
+	        				areaCode: "${user.get(0).area.areaCode}",
 	        				search: search
 	        		}
 		            callAjaxSearch(url, data, '태그');
@@ -336,7 +336,7 @@
 		        var url = "${pageContext.request.contextPath}/fanStore/myStore"
 		        var data = {
 		        		id : "${loginUser.id}",
-		        		areaCode : "${userColl.area.areaCode}"
+		        		areaCode : "${user.get(0).area.areaCode}"
 		        }
 		        callAjaxFanStoreList(url, data);
 		        flag = false;

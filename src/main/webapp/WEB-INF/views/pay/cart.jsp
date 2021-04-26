@@ -280,7 +280,7 @@
 	    	// 주문자명
 	    	var name = "${ loginUser.id }";
 	    	// 주문자 이메일
-	    	var email = "${ user.uemail }";
+	    	var email = "${ user.get(0).user.uemail }";
 	    	// 상품명, 상품코드, 상품수량, 장바구니코드
 	    	var pname = []
 	    	var pcode = []

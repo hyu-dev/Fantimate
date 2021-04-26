@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +15,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.kh.fantimate.common.model.vo.Message;
 import com.kh.fantimate.common.model.vo.Reply;
+import com.kh.fantimate.common.model.vo.Report;
 import com.kh.fantimate.member.model.vo.ArtistGroup;
 import com.kh.fantimate.member.model.vo.Member;
 import com.kh.fantimate.member.model.vo.User;
@@ -57,15 +61,12 @@ public class FanStoreController {
 				// 지역설정이 되어있거나 인증이 되어있다면 리스트 불러오기
 				// 팬스토어 전체 정보 불러오기
 				List<FStoreListCollection> fanStoreList = fService.selectFanStoreList(user.getAreaCode());
-				// 로그인 유저 정보 불러오기
-				UserCollection userColl = fService.selectUserCollection(userId);
 				// 해시정보 불러오기
 				List<HashTag> hash = fService.selectHashList(user.getAreaCode());
 				// 유저 찜 리스트 정보 불러오기
 				userId = ((Member)request.getSession().getAttribute("loginUser")).getId();
 				List<Wish> wishList = fService.selectWishList(userId);
 				model.addAttribute("fanStoreList", fanStoreList);
-				model.addAttribute("userColl", userColl);
 				model.addAttribute("hash", hash);
 				model.addAttribute("wishList", wishList);
 				// 팬스토어리스트페이지로 이동
@@ -76,7 +77,6 @@ public class FanStoreController {
 	
 	@PostMapping("/area")
 	public @ResponseBody List<Area> selectAreaList(@RequestParam(value="search")String search) {
-		System.out.println(search);
 		List<Area> areaList = fService.selectAreaList(search);
 		return areaList;
 	}
@@ -86,17 +86,22 @@ public class FanStoreController {
 							  Model model, HttpServletRequest request) {
 		System.out.println(area);
 		
+		String userId = ((Member)request.getSession().getAttribute("loginUser")).getId();
 		// 지역코드 불러오기
 		int areaCode = fService.selectAreaCode(area);
 		// 유저 객체에 담기
 		User user = new User();
 		user.setAreaCode(areaCode);
 		user.setAreaReg("Y");
-		user.setId(((Member)request.getSession().getAttribute("loginUser")).getId());
+		user.setId(userId);
 		
 		int result = fService.settingArea(user);
 		
 		if(result > 0) {
+			// 로그인 유저 정보 불러오기
+			List<UserCollection> userColl = fService.selectUserCollection(userId);
+			HttpSession session = request.getSession();
+			session.setAttribute("user", userColl);
 			return "redirect:/fanStore/list";
 		} else {
 			model.addAttribute("error", "지역설정에 실패하였습니다");
@@ -107,19 +112,23 @@ public class FanStoreController {
 	@GetMapping("/certifyArea")
 	public String certifyArea(@RequestParam(value="area") String area, 
 					  		  Model model, HttpServletRequest request) {
-		System.out.println(area);
 		
+		String userId = ((Member)request.getSession().getAttribute("loginUser")).getId();
 		// 지역코드 불러오기
 		int areaCode = fService.selectAreaCode(area);
 		// 유저 객체에 담기
 		User user = new User();
 		user.setAreaCode(areaCode);
 		user.setAreaReg("Y");
-		user.setId(((Member)request.getSession().getAttribute("loginUser")).getId());
+		user.setId(userId);
 		
 		int result = fService.certifyArea(user);
 		
 		if(result > 0) {
+			// 로그인 유저 정보 불러오기
+			List<UserCollection> userColl = fService.selectUserCollection(userId);
+			HttpSession session = request.getSession();
+			session.setAttribute("user", userColl);
 			return "redirect:/fanStore/list";
 		} else {
 			model.addAttribute("error", "지역인증에 실패하였습니다");
@@ -186,8 +195,6 @@ public class FanStoreController {
 	@PostMapping("/wish")
 	public @ResponseBody Map<String, String> enrollOrCancelWish(Wish wish,
 						 @RequestParam(value="type")String type) {
-		System.out.println(wish);
-		System.out.println(type);
 		String msg = "";
 		int result = 0;
 		switch(type) {
@@ -255,7 +262,7 @@ public class FanStoreController {
 						 @RequestParam(value="fanStoreWriter")String fanStoreWriter,
 						 @RequestParam(value="firstWriter")String firstWriter,
 						 HttpServletRequest request) {
-		
+		System.out.println(fanStoreWriter + " " + firstWriter + " " + reply);
 		String userId = ((Member)request.getSession().getAttribute("loginUser")).getId();
 		// 댓글 등록
 		int result = fService.insertReply(reply);
@@ -265,14 +272,20 @@ public class FanStoreController {
 			Map map = new HashMap<>();
 			if(userId.equals(fanStoreWriter)) {
 				// 로그인유저(댓글작성자)와 팬스토어 작성자가 동일하다면
+				System.out.println("로그인 유저와 팬스토어 작성자가 동일");
 				map.put("id", firstWriter);
 				map.put("writer", fanStoreWriter);
 				map.put("fcode", reply.getRefId());
+				// 구매자에게 알림 보내기(인서트)
+				fService.insertReplyNotiBuyer(map);
 			} else {
 				// 로그인유저(댓글작성자)와 팬스토어 작성자가 동일하지 않다면
+				System.out.println("로그인 유저와 팬스토어 작성자가 동일하지 않음");
 				map.put("id", reply.getWriter());
 				map.put("writer", fanStoreWriter);
 				map.put("fcode", reply.getRefId());
+				// 판매자에게 알림 보내기(인서트)
+				fService.insertReplyNotiSeller(map);
 			}
 			// 댓글 리스트 다시 불러오기
 			fanStoreReply = fService.selectFanStoreReply(map);
@@ -283,9 +296,96 @@ public class FanStoreController {
 	}
 	
 	@PostMapping("/replyOne")
-	public @ResponseBody List<FanStoreReplyCollection> insertReply(){
-		List<FanStoreReplyCollection> fanStoreReply = new ArrayList<>();
+	public @ResponseBody List<FanStoreReplyCollection> insertReply(
+						 @RequestParam(value="fcode") int fcode,
+						 @RequestParam(value="fsWriter") String fsWriter,
+						 @RequestParam(value="rWriter") String rWriter,
+						 HttpServletRequest request){
+		System.out.println(fcode + " " + fsWriter + " " + rWriter);
+		Map map = new HashMap<>();
+		map.put("fcode", fcode);
+		map.put("writer", fsWriter);
+		map.put("id", rWriter);
+		List<FanStoreReplyCollection> fanStoreReply = fService.selectFanStoreReply(map);
+		System.out.println("리스트 중 하나 클릭하여 댓글 내용 불러오기" + fanStoreReply);
 		return fanStoreReply;
 	}
 			
+	@PostMapping("/deleteReply")
+	public @ResponseBody List<FanStoreReplyCollection> deleteReply(
+						 @RequestParam(value="rid") int rid,
+						 @RequestParam(value="fcode") int fcode,
+						 @RequestParam(value="fsWriter") String fsWriter,
+						 @RequestParam(value="loginUser") String loginUser,
+						 @RequestParam(value="firstWriter") String firstWriter) {
+		// 댓글 삭제하기
+		int result = fService.deleteReply(rid);
+		
+		List<FanStoreReplyCollection> fanStoreReply = new ArrayList<>();
+		if(result > 0) {
+			Map map = new HashMap<>();
+			if(loginUser.equals(fsWriter)) {
+				// 로그인유저(댓글작성자)와 팬스토어 작성자가 동일하다면
+				System.out.println("로그인 유저와 팬스토어 작성자가 동일");
+				map.put("id", firstWriter);
+				map.put("writer", fsWriter);
+				map.put("fcode", fcode);
+			} else {
+				// 로그인유저(댓글작성자)와 팬스토어 작성자가 동일하지 않다면
+				System.out.println("로그인 유저와 팬스토어 작성자가 동일하지 않음");
+				map.put("id", loginUser);
+				map.put("writer", fsWriter);
+				map.put("fcode", fcode);
+			}
+			fanStoreReply = fService.selectFanStoreReply(map);
+			return fanStoreReply;
+		} else {
+			return fanStoreReply;
+		}
+	}
+	
+	@RequestMapping(value="/sendMessage", method= {RequestMethod.POST})
+	public @ResponseBody Map<String, String> sendMessage(Message message) {
+		System.out.println(message);
+		int result = fService.sendMessage(message);
+		String msg = result > 0 ? "쪽지를 성공적으로 발송하였습니다" : "쪽지발송에 실패하였습니다";
+		Map<String, String> map = new HashMap<>();
+		map.put("msg", msg);
+		return map;
+	}
+	
+	@PostMapping("/reportFanStore")
+	public @ResponseBody Map<String, String> reportFanStore(Report report,
+															@RequestParam(value="reportType") String reportType) {
+		System.out.println(report);
+		int result = 0;
+		String msg = "";
+		
+		switch(reportType) {
+		case "팬스토어" :
+			result = fService.reportFanStore(report);
+			if(result > 0) {
+				msg = "정상적으로 신고되었습니다";
+				fService.insertNotiReportFanStore(report);
+			} else {
+				msg = "신고되지 않았습니다";
+			}
+			break;
+		case "댓글" :
+			result = fService.reportFanStoreReply(report);
+			if(result > 0) {
+				msg = "정상적으로 신고되었습니다";
+				fService.insertNotiReportFSReply(report);
+			} else {
+				msg = "신고되지 않았습니다";
+			}
+			break;
+		}
+		
+		Map<String, String> map = new HashMap<>();
+		map.put("msg", msg);
+		return map;
+	}
+			
 }
+ 
