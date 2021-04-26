@@ -12,6 +12,7 @@ import com.kh.fantimate.member.model.vo.ArtistCollection;
 import com.kh.fantimate.member.model.vo.ArtistGroup;
 import com.kh.fantimate.member.model.vo.Member;
 import com.kh.fantimate.member.model.vo.User;
+import com.kh.fantimate.member.model.vo.UserCollection;
 
 public interface MemberDao {
 
@@ -29,7 +30,7 @@ public interface MemberDao {
 
 	public Member selectMember(Member m);
 
-	public User selectLoginUser(String id);
+	public List<UserCollection> selectLoginUser(String id);
 
 	public Agency selectLoginAgency(String id);
 
