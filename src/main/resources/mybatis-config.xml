@@ -77,6 +77,7 @@
 		<typeAlias type="com.kh.fantimate.store.model.vo.FStoreListCollection" alias="FStoreListCollection"/>
 		<typeAlias type="com.kh.fantimate.store.model.vo.FanStoreReplyCollection" alias="FanStoreReplyCollection"/>
 		<typeAlias type="com.kh.fantimate.member.model.vo.UserCollection" alias="UserCollection"/>
+		<typeAlias type="com.kh.fantimate.member.model.vo.FindIdCollection" alias="FindIdCollection"/>
 	</typeAliases>
 	
 	<!-- mappers -->
