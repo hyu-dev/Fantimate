@@ -105,9 +105,9 @@ public class FanFeedController {
 		// artiName 세션에 저장
 		HttpSession session = request.getSession(); // 세션을 생성해서
 		session.setAttribute("artiName", artNameEn); // userid로 uid값을 넘기자
+		session.setAttribute("subList", subList);
 		
 		if(list != null && !list.isEmpty()) {
-			model.addAttribute("subList", subList);
 			mv.addObject("list", list);
 			mv.addObject("flist", flist);
 			mv.addObject("rlist", rlist);
