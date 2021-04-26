@@ -168,20 +168,15 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	
 	<!-- 구독 유저 닉네임 조회 -->
 	<select id="selectSubList" resultMap="subscribeResultSet">
-	SELECT DISTINCT	
+	SELECT 
 				SUB_CODE	
 			,	U_NICKNAME
 			,	U_ID
-        	,   ID
         	,	SUB_STATUS
-        	,	A.ARTI_NAME_EN
-	FROM 		ATT_SUBSCRIBE A
-	JOIN 		BOARD ON(U_ID = ID)
-	WHERE		A.ARTI_NAME_EN = #{artiName}
+        	,	ARTI_NAME_EN
+	FROM 		ATT_SUBSCRIBE
+	WHERE		ARTI_NAME_EN = #{artiName}
 	ORDER BY SUB_CODE
-	
-	
-	
 	</select>
 	
 	<!-- 유저 프로필 사진 조회 -->

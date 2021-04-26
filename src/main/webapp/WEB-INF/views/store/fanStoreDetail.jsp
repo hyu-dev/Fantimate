@@ -316,7 +316,7 @@
  				writer : id,
  				refRid : refRid,
  				fanStoreWriter : fanStoreWriter,
- 				firstWriter : firstWriter
+ 				firstWriter : firstWriter,
 	 		}
 	 		// 댓글 ajax 호출
 	 		ajaxReply(url, data)
