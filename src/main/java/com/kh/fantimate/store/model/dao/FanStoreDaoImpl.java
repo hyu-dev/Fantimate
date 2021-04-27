@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.fantimate.common.model.vo.Attachment;
 import com.kh.fantimate.common.model.vo.Message;
 import com.kh.fantimate.common.model.vo.Reply;
 import com.kh.fantimate.common.model.vo.Report;
@@ -107,7 +108,6 @@ public class FanStoreDaoImpl implements FanStoreDao{
 
 	@Override
 	public List<ArtistGroup> selectArtiNameList(String search) {
-		System.out.println("DAO : " + search);
 		return sqlSession.selectList("fanStoreMapper.selectArtiNameList", search);
 	}
 
@@ -184,6 +184,91 @@ public class FanStoreDaoImpl implements FanStoreDao{
 	@Override
 	public List<ArtistGroup> selectHashTagList(String search) {
 		return sqlSession.selectList("fanStoreMapper.selectHashTagList", search);
+	}
+
+	@Override
+	public int insertFanStore(FanStore fstore) {
+		return sqlSession.insert("fanStoreMapper.insertFanStore", fstore);
+	}
+
+	@Override
+	public List<String> checkDuplication(List<String> tag) {
+		return sqlSession.selectList("fanStoreMapper.checkDuplication", tag);
+	}
+
+	@Override
+	public void insertHashTag(String t) {
+		sqlSession.insert("fanStoreMapper.insertHashTag", t);
+	}
+
+	@Override
+	public void insertEnrollTag() {
+		sqlSession.insert("fanStoreMapper.insertEnrollTag");
+	}
+
+	@Override
+	public int insertFanStoreAtt(List<Attachment> attList) {
+		return sqlSession.insert("fanStoreMapper.insertFanStoreAtt", attList);
+	}
+
+	@Override
+	public List<Integer> selectTagCodes(List<String> isDup) {
+		return sqlSession.selectList("fanStoreMapper.selectTagCodes", isDup);
+	}
+
+	@Override
+	public void updateEnrollTag(Integer tc) {
+		sqlSession.insert("fanStoreMapper.updateEnrollTag", tc);
+	}
+
+	@Override
+	public int updateFanStore(FanStore fstore) {
+		return sqlSession.update("fanStoreMapper.updateFanStore", fstore);
+	}
+
+	@Override
+	public List<HashTag> checkDuplicationUpdate(List<String> tag) {
+		return sqlSession.selectList("fanStoreMapper.checkDuplicationUpdate", tag);
+	}
+
+	@Override
+	public List<HashTag> selectEnrollTagList(Map map) {
+		return sqlSession.selectList("fanStoreMapper.selectEnrollTagList", map);
+	}
+
+	@Override
+	public void insertFanStoreEnrollTag(HashTag t) {
+		sqlSession.insert("fanStoreMapper.insertFanStoreEnrollTag", t);
+	}
+
+	@Override
+	public List<HashTag> selectOriginTagList(int fcode) {
+		return sqlSession.selectList("fanStoreMapper.selectOriginTagList", fcode);
+	}
+
+	@Override
+	public void deleteEnrollTag(Map map) {
+		sqlSession.delete("fanStoreMapper.deleteEnrollTag", map);
+	}
+
+	@Override
+	public List<Integer> selectAttCode(int fcode) {
+		return sqlSession.selectList("fanStoreMapper.selectAttCode", fcode);
+	}
+
+	@Override
+	public int updateFanStoreAtt(List<Attachment> attList) {
+		return sqlSession.update("fanStoreMapper.updateFanStoreAtt", attList);
+	}
+
+	@Override
+	public HashTag selectHashBySearch(Map map) {
+		return sqlSession.selectOne("fanStoreMapper.selectHashBySearch", map);
+	}
+
+	@Override
+	public void updateHashSearchCount(Map map) {
+		sqlSession.update("fanStoreMapper.updateHashSearchCount", map);
 	}
 	
 }

@@ -270,36 +270,41 @@
 	    })
 	
 	    // 검색창에 텍스트 입력시
-	    $(".fstore-search-content input").on('keyup', function() {
+	    $(".fstore-search-content input").on('keyup', function(e) {
 	    	var search = $(this).val()
 	        if(search == '') {
 	            $(this).siblings('.fstore-search-result').css('display', 'none');
 	        } else {
-	        	$(this).siblings('.fstore-search-result').css('display', 'block');
-	        	if($(this).prev().attr('src') == "${ contextPath }/resources/icon/hash-gray.png") {
-		        	// 상품명 검색시
-	        		var url = "${pageContext.request.contextPath}/fanStore/fNameList";
-	        		var data = {
-	        				areaCode: "${user.get(0).area.areaCode}",
-	        				search: search
-	        		}
-		            callAjaxSearch(url, data, '상품');
+	        	if(e.keyCode == 13) {
+	        		$(".fstore-search-content img:last-of-type").click();
 	        	} else {
-	        		// 해시코드 검색시
-	        		var url = "${pageContext.request.contextPath}/fanStore/hashList";
-	        		var data = {
-	        				areaCode: "${user.get(0).area.areaCode}",
-	        				search: search
-	        		}
-		            callAjaxSearch(url, data, '태그');
+	        		$(this).siblings('.fstore-search-result').css('display', 'block');
+		        	if($(this).prev().attr('src') == "${ contextPath }/resources/icon/hash-gray.png") {
+			        	// 상품명 검색시
+		        		var url = "${pageContext.request.contextPath}/fanStore/fNameList";
+		        		var data = {
+		        				areaCode: "${user.get(0).area.areaCode}",
+		        				search: search
+		        		}
+			            callAjaxSearch(url, data, '상품');
+		        	} else {
+		        		// 해시코드 검색시
+		        		var url = "${pageContext.request.contextPath}/fanStore/hashList";
+		        		var data = {
+		        				areaCode: "${user.get(0).area.areaCode}",
+		        				search: search
+		        		}
+			            callAjaxSearch(url, data, '태그');
+		        	}
 	        	}
 	        }
 	    })
-	    
 	    // 검색 영역 데이터 클릭시
 	    $(document).on('click', '.fstore-search-result p', function() {
 	    	$(".fstore-search-content input").val($(this).text())
+	    	$(".fstore-search-content img:last-of-type").click();
 	    	$('.fstore-search-result').css('display', 'none');
+	    	$(".fstore-search-content input").val("")
 	    });
 	
 	    // 내지역 버튼을 클릭했을 때

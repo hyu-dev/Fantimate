@@ -246,10 +246,9 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	</select>
 	<select id="selectHashList" resultMap="hashResultSet">
 		SELECT
-				TAG_CODE
+				DISTINCT(TAG_CODE)
 			  , TAG_NAME
 			  , SEARCH_COUNT
-              , F_CODE
 		  FROM
 		  		TAG
           JOIN
@@ -317,6 +316,30 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
            AND  TAG_NAME LIKE '%' || #{search} || '%'
       ORDER BY  TAG_NAME ASC
 	</select>
+	<select id="selectHashBySearch" parameterType="hashMap" resultMap="hashResultSet">
+		SELECT
+				DISTINCT(TAG_CODE)
+			  , TAG_NAME
+			  , SEARCH_COUNT
+		  FROM
+		  		TAG
+          JOIN
+                ENROLL_TAG USING(TAG_CODE)
+          LEFT JOIN
+                F_STORE USING(F_CODE)
+         WHERE
+         		AREA_CODE = #{areaCode}
+           AND  TAG_NAME = #{search}
+      ORDER BY  TAG_NAME ASC
+	</select>
+	<update id="updateHashSearchCount" parameterType="hashMap">
+		UPDATE
+				TAG
+		   SET
+		   		SEARCH_COUNT = SEARCH_COUNT + 1
+		 WHERE
+		 		TAG_NAME = #{search}
+	</update>
 	<select id="selectFNameListBySearch" parameterType="hashMap" resultMap="fstoreResultSet">
 		SELECT
 				F_CODE
@@ -763,4 +786,207 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		  , #{refId}
 		)
 	</insert>
+	<insert id="insertFanStore" parameterType="FanStore">
+		INSERT
+		INTO F_STORE
+		(
+			F_CODE
+		  , F_NAME
+		  , OFFER_PRICE
+		  , CONTECT
+		  , DEAL
+		  , F_INFO
+		  , IS_ACTIVE
+		  , ID
+		  , AREA_CODE
+		  , ARTI_NAME_EN
+		)
+		VALUES
+		(
+			SEQ_F_STORE.NEXTVAL
+		  , #{fname}
+		  , #{offerPrice}
+		  , #{contact}
+		  , #{deal}
+		  , #{finfo}
+		  , DEFAULT
+		  , #{id}
+		  , #{areaCode}
+		  , #{artiNameEn}
+		)
+	</insert>
+	<select id="checkDuplication" resultType="String">
+		SELECT TAG_NAME
+		FROM TAG
+		WHERE TAG_NAME IN
+		<foreach collection="list" item="i" open="(" close=")" separator=",">
+		#{i}
+		</foreach>
+	</select>
+	<insert id="insertHashTag" parameterType="String">
+		INSERT
+		INTO TAG
+		(
+			TAG_CODE
+		  , TAG_NAME
+		  , SEARCH_COUNT
+		)
+		VALUES
+		(
+			SEQ_TAG.NEXTVAL
+		  , #{t}
+		  , DEFAULT
+		)
+	</insert>
+	<insert id="insertEnrollTag">
+		INSERT
+		INTO ENROLL_TAG
+		(
+			F_CODE
+		  , TAG_CODE
+		)
+		VALUES
+		(
+			SEQ_F_STORE.CURRVAL
+		  , SEQ_TAG.CURRVAL
+		)
+	</insert>
+	<insert id="insertFanStoreAtt" parameterType="list">
+		INSERT
+		INTO ATT_FSTORE
+		(
+			ATT_CODE
+		  , F_CODE
+		  , ATT_CL_NAME
+		  , ATT_SV_NAME
+		  , ATT_STATUS
+		  , IS_MAIN_ATT
+
+		)
+		SELECT SEQ_ATT_FSTORE.NEXTVAL, SEQ_F_STORE.CURRVAL, A.*
+		FROM
+		(
+			<foreach collection="list" item="i" separator="UNION ALL">
+			SELECT  #{i.attClName} AS ATT_CL_NAME
+				  , #{i.attSvName} AS ATT_SV_NAME
+				  , #{i.attStatus} AS ATT_STATUS
+				  , #{i.attMain} AS IS_MAIN_ATT
+			  FROM  DUAL
+			</foreach>
+		) A
+	</insert>
+	<select id="selectTagCodes" parameterType="list" resultType="_int">
+		SELECT TAG_CODE
+		FROM TAG
+		WHERE TAG_NAME IN
+		<foreach collection="list" item="i" open="(" close=")" separator=",">
+		#{i}
+		</foreach>
+	</select>
+	<insert id="updateEnrollTag" parameterType="_int">
+		INSERT
+		INTO ENROLL_TAG
+		(
+			F_CODE
+		  , TAG_CODE
+		)
+		VALUES
+		(
+			SEQ_F_STORE.CURRVAL
+		  , #{tc}
+		)
+	</insert>
+	<select id="checkDuplicationUpdate" parameterType="string" resultMap="hashResultSet">
+		SELECT TAG_CODE, TAG_NAME
+		FROM TAG
+		WHERE TAG_NAME IN
+		<foreach collection="list" item="i" open="(" close=")" separator=",">
+		#{i}
+		</foreach>
+	</select>
+	<update id="updateFanStore" parameterType="FanStore">
+		UPDATE
+				F_STORE
+		   SET
+			    F_NAME = #{fname}
+			  , OFFER_PRICE = #{offerPrice}
+			  , CONTECT = #{contact}
+			  , DEAL = #{deal}
+			  , F_INFO = #{finfo}
+			  , AREA_CODE = #{areaCode}
+			  , ARTI_NAME_EN = #{artiNameEn}
+		 WHERE
+		 		F_CODE = #{fcode}
+	</update>
+	<select id="selectEnrollTagList" parameterType="hashMap" resultMap="hashResultSet">
+		SELECT 
+				TAG_CODE
+			  , TAG_NAME
+			  , F_CODE
+		  FROM 
+		  		ENROLL_TAG
+		  LEFT JOIN
+		  		TAG USING(TAG_CODE)
+		 WHERE 
+		 		TAG_NAME IN
+		 		<foreach collection="isDup" item="i" open="(" close=")" separator=",">
+				#{i}
+				</foreach>
+		   AND F_CODE = #{fcode}
+	</select>
+	<insert id="insertFanStoreEnrollTag" parameterType="hashTag">
+		INSERT
+		INTO ENROLL_TAG
+		(
+			F_CODE
+		  , TAG_CODE
+		)
+		VALUES
+		(
+			#{fcode}
+		  , #{tagCode}
+		)
+	</insert>
+	<select id="selectOriginTagList" parameterType="_int" resultMap="hashResultSet">
+		SELECT 
+				TAG_CODE
+			  , TAG_NAME
+		  FROM 
+		  		ENROLL_TAG
+		  LEFT JOIN 
+		  		TAG USING(TAG_CODE)
+		 WHERE 
+		 		F_CODE = #{fcode}
+	</select>
+	<delete id="deleteEnrollTag" parameterType="hashMap">
+		DELETE
+		FROM ENROLL_TAG
+		WHERE
+				TAG_CODE IN
+				<foreach collection="originTagList" item="i" open="(" close=")" separator=",">
+				#{i.tagCode}
+				</foreach>
+		  AND
+		  		F_CODE = #{fcode}
+	</delete>
+	<select id="selectAttCode" parameterType="_int" resultType="integer">
+		SELECT
+				ATT_CODE
+		  FROM
+		  		ATT_FSTORE
+		 WHERE
+		 		F_CODE = #{fcode}
+	</select>
+	<update id="updateFanStoreAtt">
+		<foreach collection="list" item="i" open="BEGIN" close="; END;" separator=";">
+		UPDATE
+				ATT_FSTORE
+		   SET
+			  	ATT_CL_NAME = #{i.attClName}
+			  , ATT_SV_NAME = #{i.attSvName}
+			  , IS_MAIN_ATT = #{i.attMain}
+		 WHERE
+		 		ATT_CODE = #{i.attCode}
+		</foreach>
+	</update>
 </mapper>
