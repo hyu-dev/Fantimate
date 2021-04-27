@@ -13,6 +13,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<result property="isPay" column="IS_PAY"/>
 		<result property="cateCode" column="CATE_CODE"/>
 		<result property="mediaPay" column="MEDIA_PAY"/>
+		<result property="mediaCount" column="MEDIA_COUNT"/>
 	</resultMap>
 	<!-- 미디어 카테고리 -->
 	<resultMap type="Category" id="category">
@@ -37,19 +38,20 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<result property="count" column="COUNT"/>
 		<result property="countDate" column="COUNT_DATE"/>
 	</resultMap>
-	<!-- 미디어 컬렉션 -->
-	<resultMap type="MediaCollection" id="mediaCollResultSet">
-		<collection property="official" resultMap="mediaResultSet"/>
-		<collection property="category" resultMap="category"/>
-		<collection property="mediaFile" resultMap="mediaFileResultSet"/>
-		<collection property="hitCount" resultMap="hitCountResultSet"/>
-	</resultMap>
 	<!-- 미디어 북마크 -->
 	<resultMap type="BookMark" id="bookMarkResultSet">
 		<id property="id" column="ID"/>
 		<result property="refId" column="BID"/>
 		<result property="bmCreate" column="BMCREATE"/>
 		<result property="bmstatus" column="BM_STATUS"/>
+	</resultMap>
+	<!-- 미디어 컬렉션 -->
+	<resultMap type="MediaCollection" id="mediaCollResultSet">
+		<collection property="official" resultMap="mediaResultSet"/>
+		<collection property="category" resultMap="category"/>
+		<collection property="mediaFile" resultMap="mediaFileResultSet"/>
+		<collection property="hitCount" resultMap="hitCountResultSet"/>
+		<collection property="bookmark" resultMap="bookMarkResultSet"/>
 	</resultMap>
 	
 	<!-- 스케줄 -->
@@ -154,6 +156,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	     , MEDIA_STATUS
 	     , IS_PAY
 	     , MEDIA_PAY
+	     , MEDIA_COUNT
          , CATE_CODE
          , CATE_NAME
          , ARTI_NAME_EN
@@ -194,6 +197,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 			     , MEDIA_STATUS
 			     , IS_PAY
 			     , MEDIA_PAY
+			     , MEDIA_COUNT
 		         , CATE_CODE
 		         , CATE_NAME
 		         , ARTI_NAME_EN
@@ -282,6 +286,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	     , MEDIA_STATUS
 	     , IS_PAY
 	     , MEDIA_PAY
+	     , MEDIA_COUNT
          , CATE_CODE
          , CATE_NAME
          , ARTI_NAME_EN
@@ -326,6 +331,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	     , MEDIA_STATUS
 	     , IS_PAY
 	     , MEDIA_PAY
+	     , MEDIA_COUNT
          , CATE_CODE
          , CATE_NAME
          , ARTI_NAME_EN	     
@@ -378,6 +384,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	     , MEDIA_STATUS
 	     , IS_PAY
 	     , MEDIA_PAY
+	     , MEDIA_COUNT
          , CATE_CODE
          , CATE_NAME
          , ARTI_NAME_EN
@@ -409,8 +416,8 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	</select>
 	
 	<!-- 클릭한 미디어 조회수 추가 -->
-	<update id="updateHitCount" parameterType="_int">
-     MERGE 
+	<insert id="insertHitCount" parameterType="_int">
+<!--      MERGE 
       INTO 
            MD_COUNT
      USING 
@@ -427,7 +434,28 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
     INSERT 
            (COUNT, COUNT_DATE, MEDIA_NUM)
     VALUES 
-           (DEFAULT, SYSDATE, #{mediaNum})
+           (DEFAULT, SYSDATE, #{mediaNum}) -->
+	INSERT
+	      (
+	       COUNT
+	     , COUNT_DATE
+	     , MEDIA_NUM
+	      )
+    VALUES
+    	  (
+    	   DEFAULT
+    	 , SYSDATE
+    	 , #{mediaNum}
+    	  )
+	</insert>
+	
+	<update id="updateMediaCount" parameterType="_int">
+	UPDATE 
+		   MEDIA
+	   SET
+	       MEDIA_COUNT = MEDIA_COUNT + 1
+     WHERE
+           MEDIA_NUM = #{mediaNum}
 	</update>
 	
 	<!-- 북마크 여부 확인 -->

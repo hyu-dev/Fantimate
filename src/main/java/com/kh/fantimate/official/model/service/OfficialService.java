@@ -45,7 +45,7 @@ public interface OfficialService {
 	public MediaCollection selectMedia(Map<Object, Object> map);
 	
 	// 클릭한 미디어 조회수 추가
-	public int updateHitCount(int mediaNum);
+	public int insertHitCount(int mediaNum);
 	
 	// 북마크 여부 확인
 	public BookMark selectBookMark(int mediaNum);

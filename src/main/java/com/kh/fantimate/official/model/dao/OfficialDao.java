@@ -47,8 +47,8 @@ public interface OfficialDao {
 	MediaCollection selectMedia(Map<Object, Object> map);
 
 	// 클릭한 미디어 조회수 추가
-	int updateHitCount(int mediaNum);
-	
+	int insertHitCount(int mediaNum);
+
 	// 북마크 여부 확인
 	BookMark selectBookMark(int mediaNum);
 

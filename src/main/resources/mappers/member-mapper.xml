@@ -280,7 +280,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	</select>
 	
 	<!-- 아티스트 테이블 select -->
-	<select id="selectArtist" parameterType="Artist" resultMap="artistCollResultSet">
+	<select id="selectArtist" parameterType="string" resultMap="artistCollResultSet">
       SELECT
 	         ARTI_ID
 	       , ARTI_ONE_NAME
