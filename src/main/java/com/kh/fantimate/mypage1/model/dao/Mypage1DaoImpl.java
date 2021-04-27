@@ -7,14 +7,15 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.fantimate.common.model.vo.Attachment;
 import com.kh.fantimate.common.model.vo.Friend;
 import com.kh.fantimate.common.model.vo.Report;
 import com.kh.fantimate.member.model.vo.Agency;
 import com.kh.fantimate.member.model.vo.Member;
 import com.kh.fantimate.mypage1.model.vo.FriendPageInfo;
 import com.kh.fantimate.mypage1.model.vo.ReportPageInfo;
-import com.kh.fantimate.mypage1.model.vo.UserPaymentCol;
 import com.kh.fantimate.mypage1.model.vo.UserPaymentCol2;
+import com.kh.fantimate.mypage1.model.vo.UserUpdateVo;
 
 @Repository
 public class Mypage1DaoImpl implements Mypage1Dao{
@@ -196,6 +197,42 @@ public class Mypage1DaoImpl implements Mypage1Dao{
 	@Override
 	public int userpaymentSConfirmUpdateC(UserPaymentCol2 u) {
 		return sqlSession.update("mypage1Mapper.userpaymentSConfirmUpdateC", u);
+	}
+
+	@Override
+	public Attachment selectProfile(Member m) {
+		return sqlSession.selectOne("mypage1Mapper.selectProfile", m);
+	}
+
+	@Override
+	public int insertProfile(Attachment newAtt) {
+		return sqlSession.insert("mypage1Mapper.insertProfile", newAtt);
+	}
+
+	@Override
+	public int updateProfile(Attachment upAtt) {
+		return sqlSession.update("mypage1Mapper.updateProfile", upAtt);
+	}
+
+	@Override
+	public int updateProfileInfo(UserUpdateVo updateUser) {
+		int result1 = sqlSession.update("mypage1Mapper.updatePwdUser", updateUser);
+		int result2 = sqlSession.update("mypage1Mapper.updateEamilUser", updateUser);
+		System.out.println("프로필 업데이트 변경 결과");
+		System.out.println("resutl1(비번) : " + result1);
+		System.out.println("resutl2(이메일) : " + result2);
+		if(result1 > 0 && result2 > 0) {
+			System.out.println("정상 변경");
+		return result1 + result2;
+		}else {
+			System.out.println("프로필 정보 변경실패");
+			return -1;
+		}
+	}
+
+	@Override
+	public int updateUpStatusUser(Member tempProfile) {
+		return sqlSession.update("mypage1Mapper.updateUpStatusUser", tempProfile);
 	}
 
 

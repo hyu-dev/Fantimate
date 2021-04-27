@@ -8,7 +8,7 @@
 </head>
 <body>
 	<!-- 네비바 -->
-	<jsp:include page="../../common/navbar.jsp"></jsp:include>
+	<jsp:include page="../../common/navbar.jsp"/>
 	
 	<!--소속사 정보 등록창 -->
 	<jsp:include page="insertAgency.jsp"/>

@@ -2,15 +2,15 @@ package com.kh.fantimate.mypage1.model.dao;
 
 import java.util.List;
 
+import com.kh.fantimate.common.model.vo.Attachment;
 import com.kh.fantimate.common.model.vo.Friend;
 import com.kh.fantimate.common.model.vo.Report;
 import com.kh.fantimate.member.model.vo.Agency;
 import com.kh.fantimate.member.model.vo.Member;
 import com.kh.fantimate.mypage1.model.vo.FriendPageInfo;
 import com.kh.fantimate.mypage1.model.vo.ReportPageInfo;
-import com.kh.fantimate.mypage1.model.vo.UserPaymentCol;
 import com.kh.fantimate.mypage1.model.vo.UserPaymentCol2;
-import com.kh.fantimate.mypage1.model.vo.UserPaymentCol2;
+import com.kh.fantimate.mypage1.model.vo.UserUpdateVo;
 
 public interface Mypage1Dao {
 	
@@ -63,6 +63,16 @@ public interface Mypage1Dao {
 	public int userpaymentMConfirmUpdateP(UserPaymentCol2 u);
 
 	public int userpaymentSConfirmUpdateC(UserPaymentCol2 u);
+
+	public Attachment selectProfile(Member m);
+
+	public int insertProfile(Attachment newAtt);
+
+	public int updateProfile(Attachment upAtt);
+
+	public int updateProfileInfo(UserUpdateVo updateUser);
+
+	public int updateUpStatusUser(Member tempProfile);
 
 
 }

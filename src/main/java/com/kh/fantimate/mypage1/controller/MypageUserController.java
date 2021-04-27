@@ -13,16 +13,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.kh.fantimate.common.model.vo.Attachment;
 import com.kh.fantimate.common.model.vo.Friend;
 import com.kh.fantimate.member.model.vo.Member;
+import com.kh.fantimate.member.model.vo.User;
 import com.kh.fantimate.mypage1.model.Service.Mypage1Service;
 import com.kh.fantimate.mypage1.model.vo.FriendPageInfo;
 import com.kh.fantimate.mypage1.model.vo.UserPaymentCol2;
+import com.kh.fantimate.mypage1.model.vo.UserUpdateVo;
 import com.kh.fantimate.pay.model.vo.Cart;
 import com.kh.fantimate.pay.model.vo.Payment;
 
@@ -31,8 +37,135 @@ import com.kh.fantimate.pay.model.vo.Payment;
 public class MypageUserController {
 	@Autowired
 	private Mypage1Service mService;
-	
-	
+		
+		
+		// 회원정보 수정
+		@PostMapping("/update")
+		public String userUpdate(
+				@ModelAttribute("loginUser") Member common,
+				@ModelAttribute("User") User user,
+				Model model,
+				RedirectAttributes rd,
+				@RequestParam(value="uploadfile") MultipartFile file,
+				HttpServletRequest request,
+				HttpSession session) {
+			
+			System.out.println("회원정보수정 전달");
+			//		System.out.println("Member(Common) 객체 : " + common);
+			System.out.println("User 객체 : " + user);
+			String paramId = ((Member)request.getSession().getAttribute("loginUser")).getId();
+			// 원래 프로필 파일 조회
+			Attachment userAtt = mService.selectProfile(((Member)request.getSession().getAttribute("loginUser")));
+			System.out.println("userAtt : " + userAtt);
+			// 프로필 저장 경로(미리선언)
+			String savePath = session.getServletContext().getRealPath("resources") + "\\images\\mypage\\user\\profile\\" + paramId;
+
+			UserUpdateVo updateUser = new UserUpdateVo();
+
+			Member m12 = new Member();
+			m12.setId(paramId);
+			m12.setPwd(common.getPwd());
+			updateUser.setCommon(m12);
+
+			User m13 = new User();
+			m13.setUemail(user.getUemail());
+			updateUser.setUser(m13);
+
+
+			int upResult = mService.updateProfileInfo(updateUser);	
+
+			//프로필정보가 제대로 바꼇다면
+			if(upResult > 0) {
+
+				// 업로드 파일이 있다면 삭제하기
+				if(!file.isEmpty()) {
+					// 파일 원본이름 배열
+					String[] originFileNameAndJPEG = file.getOriginalFilename().split("\\."); 
+					String fileExt = originFileNameAndJPEG[1];
+
+
+					System.out.println("file.getOriginalFilename() 왜 오류뜨지 : " + file.getOriginalFilename());
+					System.out.println("확장자 : " + fileExt);
+
+					// 첫 업로드라면 seq 통해 컬럼먼저 생성
+					System.out.println("userAtt 비어있니? : " + userAtt);
+					if(userAtt == null) {
+						//				if(userAtt.getAttSvName() == null) {
+
+						Attachment newAtt = new Attachment();
+						newAtt.setAttClName(file.getOriginalFilename());	// 올린 원본이름 그대로 저장
+						newAtt.setAttSvName(paramId + fileExt);	// 유저아이디 + 확장자로 저장
+						newAtt.setId(paramId);
+						int result = mService.insertProfile(newAtt);
+
+						if(result < 0) {
+							System.out.println("컬럼생성 오류");
+							return "";
+						}
+
+					}
+					//			// 기존 프로필(userAtt) 파일 삭제하기
+					if(userAtt != null) {
+						String fileName = userAtt.getAttClName();
+						File deleteFile = new File(savePath + "\\" + fileName);
+
+						// 기존 파일 삭제
+						if(deleteFile.exists()) {
+							deleteFile.delete();
+							System.out.println("기존 프로필 삭제 완료");
+						}
+					}
+					// 혹시 처음 업로드라면 경로생성
+					File folder = new File(savePath);
+					if(!folder.exists()) folder.mkdirs();
+
+					System.out.println("savePath : " + savePath);
+					// 파일 생성하기
+					String originalFileName = file.getOriginalFilename();
+					System.out.println("originalFileName : " + originalFileName );
+					String renameFileName = paramId + "." + fileExt;
+					System.out.println("renameFileName : " + renameFileName);
+
+					try {
+						file.transferTo(new File(savePath + "\\" + renameFileName));
+					} catch (IllegalStateException | IOException e) {
+						System.out.println("파일 업로드 에러 : " + e.getMessage());
+					}
+					System.out.println("프로필 저장 정상 수행");
+
+					// 변경될 sv, cv네임 id 넘겨주기
+					Attachment upAtt = new Attachment();
+					upAtt.setAttClName(file.getOriginalFilename());
+					upAtt.setAttSvName(renameFileName);
+					upAtt.setId(paramId);
+					int result = mService.updateProfile(upAtt);
+					System.out.println("updateProfile result : " + result);
+					if(result > 0) {
+
+					}
+
+					// 파일 삭제하기 전에 USER_PROFILE의 UP_STATUS컬럼을 Y로 변경해준다.	(N일경우만 Y로 해줘도 되지만 일단은 다 Y로 변경)
+					Member tempProfile = new Member();
+					tempProfile.setStatus("Y");
+					int upstatus = mService.updateUpStatusUser(tempProfile);
+					if(upstatus < 0) {
+						System.out.println("Y로 변경 실패");
+						return "";
+					}
+				}
+			}
+			return "redirect:/mypage/user/payments";
+		}
+////////////////////////////////////////////////////////////////////////////////////////////	
+		
+		
+		
+		
+		
+		
+		
+		
+		
 	// 재우추가
 		@GetMapping("/feed")
 		public ModelAndView userMyFeed(ModelAndView mv) {
@@ -364,7 +497,7 @@ public class MypageUserController {
 			return "redirect:/mypage/user/payments";
 		}
 		
-		//파일 저장 아직
+		//파일 저장 아직(참고용)
 		private String saveFile(MultipartFile file, HttpServletRequest request) {
 			String root = request.getSession().getServletContext().getRealPath("resources");
 			System.out.println(root);

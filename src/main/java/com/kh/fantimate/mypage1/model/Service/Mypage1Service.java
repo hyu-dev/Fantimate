@@ -2,6 +2,7 @@ package com.kh.fantimate.mypage1.model.Service;
 
 import java.util.List;
 
+import com.kh.fantimate.common.model.vo.Attachment;
 import com.kh.fantimate.common.model.vo.Friend;
 import com.kh.fantimate.common.model.vo.Notice;
 import com.kh.fantimate.common.model.vo.PageInfo;
@@ -10,8 +11,8 @@ import com.kh.fantimate.member.model.vo.Agency;
 import com.kh.fantimate.member.model.vo.Member;
 import com.kh.fantimate.mypage1.model.vo.FriendPageInfo;
 import com.kh.fantimate.mypage1.model.vo.ReportPageInfo;
-import com.kh.fantimate.mypage1.model.vo.UserPaymentCol;
 import com.kh.fantimate.mypage1.model.vo.UserPaymentCol2;
+import com.kh.fantimate.mypage1.model.vo.UserUpdateVo;
 
 public interface Mypage1Service {
 	//  Notice List All 카운트(0)
@@ -83,6 +84,18 @@ public interface Mypage1Service {
 	
 	// 1개일떄 스토어 구매확정
 	public int userpaymentSConfirmUpdateC(UserPaymentCol2 u);
+
+	// 프로필 조회
+	public Attachment selectProfile(Member m);
+
+	// 프로필 컬럼 생성(USER_PROFILE)
+	public int insertProfile(Attachment newAtt);
+	// 프로필 업데이트
+	public int updateProfile(Attachment upAtt);
+
+	public int updateProfileInfo(UserUpdateVo updateUser);
+	// 
+	public int updateUpStatusUser(Member tempProfile);
 
 	
 	
