@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="artistfeedMapper">
+	<resultMap id="artistfeedResultSet" type="Feed">
+		<id property="fid" column="BID"/>
+		<result property="ftype" column="BTYPE"/>
+		<result property="fcontent" column="BCONTENT"/>
+		<result property="fcreate" column="BCREATE"/>
+		<result property="fmodify" column="BMODIFY"/>
+		<result property="flike" column="BLIKE"/>
+		<result property="fstatus" column="BSTATUS"/>
+		<result property="writer" column="ID"/>
+		<result property="artiName" column="ARTI_NAME_EN"/>
+	</resultMap>
+	
+	<resultMap type="AttachmentF" id="attResultSet">
+		<id property="attCode" column="BPID"/>
+		<result property="attRoot" column="BP_PATH"/>
+		<result property="attClName" column="BP_OGNAME"/>
+		<result property="attSvName" column="BP_CHNAME"/>
+		<result property="attStatus" column="AB_STATUS"/>
+		<result property="refId" column="BID"/>
+	</resultMap>
+	
+	<resultMap type="Attachment" id="artiattResultSet">
+		<id property="attCode" column="ATT_CODE"/>
+		<result property="attRoot" column="ATT_ROOT"/>
+		<result property="attClName" column="ATT_CL_NAME"/>
+		<result property="attSvName" column="ATT_SV_NAME"/>
+		<result property="attStatus" column="ATT_STATUS"/>
+		<result property="refuid" column="ARTI_ID"/>
+	</resultMap>
+	
+	<resultMap type="Artist" id="artiinfoRresultSet">
+		<id property="artiId" column="ARTI_ID"/>
+		<result property="artiName" column="ARTI_ONE_NAME"/>
+		<result property="artiNickname" column="NICKNAME"/>
+		<result property="artiFacebook" column="FACEBOOK"/>
+		<result property="artiInsta" column="INSTAGRAM"/>
+		<result property="artiTwitter" column="TWITTER"/>
+		<result property="artiDailymsg" column="DAILY_MSG"/>
+		<result property="isTeam" column="IS_TEAM"/>
+		<result property="agencyId" column="ID"/>
+		<result property="artiNameEn" column="ARTI_NAME_EN"/>
+	</resultMap>
+	
+	<resultMap type="Subscribe" id="subscribeResultSet">
+		<id property="subCode" column="SUB_CODE"/>
+		<result property="uid" column="U_ID"/>
+		<result property="unickname" column="U_NICKNAME"/>
+		<result property="subStatus" column="SUB_STATUS"/>
+		<result property="artiname" column="ARTI_NAME_EN"/>
+	</resultMap>
+	
+	<resultMap type="ArtistCollection" id="artistcollectionResultSet">
+		<collection property="artist" resultMap="artiinfoRresultSet"/>
+		<collection property="attachment" resultMap="artiattResultSet"/>
+	</resultMap>
+
+	<!-- 게시글 등록 -->
+	<insert id="insertFeed">
+		INSERT
+		INTO BOARD
+		(
+						BID
+					,	BTYPE
+					,	BCONTENT
+					,	BCREATE
+					,	BMODIFY
+					,	BLIKE
+					,	BSTATUS
+					,	ID
+					,	ARTI_NAME_EN	
+		)
+		VALUES
+		(
+					SEQ_BOARD.NEXTVAL
+				,	'A'
+				,	#{fcontent}
+				,	SYSDATE
+				,	SYSDATE
+				,	DEFAULT
+				,	DEFAULT
+				,	#{writer}
+				,	#{artiName}
+		)
+	</insert>
+	
+	<!-- 게시글 사진 등록 -->
+	<insert id="insertFeedAtt">
+		
+		<foreach collection="list" item="i" index="index" open="INSERT ALL" close="SELECT * FROM DUAL">
+		
+		INTO ATT_BOARD
+		(
+					BPID
+				,	BP_PATH
+				,	BP_OGNAME
+				,	BP_CHNAME
+				,	AB_STATUS
+				,	BID		
+		)
+		VALUES
+		(
+					#{index} + SEQ_ATT_BOARD.NEXTVAL
+				,	DEFAULT
+				,	#{i.attClName}
+		  		, 	#{i.attSvName}
+		  		,	DEFAULT
+		  		,	SEQ_BOARD.CURRVAL		
+		)
+		
+		</foreach>
+	</insert>
+
+	<!-- 게시글 조회 -->
+	<select id="selectFeedList" parameterType="string" resultMap="artistfeedResultSet">
+		SELECT
+					BID
+				,	BCONTENT
+				,	BCREATE
+				,	BMODIFY
+				,	BLIKE
+				,	BSTATUS
+				,	ID
+				,	BTYPE
+				,	ARTI_NAME_EN
+				
+		FROM
+					BOARD
+		
+		WHERE
+					BTYPE = 'A'
+		AND			BSTATUS = 'Y'
+		AND			ARTI_NAME_EN = #{artiName}
+		ORDER BY 	BCREATE DESC
+	</select>
+
+	<!-- 아티스트 프로필 사진 조회 -->
+	<select id="selectApList" resultMap="artiattResultSet">
+	
+	SELECT
+					ATT_CODE
+				,	ATT_ROOT
+				,	ATT_CL_NAME
+				,	ATT_SV_NAME
+				,	ATT_STATUS
+				,	ARTI_ID
+	FROM
+					ART_PIC		
+	</select>
+	
+	<!-- 아티스트 개인정보 조회 -->
+	<select id="selectaList" resultMap="artiinfoRresultSet">
+	SELECT
+					ARTI_ID
+				,	ARTI_ONE_NAME
+				,	NICKNAME
+				,	FACEBOOK
+				,	INSTAGRAM
+				,	TWITTER
+				,	DAILY_MSG
+				,	IS_TEAM
+				,	ID
+				,	ARTI_NAME_EN
+	FROM
+					ART_PERSON	
+	</select>
+	
+	<!-- 게시글 사진 조회 -->
+	<select id="selectfpList" resultMap="attResultSet">
+	SELECT
+					BPID
+				,	BP_PATH
+				,	BP_OGNAME
+				,	BP_CHNAME
+				,	AB_STATUS
+				,	BID
+	FROM
+					ATT_BOARD
+	ORDER BY 		BPID DESC
+	</select>
+
+	<!-- 게시글 삭제 활성화 처리 -->
+	<update id="deleteFeed" parameterType="_int">
+		UPDATE 
+		       BOARD
+		   SET 
+		       BSTATUS = 'N'
+		 WHERE 
+		       BID = #{fid}
+	</update>
+
+	<!-- 구독자들 조회 -->
+	<select id="selectsbList" resultMap="subscribeResultSet">
+	SELECT 	
+				SUB_CODE	
+			,	U_NICKNAME
+			,	U_ID
+        	,	SUB_STATUS
+        	,	ARTI_NAME_EN
+	FROM 		
+				ATT_SUBSCRIBE
+	WHERE
+				ARTI_NAME_EN = #{artiName} 
+	ORDER BY SUB_CODE
+	</select>
+
+	<!-- 아티스트가 새 글 작성 시 구독자들에게 알람 -->
+	<insert id="insertsubAlarm">
+	<foreach collection="list" item="i" index="index" open="INSERT ALL" close="SELECT * FROM DUAL">	
+		INTO ALARM
+		(
+					AL_MADE_CODE
+				,	AL_CONTENT
+				,	AL_TIME
+				,	AL_STATUS
+				,	AL_CODE
+				,	ID
+						
+		)
+		VALUES
+		(
+					#{index} + SEQ_ALARM.NEXTVAL
+				,	#{i.artiname} || '님이 새글을 작성하였습니다.'
+				,	SYSDATE
+		  		, 	DEFAULT
+		  		,	'1'
+		  		,	#{i.uid}		
+		)
+	</foreach>
+	</insert>
+
+	<!-- 그룹별 아티스트 멤버 조회 -->
+	<select id="selectgmList" resultMap="artiinfoRresultSet">
+	SELECT
+					ARTI_ID
+				,	ARTI_ONE_NAME
+				,	NICKNAME
+				,	FACEBOOK
+				,	INSTAGRAM
+				,	TWITTER
+				,	DAILY_MSG
+				,	IS_TEAM
+				,	ID
+				,	ARTI_NAME_EN
+	FROM
+					ART_PERSON
+	WHERE
+					ARTI_NAME_EN = #{artiNameEn}	
+	</select>
+
+	<!-- 그룹별 아티스트멤버 정보(사진포함) 조회 -->
+	<select id="selectacList" resultMap="artistcollectionResultSet">
+	SELECT
+					ARTI_ID
+				,	ARTI_ONE_NAME
+				,	NICKNAME
+				,	FACEBOOK
+				,	INSTAGRAM
+				,	TWITTER
+				,	DAILY_MSG
+				,	IS_TEAM
+				,	ID
+				,	ARTI_NAME_EN
+				,	ATT_CODE
+				,	ATT_ROOT
+				,	ATT_CL_NAME
+				,	ATT_SV_NAME
+				,	ATT_STATUS
+				,	ARTI_ID
+	FROM 			
+					ART_PERSON
+	JOIN 			ART_PIC USING(ARTI_ID)
+	WHERE 			ARTI_NAME_EN = #{artiNameEn}
+				
+	</select>
+	
+	<!-- 멤버별 게시글 조회 -->
+	<select id="selectMember" parameterType="string" resultMap="artistfeedResultSet">
+	SELECT
+					BID
+				,	BCONTENT
+				,	BCREATE
+				,	BMODIFY
+				,	BLIKE
+				,	BSTATUS
+				,	ID
+				,	BTYPE
+				,	ARTI_NAME_EN
+				
+		FROM
+					BOARD
+		WHERE		ID = #{writer}
+	
+	</select>
+
+
+
+</mapper>

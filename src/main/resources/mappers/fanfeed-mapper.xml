@@ -297,7 +297,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 					B_REPLY
 	
 	ORDER BY
-				BRCREATE				
+				BRCREATE DESC				
 	</select>
 	
 	<!-- fid로 게시글 조회 -->
@@ -657,5 +657,14 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 			,	ARTI_NAME_EN
 	FROM		
 				ART_PERSON
+	</select>
+	
+	<!-- 게시글 당 사진 갯수 조회 -->
+	<select id="selectptListCount" resultType="_int">
+	SELECT 	COUNT(BP_CHNAME)
+	FROM 	ATT_BOARD
+	WHERE 	BID = #{refId}
+	
+	
 	</select>			
 </mapper>

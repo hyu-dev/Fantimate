@@ -6,6 +6,7 @@ import java.io.File;
 
 
 
+
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -94,6 +95,13 @@ public class FanFeedController {
 		
 		List<AttachmentF> ptlist = fService.selectptList();
 		System.out.println("게시글 사진 리스트 : " + ptlist);
+		
+		
+		
+	//	AttachmentF ptc = fService.selectptListCount();
+	//	System.out.println("사진 갯수 : " + ptc);
+		
+		
 		
 		List<FeedCollection> flist = fService.selectfcList();
 		System.out.println("컬렉션 리스트 : " + flist);
@@ -199,7 +207,7 @@ public class FanFeedController {
 		// 3. 게시글은 있고 첨부사진은 없거나
 		int result = fService.insertFeed(f, attList);
 		
-		if(result > 0 ) {
+		if(result > 0) {
 			request.getSession().setAttribute("msg", "게시글이 등록되었습니다.");
 			response.sendRedirect("fanFeedList?artNameEn=" + artiName);
 		} else {
@@ -704,6 +712,10 @@ public class FanFeedController {
 //		List<Attachment> atlist = fService.selectatList();
 //		System.out.println("유저 프로필 사진 리스트 : " + atlist);
 		
+		// 게시글당 사진 갯수 구하기
+		int ptlistCount = fService.selectptListCount(fid);
+		System.out.println("사진 갯수 : " + ptlistCount);
+		
 		if(ptlist != null && !ptlist.isEmpty()) {
 			// artiName 세션에 저장
 			HttpSession session = request.getSession(); // 세션을 생성해서
@@ -714,6 +726,7 @@ public class FanFeedController {
 		//	mv.addObject("rlist", rlist);
 			mv.addObject("ptlist", ptlist);
 		//	mv.addObject("atlist", atlist);
+			mv.addObject("ptlistCount", ptlistCount);
 			mv.setViewName("fanfeed/fanfeedDetail");
 			
 		} //else {

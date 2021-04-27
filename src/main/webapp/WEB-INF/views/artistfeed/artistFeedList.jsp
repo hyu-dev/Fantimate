@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="contextPath" value="${ pageContext.servletContext.contextPath }" scope="application" />   
 <!DOCTYPE html>
 <html>
@@ -10,7 +11,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="${ contextPath }/resources/css/common/font.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css">
-    <link rel="stylesheet" href="${ contextPath }/resources/css/feed/artistFeedList.css">
+    <link rel="stylesheet" href="${ contextPath }/resources/css/feed/artistFeedList.css?aftr">
     <link rel="icon" type="image/png" sizes="16x16" href="${ contextPath }/resources/icon/faviconF.png">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 <title>Insert title here</title>
@@ -25,65 +26,42 @@
 		<jsp:include page="../common/category.jsp"/>
 		 <!-- 메인 컨텐츠 영역 -->
          <section class="main-contents">
+           
              <!-- 모먼트 영역 -->
            <div class="moment-outer">
            
             <div class="momentArea">
                 <p class="moment-introArea">모먼트</p>
-                <button class="selectAll">모두보기</button>
+                <button class="selectAll" name="artNameEn" onclick="feedAll('${ artiName }')" >모두보기</button>
             </div>
 
             <div class="member-profileArea">
                 <table class="profileTable">
+                
                     <tr>
-                    <td><img src="../../resources/images/feed/스마일.jpg" class="profile-picture"></td>
-                    <td><img src="../../resources/images/feed/스마일.jpg" class="profile-picture"></td>
-                    <td><img src="../../resources/images/feed/스마일.jpg" class="profile-picture"></td>
-                    <td><img src="../../resources/images/feed/스마일.jpg" class="profile-picture"></td>
-                    <td><img src="../../resources/images/feed/스마일.jpg" class="profile-picture"></td>
-                    <td><img src="../../resources/images/feed/스마일.jpg" class="profile-picture"></td>
-                    <td><img src="../../resources/images/feed/스마일.jpg" class="profile-picture"></td>
+                    <c:forEach var="ac" items="${ aclist }">
+                    <input type="text" name="writer" value="${ ac.artist.artiId }">
+                    <td><img src="${ contextPath }/resources/uploadFiles/${ ac.attachment.attSvName }" class="profile-picture" onclick="selectmemberfeed('${ac.artist.artiId}');"></td>
+                    </c:forEach>
+                    
                     </tr>
                     <tr>
-                        <td align="center">RM</td>
-                        <td align="center">제이홉</td>
-                        <td align="center">진</td>
-                        <td align="center">지민</td>
-                        <td align="center">뷔</td>
-                        <td align="center">슈가</td>
-                        <td align="center">정국</td>
+                    <c:forEach var="ac" items="${ aclist }">
+                        <td align="center">${ ac.artist.artiName }</td>
+                    </c:forEach>
                     </tr>
+                    
                 </table>
             </div>
             
            </div>
             
-            <div class="post-outer">
-                <div class="introArea">
-                    <p class="post-intro">포스트 쓰기${artiName}</p>    
-                </div>
- <!-- 포스트 작성 -->
-                <form>
-                    <div class="postArea">   
-                    <img src="../../resources/icon/faviconF.png" class="post-icon">
-                    <textarea class="textArea" placeholder="FANTIMATE에 남겨보세요"></textarea>
-                    <img src="../../resources/icon/photo-icon.png" class="photo-icon">
-                    </div>
-                    <!-- 이미지 미리보기 영역 -->
-                    <div class="my-photo">
-                        <div class="guide">* 첨부사진은 최대 4장까지 등록 가능합니다.</div>
-                        <label for="mainPhoto" class="main-photo" style="display: none;"><input id="mainPhoto" class="photo" type="file" style="display: none;"></label>
-                        <label class="add-photo click-btn" style="display: none;"><p class="plus">+</p></label>
-                    </div>
-                    <hr width="85%">
-                    <br>
-                    <div class="btnArea">
-                    <button type="submit" class="post-insert-btn">등록하기</button>
-                    </div>
-                    <br>
-                </form>
-             </div>
+             <!-- 로그인 유저가 아티스트일때 포스트 작성 보이게 하기 -->
+      <c:if test="${ loginUser.classifyMem == 3 }">
+          <jsp:include page="../artistfeed/artistfeedinsert.jsp"/>
+	  </c:if>	
 
+			<c:forEach var="f" items="${ list }">
              <!-- 게시글 리스트 영역 -->
              <div class="boardArea">
 
@@ -94,38 +72,58 @@
                     <col width="15%"/>
                     <col width="15%"/>
                     <tr>
+                    <c:forEach var="ap" items="${ aplist }">
+                     		<c:if test="${ ap.refuid eq f.writer }">
                         <td>
                             <div class="profile-bubble">
                                 <p class="friend-application">친구 신청</p>
                                 <p class="send-message">쪽지 보내기</p>
                             </div>
-                            <img class="profile-picture" src="../../resources/images/feed/스마일.jpg">
+                             <img class="profile-picture" src="${ contextPath }/resources/uploadFiles/${ ap.attSvName }">
                         </td>
+                        </c:if>
+                        </c:forEach>
                         <td> 
-                            <pre class="nicknameArea">성현2</pre>
-                            <pre class="boarddateArea">2020.03.25</pre>
+                        	 <c:forEach var="a" items="${ alist }">
+                        	 <c:if test="${ f.writer eq a.artiId }">
+                            <pre class="nicknameArea">${ a.artiNickname }</pre>
+                            
+                             </c:if>
+                             </c:forEach>
+                            <pre class="boarddateArea"><fmt:formatDate value="${ f.fcreate }" pattern="yyyy.MM.dd HH:mm"/></pre>
                         </td>
                         
+                         <!-- 게시글 작성자와 로그인 유저가 같다면 ...아이콘 띄우기(게시글 수정, 삭제) -->
+                         <c:if test="${ loginUser.id eq f.writer }">
+                       
                         <td>
                             <div class="board-menu">
-                                <p>수정하기</p>
-                                <p class="deleteboard">삭제하기</p>
+                                <p onclick="showUpdateFeed(${f.fid});">수정하기</p>
+                                <p onclick="deleteFeed(${f.fid});">삭제하기</p>
                             </div>
-                            <img class="board-more-icon" src="../../resources/images/feed/board-more-icon.png">
+                            
+                            <img class="board-more-icon" src="../resources/images/feed/board-more-icon.png">
                         </td>
-                        <td><img class="report-icon" src="../../resources/images/feed/report-icon.png"></td>   
+                        </c:if>
+                         
                     </tr>
                 </table>
                     <!-- 게시글 컨텐츠 영역 -->
                     <div class="contentArea">
                         <!-- 텍스트 영역 -->
                         <div>
-                            <p class="board-text">사랑해요  방탄♥</p> 
+                            <p class="board-text">${ f.fcontent }</p> 
                         </div>
                         <!-- 이미지 영역 -->
+                        <!-- 게시글 bid와 사진이 참조하고 있는 bid가 같고, 사진 리스트가 있다면 반복문돌려서 이미지 갯수만큼 불러오기 -->
+                        <c:forEach var="fp" items="${ fplist }">
+                        <c:if test="${ f.fid eq fp.refId }">
                         <div>
-                            <img src="../../resources/images/feed/img1.jpg" class="board-img">
+                            <img src="${ contextPath }/resources/uploadFiles/${ fp.attSvName }" alt="이미지" width="200px" height="400px" style="display:flex;">
                         </div>
+                    	</c:if>
+                    	</c:forEach>
+                    
                     </div>
                     <br><br>
                     <!-- 좋아요 영역 -->
@@ -356,15 +354,10 @@
                     </div>
                     
                     
-                        
-                    
-                    
-                    
-                    
 
 
              </div>
-             
+             </c:forEach>
          </section>
 
 
@@ -386,5 +379,137 @@
          </aside>
     </section>
     
+     <!-- 포스트 작성 첨부파일 아이콘 클릭 시 이벤트 -->
+    <script>
+    $('.photo-icon').click(function(){
+        $('.main-photo').click();
+        $('.main-photo').toggle();
+    });
+    </script>
+
+	<script>  
+    // 사진 불러오기
+     $(document).on('change', ".photo", function(e) {
+	     let target = $(this)
+	     let files = e.target.files;
+	     let filesArr = Array.prototype.slice.call(files);
+	     let mainImg = $("<img class='main-photo-img'>");
+	     let mainInput = $("<input id='mainPhoto' class='photo' type='file' name='uploadFile1' style='display: none;'>");
+	     let addImg = $("<img class='add-photo-img'>");
+	     let addInput = $("<input id='addPhoto' class='photo' type='file' name='uploadFile2' style='display: none;'>");
+	     let addImg1 = $("<img class='add-photo1-img'>");
+	     let addInput1 = $("<input id='addPhoto1' class='photo' type='file' name='uploadFile3' style='display: none;'>");
+	     let addImg2 = $("<img class='add-photo2-img'>");
+	     let addInput2 = $("<input id='addPhoto2' class='photo' type='file' name='uploadFile4' style='display: none;'>");
+	     let label = $(this).parent();
+	     
+	     let id = $(this).attr('id');
+	
+	     console.log(target.prev());
+	     filesArr.forEach(function(f) {
+	         if(!f.type.match("image.*")) {
+	             alert("확장자는 이미지 확장자만 가능합니다");
+	             return;
+	         }
+	         
+	         let reader = new FileReader();
+	         if(id == 'mainPhoto') {
+	             // 첫번째 사진
+	             reader.onload = function(e) {
+	                // label.html('');
+	                // input type= file 의 name 벨류 값 받아와야 함
+	                // $('uploadFile1').val();
+	               // let label = $('input[name="uploadFile1"]').val();
+	                 mainImg.attr("src", e.target.result);
+	                 label.append(mainImg);  
+	         		 $('.add-photo').toggle();
+	             }
+	         } else if(id == 'addPhoto') {
+	             // 두번째 사진
+	             reader.onload = function(e) {
+	                // label.html('');
+	                 addImg.attr("src", e.target.result);
+	                 label.append(addImg);
+	                 $('.add-photo1').toggle();
+	             }
+	         } else if(id == 'addPhoto1'){
+	        	 // 세번째 사진
+	        	 reader.onload = function(e){
+	        		// label.html('');
+	        		 addImg1.attr("src", e.target.result);
+	        		 label.append(addImg1);
+	        		 $('.add-photo2').toggle();
+	        	 }
+	         } else if(id == 'addPhoto2'){
+	        	 // 네번째 사진
+	        	 reader.onload = function(e){
+	        		// label.html('');
+	        		 addImg2.attr("src", e.target.result);
+	        		 label.append(addImg2);
+	        		 
+	        	 }
+	         }
+	         reader.readAsDataURL(f);
+	     });
+	 });  
+	  </script>
+	  
+	<!--  게시글 작성자와 로그인 유저 동일한 경우 ... 아이콘 누를 시 하위메뉴 열기 -->
+	<script>	  
+	$('.board-more-icon').click(function () {
+    	$(this).siblings(".board-menu").toggleClass('open-area', 500);
+	});
+	</script>
+	
+	<!-- 게시글 수정 창 열기 -->
+	 <script>
+	  // 게시글 수정 팝업창
+	  
+     function showUpdateFeed(fid){
+		
+         // 팝업 가운데에 띄우기
+         var popupWidth = 1200;
+         var popupHeight = 500;
+
+         var popupX = Math.ceil((window.screen.width - popupWidth)/2);
+         // 만들 팝업창 width 크기의 1/2 만큼 보정값으로 빼주었음
+
+         var popupY = Math.ceil((window.screen.width - popupHeight)/2);
+         // 만들 팝업창 height 크기의 1/2 만큼 보정값으로 빼주었음
+        
+         var refId = $('input[name=refId]').val();
+         var url = "${ contextPath }/artistfeed/updateView?fid=" + fid + '&refId=' + refId;
+        // var url = "${ contextPath }/fanfeed/updateView?fid=" + fid + '&attCode=' + attCode;
+      
+         window.open(url, "게시글 수정", 'width=' + popupWidth  + ', height=' + popupHeight  + ', left='+ popupX + ', top='+ popupY);
+	 		
+     }
+     </script>
+     
+    <!-- 게시글 삭제하기 -->
+    <script>
+    function deleteFeed(fid){
+    	if (confirm("정말 삭제하시겠습니까??") == true){    //확인
+    	 //   document.form.submit();
+    		location.href='${contextPath}/artistfeed/delete?fid=' + fid;
+    	} else {   //취소
+    	    return;
+    	}
+    }
+    </script>
+    
+    <!-- 모먼트에서 프로필 사진 클릭 시 해당 멤버 게시글 조회 -->
+    <script>
+    function selectmemberfeed(writer){
+    	location.href='${contextPath}/artistfeed/selectMember?writer=' + writer;
+    }
+    </script>
+    
+    <!-- 모먼트에서 모두보기 클릭 시 -->
+    <script>
+    function feedAll(artNameEn){
+    	location.href='${contextPath}/artistfeed/artistFeedList?artNameEn=' + artNameEn;
+    }
+    </script>
 </body>
 </html>

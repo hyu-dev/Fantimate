@@ -17,7 +17,7 @@
 		<typeAlias type="com.kh.fantimate.member.model.vo.User" alias="User"/>
 		<typeAlias type="com.kh.fantimate.member.model.vo.Agency" alias="Agency"/>
 		<typeAlias type="com.kh.fantimate.member.model.vo.Artist" alias="Artist"/>
-		<typeAlias type="com.kh.fantimate.member.model.vo.Artist" alias="ArtistCollection"/>
+		<typeAlias type="com.kh.fantimate.member.model.vo.ArtistCollection" alias="ArtistCollection"/>
 		<typeAlias type="com.kh.fantimate.member.model.vo.Admin" alias="Admin"/>
 		<typeAlias type="com.kh.fantimate.common.model.vo.Attachment" alias="Attachment"/>
 		<typeAlias type="com.kh.fantimate.common.model.vo.Report" alias="Report"/>
@@ -91,5 +91,6 @@
 		<mapper resource="mappers/main-mapper.xml"/>
 		<mapper resource="mappers/pay-mapper.xml"/>
 		<mapper resource="mappers/fanStore-mapper.xml"/>
+		<mapper resource="mappers/artistfeed-mapper.xml"/>
 	</mappers>
 </configuration>

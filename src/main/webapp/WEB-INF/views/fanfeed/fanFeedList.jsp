@@ -11,7 +11,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="${ contextPath }/resources/css/common/font.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css">
-    <link rel="stylesheet" href="${ contextPath }/resources/css/feed/fanFeedList.css?after">
+    <link rel="stylesheet" href="${ contextPath }/resources/css/feed/fanFeedList.css?afte">
     <link rel="icon" type="image/png" sizes="16x16" href="${ contextPath }/resources/icon/faviconF.png">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 <title>Insert title here</title>
@@ -103,10 +103,10 @@
                         <!-- 게시글 bid와 사진이 참조하고 있는 bid가 같고, 사진 리스트가 있다면 반복문돌려서 이미지 갯수만큼 불러오기 -->
                         <c:forEach var="pt" items="${ ptlist }">
                         <c:if test="${ f.fid eq pt.refId }">
-                        <div>
+                        <div class="imgArea">
                         	
-                            <img src="${ contextPath }/resources/uploadFiles/${ pt.attSvName }" alt="이미지" width="300px">
-                          
+                           <%--  <img src="${ contextPath }/resources/uploadFiles/${ pt.attSvName }" alt="이미지" width="600px" height="400px"> --%>
+                           <img src="${ contextPath }/resources/uploadFiles/${ pt.attSvName }" alt="이미지" width="200px" height="400px" style="display:flex;">
                             <input type="hidden" name="attCode" value="${ pt.attCode }">
                             <input type="hidden" name="fid" value="${ f.fid }">
                             <input type="hidden" name="refId" value="${ pt.refId }">
@@ -179,8 +179,7 @@
                             </td>
                             </c:if>
                             </c:forEach>
-                           
-                            
+                             
                              <c:forEach var="sb" items="${ subList }">
                              <c:if test="${ r.writer eq sb.uid }">
                         	 
@@ -215,6 +214,7 @@
                                    </td>
                                    </c:if>
                                     </c:forEach>
+                                    
                                   
                                 
                                 <div class="comment-info comment-center nanumsquare">
@@ -223,6 +223,8 @@
                                     <span class="like-count">1,000</span>
                                     <span class="comment-date"><fmt:formatDate value="${ r.rcreate }" pattern="yyyy.MM.dd HH:mm"/></span>
                                 </div>
+                               
+                                <!-- 대댓글 등록 -->
                                 <div class="comment-toggle">
                                     <div class="re-comment-container">
                                         <div class="comment-area">
@@ -231,6 +233,7 @@
                                         <img class="re-send-btn" src="">
                                     </div>
                                 </div>
+                                
 								</tbody>
                                 <!-- 대댓글 -->
                                 <table class="re-comment">
@@ -268,9 +271,8 @@
                                         </td>
                                     </tr>
                                 </table>
-                            </td>
-                        </tr>
-             
+                     	     
+             		</tbody>
                     </table>
                  	</c:if>
                  	</c:forEach>
@@ -549,13 +551,13 @@
 			success : function(data){
 				console.log(data);	// (화면)좋아요 갯수 증가하면서 좋아요아이콘 검정색으로 바꾸기, db b_like테이블에 인서트 , BOARD테이블 B_LIKE 컬럼 +1 업데이트 
 				alert("좋아요 인서트 성공");
-				
-				if(document.getElementById("insertLike").getAttribute('src') == "${ contextPath }/resources/images/feed/like-icon.png") {
-	                document.getElementById("insertLike").src = "${ contextPath }/resources/images/feed/likeblack-icon.png";
-	                
-	            } else {
-	                document.getElementById("insertLike").src = "${ contextPath }/resources/images/feed/like-icon.png";
-	            }
+				document.getElementById("insertLike").src = "${ contextPath }/resources/images/feed/likeblack-icon.png";
+//				if(document.getElementById("insertLike").getAttribute('src') == "${ contextPath }/resources/images/feed/like-icon.png") {
+//	                document.getElementById("insertLike").src = "${ contextPath }/resources/images/feed/likeblack-icon.png";
+	               
+//	            } else {
+//	                document.getElementById("insertLike").src = "${ contextPath }/resources/images/feed/like-icon.png";
+//	            }
 				
 			}
 	  });
@@ -598,5 +600,40 @@
    }
    </script>
   
+  <!-- 대댓글  -->
+  <script>
+
+
+  $('.re-comment-etc').click(function () {
+      $(this).siblings(".re-comment-bubble").toggleClass('open-area', 500);
+  });
+
+  $(".re-commentBtn").click(function () {
+
+      if($(this).text() == "답글 열기") {
+          $(this).text("답글 닫기");
+      } else if($(this).text() == "답글 닫기") {
+          $(this).text("답글 열기");
+      }
+      
+      $(this).parent().parent().siblings(".re-comment").toggleClass('open-area', 500);
+  });
+
+  $(".add-comment").click(function () {
+      $(this).parent().parent().siblings(".comment-toggle").toggleClass('open-area', 500);
+  });
+
+  $(".re-send-btn").click(function () {
+      $(this).parent().parent(".comment-toggle").toggleClass('open-area', 500);
+  });
+
+  $(document).ready(function() {
+      for(var i = 1; i <= $(".comment-line").length; i++) {
+          if($(".comment-line:eq(" + i + ")").children().children(".re-comment").text()) {
+              $(".re-commentBtn:eq(" + i + ")").css("display","none");
+          }
+      }
+  });
+  </script>
 </body>
 </html>

@@ -102,6 +102,9 @@ public interface FanFeedDao {
 
 	// 아티스트 리스트
 	public List<Artist> selectArtistList();
+	
+	// 게시글 사진 갯수 조회
+	public int selectptListCount(int refId);
 
 	
 

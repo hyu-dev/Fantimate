@@ -194,6 +194,15 @@ public class FanFeedDaoImpl implements FanFeedDao{
 	public List<Artist> selectArtistList() {
 		return sqlSession.selectList("fanfeedMapper.selectArtistList");
 	}
+	
+	// 게시글 사진 갯수 조회
+	@Override
+	public int selectptListCount(int refId) {
+		return sqlSession.selectOne("fanfeedMapper.selectptListCount", refId);
+	}
+
+	
+	
 
 	
 	
