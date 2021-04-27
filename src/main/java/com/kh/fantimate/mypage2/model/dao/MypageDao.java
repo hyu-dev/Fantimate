@@ -58,7 +58,7 @@ public interface MypageDao {
 	/* 아티스트 코멘트 페이지 */
 	
 	// 내 댓글 리스트 가져오기
-	List<ReplyCollection> selectMyCommentList(Map<String, String> map);
+	List<ReplyCollection> selectMyCommentList(String id);
 
 	// 내 댓글 삭제하기
 	int deleteMyReply(Reply r);

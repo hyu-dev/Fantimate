@@ -23,4 +23,6 @@ public class Reply {
 	private int refId;			// 게시물 참조 번호
 	private String writer;		// 작성자 id
 	private int refRid;			// 댓글 참조 번호
+	private String nickname;	// 댓글 닉네임
+	private String category;	// 카테고리
 }
