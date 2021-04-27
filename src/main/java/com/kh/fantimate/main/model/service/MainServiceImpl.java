@@ -207,5 +207,23 @@ public class MainServiceImpl implements MainService{
 		return mpDao.selectChartWeek();
 	}
 
+	@Override
+	public int alarmDelete(int alCode) {
+		
+		return mpDao.alarmDelete(alCode);
+	}
+
+	@Override
+	public int sendMessage(Message message) {
+		
+		return mpDao.sendMessage(message);
+	}
+
+	@Override
+	public int selectCartCount(String user) {
+		
+		return mpDao.selectCartCount(user);
+	}
+
 
 }

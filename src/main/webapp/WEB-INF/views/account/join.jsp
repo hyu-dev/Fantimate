@@ -333,7 +333,7 @@
         <p class="join-input-title">이름, 이메일을 입력하세요</p>
         <div class="join-input">
             <input type="text" class="join-input-info" name="firstName" placeholder="성 입력" required>
-            <input type="text" class="join-input-info" name="name" placeholder="이름 입력" required>
+            <input type="text" id="bringName" class="join-input-info" name="name" placeholder="이름 입력" required>
             <input type="email" class="join-input-info" name="uemail" placeholder="이메일 입력" required>
         </div>
         <div class="join-btn-section">
@@ -705,7 +705,7 @@
                     <span class="check-pic"></span>
                     <label for="profile1">
                     <img src="${ contextPath }/resources/images/account/profile1.svg" alt="" class="userProfile-pic">
-                    <span class="userName-text">승아</span>
+                    <span class="userName-text"></span>
                 </label>
                 </div>
                 <div class="profile-text-section">
@@ -713,14 +713,14 @@
                     <span class="check-pic"></span>
                     <label for="profile2">
                     <img src="${ contextPath }/resources/images/account/profile2.svg" alt="" class="userProfile-pic">
-                    <span class="userName-text">승아</span>
+                    <span class="userName-text"></span>
                 </div>
                 <div class="profile-text-section">
                     <input type="checkbox" id="profile3" name="profile" class="check-profile" value="profile3.svg" onclick="checkOne(this)">
                     <span class="check-pic"></span>
                     <label for="profile3">
                     <img src="${ contextPath }/resources/images/account/profile3.svg" alt="" class="userProfile-pic">
-                    <span class="userName-text">승아</span>
+                    <span class="userName-text"></span>
                 </div>
             </div>
         </div>

@@ -108,5 +108,14 @@ public interface MainService {
 	// 30. 주간별 전체 미디어 차트 순위 
 	public List<MediaTopNineCollection> selectchartWeek();
 
+	// 31. 알림 삭제
+	public int alarmDelete(int alCode);
+
+	// 32. 친구한테 쪽지 보내기 
+	public int sendMessage(Message message);
+
+	// 33. 카트 카운트 
+	public int selectCartCount(String user);
+
 
 }

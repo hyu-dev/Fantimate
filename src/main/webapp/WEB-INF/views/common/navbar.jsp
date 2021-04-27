@@ -91,12 +91,15 @@
 				+ ', left=' + popupX + ', top=' + popupY);
 	}
     
+   
+     
+     
 	
     
 </script>
 </head>
 <body>
-
+	
 	
 	<header class="main-header">
         <nav class="main-nav">
@@ -114,7 +117,7 @@
 		                <c:if test="${ loginUser.classifyMem eq 3}">
 		                	<img src="${ contextPath }/resources/icon/user.svg" alt="" class="nav-icon" onclick="location.href='${ contextPath }/mypage/agency/main'">
 		                </c:if>
-		                <c:if test="${ loginUser.classifyMem eq 4}">
+		                 <c:if test="${ loginUser.classifyMem eq 4}">
 		                	<img src="${ contextPath }/resources/icon/user.svg" alt="" class="nav-icon" onclick="location.href='${ contextPath }/mypage/admin/paylist'">
 		                </c:if>
 		                <img src="${ contextPath }/resources/icon/alarm.svg" alt="" class="nav-icon" id="alarm-icon" onclick="alarmPage()">
@@ -125,7 +128,6 @@
 			                <img src="${ contextPath }/resources/icon/cart.svg" alt="" class="nav-icon" onclick="location.href='${contextPath}/pay/cart'">
 			                <!-- 장바구니 갯수 카운트 -->
 			                <div id="cartCount">
-			                    5
 			                </div>
 			                <img src="${ contextPath }/resources/icon/email.svg" alt="" class="nav-icon" id="mail-icon" onclick="mailList()">
 			                <!-- 쪽지 갯수 카운트 -->
@@ -159,7 +161,6 @@
 		   </script>
 		 </c:if>
     </section>
-    
 	<!-- 알람 구간 -->
     <div class="alarm-hide-show">
         <section class="alarm-section">
@@ -198,6 +199,15 @@
             $('.alarm-hide-show').hide();
         }
     	
+    	/* $(function(){
+            $('.divSec').mouseenter(function(){
+                $('.cancel-btn').show();
+            });
+            $('.divSec').mouseleave(function(){
+                $('.cancel-btn').hide();
+            });
+        }); */
+    	
     	// (오늘만 보이게)
 		var now = new Date();
 		var year = now.getFullYear();
@@ -235,29 +245,40 @@
 					if(data[i].refAlCode == 16){
 						var sendId = data[i].alContent.substr(0,data[i].alContent.indexOf("님"));
 						alarmList.append("<li class='alarm-content'>"+ data[i].alContent +"<p class='alarm-time'></p><button id='acceptBtn' onclick='acceptFriend(" + data[i].alCode + "," + "\"" + sendId + "\"" + ")'>"+"수락"+"</button><button id='noBtn' onclick='declineFriend(" + data[i].alCode + "," + "\"" + sendId + "\"" + ")'>"+"거절"+"</button></li>");
+						alarmList.append("<hr>");
 					} else if(data[i].refAlCode == 2 || data[i].refAlCode == 3){
 						// 팬피드 디테일 
-						alarmList.append("<li class='alarm-content' onclick='fanFeed(" + data[i].ref_id + ")'>"+ data[i].alContent +"<p class='alarm-time'></p></li>");
+						//<input type="hidden" name="challNo" value="">
+						alarmList.append("<div class='divSec'><li class='alarm-content' onclick='fanFeed(" + data[i].ref_id + ")'>"+ data[i].alContent +"<p class='alarm-time'></p></li><img src='${ contextPath }/resources/icon/trash.png' alt='' onclick='trash(" + data[i].alCode + ")' id='sample' class='cancel-btn'></div>");
+						alarmList.append("<hr>");
 					} else if (data[i].refAlCode == 1){
 						// 아티스트피드 디테일 
-						alarmList.append("<li class='alarm-content' onclick='artistFeed(" + data[i].ref_id + ")'>"+ data[i].alContent +"<p class='alarm-time'></p></li>");
+						alarmList.append("<div class='divSec'><li class='alarm-content' onclick='artistFeed(" + data[i].ref_id + ")'>"+ data[i].alContent +"<p class='alarm-time'></p></li><img src='${ contextPath }/resources/icon/trash.png' alt='' onclick='trash(" + data[i].alCode + ")' class='cancel-btn'></div>");
+						alarmList.append("<hr>");
 					} else if(data[i].refAlCode == 6 || data[i].refAlCode == 7 || data[i].refAlCode == 11 || data[i].refAlCode == 13 || data[i].refAlCode == 14 || data[i].refAlCode == 15){
 						// 신고 디테일
-						alarmList.append("<li class='alarm-content' onclick='reportDetail()'>"+ data[i].alContent +"<p class='alarm-time'></p></li>");
+						alarmList.append("<div class='divSec'><li class='alarm-content' onclick='reportDetail()'>"+ data[i].alContent +"<p class='alarm-time'></p></li><img src='${ contextPath }/resources/icon/trash.png' alt='' onclick='trash(" + data[i].alCode + ")' class='cancel-btn'></div>");
+						alarmList.append("<hr>");
 					} else if(data[i].refAlCode == 10){
 						// 오피셜 디테일
-						alarmList.append("<li class='alarm-content' onclick='mediaDetail(" + data[i].ref_id + ")'>"+ data[i].alContent +"<p class='alarm-time'></p></li>");
+						alarmList.append("<div class='divSec'><li class='alarm-content' onclick='mediaDetail(" + data[i].ref_id + ")'>"+ data[i].alContent +"<p class='alarm-time'></p></li><img src='${ contextPath }/resources/icon/trash.png' alt='' onclick='trash(" + data[i].alCode + ")' class='cancel-btn'></div>");
+						alarmList.append("<hr>");
 					} else if(data[i].refAlCode == 9){
 						// 오피셜 스케줄 등록
-						alarmList.append("<li class='alarm-content' onclick='schedule(" + data[i].ref_id + ")'>"+ data[i].alContent +"<p class='alarm-time'></p></li>");
+						var sendArtiName = data[i].alContent.substr(0,data[i].alContent.indexOf("님"));
+						alarmList.append("<div class='divSec'><li class='alarm-content' onclick='schedule(" + "\"" + sendArtiName + "\"" + ")'>"+ data[i].alContent +"<p class='alarm-time'></p></li><img src='${ contextPath }/resources/icon/trash.png' alt='' onclick='trash(" + data[i].alCode + ")' class='cancel-btn'></div>");
+						alarmList.append("<hr>");
 					} else if (data[i].refAlCode == 12){
 						// 팬스토어 상세페이지
-						alarmList.append("<li class='alarm-content' onclick='fanStore(" + data[i].ref_id + ")'>"+ data[i].alContent +"<p class='alarm-time'></p></li>");
+						alarmList.append("<div class='divSec'><li class='alarm-content' onclick='fanStore(" + data[i].ref_id + ")'>"+ data[i].alContent +"<p class='alarm-time'></p></li><img src='${ contextPath }/resources/icon/trash.png' alt='' onclick='trash(" + data[i].alCode + ")' class='cancel-btn'></div>");
+						alarmList.append("<hr>");
 					} else if(data[i].refAlCode == 18){
 						// 공지사항 상세페이지
-						alarmList.append("<li class='alarm-content' onclick='notice(" + data[i].ref_id + ")'>"+ data[i].alContent +"<p class='alarm-time'></p></li>");
+						alarmList.append("<div class='divSec'><li class='alarm-content' onclick='notice(" + data[i].ref_id + ")'>"+ data[i].alContent +"<p class='alarm-time'></p></li><img src='${ contextPath }/resources/icon/trash.png' alt='' onclick='trash(" + data[i].alCode + ")' class='cancel-btn'></div>");
+						alarmList.append("<hr>");
 					} else {
-						alarmList.append("<li class='alarm-content'>"+ data[i].alContent +"<p class='alarm-time'></p></li>");
+						alarmList.append("<div class='divSec'><li class='alarm-content'>"+ data[i].alContent +"<p class='alarm-time'></p></li><img src='${ contextPath }/resources/icon/trash.png' alt='' onclick='trash(" + data[i].alCode + ")' class='cancel-btn'></div>");
+						alarmList.append("<hr>");
 					}
 					
 					// 현재 시간 가져옴
@@ -307,6 +328,129 @@
 		});  	
     }
     
+ 	// 호버시 쓰레기 통 보이게
+    
+    
+    // 알람 쓰레기통 onclick
+    function trash(alCode){
+ 		
+		// (오늘만 보이게)
+		var now = new Date();
+		var year = now.getFullYear();
+		var month = now.getMonth();
+		var day = now.getDate();
+		
+		var month = new String(now.getMonth() + 1);
+		month = month >= 10 ? month : '0' + month; // month 두자리로 저장
+		var day = new String(now.getDate());
+		day = day >= 10 ? day : '0' + day;
+		
+		var dateFormat = year + "/" + month + "/" + day;
+		
+		
+		$.ajax({
+			url: "${contextPath}/main/alarmDelete",
+			type: "get",
+			data : {alCode : alCode , dateFormat : dateFormat},
+			dataType : "json",
+			success : function(data){
+				console.log(data);
+				
+				alarmList = $(".today-alarm");
+				alarmList.html("");
+				
+				for(var i in data.alist){
+					
+					if(data.alist[i].refAlCode == 16){
+						var sendId = data.alist[i].alContent.substr(0,data.alist[i].alContent.indexOf("님"));
+						alarmList.append("<li class='alarm-content'>"+ data.alist[i].alContent +"<p class='alarm-time'></p><button id='acceptBtn' onclick='acceptFriend(" + data.alist[i].alCode + "," + "\"" + sendId + "\"" + ")'>"+"수락"+"</button><button id='noBtn' onclick='declineFriend(" + data.alist[i].alCode + "," + "\"" + sendId + "\"" + ")'>"+"거절"+"</button></li>");
+						alarmList.append("<hr>");
+					} else if(data.alist[i].refAlCode == 2 || data.alist[i].refAlCode == 3){
+						// 팬피드 디테일 
+						//<input type="hidden" name="challNo" value="">
+						alarmList.append("<div class='divSec'><li class='alarm-content' onclick='fanFeed(" + data.alist[i].ref_id + ")'>"+ data.alist[i].alContent +"<p class='alarm-time'></p></li><img src='${ contextPath }/resources/icon/trash.png' alt='' onclick='trash(" + data.alist[i].alCode + ")' id='sample' class='cancel-btn'></div>");
+						alarmList.append("<hr>");
+					} else if (data.alist[i].refAlCode == 1){
+						// 아티스트피드 디테일 
+						alarmList.append("<div class='divSec'><li class='alarm-content' onclick='artistFeed(" + data.alist[i].ref_id + ")'>"+ data.alist[i].alContent +"<p class='alarm-time'></p></li><img src='${ contextPath }/resources/icon/trash.png' alt='' onclick='trash(" + data.alist[i].alCode + ")' class='cancel-btn'></div>");
+						alarmList.append("<hr>");
+					} else if(data.alist[i].refAlCode == 6 || data.alist[i].refAlCode == 7 || data.alist[i].refAlCode == 11 || data.alist[i].refAlCode == 13 || data.alist[i].refAlCode == 14 || data.alist[i].refAlCode == 15){
+						// 신고 디테일
+						alarmList.append("<div class='divSec'><li class='alarm-content' onclick='reportDetail()'>"+ data.alist[i].alContent +"<p class='alarm-time'></p></li><img src='${ contextPath }/resources/icon/trash.png' alt='' onclick='trash(" + data.alist[i].alCode + ")' class='cancel-btn'></div>");
+						alarmList.append("<hr>");
+					} else if(data.alist[i].refAlCode == 10){
+						// 오피셜 디테일
+						alarmList.append("<div class='divSec'><li class='alarm-content' onclick='mediaDetail(" + data.alist[i].ref_id + ")'>"+ data.alist[i].alContent +"<p class='alarm-time'></p></li><img src='${ contextPath }/resources/icon/trash.png' alt='' onclick='trash(" + data.alist[i].alCode + ")' class='cancel-btn'></div>");
+						alarmList.append("<hr>");
+					} else if(data.alist[i].refAlCode == 9){
+						// 오피셜 스케줄 등록
+						var sendArtiName = data.alist[i].alContent.substr(0,data.alist[i].alContent.indexOf("님"));
+						alarmList.append("<div class='divSec'><li class='alarm-content' onclick='schedule(" + "\"" + sendArtiName + "\"" + ")'>"+ data.alist[i].alContent +"<p class='alarm-time'></p></li><img src='${ contextPath }/resources/icon/trash.png' alt='' onclick='trash(" + data.alist[i].alCode + ")' class='cancel-btn'></div>");
+						alarmList.append("<hr>");
+					} else if (data.alist[i].refAlCode == 12){
+						// 팬스토어 상세페이지
+						alarmList.append("<div class='divSec'><li class='alarm-content' onclick='fanStore(" + data.alist[i].ref_id + ")'>"+ data.alist[i].alContent +"<p class='alarm-time'></p></li><img src='${ contextPath }/resources/icon/trash.png' alt='' onclick='trash(" + data.alist[i].alCode + ")' class='cancel-btn'></div>");
+						alarmList.append("<hr>");
+					} else if(data.alist[i].refAlCode == 18){
+						// 공지사항 상세페이지
+						alarmList.append("<div class='divSec'><li class='alarm-content' onclick='notice(" + data.alist[i].ref_id + ")'>"+ data.alist[i].alContent +"<p class='alarm-time'></p></li><img src='${ contextPath }/resources/icon/trash.png' alt='' onclick='trash(" + data.alist[i].alCode + ")' class='cancel-btn'></div>");
+						alarmList.append("<hr>");
+					} else {
+						alarmList.append("<div class='divSec'><li class='alarm-content'>"+ data.alist[i].alContent +"<p class='alarm-time'></p></li><img src='${ contextPath }/resources/icon/trash.png' alt='' onclick='trash(" + data.alist[i].alCode + ")' class='cancel-btn'></div>");
+						alarmList.append("<hr>");
+					}
+					
+					// 현재 시간 가져옴
+					var now = new Date();
+
+					// 알람 받은 시간
+					var alarmDay = new Date(data.alist[i].alTime);
+					// 오늘 받은 알람 (당일)
+					if(now.getDate() == alarmDay.getDate()){
+						var nowTime = now.getTime();
+						var alarmTime = alarmDay.getTime();
+						if(nowTime > alarmTime){
+							// 시간을 비교
+							sec = parseInt(nowTime - alarmTime) / 1000;
+							day = parseInt(sec/60/60/24);
+							sec = (sec - (day * 60 * 60 *24));
+							hour = parseInt(sec/60/60);
+							sec = (sec - (hour*60*60));
+							min = parseInt(sec/60);
+							sec = parseInt(sec-(min*60));
+							if(hour > 0){
+								// 몇시간 전인지
+								document.getElementsByClassName("alarm-time")[i].innerHTML = hour+"시간 전";
+								console.log(hour + "시간 전");
+							} else if(min > 0){
+								// 몇분전인지
+								document.getElementsByClassName("alarm-time")[i].innerHTML = min+"분 전";
+								console.log(min + "분 전");
+							} else if(sec > 0){
+								// 몇 초 전인지
+								document.getElementsByClassName("alarm-time")[i].innerHTML = sec+"분 전";
+								console.log(sec + "초 전");
+							}
+							
+						}
+					}
+				}
+				
+				// 알람 카운트 -1
+				document.getElementById("alarmCount").innerHTML = data.countA;
+				
+			},
+			error : function(e){
+				alert("code : " + e.status + "\n"
+						+ "message : " + e.responseText);
+			}
+			
+		});  	
+			
+
+    }
+ 	
+    
     function acceptFriend(alCode,sendId){
 		location.href='${contextPath}/main/acceptFriend?alCode=' + alCode + "&sendId=" + sendId;
     }
@@ -317,12 +461,12 @@
     
     function fanFeed(refId){
     	// refId 추후 수정 
-		location.href='${contextPath}/fanfeed/detail?refId=' + refId;
+		location.href='${contextPath}/fanfeed/detailView?fid=' + refId;
     }
     
     function artistFeed(refId){
     	// refId 추후 수정 
-		location.href='${contextPath}/artistfeed/detail?refId=' + refId;
+		location.href='${contextPath}/artistfeed/detailView?fid=' + refId;
     }
     
     function reportDetail(){
@@ -333,9 +477,9 @@
 		location.href='${contextPath}/official/detail?mediaNum=' + mediaNum;
     }
     
-    function schedule(){
+    function schedule(sendArtiName){
     	// 추후 수정 
-		location.href='${contextPath}/official/detail?mediaNum=' + mediaNum;
+		location.href='${contextPath}//official/schedule/artiName=' + sendArtiName;
     }
     
     function fanStore(fcode){
@@ -424,6 +568,43 @@
     
     </script>
     </c:if>
+    
+    <!-- 장바구니 카운트 ajax -->
+    <c:if test="${ !empty sessionScope.loginUser}">
+    <script>
+    	$(function(){
+    		cartCount();
+    	});
+    	
+    	function cartCount(){
+    		
+    		$.ajax({
+    			url: "${contextPath}/main/cartCount",
+    			dataType : "json",
+    			success : function(data){
+    				console.log(data);
+    				
+    				document.getElementById("cartCount").innerHTML = data;
+    				
+    				
+    			},
+    			error : function(e){
+    				alert("code : " + e.status + "\n"
+    						+ "message : " + e.responseText);
+    			}
+    			
+    		}); 
+    		
+    	}
+    
+    
+    </script>
+    </c:if>
+    
+    
+     <!-- 친구 쪽지 보내기 include -->
+     
+    <jsp:include page="../common/messageSend.jsp"/>
     
     
     <!-- 쪽지부분 ajax -->
@@ -617,7 +798,7 @@
                         var profileInfo = $("<div class='profile-info'>");
                         var friendProfile = $("<div class='profile-circle'><img src='${ contextPath }/resources/images/main/"+ data.flist[i].att.attSvName+"' alt='' class='friend-profile'></div>")
                         var friendId = $("<p class='friend-profile-name'>"+ data.flist[i].att.id +"</p>");
-                        var sendBtn = $("<div class='sendBtn-section'><button class='sendBtn'>"+ "쪽지 보내기" +"</button></div>");
+                        var sendBtn = $("<div class='sendBtn-section'><button class='sendBtn' onclick='sendMess("+ "\"" + data.flist[i].att.id+ "\"" + ")'>"+ "쪽지 보내기" +"</button></div>");
                         var arrow = $("<em></em>");
                         
                         friendInfo.append(profileInfo,sendBtn);
@@ -666,8 +847,47 @@
 			});
 	 		
 	 	}
+	 	
+	 	
 	 
     </script>
+    
+    <script>
+ // 친구한테 쪽지 보내기
+	 function sendMess(recId){
+    	$(".form-send-message").css({"display":"block"})
+    	var messSendId = "${loginUser.id}";
+    	var messRecId = recId;
+    	$(".to-id").text(messRecId);
+    }
+	
+    // 쪽지 보내기의 보내기 버튼클릭시 
+    $("#sendBtn").click(function(){
+    	var messSendId = "${loginUser.id}";
+    	var messRecId = $(".to-id").text();
+    	
+    	
+    	$(".mess-send-id").val(messSendId)
+		$(".mess-rec-id").val(messRecId)
+		var form = $(".form-send-message").serialize();
+    	$.ajax({
+			url : "${pageContext.request.contextPath}/main/sendMessage",
+			method : "post",
+			data : form,
+			dataType : "json",
+			success : function(data) {
+				alert(data.msg)
+				location.href="${contextPath}";
+			},
+			error : function(e) {
+				alert(e)
+			}
+		});
+    	
+    });
+    
+    </script>
+    
     
     
     <!-- 쪽지 구간 -->
@@ -693,58 +913,11 @@
                 <!-- 1. 전체 쪽지 목록 -->
                 <div id="wholeMailContent">
                     <p class="mail-title">전체 쪽지 목록</p>
-                <!--  <p class="mail-date">2021.03.20</p>-->
-                <!-- <ul class="today-mail">
-                    <li class="mail-content"><p class="mail-id">tmddk12</p>000입니다. 회원님의 중고상품을 사고싶습니다. <p class="mail-time">1시간 전</p><p class="mail-read">읽음</p></li>
-                    </ul> -->
-                
-                <!-- 날짜 별 #2-->
-                <!-- <p class="mail-date">2021.03.20</p>
-                <ul class="today-mail">
-                    <li class="mail-content"><p class="mail-id">tmddk12</p>000입니다. 답장 부탁드려요~~! <p class="mail-time">1시간 전</p></li>
-                </ul> -->
+                 <!-- ajax -->
                 </div>
-                 <!---->
-
                  <!-- 2. 친구 쪽지 목록 -->
                  <div id="friendContent">
-                   <!--  <div class="toggle-date-section">
-                        <p class="mail-title">친구 쪽지 목록</p>
-                    </div> -->
-                     <!-- #1-->
-                    <%-- <div class="accordion-friendInfo">
-                       <input type="checkbox" id="friend01">
-                        <label for="friend01">
-                            <!-- 친구 정보, 보내기 버튼 둘러싸는 div-->
-                            <div class="friend-info-section">
-                                <!-- 프로필사진 , 이름-->
-                                <div class="profile-info">
-                                    <div class="profile-circle">
-                                        <img src="${ contextPath }/resources/images/main/feed1.svg" alt="" class="friend-profile">
-                                    </div>
-                                    <p class="friend-profile-name">tmddk12</p>
-                                </div>
-                                <!-- 쪽지 보내기 버튼 div-->
-                                <div class="sendBtn-section">
-                                    <button class="sendBtn">쪽지 보내기</button>
-                                </div>
-                            </div>
-                            <!-- 화살표 사진 -->
-                            <em></em>
-                        </label> 
-                         <div style="overflow:auto" class="friend-mailList">
-                            <ul class="friendMail-contentList">
-                                <li class="friendMail-content"><p class="mail-id">tmddk12</p>000입니다. 답장 부탁드려요~~! <p class="mail-time">1시간 전</p><p class="mail-read">읽음</p></li>
-                                <li class="friendMail-content"><p class="mail-id">tmddk12</p>000입니다. 회원님의 중고상품을 사고싶습니다. <p class="mail-time">1시간 전</p><p class="mail-read">읽음</p></li>
-                                <li class="friendMail-content"><p class="mail-id">tmddk12</p>000입니다. 답장 부탁드려요~~! <p class="mail-time">1시간 전</p><p class="mail-read">읽음</p></li>
-                                <li class="friendMail-content"><p class="mail-id">tmddk12</p>000입니다. 회원님의 중고상품을 사고싶습니다. <p class="mail-time">1시간 전</p></li>
-                                <li class="friendMail-content"><p class="mail-id">tmddk12</p>000입니다. 답장 부탁드려요~~! <p class="mail-time">1시간 전</p><p class="mail-read">읽음</p></li>
-                                <li class="friendMail-content"><p class="mail-id">tmddk12</p>000입니다. 회원님의 중고상품을 사고싶습니다. <p class="mail-time">1시간 전</p><p class="mail-read">읽음</p></li>
-                            </ul>
-                        </div> 
-                    </div>  --%>
-                    <!-- 끝끝 -->
-
+					<!-- ajax -->
                 </div>
                 <!---->
             </div>  <!-- 전체쪽지, 친구쪽지 감싸는 마지막 div-->

@@ -105,17 +105,18 @@
 	     					var video1 = $("<video src='${ contextPath }/resources/images/official/"+ data[i].mf.vidSvName+"' controls='controls' poster='${ contextPath }/resources/images/official/"+ data[i].mf.picSvName+"' class='artist-media'></video>");
 							var divSec = $("<div class='media-info'>");
 							var div1 = $("<div class='m-title'><p class='rank-num'>"+j+"</p><p class='rank-title'>"+ data[i].of.mediaTtl+"</p></div>");
-							var div2 = $("<div class='m-time-area'><p class='m-times'></p>"+"&nbsp;"+"<p class='m-artistName'>"+ data[i].mc.artiNameEn +"</p></div>");
+							var div2 = $("<div class='m-time-area'><p class='m-times'>"+ data[i].of.mediaDate + " |"+"</p>"+"&nbsp;"+"<p class='m-artistName'>"+ data[i].mc.artiNameEn +"</p></div>");
 							var div3 = $("<div class='play-info'><img src='${ contextPath }/resources/images/main/play.svg' alt='' class='play-img'><p class='like-count'>"+ data[i].of.mediaCount +"</p></div>");
 							
 							divSec.append(div1,div2,div3);
 							li.append(video1,divSec);
 							ul.append(li);
 							
-						/* 	// 현재 시간 가져옴
+						 	/* // 현재 시간 가져옴
 							var now = new Date();
 							// 알람 받은 시간
 							var messageDay = new Date(data[i].of.mediaDate);
+
 							// 오늘 받은 알람 (당일)
 							if(now.getDate() == messageDay.getDate()){
 								var nowTime = now.getTime();
@@ -160,15 +161,15 @@
 								minus= now.getDate()-messageDay.getDate();
 					            document.getElementsByClassName("m-times")[i].innerHTML = minus+"일 전";
 					            console.log(minus+"일 전");
-							} */
+							}  */
 							
-						} else {
+						} else {  
 							
 							var li1 = $("<li class='rest-info'>");
 	     					var video2 = $("<video src='${ contextPath }/resources/images/official/"+ data[i].mf.vidSvName+"' controls='controls' poster='${ contextPath }/resources/images/official/"+ data[i].mf.picSvName+"' class='rest-media'></video>");
 	     					var divSec1 = $("<div class='rest-media-info'>");
 							var div11 = $("<div class='m-title'><p class='rank-num'>"+j+"</p><p class='rank-title'>"+ data[i].of.mediaTtl+"</p></div>");
-							var div22 = $("<div class='m-time-area'><p class='m-times'></p>"+"&nbsp;"+"<p class='m-artistName'>"+ data[i].mc.artiNameEn +"</p></div>");
+							var div22 = $("<div class='m-time-area'><p class='m-times'>"+ data[i].of.mediaDate + " |"+"</p>"+"&nbsp;"+"<p class='m-artistName'>"+ data[i].mc.artiNameEn +"</p></div>");
 							var div33 = $("<div class='play-info2'><img src='${ contextPath }/resources/images/main/play.svg' alt='' class='play-img'><p class='like-count'>"+ data[i].of.mediaCount +"</p></div>");
 							
 							divSec1.append(div11,div22,div33);
@@ -223,8 +224,8 @@
 								minus= now.getDate()-messageDay.getDate();
 					            document.getElementsByClassName("m-times")[i].innerHTML = minus+"일 전";
 					            console.log(minus+"일 전");
-							}
-	                     */
+							} */
+	                     
 							
 						}
 						
@@ -279,9 +280,8 @@
 	     					var video1 = $("<video src='${ contextPath }/resources/images/official/"+ data[i].mf.vidSvName+"' controls='controls' poster='${ contextPath }/resources/images/official/"+ data[i].mf.picSvName+"' class='artist-media'></video>");
 							var divSec = $("<div class='media-info'>");
 							var div1 = $("<div class='m-title'><p class='rank-num'>"+j+"</p><p class='rank-title'>"+ data[i].of.mediaTtl+"</p></div>");
-							var div2 = $("<div class='m-time-area'><p class='m-times'>"+"11시간 전 |"+"</p>"+"&nbsp;"+"<p class='m-artistName'>"+ data[i].mc.artiNameEn +"</p></div>");
+							var div2 = $("<div class='m-time-area'><p class='m-times'>"+ data[i].of.mediaDate + " |"+"</p>"+"&nbsp;"+"<p class='m-artistName'>"+ data[i].mc.artiNameEn +"</p></div>");
 							var div3 = $("<div class='play-info'><img src='${ contextPath }/resources/images/main/play.svg' alt='' class='play-img'><p class='like-count'>"+ data[i].of.mediaCount +"</p></div>");
-							
 							divSec.append(div1,div2,div3);
 							li.append(video1,divSec);
 							ul.append(li);
@@ -292,7 +292,7 @@
 	     					var video2 = $("<video src='${ contextPath }/resources/images/official/"+ data[i].mf.vidSvName+"' controls='controls' poster='${ contextPath }/resources/images/official/"+ data[i].mf.picSvName+"' class='rest-media'></video>");
 	     					var divSec1 = $("<div class='rest-media-info'>");
 							var div11 = $("<div class='m-title'><p class='rank-num'>"+j+"</p><p class='rank-title'>"+ data[i].of.mediaTtl+"</p></div>");
-							var div22 = $("<div class='m-time-area'><p class='m-times'>"+"11시간 전 |"+"</p>"+"&nbsp;"+"<p class='m-artistName'>"+ data[i].mc.artiNameEn +"</p></div>");
+							var div22 = $("<div class='m-time-area'><p class='m-times'>"+ data[i].of.mediaDate + " |"+"</p>"+"&nbsp;"+"<p class='m-artistName'>"+ data[i].mc.artiNameEn +"</p></div>");
 							var div33 = $("<div class='play-info2'><img src='${ contextPath }/resources/images/main/play.svg' alt='' class='play-img'><p class='like-count'>"+ data[i].of.mediaCount +"</p></div>");
 							
 							divSec1.append(div11,div22,div33);

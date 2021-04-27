@@ -209,6 +209,24 @@ public class MainDaoImpl implements MainDao{
 		return sqlSession.selectList("mainMapper.selectChartWeek");
 	}
 
+	@Override
+	public int alarmDelete(int alCode) {
+		
+		return sqlSession.update("mainMapper.deleteAlarm",alCode);
+	}
+
+	@Override
+	public int sendMessage(Message message) {
+		
+		return sqlSession.insert("mainMapper.insertFMessage",message);
+	}
+
+	@Override
+	public int selectCartCount(String user) {
+		
+		return sqlSession.selectOne("mainMapper.selectCartCount",user);
+	}
+
 	
 	
 	

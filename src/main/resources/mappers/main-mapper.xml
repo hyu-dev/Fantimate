@@ -181,6 +181,19 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<result property="isActive" column="IS_ACTIVE"/>
 		<result property="cateCode" column="C_CODE"/>
 	</resultMap>
+	<!-- 카트 카운트 -->
+	<resultMap type="Cart" id="cartResultSet">
+		<id property="cartCode" column="CART_CODE"/>
+		<result property="buyQ" column="BUY_Q"/>
+		<result property="buyPrice" column="B_PRICE"/>
+		<result property="fee" column="FEE"/>
+		<result property="enrollDate" column="ENROLL_DATE"/>
+		<result property="isBought" column="IS_BOUGHT"/>
+		<result property="boughtDate" column="BOUGHT_DATE"/>
+		<result property="pcode" column="P_CODE"/>
+		<result property="mediaNum" column="MEDIA_NUM"/>
+		<result property="id" column="ID"/>
+	</resultMap>
 	
 	<!-- collection -->
 	<resultMap type="MainCollection" id="mainCollResultSet">
@@ -955,6 +968,54 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		ORDER BY
 			COUNT(MC.MEDIA_NUM) DESC
 	</select>
+	
+	<!-- 알람 내역 없애기 -->
+	<update id="deleteAlarm" parameterType="_int">
+	UPDATE 
+		  ALARM
+	   SET
+	   	  AL_STATUS = 'N'
+	WHERE 
+		  AL_MADE_CODE = #{alCode}
+	</update>
+	
+	<!-- 친구한테 쪽지 보내기 -->
+	<insert id="insertFMessage" parameterType="Message">
+		INSERT
+			INTO MESSAGE
+			(
+				MESS_NO
+			  , MESS_CONTENT
+			  , MESS_DATE
+			  , MESS_READ
+			  , U_ID_SEND
+			  , U_ID_RECEIVE
+			  , MESS_TITLE
+			  , MESS_STATUS
+			)
+			VALUES
+			(
+				SEQ_MESSAGE.NEXTVAL
+			  , #{messContent}
+			  , SYSDATE
+			  , DEFAULT
+			  , #{messSendId}
+			  , #{messRecId}
+			  , #{messTitle}
+			  , DEFAULT
+			)
+	</insert>
+	
+	<!-- 카트 카운트  -->
+	<select id="selectCartCount" resultType="_int" parameterType="String">
+	SELECT 
+	     COUNT(*)
+	FROM 
+	     CART
+	WHERE
+     ID = #{id}
+	</select>
+	
 	
 	
 </mapper>

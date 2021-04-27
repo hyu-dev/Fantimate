@@ -95,7 +95,7 @@
         <!-- 버튼 -->
         <div class="message-btn-section">
             <button type="button" id="sendBtn" onclick="sendMessage()">답장하기</button>
-            <button type="button" id="closeBtn" onclick="location.href='javascript:history.back(-1)'">취소하기</button>
+            <button type="button" id="closeBtn" onclick="location.href='${contextPath}'">취소하기</button>
         </div>
     </section>
 
@@ -151,7 +151,7 @@
             <textarea class="report-write" placeholder="구체적인 내용을 300자 이내로 적어주세요" name="rptReason"></textarea>
         </div>
         <!-- 히든 -->
-        <input type="hidden" name="id" value="${message.messSendId}">
+        <input type="hidden" name="rptId" value="${message.messSendId}">
         <input type="hidden" name="refId" value="${message.messCode}">
         
         <!-- 신고 버튼 -->
