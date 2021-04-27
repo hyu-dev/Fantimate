@@ -715,7 +715,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
                 PAYMENT USING(PAY_CODE)
 		 WHERE  C.ID = #{userId}
 		   AND  IS_MAIN_ATT = 'Y'
-		   AND  PAY_STATUS != 3
+		   AND  (IS_BOUGHT = 'C' OR IS_BOUGHT = 'Y')
 	  ORDER BY  BOUGHT_DATE DESC
 	</select>
 	<select id="readStoreMain" parameterType="Cart" resultMap="buyCollResultSet">

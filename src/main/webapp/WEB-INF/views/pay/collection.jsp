@@ -65,10 +65,10 @@
                     	<input type="hidden" class="pcode" value="${ coll.store.pcode }">
                     	<input type="hidden" class="cartCode" value="${ coll.cart.cartCode }">
                     	<c:choose>
-                    		<c:when test="${ coll.review.rvCode eq '' && coll.payment.payStatus eq 2 }">
+                    		<c:when test="${ coll.review.rvCode eq '' && coll.cart.isBought eq 'C' }">
                     			<button class="write-photo">포토리뷰 등록하기</button>
                     		</c:when>
-                    		<c:when test="${ coll.payment.payStatus ne 2 }">
+                    		<c:when test="${ coll.cart.isBought eq 'Y' }">
                     			<p class="not-confirmed-product">구매 미확정 상품</p>
                     		</c:when>
                     		<c:otherwise>
