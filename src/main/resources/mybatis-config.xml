@@ -96,5 +96,6 @@
 		<mapper resource="mappers/main-mapper.xml"/>
 		<mapper resource="mappers/pay-mapper.xml"/>
 		<mapper resource="mappers/fanStore-mapper.xml"/>
+		<mapper resource="mappers/artistfeed-mapper.xml"/>
 	</mappers>
 </configuration>

@@ -5,6 +5,9 @@ import java.util.List;
 
 
 
+
+
+
 import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.fantimate.common.model.vo.Alarm;
@@ -93,6 +96,9 @@ public interface FanFeedService {
 
    // 아티스트 리스트
    public List<Artist> selectArtistList();
+
+   // 게시글당 사진 갯수
+   public int selectptListCount(int refId);
 
 
    

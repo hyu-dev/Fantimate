@@ -1,6 +1,7 @@
 package com.kh.fantimate.mypage1.controller;
 
 import java.io.File;
+
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -391,7 +392,7 @@ public class MypageUserController {
 			Cart c = new Cart();
 			System.out.println("Cartcode : " + Cartcode);			// ex) M-29
 			System.out.println("isBought : " + isBought);			// ex) Y결제완료,W대기,R환불,C확정
-			
+
 			// 아이디와 넘어온 cartCode 대입
 			c.setId(userid);
 			c.setCartCode(cartCode);

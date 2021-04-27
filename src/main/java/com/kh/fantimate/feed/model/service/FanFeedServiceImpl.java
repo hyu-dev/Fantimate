@@ -69,6 +69,7 @@ public class FanFeedServiceImpl implements FanFeedService {
 	@Override
 	public List<AttachmentF> selectptList() {
 		return fDao.selectptList();
+	
 	}
 	
 	// 댓글 작성
@@ -179,6 +180,14 @@ public class FanFeedServiceImpl implements FanFeedService {
 		return fDao.selectArtistList();
 	}
 
+	// 게시글 당 사진 갯수
+	@Override
+	public int selectptListCount(int refId) {
+		return fDao.selectptListCount(refId);
+	}
+
+	
+	
 	
 
 	

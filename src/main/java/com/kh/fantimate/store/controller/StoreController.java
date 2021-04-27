@@ -57,7 +57,7 @@ public class StoreController {
 	public ModelAndView StoreList(ModelAndView mv, 
 								  HttpServletRequest request
 								  ) {
-		
+
 		if(((Member)request.getSession().getAttribute("loginUser")) == null) {
 			mv.setViewName("store/storeList");
 			return mv;
