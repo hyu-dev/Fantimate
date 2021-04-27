@@ -111,7 +111,18 @@
 		                    	<label for="check"><img src="${ contextPath }/resources/icon/search-icon.svg" alt="" class="nav-icon"></label>
 		                </div>
 		                <!-- 회원가입 버튼 생성전 예시 -->
-		                <img src="${ contextPath }/resources/icon/user.svg" alt="" class="nav-icon" onclick="location.href='${ contextPath }/mypage/artist/feed'">
+		                <c:if test="${ loginUser.classifyMem eq 1}">
+		                	<img src="${ contextPath }/resources/icon/user.svg" alt="" class="nav-icon" onclick="location.href='${ contextPath }/mypage/user/payments'">
+		                </c:if>
+		                <c:if test="${ loginUser.classifyMem eq 2}">
+		                	<img src="${ contextPath }/resources/icon/user.svg" alt="" class="nav-icon" onclick="location.href='${ contextPath }/mypage/artist/feed'">
+		                </c:if>
+		                <c:if test="${ loginUser.classifyMem eq 3}">
+		                	<img src="${ contextPath }/resources/icon/user.svg" alt="" class="nav-icon" onclick="location.href='${ contextPath }/mypage/agency/main'">
+		                </c:if>
+		                 <c:if test="${ loginUser.classifyMem eq 4}">
+		                	<img src="${ contextPath }/resources/icon/user.svg" alt="" class="nav-icon" onclick="location.href='${ contextPath }/mypage/admin/paylist'">
+		                </c:if>
 		                <img src="${ contextPath }/resources/icon/alarm.svg" alt="" class="nav-icon" id="alarm-icon" onclick="alarmPage()">
 		                <!-- 알람 갯수 카운트 -->
 		                <div id="alarmCount">
@@ -355,12 +366,12 @@
     
     function fanFeed(refId){
     	// refId 추후 수정 
-		location.href='${contextPath}/fanfeed/detail?refId=' + refId;
+		location.href='${contextPath}/fanfeed/fanfeed/detailView?fid=' + refId;
     }
     
     function artistFeed(refId){
     	// refId 추후 수정 
-		location.href='${contextPath}/artistfeed/detail?refId=' + refId;
+		location.href='${contextPath}/artistfeed/detailView?fid=' + refId;
     }
     
     function reportDetail(){
@@ -797,7 +808,7 @@
                     <li class="etc-content" id="langSetting" onclick="langSetting()">언어 설정</li>
                     <c:if test="${ loginUser.classifyMem eq 1}">
                     	<li class="etc-content" id="fanStore" onclick="location.href='${ contextPath }/fanStore/list'">팬 스토어</li>
-                    	<li class="etc-content" id="payPlan" onclick="location.href='${ contextPath }/Pay/plan'">요금 플랜</li>
+                    	<li class="etc-content" id="payPlan" onclick="location.href='${ contextPath }/pay/plan'">요금 플랜</li>
                     </c:if>
                     <li class="etc-content" id="notice" onclick="location.href='${ contextPath }/notice/list'">공지사항</li>
                     <li class="etc-content" id="logout" onclick="location.href='${ contextPath }/member/logout'">로그아웃</li>

@@ -71,11 +71,11 @@
 				    location.href="${ contextPath }";
  				</script>
  			</c:when>
- 			<c:otherwise>
+ 			<c:when test="${ msg eq 'fail' }">
  				<script>
  					alert("보내기 실패!"); 				
  				</script>
- 			</c:otherwise>
+ 			</c:when>
  		</c:choose>
  	</c:if>
  

@@ -82,8 +82,8 @@ public class OfficialServiceImpl implements OfficialService{
 
 	// 클릭한 미디어 조회수 추가
 	@Override
-	public int updateHitCount(int mediaNum) {
-		return oDao.updateHitCount(mediaNum);
+	public int insertHitCount(int mediaNum) {
+		return oDao.insertHitCount(mediaNum);
 	}
 	
 	// 북마크 여부 확인

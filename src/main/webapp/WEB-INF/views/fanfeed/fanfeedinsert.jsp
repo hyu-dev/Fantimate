@@ -15,11 +15,11 @@
                 </div>
                 
                 
-                
                 <!-- 포스트 작성 -->
                 <form action="${ contextPath }/fanfeed/insert" method="post" enctype="multipart/form-data">
+                
                     <c:forEach var="at" items="${ atlist }">
-                    <c:if test="${ loginUser.id eq at.id }">
+                    <c:if test="${ loginUser.id eq at.refuid }">
                     <div class="postArea">
                     <input type="hidden" name="writer" value="${ loginUser.id }">
                     <input type="hidden" name="artiName" value="${ param.artNameEn }"> 
@@ -30,8 +30,7 @@
                     <textarea class="textArea" placeholder="FANTIMATE에 남겨보세요" name="fcontent"></textarea>
                     <img src="../resources/icon/photo-icon.png" class="photo-icon">
                     </div>
-                    </c:if>
-                    </c:forEach>
+                   
                     <!-- 이미지 미리보기 영역 -->
                      <div class="my-photo">
                         
@@ -72,6 +71,8 @@
                     <button type="submit" class="post-insert-btn">등록하기</button>
                     </div>
                     <br>
+                     </c:if>
+                    </c:forEach>
                 </form>
                  
              </div>

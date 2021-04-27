@@ -46,7 +46,7 @@
                         <img src="${ contextPath }/resources/icon/search-icon.svg" class="search-icon" alt="">
                     </div>
                     <div class="result"></div>
-                    <p class="search-text"><c:if test="${ !empty userColl }">${ userColl.area.areaName }</c:if></p>
+                    <p class="search-text"><c:if test="${ !empty user }">${ user.get(0).area.areaName }</c:if></p>
                 </div>
             </div>
             <div class="btn-container">
@@ -61,7 +61,6 @@
 	    // 카테고리 검색창에 데이터 입력시
 	    $(".contents-search").on('keyup', function(e) {
 	    	var search = $(this).val();
-	    	console.log(search);
 	        if(search == '') {
 	            // 검색input에 글자가 없다면
 	            $('.result').css({'opacity':'0', 'height':'0px'});

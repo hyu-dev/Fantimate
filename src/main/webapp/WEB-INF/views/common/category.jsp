@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,7 +19,7 @@
 	<aside class="main-contents-left">
         <div class="artist-follower">
             <p class="artist-name">${artiName}</p>
-            <p class="artist-follower-count">5,555,555 FAN</p>
+            <p class="artist-follower-count">${ fn:length(subList) } FAN</p>
         </div>
         <div class="category">
         	
@@ -80,19 +80,19 @@
 		$(".contents-search-input").on('keyup', function() {
 			var search = $(this).val();
 			var div = $(".category-search-result");
+			console.log(search)
 	        // 스토어에서 검색한 것이라면
 	        if($('.category a').eq(3).css('color') == 'rgb(92, 95, 120)') {
 		    	$.ajax({
 		    		url : "${ pageContext.request.contextPath }/store/search/" + search,
 		    		data : "get",
 					dateType : "json",
-					contentType : "application/json; charset=utf-8",
 					success : function(data) {
 						div.html("");
-						if(data.length > 0) {
+						if(data.list.length > 0) {
 							$('.category-search-result').css('display', 'block');
-							for(var i in data) {
-								var p = $("<p>").text(data[i].store.pname);
+							for(var i in data.list) {
+								var p = $("<p>").text(data.list[i].store.pname);
 								div.append(p);
 							}
 						} else {

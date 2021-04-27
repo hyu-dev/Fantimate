@@ -3,8 +3,19 @@
 html, body {
     margin: 0;
     padding: 0;
-    color: #5C5F78;
-    background: rgba(0,0,0,0.5);
+    position: relative;
+    z-index: 2;
+}
+
+.form-send-message, .form-report {
+	position: fixed;
+	top: 0;
+	left: 0;
+	background: rgba(0,0,0,0.5);
+	z-index: 3;
+	height: 100%;
+	width: 100%;
+	display: none;
 }
 
 .received-message-section ,.report-message-section ,.send-message-section{
@@ -172,6 +183,7 @@ body::-webkit-scrollbar-track ,.message-content::-webkit-scrollbar-track, .repor
 .report-message-section{
     display: none;
 }
+
 .report-img{
     width:30px;
     height: 30px;

@@ -4,6 +4,8 @@ import java.io.File;
 
 
 
+
+
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -30,6 +32,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.kh.fantimate.common.model.vo.Alarm;
 import com.kh.fantimate.common.model.vo.Attachment;
 import com.kh.fantimate.common.model.vo.Friend;
 import com.kh.fantimate.common.model.vo.Like;
@@ -41,6 +44,7 @@ import com.kh.fantimate.feed.model.service.FanFeedService;
 import com.kh.fantimate.feed.model.vo.AttachmentF;
 import com.kh.fantimate.feed.model.vo.Feed;
 import com.kh.fantimate.feed.model.vo.FeedCollection;
+import com.kh.fantimate.member.model.vo.Artist;
 import com.kh.fantimate.member.model.vo.ArtistGroup;
 import com.kh.fantimate.member.model.vo.Member;
 
@@ -49,24 +53,10 @@ import com.kh.fantimate.member.model.vo.Member;
 
 @Controller
 @RequestMapping("/fanfeed")
-@SessionAttributes({"subList", "artNameEn"})
 public class FanFeedController {
 	
 	@Autowired
 	private FanFeedService fService;
-	
-	// 팬 피드로 이동
-//	@GetMapping("/fanFeedList")
-//	public String listpageView() {
-		
-//		return "fanfeed/fanFeedList";
-//	}
-	
-	// 구독유저 닉네임 조회
-	
-	
-	
-	
 	
 	// 게시글 조회
 	@GetMapping("/fanFeedList")
@@ -80,16 +70,13 @@ public class FanFeedController {
 									@ModelAttribute AttachmentF pt,
 									@ModelAttribute Reply r,
 									@ModelAttribute Like lk,
-									
+									@ModelAttribute Artist ar,
 									Model model,
 									@RequestParam(value="artNameEn") String artNameEn,
 									HttpServletRequest request) {
 		
 		
-		
-		
 		f.setArtiName(artNameEn);
-		
 		s.setArtiname(artNameEn);
 		System.out.println(f);
 		
@@ -102,7 +89,7 @@ public class FanFeedController {
 		List<Feed> list = fService.selectFeedList(artNameEn);
 		System.out.println("게시글 리스트 : " + list);
 		
-		List<Attachment> atlist = fService.selectatList();
+		List<Attachment> atlist = fService.selectatList(artNameEn);
 		System.out.println("유저 프로필 사진 리스트 : " + atlist);
 		
 		List<AttachmentF> ptlist = fService.selectptList();
@@ -114,22 +101,27 @@ public class FanFeedController {
 		List<Reply> rlist = fService.selectReplyList();
 		System.out.println("댓글 리스트 : " + rlist);
 		
+		// 한 게시글에서 좋아요 누른 유저
 		List<Like> lklist = fService.selectLikeList();
 		System.out.println("좋아유 누른 유저 리스트 : " + lklist);
 		
+		//아티스트 리스트
+		List<Artist> artist = fService.selectArtistList();
+		System.out.println("아티스트 리스트 : " + artist);
 		
 		
-		
+		// artiName 세션에 저장
+		HttpSession session = request.getSession(); // 세션을 생성해서
+		session.setAttribute("artiName", artNameEn); // userid로 uid값을 넘기자
+		session.setAttribute("subList", subList);
+
 		if(list != null && !list.isEmpty()) {
-			// artiName 세션에 저장
-			HttpSession session = request.getSession(); // 세션을 생성해서
-			session.setAttribute("artiName", artNameEn); // userid로 uid값을 넘기자
-			model.addAttribute("subList", subList);
 			mv.addObject("list", list);
 			mv.addObject("flist", flist);
 			mv.addObject("rlist", rlist);
 			mv.addObject("ptlist", ptlist);
 			mv.addObject("atlist", atlist);
+			mv.addObject("artist", artist);
 			mv.setViewName("fanfeed/fanFeedList");
 			
 		} else {
@@ -149,6 +141,8 @@ public class FanFeedController {
 							@RequestParam(value="uploadFile4") MultipartFile four,
 						   HttpServletRequest request)
 							throws IOException{
+		
+		String artiName = (String)request.getSession().getAttribute("artiName");
 		
 		List<AttachmentF> attList = new ArrayList<>();
 		AttachmentF att = null;
@@ -200,12 +194,14 @@ public class FanFeedController {
 		System.out.println("사진이름4 : " + four.getOriginalFilename());
 		System.out.println("사진 리스트 : " + attList);
 		
-		
+		// 1. 게시글내용과 첨부사진이 둘다 등록되거나
+		// 2. 게시글은 없고 첨부사진만 등록되거나
+		// 3. 게시글은 있고 첨부사진은 없거나
 		int result = fService.insertFeed(f, attList);
 		
-		if(result > 0) {
+		if(result > 0 ) {
 			request.getSession().setAttribute("msg", "게시글이 등록되었습니다.");
-			response.sendRedirect("fanFeedList");
+			response.sendRedirect("fanFeedList?artNameEn=" + artiName);
 		} else {
 			System.out.println("게시글 등록에 실패하였습니다");
 		}
@@ -251,8 +247,8 @@ public class FanFeedController {
 		model.addAttribute("feed", f);
 		System.out.println("fid : " + fid);
 		// 유저 프로필 사진 정보
-		List<Attachment> atlist = fService.selectatList();
-		model.addAttribute("atlist", atlist);
+//		List<Attachment> atlist = fService.selectatList(artNameEn);
+//		model.addAttribute("atlist", atlist);
 		// 게시글 사진 정보
 		List<AttachmentF> ptlist = fService.selectptList(refId);
 		model.addAttribute("ptlist", ptlist);
@@ -375,7 +371,7 @@ public class FanFeedController {
 			int result = fService.updateFeed(f, attList);
 			
 			if(result > 0) {
-				request.getSession().setAttribute("msg", "게시글이 등록되었습니다.");
+				request.getSession().setAttribute("msg", "게시글을 수정하였습니다.");
 				response.sendRedirect("fanFeedList");
 			} else {
 				System.out.println("게시글 수정에 실패하였습니다.");
@@ -392,6 +388,8 @@ public class FanFeedController {
 							Model model,
 							HttpServletRequest request
 							) throws IOException {
+		String artiName = (String)request.getSession().getAttribute("artiName");
+		
 		// 1. 서버에서 첨부파일 있을 시 삭제 (deleteFile 메소드 호출)
 //		List<AttachmentF> af = fService.selectptList(refId);
 		
@@ -412,7 +410,7 @@ public class FanFeedController {
 		//	session.setAttribute("artNameEn", artNameEn);
 			
 			request.getSession().setAttribute("msg", "게시글이 삭제되었습니다.");
-			response.sendRedirect("fanFeedList");
+			response.sendRedirect("fanFeedList?artNameEn=" + artiName);
 		
 		} else {
 			System.out.println("게시글 삭제에 실패하였습니다.");
@@ -435,17 +433,23 @@ public class FanFeedController {
 
 	// 댓글 작성
 	@PostMapping("/insertReply")
-	public void insertReply(HttpServletResponse response,
+	public void insertReply(HttpServletRequest request,
+							HttpServletResponse response,
 							Reply r,
-							HttpServletRequest request) throws IOException {
+							HttpSession session) throws IOException {
 		
+		String artiName = (String)request.getSession().getAttribute("artiName");
+		
+		System.out.println("댓글에서 아트네임 넘어오냐: " + artiName);
 		System.out.println(r);
 		
 		int result = fService.insertReply(r);
 		
 		if(result > 0) {
+		
 			request.getSession().setAttribute("msg", "댓글이 등록되었습니다.");
-			response.sendRedirect("fanFeedList");
+			response.sendRedirect("fanFeedList?artNameEn=" + artiName);
+		
 		} else {
 			System.out.println("댓글 등록에 실패하였습니다");
 		}
@@ -471,6 +475,7 @@ public class FanFeedController {
 	public String reportFeed(HttpServletResponse response,
 			   				Feed f,
 			   				Report r,
+			   				Alarm a,
 			   				HttpServletRequest request,
 			   				@RequestParam(value="rptType") String rptType,
 			   				@RequestParam(value="rptReason") String rptReason,
@@ -483,7 +488,13 @@ public class FanFeedController {
 		System.out.println(rptId);
 		System.out.println(refId);
 		
-		int result = fService.insertFeedReport(r);
+		
+		System.out.println("알람 받을 아이디 : " + "admin");
+		a.setRef_id(refId);
+		a.setAlContent(rptId + " 님이 " + refId + "번 게시글을 신고하였습니다.");
+		System.out.println(a);
+		
+		int result = fService.insertFeedReport(r, a);
 		
 		if(result > 0) {
 			model.addAttribute("msg", "success");
@@ -546,13 +557,15 @@ public class FanFeedController {
 							HttpServletRequest request,
 							HttpSession session) throws IOException {
 		
+		String artiName = (String)request.getSession().getAttribute("artiName");
+		
 		System.out.println(rid);
 		
 		int result = fService.deleteReply(rid);
 		
 		if(result > 0) {
 			request.getSession().setAttribute("msg", "댓글이 삭제되었습니다.");
-			response.sendRedirect("fanFeedList");
+			response.sendRedirect("fanFeedList?artNameEn=" + artiName);
 		} else {
 			request.getSession().setAttribute("msg", "댓글삭제에 실패하였습니다.");
 		}
@@ -577,6 +590,7 @@ public class FanFeedController {
 	public String reportReply(HttpServletResponse response,
 			   				Report r,
 			   				Reply rp,
+			   				Alarm a,
 			   				HttpServletRequest request,
 			   				@RequestParam(value="rptType") String rptType,
 			   				@RequestParam(value="rptReason") String rptReason,
@@ -589,7 +603,12 @@ public class FanFeedController {
 		System.out.println(rptId);
 		System.out.println(refId);
 		
-		int result = fService.insertReplyReport(r);
+		System.out.println("알람 받을 아이디 : " + "admin");
+		a.setRef_id(refId);
+		a.setAlContent(rptId + " 님이 " + refId + "번 게시글을 신고하였습니다.");
+		System.out.println(a);
+		
+		int result = fService.insertReplyReport(r, a);
 		
 		if(result > 0) {
 			model.addAttribute("msg", "success");
@@ -624,27 +643,86 @@ public class FanFeedController {
 							Friend f,
 							String frRecId,
 							String frSend,
+							Alarm a,
 							HttpServletRequest request,
 							HttpSession session) throws IOException { 
 	
+		String artiName = (String)request.getSession().getAttribute("artiName");
+		
 //	String frSend = ((Member)request.getSession().getAttribute("loginUser")).getId();
 	
+		
 	System.out.println("친구 신청한 유저 : " + frSend);
 	System.out.println("친구 신청 받은 유저 : " + frRecId);
+	a.setId(frRecId);
+	System.out.println("알람 받을 아이디 : " + frRecId);
+	a.setAlContent(frSend + " 님이 친구신청을 하였습니다.");
 	
-		int result = fService.insertFriend(f);
+	System.out.println(a);
+	
+		int result = fService.insertFriend(f, a);
 		
 		
 		
 		  if(result > 0) { 
 			  request.getSession().setAttribute("msg", "친구신청이 완료되었습니다.");
-			  response.sendRedirect("fanFeedList");
+			  response.sendRedirect("fanFeedList?artNameEn=" + artiName);
 		  } else {
 			  request.getSession().setAttribute("msg", "친구신청에 실패하였습니다.");
-			  response.sendRedirect("fanFeedList");
-		  }
-		
-		  
-		 
+			  response.sendRedirect("fanFeedList?artNameEn=" + artiName);
+		  }  
 	}
+	
+// 상세 페이지 이동
+	@RequestMapping("/detailView")
+	public ModelAndView detailView(ModelAndView mv,
+								   @ModelAttribute ArtistGroup ag,
+								   @ModelAttribute Subscribe s,
+								   @ModelAttribute FeedCollection fc,
+								   @ModelAttribute Member m,
+								   @ModelAttribute Feed f,
+								   @ModelAttribute Attachment at,
+								   @ModelAttribute AttachmentF pt,
+								   @ModelAttribute Reply r,
+								   @ModelAttribute Like lk,
+								   Model model,
+								   HttpServletResponse response,
+								   int fid,
+								   HttpServletRequest request)	{
+		
+		String artiName = (String)request.getSession().getAttribute("artiName");
+		
+		System.out.println("게시글 번호 : " + fid);
+		pt.setRefId(fid);
+
+		List<Feed> list = fService.selectFeedList(fid);
+		System.out.println("게시글 정보 : " + list);
+		
+		List<AttachmentF> ptlist = fService.selectptList(fid);
+		System.out.println("참조 게시글 사진 리스트 : " + ptlist);
+		
+//		List<Attachment> atlist = fService.selectatList();
+//		System.out.println("유저 프로필 사진 리스트 : " + atlist);
+		
+		if(ptlist != null && !ptlist.isEmpty()) {
+			// artiName 세션에 저장
+			HttpSession session = request.getSession(); // 세션을 생성해서
+		//	session.setAttribute("artiName", artNameEn); // userid로 uid값을 넘기자
+		//	model.addAttribute("subList", subList);
+			mv.addObject("list", list);
+		//	mv.addObject("flist", flist);
+		//	mv.addObject("rlist", rlist);
+			mv.addObject("ptlist", ptlist);
+		//	mv.addObject("atlist", atlist);
+			mv.setViewName("fanfeed/fanfeedDetail");
+			
+		} //else {
+		  //	mv.addObject("msg", "조회된 리스트가 없습니다.");
+		  //	mv.setViewName("fanfeed/fanFeedList");
+	//	}
+		return mv;
+	}
+	
+// 상세 페이지 댓글 작성
+	
 }

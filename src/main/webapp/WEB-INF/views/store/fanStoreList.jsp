@@ -50,9 +50,9 @@
                  <div class="set-area">
                     <div>
                         <button class="set-btn my-area">내 지역</button>
-                        <p class="my-zone">${ userColl.area.areaName }</p>
+                        <p class="my-zone">${ user.get(0).area.areaName }</p>
                         <c:choose>
-	                        <c:when test="${ userColl.user.areaCertify eq 'Y' }">
+	                        <c:when test="${ user.get(0).user.areaCertify eq 'Y' }">
 	                        <img class="certification" src="${ contextPath }/resources/icon/location.png">
 	                        </c:when>
 	                        <c:otherwise>
@@ -64,7 +64,7 @@
                     <div>
                         <button class="set-btn enroll-fstore-btn">상품등록</button>
                         <c:choose>
-	                        <c:when test="${ userColl.user.areaCertify eq 'Y' }">
+	                        <c:when test="${ user.get(0).user.areaCertify eq 'Y' }">
 	                        <p class="isEnrollfstore">등록가능</p>
 	                        </c:when>
 	                        <c:otherwise>
@@ -107,7 +107,7 @@
              <div class="store-product">
              	<c:if test="${ !empty fanStoreList }">
              	<c:set var="code" value=""/>
-             	<c:forEach var="fs" items="${ fanStoreList }">
+             	<c:forEach var="fs" items="${ fanStoreList }" varStatus="status">
              	<c:if test="${ code ne fs.fstore.fcode }">
                 <article class="product-background">
                     <div class="product-info">
@@ -124,14 +124,16 @@
                         <b>${ fs.fstore.fname }</b>
                         <p>\ <fmt:formatNumber type="number" value="${ fs.fstore.offerPrice }"/></p>
                         <c:if test="${ fs.fstore.id ne loginUser.id }">
-                        <c:choose>
-	                        <c:when test="${ fs.wish.id eq loginUser.id && fs.wish.isWish eq 'Y' }">
-	                        <img class="ddim-icon store-icon noddim" src="${ contextPath }/resources/icon/heart-pink.png" alt="">
-	                        </c:when>
-	                        <c:otherwise>
+	                        <c:set var="ddimCheck" value="0"/>
+	                        <c:forEach var="wish" items="${ wishList }">
+		                        <c:if test="${ fs.fstore.fcode eq wish.code && wish.isWish eq 'Y' }">
+		                        <img class="ddim-icon store-icon noddim" src="${ contextPath }/resources/icon/heart-pink.png" alt="">
+		                        <c:set var="ddimCheck" value="1"/>
+		                        </c:if>
+	                        </c:forEach>
+	                        <c:if test="${ ddimCheck eq 0 }">
 	                        <img class="ddim-icon store-icon ddim" src="${ contextPath }/resources/icon/heart.png" alt="">
-	                        </c:otherwise>
-                        </c:choose>
+	                        </c:if>
                         </c:if>
                     </div>
                     <img src="${ contextPath }/resources/uploadFiles/${ fs.att.attSvName }" alt="">
@@ -209,9 +211,10 @@
 	    })
 	
 	    // 상품 상세정보로 이동
-	    $('.product-background').click(function(e) {
+	    $(document).on('click', '.product-background', function(e) {
+	    	var fcode = $(this).children("#fcode").val();
 	        if(!$(e.target).hasClass('store-icon')) {
-	            location.href='detail.html';
+	            location.href='${ contextPath }/fanStore/detail?fcode=' + fcode;
 	        }
 	    })
 	
@@ -232,7 +235,7 @@
 	        	// 상품명으로 상품 검색
 	        	var url = "${pageContext.request.contextPath}/fanStore/search"
 		        var data = {
-		        		areaCode : "${userColl.area.areaCode}",
+		        		areaCode : "${user.get(0).area.areaCode}",
 		        		search : result,
 		        		type : '상품'
 		        }
@@ -241,7 +244,7 @@
 	        	// 해시태그로 상품 검색
 	        	var url = "${pageContext.request.contextPath}/fanStore/search"
 		        var data = {
-		        		areaCode : "${userColl.area.areaCode}",
+		        		areaCode : "${user.get(0).area.areaCode}",
 		        		search : result,
 		        		type : '태그'
 		        }
@@ -277,7 +280,7 @@
 		        	// 상품명 검색시
 	        		var url = "${pageContext.request.contextPath}/fanStore/fNameList";
 	        		var data = {
-	        				areaCode: "${userColl.area.areaCode}",
+	        				areaCode: "${user.get(0).area.areaCode}",
 	        				search: search
 	        		}
 		            callAjaxSearch(url, data, '상품');
@@ -285,7 +288,7 @@
 	        		// 해시코드 검색시
 	        		var url = "${pageContext.request.contextPath}/fanStore/hashList";
 	        		var data = {
-	        				areaCode: "${userColl.area.areaCode}",
+	        				areaCode: "${user.get(0).area.areaCode}",
 	        				search: search
 	        		}
 		            callAjaxSearch(url, data, '태그');
@@ -333,7 +336,7 @@
 		        var url = "${pageContext.request.contextPath}/fanStore/myStore"
 		        var data = {
 		        		id : "${loginUser.id}",
-		        		areaCode : "${userColl.area.areaCode}"
+		        		areaCode : "${user.get(0).area.areaCode}"
 		        }
 		        callAjaxFanStoreList(url, data);
 		        flag = false;
@@ -376,9 +379,9 @@
 	        	method : "POST",
 	        	data : data,
 				dateType : "json",
-	        	success : function(list) {
-	        		console.log(list)
-	        		if(list.length < 1) {
+	        	success : function(data) {
+	        		console.log(data)
+	        		if(data.fanStoreList.length < 1) {
 	        			alert("상품목록이 존재하지 않습니다")
 	        			if($(".toggle-switch input").is(":checked")) {
 	        				$(".area p").text("전체");
@@ -389,38 +392,46 @@
 	        		} else {
 	        			var area = $(".store-product").html("");
 						var fcode = '';
-						for(var i in list) {
-							if(fcode != list[i].fstore.fcode) {
-								fcode = list[i].fstore.fcode;
+						for(var i in data.fanStoreList) {
+							if(fcode != data.fanStoreList[i].fstore.fcode) {
+								fcode = data.fanStoreList[i].fstore.fcode;
 								var article = $("<article class='product-background'>");
 								var div = $("<div class='product-info'>");
 								var hash = $("<div class='enroll-hash'>")
 								var ul = $("<ul>")
-								var artiName = $("<p>").text(list[i].fstore.artiNameEn);
-								var fName = $("<b>").text(list[i].fstore.fname);
+								var artiName = $("<p>").text(data.fanStoreList[i].fstore.artiNameEn);
+								var fName = $("<b>").text(data.fanStoreList[i].fstore.fname);
 								var price = $("<p>")
-								var s = $("<s>").text(" " + numberWithCommas(list[i].fstore.offerPrice));
+								var s = $("<s>").text(" " + numberWithCommas(data.fanStoreList[i].fstore.offerPrice));
 								var ddim = $("<img class='ddim-icon store-icon ddim' src='${ contextPath }/resources/icon/heart.png' alt=''>");
 								var noddim = $("<img class='ddim-icon store-icon noddim' src='${ contextPath }/resources/icon/heart-pink.png' alt=''>");
-								var imgSrc = "${ contextPath }/resources/uploadFiles/" + list[i].att.attSvName;
+								var imgSrc = "${ contextPath }/resources/uploadFiles/" + data.fanStoreList[i].att.attSvName;
 								var img = $("<img src='' alt=''>").attr("src", imgSrc);
-								var fCode = $("<input type='hidden' id='fcode'>").val(list[i].fstore.fcode);
-								price.append("\\ " + numberWithCommas(list[i].fstore.offerPrice)).trigger("create");
+								var fCode = $("<input type='hidden' id='fcode'>").val(data.fanStoreList[i].fstore.fcode);
+								price.append("\\ " + numberWithCommas(data.fanStoreList[i].fstore.offerPrice)).trigger("create");
 								
-								for(var j in list) {
-									if(list[i].fstore.fcode == list[j].fstore.fcode) {
+								for(var j in data.fanStoreList) {
+									if(data.fanStoreList[i].fstore.fcode == data.fanStoreList[j].fstore.fcode) {
 										var li = $("<li>")
-										li.append(list[j].hash.tagName)
+										li.append(data.fanStoreList[j].hash.tagName)
 										ul.append(li)
 									}
 								}
 								hash.append(ul)
-								if(list[i].wish.id == "${loginUser.id}" && list[i].wish.isWish == 'Y' && list[i].fstore.id != "${loginUser.id}") {
-									div.append(hash, artiName, fName, price, noddim).trigger("create");
-								} else if(list[i].fstore.id != "${loginUser.id}"){
-									div.append(hash, artiName, fName, price, ddim).trigger("create");
-								} else {
-									div.append(hash, artiName, fName, price).trigger("create");
+								div.append(hash, artiName,fName, price)
+								if(data.fanStoreList[i].fstore.id != "${loginUser.id}") {
+									var wishFlag = false;
+									for(var k in data.wishList) {
+										if(data.wishList[k].code == data.fanStoreList[i].fstore.fcode) {
+											if(data.wishList[k].id == "${loginUser.id}" && data.wishList[k].isWish == 'Y') {
+												div.append(noddim).trigger("create");
+											} 
+											wishFlag = true;
+										}
+									}
+									if(!wishFlag) {
+										div.append(ddim).trigger("create");
+									}
 								}
 								article.append(div, img, fCode).trigger("create");
 								area.append(article).trigger("create");

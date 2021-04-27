@@ -40,6 +40,12 @@
     /* text-align: center; */
 }
 
+.content-line {
+    /* border: 1px solid red; */
+    display: flex;
+    align-items: center;
+}
+
 .content-area {
     /* border: 1px solid blue; */
     width: 100%;
@@ -100,25 +106,48 @@
 .photo-area {
     /* border: 1px solid red; */
     width: 100%;
-    height: 450px;
+    height: auto;
+    display: grid;
+    /* flex-wrap : wrap;
+    display: grid; */
+    grid-template-columns: 50% 50%;
+    grid-template-rows: 50% 50%;
     margin: auto;
     margin-bottom: 30px;
 }
 
+.pic-size1 {
+	grid-row-start: 1;
+    grid-row-end: 3;
+    grid-column-start: 1;
+    grid-column-end: 3;
+    height: 450px !important;
+	border-radius: 10px;
+}
+
+.pic-size2 {
+	grid-row-start: 1;
+    grid-row-end: 3;
+    height: 450px !important;
+}
+
+.pic-size3 {
+	grid-row-start: 1;
+    grid-row-end: 3;
+    height: 450px !important;
+}
+
+
 .photo-area img {
     width: 100%;
-    height: 100%;
-    border-radius: 10px;
+    height: 225px;
 }
 
 .text-area {
-    border: none;
     width: 100%;
     background: none;
     box-sizing: border-box;
     font-size: 20px;
-    outline: none;
-    overflow: visible;
 }
 
 /* 댓글 */
@@ -192,9 +221,8 @@
 }
 
 .original-comment {
-    /* border: 1px solid green; */
     width: 100%;
-    height: 200px;
+    height: 100%;
     margin: auto;
     margin-top: 10px;
     box-sizing: border-box;
@@ -203,12 +231,15 @@
 .comment-line {
     width: 100%;
     height: auto;
-    position: relative;
 }
 
 .comment-line > td:first-child {
     vertical-align: top; 
     padding-top: 5px;
+}
+
+.comment-line > td {
+    position: relative;
 }
 
 .profile-bubble {
@@ -219,12 +250,13 @@
     background: white;
     text-align: center;
     font-family: "Wemakeprice-regular";
+    font-size: 16px !important;
     box-sizing: border-box;
     cursor: pointer;
     position: absolute;
     z-index: 1;
-    left: 400px;
-    margin-top: 10px;
+    top: 10px;
+    left: -105px;
     display: none;
 }
 
@@ -240,8 +272,8 @@
     cursor: pointer;
     position: absolute;
     z-index: 1;
-    left: 455px;
-    margin-top: 20px;
+    top: 10px;
+    left: -105px;
     display: none;
 }
 
@@ -252,9 +284,13 @@
     vertical-align: top;
 }
 
-#artist-comment {
+.artist-comment {
     background: #fceae5;
-    border-radius: 10px;
+    /* border-radius: 10px; */
+}
+
+.user-comment {
+	background: #f3f3f3;
 }
 
 .comment-box {
@@ -273,13 +309,18 @@
 }
 
 .comment-main {
-    width: 100%;
+    width: 95%;
     height: 100%;
     line-height: 40px;
-    background: #f3f3f3;
     border-radius: 10px;
     box-sizing: border-box;
     padding-right: 30px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.comment-main > div {
+    display: flex;
 }
 
 .comment-name {
@@ -288,12 +329,13 @@
     padding-left: 30px;
     padding-right: 30px;
     box-sizing: border-box;
+    white-space:nowrap;
 }
 
 .comment-content {
     padding-right: 30px;
     box-sizing: border-box;
-    overflow: visible;
+    height: auto;
 }
 
 .re-commentBtn {
@@ -302,6 +344,7 @@
     font-family: "Wemakeprice-regular";
     font-size: 15px;
     cursor: pointer;
+    white-space:nowrap;
 }
 
 .comment-etc, .re-comment-etc {
@@ -309,22 +352,42 @@
     cursor: pointer;
     font-size: 35px; 
     padding-top: 6px;
+    position: relative;
 }
 
-.comment-bubble, .re-comment-bubble {
+.comment-bubble {
     border: 2px solid black;
     border-radius: 0 10px 10px 10px;
     width: 100px;
     height: auto;
     background: white;
     text-align: center;
+    font-size: 16px !important;
     font-family: "Wemakeprice-regular";
     box-sizing: border-box;
     cursor: pointer;
     position: absolute;
     z-index: 1;
-    right: 505px;
-    margin-top: 20px;
+    top: 20px;
+    right: -110px;
+    display: none;
+}
+
+.re-comment-bubble {
+    border: 2px solid black;
+    border-radius: 0 10px 10px 10px;
+    width: 100px;
+    height: 50px;
+    background: white;
+    text-align: center;
+    font-size: 16px !important;
+    font-family: "Wemakeprice-regular";
+    box-sizing: border-box;
+    cursor: pointer;
+    position: absolute;
+    z-index: 1;
+    top: 20px;
+    right: -110px;
     display: none;
 }
 

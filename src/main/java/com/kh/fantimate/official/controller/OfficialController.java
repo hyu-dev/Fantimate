@@ -73,17 +73,18 @@ public class OfficialController {
 		return mv;
 	}
 	
+	// 미디어 개수 조회하기
 	@PostMapping(value="/countMedia", produces="application/json; charset=utf-8")
 	public @ResponseBody int countMedia() {
 		String artiName = "BTS";
 		
-		// 미디어 개수 조회하기
 		int count = oService.countMedia(artiName);
 		System.out.println("미디어 개수 : " + count);
 		
 		return count;
 	}
 	
+	// 장바구니에 등록하기
 	@PostMapping(value="/media/insertCart", produces="application/json; charset=utf-8")
 	public @ResponseBody void insertCart(@RequestParam(value="mediaNum") int mediaNum, 
 										 @RequestParam(value="mediaPay") int mediaPay, 
@@ -110,6 +111,7 @@ public class OfficialController {
 		}
 	}
 	
+	// 검색
 	@GetMapping("/search/{search}")
 	public List<MediaCollection> searchMediaList(@PathVariable String search,
 											 HttpServletRequest request) {
@@ -136,6 +138,7 @@ public class OfficialController {
 		return list;
 	}
 	
+	// 오피셜 리스트 페이지 출력
 	@GetMapping("/media/list")
 	public ModelAndView selectMediaList(String category, ModelAndView mv, HttpServletRequest request) {
 		String artiName = "BTS";
@@ -170,6 +173,7 @@ public class OfficialController {
 		return mv;
 	}
 	
+	// 오피셜 상세페이지 출력
 	@GetMapping("/media/detail")
 	public ModelAndView selectMedia(int mediaNum, ModelAndView mv, HttpServletRequest request) {
 		String artiName = "BTS";
@@ -190,8 +194,8 @@ public class OfficialController {
 			mv.setViewName("official/media/detail");
 			mv.addObject("loginUser", loginUser);
 			
-			// 클릭한 미디어 조회수 추가(머지 인투)
-			int count = oService.updateHitCount(mediaNum);
+			// 클릭한 미디어 조회수 추가
+			int count = oService.insertHitCount(mediaNum);
 			// 북마크 여부 확인
 			BookMark bmark = oService.selectBookMark(mediaNum);
 			// 댓글 개수 조회하기
@@ -217,6 +221,7 @@ public class OfficialController {
 		return mv;
 	}
 	
+	// 댓글 등록하기
 	@PostMapping(value="/insertReply", produces="application/json; charset=utf-8")
 	public @ResponseBody String insertReply(Reply r, HttpSession session, Model model) {
 		String artiName = "BTS";
@@ -236,6 +241,7 @@ public class OfficialController {
 		return "abc";
 	}
 	
+	// 댓글 삭제하기
 	@PostMapping(value="/deleteReply", produces="application/json; charset=utf-8")
 	public @ResponseBody String deleteReply(Reply r, HttpSession session, Model model) {
 		String artiName = "BTS";

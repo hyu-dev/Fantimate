@@ -82,8 +82,9 @@ public class OfficialDaoImpl implements OfficialDao{
 
 	// 클릭한 미디어 조회수 추가
 	@Override
-	public int updateHitCount(int mediaNum) {
-		return sqlSession.update("officialMapper.updateHitCount", mediaNum);
+	public int insertHitCount(int mediaNum) {
+		sqlSession.update("officialMapper.updateMediaCount", mediaNum);
+		return sqlSession.insert("officialMapper.insertHitCount", mediaNum);
 	}
 	
 	// 북마크 여부 확인

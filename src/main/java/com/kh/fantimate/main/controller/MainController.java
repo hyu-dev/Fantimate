@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -614,8 +615,59 @@ public class MainController {
 		
 	}
 	
-	
+	//chartTopThree
+	@RequestMapping(value = "/chartTopThree", produces = "application/json; charset=utf-8")
+	public @ResponseBody String chartTopThree() {
 
+		// 미디어 탑 3 select 
+		List<MediaTopNineCollection> chlist = (ArrayList<MediaTopNineCollection>) mpService
+				.selectChartTopThree();
+
+		//System.out.println("미디어 탑 3: " + chlist);
+
+		return new Gson().toJson(chlist);
+
+	}
+	
+	// 구독페이지 이동 (아티스트명 가지고)
+	@GetMapping("/chart")
+	public String chart() {
+		
+		return "main/chart";
+
+	}
+	
+	
+	
+	@RequestMapping(value="/chartDay", produces="application/json; charset=utf-8")
+	public @ResponseBody String chartDay() {
+		
+		// 일간별 미디어 순위 조회 
+		List<MediaTopNineCollection> dlist = (ArrayList<MediaTopNineCollection>)mpService.selectchartDay();
+		
+		// 날짜 포맷하기 위해 GsonBuilder를 이용해서 GSON 객체 생성
+		Gson gson = new GsonBuilder()
+					.setDateFormat("yyyy-MM-dd")
+					.create();
+		
+		return new Gson().toJson(dlist);
+		
+	}
+	
+	@RequestMapping(value="/chartWeek", produces="application/json; charset=utf-8")
+	public @ResponseBody String chartWeek() {
+		
+		// 일간별 미디어 순위 조회 
+		List<MediaTopNineCollection> wlist = (ArrayList<MediaTopNineCollection>)mpService.selectchartWeek();
+		
+		// 날짜 포맷하기 위해 GsonBuilder를 이용해서 GSON 객체 생성
+		Gson gson = new GsonBuilder()
+					.setDateFormat("yyyy-MM-dd")
+					.create();
+		
+		return new Gson().toJson(wlist);
+		
+	}
 		
 	
 	

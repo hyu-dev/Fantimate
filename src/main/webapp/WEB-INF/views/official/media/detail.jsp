@@ -47,7 +47,7 @@
                             </select>
                             <input type="checkbox" id="myComment" name="myComment" value="myComment">
                             <label for="myComment">내 댓글만</label>
-                            <span class="watching-count">${ media.hitCount.count }</span><span class="watching-count">조회수&nbsp;</span>
+                            <span class="watching-count">${ media.official.mediaCount }</span><span class="watching-count">조회수&nbsp;</span>
                         </div>
                     </div>
                 </div>
@@ -532,7 +532,7 @@
 		});
 	    
 	 	// 토글 스위치 클릭할 때 스케줄 페이지로 이동
-	    $(".toggle-switch").click(function () {
+	    $(".toggle-switch").click(function() {
 		    location.href="${ contextPath }/official/schedule";
 		});
 	    </script>

@@ -284,12 +284,12 @@ html, body {
     padding-left: 30px;
     padding-right: 30px;
     box-sizing: border-box;
+    white-space:nowrap;
 }
 
 .comment-content {
     padding-right: 30px;
     box-sizing: border-box;
-    overflow: visible;
 }
 
 .re-commentBtn {
@@ -298,6 +298,7 @@ html, body {
     font-family: "Wemakeprice-regular";
     font-size: 15px;
     cursor: pointer;
+    white-space:nowrap;
 }
 
 .comment-etc, .re-comment-etc {

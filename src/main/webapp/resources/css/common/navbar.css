@@ -112,6 +112,7 @@ input[type="checkbox"]{
     line-height: 24px;
     color: #000000;
     width: 300px;
+    box-shadow : 0px 5px 8px rgb(0 0 0 / 10%);
 }
 
 .check-area:focus{
@@ -206,6 +207,7 @@ input[type="checkbox"]{
     margin-right: 40px;
     position: absolute;
     z-index: 2;
+    box-shadow : 0px 5px 8px rgb(0 0 0 / 20%);
 }
 
 .alarm-list{
@@ -219,6 +221,8 @@ input[type="checkbox"]{
     margin-right: 220px;
     position: absolute;
     z-index: 2;
+    box-shadow : 0px 5px 8px rgb(0 0 0 / 20%);
+    
 
 }
 /* .toggle-date-section{
@@ -239,6 +243,7 @@ input[type="checkbox"]{
     margin-right: 100px;
     position: absolute;
     z-index: 2;
+    box-shadow : 0px 5px 8px rgb(0 0 0 / 20%);
     
 }
 
@@ -563,6 +568,7 @@ input[id*="friend"]:checked + label em{
     text-align: center;
     color: #dfb9b9;
     outline: none;
+    box-shadow : 0px 5px 8px rgb(0 0 0 / 7%);
 }
 
 .sendBtn:hover{
