@@ -59,8 +59,8 @@ public class OfficialController {
 		System.out.println(loginUser);
 		
 		if(loginUser.getClassifyMem() == 1) {
-			UserCollection userColl = (UserCollection)request.getSession().getAttribute("user");
-			mv.addObject("userColl", userColl);
+			List<UserCollection> userColl = (List<UserCollection>)request.getSession().getAttribute("user");
+			mv.addObject("userColl", userColl.get(0));
 		}
 		
 		if(list != null) {
@@ -154,7 +154,7 @@ public class OfficialController {
 		Member loginUser = (Member)request.getSession().getAttribute("loginUser");
 		
 		if(loginUser.getClassifyMem() == 1) {
-			User user = (User)request.getSession().getAttribute("user");
+			UserCollection user = (UserCollection)request.getSession().getAttribute("user");
 			mv.addObject("user", user);
 		}
 		
