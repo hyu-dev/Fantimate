@@ -154,8 +154,8 @@ public class OfficialController {
 		Member loginUser = (Member)request.getSession().getAttribute("loginUser");
 		
 		if(loginUser.getClassifyMem() == 1) {
-			UserCollection user = (UserCollection)request.getSession().getAttribute("user");
-			mv.addObject("user", user);
+			List<UserCollection> userColl = (List<UserCollection>)request.getSession().getAttribute("user");
+			mv.addObject("userColl", userColl.get(0));
 		}
 		
 		// 해당 카테고리 미디어 리스트 호출
