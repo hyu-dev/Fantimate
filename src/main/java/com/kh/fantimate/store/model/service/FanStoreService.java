@@ -114,5 +114,8 @@ public interface FanStoreService {
 
 	// 팬스토어 등록하기
 	int insertFanStore(FanStore fstore, List<Attachment> attList, String[] tagName);
+
+	// 팬스토어 업데이트
+	int updateFanStore(FanStore fstore, List<Attachment> attList, String[] tagName);
 	
 }

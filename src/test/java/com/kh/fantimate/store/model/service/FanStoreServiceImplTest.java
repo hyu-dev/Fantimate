@@ -12,6 +12,9 @@ public class FanStoreServiceImplTest {
 	
 	@Test
 	public void test() {
+		
+		List<String> dupTagName = new ArrayList<>();
+		
 		List<String> tagName = new ArrayList<>(); 
 		tagName.add("싱글");
 		tagName.add("밤편지");
@@ -22,13 +25,13 @@ public class FanStoreServiceImplTest {
 		for(String d : tagResult) {
 			for(int i = 0; i < tagName.size(); i++) {
 				if(tagName.get(i).equals(d)) {
+					dupTagName.add(tagName.get(i));
 					tagName.remove(i);
 				}
 			}
 		}
 		
-		assertEquals(3, tagName.size());
-		assertEquals("싱글", tagName.get(0));
+		assertTrue(dupTagName.size() < 1);
 		
 	}
 

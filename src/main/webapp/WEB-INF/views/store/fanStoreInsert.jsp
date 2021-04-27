@@ -381,6 +381,8 @@
 				 alert("상품소개글을 등록하세요")
 			 } else if($("#mainPhoto").attr("src") == '') {
 	        	 alert('대표사진을 등록하세요')
+			 } else if($(".tagArea li").length == 0) {
+				 alert('최소 1개의 태그를 등록하세요') 
 			 } else {
 				 var url = "${contextPath}/fanStore/insert";
 				 $(".main-template").attr("action", url);

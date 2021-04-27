@@ -129,4 +129,40 @@ public interface FanStoreDao {
 	// 팬스토어 사진등록
 	int insertFanStoreAtt(List<Attachment> attList);
 
+	// 중복태그 코드 불러오기
+	List<Integer> selectTagCodes(List<String> isDup);
+
+	// 중복태그 코드 업데이트
+	void updateEnrollTag(Integer tc);
+
+	// 팬스토어 업데이트
+	int updateFanStore(FanStore fstore);
+
+	// 태그명 중복 확인(태그가져오기용)
+	List<HashTag> checkDuplicationUpdate(List<String> tag);
+
+	// 중복데이터 중 등록된 태그가 있는지 확인
+	List<HashTag> selectEnrollTagList(Map map);
+
+	// 중복데이터 중 매칭되지 않은 태그 등록
+	void insertFanStoreEnrollTag(HashTag t);
+
+	// 기존에 등록된 태그명 불러오기
+	List<HashTag> selectOriginTagList(int fcode);
+
+	// 삭제된 태그 enroll_tag 삭제
+	void deleteEnrollTag(Map map);
+
+	// 팬스토어 사진 업데이트를 위한 코드번호 확인
+	List<Integer> selectAttCode(int fcode);
+
+	// 스토어 사진 업데이트
+	int updateFanStoreAtt(List<Attachment> attList);
+
+	// 일치하는 해시태그가 있는지 불러오기
+	HashTag selectHashBySearch(Map map);
+
+	// 해시태그 서치카운트 증가
+	void updateHashSearchCount(Map map);
+
 }

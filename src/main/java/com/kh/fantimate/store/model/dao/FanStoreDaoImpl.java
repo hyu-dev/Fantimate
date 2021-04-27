@@ -210,5 +210,65 @@ public class FanStoreDaoImpl implements FanStoreDao{
 	public int insertFanStoreAtt(List<Attachment> attList) {
 		return sqlSession.insert("fanStoreMapper.insertFanStoreAtt", attList);
 	}
+
+	@Override
+	public List<Integer> selectTagCodes(List<String> isDup) {
+		return sqlSession.selectList("fanStoreMapper.selectTagCodes", isDup);
+	}
+
+	@Override
+	public void updateEnrollTag(Integer tc) {
+		sqlSession.insert("fanStoreMapper.updateEnrollTag", tc);
+	}
+
+	@Override
+	public int updateFanStore(FanStore fstore) {
+		return sqlSession.update("fanStoreMapper.updateFanStore", fstore);
+	}
+
+	@Override
+	public List<HashTag> checkDuplicationUpdate(List<String> tag) {
+		return sqlSession.selectList("fanStoreMapper.checkDuplicationUpdate", tag);
+	}
+
+	@Override
+	public List<HashTag> selectEnrollTagList(Map map) {
+		return sqlSession.selectList("fanStoreMapper.selectEnrollTagList", map);
+	}
+
+	@Override
+	public void insertFanStoreEnrollTag(HashTag t) {
+		sqlSession.insert("fanStoreMapper.insertFanStoreEnrollTag", t);
+	}
+
+	@Override
+	public List<HashTag> selectOriginTagList(int fcode) {
+		return sqlSession.selectList("fanStoreMapper.selectOriginTagList", fcode);
+	}
+
+	@Override
+	public void deleteEnrollTag(Map map) {
+		sqlSession.delete("fanStoreMapper.deleteEnrollTag", map);
+	}
+
+	@Override
+	public List<Integer> selectAttCode(int fcode) {
+		return sqlSession.selectList("fanStoreMapper.selectAttCode", fcode);
+	}
+
+	@Override
+	public int updateFanStoreAtt(List<Attachment> attList) {
+		return sqlSession.update("fanStoreMapper.updateFanStoreAtt", attList);
+	}
+
+	@Override
+	public HashTag selectHashBySearch(Map map) {
+		return sqlSession.selectOne("fanStoreMapper.selectHashBySearch", map);
+	}
+
+	@Override
+	public void updateHashSearchCount(Map map) {
+		sqlSession.update("fanStoreMapper.updateHashSearchCount", map);
+	}
 	
 }

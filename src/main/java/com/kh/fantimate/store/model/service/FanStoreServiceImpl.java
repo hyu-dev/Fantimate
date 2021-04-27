@@ -1,6 +1,7 @@
 package com.kh.fantimate.store.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -79,6 +80,12 @@ public class FanStoreServiceImpl implements FanStoreService{
 
 	@Override
 	public List<FStoreListCollection> selectfStoreListBySearch(Map map) {
+		if(map.get("type").equals("태그")) {
+			HashTag hash = fDao.selectHashBySearch(map);
+			if(hash != null) {
+				fDao.updateHashSearchCount(map);
+			}
+		}
 		return fDao.selectfStoreListBySearch(map);
 	}
 
@@ -187,13 +194,14 @@ public class FanStoreServiceImpl implements FanStoreService{
 		// 팬스토어 등록하기
 		int result = fDao.insertFanStore(fstore);
 		if(result > 0) {
-			// 중복확인
+			// 배열을 리스트에 옮겨담기
 			List<String> tag = new ArrayList<>();
 			for(int i = 0; i < tagName.length; i++) {
 				tag.add(tagName[i]);
 			}
+			// 중복확인
 			List<String> isDup = fDao.checkDuplication(tag);
-			// 중복데이터가 있다면 중복있는 경우 제외하고 등록
+			// 중복데이터가 있다면 삭제
 			for(String d : isDup) {
 				for(int i = 0; i < tag.size(); i++) {
 					if(tag.get(i).equals(d)) {
@@ -201,7 +209,15 @@ public class FanStoreServiceImpl implements FanStoreService{
 					}
 				}
 			}
-			// 팬스토어와 태그명 매칭하여 등록
+			// 중복데이터인 태그명 매칭등록
+			if(isDup.size() > 0) {
+				List<Integer> tagCodes = fDao.selectTagCodes(isDup);
+				for(Integer tc : tagCodes) {
+					fDao.updateEnrollTag(tc);
+				}
+			}
+			
+			// 중복데이터가 아닌 태그명 매칭등록
 			for(String t : tag) {
 				fDao.insertHashTag(t);
 				fDao.insertEnrollTag();
@@ -211,6 +227,97 @@ public class FanStoreServiceImpl implements FanStoreService{
 			result = fDao.insertFanStoreAtt(attList);
 			
 		}
+		return result;
+	}
+
+	@Override
+	public int updateFanStore(FanStore fstore, List<Attachment> attList, String[] tagName) {
+		// 기존에 등록된 태그명 불러오기
+		List<HashTag> originTagList = fDao.selectOriginTagList(fstore.getFcode());
+		// 팬스토어 업데이트
+		int result = fDao.updateFanStore(fstore);
+		// 업데이트 성공시
+		if(result > 0) {
+			// 태그배열을 리스트에 옮겨담기
+			List<String> tag = new ArrayList<>();
+			for(int i = 0; i < tagName.length; i++) {
+				tag.add(tagName[i]);
+			}
+			// 태그중복확인
+			List<HashTag> isDup = fDao.checkDuplicationUpdate(tag);
+			// 중복태그가 있다면 삭제
+			for(HashTag d : isDup) {
+				for(int i = 0; i < tag.size(); i++) {
+					if(tag.get(i).equals(d.getTagName())) {
+						tag.remove(i);
+					}
+				}
+			}
+			// 중복되지 않은 태그 매칭등록
+			for(String t : tag) {
+				fDao.insertHashTag(t);
+				fDao.insertEnrollTag();
+			}
+			// 중복태그 매칭여부 확인
+			if(isDup.size() > 0) {
+				Map map = new HashMap<>();
+				map.put("isDup", isDup);
+				map.put("fcode", fstore.getFcode());
+				List<HashTag> tagList = fDao.selectEnrollTagList(map);
+				// 매칭된 태그가 있다면
+				if(tagList.size() > 0) {
+					for(HashTag t : tagList) {
+						for(int i = 0; i < isDup.size(); i++) {
+							if(t.getTagName().equals(isDup.get(i).getTagName())) {
+								// 중복태그 중 매칭된 경우 중복태그 리스트에서 삭제
+								isDup.remove(i);
+							}
+						}
+					}
+					
+				}
+				if(isDup.size() > 0) {
+					// 매칭되지 않은 태그명 등록
+					for(HashTag t : isDup) {
+						t.setFcode(fstore.getFcode());
+						fDao.insertFanStoreEnrollTag(t);
+					}
+				}
+			}
+			// 변경된 태그리스트 불러오기
+			List<HashTag> newTagList = fDao.selectOriginTagList(fstore.getFcode());
+			
+			// 삭제된 태그명 확인
+			for(HashTag dt : newTagList) {
+				for(int i = 0; i < originTagList.size(); i++) {
+					if(dt.getTagName().equals(originTagList.get(i).getTagName())) {
+						originTagList.remove(i);
+					}
+				}
+			}
+			// 삭제된 태그명이 있다면 enroll_tag 제거
+			if(originTagList.size() > 0) {
+				Map map = new HashMap<>();
+				map.put("originTagList", originTagList);
+				map.put("fcode", fstore.getFcode());
+				fDao.deleteEnrollTag(map);
+			}
+			
+			// 팬스토어 사진 업데이트를 위한 코드번호 확인
+			List<Integer> list = fDao.selectAttCode(fstore.getFcode());
+			System.out.println(list);
+			System.out.println(list.size());
+			System.out.println(attList);
+			System.out.println(attList.size());
+			for(int i = 0; i < list.size(); i++) {
+				attList.get(i).setAttCode(list.get(i));
+				System.out.println(attList.get(i));
+			}
+			// 스토어 사진 업데이트
+			result = fDao.updateFanStoreAtt(attList);
+			System.out.println(result);
+		}
+		
 		return result;
 	}
 	
