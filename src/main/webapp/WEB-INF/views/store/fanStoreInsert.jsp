@@ -12,13 +12,16 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css">
     <link rel="stylesheet" href="${ contextPath }/resources/css/store/fanStoreInsert.css">
     <link rel="icon" type="image/png" sizes="16x16" href="${ contextPath }/resources/icon/faviconF.png">
-    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <title>Fantimate</title>
 </head>
 <body>
 	<section class="insert-section">
         <form class="main-template" action="" method="POST" enctype="multipart/form-data">
+        	<c:if test="${ flag eq 'yes' }">
+        		<input type="hidden" name="fcode" id="pcode" value="${ sc.get(0).store.pcode }">
+        	</c:if>
+        	<input type="hidden" name="id" id="loginUser" value="${ loginUser.id }">
             <h3 class="store-write-title">팬스토어등록</h3>
             <table class="store-write">
                 <tbody>
@@ -27,7 +30,7 @@
                         <td>
                             <div class="artist-search">
                                 <img src="${ contextPath }/resources/icon/search-icon.svg" alt="" width="30" height="30">
-                                <input type="text" value="" class="input-data artist-source" placeholder="아티스트 검색">
+                                <input type="text" name="artiNameEn" class="input-data artist-source" placeholder="아티스트 검색">
                                 <div class="artist-search-area"></div>
                             </div>
                         </td>
@@ -35,13 +38,13 @@
                     <tr>
                         <th>상품명 *</th>
                         <td>
-                            <input type="text" placeholder="30자 이내 입력" class="input-data" maxlength="30">
+                            <input type="text" name="fname" placeholder="30자 이내 입력" class="input-data" maxlength="30">
                         </td>
                     </tr>
                     <tr>
                         <th>제안가격 *</th>
                         <td>
-                            <input type="number" min="100" step="100" class="input-data">
+                            <input type="number" name="offerPrice" min="100" step="100" class="input-data">
                         </td>
                     </tr>
                     <tr>
@@ -49,12 +52,9 @@
                         <td>
                             <div class="artist-search tag-search">
                                 <img src="${ contextPath }/resources/icon/hash-gray.png" alt="" width="30" height="30">
-                                <input type="text" value="" class="input-data tag-source">
+                                <input type="text" class="input-data tag-source">
                                 <div class="search-area"></div>
-                                <ul class="tagArea">
-                                	<li>테스wefwefwefwef트<button type="button">❌</button></li>
-                                	<li>테스트wefwef<button type="button">❌</button></li>
-                                </ul>
+                                <ul class="tagArea"></ul>
                             </div>
                         </td>
                     </tr>
@@ -62,35 +62,35 @@
                         <th>내 지역 *</th>
                         <td>
                             <input type="text" value="${ user.get(0).area.areaName }" class="input-data" disabled>
-                            <input type="hidden" value="${ user.get(0).area.areaCode }">
+                            <input type="hidden" name="areaCode" value="${ user.get(0).area.areaCode }">
                         </td>
                     </tr>
                     <tr>
                         <th>선호연락방식</th>
                         <td>
-                            <select name="contact" id="selectCategory" class="select">
+                            <select name="contact" id="contactCategory" class="select">
                                 <option selected>연락방식 선택</option>
-                                <option value="">쪽지</option>
-                                <option value="">댓글</option>
-                                <option value="">상품소개글로 안내</option>
+                                <option value="쪽지">쪽지</option>
+                                <option value="댓글">댓글</option>
+                                <option value="상품소개글">상품소개글로 안내</option>
                             </select>
                         </td>
                     </tr>
                     <tr>
                         <th>선호거래방식</th>
                         <td>
-                            <select name="transfer" id="selectCategory" class="select">
+                            <select name="deal" id="transferCategory" class="select">
                                 <option selected>거래방식 선택</option>
-                                <option value="">직거래</option>
-                                <option value="">택배</option>
-                                <option value="">상품소개글로 안내</option>
+                                <option value="직거래">직거래</option>
+                                <option value="택배">택배</option>
+                                <option value="상품소개글">상품소개글로 안내</option>
                             </select>
                         </td>
                     </tr>
                     <tr>
                         <th>상품소개글 *</th>
                         <td>
-                            <textarea onkeyup="chkword(this, 1000)" name="" class="guide-text" cols="30" rows="10"></textarea>
+                            <textarea onkeyup="chkword(this, 1000)" name="finfo" class="guide-text" cols="30" rows="10"></textarea>
                             <div class="limit-text">0 / 1000</div>
                         </td>
                     </tr>
@@ -99,11 +99,18 @@
             <div class="my-photo">
                 <sub class="addGuide">* 대표사진 등록 필수 / 추가사진은 최대 4장 등록가능</sub>
                 <label for="mainPhoto" class="main-photo">대표사진첨부</label>
-                <input id="mainPhoto" class="photo" type="file" style="display: none;">
+                <input id="mainPhoto" name="mainPhoto" class="photo" type="file" style="display: none;">
                 <label class="add-photo click-btn">+</label>
             </div>
             <div class="btn-area">
-                <button type="button" class="enroll-btn">등록하기</button>
+                <c:choose>
+                	<c:when test="${ flag eq 'yes' }">
+                		<button type="button" class="update-btn">수정하기</button>
+                	</c:when>
+                	<c:otherwise>
+                		<button type="button" class="enroll-btn">등록하기</button>
+                	</c:otherwise>
+                </c:choose>
                 <button type="button" class="cancel-btn">취소하기</button>
             </div>
         </form>
@@ -202,7 +209,7 @@
 		 })
 		
 		 // 아티스트 검색란에 데이터 입력시
-		 $(document).on('keyup', '.artist-source', function() {
+		 $(document).on('keyup', '.artist-source', function(e) {
 			 var artiName = $(this).val();
 		     if(artiName == '') {
 		    	 // 검색란에 데이터가 없는 경우
@@ -218,23 +225,27 @@
 		         // ajax불러오기
 		         callInsertPageSearch(url, data, type)
 		     }
+		     
+		     if(e.keyCode == 13) {
+		    	 $('.artist-source').siblings('.artist-search-area').css('display', 'none');
+		     }
 		 })
 		 // 검색된 아티스트 명 클릭시
 		 $(document).on("click", ".artist-search-area p", function() {
 			$(".artist-source").val($(this).text());
 			$('.artist-source').siblings('.artist-search-area').css('display', 'none');
-			if($(".artist-search-area").is(":click")) {
-				$('.artist-source').siblings('.artist-search-area').css('display', 'none');
-			}
 		 });
 		 // 아티스트 검색란에 데이터 포커스 해제시
 		 $(document).on('blur', '.artist-source', function() {
-			 console.log("포커스아웃")
-			 console.log(!$(".artist-search-area:hover"))
+			 if(!$(".artist-search-area").is(":hover")) {
+				$('.artist-source').siblings('.artist-search-area').css('display', 'none');
+			}
 		 })
 		
+		 let num = 1;
+	     let keyCount = 1;
 		 // 해시태그 검색란에 데이터 입력시
-		 $(document).on('keyup', '.tag-source', function() {
+		 $(document).on('keyup', '.tag-source', function(e) {
 			 var tagName = $(this).val();
 		     if(tagName == '') {
 		         $('.tag-source').siblings('.search-area').css('display', 'none');
@@ -247,16 +258,77 @@
 		         var type = "해시태그";
 		         callInsertPageSearch(url, data, type)
 		     }
+		     var flag = false;
+		     // 엔터키 입력시
+		     if(e.keyCode == 13) {
+		    	 for(var i = 0; i < num; i++) {
+		    		 if(tagName == $("#tag" + i).val()) {
+		    			 alert("중복된 태그명입니다")
+		    			 $(".tag-source").val("").focus()
+		    			 flag = true;
+		    			 break;
+		    		 }
+		    	 }
+		         if(!flag) {
+		        	 appendTag(tagName);
+		         }
+		     }
+		 })
+		 // 해시태그 삭제시
+		 $(document).on("click", ".tagArea button", function() {
+			 $(this).parent("li").remove();
+			 keyCount--;
+			 num--;
 		 })
 		 // 해시태그 검색란 포커스시
 		 $(document).on('focus', '.tag-source', function() {
 			 $('.tag-search img').attr("src", "${ contextPath }/resources/icon/hash-pink.png");
 		 })
 		 // 해시태그 검색란 포커스 해제시
-		 $(document).on('focusout', '.tag-source', function() {
-			 $('.tag-source').siblings('.search-area').css('display', 'none');
-			 $('.tag-search img').attr("src", "${ contextPath }/resources/icon/hash-gray.png");
+		 $(document).on('blur', '.tag-source', function() {
+			 if(!$(".search-area").is(":hover")) {
+				 $(".search-area").css('display', 'none');
+				 $('.tag-search img').attr("src", "${ contextPath }/resources/icon/hash-gray.png");
+			 }
 		 })
+		 // 검색된 해시태그 명 클릭시
+		 $(document).on("click", ".search-area p", function() {
+			 var flag = false;
+			 var text = $(this).text();
+	    	 for(var i = 0; i < num; i++) {
+	    		 if(text == $("#tag" + i).val()) {
+	    			 alert("중복된 태그명입니다")
+	    			 $(".tag-source").val("").focus()
+	    			 flag = true;
+	    			 break;
+	    		 }
+	    	 }
+	         if(!flag) {
+	        	 appendTag(text);
+	         }
+			$(this).parent('.search-area').css('display', 'none');
+		 });
+		 // 해시태그 등록 함수
+		 function appendTag(tagName) {
+			 $(".search-area").css('display', 'none');
+	    	 $(".tagArea").css("display", "flex");
+	    	 // 태그생성
+	    	 var button = $("<button type='button'>").text("❌");
+	    	 var input = $("<input type='hidden' name='tagName' class='tag' id='tag" + num + "'>").val(tagName);
+	    	 var li = $("<li>")
+	    	 if(keyCount < 6) {
+	    		 li.append(tagName, input, button);
+			     $(".tagArea").append(li);
+			     $(".tag-source").val("").focus()
+	    	 } else {
+	    		 alert('최대 5개까지 등록가능합니다')
+	    		 $(".tag-source").val("").focus()
+	    		 keyCount--;
+				 num--;
+	    	 }
+	    	 keyCount++;
+	    	 num++;
+		 }
 		 
 		// 반복하는 AJAX 공통 함수로 구분(검색 리스트 호출)
 		function callInsertPageSearch(url, data, type) {
@@ -266,7 +338,6 @@
 	        	data : data,
 				dateType : "json",
 	        	success : function(list) {
-	        		console.log(list)
 	        		var artistResult = $(".artist-search-area");
 	        		var tagResult = $(".search-area");
 	        		artistResult.html("");
@@ -299,6 +370,32 @@
 	        	}
 	        });
 		}
+		
+		// 등록하기 버튼을 클릭했을 때
+		 $(".enroll-btn").click(function() {
+			 if($(".input-data").val() == '') {
+				 alert("필수항목을 입력하세요")
+			 } else if($("#contactCategory").val() == '연락방식 선택' || $("#transferCategory").val() == '거래방식 선택') {
+				 alert("카테고리를 선택하세요")
+			 } else if($(".guide-text").val() == '') {
+				 alert("상품소개글을 등록하세요")
+			 } else if($("#mainPhoto").attr("src") == '') {
+	        	 alert('대표사진을 등록하세요')
+			 } else {
+				 var url = "${contextPath}/fanStore/insert";
+				 $(".main-template").attr("action", url);
+				 $(".input-data:nth-of-type(5)").attr("disabled", false);
+				 $(".main-template").submit();
+			 }
+		 });
+		 
+		 // 수정하기 버튼을 클릭했을 때
+		 $(".update-btn").click(function() {
+			 var url = "${contextPath}/fanStore/update";
+			 $(".main-template").attr("action", url);
+			 $(".input-data:nth-of-type(1)").attr("disabled", false);
+			 $(".main-template").submit(); 
+		 });
     </script>
 </body>
 </html>

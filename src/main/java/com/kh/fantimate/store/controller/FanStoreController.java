@@ -1,6 +1,10 @@
 package com.kh.fantimate.store.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,7 +22,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.kh.fantimate.common.model.vo.Attachment;
 import com.kh.fantimate.common.model.vo.Message;
 import com.kh.fantimate.common.model.vo.Reply;
 import com.kh.fantimate.common.model.vo.Report;
@@ -32,6 +38,10 @@ import com.kh.fantimate.store.model.vo.FStoreListCollection;
 import com.kh.fantimate.store.model.vo.FanStore;
 import com.kh.fantimate.store.model.vo.FanStoreReplyCollection;
 import com.kh.fantimate.store.model.vo.HashTag;
+import com.kh.fantimate.store.model.vo.Store;
+import com.kh.fantimate.store.model.vo.StoreCategory;
+import com.kh.fantimate.store.model.vo.StoreCollection;
+import com.kh.fantimate.store.model.vo.StoreInfo;
 import com.kh.fantimate.store.model.vo.Wish;
 
 @Controller
@@ -175,7 +185,6 @@ public class FanStoreController {
 				   					@RequestParam(value="search")String search,
 				   					@RequestParam(value="type")String type,
 				   					HttpServletRequest request) {
-		System.out.println(areaCode + ", " + search + ", " + type);
 		Map map = new HashMap<>();
 		map.put("areaCode", areaCode);
 		map.put("search", search);
@@ -215,9 +224,7 @@ public class FanStoreController {
 	
 	@PostMapping("/search/artiName")
 	public @ResponseBody List<ArtistGroup> selectArtiNameList(@RequestParam(value="search")String search) {
-		System.out.println(search);
 		List<ArtistGroup> artiNameList = fService.selectArtiNameList(search);
-		System.out.println(artiNameList);
 		return artiNameList;
 	}
 	
@@ -395,6 +402,96 @@ public class FanStoreController {
 		Map<String, String> map = new HashMap<>();
 		map.put("msg", msg);
 		return map;
+	}
+	
+	@PostMapping("/insert")
+	public String insertFanStore(FanStore fstore,
+							String[] tagName,
+							HttpServletRequest request,
+							@RequestParam(value="mainPhoto") MultipartFile main,
+							@RequestParam(value="subPhotos") MultipartFile[] subs) 
+							throws IOException{
+		
+		System.out.println(fstore);
+
+		for(int i = 0; i < tagName.length; i++) {
+			System.out.println(tagName[i]);
+		}
+		
+		List<Attachment> attList = new ArrayList<>();
+		Attachment att = null;
+		// 업로드 파일 서버에 저장
+		// 메인파일 첨부가 정상적으로 동작했다면
+		if(!main.getOriginalFilename().equals("")) {
+			att = new Attachment();
+			String renameFileName = saveFile(main, request);
+			// DB에 저장하기 위한 파일명 세팅
+			if(renameFileName != null) {
+				att.setAttClName(main.getOriginalFilename());
+				att.setAttSvName(renameFileName);
+				att.setAttStatus("Y");
+				att.setAttMain("Y");
+				attList.add(att);
+			}
+		}
+		// 서브파일 첨부가 정상적으로 동작했다면
+		for(MultipartFile sub : subs) {
+			att = new Attachment();
+			if(!sub.getOriginalFilename().equals("")) {
+				String renameFileName = saveFile(sub, request);
+				if(renameFileName != null) {
+					att.setAttClName(sub.getOriginalFilename());
+					att.setAttSvName(renameFileName);
+					att.setAttStatus("Y");
+					att.setAttMain("N");
+					attList.add(att);
+				}
+			}
+		}
+		
+		int result = fService.insertFanStore(fstore, attList, tagName);
+		
+		if(result > 0) {
+			return "redirect:/fanStore/list";
+		} else {
+			request.setAttribute("msg", "등록에 실패하였습니다");
+			return "redirect:/fanStore/list";
+		}
+	}
+	
+	// 파일 삭제 메소드
+	public void deleteFile(String filePath, HttpServletRequest request) {
+		String root = request.getSession().getServletContext().getRealPath("resources");
+		
+		File deleteFile = new File(root + filePath);
+		
+		if(deleteFile.exists()) {
+			deleteFile.delete();
+		}
+	}
+	
+	// 파일 리네임 후 저장
+	public String saveFile(MultipartFile file, HttpServletRequest request) {
+		String root = request.getSession().getServletContext().getRealPath("resources");
+		String savePath = root + "\\uploadFiles";
+		File folder = new File(savePath);
+		if(!folder.exists()) folder.mkdirs();	// -> 해당 경로가 존재하지 않는다면 디렉토리 생성
+		
+		// 파일명 리네임 규칙 "년월일시분초_랜덤값.확장자"
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+		String originalFileName = file.getOriginalFilename();
+		String renameFileName = "store_" + sdf.format(new Date()) + "_" 
+							+ (int)(Math.random() * 100000)
+							+ originalFileName.substring(originalFileName.lastIndexOf("."));
+		String renamePath = folder + "\\" + renameFileName; 	// 저장하고자 하는 경로 + 파일명
+		
+		try {
+			file.transferTo(new File(renamePath));
+			// => 업로드 된 파일(MultipartFile)이 rename명으로 서버에 저장
+		} catch (IllegalStateException | IOException e) {
+			System.out.println("파일 업로드 에러 : " + e.getMessage());
+		}	
+		return renameFileName;
 	}
 			
 }

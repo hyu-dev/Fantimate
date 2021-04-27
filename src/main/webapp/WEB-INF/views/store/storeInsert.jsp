@@ -197,7 +197,6 @@
                 		<button type="button" class="enroll-btn">등록하기</button>
                 	</c:otherwise>
                 </c:choose>
-                </button>
                 <button type="button" class="cancel-btn">취소하기</button>
             </div>
         </form>

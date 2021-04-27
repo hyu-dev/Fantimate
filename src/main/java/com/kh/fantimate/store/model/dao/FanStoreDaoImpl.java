@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.fantimate.common.model.vo.Attachment;
 import com.kh.fantimate.common.model.vo.Message;
 import com.kh.fantimate.common.model.vo.Reply;
 import com.kh.fantimate.common.model.vo.Report;
@@ -107,7 +108,6 @@ public class FanStoreDaoImpl implements FanStoreDao{
 
 	@Override
 	public List<ArtistGroup> selectArtiNameList(String search) {
-		System.out.println("DAO : " + search);
 		return sqlSession.selectList("fanStoreMapper.selectArtiNameList", search);
 	}
 
@@ -184,6 +184,31 @@ public class FanStoreDaoImpl implements FanStoreDao{
 	@Override
 	public List<ArtistGroup> selectHashTagList(String search) {
 		return sqlSession.selectList("fanStoreMapper.selectHashTagList", search);
+	}
+
+	@Override
+	public int insertFanStore(FanStore fstore) {
+		return sqlSession.insert("fanStoreMapper.insertFanStore", fstore);
+	}
+
+	@Override
+	public List<String> checkDuplication(List<String> tag) {
+		return sqlSession.selectList("fanStoreMapper.checkDuplication", tag);
+	}
+
+	@Override
+	public void insertHashTag(String t) {
+		sqlSession.insert("fanStoreMapper.insertHashTag", t);
+	}
+
+	@Override
+	public void insertEnrollTag() {
+		sqlSession.insert("fanStoreMapper.insertEnrollTag");
+	}
+
+	@Override
+	public int insertFanStoreAtt(List<Attachment> attList) {
+		return sqlSession.insert("fanStoreMapper.insertFanStoreAtt", attList);
 	}
 	
 }

@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.kh.fantimate.common.model.vo.Attachment;
 import com.kh.fantimate.common.model.vo.Message;
 import com.kh.fantimate.common.model.vo.Reply;
 import com.kh.fantimate.common.model.vo.Report;
@@ -110,5 +111,8 @@ public interface FanStoreService {
 
 	// 전체 해시태그 불러오기
 	List<ArtistGroup> selectHashTagList(String search);
+
+	// 팬스토어 등록하기
+	int insertFanStore(FanStore fstore, List<Attachment> attList, String[] tagName);
 	
 }

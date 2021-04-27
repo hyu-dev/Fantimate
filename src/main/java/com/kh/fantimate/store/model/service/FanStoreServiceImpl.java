@@ -1,11 +1,13 @@
 package com.kh.fantimate.store.model.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kh.fantimate.common.model.vo.Attachment;
 import com.kh.fantimate.common.model.vo.Message;
 import com.kh.fantimate.common.model.vo.Reply;
 import com.kh.fantimate.common.model.vo.Report;
@@ -178,6 +180,38 @@ public class FanStoreServiceImpl implements FanStoreService{
 	@Override
 	public List<ArtistGroup> selectHashTagList(String search) {
 		return fDao.selectHashTagList(search);
+	}
+
+	@Override
+	public int insertFanStore(FanStore fstore, List<Attachment> attList, String[] tagName) {
+		// 팬스토어 등록하기
+		int result = fDao.insertFanStore(fstore);
+		if(result > 0) {
+			// 중복확인
+			List<String> tag = new ArrayList<>();
+			for(int i = 0; i < tagName.length; i++) {
+				tag.add(tagName[i]);
+			}
+			List<String> isDup = fDao.checkDuplication(tag);
+			// 중복데이터가 있다면 중복있는 경우 제외하고 등록
+			for(String d : isDup) {
+				for(int i = 0; i < tag.size(); i++) {
+					if(tag.get(i).equals(d)) {
+						tag.remove(i);
+					}
+				}
+			}
+			// 팬스토어와 태그명 매칭하여 등록
+			for(String t : tag) {
+				fDao.insertHashTag(t);
+				fDao.insertEnrollTag();
+			}
+			
+			// 팬스토어 사진등록
+			result = fDao.insertFanStoreAtt(attList);
+			
+		}
+		return result;
 	}
 	
 	
