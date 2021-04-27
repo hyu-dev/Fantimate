@@ -111,8 +111,8 @@ public class MypageDaoImpl implements MypageDao{
 	
 	// 내 댓글 리스트 가져오기
 	@Override
-	public List<ReplyCollection> selectMyCommentList(Map<String, String> map) {
-		return sqlSession.selectList("mypage2Mapper.selectMyCommentList", map);
+	public List<ReplyCollection> selectMyCommentList(String id) {
+		return sqlSession.selectList("mypage2Mapper.selectMyCommentList", id);
 	}
 
 	// 내 댓글 삭제하기

@@ -203,7 +203,7 @@ public class MypageController {
 		ArtistCollection arti = (ArtistCollection)request.getSession().getAttribute("artist");
 		
 		// 신고하는 사람 아이디(아티스트)
-		r.setId(arti.getArtist().getArtiId());
+		r.setRptId(arti.getArtist().getArtiId());
 		System.out.println("전송할 신고 : " + r);
 		
 		// 댓글 신고하기
@@ -231,7 +231,7 @@ public class MypageController {
 		map.put("artiName", artiName);
 		
 		// 내가 쓴 댓글 리스트 가져오기
-		List<ReplyCollection> comment = mService.selectMyCommentList(map);
+		List<ReplyCollection> comment = mService.selectMyCommentList(id);
 		System.out.println("내 댓글 : " + comment);
 		System.out.println("----");
 		

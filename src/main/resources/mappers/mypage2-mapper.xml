@@ -120,6 +120,8 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<result property="refRid" column="BRRID"/>
 		<result property="likeCount" column="BLIKE_COUNT"/>
 		<result property="rrcount" column="BRRPT_COUNT"/>
+		<result property="nickname" column="NICKNAME"/>
+		<result property="category" column="CATEGORY"/>
 	</resultMap>
 	<!-- 미디어 댓글 -->
 	<resultMap type="Reply" id="mediaReplyResultSet">
@@ -129,9 +131,11 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<result property="rstatus" column="CMT_STATUS"/>
 		<result property="refId" column="MEDIA_NUM"/>
 		<result property="writer" column="ID"/>
-		<result property="RE_CMT_NUM" column="RE_CMT_NUM"/>
-		<result property="LIKE_COUNT" column="LIKE_COUNT"/>
-		<result property="RPT_COUNT" column="RPT_COUNT"/>
+		<result property="refRid" column="RE_CMT_NUM"/>
+		<result property="likeCount" column="LIKE_COUNT"/>
+		<result property="rrcount" column="RPT_COUNT"/>
+		<result property="nickname" column="NICKNAME"/>
+		<result property="category" column="CATEGORY"/>
 	</resultMap>
 	<!-- 피드 댓글 좋아요 -->
 	<resultMap type="Like" id="feedLikeResultSet">
@@ -582,35 +586,61 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	</select>
 	
 	<!-- 내 댓글 리스트 가져오기 -->
-	<select id="selectMyCommentList" parameterType="hashMap" resultMap="replyCollResultSet">
-	 SELECT A.*
- 	   FROM
-		    (SELECT
-		           BRID
-		         , BRCONTENT
-		         , BRCREATE
-		         , BID
-		         , BRRID
+	<select id="selectMyCommentList" parameterType="string" resultMap="replyCollResultSet">
+	SELECT 
+	       M.*
+      FROM 
+           (SELECT
+		           A.BRID
+		         , A.BRCONTENT
+		         , A.BRCREATE
+		         , A.BID
+		         , A.BRRID
+		         , CASE WHEN C.NICKNAME IS NULL THEN D.U_NICKNAME
+		           ELSE C.NICKNAME END NICKNAME
+		         , 'FEED' CATEGORY
 		      FROM
-			       B_REPLY
-			 WHERE
-		           ID = 'bts1'
+			       B_REPLY A 
+		 LEFT JOIN 
+		           B_REPLY B ON(A.BRRID = B.BRID)
+		 LEFT JOIN 
+		           ART_PERSON C ON(B.ID = C.ARTI_ID)
+		      JOIN
+		           BOARD J ON(A.BID = J.BID)
+		 LEFT JOIN
+		           ATT_SUBSCRIBE D ON(B.ID = D.U_ID AND J.ARTI_NAME_EN = D.ARTI_NAME_EN)
+		     WHERE
+		           A.ID = #{id}
 		       AND
-		           BR_STATUS = 'Y'
+		           A.BR_STATUS = 'Y'
 		     UNION
 		    SELECT
-		           CMT_NUM
-		         , CMT_CTT
-		         , CMT_DATE
-		         , MEDIA_NUM
-		         , RE_CMT_NUM
+		           E.CMT_NUM
+		         , E.CMT_CTT
+		         , E.CMT_DATE
+		         , E.MEDIA_NUM
+		         , E.RE_CMT_NUM
+		         , CASE WHEN G.NICKNAME IS NULL THEN H.U_NICKNAME
+		           ELSE G.NICKNAME END NICKNAME
+		         , 'OFFICIAL' CATEGORY
 		      FROM
-			       MD_CMT
-			 WHERE
-		           ID = 'bts1'
+			       MD_CMT E 
+		 LEFT JOIN 
+		           MD_CMT F ON(E.RE_CMT_NUM = F.CMT_NUM)
+		 LEFT JOIN 
+		           ART_PERSON G ON(F.ID = G.ARTI_ID)
+		      JOIN
+		           MEDIA K ON(E.MEDIA_NUM = K.MEDIA_NUM)
+		      JOIN
+		           M_CATEGORY L ON(K.CATE_CODE = L.CATE_CODE)
+		 LEFT JOIN 
+		           ATT_SUBSCRIBE H ON(F.ID = H.U_ID AND L.ARTI_NAME_EN = H.ARTI_NAME_EN)
+		     WHERE
+		           E.ID = #{id}
 		       AND
-		           CMT_STATUS = 'Y') A
-  ORDER BY BRCREATE DESC
+		           E.CMT_STATUS = 'Y') M
+		  ORDER BY 
+		           BRCREATE DESC
 	</select>
 	
 	<!-- 내 댓글 삭제하기 -->

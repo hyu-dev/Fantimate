@@ -39,10 +39,17 @@
                                         <img class="profile-img" src="${ contextPath }/resources/images/member/${ arti.attachment.attSvName }">&nbsp;
                                         <span>▶</span>
                                         <span class="artist-name nanumsquare">${ arti.artist.artiNameEn }</span>&nbsp;
-                                        <span class="nanumsquare">Feed</span>&nbsp;
+                                        <span class="nanumsquare">${ c.feedReply.category }</span>&nbsp;
                                         <span class="comment-date nanumsquare">${ c.feedReply.rcreate }</span>
                                     </div>
-                                    <p class="nanumsquare">${ c.feedReply.rcontent }</p>
+                                    <c:choose>
+	                                    <c:when test="${ c.feedReply.nickname ne null }">
+	                                    <p class="nanumsquare"><span class="send-comment">${ c.feedReply.nickname }</span><span class="send-comment">님에게 답장&nbsp;&nbsp;</span>${ c.feedReply.rcontent }</p>
+	                                    </c:when>
+	                                    <c:otherwise>
+	                                    <p class="nanumsquare">${ c.feedReply.rcontent }</p>
+	                                    </c:otherwise>
+                                    </c:choose>
                                 </td>
                                 <td>
                                     <div>

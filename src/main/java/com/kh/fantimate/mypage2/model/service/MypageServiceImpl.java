@@ -102,8 +102,8 @@ public class MypageServiceImpl implements MypageService{
 	
 	// 내 댓글 리스트 가져오기
 	@Override
-	public List<ReplyCollection> selectMyCommentList(Map<String, String> map) {
-		return mDao.selectMyCommentList(map);
+	public List<ReplyCollection> selectMyCommentList(String id) {
+		return mDao.selectMyCommentList(id);
 	}
 
 	// 내 댓글 삭제하기
