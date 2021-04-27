@@ -12,7 +12,8 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css">
     <link rel="stylesheet" href="${ contextPath }/resources/css/store/fanStoreInsert.css">
     <link rel="icon" type="image/png" sizes="16x16" href="${ contextPath }/resources/icon/faviconF.png">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <title>Fantimate</title>
 </head>
 <body>
@@ -27,7 +28,7 @@
                             <div class="artist-search">
                                 <img src="${ contextPath }/resources/icon/search-icon.svg" alt="" width="30" height="30">
                                 <input type="text" value="" class="input-data artist-source" placeholder="아티스트 검색">
-                                <div class="search-area"></div>
+                                <div class="artist-search-area"></div>
                             </div>
                         </td>
                     </tr>
@@ -51,11 +52,8 @@
                                 <input type="text" value="" class="input-data tag-source">
                                 <div class="search-area"></div>
                                 <ul class="tagArea">
-                                	<li>테스wefwefwefwef트</li>
-                                	<li>테스트wefwef</li>
-                                	<li></li>
-                                	<li></li>
-                                	<li></li>
+                                	<li>테스wefwefwefwef트<button type="button">❌</button></li>
+                                	<li>테스트wefwef<button type="button">❌</button></li>
                                 </ul>
                             </div>
                         </td>
@@ -63,8 +61,8 @@
                     <tr>
                         <th>내 지역 *</th>
                         <td>
-                            <input type="text" value="${ userColl.area.areaName }" class="input-data" disabled>
-                            <input type="hidden" value="${ userColl.area.areaCode }">
+                            <input type="text" value="${ user.get(0).area.areaName }" class="input-data" disabled>
+                            <input type="hidden" value="${ user.get(0).area.areaCode }">
                         </td>
                     </tr>
                     <tr>
@@ -208,17 +206,31 @@
 			 var artiName = $(this).val();
 		     if(artiName == '') {
 		    	 // 검색란에 데이터가 없는 경우
-		         $('.artist-source').siblings('.search-area').css('display', 'none');
+		         $('.artist-source').siblings('.artist-search-area').css('display', 'none');
 		     } else {
-		    	// 검색란에 데이터가 있는 경우
-		         $('.artist-source').siblings('.search-area').css('display', 'block');
+		    	 // 검색란에 데이터가 있는 경우
+		         $('.artist-source').siblings('.artist-search-area').css('display', 'block');
 		         var url = "${pageContext.request.contextPath}/fanStore/search/artiName"
 		         var data = {
 		        		 search : artiName
-		         }
-		         var type = "아티스트"
-		         callAjaxSearch(url, data, type)
+		         };
+		         var type = "아티스트";
+		         // ajax불러오기
+		         callInsertPageSearch(url, data, type)
 		     }
+		 })
+		 // 검색된 아티스트 명 클릭시
+		 $(document).on("click", ".artist-search-area p", function() {
+			$(".artist-source").val($(this).text());
+			$('.artist-source').siblings('.artist-search-area').css('display', 'none');
+			if($(".artist-search-area").is(":click")) {
+				$('.artist-source').siblings('.artist-search-area').css('display', 'none');
+			}
+		 });
+		 // 아티스트 검색란에 데이터 포커스 해제시
+		 $(document).on('blur', '.artist-source', function() {
+			 console.log("포커스아웃")
+			 console.log(!$(".artist-search-area:hover"))
 		 })
 		
 		 // 해시태그 검색란에 데이터 입력시
@@ -228,42 +240,55 @@
 		         $('.tag-source').siblings('.search-area').css('display', 'none');
 		     } else {
 		         $('.tag-source').siblings('.search-area').css('display', 'block');
-		         var url = "${pageContext.request.contextPath}/fanStore/insertPage/search"
+		         var url = "${pageContext.request.contextPath}/fanStore/search/hashTag"
 		         var data = {
 		        		 search : tagName
-		         }
-		         var type = "해시태그"
-		         callAjaxSearch(url, data, type)
+		         };
+		         var type = "해시태그";
+		         callInsertPageSearch(url, data, type)
 		     }
+		 })
+		 // 해시태그 검색란 포커스시
+		 $(document).on('focus', '.tag-source', function() {
+			 $('.tag-search img').attr("src", "${ contextPath }/resources/icon/hash-pink.png");
+		 })
+		 // 해시태그 검색란 포커스 해제시
+		 $(document).on('focusout', '.tag-source', function() {
+			 $('.tag-source').siblings('.search-area').css('display', 'none');
+			 $('.tag-search img').attr("src", "${ contextPath }/resources/icon/hash-gray.png");
 		 })
 		 
 		// 반복하는 AJAX 공통 함수로 구분(검색 리스트 호출)
-		function callAjaxSearch(url, data, type) {
+		function callInsertPageSearch(url, data, type) {
 			$.ajax({
 	        	url : url,
 	        	method : "POST",
 	        	data : data,
 				dateType : "json",
 	        	success : function(list) {
-	        		var searchResult = $(".search-area");
-	        		searchResult.html("");
+	        		console.log(list)
+	        		var artistResult = $(".artist-search-area");
+	        		var tagResult = $(".search-area");
+	        		artistResult.html("");
+	        		tagResult.html("");
 	        		if(list.length < 1) {
 		        		// 리스트에 정보가 없는 경우
 	        			var p = $("<p>").text("찾으시는 정보가 없습니다");
-	        			searchResult.append(p);
+	        			artistResult.append(p);
+	        			tagResult.append(p);
 	        		} else {
 						// 리스트에 정보가 있는 경우
 						switch(type) {
 						case '아티스트' :
 							for(var i in list) {
-			        			var p = $("<p>").text(list[i].fname);
-			        			searchResult.append(p);
+			        			var p = $("<p>").text(list[i].artNameEn);
+			        			artistResult.append(p);
 			        		}
 							break;
 						case '해시태그' :
 							for(var i in list) {
 			        			var p = $("<p>").text(list[i].tagName);
-			        			searchResult.append(p);
+			        			tagResult.append(p);
 			        		}
 							break;
 						}

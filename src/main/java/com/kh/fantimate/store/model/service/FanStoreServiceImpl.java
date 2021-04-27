@@ -174,6 +174,11 @@ public class FanStoreServiceImpl implements FanStoreService{
 	public void insertNotiReportFSReply(Report report) {
 		fDao.insertNotiReportFSReply(report);
 	}
+
+	@Override
+	public List<ArtistGroup> selectHashTagList(String search) {
+		return fDao.selectHashTagList(search);
+	}
 	
 	
 	

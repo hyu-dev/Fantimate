@@ -299,6 +299,7 @@
 	    // 검색 영역 데이터 클릭시
 	    $(document).on('click', '.fstore-search-result p', function() {
 	    	$(".fstore-search-content input").val($(this).text())
+	    	$('.fstore-search-result').css('display', 'none');
 	    });
 	
 	    // 내지역 버튼을 클릭했을 때

@@ -32,7 +32,7 @@
 	<jsp:include page="../common/report.jsp"/>
 	<jsp:include page="../common/messageSend.jsp"/>
 	<!-- 네비바 인클루드 -->
-	<jsp:include page="../common/navbar.jsp"></jsp:include>
+	<jsp:include page="../common/navbar.jsp"/>
 	<section class="main-section">
          <section class="left-contents">
             <article class="main-photo-area">
@@ -547,6 +547,7 @@
 	 			}
 	 		})
 	 	}
+	 	
     </script>
     </c:if>
     <c:choose>

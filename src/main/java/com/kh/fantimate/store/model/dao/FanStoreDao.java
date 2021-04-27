@@ -110,4 +110,7 @@ public interface FanStoreDao {
 	// 팬스토어 댓글 신고 관리자에게 알림
 	void insertNotiReportFSReply(Report report);
 
+	// 전체 해시태그 불러오기
+	List<ArtistGroup> selectHashTagList(String search);
+
 }
