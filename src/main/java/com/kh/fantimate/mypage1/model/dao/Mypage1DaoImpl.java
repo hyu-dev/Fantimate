@@ -256,6 +256,20 @@ public class Mypage1DaoImpl implements Mypage1Dao{
 				
 	}
 
+	// 어드민 결제내역
+	@Override
+	public int RListCountPayListAdmin() {
+		return sqlSession.selectOne("mypage1Mapper.RListCountPayListAdmin");
+	}
+
+	@Override
+	public List<UserPaymentCol2> requestPayListAdmin(ReportPageInfo pi) {
+//		System.out.println("pi.getSerchCondition() : " + pi.getSerchCondition());
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return sqlSession.selectList("mypage1Mapper.requestPayListAdmin", null, rowBounds);
+	}
+
 
 	
 	

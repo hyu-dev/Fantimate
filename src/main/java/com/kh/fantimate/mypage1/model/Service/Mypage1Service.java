@@ -102,6 +102,10 @@ public interface Mypage1Service {
 
 	public int updateUserReport(ReportAdmin report);
 
+	public int RListCountPayListAdmin();
+
+	public List<UserPaymentCol2> requestPayListAdmin(ReportPageInfo pi);
+
 	
 	
 }

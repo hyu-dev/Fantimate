@@ -190,6 +190,16 @@ public class Mypage1ServiceImpl implements Mypage1Service{
 		return mDao.updateUserReport(report);
 	}
 
+	@Override
+	public int RListCountPayListAdmin() {
+		return mDao.RListCountPayListAdmin();
+	}
+
+	@Override
+	public List<UserPaymentCol2> requestPayListAdmin(ReportPageInfo pi) {
+		return mDao.requestPayListAdmin(pi);
+	}
+
 
 
 }

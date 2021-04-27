@@ -24,8 +24,10 @@ import com.kh.fantimate.member.model.service.MemberService;
 import com.kh.fantimate.member.model.vo.Agency;
 import com.kh.fantimate.member.model.vo.Member;
 import com.kh.fantimate.mypage1.model.Service.Mypage1Service;
+import com.kh.fantimate.mypage1.model.vo.FriendPageInfo;
 import com.kh.fantimate.mypage1.model.vo.ReportAdmin;
 import com.kh.fantimate.mypage1.model.vo.ReportPageInfo;
+import com.kh.fantimate.mypage1.model.vo.UserPaymentCol2;
 import com.kh.fantimate.mypage1.model.vo.UserUpdateVo;
 import com.kh.fantimate.notice.model.Service.NoticeService;
 
@@ -252,13 +254,39 @@ public class MypageAdminController {
 		// 결제일순으로 보기
 		// 환불신청한것부터 보기
 		@GetMapping("/paylist")
-		public ModelAndView payList(ModelAndView mv) {
+		public ModelAndView payList(ModelAndView mv,
+				@RequestParam(value="page", required=false, defaultValue="1") int currentPage,
+				HttpSession session) {
 			
+//			if(session.getAttribute("loginUser") == null) {
+//				mv.addObject("msg", "로그인이 필요합니다.");
+//				mv.setViewName("mypage/admin/errorpage");
+//				return mv;
+//			}
+			int listCount = mService.RListCountPayListAdmin();
+			System.out.println("총 결제 수(멤버쉽제외??): " + listCount);
+			
+			// 요청 페이지에 맞는 리스트 조회
+			ReportPageInfo pi = pagingReport(currentPage, listCount);
+			List<UserPaymentCol2> list = mService.requestPayListAdmin(pi);	// 아직
+			System.out.println("읽어온 결제정보 : " + list);
+			
+			if(list != null) {
+				mv.addObject("list", list);
+				mv.addObject("pi", pi);
+				mv.setViewName("mypage/user/payments");
+			}else{
+				mv.addObject("msg", "조회에 실패하였습니다.");
+				mv.setViewName("mypage/admin/errorpage");
+			}
+						
+						
 			mv.setViewName("mypage/admin/payList");
 			
 			return mv;
 		}
 
+		
 		// Ajax 중복확인 버튼
 		@PostMapping("/idCheck")
 		public void ajaxidCheck(String userId,

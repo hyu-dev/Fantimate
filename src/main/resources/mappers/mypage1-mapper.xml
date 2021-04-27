@@ -196,7 +196,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 			<result property="boughtDate" column="BOUGHT_DATE"/>
 			<result property="pcode" column="P_CODE"/>
 			<result property="mediaNum" column="MEDIA_NUM"/>
-			<result property="id" column="ID"/>
+			<result property="id" column="PAY_USERID"/>
 		</resultMap>
 <!-- STORE -->
 		<resultMap type="Store" id="StoreRSet">
@@ -1041,5 +1041,112 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
                                         ID = #{id}
                                 ), SYSDATE) + #{reportDate}/24
 	</update>
-	
+	<select id="RListCountPayListAdmin" resultType="integer">
+			SELECT
+                    COUNT(*)
+              FROM
+                    PAYMENT p
+        INNER JOIN
+                    CART c
+                ON
+                    p.PAY_CODE = c.PAY_CODE
+        
+   LEFT OUTER JOIN
+                    STORE s
+                ON
+                    c.P_CODE = s.P_CODE
+   LEFT OUTER JOIN     
+                    S_CATEGORY sc
+                ON
+                    s.C_CODE = sc.C_CODE
+   LEFT OUTER JOIN
+                    ATT_STORE atts
+                ON
+                    s.P_CODE = atts.P_CODE
+                
+   LEFT OUTER JOIN
+                    MD_FILE mf
+                ON 
+                    c.MEDIA_NUM = mf.MEDIA_NUM
+   LEFT OUTER JOIN      
+                    MEDIA m
+                ON
+                    c.MEDIA_NUM = m.MEDIA_NUM
+                
+             WHERE  
+               	    (IS_MAIN_ATT != 'N' OR c.P_CODE IS NULL)
+	</select>
+	<select id="requestPayListAdmin" resultMap="UserPaymentColRSet2">
+			SELECT
+                    CART_CODE
+                  , BUY_Q
+                  , B_PRICE
+                  , FEE
+                  , ENROLL_DATE
+                  , IS_BOUGHT
+                  , c.P_CODE
+                  , c.MEDIA_NUM
+                  , c.ID AS PAY_USERID
+                  , BOUGHT_DATE
+                  , c.PAY_CODE AS CPAY_CODE
+                  
+                  , PAY_METHOD
+                  , PAY_STATUS
+                  , PAY_PRICE
+                  , PAY_DATE
+                  , PAY_DIVISION
+                  
+                  , P_NAME
+                  , SALES_Q
+                  , Q_PRICE
+                  , DISCOUNT
+                  , IS_ACTIVE
+                  , s.C_CODE
+                  
+                  , C_NAME
+                  , ARTI_NAME_EN
+                  
+                  , atts.ATT_CODE
+                  , atts.ATT_CL_NAME
+                  , atts.ATT_SV_NAME
+                  
+                  , mf.ATT_CODE as MD_ATT_CODE
+                  , mf.PIC_CL_NAME
+                  , mf.PIC_SV_NAME
+                  
+                  , MEDIA_TTL
+              FROM
+                    PAYMENT p
+        INNER JOIN
+                    CART c
+                ON
+                    p.PAY_CODE = c.PAY_CODE
+        
+   LEFT OUTER JOIN
+                    STORE s
+                ON
+                    c.P_CODE = s.P_CODE
+   LEFT OUTER JOIN     
+                    S_CATEGORY sc
+                ON
+                    s.C_CODE = sc.C_CODE
+   LEFT OUTER JOIN
+                    ATT_STORE atts
+                ON
+                    s.P_CODE = atts.P_CODE
+                
+   LEFT OUTER JOIN
+                    MD_FILE mf
+                ON 
+                    c.MEDIA_NUM = mf.MEDIA_NUM
+   LEFT OUTER JOIN      
+                    MEDIA m
+                ON
+                    c.MEDIA_NUM = m.MEDIA_NUM
+                
+             WHERE  
+				    (IS_MAIN_ATT != 'N' OR c.P_CODE IS NULL)
+          ORDER BY  CART_CODE
+				
+	</select>
 </mapper>

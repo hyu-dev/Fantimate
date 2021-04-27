@@ -79,5 +79,7 @@ public interface Mypage1Dao {
 
 	public int updateUserReport(ReportAdmin report);
 
+	public int RListCountPayListAdmin();
 
+	public List<UserPaymentCol2> requestPayListAdmin(ReportPageInfo pi);
 }
