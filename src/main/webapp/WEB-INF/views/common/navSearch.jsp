@@ -112,7 +112,7 @@
 		                </div>
 		                <!-- 회원가입 버튼 생성전 예시 -->
 		                <c:if test="${ loginUser.classifyMem eq 1}">
-		                	<img src="${ contextPath }/resources/icon/user.svg" alt="" class="nav-icon" onclick="location.href='${ contextPath }/mypage/user/payment'">
+		                	<img src="${ contextPath }/resources/icon/user.svg" alt="" class="nav-icon" onclick="location.href='${ contextPath }/mypage/user/payments'">
 		                </c:if>
 		                <c:if test="${ loginUser.classifyMem eq 2}">
 		                	<img src="${ contextPath }/resources/icon/user.svg" alt="" class="nav-icon" onclick="location.href='${ contextPath }/mypage/artist/feed'">
@@ -366,12 +366,12 @@
     
     function fanFeed(refId){
     	// refId 추후 수정 
-		location.href='${contextPath}/fanfeed/detail?refId=' + refId;
+		location.href='${contextPath}/fanfeed/fanfeed/detailView?fid=' + refId;
     }
     
     function artistFeed(refId){
     	// refId 추후 수정 
-		location.href='${contextPath}/artistfeed/detail?refId=' + refId;
+		location.href='${contextPath}/artistfeed/detailView?fid=' + refId;
     }
     
     function reportDetail(){
