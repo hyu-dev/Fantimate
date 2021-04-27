@@ -8,6 +8,8 @@
 		<setting name="jdbcTypeForNull" value="NULL" />
 		<!-- 데이터베이스로의 응답을 얼마나 오래 기다릴지 판단하는 타임 아웃 설정 -->
 		<setting name="defaultStatementTimeout" value="25"/>
+		<!-- null대신 empty 리턴 -->
+		<setting name="returnInstanceForEmptyRow" value="true"/>
 	</settings>
 	
 	<!-- typeAliases -->
@@ -33,6 +35,7 @@
 		<typeAlias type="com.kh.fantimate.mypage1.model.vo.FriendList1" alias="FriendList1"/>
 		<typeAlias type="com.kh.fantimate.mypage1.model.vo.UserPaymentCol" alias="UserPaymentCol"/>
 		<typeAlias type="com.kh.fantimate.mypage1.model.vo.UserPaymentCol2" alias="UserPaymentCol2"/>
+		<typeAlias type="com.kh.fantimate.mypage1.model.vo.UserUpdateVo" alias="UserUpdateVo"/>
 		<typeAlias type="com.kh.fantimate.common.model.vo.Alarm" alias="Alarm"/>
 		<typeAlias type="com.kh.fantimate.common.model.vo.BookMark" alias="BookMark"/>
 		<typeAlias type="com.kh.fantimate.common.model.vo.Message" alias="Message"/>

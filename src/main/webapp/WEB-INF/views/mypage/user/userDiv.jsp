@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,14 +16,16 @@
 <title>회원정보수정 창</title>
 </head>
 <body>
+	<c:if test="${ loginUser.classifyMem ne null }">
+		 
 	<div id="mypageUserProfileWrap">
             <div id="mypageUserProfileImgDiv">
-                <img id="mypageUserProfileImg" src="${ contextPath }/resources/images/mypage/user/mansik.png">
+                <img id="mypageUserProfileImg" src="${ contextPath }/resources/images/mypage/user/profile/${ user.id }/mansik.png">
             </div>
             <div id="mypageUserProfileImgDivRight">
-                <h3 class="font-30">만식 김</h3>
+                <h3 class="font-30">${ loginUser.name }</h3>
                 <h4 class="font-16">&nbsp;</h4>
-                <h4 class="font-16">mansik@gmail.com</h4>
+                <h4 class="font-16">${ user.uemail }</h4>
             </div>
             <div id="mypageUserProfileImgDivRightRight">
                 <button class="mypage-btn-pink-14" id="userProfileUpdate">수정하기</button>
@@ -30,16 +33,7 @@
                 <button class="mypage-btn-blueblack-14" id="userWithdrawal">탈퇴하기</button>
             </div>
         </div>
-
-<script>
-	$(document).ready(function(){
-		$("#userProfileUpdate").click(function(){
-			console.log("정상클릭");
-			//alert(Member(id=admin, pwd=1234, name=관리자, status=Y, signupDate=Tue Mar 30 17:29:18 KST 2021, classifyMem=4));
-		});
-		
-	});
-	</script>
+	</c:if>
 	<script src="${ contextPath }/resources/css/mypage/jw.js"></script>        
 </body>
 </html>

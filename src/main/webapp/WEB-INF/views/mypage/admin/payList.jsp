@@ -8,7 +8,7 @@
 </head>
 <body>
 	<!-- 네비바 -->
-	<jsp:include page="../../common/navbar.jsp"></jsp:include>
+	<jsp:include page="../../common/navbar.jsp"/>
 	
     <!-- 밑에 섹션 -->
     <section id="mypageAdminSection">

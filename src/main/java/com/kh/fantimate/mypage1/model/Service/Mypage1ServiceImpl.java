@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kh.fantimate.common.model.vo.Attachment;
 import com.kh.fantimate.common.model.vo.Friend;
 import com.kh.fantimate.common.model.vo.Notice;
 import com.kh.fantimate.common.model.vo.PageInfo;
@@ -15,6 +16,7 @@ import com.kh.fantimate.mypage1.model.dao.Mypage1Dao;
 import com.kh.fantimate.mypage1.model.vo.FriendPageInfo;
 import com.kh.fantimate.mypage1.model.vo.ReportPageInfo;
 import com.kh.fantimate.mypage1.model.vo.UserPaymentCol2;
+import com.kh.fantimate.mypage1.model.vo.UserUpdateVo;
 
 @Service
 public class Mypage1ServiceImpl implements Mypage1Service{
@@ -150,6 +152,31 @@ public class Mypage1ServiceImpl implements Mypage1Service{
 	@Override
 	public int userpaymentSConfirmUpdateC(UserPaymentCol2 u) {
 		return mDao.userpaymentSConfirmUpdateC(u);
+	}
+
+	@Override
+	public Attachment selectProfile(Member m) {
+		return mDao.selectProfile(m);
+	}
+
+	@Override
+	public int insertProfile(Attachment newAtt) {
+		return mDao.insertProfile(newAtt);
+	}
+
+	@Override
+	public int updateProfile(Attachment upAtt) {
+		return mDao.updateProfile(upAtt);
+	}
+
+	@Override
+	public int updateProfileInfo(UserUpdateVo updateUser) {
+		return mDao.updateProfileInfo(updateUser);
+	}
+
+	@Override
+	public int updateUpStatusUser(Member tempProfile) {
+		return mDao.updateUpStatusUser(tempProfile);
 	}
 
 

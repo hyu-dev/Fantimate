@@ -25,14 +25,17 @@
 	 	</script>
 <%-- 			    <c:remove var="msg"/> --%>
 	</c:if>
-	
-	
-	<jsp:include page="../../common/navbar.jsp"></jsp:include>
-<%-- 	<jsp:include page="${ contextPath }'WEB-INF/views/common/navbar.jsp'"></jsp:include> --%>
+<!-- 네비바 -->
+	<jsp:include page="../../common/navbar.jsp"/>
+
+	<!-- 유저 정보수정 팝업 -->
+	<jsp:include page="updateUserPop.jsp"/>
+ 
 	<!-- 	상단 -->
 	<section id="mypageUserProfile">
 		<jsp:include page="userDiv.jsp"/>
     </section>
+    
     <!-- 프로필 밑에 섹션 -->
     <section id="mypageUserSection">
         <article id="mypageUserContent">
@@ -117,8 +120,8 @@
                     			<c:choose>
                    					<c:when test="${ p.cart.pcode eq 0 }">
 <%-- 	                                    <button onclick="confirmMStatus('${ p.cart.cartCode}','${ p.payment.payStatus }')">구매확정</button> --%>
-	                                    <button onclick="confirmMStatus('${ p.cart.cartCode}','${ p.cart.isBought }')">구매확정</button>
-	                                    <button onclick="mediarefund()">환불신청</button>
+<%-- 	                                    <button onclick="confirmMStatus('${ p.cart.cartCode}','${ p.cart.isBought }')">구매확정</button> --%>
+<!-- 	                                    <button onclick="mediarefund()">환불신청</button> -->
                    					</c:when>
                    					<c:when test="${ p.cart.pcode ne 0}">
 <%-- 	                                    <button onclick="confirmSStatus('${ p.cart.cartCode }','${ p.payment.payStatus }')">구매확정</button> --%>
