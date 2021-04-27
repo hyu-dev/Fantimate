@@ -8,6 +8,7 @@ import com.kh.fantimate.common.model.vo.Report;
 import com.kh.fantimate.member.model.vo.Agency;
 import com.kh.fantimate.member.model.vo.Member;
 import com.kh.fantimate.mypage1.model.vo.FriendPageInfo;
+import com.kh.fantimate.mypage1.model.vo.ReportAdmin;
 import com.kh.fantimate.mypage1.model.vo.ReportPageInfo;
 import com.kh.fantimate.mypage1.model.vo.UserPaymentCol2;
 import com.kh.fantimate.mypage1.model.vo.UserUpdateVo;
@@ -40,7 +41,7 @@ public interface Mypage1Dao {
 	public List<Report> requestReportMediaList(ReportPageInfo pi);
 
 	// 회원관리
-	public List<Member> requestCommonList(ReportPageInfo pi);
+	public List<UserUpdateVo> requestCommonList(ReportPageInfo pi);
 
 
 	public int RListCountFriend(Member m);
@@ -73,6 +74,10 @@ public interface Mypage1Dao {
 	public int updateProfileInfo(UserUpdateVo updateUser);
 
 	public int updateUpStatusUser(Member tempProfile);
+
+	public int updateRpt(ReportAdmin report);
+
+	public int updateUserReport(ReportAdmin report);
 
 
 }

@@ -15,20 +15,22 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	
 <!-- 	회원 정보 수정하기 위해 -->
 		<!-- 일반 회원 -->
-	<resultMap type="User" id="userResultSet">
+	<resultMap type="User2" id="userResultSet">
 		<id property = "id" column="U_ID"/>
 		<result property="uaddress" column="U_ADD"/>
 		<result property="uemail" column="U_EMAIL"/>
 		<result property="ucountry" column="U_COUNTRY"/>
 		<result property="areaReg" column="AREA_REGISTER"/>
 		<result property="areaCertify" column="AREA_CERTIFY"/>
+		<result property="areaCode" column="AREA_CERTIFY"/>
 		<result property="isMembership" column="IS_MEMBERSHIP"/>
-		<result property="uProfile" column="U_PROFILE"/>
+		<result property="uprofile" column="U_PROFILE"/>
+		<result property="ususpendEnd" column="U_SUSPEND_END"/>
 	</resultMap>
 <!-- 유저 정보 변경하기 위해 -->	
 	<resultMap type="UserUpdateVo" id="UserUpdateVoRSet">
-		<collection property="user" resultMap="userResultSet"/>
 		<collection property="common" resultMap="commonResultSet"/>
+		<collection property="user" resultMap="userResultSet"/>
 	</resultMap>
 	
 	
@@ -405,6 +407,8 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 				</when>
 				<when test="_parameter == 'COMMON'">
 					COMMON
+				WHERE 
+						CLASSIFY_MEM &lt;= 3
 				</when>
 			  <otherwise>
 			  		RPT_MESSAGE
@@ -558,16 +562,23 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	
 	
 	
-	
-	<select id="requestCommonList" resultMap="commonResultSet">
+	<!-- date null값 처리 -->
+	<select id="requestCommonList" resultMap="UserUpdateVoRSet">
 	   SELECT
                 ID
               , STATUS
               , NAME
               , SIGNUP_DATE
-              , CLASSIFY_MEM
+              , CLASSIFY_MEM 
+                           
+			  , U_SUSPEND_END
+<!-- 			  , nvl(U_SUSPEND_END, SYSDATE) as U_SUSPEND_END -->
+<!-- 			  , nvl(U_SUSPEND_END, TO_CHAR(TO_DATE('19990909', 'YYYYMMDD'), 'YY-MM-DD')) as U_SUSPEND_END -->
          FROM
                 COMMON
+    LEFT JOIN
+                USER_
+           ON   ID = U_ID
         WHERE   
                 CLASSIFY_MEM &lt;= 3
      ORDER BY 
@@ -578,13 +589,39 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	<!-- 마이페이지 User 친구 -->
 	<!-- 마이페이지 User 친구 -->
 	<select id="RListCountFriend" resultType="integer" parameterType="Member">
-		SELECT
-				COUNT(*)
-		  FROM
-		  		FRIEND     
-         WHERE
-             	FR_STATUS = 2
-           AND  U_ID_RECEIVE = #{id}
+<!-- 		SELECT -->
+<!-- 				COUNT(*) -->
+<!-- 		  FROM -->
+<!-- 		  		FRIEND      -->
+<!--          WHERE -->
+<!--              	FR_STATUS = 2 -->
+<!--            AND  U_ID_RECEIVE = #{id} -->
+			SELECT
+                	COUNT(*)
+              FROM
+	                (SELECT
+	                        FR_CODE
+	                      , f.U_ID_SEND
+	                      , U_ID_RECEIVE
+	                      , FR_STATUS
+	                      
+	                      , U_ID
+	                      
+	                      , UP_CL_NAME
+	                      , UP_SV_NAME
+	                      , UP_STATUS
+	                  FROM
+	                        FRIEND f
+	             LEFT JOIN
+	                        USER_PROFILE a
+	                    ON
+	                        f.U_ID_SEND = a.U_ID
+	                 WHERE
+	                        (U_ID_RECEIVE = #{id} OR
+	                         U_ID_SEND = #{id}
+	                        )
+	                   AND  FR_STATUS = 2
+	                   )
 	</select>
 	<select id="requestFriendList" resultMap="FriendList1RSet">
    		SELECT
@@ -600,20 +637,22 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
               , UP_STATUS
 		  FROM
                 (SELECT
-                    FR_CODE
-                  , U_ID_SEND
-                  , U_ID_RECEIVE
-                  , FR_STATUS
-                  , case when u_id_receive = 'user' then u_id_send
-                        else u_id_receive end as FR
-                FROM      
-                    FRIEND) f
+	                    FR_CODE
+	                  , U_ID_SEND
+	                  , U_ID_RECEIVE
+	                  , FR_STATUS
+	                  , case when u_id_receive = #{serchCondition} then u_id_send
+	                        else u_id_receive end as FR
+                  FROM      
+                 		FRIEND
+                 ) f
      LEFT JOIN
                 USER_PROFILE a
             ON
                 f.FR = a.U_ID
          WHERE
                  FR_STATUS = 2
+        and (u_id_receive = #{serchCondition} or u_id_send = #{serchCondition} )
 	</select>
 	<!-- 친구요청 리스트 -->
 	<select id="RListCountFriendReq" resultType="integer" parameterType="Member">
@@ -936,4 +975,71 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		   SET
 		   		UP_STATUS = #{status}
 	</update>
+	
+	<!-- #{isReported} = 테이블 이름 -->
+	<update id="updateRpt" parameterType="ReportAdmin">
+		UPDATE
+				(
+                     SELECT 
+                            RPT_CODE
+                          , IS_REPORTED
+                     FROM 
+                     		${isReported}
+                      WHERE
+                            RPT_CODE = #{rptCode}
+                    )
+		   SET
+		   		IS_REPORTED = 'Y'
+	</update>
+<!-- N으로 바꾸기 -->	
+	<update id="updateUserReportN" parameterType="ReportAdmin">
+		UPDATE
+                (
+                SELECT
+                        STATUS
+                        
+                      , U_SUSPEND_START
+                      , U_SUSPEND_END
+                  FROM
+                        COMMON
+                  JOIN
+                        USER_
+                    ON  ID = U_ID
+                 WHERE
+                        ID = #{id}
+                )
+           SET
+               STATUS = 'N' 
+	</update>
+	<update id="updateUserReportDate" parameterType="ReportAdmin">
+		 UPDATE
+                (
+                SELECT
+                        STATUS
+                        
+                      , U_SUSPEND_START
+                      , U_SUSPEND_END
+                  FROM
+                        COMMON
+                  JOIN
+                        USER_
+                    ON ID = U_ID
+                 WHERE
+                        ID = #{id}
+                )
+           SET
+               U_SUSPEND_START = SYSDATE,
+               U_SUSPEND_END = NVL((
+                                SELECT
+                                        U_SUSPEND_END
+                                  FROM
+                                        COMMON
+                                  JOIN
+                                        USER_
+                                    ON ID = U_ID
+                                 WHERE
+                                        ID = #{id}
+                                ), SYSDATE) + #{reportDate}/24
+	</update>
+	
 </mapper>

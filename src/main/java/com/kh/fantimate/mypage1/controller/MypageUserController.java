@@ -159,13 +159,6 @@ public class MypageUserController {
 ////////////////////////////////////////////////////////////////////////////////////////////	
 		
 		
-		
-		
-		
-		
-		
-		
-		
 	// 재우추가
 		@GetMapping("/feed")
 		public ModelAndView userMyFeed(ModelAndView mv) {
@@ -211,6 +204,10 @@ public class MypageUserController {
 			// 비로그인 처리
 			if(session.getAttribute("loginUser") == null) {
 				mv.addObject("msg", "로그인이 필요합니다.");
+				mv.setViewName("mypage/admin/errorpage");
+				return mv;
+			}else if( ((Member)(session.getAttribute("loginUser"))).getClassifyMem() != 1 ){
+				mv.addObject("msg", "일반회원이 아닙니다.");
 				mv.setViewName("mypage/admin/errorpage");
 				return mv;
 			}

@@ -39,7 +39,8 @@
                         <th>아이디</th>
                         <th>이름</th>		<!-- 연락처가 낫나 -->
                         <th>가입일</th>
-                        <th>활동정지일</th>
+<!--                         <th>활동정지일</th> -->
+                        <th>활동재개일</th>
                     </tr>
                 </thead>
 
@@ -47,28 +48,33 @@
                 	<c:forEach var="m" items="${ list }">
                 	<tr>
                 		<td>
-                		<c:if test="${ m.status eq 'Y' }">
-                			활동중
-                		</c:if>
-                		<c:if test="${ m.status eq 'N' }">
-                			정지
-                		</c:if>
+	                		<c:if test="${ m.common.status eq 'Y' }">
+	                			활동중
+	                		</c:if>
+	                		<c:if test="${ m.common.status eq 'N' }">
+	                			활동정지
+	                		</c:if>
                 		</td>	<!-- 활동상태 -->
                 		<td>
-                		<c:if test="${ m.classifyMem eq '1' }">
+                		<c:if test="${ m.common.classifyMem eq '1' }">
                 			일반회원
                 		</c:if>
-                		<c:if test="${ m.classifyMem eq '2' }">
+                		<c:if test="${ m.common.classifyMem eq '2' }">
                 			아티스트회원
                 		</c:if>
-                		<c:if test="${ m.classifyMem eq '3' }">
+                		<c:if test="${ m.common.classifyMem eq '3' }">
                 			소속사
                 		</c:if></td>		<!-- 회원유형 -->
-                		<td>${ m.id }</td>		<!-- 아이디 -->
-                		<td>${ m.name }</td>		<!-- 연락처/이름? -->
+                		<td>${ m.common.id }</td>		<!-- 아이디 -->
+                		<td>${ m.common.name }</td>		<!-- 연락처/이름? -->
                 		<c:set var="date" value="<%= new Date() %>"/>
-                		<td><fmt:formatDate type="date" value="${ m.signupDate }"/></td>		<!-- 가입일 -->
-                		<td></td>		<!-- 활동정지일 -->
+                		<td><fmt:formatDate type="date" value="${ m.common.signupDate }"/></td>		<!-- 가입일 -->
+                		<td>
+							<c:if test="${ not empty m.user.ususpendEnd }">
+								<c:set var="date" value="<%= new Date() %>"/>
+								<fmt:formatDate type="date" value="${ m.user.ususpendEnd }"/>
+							</c:if>
+                		</td>		<!-- 활동정지일 -->
                 	</tr>
                 	</c:forEach>
 <!--                     <tr> -->

@@ -2,15 +2,15 @@ package com.kh.fantimate.mypage1.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,7 +24,9 @@ import com.kh.fantimate.member.model.service.MemberService;
 import com.kh.fantimate.member.model.vo.Agency;
 import com.kh.fantimate.member.model.vo.Member;
 import com.kh.fantimate.mypage1.model.Service.Mypage1Service;
+import com.kh.fantimate.mypage1.model.vo.ReportAdmin;
 import com.kh.fantimate.mypage1.model.vo.ReportPageInfo;
+import com.kh.fantimate.mypage1.model.vo.UserUpdateVo;
 import com.kh.fantimate.notice.model.Service.NoticeService;
 
 
@@ -191,6 +193,40 @@ public class MypageAdminController {
 			return mv;
 		}
 		
+		@PostMapping("/report/user")
+		public String reportUser(
+				HttpSession session,
+				Model model,
+				ReportAdmin report,		// isReported에 테이블이름 담아서 넘어오기
+				String reportDay,		// 정지일수
+				HttpServletRequest request) {
+			
+			System.out.println("/report/user 제대로 작동");
+			System.out.println("report : " + report);
+			System.out.println("reportDay : " + reportDay);
+			String rptTable = report.getIsReported();
+			System.out.println("rptTable : " + rptTable );
+			
+			int rptDate = Integer.parseInt(reportDay);
+			System.out.println("rptDate : " + rptDate);
+			
+			// Y로 바꿔주기 (처리완료로 상태변경)
+			int colupdate = mService.updateRpt(report);
+			System.out.println("colupdate : " + colupdate);
+			
+			// 정지를 시킨다면 정지일수가 0보다큼
+			if(rptDate > 0) {
+			// 유저정보 업데이트
+			report.setReportDate(rptDate*24);
+			int result1 = mService.updateUserReport(report);
+			
+				if(rptDate > 0 && result1 >0) {
+					System.out.println("회원제재 로직 성공");
+				}
+			}
+			return "redirect:/mypage/admin/report";
+		}
+		
 		// 회원 관리
 		@GetMapping("/management")
 		public ModelAndView memberManagement(ModelAndView mv,
@@ -200,7 +236,7 @@ public class MypageAdminController {
 			int listCount = RListCountMethod(6);
 			System.out.println("읽어온 회원정보 갯수 : " + listCount);
 			ReportPageInfo pi = pagingReport(currentPage, listCount);
-			List<Member> list = mService.requestCommonList(pi);
+			List<UserUpdateVo> list = mService.requestCommonList(pi);
 			System.out.println("읽어온 회원정보 : " + list);
 			if(list != null) {
 				mv.addObject("list", list);
@@ -267,12 +303,12 @@ public class MypageAdminController {
 				if(result1 > 0 && result2 > 0) {
 					System.out.println("정상회원가입");
 //					model.addAttribute("msg", "success");
-					rd.addFlashAttribute("msg","Agency회원 정보 정상 입력");
+					rd.addFlashAttribute("msg","success");
 					return "redirect:/notice/list";
 				}else {
 					System.out.println("Agency 등록 실패");
 //					model.addAttribute("msg", "fail");
-					rd.addFlashAttribute("msg","Agency회원 정보 정상 입력");
+					rd.addFlashAttribute("msg","fail");
 					return "redirect:/notice/list";
 				}
 				

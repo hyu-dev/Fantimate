@@ -36,6 +36,8 @@
 		<typeAlias type="com.kh.fantimate.mypage1.model.vo.UserPaymentCol" alias="UserPaymentCol"/>
 		<typeAlias type="com.kh.fantimate.mypage1.model.vo.UserPaymentCol2" alias="UserPaymentCol2"/>
 		<typeAlias type="com.kh.fantimate.mypage1.model.vo.UserUpdateVo" alias="UserUpdateVo"/>
+		<typeAlias type="com.kh.fantimate.mypage1.model.vo.ReportAdmin" alias="ReportAdmin"/>
+		<typeAlias type="com.kh.fantimate.mypage1.model.vo.User2" alias="User2"/>
 		<typeAlias type="com.kh.fantimate.common.model.vo.Alarm" alias="Alarm"/>
 		<typeAlias type="com.kh.fantimate.common.model.vo.BookMark" alias="BookMark"/>
 		<typeAlias type="com.kh.fantimate.common.model.vo.Message" alias="Message"/>
