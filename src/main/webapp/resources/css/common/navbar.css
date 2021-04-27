@@ -212,7 +212,7 @@ input[type="checkbox"]{
 
 .alarm-list{
     display: block;
-    width: 600px;
+    width: 620px;
     height: 626px;
     background-color: white;
     border-radius: 8px;
@@ -279,9 +279,17 @@ input[type="checkbox"]{
     list-style: none;
 }
 
-.today-alarm li.alarm-content, .today-mail li.mail-content , .friendMail-contentList li.friendMail-content{
+.today-mail li.mail-content , .friendMail-contentList li.friendMail-content{
     border-bottom: 1px solid #ACACAC;
     padding: 20px 0px 20px 22px;
+    color: #000000;
+    font-style: normal;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.today-alarm li.alarm-content{
+	 padding: 20px 0px 10px 22px;
     color: #000000;
     font-style: normal;
     font-size: 16px;
@@ -685,9 +693,6 @@ input[id*="joinBtn"]{
     cursor: pointer;
 }
 
-li.alarm-content:hover{
-	background:rgba(229, 210, 210, 0.30);
-}
 
 #friendContent{
 	display:none;
@@ -724,4 +729,26 @@ li.alarm-content:hover{
     font-weight: 500;
     cursor : pointer;
 }
+
+/* 알람 쓰레기 통 */
+.cancel-btn{
+	width: 22px;
+    height: 22px;
+    margin-right: 10px;
+    /*display:none;*/
+	
+}
+
+.divSec{
+	display:flex;
+	align-items: center;
+    justify-content: space-between;
+}
+
+
+div.divSec:hover{
+	background:rgba(229, 210, 210, 0.30);
+}
+
+
 

@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -650,7 +651,7 @@ public class MainController {
 					.setDateFormat("yyyy-MM-dd")
 					.create();
 		
-		return new Gson().toJson(dlist);
+		return gson.toJson(dlist);
 		
 	}
 	
@@ -665,10 +666,112 @@ public class MainController {
 					.setDateFormat("yyyy-MM-dd")
 					.create();
 		
-		return new Gson().toJson(wlist);
+		return gson.toJson(wlist);
 		
 	}
+	
+	
+	// 알람 삭제
+	@RequestMapping(value="/alarmDelete", produces="application/json; charset=utf-8")
+	public @ResponseBody String alarmDelete(int alCode,Alarm al ,HttpSession session, Date dateFormat){
 		
+		// 알람 업데이트 후 
+		int result = mpService.alarmDelete(alCode);
+		
+		// 다시 전체 알람 리스트 불러오기 
+		List<Alarm> alist = new ArrayList<>();
+		int countA = 0;
+		
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		// 로그인 유저의 아이디 가지고 가기 
+		String user = loginUser.getId();
+		
+		// 유저아이디, 오늘날짜 담아서 가기
+		al.setId(user);
+		al.setAlTime(dateFormat);
+		
+		if(loginUser.getClassifyMem() == 1) {
+		  // 일반 유저 알람 불러오기
+		  alist = (ArrayList<Alarm>)mpService.selectAlarmList(al);
+		  // 일반 유저 알람 카운트 해오기
+		  countA = mpService.selectAlarmCount(al);
+		  // 세션에 담기
+		  session.setAttribute("alist", alist);
+		  session.setAttribute("countA", countA);
+		  
+		} else if(loginUser.getClassifyMem() == 2) {
+		  // 소속아티스트
+		  alist = (ArrayList<Alarm>)mpService.selectAlarmList(al);
+		  // 소속아티스트 알람 카운트 해오기
+		  countA = mpService.selectAlarmCount(al);
+		  // 세션에 담기
+		  session.setAttribute("alist", alist);
+		  session.setAttribute("countA", countA);
+		  
+		} else if(loginUser.getClassifyMem() == 3) {
+		  // 소속사
+		  alist = (ArrayList<Alarm>)mpService.selectAlarmList(al);
+		  // 소속사 알람 카운트 해오기
+		  countA = mpService.selectAlarmCount(al);
+		  // 세션에 담기
+		  session.setAttribute("alist", alist);
+		  session.setAttribute("countA", countA);
+		  
+		} else if(loginUser.getClassifyMem() == 4){
+		  // 관리자 
+		  alist = (ArrayList<Alarm>)mpService.selectAlarmList(al);
+		  // 관리자 알람 카운트 해오기
+		  countA = mpService.selectAlarmCount(al);
+		  // 세션에 담기
+		  session.setAttribute("alist", alist);
+		  session.setAttribute("countA", countA);
+		}
+		
+		
+		// 날짜랑 전체리스트 보내기
+		JSONObject sendJson = new JSONObject();
+		sendJson.put("alist", alist);
+		sendJson.put("countA", countA);
+		
+		//System.out.println("친구프로필: " + flist);
+		//System.out.println("친구메시지: " + fmlist);
+		
+		session.setAttribute("sendJson", sendJson);
+
+		return new Gson().toJson(sendJson);
+		
+		//return new Gson().toJson(alist);
+		
+
+	}
+	
+	// 친구한테 쪽지 보내기 
+	@RequestMapping(value="/sendMessage", method= {RequestMethod.POST})
+	public @ResponseBody Map<String, String> sendMessage(Message message) {
+		System.out.println(message);
+		int result = mpService.sendMessage(message);
+		String msg = result > 0 ? "쪽지를 성공적으로 발송하였습니다" : "쪽지발송에 실패하였습니다";
+		Map<String, String> map = new HashMap<>();
+		map.put("msg", msg);
+		return map;
+	}
+		
+	
+	// 장바구니 카운트
+	@RequestMapping(value="/cartCount", produces="application/json; charset=utf-8")
+	public @ResponseBody String cartCount(HttpSession session) {
+		
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		// 로그인 유저의 아이디 가지고 가기 
+		String user = loginUser.getId();
+		
+		int cartCount = mpService.selectCartCount(user);
+		
+		
+		return new Gson().toJson(cartCount);
+		
+	}
+
 	
 	
 

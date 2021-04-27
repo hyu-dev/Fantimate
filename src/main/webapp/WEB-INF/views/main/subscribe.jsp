@@ -133,7 +133,8 @@
 	                <input class="file-upload" id="fileInput" name="uploadFile" type="file" onchange="previewImage(this,'filePreview')"/>
 	                <div id='filePreview'></div>
 	            </label>
-	        
+	            
+	         
 	
 	        <!-- 닉네임 입력 -->
 	        <div class="nickname-section">
@@ -145,6 +146,14 @@
 	            <button id="subscribeBtn">구독하기</button>
 	            <button type="button" id="closeBtn" onclick="location.href='javascript:history.back(-1)'">닫기</button>
 	        </div>
+           <script>
+           document.getElementById("subscribeBtn").onclick = function(){
+        	   if($('[name = uploadFile]').val() == ""){
+        			alert("프로필 등록 해주세요.");
+        			return false;
+        		} 
+           }
+           </script>
 	    </section>
     </form>
 </body>

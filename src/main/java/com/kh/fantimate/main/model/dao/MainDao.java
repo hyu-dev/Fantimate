@@ -77,4 +77,10 @@ public interface MainDao {
 
 	public List<MediaTopNineCollection> selectChartWeek();
 
+	public int alarmDelete(int alCode);
+
+	public int sendMessage(Message message);
+
+	public int selectCartCount(String user);
+
 }

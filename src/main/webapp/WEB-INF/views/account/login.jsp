@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="${ contextPath }/resources/css/account/login.css">
     <link rel="icon" type="image/png" sizes="16x16" href="${ contextPath }/resources/icon/faviconF.png">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
     <title>로그인</title>
 	<script type="text/javascript">
 		function findId() {
@@ -49,6 +50,46 @@
 				$('.search-pass-section').hide();
 			}
 		}
+		
+		
+		//dea602cd4e58b6d1655298d41e1a22dd
+		window.Kakao.init("dea602cd4e58b6d1655298d41e1a22dd");
+		
+		function kakaoLogin(){
+			window.Kakao.Auth.login({
+				scope:'profile, account_email, gender',
+				success: function(authObj){
+					console.log(authObj);
+					window.Kakao.API.request({
+						url:'/v2/user/me',
+						success: res => {
+							const kakao_account = res.kakao_account;
+							console.log(kakao_account);
+						}
+					});
+				}
+				
+			});
+		}
+		
+		   // 회원가입 팝업창 
+	     function showJoinPage(){
+	    	 self.close(); 
+	         // 팝업 가운데에 띄우기
+	         var popupWidth = 430;
+	         var popupHeight = 500;
+
+	         var popupX = Math.ceil((window.screen.width - popupWidth)/2);
+	         // 만들 팝업창 width 크기의 1/2 만큼 보정값으로 빼주었음
+
+	         var popupY = Math.ceil((window.screen.width - popupHeight)/2);
+	         // 만들 팝업창 height 크기의 1/2 만큼 보정값으로 빼주었음
+	         
+	         var url = "${ contextPath }/member/join";
+
+	         window.open(url, "회원가입", 'width=' + popupWidth  + ', height=' + popupHeight  + ', left='+ popupX + ', top='+ popupY);
+	     }
+		
 		
 		
 	</script>
@@ -93,11 +134,11 @@
         <hr id="line">
         <p class="otherLogintitle">또는 다른 계정으로 로그인</p>
         <div class="other-btn-section">
-            <button class="other-login-btn"><img src="${ contextPath }/resources/images/account/kakao.png" alt="" class="login-btn-logo"></button>
+            <button type="button" class="other-login-btn" onclick="kakaoLogin();"><img src="${ contextPath }/resources/images/account/kakao.png" alt="" class="login-btn-logo"></button>
             <button class="other-login-btn"><img src="${ contextPath }/resources/images/account/google.png" alt="" class="login-btn-logo"></button>
             <button class="other-login-btn"><img src="${ contextPath }/resources/images/account/naver.png" alt="" class="login-btn-logo"></button>
         </div>
-        <p class="otherLogintitle">아직 계정이 없다면 ? <a class="get-account" href="joinPopupPage.html">Fantimate 계정으로 가입하기</a></p>
+        <p class="otherLogintitle">아직 계정이 없다면 ? <a class="get-account" onclick="showJoinPage()">Fantimate 계정으로 가입하기</a></p>
         
         <select class="lang-option">
             <option>한국어</option>

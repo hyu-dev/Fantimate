@@ -292,7 +292,7 @@
        						if(data[i].att2.attSvName != undefined){ // 사진이 있는 경우 
 	       						// 슬라이드 1
 	        					var feedInfoSlide1= $("<div class='artist-feed-info'>");
-	        					var aSlide1=$("<a href='#' class='img-box'><img src='${ contextPath }/resources/images/main/"+ data[i].att2.attSvName+"' alt='' class='feed-pic'></a>")
+	        					var aSlide1=$("<a href='#' class='img-box'><img src='${ contextPath }/resources/images/main/"+ data[i].att2.attSvName+"' alt='' class='feed-pic' onclick='goToFeed("+ data[i].fd.fid +")'></a>")
 	        					var feedSlide1= $("<div class='feed-info-section'>");
 	        					var profileSlide1=$("<div class='profile-info'><div class='profile-circle'><img src='${ contextPath }/resources/images/main/"+ data[i].att.attSvName+"' alt='' class='feed-profile'></div><p class='profile-name'>"+ data[i].li.id+"</p></div>");
 	        					var likeSlide1 =$("<div class='like-info'><img src='${ contextPath }/resources/icon/heart-pink.png' alt='' class='like-img'><p class='like-count'>"+ data[i].fd.flike +"</p></div>");
@@ -308,7 +308,7 @@
        						} else { // 글만 있는 경우 
        							
 	        					var feedInfoSlide1= $("<div class='artist-feed-info'>");
-	        					var textSlide1=$("<div class='feed-text-section'><img src='${ contextPath }/resources/images/main/text2.svg' alt='' class='feed-pic'><span class='feed-text'>"+ data[i].fd.fcontent +"</span></div>");
+	        					var textSlide1=$("<div class='feed-text-section'><img src='${ contextPath }/resources/images/main/text2.svg' alt='' onclick='goToFeed("+ data[i].fd.fid +")' class='feed-pic'><span class='feed-text'>"+ data[i].fd.fcontent +"</span></div>");
 	        					var feedSlide1= $("<div class='feed-info-section'>");
 	        					var profileSlide1=$("<div class='profile-info'><div class='profile-circle'><img src='${ contextPath }/resources/images/main/"+ data[i].att.attSvName+"' alt='' class='feed-profile'></div><p class='profile-name'>"+ data[i].li.id+"</p></div>");
 	        					var likeSlide1 =$("<div class='like-info'><img src='${ contextPath }/resources/icon/heart-pink.png' alt='' class='like-img'><p class='like-count'>"+ data[i].fd.flike +"</p></div>");
@@ -329,7 +329,7 @@
        						if(data[i].att2.attSvName != undefined){
 	       						// 슬라이드 2
 	       						var feedInfoSlide2= $("<div class='artist-feed-info'>");
-	        					var aSlide2=$("<a href='#' class='img-box'><img src='${ contextPath }/resources/images/main/"+ data[i].att2.attSvName+"' alt='' class='feed-pic'></a>")
+	        					var aSlide2=$("<a href='#' class='img-box'><img src='${ contextPath }/resources/images/main/"+ data[i].att2.attSvName+"' alt='' onclick='goToFeed("+ data[i].fd.fid +")' class='feed-pic'></a>")
 	        					var feedSlide2= $("<div class='feed-info-section'>");
 	        					var profileSlide2=$("<div class='profile-info'><div class='profile-circle'><img src='${ contextPath }/resources/images/main/"+ data[i].att.attSvName+"' alt='' class='feed-profile'></div><p class='profile-name'>"+ data[i].li.id+"</p></div>");
 	        					var likeSlide2 =$("<div class='like-info'><img src='${ contextPath }/resources/icon/heart-pink.png' alt='' class='like-img'><p class='like-count'>"+ data[i].fd.flike +"</p></div>");
@@ -343,7 +343,7 @@
        						} else {
        							
        							var feedInfoSlide2= $("<div class='artist-feed-info'>");
-	        					var textSlide2=$("<div class='feed-text-section'><img src='${ contextPath }/resources/images/main/text2.svg' alt='' class='feed-pic'><span class='feed-text'>"+ data[i].fd.fcontent +"</span></div>");
+	        					var textSlide2=$("<div class='feed-text-section'><img src='${ contextPath }/resources/images/main/text2.svg' onclick='goToFeed("+ data[i].fd.fid +")' alt='' class='feed-pic'><span class='feed-text'>"+ data[i].fd.fcontent +"</span></div>");
 	        					var feedSlide2= $("<div class='feed-info-section'>");
 	        					var profileSlide2=$("<div class='profile-info'><div class='profile-circle'><img src='${ contextPath }/resources/images/main/"+ data[i].att.attSvName+"' alt='' class='feed-profile'></div><p class='profile-name'>"+ data[i].li.id+"</p></div>");
 	        					var likeSlide2 =$("<div class='like-info'><img src='${ contextPath }/resources/icon/heart-pink.png' alt='' class='like-img'><p class='like-count'>"+ data[i].fd.flike +"</p></div>");
@@ -363,7 +363,7 @@
        						if(data[i].att2.attSvName != undefined){
 	       						// 슬라이드 3
 	       						var feedInfoSlide3= $("<div class='artist-feed-info'>");
-	        					var aSlide3=$("<a href='#' class='img-box'><img src='${ contextPath }/resources/images/main/"+ data[i].att2.attSvName+"' alt='' class='feed-pic'></a>")
+	        					var aSlide3=$("<a href='#' class='img-box'><img src='${ contextPath }/resources/images/main/"+ data[i].att2.attSvName+"' alt='' onclick='goToFeed("+ data[i].fd.fid +")' class='feed-pic'></a>")
 	        					var feedSlide3= $("<div class='feed-info-section'>");
 	        					var profileSlide3=$("<div class='profile-info'><div class='profile-circle'><img src='${ contextPath }/resources/images/main/"+ data[i].att.attSvName+"' alt='' class='feed-profile'></div><p class='profile-name'>"+ data[i].li.id+"</p></div>");
 	        					var likeSlide3 =$("<div class='like-info'><img src='${ contextPath }/resources/icon/heart-pink.png' alt='' class='like-img'><p class='like-count'>"+ data[i].fd.flike +"</p></div>");
@@ -377,7 +377,7 @@
        						} else {
        							
        							var feedInfoSlide3= $("<div class='artist-feed-info'>");
-	        					var textSlide3=$("<div class='feed-text-section'><img src='${ contextPath }/resources/images/main/text2.svg' alt='' class='feed-pic'><span class='feed-text'>"+ data[i].fd.fcontent +"</span></div>");
+	        					var textSlide3=$("<div class='feed-text-section'><img src='${ contextPath }/resources/images/main/text2.svg' alt='' onclick='goToFeed("+ data[i].fd.fid +")' class='feed-pic'><span class='feed-text'>"+ data[i].fd.fcontent +"</span></div>");
 	        					var feedSlide3= $("<div class='feed-info-section'>");
 	        					var profileSlide3=$("<div class='profile-info'><div class='profile-circle'><img src='${ contextPath }/resources/images/main/"+ data[i].att.attSvName+"' alt='' class='feed-profile'></div><p class='profile-name'>"+ data[i].li.id+"</p></div>");
 	        					var likeSlide3 =$("<div class='like-info'><img src='${ contextPath }/resources/icon/heart-pink.png' alt='' class='like-img'><p class='like-count'>"+ data[i].fd.flike +"</p></div>");
@@ -413,6 +413,10 @@
         		
         	});
         	
+        }
+        
+        function goToFeed(fid){
+    		location.href='${contextPath}/artistfeed/detailView?fid=' + fid;
         }
      	// 해당 피드로 이동 
        /*  function subScribe(artNameEn){
@@ -483,7 +487,7 @@
 	       						// 슬라이드 1
 	        					var feedInfoSlide1= $("<div class='media-feed-info'>");
 	        					var aSlide1=$("<video src='${ contextPath }/resources/images/official/"+ data[i].mf.vidSvName+"' controls='controls' poster='${ contextPath }/resources/images/official/"+ data[i].mf.picSvName+"' class='media-pic'></video>")
-	        					var feedSlide1= $("<div class='media-info-section'>");
+	        					var feedSlide1= $("<div class='media-info-section' onclick='goToMedia("+ data[i].of.mediaNum +")'>");
 	        					var profileSlide1=$("<div class='profile-info'><div class='profile-circle'><img src='${ contextPath }/resources/images/main/"+ data[i].att.attSvName+"' alt='' class='feed-profile'></div><p class='profile-name'>"+ data[i].sb.artNameEn+"</p></div>");
 	        					var likeSlide1 =$("<div class='play-info'><img src='${ contextPath }/resources/images/main/play.svg' alt='' class='play-img'><p class='like-count'>"+ data[i].of.mediaCount +"</p></div>");
 	        					
@@ -500,7 +504,7 @@
 	       						// 슬라이드 2
 	       						var feedInfoSlide2= $("<div class='media-feed-info'>");
 	        					var aSlide2=$("<video src='${ contextPath }/resources/images/official/"+ data[i].mf.vidSvName+"' controls='controls' poster='${ contextPath }/resources/images/official/"+ data[i].mf.picSvName+"' class='media-pic'></video>")
-	        					var feedSlide2= $("<div class='media-info-section'>");
+	        					var feedSlide2= $("<div class='media-info-section' onclick='goToMedia("+ data[i].of.mediaNum +")'>");
 	        					var profileSlide2=$("<div class='profile-info'><div class='profile-circle'><img src='${ contextPath }/resources/images/main/"+ data[i].att.attSvName+"' alt='' class='feed-profile'></div><p class='profile-name'>"+ data[i].sb.artNameEn+"</p></div>");
 	        					var likeSlide2 =$("<div class='play-info'><img src='${ contextPath }/resources/images/main/play.svg' alt='' class='play-img'><p class='like-count'>"+ data[i].of.mediaCount +"</p></div>");
 	        					
@@ -517,7 +521,7 @@
 	       						// 슬라이드 3
 	       						var feedInfoSlide3= $("<div class='media-feed-info'>");
 	        					var aSlide3=$("<video src='${ contextPath }/resources/images/official/"+ data[i].mf.vidSvName+"' controls='controls' poster='${ contextPath }/resources/images/official/"+ data[i].mf.picSvName+"' class='media-pic'></video>")
-	        					var feedSlide3= $("<div class='media-info-section'>");
+	        					var feedSlide3= $("<div class='media-info-section' onclick='goToMedia("+ data[i].of.mediaNum +")'>");
 	        					var profileSlide3=$("<div class='profile-info'><div class='profile-circle'><img src='${ contextPath }/resources/images/main/"+ data[i].att.attSvName+"' alt='' class='feed-profile'></div><p class='profile-name'>"+ data[i].sb.artNameEn+"</p></div>");
 	        					var likeSlide3 =$("<div class='play-info'><img src='${ contextPath }/resources/images/main/play.svg' alt='' class='play-img'><p class='like-count'>"+ data[i].of.mediaCount +"</p></div>");
 	        					
@@ -547,8 +551,10 @@
          	});
         	 
         	 
-        	 
-        	 
+         }
+         
+         function goToMedia(mediaNum){
+     		location.href='${contextPath}/official/detail?mediaNum=' + mediaNum;
         	 
          }
          
@@ -617,7 +623,7 @@
 	       						// 슬라이드 1
 	        					var feedInfoSlide1= $("<div class='store-feed-info'>");
 	        					var aSlide1=$("<img src='${ contextPath }/resources/images/main/storeBackground.svg' alt='' class='store-background'>")
-	        					var aSlide11=$("<img src='${ contextPath }/resources/images/store/"+ data[i].att.attSvName+"' alt='' class='store-pic'>")
+	        					var aSlide11=$("<img src='${ contextPath }/resources/images/store/"+ data[i].att.attSvName+"' alt='' onclick='goToStore("+ data[i].s.pcode +")' class='store-pic'>")
 	        					var profileSlide1=$("<div class='profile-info'><p class='profile-name'>"+ data[i].s.pname+"</p></div>");
 	        					
 	        					feedInfoSlide1.append(aSlide1,aSlide11,profileSlide1);
@@ -631,7 +637,7 @@
 	       						// 슬라이드 2
 	        					var feedInfoSlide2= $("<div class='store-feed-info'>");
 	        					var aSlide2=$("<img src='${ contextPath }/resources/images/main/storeBackground.svg' alt='' class='store-background'>")
-	        					var aSlide22=$("<img src='${ contextPath }/resources/images/store/"+ data[i].att.attSvName+"' alt='' class='store-pic'>")
+	        					var aSlide22=$("<img src='${ contextPath }/resources/images/store/"+ data[i].att.attSvName+"' alt='' onclick='goToStore("+ data[i].s.pcode +")' class='store-pic'>")
 	        					var profileSlide2=$("<div class='profile-info'><p class='profile-name'>"+ data[i].s.pname+"</p></div>");
 	        					
 	        					feedInfoSlide2.append(aSlide2,aSlide22,profileSlide2);
@@ -646,7 +652,7 @@
 	       						// 슬라이드 3
 	        					var feedInfoSlide3= $("<div class='store-feed-info'>");
 	        					var aSlide3=$("<img src='${ contextPath }/resources/images/main/storeBackground.svg' alt='' class='store-background'>")
-	        					var aSlide33=$("<img src='${ contextPath }/resources/images/store/"+ data[i].att.attSvName+"' alt='' class='store-pic'>")
+	        					var aSlide33=$("<img src='${ contextPath }/resources/images/store/"+ data[i].att.attSvName+"' onclick='goToStore("+ data[i].s.pcode +")' alt='' class='store-pic'>")
 	        					var profileSlide3=$("<div class='profile-info'><p class='profile-name'>"+ data[i].s.pname+"</p></div>");
 	        					
 	        					feedInfoSlide3.append(aSlide3,aSlide33,profileSlide3);
@@ -673,6 +679,12 @@
          		
          	});
         	 
+         }
+         
+         function goToStore(pcode){
+        	 
+     		location.href='${contextPath}/store/detail?pcode=' + pcode;
+
          }
          
          </script>
