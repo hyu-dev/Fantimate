@@ -14,6 +14,7 @@ import com.kh.fantimate.member.model.vo.Agency;
 import com.kh.fantimate.member.model.vo.Member;
 import com.kh.fantimate.mypage1.model.dao.Mypage1Dao;
 import com.kh.fantimate.mypage1.model.vo.FriendPageInfo;
+import com.kh.fantimate.mypage1.model.vo.ReportAdmin;
 import com.kh.fantimate.mypage1.model.vo.ReportPageInfo;
 import com.kh.fantimate.mypage1.model.vo.UserPaymentCol2;
 import com.kh.fantimate.mypage1.model.vo.UserUpdateVo;
@@ -93,7 +94,7 @@ public class Mypage1ServiceImpl implements Mypage1Service{
 		return mDao.requestReportMediaList(pi);
 	}
 	@Override
-	public List<Member> requestCommonList(ReportPageInfo pi) {
+	public List<UserUpdateVo> requestCommonList(ReportPageInfo pi) {
 		return mDao.requestCommonList(pi);
 	}
 
@@ -177,6 +178,26 @@ public class Mypage1ServiceImpl implements Mypage1Service{
 	@Override
 	public int updateUpStatusUser(Member tempProfile) {
 		return mDao.updateUpStatusUser(tempProfile);
+	}
+
+	@Override
+	public int updateRpt(ReportAdmin report) {
+		return mDao.updateRpt(report);
+	}
+
+	@Override
+	public int updateUserReport(ReportAdmin report) {
+		return mDao.updateUserReport(report);
+	}
+
+	@Override
+	public int RListCountPayListAdmin() {
+		return mDao.RListCountPayListAdmin();
+	}
+
+	@Override
+	public List<UserPaymentCol2> requestPayListAdmin(ReportPageInfo pi) {
+		return mDao.requestPayListAdmin(pi);
 	}
 
 

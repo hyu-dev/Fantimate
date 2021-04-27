@@ -260,8 +260,8 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
             , A.AREA_NAME
 		FROM 
 		     USER_ US
-        LEFT JOIN USER_PROFILE P ON (US.U_ID = P.U_ID)
-        LEFT JOIN USER_AREA A ON (US.AREA_CODE = A.AREA_CODE)
+	    LEFT JOIN USER_PROFILE P ON (US.U_ID = P.U_ID)
+	    LEFT JOIN USER_AREA A ON (US.AREA_CODE = A.AREA_CODE)
 		WHERE
 		     US.U_ID = #{id}
 	</select>

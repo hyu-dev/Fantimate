@@ -13,6 +13,7 @@ import com.kh.fantimate.common.model.vo.Report;
 import com.kh.fantimate.member.model.vo.Agency;
 import com.kh.fantimate.member.model.vo.Member;
 import com.kh.fantimate.mypage1.model.vo.FriendPageInfo;
+import com.kh.fantimate.mypage1.model.vo.ReportAdmin;
 import com.kh.fantimate.mypage1.model.vo.ReportPageInfo;
 import com.kh.fantimate.mypage1.model.vo.UserPaymentCol2;
 import com.kh.fantimate.mypage1.model.vo.UserUpdateVo;
@@ -108,7 +109,7 @@ public class Mypage1DaoImpl implements Mypage1Dao{
 	}
 
 	@Override
-	public List<Member> requestCommonList(ReportPageInfo pi) {
+	public List<UserUpdateVo> requestCommonList(ReportPageInfo pi) {
 		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 		return sqlSession.selectList("mypage1Mapper.requestCommonList", null, rowBounds);
@@ -233,6 +234,40 @@ public class Mypage1DaoImpl implements Mypage1Dao{
 	@Override
 	public int updateUpStatusUser(Member tempProfile) {
 		return sqlSession.update("mypage1Mapper.updateUpStatusUser", tempProfile);
+	}
+
+	@Override
+	public int updateRpt(ReportAdmin report) {
+		return sqlSession.update("mypage1Mapper.updateRpt", report);
+	}
+
+	@Override
+	public int updateUserReport(ReportAdmin report) {
+		int statusN = sqlSession.update("mypage1Mapper.updateUserReportN", report);
+		System.out.println("statusN : " + statusN);
+		
+		int ReportDate = sqlSession.update("mypage1Mapper.updateUserReportDate", report);
+		System.out.println("ReportDate : " + ReportDate);
+		
+		if(ReportDate > 0 && statusN >0)
+			return 1;
+		else
+			return -1;
+				
+	}
+
+	// 어드민 결제내역
+	@Override
+	public int RListCountPayListAdmin() {
+		return sqlSession.selectOne("mypage1Mapper.RListCountPayListAdmin");
+	}
+
+	@Override
+	public List<UserPaymentCol2> requestPayListAdmin(ReportPageInfo pi) {
+//		System.out.println("pi.getSerchCondition() : " + pi.getSerchCondition());
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return sqlSession.selectList("mypage1Mapper.requestPayListAdmin", null, rowBounds);
 	}
 
 

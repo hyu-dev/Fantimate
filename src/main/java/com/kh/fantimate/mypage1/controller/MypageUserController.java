@@ -28,6 +28,7 @@ import com.kh.fantimate.member.model.vo.Member;
 import com.kh.fantimate.member.model.vo.User;
 import com.kh.fantimate.mypage1.model.Service.Mypage1Service;
 import com.kh.fantimate.mypage1.model.vo.FriendPageInfo;
+import com.kh.fantimate.mypage1.model.vo.User2;
 import com.kh.fantimate.mypage1.model.vo.UserPaymentCol2;
 import com.kh.fantimate.mypage1.model.vo.UserUpdateVo;
 import com.kh.fantimate.pay.model.vo.Cart;
@@ -68,7 +69,7 @@ public class MypageUserController {
 			m12.setPwd(common.getPwd());
 			updateUser.setCommon(m12);
 
-			User m13 = new User();
+			User2 m13 = new User2();
 			m13.setUemail(user.getUemail());
 			updateUser.setUser(m13);
 
@@ -160,13 +161,6 @@ public class MypageUserController {
 ////////////////////////////////////////////////////////////////////////////////////////////	
 		
 		
-		
-		
-		
-		
-		
-		
-		
 	// 재우추가
 		@GetMapping("/feed")
 		public ModelAndView userMyFeed(ModelAndView mv) {
@@ -212,6 +206,10 @@ public class MypageUserController {
 			// 비로그인 처리
 			if(session.getAttribute("loginUser") == null) {
 				mv.addObject("msg", "로그인이 필요합니다.");
+				mv.setViewName("mypage/admin/errorpage");
+				return mv;
+			}else if( ((Member)(session.getAttribute("loginUser"))).getClassifyMem() != 1 ){
+				mv.addObject("msg", "일반회원이 아닙니다.");
 				mv.setViewName("mypage/admin/errorpage");
 				return mv;
 			}

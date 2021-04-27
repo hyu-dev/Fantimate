@@ -18,30 +18,38 @@
 <body>
 	<div id="mypageReportDetailWrap">
         <div id="mypageReportDetail">
-            <form id="reportDetailForm" method="post" action="${ contextPath }/mypage/admin/report">
+            <form id="reportDetailForm" method="post" action="${ contextPath }/mypage/admin/report/user">
                 <!-- onsubmit="return joinValidate();"> -->
                 <h2>신고 상세내역</h2>
                 <div class="mypage-refund-detail">
                     <div class="mypage-refund-detail-in">
                         <label>신고한 유저 아이디
-                            <input id="reportDetail1" type="text" name="name" readonly>
+                            <input id="reportDetail1" type="text" name="rptId" readonly>
                         </label>
+<!-- 오류 확인 type Date -->                        
                         <label>신고일자
-                            <input id="reportDetail2" type="text" name="name" readonly>
+                            <input id="reportDetail2" type="text" name="rptDateString" readonly>
                         </label>
                         <label>신고당한 유저 아이디
-                            <input id="reportDetail3" type="text" name="name" readonly>
+                            <input id="reportDetail3" type="text" name="id" readonly>
                         </label>
                         <label>신고한 게시물 제목
-                            <input id="reportDetail4" type="text" name="name" readonly>
+                            <input id="reportDetail4" type="text" name="rptTitle" readonly>
                         </label>
                         <label>신고 유형
-                            <input id="reportDetail5" type="text" name="name" readonly>
+                            <input id="reportDetail5" type="text" name="rptType" readonly>
                         </label>
                         <label>
                             신고 사유
-                            <textarea name="" id="reportDetail6" cols="30" rows="10"></textarea>
+                            <textarea id="reportDetail6" name="rptReason" cols="30" rows="10"></textarea>
                         </label>
+                        <label>정지할 일수 입력
+                        	<input type="text" name ="reportDay">
+                        </label>
+                        <input id="reportDetail7" type="number" name="rptCode" readonly style="display:none;">
+<!--                         <input id="reportDetail8" type="number" name="reportDay" readonly style="display:none;"> -->
+                        <input id="reportDetail9" type="number" name="refId" readonly style="display:none;">
+                        <input id="reportDetail10" type="text" name="isReported" readonly style="display:none;">
                     </div>
                     <div class="mypage-Btn-align-center">
                         <button class="mypage-pop-Btn-pink" id="reportThis">제재하기</button>
