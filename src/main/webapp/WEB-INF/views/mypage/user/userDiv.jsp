@@ -20,12 +20,13 @@
 		 
 	<div id="mypageUserProfileWrap">
             <div id="mypageUserProfileImgDiv">
-                <img id="mypageUserProfileImg" src="${ contextPath }/resources/images/mypage/user/profile/${ user.id }/mansik.png">
+                <img id="mypageUserProfileImg" src="${ contextPath }/resources/images/mypage/user/profile/${ user.get(0).user.id }/${ user.get(0).attUser.attSvName }">
+<%--                 <img id="mypageUserProfileImg" src="${ contextPath }/resources/images/mypage/user/profile/${ user.id }/mansik.png"> --%>
             </div>
             <div id="mypageUserProfileImgDivRight">
                 <h3 class="font-30">${ loginUser.name }</h3>
                 <h4 class="font-16">&nbsp;</h4>
-                <h4 class="font-16">${ user.uemail }</h4>
+                <h4 class="font-16">${ user.get(0).user.uemail }</h4>
             </div>
             <div id="mypageUserProfileImgDivRightRight">
                 <button class="mypage-btn-pink-14" id="userProfileUpdate">수정하기</button>
