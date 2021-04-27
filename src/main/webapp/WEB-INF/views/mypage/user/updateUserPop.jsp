@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" import="java.util.ArrayList,java.util.List"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
@@ -31,7 +31,7 @@
 		                <div id="mypageUserUpdateLeft">
 		                	<div style="margin-bottom: 12px;">
 <%-- 		                		<c:if test="${ empty uploadfile }"> --%>
-			                    <img id="preview-image" src="${ contextPath }/resources/images/mypage/user/profile/${ loginUser.id }/${ loginUser.id}.png" alt="프로필사진">
+			                    <img id="preview-image" src="${ contextPath }/resources/images/mypage/user/profile/${ loginUser.id }/${ user.get(0).attUser.attSvName }" alt="프로필사진">
 <%-- 		                		</c:if> --%>
 <!-- 								<div class="image-container"> -->
 <!-- 								    <img style="width: 500px;" id="preview-image" src="https://dummyimage.com/500x500/ffffff/000000.png&text=preview+image"> -->
@@ -56,7 +56,7 @@
 		                    <input type="text" name="id" value="${ loginUser.id }" readonly>
 		                    <input type="password" name="pwd" placeholder="8~20자 영문, 숫자, 특수문자 포함하여 작성하세요">
 		                    <input type="password" name="pwd2" placeholder="8~20자 영문, 숫자, 특수문자 포함하여 작성하세요">
-		                    <input type="email" name="uemail" value="${ user.uemail }">
+		                    <input type="email" name="uemail" value="${ user.get(0).user.uemail }">
 <%-- 		                    <input type="text" name="phone" value="${ user.phone }"> --%>
 		                </div>
 		            </div>
