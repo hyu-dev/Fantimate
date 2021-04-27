@@ -437,9 +437,19 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		  FROM
 		  		ART_MAIN
 		 WHERE
-		 		ARTI_NAME_EN = #{search}
+		 		ARTI_NAME_EN LIKE '%' || #{search} || '%'
 		    OR
-		    	ARTI_NAME_KR = #{search}
+		    	ARTI_NAME_KR LIKE '%' || #{search} || '%'
+	</select>
+	<select id="selectHashTagList" parameterType="string" resultMap="hashResultSet">
+		SELECT
+				TAG_CODE
+              , TAG_NAME
+              , SEARCH_COUNT
+		  FROM
+		  		TAG
+		 WHERE
+		 		TAG_NAME LIKE '%' ||  #{search} || '%'
 	</select>
 	<select id="selectFanStore" parameterType="_int" resultMap="fsListCollResultSet">
 		SELECT

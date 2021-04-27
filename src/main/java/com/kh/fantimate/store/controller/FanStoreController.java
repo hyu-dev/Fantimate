@@ -215,8 +215,18 @@ public class FanStoreController {
 	
 	@PostMapping("/search/artiName")
 	public @ResponseBody List<ArtistGroup> selectArtiNameList(@RequestParam(value="search")String search) {
+		System.out.println(search);
 		List<ArtistGroup> artiNameList = fService.selectArtiNameList(search);
+		System.out.println(artiNameList);
 		return artiNameList;
+	}
+	
+	@PostMapping("/search/hashTag")
+	public @ResponseBody List<ArtistGroup> selectHashTagList(@RequestParam(value="search")String search) {
+		System.out.println(search);
+		List<ArtistGroup> hashTagList = fService.selectHashTagList(search);
+		System.out.println(hashTagList);
+		return hashTagList;
 	}
 	
 	@GetMapping("/detail")

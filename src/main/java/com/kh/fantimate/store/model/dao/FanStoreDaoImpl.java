@@ -107,6 +107,7 @@ public class FanStoreDaoImpl implements FanStoreDao{
 
 	@Override
 	public List<ArtistGroup> selectArtiNameList(String search) {
+		System.out.println("DAO : " + search);
 		return sqlSession.selectList("fanStoreMapper.selectArtiNameList", search);
 	}
 
@@ -178,6 +179,11 @@ public class FanStoreDaoImpl implements FanStoreDao{
 	@Override
 	public void insertNotiReportFSReply(Report report) {
 		sqlSession.insert("fanStoreMapper.insertNotiReportFSReply", report);
+	}
+
+	@Override
+	public List<ArtistGroup> selectHashTagList(String search) {
+		return sqlSession.selectList("fanStoreMapper.selectHashTagList", search);
 	}
 	
 }
