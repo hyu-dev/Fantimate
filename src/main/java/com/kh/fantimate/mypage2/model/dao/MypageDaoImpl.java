@@ -14,6 +14,7 @@ import com.kh.fantimate.common.model.vo.Report;
 import com.kh.fantimate.feed.model.vo.Feed;
 import com.kh.fantimate.feed.model.vo.FeedCollection;
 import com.kh.fantimate.member.model.vo.Artist;
+import com.kh.fantimate.member.model.vo.ArtistGroup;
 import com.kh.fantimate.official.model.vo.MediaCollection;
 
 @Repository
@@ -125,8 +126,26 @@ public class MypageDaoImpl implements MypageDao{
 	
 	// 아티스트 목록 불러오기
 	@Override
-	public List<Artist> selectArtistList(String id) {
+	public List<ArtistGroup> selectArtistList(String id) {
 		return sqlSession.selectList("mypage2Mapper.selectArtistList", id);
+	}
+
+	// 솔로 아티스트 불러오기
+	@Override
+	public List<ArtistGroup> selectSolo(String id) {
+		return sqlSession.selectList("mypage2Mapper.selectSolo", id);
+	}
+
+	// 그룹 아티스트 불러오기
+	@Override
+	public List<ArtistGroup> selectTeam(String id) {
+		return sqlSession.selectList("mypage2Mapper.selectTeam", id);
+	}
+
+	// 그룹 멤버 불러오기
+	@Override
+	public List<Artist> selectMember(String id) {
+		return sqlSession.selectList("mypage2Mapper.selectMember", id);
 	}
 
 

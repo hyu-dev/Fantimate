@@ -25,6 +25,7 @@ import com.kh.fantimate.feed.model.vo.FeedCollection;
 import com.kh.fantimate.member.model.vo.Agency;
 import com.kh.fantimate.member.model.vo.Artist;
 import com.kh.fantimate.member.model.vo.ArtistCollection;
+import com.kh.fantimate.member.model.vo.ArtistGroup;
 import com.kh.fantimate.mypage2.model.service.MypageService;
 import com.kh.fantimate.official.model.vo.MediaCollection;
 
@@ -253,14 +254,31 @@ public class MypageController {
 		// 소속사 아이디
 		String id = agency.getAgId();
 		
-		// 소속 아티스트 목록 불러오기
-		List<Artist> artist = mService.selectArtistList(id);
-		System.out.println(artist);
+		// 소속 아티스트 목록 전체 불러오기(관리 페이지로 넘어가기 위해)
+		List<ArtistGroup> artist = mService.selectArtistList(id);
+		System.out.println("아티스트 전체 목록 : " + artist);
+
+		
+		// 솔로 아티스트 불러오기
+		List<ArtistGroup> solo = mService.selectSolo(id);
+		System.out.println("솔로 아티스트 : " + solo);
+		
+		// 그룹 아티스트 불러오기
+		List<ArtistGroup> team = mService.selectTeam(id);
+		
+		System.out.println("그룹 아티스트 : " + team);
+		// 그룹 멤버 불러오기
+		List<Artist> member = mService.selectMember(id);
+		System.out.println("멤버 개인 : " + member);
 		System.out.println("----");
 		
 		if(agency != null) {
 			// 해당 아티스트 정보
 			mv.addObject("agency", agency);
+			mv.addObject("artist", artist);
+			mv.addObject("solo", solo);
+			mv.addObject("team", team);
+			mv.addObject("member", member);
 			mv.setViewName("mypage/agency/main");
 		}
 		

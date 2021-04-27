@@ -165,7 +165,12 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<collection property="mediaLike" resultMap="mediaLikeResultSet"/>
 	</resultMap>
 	
-
+	<!-- 아티스트 메인 -->
+	<resultMap type="ArtistGroup" id="artistGroupResultSet">
+		<id property="artNameEn" column="ARTI_NAME_EN"/>
+		<result property="artNameKr" column="ARTI_NAME_KR"/>
+		<result property="agId" column="AG_ID"/>
+	</resultMap>
 	
 	<!-- 피드 리스트 가져오기 -->
 	<select id="selectFeedList" parameterType="string" resultMap="feedResultSet">
@@ -654,12 +659,54 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	</update>
 	
 	<!-- 아티스트 목록 불러오기 -->
-	<select id="selectArtistLsit" parameterType="string">
+	<select id="selectArtistList" parameterType="string" resultMap="artistGroupResultSet">
 	SELECT 
-		   ARTI_NAME_KR
+		   ARTI_NAME_EN
 	  FROM 
 	       ART_MAIN
 	 WHERE 
 	       AG_ID = #{id}
+	</select>
+	
+	<!-- 솔로 아티스트 불러오기 -->
+		<select id="selectSolo" parameterType="string" resultMap="artistGroupResultSet">
+	SELECT 
+		   ARTI_NAME_EN
+	  FROM 
+	       ART_MAIN
+	  JOIN 
+	       ART_PERSON USING(ARTI_NAME_EN)
+	 WHERE 
+	       AG_ID = #{id}
+       AND 
+           IS_TEAM = 'N'
+	</select>
+	
+	<!-- 그룹 아티스트 불러오기 -->
+	<select id="selectTeam" parameterType="string" resultMap="artistGroupResultSet">
+	SELECT 
+		   DISTINCT ARTI_NAME_EN
+	  FROM 
+	       ART_MAIN
+	  JOIN 
+	       ART_PERSON USING(ARTI_NAME_EN)
+	 WHERE 
+	       AG_ID = #{id}
+       AND 
+           IS_TEAM = 'Y'
+	</select>
+	
+	<!-- 그룹 멤버 불러오기 -->
+	<select id="selectMember" parameterType="string" resultMap="artistResultSet">
+	SELECT 
+		   ARTI_ONE_NAME, ARTI_NAME_EN
+	  FROM 
+	       ART_PERSON
+	  JOIN 
+	       ART_MAIN USING(ARTI_NAME_EN)
+	 WHERE 
+	       AG_ID = #{id}
+	   AND 
+	       IS_TEAM = 'Y'
 	</select>
 </mapper>
