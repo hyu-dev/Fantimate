@@ -1,0 +1,50 @@
+@charset "UTF-8";
+
+
+/* 제목 영역 */
+.titleArea {
+    border : 1px solid #EBEBEB;
+    width : 90%;
+    height : 35px;
+    font-family: "Wemakeprice-regular";
+    
+}
+
+/* 내용 영역 */
+.contentArea {
+    border : 1px solid #EBEBEB;
+    width  : 90%;
+    height : 150px;
+    resize : none;
+    font-family: "Wemakeprice-regular";
+}
+
+/* 버튼 영역 */
+.btnArea {
+    text-align: center;
+}
+
+/* 보내기 버튼 */
+.insert-message {
+    background-color: #F4D4D4;
+    color: #5C5F78;
+    width : 80px;
+    height : 30px;
+    border: 0;
+    outline: 0;
+
+}
+
+/* 취소하기 버튼 */
+.cancel-message {
+    background-color: #5C5F78;
+    color : white;
+    width : 80px;
+    height : 30px;
+    border: 0;
+    outline: 0;
+}
+
+.message-id {
+	font-family: "Wemakeprice-bold";
+}

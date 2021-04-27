@@ -27,8 +27,12 @@
 		<typeAlias type="com.kh.fantimate.mypage1.model.vo.FanStoreR" alias="FanStoreR"/>
 		<typeAlias type="com.kh.fantimate.mypage1.model.vo.FanstoreRList" alias="FanstoreRList"/>
 		<typeAlias type="com.kh.fantimate.mypage1.model.vo.FanStore2" alias="FanStore2"/>
+		<typeAlias type="com.kh.fantimate.mypage1.model.vo.Media" alias="Media"/>
 		<typeAlias type="com.kh.fantimate.mypage1.model.vo.MediaR" alias="MediaR"/>
 		<typeAlias type="com.kh.fantimate.mypage1.model.vo.MediaRList" alias="MediaRList"/>
+		<typeAlias type="com.kh.fantimate.mypage1.model.vo.FriendList1" alias="FriendList1"/>
+		<typeAlias type="com.kh.fantimate.mypage1.model.vo.UserPaymentCol" alias="UserPaymentCol"/>
+		<typeAlias type="com.kh.fantimate.mypage1.model.vo.UserPaymentCol2" alias="UserPaymentCol2"/>
 		<typeAlias type="com.kh.fantimate.common.model.vo.Alarm" alias="Alarm"/>
 		<typeAlias type="com.kh.fantimate.common.model.vo.BookMark" alias="BookMark"/>
 		<typeAlias type="com.kh.fantimate.common.model.vo.Message" alias="Message"/>
@@ -36,6 +40,7 @@
 		<typeAlias type="com.kh.fantimate.common.model.vo.Reply" alias="Reply"/>
 		<typeAlias type="com.kh.fantimate.common.model.vo.ReplyCollection" alias="ReplyCollection"/>
 		<typeAlias type="com.kh.fantimate.common.model.vo.Friend" alias="Friend"/>
+		<typeAlias type="com.kh.fantimate.common.model.vo.Like" alias="Like"/>
 		<typeAlias type="com.kh.fantimate.main.model.vo.FavoriteArtist" alias="FavoriteArtist"/>
 		<typeAlias type="com.kh.fantimate.store.model.vo.Store" alias="Store"/>
 		<typeAlias type="com.kh.fantimate.store.model.vo.StoreCollection" alias="StoreCollection"/>
@@ -50,6 +55,9 @@
 		<typeAlias type="com.kh.fantimate.official.model.vo.Schedule" alias="Schedule"/>
 		<typeAlias type="com.kh.fantimate.main.model.vo.MainCollection" alias="MainCollection"/>
 		<typeAlias type="com.kh.fantimate.main.model.vo.FriendCollection" alias="FriendCollection"/>
+		<typeAlias type="com.kh.fantimate.main.model.vo.FeedTopNineCollection" alias="FeedTopNineCollection"/>
+		<typeAlias type="com.kh.fantimate.main.model.vo.MediaTopNineCollection" alias="MediaTopNineCollection"/>
+		<typeAlias type="com.kh.fantimate.main.model.vo.StoreTopNineCollection" alias="StoreTopNineCollection"/>
 		<typeAlias type="com.kh.fantimate.main.model.vo.SubscribeArtist" alias="SubscribeArtist"/>
 		<typeAlias type="com.kh.fantimate.store.model.vo.StoreInfo" alias="StoreInfo"/>
 		<typeAlias type="com.kh.fantimate.feed.model.vo.Feed" alias="Feed"/>
@@ -60,9 +68,17 @@
 		<typeAlias type="com.kh.fantimate.common.model.vo.Subscribe" alias="Subscribe"/>
 		<typeAlias type="com.kh.fantimate.feed.model.vo.FeedCollection" alias="FeedCollection"/>
 		<typeAlias type="com.kh.fantimate.pay.model.vo.Payment" alias="Payment"/>
-		<typeAlias type="com.kh.fantimate.pay.model.vo.ProductBuy" alias="ProductBuy"/>
 		<typeAlias type="com.kh.fantimate.pay.model.vo.PayCollection" alias="PayCollection"/>
 		<typeAlias type="com.kh.fantimate.store.model.vo.BuyCollection" alias="BuyCollection"/>
+		<typeAlias type="com.kh.fantimate.feed.model.vo.AttachmentF" alias="AttachmentF"/>
+		<typeAlias type="com.kh.fantimate.common.model.vo.Reply" alias="Reply"/>
+		<typeAlias type="com.kh.fantimate.store.model.vo.FanStore" alias="FanStore"/>
+		<typeAlias type="com.kh.fantimate.store.model.vo.Area" alias="Area"/>
+		<typeAlias type="com.kh.fantimate.store.model.vo.HashTag" alias="HashTag"/>
+		<typeAlias type="com.kh.fantimate.store.model.vo.FStoreListCollection" alias="FStoreListCollection"/>
+		<typeAlias type="com.kh.fantimate.store.model.vo.FanStoreReplyCollection" alias="FanStoreReplyCollection"/>
+		<typeAlias type="com.kh.fantimate.member.model.vo.UserCollection" alias="UserCollection"/>
+		<typeAlias type="com.kh.fantimate.member.model.vo.FindIdCollection" alias="FindIdCollection"/>
 	</typeAliases>
 	
 	<!-- mappers -->
@@ -76,5 +92,6 @@
 		<mapper resource="mappers/official-mapper.xml"/>
 		<mapper resource="mappers/main-mapper.xml"/>
 		<mapper resource="mappers/pay-mapper.xml"/>
+		<mapper resource="mappers/fanStore-mapper.xml"/>
 	</mappers>
 </configuration>

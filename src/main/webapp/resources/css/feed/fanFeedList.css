@@ -479,6 +479,7 @@ html, body {
     width : 30px;
     height : 30px;
     margin-left: 85px;
+    cursor: pointer;
     
 }
 
@@ -748,7 +749,7 @@ html, body {
     border-radius: 10px;
     margin-top: 10px;
     margin-bottom: 20px;
-    margin-left: 70px;
+    margin-left: 20px;
     padding-left: 20px;
     position: relative;
     min-height: 40px;
@@ -758,6 +759,10 @@ html, body {
     cursor: pointer;
     margin-top: 10px;
     margin-bottom: 20px;
+    border : 0;
+    outline: 0;
+    background: white;
+    
 }
 
 .insert-reply > textarea {

@@ -1,15 +1,17 @@
 package com.kh.fantimate.pay.model.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.fantimate.pay.model.dao.PaymentDao;
+import com.kh.fantimate.pay.model.vo.Cart;
 import com.kh.fantimate.pay.model.vo.CartCollection;
 import com.kh.fantimate.pay.model.vo.PayCollection;
 import com.kh.fantimate.pay.model.vo.Payment;
-import com.kh.fantimate.pay.model.vo.ProductBuy;
 
 @Service
 public class PaymentServiceImpl implements PaymentService {
@@ -43,40 +45,58 @@ public class PaymentServiceImpl implements PaymentService {
 		int result = pDao.insertStoreOnePayment(paycoll);
 		
 		if(result > 0) {
-			// 구매상품 등록하기
-			pDao.insertProductBuy(paycoll);
+			// 장바구니 등록하기
+			pDao.insertCartStoreOne(paycoll);
 			// 판매수량 업데이트하기
 			pDao.updateStoreSalesQ(paycoll);
 		} else {
 			result = 0;
 		}
-		
 		return result;
 	}
 	// 장바구니에서 결제
 	@Override
-	public int insertCartPayment(Payment payment, List<ProductBuy> pbuyList, List<Integer> cartCodes) {
+	public int insertCartPayment(Payment payment, List<Cart> cartList, List<Integer> cartCodes) {
 		// 결제정보 등록하기
 		int result = pDao.insertCartPayment(payment);
 		if(result > 0) {
-			if(pbuyList.size() > 0) {
-				// 구매상품 등록하기
-				pDao.insertProductBuyList(pbuyList);
+			if(cartList.size() > 0) {
 				// 판매수량 업데이트하기
-				pDao.updateStoreSalesQList(pbuyList);
+				pDao.updateStoreSalesQList(cartList);
 			}
+			Map map = new HashMap<>();
+			map.put("payCode", payment.getPayCode());
+			map.put("cartCodes", cartCodes);
 			// 장바구니정보 업데이트하기(담겼던 장바구니 구매정보 N으로 변경)
-			pDao.updateCartIsBought(cartCodes);
+			pDao.updateCartIsBought(map);
+			
 		} else {
 			result = 0;
 		}
-		
 		return result;
 	}
 	// 미디어 컬렉션 불러오기
 	@Override
 	public List<CartCollection> selectCollectionMedia(String userId) {
 		return pDao.selectCollectionMedia(userId);
+	}
+	// 멤버십 등록
+	@Override
+	public int enrollMembership(Payment payment) {
+		// 결제등록
+		int result = pDao.insertPayment(payment);
+		if(result > 0) {
+			// 멤버십여부 확인
+			String is = pDao.isMembership(payment);
+			if(is.equals("Y")) {
+				// 기간 연장
+				pDao.updateMembershipDate(payment);
+			} else {
+				// 기간 새로 등록
+				pDao.updateUserMembership(payment);
+			}
+		} 
+		return result;
 	}
 	
 	

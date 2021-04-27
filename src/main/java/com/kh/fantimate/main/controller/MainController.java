@@ -8,7 +8,9 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -24,16 +26,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.kh.fantimate.common.model.vo.Alarm;
 import com.kh.fantimate.common.model.vo.Attachment;
+import com.kh.fantimate.common.model.vo.Friend;
 import com.kh.fantimate.common.model.vo.Message;
 import com.kh.fantimate.common.model.vo.Report;
 import com.kh.fantimate.main.model.service.MainService;
+import com.kh.fantimate.main.model.vo.FeedTopNineCollection;
 import com.kh.fantimate.main.model.vo.FriendCollection;
 import com.kh.fantimate.main.model.vo.MainCollection;
+import com.kh.fantimate.main.model.vo.MediaTopNineCollection;
+import com.kh.fantimate.main.model.vo.StoreTopNineCollection;
 import com.kh.fantimate.main.model.vo.SubscribeArtist;
 import com.kh.fantimate.member.model.vo.Member;
 
@@ -476,6 +483,192 @@ public class MainController {
 		return gson.toJson(sendJson);
 		
 	}
+	
+	// 회원이 구독한 아티스트 피드 탑 9 조회 
+	@RequestMapping(value="/feedTopNine", produces="application/json; charset=utf-8")
+	public @ResponseBody String feedTopNine(HttpSession session) {
+		
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		// 로그인 유저의 아이디 가지고 가기 
+		String user = loginUser.getId();
+		
+		// 게시물 사진 제외한 리스트 select
+		List<FeedTopNineCollection> tnlist = (ArrayList<FeedTopNineCollection>)mpService.selectFeedTopNineCollection(user);
+		
+		// 날짜랑 전체리스트 보내기
+		//JSONObject sendJson = new JSONObject();
+		//sendJson.put("tnlist", tnlist);
+		//sendJson.put("piclist", piclist);
+		
+		//System.out.println("피드 탑 9: " + tnlist);
+		
+		//session.setAttribute("tnlist", tnlist);
+
+		return new Gson().toJson(tnlist);
+		
+	}
+	
+	// 회원이 구독한 아티스트 미디어 탑 9 조회 
+	@RequestMapping(value = "/mediaTopNine", produces = "application/json; charset=utf-8")
+	public @ResponseBody String mediaTopNine(HttpSession session) {
+
+		Member loginUser = (Member) session.getAttribute("loginUser");
+		// 로그인 유저의 아이디 가지고 가기
+		String user = loginUser.getId();
+
+		// 게시물 사진 제외한 리스트 select
+		List<MediaTopNineCollection> tmlist = (ArrayList<MediaTopNineCollection>) mpService
+				.selectmediaTopNineCollection(user);
+
+		//System.out.println("미디어 탑 9: " + tmlist);
+
+		return new Gson().toJson(tmlist);
+
+	}
+	
+	// 회원이 구독한 스토어 탑 9 조회 
+	@RequestMapping(value = "/storeTopNine", produces = "application/json; charset=utf-8")
+	public @ResponseBody String storeTopNine(HttpSession session) {
+
+		Member loginUser = (Member) session.getAttribute("loginUser");
+		// 로그인 유저의 아이디 가지고 가기
+		String user = loginUser.getId();
+
+		// 게시물 사진 제외한 리스트 select
+		List<StoreTopNineCollection> slist = (ArrayList<StoreTopNineCollection>) mpService
+				.selectStoreTopNineCollection(user);
+
+		//System.out.println("스토어 탑 9: " + slist);
+
+		return new Gson().toJson(slist);
+
+	}
+	
+	// 친구 수락
+	@GetMapping("/acceptFriend")
+	public String acceptFriend(String sendId,
+										  HttpSession session,
+										  Friend fr,
+										  Model model,
+										  int alCode) {
+		
+		Member loginUser = (Member) session.getAttribute("loginUser");
+		// 로그인 유저의 아이디 가지고 가기
+		String user = loginUser.getId();
+		
+		fr.setFrRecId(user);
+		fr.setFrSend(sendId);
+		
+		Map<String, String> map = new HashMap<>();
+		map.put("user", user);
+		map.put("sendId", sendId);
+		
+		int result = mpService.updateAcceptFriend(fr);
+		// 알람 insert
+		int alarmFriend = mpService.insertAlarmF(map);
+		// 알림에서 가리기
+		int hideAlarm = mpService.updateAlarmStatus(alCode);
+		
+		System.out.println("result:" + result);
+		System.out.println("alarmFriend:" + alarmFriend);
+		System.out.println("hideAlarm:" + hideAlarm);
+		
+		if(result > 0 && alarmFriend > 0 && hideAlarm > 0) {
+			model.addAttribute("msg", "accept");
+		} else {
+			model.addAttribute("msg", "fail");
+		}
+		
+		return "common/main";
+		
+	}
+	
+	// 친구 거절 
+	@GetMapping("/declineFriend")
+	public String declineFriend(String sendId,
+										  HttpSession session,
+										  Friend fr,
+										  Model model,
+										  int alCode) {
+		
+		Member loginUser = (Member) session.getAttribute("loginUser");
+		// 로그인 유저의 아이디 가지고 가기
+		String user = loginUser.getId();
+		
+		fr.setFrRecId(user);
+		fr.setFrSend(sendId);
+		
+		int result = mpService.updateDeclineFriend(fr);
+		// 알림에서 가리기
+		int hideAlarm = mpService.updateAlarmStatus(alCode);
+		
+		System.out.println("거절result:" + result);
+		System.out.println("거절hideAlarm:" + hideAlarm);
+		
+		if(result > 0 && hideAlarm > 0) {
+			model.addAttribute("msg", "decline");
+		}else {
+			model.addAttribute("msg", "fail");
+		}
+		
+		return "common/main";
+		
+	}
+	
+	//chartTopThree
+	@RequestMapping(value = "/chartTopThree", produces = "application/json; charset=utf-8")
+	public @ResponseBody String chartTopThree() {
+
+		// 미디어 탑 3 select 
+		List<MediaTopNineCollection> chlist = (ArrayList<MediaTopNineCollection>) mpService
+				.selectChartTopThree();
+
+		//System.out.println("미디어 탑 3: " + chlist);
+
+		return new Gson().toJson(chlist);
+
+	}
+	
+	// 구독페이지 이동 (아티스트명 가지고)
+	@GetMapping("/chart")
+	public String chart() {
+		
+		return "main/chart";
+
+	}
+	
+	
+	
+	@RequestMapping(value="/chartDay", produces="application/json; charset=utf-8")
+	public @ResponseBody String chartDay() {
+		
+		// 일간별 미디어 순위 조회 
+		List<MediaTopNineCollection> dlist = (ArrayList<MediaTopNineCollection>)mpService.selectchartDay();
+		
+		// 날짜 포맷하기 위해 GsonBuilder를 이용해서 GSON 객체 생성
+		Gson gson = new GsonBuilder()
+					.setDateFormat("yyyy-MM-dd")
+					.create();
+		
+		return new Gson().toJson(dlist);
+		
+	}
+	
+	@RequestMapping(value="/chartWeek", produces="application/json; charset=utf-8")
+	public @ResponseBody String chartWeek() {
+		
+		// 일간별 미디어 순위 조회 
+		List<MediaTopNineCollection> wlist = (ArrayList<MediaTopNineCollection>)mpService.selectchartWeek();
+		
+		// 날짜 포맷하기 위해 GsonBuilder를 이용해서 GSON 객체 생성
+		Gson gson = new GsonBuilder()
+					.setDateFormat("yyyy-MM-dd")
+					.create();
+		
+		return new Gson().toJson(wlist);
+		
+	}
+		
 	
 	
 

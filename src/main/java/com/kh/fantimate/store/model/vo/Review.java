@@ -22,7 +22,7 @@ public class Review {
 	private String rvTitle; 		// 제목
 	private String rvContent; 		// 내용
 	private String id; 				// 아이디
-	private int bcode; 				// 상품 구매 코드
+	private int cartCode; 			// 상품 구매 코드
 	private int pcode;				// 상품 코드
 	private Date enrollDate;		// 리뷰 등록일
 }

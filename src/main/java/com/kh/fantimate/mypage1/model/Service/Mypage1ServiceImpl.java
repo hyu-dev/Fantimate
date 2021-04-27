@@ -5,13 +5,16 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kh.fantimate.common.model.vo.Friend;
 import com.kh.fantimate.common.model.vo.Notice;
 import com.kh.fantimate.common.model.vo.PageInfo;
 import com.kh.fantimate.common.model.vo.Report;
 import com.kh.fantimate.member.model.vo.Agency;
 import com.kh.fantimate.member.model.vo.Member;
 import com.kh.fantimate.mypage1.model.dao.Mypage1Dao;
+import com.kh.fantimate.mypage1.model.vo.FriendPageInfo;
 import com.kh.fantimate.mypage1.model.vo.ReportPageInfo;
+import com.kh.fantimate.mypage1.model.vo.UserPaymentCol2;
 
 @Service
 public class Mypage1ServiceImpl implements Mypage1Service{
@@ -91,5 +94,64 @@ public class Mypage1ServiceImpl implements Mypage1Service{
 	public List<Member> requestCommonList(ReportPageInfo pi) {
 		return mDao.requestCommonList(pi);
 	}
+
+	@Override
+	public int RListCountFriend(Member m) {
+		return mDao.RListCountFriend(m);
+	}
+	@Override
+	public List<Friend> requestFriendList(FriendPageInfo pi) {
+		return mDao.requestFriendList(pi);
+	}
+
+	@Override
+	public int RListCountFriendReq(Member m) {
+		return mDao.RListCountFriendReq(m);
+	}
+	@Override
+	public List<Friend> requestFriendList2(FriendPageInfo pi) {
+		return mDao.requestFriendList2(pi);
+	}
+
+	@Override
+	public int userFriendUpdate2(Friend f) {
+		return mDao.userFriendUpdate2(f);
+	}
+
+	@Override
+	public int RListCountPayList(Member m) {
+		return mDao.RListCountPayList(m);
+	}
+
+	@Override
+	public List<UserPaymentCol2> requestPayList(FriendPageInfo pi) {
+		return mDao.requestPayList(pi);
+	}
+
+	@Override
+	public int CountCartCodeList(UserPaymentCol2 u) {
+		return mDao.CountCartCodeList(u);
+	}
+
+	@Override
+	public String selectPayCodeList(UserPaymentCol2 u) {
+		return mDao.selectPayCodeList(u);
+	}
+
+	@Override
+	public int userpaymentMConfirmUpdateC(UserPaymentCol2 u) {
+		return mDao.userpaymentMConfirmUpdateC(u);
+	}
+	@Override
+	public int userpaymentMConfirmUpdateP(UserPaymentCol2 u) {
+		return mDao.userpaymentMConfirmUpdateP(u);
+	}
+
+	@Override
+	public int userpaymentSConfirmUpdateC(UserPaymentCol2 u) {
+		return mDao.userpaymentSConfirmUpdateC(u);
+	}
+
+
 
 }

@@ -7,10 +7,14 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.fantimate.common.model.vo.Friend;
 import com.kh.fantimate.common.model.vo.Report;
 import com.kh.fantimate.member.model.vo.Agency;
 import com.kh.fantimate.member.model.vo.Member;
+import com.kh.fantimate.mypage1.model.vo.FriendPageInfo;
 import com.kh.fantimate.mypage1.model.vo.ReportPageInfo;
+import com.kh.fantimate.mypage1.model.vo.UserPaymentCol;
+import com.kh.fantimate.mypage1.model.vo.UserPaymentCol2;
 
 @Repository
 public class Mypage1DaoImpl implements Mypage1Dao{
@@ -108,6 +112,92 @@ public class Mypage1DaoImpl implements Mypage1Dao{
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 		return sqlSession.selectList("mypage1Mapper.requestCommonList", null, rowBounds);
 	}
+
+	// User 친구 목록 조회
+	@Override
+	public int RListCountFriend(Member m) {
+		return sqlSession.selectOne("mypage1Mapper.RListCountFriend", m);
+	}
+	@Override
+	public List<Friend> requestFriendList(FriendPageInfo pi) {
+		System.out.println("pi.getSerchCondition() : " + pi.getSerchCondition());
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return sqlSession.selectList("mypage1Mapper.requestFriendList", pi.getSerchCondition(), rowBounds);
+	}
+
+	// User 친구요청 목록 조회
+	@Override
+	public int RListCountFriendReq(Member m) {
+		return sqlSession.selectOne("mypage1Mapper.RListCountFriendReq", m);
+	}
+	@Override
+	public List<Friend> requestFriendList2(FriendPageInfo pi) {
+		System.out.println("pi.getSerchCondition() : " + pi.getSerchCondition());
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return sqlSession.selectList("mypage1Mapper.requestFriendList2", pi.getSerchCondition(), rowBounds);
+	}
+	// 친구 회원정보 Update
+	@Override
+	public int userFriendUpdate2(Friend f) {
+		return sqlSession.update("mypage1Mapper.userFriendUpdate2", f);
+	}
+
+	@Override
+	public int RListCountPayList(Member m) {
+		return sqlSession.selectOne("mypage1Mapper.RListCountPayList", m);
+	}
+
+	@Override
+	public List<UserPaymentCol2> requestPayList(FriendPageInfo pi) {
+		System.out.println("pi.getSerchCondition() : " + pi.getSerchCondition());
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return sqlSession.selectList("mypage1Mapper.requestPayList", pi.getSerchCondition(), rowBounds);
+	}
+
+//	@Override
+//	public int userMypaymentsUpdate(UserPaymentCol2 u) {
+			/* 
+		p.setPayStatus(paystatus);
+		pb.setBcode(Integer.parseInt(bcode));
+		u.setPayment(p);
+		u.setPbuy(pb);
+			 */
+//		System.out.println("u.getPayment().getPayStatus() : " + u.getPayment().getPayStatus());
+//		System.out.println("u.getPbuy().getBcode() : " + u.getCart().getCartCode());
+//		u.getPayment().getPayStatus();
+//		u.getPbuy().getBcode();
+		
+//		return sqlSession.update("mypage1Mapper.userMypaymentsUpdate", u);
+//	}
+
+	@Override
+	public int CountCartCodeList(UserPaymentCol2 u) {
+		return sqlSession.selectOne("mypage1Mapper.CountCartCodeList", u);
+	}
+
+	@Override
+	public String selectPayCodeList(UserPaymentCol2 u) {
+		return sqlSession.selectOne("mypage1Mapper.selectPayCodeList", u);
+	}
+
+	@Override
+	public int userpaymentMConfirmUpdateC(UserPaymentCol2 u) {
+		return sqlSession.update("mypage1Mapper.userpaymentMConfirmUpdateC", u);
+	}
+	// 나중에 추가로 실행될 구문
+	@Override
+	public int userpaymentMConfirmUpdateP(UserPaymentCol2 u) {
+		return sqlSession.update("mypage1Mapper.userpaymentMConfirmUpdateP", u);
+	}
+
+	@Override
+	public int userpaymentSConfirmUpdateC(UserPaymentCol2 u) {
+		return sqlSession.update("mypage1Mapper.userpaymentSConfirmUpdateC", u);
+	}
+
 
 	
 	

@@ -116,10 +116,183 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 			<collection property="mediar" resultMap="mediarset"/>
 			<collection property="report" resultMap="rptMediaR"/>
 		</resultMap>
-	
-	
-	
-	
+
+
+<!-- 마이페이지 User -->
+<!-- 친구 -->
+		<resultMap type="Friend" id="FriendRset">
+			<id property="frCode" column="FR_CODE"/>
+			<result property="frSend" column="U_ID_SEND"/>
+			<result property="frRecId" column="U_ID_RECEIVE"/>
+			<result property="frStatus" column="FR_STATUS"/>
+		</resultMap>
+		<!-- 프로필사진떄문에 FR컬럼 만들고, 해당 컬럼 임의로 대입-->
+		<resultMap type="Attachment" id="UserProfileRset">
+			<id property="attCode" column="UP_CODE"/>
+			<result property="id" column="U_ID"/>
+			<result property="attClName" column="UP_CL_NAME"/>
+			<result property="attSvName" column="UP_SV_NAME"/>
+			<!-- 프로필 상태 -->
+			<result property="attStatus" column="UP_STATUS"/>
+			<!-- 친구목록 -->
+			<result property="attMain" column="FR"/>
+		</resultMap>
+		<resultMap type="FriendList1" id='FriendList1RSet'>
+			<collection property="friend" resultMap="FriendRset"/>
+			<collection property="attachment" resultMap="UserProfileRset"/>
+		</resultMap>
+<!-- Payment 삭제예정-->
+		<!-- STORE -1-->	
+<!-- 		<resultMap type="Store" id="storeRSet"> -->
+<!-- 			<id property="pcode" column="P_CODE"/> -->
+<!-- 			<result property="pname" column="P_NAME"/> -->
+<!-- 			<result property="salesQ" column="SALES_Q"/> -->
+<!-- 			<result property="qprice" column="Q_PRICE"/> -->
+			
+<!-- 			<result property="discount" column="DISCOUNT"/> -->
+<!-- 			<result property="info" column="INFORMATION"/> -->
+<!-- 			<result property="isView" column="IS_VIEW"/> -->
+			
+<!-- 			<result property="viewCount" column="VIEWCOUNT"/> -->
+<!-- 			<result property="isSoldout" column="IS_SOLDOUT"/> -->
+<!-- 			<result property="isActive" column="IS_ACTIVE"/> -->
+<!-- 			<result property="cateCode" column="C_CODE"/> -->
+<!-- 		</resultMap> -->
+		
+		<!-- S_CATEGORY -2-->		
+<!-- 		<resultMap type="StoreCategory" id="StoreCategoryRSet"> -->
+<!-- 			<id property="cateCode" column="C_CODE"/> -->
+<!-- 			<result property="cateName" column="C_NAME"/> -->
+<!-- 			<result property="artiNameEn" column="ARTI_NAME_EN"/> -->
+<!-- 		</resultMap> -->
+		
+		<!-- P_INFO -4-->
+<!-- 		<resultMap type="StoreInfo" id="StoreInfoRSet"> -->
+<!-- 			<id property="pcode" column="P_CODE"/> -->
+<!-- 			<result property="origin" column="ORIGIN"/> -->
+<!-- 			<result property="brand" column="BRAND"/> -->
+			
+<!-- 			<result property="contact" column="CONTACT"/> -->
+<!-- 			<result property="useTerm" column="USE_TERM"/> -->
+<!-- 			<result property="offerings" column="OFFERINGS"/> -->
+<!-- 			<result property="cancelInfo" column="CANCEL_INFO"/> -->
+<!-- 		</resultMap> -->
+		
+		<!-- PAYMENT -5-->
+<!-- 		<resultMap type="Payment" id="PaymentRSet"> -->
+<!-- 			<id property="payCode" column="PAY_CODE"/> -->
+<!-- 			<result property="payMethod" column="PAY_METHOD"/> -->
+<!-- 			<result property="payStatus" column="PAY_STATUS"/> -->
+<!-- 			<result property="payPrice" column="PAY_PRICE"/> -->
+			
+<!-- 			<result property="payDate" column="PAY_DATE"/> -->
+<!-- 			<result property="id" column="ID"/> -->
+<!-- 			<result property="payDivision" column="PAY_DIVISION"/> -->
+<!-- 			<result property="payPlan" column="PAY_PLAN"/> -->
+<!-- 		</resultMap> -->
+		
+		
+		<!-- UserPaymentCol User Payment 컬렉션 -->
+<!-- 		<resultMap type="UserPaymentCol" id="UserPaymentColRSet"> -->
+<!-- 			<collection property="store" resultMap="storeRSet"/> -->
+<!-- 			<collection property="storeCate" resultMap="StoreCategoryRSet"/> -->
+<!-- 			<collection property="att" resultMap="AttachmentRSet"/> -->
+<!-- 			<collection property="pinfo" resultMap="StoreInfoRSet"/> -->
+<!-- 			<collection property="payment" resultMap="PaymentRSet"/> -->
+<!-- 		</resultMap> -->
+		
+<!-- UserPaymentCol2 User Payment 컬렉션 -->
+		<resultMap type="UserPaymentCol2" id="UserPaymentColRSet2">
+			<collection property="payment" resultMap="PaymentRSet"/>
+			<collection property="cart" resultMap="CartRSet"/>
+			<collection property="store" resultMap="StoreRSet"/>
+			<collection property="storeCate" resultMap="StoreCateRSet"/>
+			<collection property="att" resultMap="AttachmentRSet"/>
+			<collection property="mdatt" resultMap="MDAttRSet2"/>
+			<collection property="media" resultMap="MediaRSet"/>
+<!-- 			<collection property="pinfo" resultMap="StoreInfoRSet"/> -->
+		</resultMap>
+<!-- PAYMENT -->
+		<resultMap type="Payment" id="PaymentRSet">
+			<id property="payCode" column="PAY_CODE"/>
+			<result property="payMethod" column="PAY_METHOD"/>
+			<result property="payStatus" column="PAY_STATUS"/>
+			<result property="payPrice" column="PAY_PRICE"/>
+			<result property="payDate" column="PAY_DATE"/>
+			<result property="id" column="ID"/>
+			<result property="payDivision" column="PAY_DIVISION"/>
+			<result property="payPlan" column="PAY_PLAN"/>
+		</resultMap>		
+<!-- CART -->		
+		<resultMap type="Cart" id="CartRSet">
+			<id property="cartCode" column="CART_CODE"/>
+			<result property="buyQ" column="BUY_Q"/>
+			<result property="buyPrice" column="B_PRICE"/>
+			<result property="fee" column="FEE"/>
+			<result property="enrollDate" column="ENROLL_DATE"/>
+			<result property="isBought" column="IS_BOUGHT"/>
+			<result property="boughtDate" column="BOUGHT_DATE"/>
+			<result property="pcode" column="P_CODE"/>
+			<result property="mediaNum" column="MEDIA_NUM"/>
+			<result property="id" column="ID"/>
+		</resultMap>
+<!-- STORE -->
+		<resultMap type="Store" id="StoreRSet">
+			<id property="pcode" column="P_CODE"/>
+			<result property="pname" column="P_NAME"/>
+			<result property="salesQ" column="SALES_Q"/>
+			<result property="qprice" column="Q_PRICE"/>
+			<result property="discount" column="DISCOUNT"/>
+			<result property="info" column="INFORMATION"/>
+			<result property="isView" column="IS_VIEW"/>
+			<result property="viewCount" column="VIEWCOUNT"/>
+			<result property="isSoldout" column="IS_SOLDOUT"/>
+			<result property="isActive" column="IS_ACTIVE"/>
+			<result property="cateCode" column="C_CODE"/>
+		</resultMap>
+<!-- S_CATEGORY -->
+		<resultMap type="StoreCategory" id="StoreCateRSet">
+			<id property="cateCode" column="C_CODE"/>
+			<result property="cateName" column="C_NAME"/>
+			<result property="artiNameEn" column="ARTI_NAME_EN"/>
+		</resultMap>
+<!-- ATT_STORE -->
+		<resultMap type="Attachment" id="AttachmentRSet">
+			<id property="attCode" column="ATT_CODE"/>
+			<result property="attRoot" column="ATT_ROOT"/>
+			<result property="attClName" column="ATT_CL_NAME"/>
+			
+			<result property="attSvName" column="ATT_SV_NAME"/>
+			<result property="attStatus" column="ATT_STATUS"/>
+<!-- 			<result property="id" column="ARTI_NAME_EN"/> -->
+			<!-- 참조 Store 코드 -->
+			<result property="refId" column="P_CODE"/>
+<!-- 			<result property="refuid" column="ARTI_NAME_EN"/> -->
+			<result property="attMain" column="IS_MAIN_ATT"/>
+		</resultMap>
+<!-- MD_FILE -->
+		<resultMap type="Attachment" id="MDAttRSet2">
+			<id property="attCode" column="MD_ATT_CODE"/>
+			<result property="attRoot" column="ATT_ROOT"/>
+			<result property="attClName" column="PIC_CL_NAME"/>
+			<result property="attSvName" column="PIC_SV_NAME"/>
+		</resultMap>
+<!-- MEDIA -->
+		<resultMap type="Media" id="MediaRSet">
+			<id property="mediaNum" column="MEDIA_NUM"/>
+			<result property="mediaTtl" column="MEDIA_TTL"/>
+			<result property="mediaCtt" column="MEDIA_CTT"/>
+			<result property="mediaDate" column="MEDIA_DATE"/>
+			<result property="mediaStatus" column="MEDIA_STATUS"/>
+			<result property="isPay" column="IS_PAY"/>
+			<result property="cateCode" column="CATE_CODE"/>
+			<result property="mediaPay" column="MEDIA_PAY"/>
+		</resultMap>		
+		
+		
+		
+		
+		
 	<select id="checkId" parameterType="string" resultType="integer">
 		SELECT
 				COUNT(*)
@@ -269,6 +442,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 			  		RPT_MESSAGE
 			  </otherwise>
 		  </choose>
+	
 <!-- 방법5		 
 잘못된 비교 : java.util.LinkedHashMap 및 java.lang.String
 ### 원인 : java.lang.IllegalArgumentException : 유효하지 않은 비교 :   -->
@@ -417,15 +591,6 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	<select id="requestCommonList" resultMap="commonResultSet">
 	   SELECT
                 ID
@@ -441,4 +606,275 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
                 SIGNUP_DATE, 
     CASE WHEN   STATUS = 'Y' THEN 0 END
 	</select>
+	
+	<!-- 마이페이지 User 친구 -->
+	<!-- 마이페이지 User 친구 -->
+	<select id="RListCountFriend" resultType="integer" parameterType="Member">
+		SELECT
+				COUNT(*)
+		  FROM
+		  		FRIEND     
+         WHERE
+             	FR_STATUS = 2
+           AND  U_ID_RECEIVE = #{id}
+	</select>
+	<select id="requestFriendList" resultMap="FriendList1RSet">
+   		SELECT
+				FR_CODE
+			  , U_ID_SEND
+			  , U_ID_RECEIVE
+			  , FR_STATUS
+              , FR
+                    
+              , U_ID
+              , UP_CL_NAME
+              , UP_SV_NAME
+              , UP_STATUS
+		  FROM
+                (SELECT
+                    FR_CODE
+                  , U_ID_SEND
+                  , U_ID_RECEIVE
+                  , FR_STATUS
+                  , case when u_id_receive = 'user' then u_id_send
+                        else u_id_receive end as FR
+                FROM      
+                    FRIEND) f
+     LEFT JOIN
+                USER_PROFILE a
+            ON
+                f.FR = a.U_ID
+         WHERE
+                 FR_STATUS = 2
+	</select>
+	<!-- 친구요청 리스트 -->
+	<select id="RListCountFriendReq" resultType="integer" parameterType="Member">
+		SELECT
+				COUNT(*)
+		  FROM
+		  		FRIEND     
+         WHERE
+             	FR_STATUS = 1
+           AND  U_ID_RECEIVE = #{id}
+	</select>
+	<select id="requestFriendList2" resultMap="FriendList1RSet">
+   		SELECT
+				FR_CODE
+			  , f.U_ID_SEND
+			  , U_ID_RECEIVE
+			  , FR_STATUS
+              
+              , U_ID
+              , UP_CL_NAME
+              , UP_SV_NAME
+              , UP_STATUS
+		  FROM
+		  		FRIEND f
+     LEFT JOIN
+                USER_PROFILE a
+            ON
+                f.U_ID_SEND = a.U_ID
+         WHERE
+                U_ID_RECEIVE = #{SerchCondition}
+           AND  FR_STATUS = 1
+	</select>
+	
+	<update id="userFriendUpdate2" parameterType="Friend">
+ 	UPDATE
+            FRIEND
+       SET
+            FR_STATUS = #{frStatus}
+     WHERE
+            U_ID_SEND = #{frSend}
+       AND  U_ID_RECEIVE  = #{frRecId}
+	</update>
+
+	<select id="RListCountPayList" parameterType="Member" resultType="integer">
+			SELECT
+					COUNT(*)
+			  FROM
+                    PAYMENT p
+        INNER JOIN
+                    CART c
+                ON
+                    p.PAY_CODE = c.PAY_CODE
+        
+        INNER JOIN
+                    STORE s
+                ON
+                    c.P_CODE = s.P_CODE
+        INNER JOIN     
+                    S_CATEGORY sc
+                ON
+                    s.C_CODE = sc.C_CODE
+        INNER JOIN
+                    ATT_STORE atts
+                ON
+                    s.P_CODE = atts.P_CODE
+                
+             WHERE  
+                    c.ID = #{id}
+               AND  IS_MAIN_ATT = 'Y'
+	</select>			
+	
+<!-- User 결제리스트 불러오기 -->
+	<select id="requestPayList" resultMap="UserPaymentColRSet2">
+            SELECT
+                    CART_CODE
+                  , BUY_Q
+                  , B_PRICE
+                  , FEE
+                  , ENROLL_DATE
+                  , IS_BOUGHT
+                  , c.P_CODE
+                  , c.MEDIA_NUM
+                  , c.ID AS PAY_USERID
+                  , BOUGHT_DATE
+                  , c.PAY_CODE AS CPAY_CODE
+                  
+                  , PAY_METHOD
+                  , PAY_STATUS
+                  , PAY_PRICE
+                  , PAY_DATE
+                  , PAY_DIVISION
+                  
+                  , P_NAME
+                  , SALES_Q
+                  , Q_PRICE
+                  , DISCOUNT
+                  , IS_ACTIVE
+                  , s.C_CODE
+                  
+                  , C_NAME
+                  , ARTI_NAME_EN
+                  
+                  , atts.ATT_CODE
+                  , atts.ATT_CL_NAME
+                  , atts.ATT_SV_NAME
+                  
+                  , mf.ATT_CODE as MD_ATT_CODE
+                  , mf.PIC_CL_NAME
+                  , mf.PIC_SV_NAME
+                  
+                  , MEDIA_TTL
+              FROM
+                    PAYMENT p
+        INNER JOIN
+                    CART c
+                ON
+                    p.PAY_CODE = c.PAY_CODE
+        
+   LEFT OUTER JOIN
+                    STORE s
+                ON
+                    c.P_CODE = s.P_CODE
+   LEFT OUTER JOIN     
+                    S_CATEGORY sc
+                ON
+                    s.C_CODE = sc.C_CODE
+   LEFT OUTER JOIN
+                    ATT_STORE atts
+                ON
+                    s.P_CODE = atts.P_CODE
+                
+   LEFT OUTER JOIN
+                    MD_FILE mf
+                ON 
+                    c.MEDIA_NUM = mf.MEDIA_NUM
+   LEFT OUTER JOIN      
+                    MEDIA m
+                ON
+                    c.MEDIA_NUM = m.MEDIA_NUM
+                
+             WHERE  
+                    c.ID = #{serchCondition}
+               AND  (IS_MAIN_ATT != 'N' OR c.P_CODE IS NULL)
+          ORDER BY  CART_CODE
+	</select>	
+	
+<!-- 결제내역 업데이트 --> 
+<!-- cartcode로 paycode 조회해오기 -->	
+		<select id="selectPayCodeList" resultType="string" parameterType="UserPaymentCol2">
+	        SELECT
+	                PAY_CODE
+	          FROM
+	                CART
+	         WHERE 
+	                ID = #{ cart.id }
+	           AND  CART_CODE = #{ cart.cartCode }		
+		</select>
+		
+<!-- 주어진 CartCode 몇개인지 세기 -->
+		<select id="CountCartCodeList" resultType="integer" parameterType="UserPaymentCol2">
+			SELECT
+					COUNT(*)
+			  FROM
+                    CART
+             WHERE
+                    PAY_CODE = #{ cart.payCode }
+		</select>	
+
+<!-- 1개일때 구매확정(미디어) -->
+
+	<update id="userpaymentMConfirmUpdateC" parameterType="UserPaymentCol2" >
+			UPDATE 
+              (
+               SELECT
+                        CART_CODE
+                      , IS_BOUGHT
+                      , PAY_STATUS
+                 FROM
+                        PAYMENT p
+           INNER JOIN
+                        CART c
+                   ON
+                        c.PAY_CODE = p.PAY_CODE
+                WHERE
+                        CART_CODE = #{ cart.cartCode }
+              ) 
+           SET 
+           		IS_BOUGHT = #{ cart.isBought }
+	</update>
+<!-- 04.23 결정으로 생략된과정 -->
+	<update id="userpaymentMConfirmUpdateP" parameterType="UserPaymentCol2" >
+			UPDATE 
+              (
+               SELECT
+                        CART_CODE
+                      , IS_BOUGHT
+                      , PAY_STATUS
+                 FROM
+                        PAYMENT p
+           INNER JOIN
+                        CART c
+                   ON
+                        c.PAY_CODE = p.PAY_CODE
+                WHERE
+                        CART_CODE = #{ cart.cartCode }
+              ) 
+           SET 
+                PAY_STATUS = #{ payment.payStatus }
+	</update>
+
+<!-- 1개 구매확정 스토어 -->
+		<update id="userpaymentSConfirmUpdateC" parameterType="UserPaymentCol2" >
+			UPDATE 
+              (
+               SELECT
+                        CART_CODE
+                      , IS_BOUGHT
+                      , PAY_STATUS
+                 FROM
+                        PAYMENT p
+           INNER JOIN
+                        CART c
+                   ON
+                        c.PAY_CODE = p.PAY_CODE
+                WHERE
+                        CART_CODE = #{ cart.cartCode }
+              ) 
+           SET 
+           		IS_BOUGHT = #{ cart.isBought }
+	</update>
+
 </mapper>

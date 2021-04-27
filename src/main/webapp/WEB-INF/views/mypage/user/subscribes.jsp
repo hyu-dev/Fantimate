@@ -83,5 +83,18 @@
 <!-- 	메뉴 -->
 	<jsp:include page="menu.jsp"/>
 	</section>
+	<script>
+    $(document).ready(function(){
+            console.log("메소드 동작");
+            
+            $("#mypageMenuBtn").children().removeClass("mypage-btn-DN");
+            console.log("removeClass 동작");
+            
+            $("#mypageMenuBtn").children().eq(1).addClass("mypage-btn-DN");
+            console.log("addClass 동작");
+            
+    });
+
+</script>
 </body>
 </html>

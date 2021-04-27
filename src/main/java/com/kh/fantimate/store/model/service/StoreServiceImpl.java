@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import com.kh.fantimate.common.model.vo.Attachment;
 import com.kh.fantimate.pay.model.vo.Cart;
 import com.kh.fantimate.pay.model.vo.CartCollection;
-import com.kh.fantimate.pay.model.vo.ProductBuy;
 import com.kh.fantimate.store.model.dao.StoreDao;
 import com.kh.fantimate.store.model.vo.BuyCollection;
 import com.kh.fantimate.store.model.vo.Review;
@@ -25,8 +24,8 @@ public class StoreServiceImpl implements StoreService {
 	private StoreDao sDao;
 	
 	@Override
-	public List<StoreCollection> selectStoreList(String cateName) {
-		return sDao.selectStoreList(cateName);
+	public List<StoreCollection> selectStoreList(Map<String, String> map) {
+		return sDao.selectStoreList(map);
 	}
 
 	@Override
@@ -45,22 +44,22 @@ public class StoreServiceImpl implements StoreService {
 	}
 
 	@Override
-	public int enrollWish(Map<String, String> map) {
+	public int enrollWish(Wish wish) {
 		// 찜목록에 등록되어있는지?
-		int result = sDao.isEnrollWish(map);
+		int result = sDao.isEnrollWish(wish);
 		
 		if(result > 0) {
 			// 이미 등록된 경우
-			return sDao.updateWish(map);
+			return sDao.updateWish(wish);
 		} else {
 			// 등록이 안된 경우
-			return sDao.enrollWish(map);
+			return sDao.enrollWish(wish);
 		}
 	}
 
 	@Override
-	public int cancelWish(Map<String, String> map) {
-		return sDao.cancelWish(map);
+	public int cancelWish(Wish wish) {
+		return sDao.cancelWish(wish);
 	}
 
 	@Override
@@ -106,8 +105,8 @@ public class StoreServiceImpl implements StoreService {
 	}
 
 	@Override
-	public Wish selectWish(String userId, String pcode) {
-		return sDao.selectWish(userId, pcode);
+	public Wish selectWish(Wish wish) {
+		return sDao.selectWish(wish);
 	}
 
 	@Override
@@ -155,8 +154,8 @@ public class StoreServiceImpl implements StoreService {
 	}
 
 	@Override
-	public BuyCollection readStoreMain(ProductBuy pb) {
-		return sDao.readStoreMain(pb);
+	public BuyCollection readStoreMain(Cart cart) {
+		return sDao.readStoreMain(cart);
 	}
 
 	@Override
@@ -174,6 +173,11 @@ public class StoreServiceImpl implements StoreService {
 	@Override
 	public List<StoreCollection> selectOneReview(Review rv) {
 		return sDao.selectOneReview(rv);
+	}
+
+	@Override
+	public List<Wish> selectWishList(String userId) {
+		return sDao.selectWishList(userId);
 	}
 
 }

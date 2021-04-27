@@ -1,0 +1,287 @@
+@charset "UTF-8";
+
+html, body {
+    margin: 0;
+    padding: 0;
+    position: relative;
+    z-index: 2;
+}
+
+.form-send-message, .form-report {
+	position: fixed;
+	top: 0;
+	left: 0;
+	background: rgba(0,0,0,0.5);
+	z-index: 3;
+	height: 100%;
+	width: 100%;
+	display: none;
+}
+
+.received-message-section ,.report-message-section ,.send-message-section{
+    width: 600px;  
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #fbf6f6;
+    box-sizing: border-box;
+    overflow-y: auto;
+}
+
+.report-message-section{
+    max-width: 600px;
+    min-width: 600px;  
+}
+
+.message-content{
+    width: 500px;
+    height: 200px;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 30px;
+    color: #000000;
+    border: 1px solid #ACACAC;
+    outline: none;
+    padding: 0px 10px;
+    margin: auto;
+}
+
+body::-webkit-scrollbar , .message-content::-webkit-scrollbar ,.report-write::-webkit-scrollbar{
+    /* 스크롤바 전체 */
+    width: 10px;
+    background: #FBF6F6;
+
+}
+
+body::-webkit-scrollbar-thumb ,.message-content::-webkit-scrollbar-thumb ,.report-write::-webkit-scrollbar-thumb {
+    /* 스크롤 막대 */
+    background: #5C5F78;
+    background-clip: padding-box;
+    border-radius: 5px;
+    border: 2.5px solid transparent;
+}
+
+body::-webkit-scrollbar-thumb:hover ,.message-content::-webkit-scrollbar-thumb:hover, .report-write::-webkit-scrollbar-thumb:hover{
+    background: #F4D4D4;
+    background-clip: padding-box;
+    border: 2.5px solid transparent;
+}
+
+body::-webkit-scrollbar-track ,.message-content::-webkit-scrollbar-track, .report-write::-webkit-scrollbar-track{
+    /* 스크롤 막대 외부 */
+    border-radius: 5px;
+    background: transparent;
+}
+
+.message-btn-section{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 40px;
+    margin-bottom: 100px;
+}
+
+#sendBtn{
+    background: #F4D4D4;
+    width: 150px;
+    height: 50px;
+    font-style: normal;
+    font-size: 22px;
+    line-height: 43px;
+    text-align: center;
+    color: #5C5F78;
+    border: 1px solid #F4D4D4;
+}
+
+#closeBtn{
+    width: 150px;
+    height: 50px;
+    background: #5C5F78;
+    font-style: normal;
+    font-size: 22px;
+    line-height: 43px;
+    text-align: center;
+    color: #FFFFFF;
+    border: 1px solid #5C5F78;
+    margin-left: 20px;
+}
+
+.message-info{
+    margin-left: 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.message-info span{
+    font-style: normal;
+    font-size: 22px;
+    color:#000000;
+}
+
+.message-id{
+    font-style: normal;
+    font-weight: 550;
+    font-size: 25px;
+    color:#000000;
+    margin-left: 20px;
+    margin-top: 50px
+
+}
+
+.message-title{
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+    color:#000000;
+    margin-left: 45px;
+}
+
+/* .send-message-section{
+    display: none;
+} */
+
+.message-input-section{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.message-input-title{
+    width: 500px;
+    height: 40px;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 43px;
+    color: #000000;
+    border: 1px solid #ACACAC;
+    outline: none;
+    padding-left: 10px;
+}
+
+.message-write{
+    margin-top: 10px;
+    resize: none;
+    color: #ACACAC;
+    border: 1px solid #ACACAC;
+    width: 500px;
+    height: 220px;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 30px;
+    color: #000000;
+    outline: none;
+    padding-left: 10px;
+}
+
+/*신고하기 페이지*/
+
+/* .report-message-section{
+    display: none;
+} */
+
+.report-img{
+    width:30px;
+    height: 30px;
+    margin-right: 40px;
+}
+
+.report-title{
+    font-style: normal;
+    font-weight: 520;
+    font-size: 25px;
+    color:#000000;
+}
+
+.report-info{
+    border-bottom: 1px solid #ACACAC;
+    width: 540px;
+    margin: auto;
+}
+
+.report-option-area{
+    margin-left: 20px;
+    margin-top: 50px;
+}
+
+.report-option{
+    font-style: normal;
+    font-weight: 510;
+    font-size: 20px;
+    color:#000000;
+    margin-left: 10px;
+}
+
+.report-radio-section{
+    display: flex;
+    justify-content: center;
+    
+}
+
+.radio-area{
+    padding:10px;
+}
+
+.report-radio-section label{
+    padding-right: 40px;
+    font-style: normal;
+    font-size: 17px;
+    color:#000000;
+    margin-left: 10px;
+}
+
+.report-input-section{
+    display: flex;
+    flex-direction: column;
+    margin-left: 30px;
+    margin-top: 20px;
+}
+
+.report-content-title{
+    font-style: normal;
+    font-weight: 510;
+    font-size: 20px;
+    color:#000000;
+    margin-bottom: 5px;
+}
+
+.report-write{
+    margin-top: 10px;
+    resize: none;
+    color: #ACACAC;
+    border: 1px solid #ACACAC;
+    width: 520px;
+    height: 150px;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 30px;
+    color: #000000;
+    outline: none;
+    padding-left: 10px;
+}
+
+.report-btn-section{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 40px;
+    margin-bottom: 100px;
+}
+
+#reportBtn{
+    background: #F4D4D4;
+    width: 150px;
+    height: 50px;
+    font-style: normal;
+    font-size: 22px;
+    line-height: 43px;
+    text-align: center;
+    color: #5C5F78;
+    border: 1px solid #F4D4D4;
+}
+

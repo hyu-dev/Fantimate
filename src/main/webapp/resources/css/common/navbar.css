@@ -112,6 +112,7 @@ input[type="checkbox"]{
     line-height: 24px;
     color: #000000;
     width: 300px;
+    box-shadow : 0px 5px 8px rgb(0 0 0 / 10%);
 }
 
 .check-area:focus{
@@ -206,11 +207,12 @@ input[type="checkbox"]{
     margin-right: 40px;
     position: absolute;
     z-index: 2;
+    box-shadow : 0px 5px 8px rgb(0 0 0 / 20%);
 }
 
 .alarm-list{
     display: block;
-    width: 550px;
+    width: 600px;
     height: 626px;
     background-color: white;
     border-radius: 8px;
@@ -219,6 +221,8 @@ input[type="checkbox"]{
     margin-right: 220px;
     position: absolute;
     z-index: 2;
+    box-shadow : 0px 5px 8px rgb(0 0 0 / 20%);
+    
 
 }
 /* .toggle-date-section{
@@ -239,6 +243,7 @@ input[type="checkbox"]{
     margin-right: 100px;
     position: absolute;
     z-index: 2;
+    box-shadow : 0px 5px 8px rgb(0 0 0 / 20%);
     
 }
 
@@ -283,13 +288,13 @@ input[type="checkbox"]{
     cursor: pointer;
 }
 
-#langSetting, #fanStore, #notice{
+#langSetting, #fanStore, #notice,#payPlan{
     border-bottom: 1px solid #ACACAC;
     padding: 10px 0;
     
 }
 
-#langSetting:hover, #fanStore:hover, #notice:hover ,#logout:hover{
+#langSetting:hover, #fanStore:hover, #notice:hover ,#logout:hover ,#payPlan:hover{
     color: #ec8c8c;
 }
 
@@ -563,6 +568,7 @@ input[id*="friend"]:checked + label em{
     text-align: center;
     color: #dfb9b9;
     outline: none;
+    box-shadow : 0px 5px 8px rgb(0 0 0 / 7%);
 }
 
 .sendBtn:hover{
@@ -590,8 +596,8 @@ input[id*="friend"]:checked + label em{
 
 .profile-circle{
     margin-top: 10px;
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
     border-radius: 70%;
     overflow: hidden;
 }
@@ -685,5 +691,37 @@ li.alarm-content:hover{
 
 #friendContent{
 	display:none;
+}
+
+
+
+#acceptBtn{
+    background: transparent;
+    width: 70px;
+    height: 35px;
+    font-style: normal;
+    font-size: 15px;
+    text-align: center;
+    color: #dfb9b9;
+    border: 1px solid #dfb9b9;
+    margin-left: 15px;
+    border-radius: 5px;
+    font-weight: 500;
+    cursor : pointer;
+}
+
+#noBtn{
+    width: 70px;
+    height: 35px;
+    background: transparent;
+    font-style: normal;
+    font-size: 15px;
+    text-align: center;
+    color: #5C5F78;
+    border: 1px solid #5C5F78;
+    margin-left: 10px;
+    border-radius: 5px;
+    font-weight: 500;
+    cursor : pointer;
 }
 

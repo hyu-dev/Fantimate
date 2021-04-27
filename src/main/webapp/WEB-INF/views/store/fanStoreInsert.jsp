@@ -16,8 +16,8 @@
     <title>Fantimate</title>
 </head>
 <body>
-	<section class="main-section">
-        <form class="main-template" action="" method="">
+	<section class="insert-section">
+        <form class="main-template" action="" method="POST" enctype="multipart/form-data">
             <h3 class="store-write-title">팬스토어등록</h3>
             <table class="store-write">
                 <tbody>
@@ -27,20 +27,14 @@
                             <div class="artist-search">
                                 <img src="${ contextPath }/resources/icon/search-icon.svg" alt="" width="30" height="30">
                                 <input type="text" value="" class="input-data artist-source" placeholder="아티스트 검색">
-                                <div class="search-area">
-                                    <p>BTS</p>
-                                    <p>Bravegirls</p>
-                                    <p>Brown eyed girls</p>
-                                    <p>Brown eyed girls</p>
-                                    <p>Brown eyed girls</p>
-                                </div>
+                                <div class="search-area"></div>
                             </div>
                         </td>
                     </tr>
                     <tr>
                         <th>상품명 *</th>
                         <td>
-                            <input type="text" placeholder="30자 이내 입력" class="input-data">
+                            <input type="text" placeholder="30자 이내 입력" class="input-data" maxlength="30">
                         </td>
                     </tr>
                     <tr>
@@ -55,18 +49,22 @@
                             <div class="artist-search tag-search">
                                 <img src="${ contextPath }/resources/icon/hash-gray.png" alt="" width="30" height="30">
                                 <input type="text" value="" class="input-data tag-source">
-                                <div class="search-area">
-                                    <p>BTS</p>
-                                    <p>Bravegirls</p>
-                                    <p>Brown eyed girls</p>
-                                </div>
+                                <div class="search-area"></div>
+                                <ul class="tagArea">
+                                	<li>테스wefwefwefwef트</li>
+                                	<li>테스트wefwef</li>
+                                	<li></li>
+                                	<li></li>
+                                	<li></li>
+                                </ul>
                             </div>
                         </td>
                     </tr>
                     <tr>
-                        <th>지역설정 *</th>
+                        <th>내 지역 *</th>
                         <td>
-                            <input type="text" value="" class="input-data" disabled>
+                            <input type="text" value="${ userColl.area.areaName }" class="input-data" disabled>
+                            <input type="hidden" value="${ userColl.area.areaCode }">
                         </td>
                     </tr>
                     <tr>
@@ -101,9 +99,9 @@
                 </tbody>
             </table>
             <div class="my-photo">
-                <sub class="guide">* 대표사진 등록 필수 / 추가사진은 최대 4장 등록가능</sub>
-                <label for="mainPhoto" class="main-photo">대표사진첨부<input id="mainPhoto" class="photo" type="file" style="display: none;"></label>
-                <!-- <label for="addPhoto" class="add-photo">추가사진첨부<input id="addPhoto" class="photo" type="file" style="display: none;"></label> -->
+                <sub class="addGuide">* 대표사진 등록 필수 / 추가사진은 최대 4장 등록가능</sub>
+                <label for="mainPhoto" class="main-photo">대표사진첨부</label>
+                <input id="mainPhoto" class="photo" type="file" style="display: none;">
                 <label class="add-photo click-btn">+</label>
             </div>
             <div class="btn-area">
@@ -114,19 +112,14 @@
     </section>
     <script>
 		 // 사진첨부시
-		 // 문제 : 추가사진이 왜 ㅠㅠ 0번째만 적용되지?
 		 $(document).on('change', ".photo", function(e) {
-		     let target = $(this)
 		     let files = e.target.files;
 		     let filesArr = Array.prototype.slice.call(files);
 		     let mainImg = $("<img class='main-photo-img'>");
-		     let mainInput = $("<input id='mainPhoto' class='photo' type='file' style='display: none;'>");
 		     let addImg = $("<img class='add-photo-img'>");
-		     let addInput = $("<input id='addPhoto' class='photo' type='file' style='display: none;'>");
-		     let label = $(this).parent();
+		     let label = $(this).prev("label");
 		     let id = $(this).attr('id');
 		
-		     console.log(target.prev());
 		     filesArr.forEach(function(f) {
 		         if(!f.type.match("image.*")) {
 		             alert("확장자는 이미지 확장자만 가능합니다");
@@ -139,14 +132,14 @@
 		             reader.onload = function(e) {
 		                 label.html('');
 		                 mainImg.attr("src", e.target.result);
-		                 label.append(mainImg, mainInput);
+		                 label.append(mainImg);
 		             }
 		         } else {
 		             // 추가사진을 변경한 경우
 		             reader.onload = function(e) {
 		                 label.html('');
 		                 addImg.attr("src", e.target.result);
-		                 label.append(addImg, addInput);
+		                 label.append(addImg);
 		             }
 		         }
 		         reader.readAsDataURL(f);
@@ -154,15 +147,17 @@
 		 });
 		
 		 let count = 0;
+		 let n = 1;
 		 // 사진 추가시
 		 $(document).on('click', '.click-btn', function() {
-		     let addImg = $("<img class='add-photo-img'>");
-		     let addInput = $("<input id='addPhoto' class='photo' type='file' style='display: none;'>");
-		     let label = $("<label for='addPhoto' class='add-photo'>추가사진첨부</label>")
+		     let addInput = $("<input id='addPhoto"+ n +"' name='subPhotos' class='photo' type='file' style='display: none;'>");
+		     let label = $("<label for='addPhoto" + n + "' class='add-photo'>추가사진첨부</label>")
 		     if(count < 4) {
-		         $('.click-btn').before(label.append(addImg, addInput));
+		    	 $('.click-btn').before(label);
+		         label.after(addInput);
 		         $('.my-photo').stop().animate( { scrollLeft : '+=1000' } )
 		         count++;
+		         n++;
 		     } else {
 		         $('.click-btn').remove()
 		         alert('사진 첨부는 최대 5장만 가능합니다')
@@ -200,27 +195,85 @@
 		     obj.focus(); 
 		 }  
 		
+		 // 상품등록 취소시
 		 $('.cancel-btn').click(function() {
-		     confirm('상품등록 취소시 입력한 정보가 모두 삭제됩니다. 취소하시겠습니까?')
+		     if(confirm('상품등록 취소시 입력한 정보가 모두 삭제됩니다. 취소하시겠습니까?')) {
+		    	 $(".insert-section").fadeOut()
+		    	 location.reload(true);
+		     }
 		 })
 		
 		 // 아티스트 검색란에 데이터 입력시
 		 $(document).on('keyup', '.artist-source', function() {
-		     if($('.artist-source').val() == '') {
+			 var artiName = $(this).val();
+		     if(artiName == '') {
+		    	 // 검색란에 데이터가 없는 경우
 		         $('.artist-source').siblings('.search-area').css('display', 'none');
 		     } else {
+		    	// 검색란에 데이터가 있는 경우
 		         $('.artist-source').siblings('.search-area').css('display', 'block');
+		         var url = "${pageContext.request.contextPath}/fanStore/search/artiName"
+		         var data = {
+		        		 search : artiName
+		         }
+		         var type = "아티스트"
+		         callAjaxSearch(url, data, type)
 		     }
 		 })
 		
 		 // 해시태그 검색란에 데이터 입력시
 		 $(document).on('keyup', '.tag-source', function() {
-		     if($('.tag-source').val() == '') {
+			 var tagName = $(this).val();
+		     if(tagName == '') {
 		         $('.tag-source').siblings('.search-area').css('display', 'none');
 		     } else {
 		         $('.tag-source').siblings('.search-area').css('display', 'block');
+		         var url = "${pageContext.request.contextPath}/fanStore/insertPage/search"
+		         var data = {
+		        		 search : tagName
+		         }
+		         var type = "해시태그"
+		         callAjaxSearch(url, data, type)
 		     }
 		 })
+		 
+		// 반복하는 AJAX 공통 함수로 구분(검색 리스트 호출)
+		function callAjaxSearch(url, data, type) {
+			$.ajax({
+	        	url : url,
+	        	method : "POST",
+	        	data : data,
+				dateType : "json",
+	        	success : function(list) {
+	        		var searchResult = $(".search-area");
+	        		searchResult.html("");
+	        		if(list.length < 1) {
+		        		// 리스트에 정보가 없는 경우
+	        			var p = $("<p>").text("찾으시는 정보가 없습니다");
+	        			searchResult.append(p);
+	        		} else {
+						// 리스트에 정보가 있는 경우
+						switch(type) {
+						case '아티스트' :
+							for(var i in list) {
+			        			var p = $("<p>").text(list[i].fname);
+			        			searchResult.append(p);
+			        		}
+							break;
+						case '해시태그' :
+							for(var i in list) {
+			        			var p = $("<p>").text(list[i].tagName);
+			        			searchResult.append(p);
+			        		}
+							break;
+						}
+	        		}
+	        	},
+	        	error : function(e) {
+	        		console.log(e);
+	        	}
+	        });
+		}
     </script>
 </body>
 </html>

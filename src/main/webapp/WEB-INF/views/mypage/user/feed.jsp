@@ -21,22 +21,6 @@
 	<!-- 	상단 -->
 	<section id="mypageUserProfile">
 		<jsp:include page="userDiv.jsp"/>
-        <%-- UserDiv include로 대체
-        <div id="mypageUserProfileWrap">
-            <div id="mypageUserProfileImgDiv">
-                <img id="mypageUserProfileImg" src="${ contextPath }/resources/images/mypage/user/mansik.png">
-            </div>
-            <div id="mypageUserProfileImgDivRight">
-                <h3 class="font-30">만식 김</h3>
-                <h4 class="font-16">&nbsp;</h4>
-                <h4 class="font-16">mansik@gmail.com</h4>
-            </div>
-            <div id="mypageUserProfileImgDivRightRight">
-                <button class="mypage-btn-pink-14">수정하기</button>
-                <h4 class="font-16">&nbsp;</h4>
-                <button class="mypage-btn-blueblack-14">탈퇴하기</button>
-            </div>
-        </div> --%>
     </section>
     <!-- 프로필 밑에 섹션 -->
     <section id="mypageUserSection">
@@ -47,5 +31,18 @@
 <!-- 	메뉴 -->
 	<jsp:include page="menu.jsp"/>
 	</section>
+<script>
+    $(document).ready(function(){
+            console.log("메소드 동작");
+            
+            $("#mypageMenuBtn").children().removeClass("mypage-btn-DN");
+            console.log("removeClass 동작");
+            
+            $("#mypageMenuBtn").children().eq(0).addClass("mypage-btn-DN");
+            console.log("addClass 동작");
+            
+    });
+
+</script>
 </body>
 </html>

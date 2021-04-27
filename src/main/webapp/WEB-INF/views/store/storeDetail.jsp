@@ -33,6 +33,7 @@
 	                </c:if>
                 </c:forEach>
                 <!-- 찜아이콘 -->
+                <c:if test="${ loginUser.classifyMem eq 1 }">
                 <c:choose>
                 	<c:when test="${ wish.isWish eq 'Y' }">
 	                <img class="photo-icon ddim" src="${ contextPath }/resources/icon/heart-pink.png" alt="">
@@ -41,6 +42,7 @@
 	                <img class="photo-icon ddim" src="${ contextPath }/resources/icon/heart.png" alt="">
 	                </c:otherwise>
                 </c:choose>
+                </c:if>
                 <!-- 축소된 뷰 영역 -->
                 <div class="is-view">
                 	<c:forEach var="attList" items="${ sc }">
@@ -551,7 +553,7 @@
 			        		 		payPrice : rsp.paid_amount,
 			        		 		id : rsp.buyer_name,
 			        		 		payDivision : 1,
-			        		 		productQ : quantity,
+			        		 		buyQ : quantity,
 			        		 		pcode : pcode
 			        		 	},
 			        	 method : "POST",

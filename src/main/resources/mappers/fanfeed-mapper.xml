@@ -15,7 +15,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<result property="artiName" column="ARTI_NAME_EN"/>
 	</resultMap>
 	
-	<resultMap type="Attachment" id="attResultSet">
+	<resultMap type="AttachmentF" id="attResultSet">
 		<id property="attCode" column="BPID"/>
 		<result property="attRoot" column="BP_PATH"/>
 		<result property="attClName" column="BP_OGNAME"/>
@@ -42,12 +42,64 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	</resultMap>
 	
 	<resultMap type="FeedCollection" id="feedcollectionResultSet">
-		<collection property="feed" resultMap="fanfeedResultSet"/>
+		
 		<collection property="subscribe" resultMap="subscribeResultSet"/>
 		<collection property="attachment" resultMap="usattResultSet"/>
+		<collection property="attachmentf" resultMap="attResultSet"/>
+		<collection property="reply" resultMap="replyResultSet"/>
 	</resultMap>
 	
+	<resultMap type="Reply" id="replyResultSet">
+		<id property="rid" column="BRID"/>
+		<result property="rcontent" column="BRCONTENT"/>
+		<result property="rcreate" column="BRCREATE"/>
+		<result property="rstatus" column="BR_STATUS"/>
+		<result property="refId" column="BID"/>
+		<result property="writer" column="ID"/>
+		<result property="refRid" column="BRRID"/>
+		<result property="likeCount" column="BRLIKE_COUNT"/> 
+		<result property="rrcount" column="BRRPT_COUNT"/>
+	</resultMap>
+	<!-- 게시글 신고 조회 -->
+	<resultMap type="Report" id="ReportResultSet">
+		<id property="rptCode" column="BRPID"/>
+		<result property="rptType" column="BRPTYPE"/>
+		<result property="rptReason" column="BRPCONTENT"/>
+		<result property="rptDate" column="BRPCREATE"/>
+		<result property="isReported" column="BRP_STATUS"/>
+		<result property="rptId" column="ID"/>
+		<result property="refId" column="BID"/>
+	</resultMap>
+	<!-- 댓글 신고 조회 -->
+	<resultMap type="Report" id="ReportResultSet2">
+		<id property="rptCode" column="BRRPID"/>
+		<result property="rptType" column="BRRPTYPE"/>
+		<result property="rptReason" column="BRRPCONTENT"/>
+		<result property="rptDate" column="BRRPCREATE"/>
+		<result property="isReported" column="BRRP_STATUS"/>
+		<result property="rptId" column="ID"/>
+		<result property="refId" column="BRID"/>
+	</resultMap>
 	
+	<resultMap type="Like" id="LikeResultSet">
+		<id property="lid" column="BLID"/>
+		<result property="id" column="ID"/>
+		<result property="refId" column="BID"/>
+		<result property="lstatus" column="BL_STATUS"/>
+	</resultMap>
+	
+	<resultMap type="Artist" id="ArtistResultSet">
+		<id property="artiId" column="ARTI_ID"/>
+		<result property="artiName" column="ARTI_ONE_NAME"/>
+		<result property="artiNickname" column="NICKNAME"/>
+		<result property="artiFacebook" column="FACEBOOK"/>
+		<result property="artiInsta" column="INSTAGRAM"/>
+		<result property="artiTwitter" column="TWITTER"/>
+		<result property="artiDailymsg" column="DAILY_MSG"/>
+		<result property="isTeam" column="IS_TEAM"/>
+		<result property="agencyId" column="AG_ID"/>
+		<result property="artiNameEn" column="ARTI_NAME_EN"/>
+	</resultMap>
 	<!-- 게시글 등록 -->
 	<insert id="insertFeed">
 		INSERT
@@ -79,8 +131,9 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	
 	<!-- 게시글 사진 등록 -->
 	<insert id="insertFeedAtt">
+		
 		<foreach collection="list" item="i" index="index" open="INSERT ALL" close="SELECT * FROM DUAL">
-		 
+		
 		INTO ATT_BOARD
 		(
 					BPID
@@ -99,11 +152,12 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		  		,	DEFAULT
 		  		,	SEQ_BOARD.CURRVAL		
 		)
+		
 		</foreach>
 	</insert>
 	
 	<!-- 게시글 조회 -->
-	<select id="selectFeedList" resultMap="fanfeedResultSet">
+	<select id="selectFeedList" parameterType="string" resultMap="fanfeedResultSet">
 		SELECT
 					BID
 				,	BCONTENT
@@ -112,6 +166,8 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 				,	BLIKE
 				,	BSTATUS
 				,	ID
+				,	BTYPE
+				,	ARTI_NAME_EN
 				
 		
 		FROM
@@ -119,35 +175,37 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		
 		WHERE
 					BTYPE = 'F'
-		AND			BSTATUS = 'Y'	
-		ORDER BY BCREATE DESC
+		AND			BSTATUS = 'Y'
+		AND			ARTI_NAME_EN = #{artiName}
+		ORDER BY 	BCREATE DESC
 	</select>
 	
-	<!-- 구독 유저 조회 -->
+	<!-- 구독 유저 닉네임 조회 -->
 	<select id="selectSubList" resultMap="subscribeResultSet">
-	SELECT 
-				SUB_CODE
-			,	U_ID
+	SELECT 	
+				SUB_CODE	
 			,	U_NICKNAME
-			,	SUB_STATUS
-			,	ARTI_NAME_EN
-	FROM
-				ATT_SUBSCRIBE
-	
-	
+			,	U_ID
+        	,	SUB_STATUS
+        	,	ARTI_NAME_EN
+	FROM 		ATT_SUBSCRIBE 
+	WHERE		ARTI_NAME_EN = #{artiName}
+	ORDER BY SUB_CODE
 	</select>
 	
 	<!-- 유저 프로필 사진 조회 -->
 	<select id="selectatList" resultMap="usattResultSet">
-	SELECT
-				UP_CODE
-			,	UP_ROOT
-			,	UP_CL_NAME
-			,	UP_SV_NAME
-			,	UP_STATUS
-			,	U_ID
+	 SELECT DISTINCT
+						UP_CODE
+					,	UP_ROOT
+					,	UP_CL_NAME
+					,	UP_SV_NAME
+					,	UP_STATUS
+					,	U_ID
+            		
 	FROM
 				USER_PROFILE
+   
 	</select>
 	
 	<!-- 피드 컬렉션 조회 -->
@@ -159,22 +217,445 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 				,	BMODIFY
 				,	BLIKE
 				,	BSTATUS
-				,	ID
+				,	B.ID
 				,  	U_NICKNAME
 				,	UP_CL_NAME
 				,	UP_SV_NAME
+				,   BP_OGNAME
+                ,   BP_CHNAME
+                ,	BRCONTENT
+                ,	BRCREATE
 		
 		FROM
-					BOARD
+					BOARD B
 		JOIN 		ATT_SUBSCRIBE ON(ID = U_ID)
 		JOIN		USER_PROFILE USING(U_ID)
+		JOIN     	ATT_BOARD USING(BID)
+		JOIN		B_REPLY USING(BID)
+		
 		WHERE
 					BTYPE = 'F'
 		AND			BSTATUS = 'Y'
 		ORDER BY BCREATE DESC
 	</select>
 	
+	<!-- 게시글 사진 조회 -->
+	<select id="selectptList" resultMap="attResultSet">
+	SELECT
+				BPID
+			,	BP_PATH
+			,	BP_OGNAME
+			,	BP_CHNAME
+			,	AB_STATUS
+			,	BID
+	FROM
+				ATT_BOARD
+	ORDER BY 	BPID DESC		
+	</select>
 	
+	<!-- 댓글 등록 -->
+	<insert id="insertReply">
+		INSERT
+		INTO B_REPLY
+		(
+						BRID
+					,	BRCONTENT
+					,	BRCREATE
+					,	BR_STATUS
+					,	BID
+					,	ID
+					,	BRLIKE_COUNT
+					, 	BRRPT_COUNT
+		)
+		VALUES
+		(
+					SEQ_B_REPLY.NEXTVAL
+				,	#{rcontent}
+				,	SYSDATE
+				,	DEFAULT
+				,	#{refId}
+				,	#{writer}
+				,	DEFAULT
+				,	DEFAULT   
+		)
+	</insert>
 	
-
+	<!-- 댓글 리스트 조회 -->
+	<select id="selectReplyList"  resultMap="replyResultSet">
+	SELECT
+					BRID
+				,	BRCONTENT
+				,	BRCREATE
+				,	BR_STATUS
+				,	BID
+				,	ID
+				,	BRRID
+				,	BRLIKE_COUNT
+				, 	BRRPT_COUNT
+		
+	FROM
+					B_REPLY
+	
+	ORDER BY
+				BRCREATE				
+	</select>
+	
+	<!-- fid로 게시글 조회 -->
+	<select id="selectFeed" parameterType="_int" resultMap="fanfeedResultSet">
+	SELECT
+					BID
+				,	BCONTENT
+				,	BCREATE
+				,	BMODIFY
+				,	BLIKE
+				,	BSTATUS
+				,	ID
+				,	BTYPE
+				,	ARTI_NAME_EN
+		FROM
+					BOARD
+		
+		WHERE
+					BTYPE = 'F'
+		AND			BSTATUS = 'Y'
+		AND			BID = #{fid}
+		
+		ORDER BY 	BCREATE DESC
+	</select>
+	
+	<!-- 게시글 수정 -->
+	<update id="updateFeed" parameterType="Feed">
+	UPDATE
+			BOARD
+	SET
+			BCONTENT = #{fcontent}
+		,	BCREATE	= SYSDATE
+		,	BMODIFY	= SYSDATE
+	WHERE
+			BID = #{fid}
+	
+	</update>
+	
+	<!-- 게시글 사진 수정 -->
+	<insert id="updateFeedAtt">
+		<foreach collection="list" item="i" index="index" open="INSERT ALL" close="SELECT * FROM DUAL">
+		INTO ATT_BOARD
+		(
+					BPID
+				,	BP_PATH
+				,	BP_OGNAME
+				,	BP_CHNAME
+				,	AB_STATUS
+				,	BID		
+		)
+		VALUES
+		(
+					#{index} + SEQ_ATT_BOARD.NEXTVAL
+				,	DEFAULT
+				,	#{i.attClName}
+		  		, 	#{i.attSvName}
+		  		,	DEFAULT
+		  		,	#{refId}		
+		)
+		</foreach>
+	</insert>
+	
+	<!-- refId로 게시글 사진 조회 -->
+	<select id="selectAttachmentF" parameterType="_int" resultMap="attResultSet">
+	SELECT
+				BPID
+			,	BP_PATH
+			,	BP_OGNAME
+			,	BP_CHNAME
+			,	AB_STATUS
+			,	BID
+	FROM
+				ATT_BOARD
+	WHERE 		
+				BID = #{refId}
+	ORDER BY 	BPID DESC	
+	</select>
+	
+	<!-- 게시글 삭제 활성화 처리 -->
+	<update id="deleteFeed" parameterType="_int">
+		UPDATE 
+		       BOARD
+		   SET 
+		       BSTATUS = 'N'
+		 WHERE 
+		       BID = #{fid}
+	</update>
+	
+	<!-- 게시글 신고 -->
+	<insert id="insertFeedReport">
+		INSERT
+		INTO 	B_RPT
+		(
+				BRPID
+			,	BRPTYPE
+			,	BRPCONTENT
+			,	BRPCREATE
+			,	BRP_STATUS
+			,	BID
+			,	ID
+		)
+		VALUES
+		(
+			    SEQ_B_RPT.NEXTVAL
+			,	#{rptType} 
+			,	#{rptReason}
+			,	SYSDATE
+			,	DEFAULT
+			,	#{refId}
+			,	#{rptId}   
+		)	
+	</insert>
+	
+	<!-- 댓글 삭제 -->
+	<delete id="deleteReply" parameterType="_int">
+		DELETE 
+		FROM 	B_REPLY
+		WHERE 
+				BRID = #{rid}
+	</delete>
+	
+	<!-- rid로 댓글 조회 -->
+	<select id="selectReply" parameterType="_int" resultMap="replyResultSet">
+	SELECT
+					BRID
+				,	BRCONTENT
+				,	BRCREATE
+				,	BR_STATUS
+				,	BID
+				,	ID
+				,	BRRID
+				,	BRLIKE_COUNT
+				, 	BRRPT_COUNT
+		
+	FROM
+					B_REPLY
+	WHERE
+					BRID = #{rid}
+	ORDER BY
+				BRCREATE		
+	</select>
+	
+	<!-- 댓글 신고  -->
+	<insert id="insertReplyReport">
+	INSERT
+		INTO 	B_RE_RPT
+		(
+				BRRPID
+			,	BRRPTYPE
+			,	BRRPCONTENT
+			,	BRRPCREATE
+			,	BRRP_STATUS
+			,	BRID
+			,	ID
+		)
+		VALUES
+		(
+			    SEQ_B_RE_RPT.NEXTVAL
+			,	#{rptType} 
+			,	#{rptReason}
+			,	SYSDATE
+			,	DEFAULT
+			,	#{refId}
+			,	#{rptId}   
+		)	
+	</insert>
+	
+	<!-- 좋아요 누른 유저 추가 -->
+	<insert id="insertLike">
+	INSERT
+		INTO	B_LIKE
+		(
+				BLID
+			,	ID
+			,	BID
+			,	BL_STATUS
+		)
+		VALUES
+		(
+				SEQ_B_LIKE.NEXTVAL
+			,	#{id}
+			,	#{refId}
+			,	DEFAULT
+		)	
+	</insert>
+	
+	<!-- 좋아요 누른 유저 추가될 때 BOARD 테이블 BLIKE 컬럼 업데이트 -->
+	<update id="updateFeedLike" parameterType="Feed">
+	UPDATE
+			BOARD
+	SET
+			BLIKE = #{flike} + 1
+	WHERE
+			BID = #{fid}
+	</update>
+	
+	<!-- 쪽지 보내기 -->
+	<insert id="insertMessage">
+	INSERT
+		INTO	MESSAGE
+		(
+			MESS_NO
+		,	MESS_CONTENT
+		,	MESS_DATE
+		,	MESS_READ
+		,	U_ID_SEND
+		,	U_ID_RECEIVE
+		,	MESS_TITLE
+		,	MESS_STATUS
+		)
+		VALUES
+		(
+			SEQ_MESSAGE.NEXTVAL
+		,	#{messContent}
+		,	SYSDATE
+		,	DEFAULT
+		,	#{messSendId}
+		,	#{messRecId}
+		,	#{messTitle}
+		,	DEFAULT
+		)
+	</insert>
+	
+	<!-- 친구 신청 -->
+	<insert id="insertFriend">
+	INSERT
+		INTO	FRIEND
+		(
+				FR_CODE
+			,	U_ID_SEND
+			,	U_ID_RECEIVCE
+			,	FR_STATUS
+		)
+		VALUES
+		(
+				SEQ_FRIEND.NEXTVAL
+			,	#{frSend}
+			,	#{frRecId}
+			,	DEFAULT
+		)
+	</insert>
+	
+	<!-- 좋아요 누른 유저 리스트  -->
+	<select id="selectLikeList" resultMap="LikeResultSet">
+	SELECT
+				BLID
+			,	ID
+			,	BID
+			,	BL_STATUS
+	FROM
+				B_LIKE
+	WHERE
+				BL_STATUS = 'Y'
+	
+	</select>
+	
+	<!-- fid로 게시글 정보 조회 -->
+	<select id="selectFeedInfo" parameterType="_int" resultMap="fanfeedResultSet">
+	SELECT
+				BID
+			,	BTYPE
+			,	BCONTENT
+			,	BCREATE
+			,	BMODIFY
+			,	BLIKE
+			,	BSTATUS
+			,	ID
+	FROM
+				BOARD
+	WHERE
+				BID = #{fid}
+			
+	</select>
+	
+	<!-- 친구 신청 시 알람 -->
+	<insert id="insertfriendAlarm">
+	INSERT 
+		INTO	ALARM
+		(
+				AL_MADE_CODE
+			,	AL_CONTENT
+			,	AL_TIME
+			,	AL_STATUS
+			,	AL_CODE
+			,	ID
+			
+		)
+		VALUES
+		(
+				SEQ_ALARM.NEXTVAL
+			,	#{alContent}
+			,	SYSDATE
+			,	DEFAULT
+			,	'16'
+			,	#{id}
+		)
+	</insert>
+	
+	<!-- 게시글, 댓글 신고 시 관리자에게 알람 -->
+	<insert id="insertReportAlarm">
+	INSERT
+		INTO	ALARM
+		(
+				AL_MADE_CODE
+			,	AL_CONTENT
+			,	AL_TIME
+			,	AL_STATUS
+			,	AL_CODE
+			,	ID
+		)
+		VALUES
+		(
+				SEQ_ALARM.NEXTVAL
+			,	#{alContent}
+			,	SYSDATE
+			,	DEFAULT
+			,	'7'
+			,	'admin'
+		)
+	</insert>
+	
+	<!-- 댓글 신고 시 관리자에게 알람 -->	
+		<insert id="insertReportReplyAlarm">
+	INSERT
+		INTO	ALARM
+		(
+				AL_MADE_CODE
+			,	AL_CONTENT
+			,	AL_TIME
+			,	AL_STATUS
+			,	AL_CODE
+			,	ID
+		)
+		VALUES
+		(
+				SEQ_ALARM.NEXTVAL
+			,	#{alContent}
+			,	SYSDATE
+			,	DEFAULT
+			,	'6'
+			,	'admin'
+		)
+	</insert>
+	
+	<!-- 아티스트 리스트 -->
+	<select id="selectArtistList" resultMap="ArtistResultSet">
+	SELECT
+				ARTI_ID
+			,	ARTI_ONE_NAME
+			,	NICKNAME
+			,	FACEBOOK
+			,	INSTAGRAM
+			,	TWITTER
+			,	DAILY_MSG
+			,	IS_TEAM
+			,	ID
+			,	ARTI_NAME_EN
+	FROM		
+				ART_PERSON
+	</select>			
 </mapper>

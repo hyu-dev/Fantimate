@@ -7,7 +7,6 @@ import java.util.Map;
 import com.kh.fantimate.common.model.vo.Attachment;
 import com.kh.fantimate.pay.model.vo.Cart;
 import com.kh.fantimate.pay.model.vo.CartCollection;
-import com.kh.fantimate.pay.model.vo.ProductBuy;
 import com.kh.fantimate.store.model.vo.BuyCollection;
 import com.kh.fantimate.store.model.vo.Review;
 import com.kh.fantimate.store.model.vo.ReviewCollection;
@@ -17,7 +16,7 @@ import com.kh.fantimate.store.model.vo.Wish;
 
 public interface StoreService {
 	// 스토어 리스트 호출
-	public List<StoreCollection> selectStoreList(String cateName);
+	public List<StoreCollection> selectStoreList(Map<String, String> map);
 	
 	// 카테고리 리스트 호출
 	public List<StoreCategory> selectcategoryList(String arti);
@@ -29,10 +28,10 @@ public interface StoreService {
 	public List<StoreCollection> sortStoreByToggle(String toggle);
 
 	// 스토어 상품 찜등록
-	public int enrollWish(Map<String, String> map);
+	public int enrollWish(Wish wish);
 
 	// 스토어 상품 찜해제
-	public int cancelWish(Map<String, String> map);
+	public int cancelWish(Wish wish);
 
 	// 스토어 상품명 리스트 조회
 	public List<StoreCollection> searchStoreList(Map<String, String> map);
@@ -50,7 +49,7 @@ public interface StoreService {
 	public List<StoreCollection> selectStore(String pcode, boolean b);
 
 	// 유저 찜여부 확인
-	public Wish selectWish(String userId, String pcode);
+	public Wish selectWish(Wish wish);
 
 	// 카테고리에 맞는 스토어 리스트 호출(추천상품용)
 	public List<StoreCollection> recommandStoreListByCate(Map<String, String> map);
@@ -68,12 +67,15 @@ public interface StoreService {
 	public List<BuyCollection> selectCollectionStore(String userId);
 	
 	// 스토어 메인사진 정보만 불러오기
-	public BuyCollection readStoreMain(ProductBuy pb);
+	public BuyCollection readStoreMain(Cart cart);
 
 	// 리뷰 등록
 	public int insertReview(Review review, List<Attachment> attList);
 
 	// 등록된 리뷰 불러오기
 	public List<StoreCollection> selectOneReview(Review rv);
+
+	// 유저별 찜 리스트 불러오기
+	public List<Wish> selectWishList(String userId);
 
 }

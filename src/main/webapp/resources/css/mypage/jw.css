@@ -159,6 +159,7 @@ body{
     text-align: right;
     display: inline-block;
     width: 90px;
+    margin-bottom : 16px;
 }
 
 /* Subscribes */
@@ -255,7 +256,10 @@ body{
     flex-direction: column;
     align-items: center;
 }
-
+/* 마이페이지 버튼 숨기기 */
+.mypage-btn-DN{
+    display: none;
+}
 
 /* 메뉴 상단에 MENU글씨 */
 #mypageMenuTop{

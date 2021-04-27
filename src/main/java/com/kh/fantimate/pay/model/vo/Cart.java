@@ -24,4 +24,5 @@ public class Cart {
 	private int pcode; 			// 상품 코드
 	private int mediaNum; 	// 미디어 번호
 	private String id; 			// 아이디 
+	private String payCode;		// 결제번호
 }

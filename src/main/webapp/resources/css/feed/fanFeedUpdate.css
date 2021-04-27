@@ -1,0 +1,201 @@
+@charset "UTF-8";
+/* 포스트 작성 */
+.post-outer {
+    border : 1px solid #ebebeb;
+    background-color: white;
+    height : auto;
+    margin-top: 100px;
+    width : 90%;
+    box-sizing: border-box;
+    
+}
+
+.introArea {
+    border: none;
+    height: 50px;
+    width : 100%;
+    
+}
+
+.post-intro {
+    font-size: 1.2em;
+    color: black;
+    padding-left: 40px;
+    font-family: "Wemakeprice-bold";
+    border : none;
+}
+
+.postArea {
+    border : none;
+    height : auto;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: nowrap;
+    width : 100%;
+   
+}
+
+.post-icon {
+    border : none;
+    width: 50px;
+    height: 50px;
+    padding-top: 0px;
+    padding-left: 4%;
+       
+}
+
+.textArea {
+    width : 750px;
+    height : 80px;
+    resize : none;
+    border: none;
+    padding-top: 15px;
+    padding-left: 10px;
+    font-size: 1.2em;
+    
+}
+
+.photo-icon {
+    width: 35px;
+    height: 35px;
+    margin: auto 0 0 auto;
+    padding-bottom: 20px;
+    padding-right: 20px;
+    border : none;
+    cursor : pointer;
+    
+
+}
+
+.guide {
+    position: absolute;
+    top: 0;
+    left: 10px;
+    margin: 0;
+    padding: 0;
+    font-family: Wemakeprice;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 15px;
+}
+
+.guide-text {
+    width: 90%;
+    resize: none;
+    border: 1px solid lightgray;
+    outline: none;
+    padding: 5px;
+    box-sizing: border-box;
+    color: #5C5F78;
+}
+
+.my-photo {
+    width: 95%;
+    /* border: 2px solid red; */
+    margin: 20px auto 0;
+    height: auto;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: no-wrap;
+    box-sizing: border-box;
+    margin-top: 2%;
+    overflow-y: hidden;
+    position: relative;
+}
+
+.main-photo {
+    width: 132px;
+    height: 132px;
+    background: #ebebeb;
+    position: relative;
+    margin-left: 5%;
+}
+
+.main-photo-img {
+    width: 132px;
+    height: 132px;
+    position: absolute;
+    
+}
+
+.add-photo {
+    width: 132px;
+    height: 132px;
+    background: #ebebeb;
+    position: relative;
+    margin-left: 5%;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.add-photo-img {
+    width: 132px;
+    height: 132px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border: none;
+}
+
+.add-photo1 {
+    width: 132px;
+    height: 132px;
+    background: #ebebeb;
+    position: relative;
+    margin-left: 10%;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.add-photo1-img {
+    width: 132px;
+    height: 132px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border: none;
+}
+
+.add-photo2 {
+    width: 132px;
+    height: 132px;
+    background: #ebebeb;
+    position: relative;
+    margin-left: 10%;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.add-photo2-img {
+    width: 132px;
+    height: 132px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border: none;
+}
+
+.click-btn {
+    font-size: 40px;
+}
+
+.btnArea {
+   border: none;
+   width : 95%;
+   display: flex;
+   flex-wrap: wrap;
+}
+
+.post-insert-btn {
+    background-color: #F4D4D4;
+    color : white;
+    border-radius: 8px;
+    margin-left: auto;
+    width : 110px;
+    height : 40px;
+    border: 0;
+    outline: 0;
+    padding-right: 10px;
+    cursor: pointer;
+}

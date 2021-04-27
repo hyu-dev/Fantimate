@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -19,6 +21,6 @@ public class Report {
 	private String rptReason; 	// 신고 사유
 	private Date rptDate; 		// 신고날짜
 	private String isReported;  // 처리여부
-	private String id; 		// 신고한 회원 아이디 
+	private String rptId; 		// 신고한 회원 아이디 
 	private int refId;			// 게시글(댓글/쪽지) 번호
 }

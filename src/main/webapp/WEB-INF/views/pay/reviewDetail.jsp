@@ -21,7 +21,7 @@
             <div class="my-score">
                 <article>
                     <div class="product-background read-product">
-                        <img src="${ contextPath }/resources/uploadFiles/아이유_밤편지.jpg" alt="">
+                        <img src="" alt="">
                     </div>
                     <div class="product-info read-info">
                         <p>BTS</p>

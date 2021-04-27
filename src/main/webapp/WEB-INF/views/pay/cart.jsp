@@ -280,20 +280,23 @@
 	    	// 주문자명
 	    	var name = "${ loginUser.id }";
 	    	// 주문자 이메일
-	    	var email = "${ user.uemail }";
+	    	var email = "${ user.get(0).user.uemail }";
 	    	// 상품명, 상품코드, 상품수량, 장바구니코드
 	    	var pname = []
 	    	var pcode = []
-	    	var productQ = []
+	    	var buyQ = []
 	    	var cartCodes = []
 			var flag = true;
 			$('td .jelly-checkbox input:checked').each(function(index) {
 				if($(this).parents("td").next().children().children(".cart-pCode").val() != null) {
 					pcode.push($(this).parents("td").next().children().children(".cart-pCode").val());
-					productQ.push($(this).parents("td").next().next().children().children(".product-quantity").text())
+					buyQ.push($(this).parents("td").next().next().children().children(".product-quantity").text())
 					pname.push($(this).parents("td").next().children().children(".cart-pName").val())
-					if($(this).parents("td").next().next().children().children(".product-quantity").text() > $(this).parents("td").next().children().children(".cart-pCode").val())
+					var quantity = parseInt($(this).parents("td").next().next().children().children(".product-quantity").text())
+					var salesQ = parseInt($(this).parents("td").next().children().children(".salesQ").val())
+					if(quantity > salesQ) {
 						flag = false
+					}
 				} else {
 					pname.push($(this).parents("td").next().children().children(".media-ttl").val())
 				}
@@ -302,15 +305,16 @@
 			// 상품코드가 없다면
 			if(pcode.length < 1) {
 				pcode.push(0)
-				productQ.push(0)
+				buyQ.push(0)
 			}
 			// 구매전 재고확인
 			if(!flag) {
 				alert("재고 수량을 초과한 상품이 있습니다");
 				return;
 			}
+			
 			// 결제 진행
-		    IMP.request_pay({ // param
+		    IMP.request_pay({
 		      pg: "html5_inicis",
 		      pay_method: "card",
 		      merchant_uid: uid,
@@ -319,39 +323,40 @@
 		      buyer_email: email,
 		      buyer_name: name,
 		      buyer_tel: "010-6301-0115",
-		    }, function (rsp) { // callback
-		      if (rsp.success) {
-		          // 결제 성공 시 로직
-	        	  $.ajax({
-		        	 url : "${ pageContext.request.contextPath }/pay/cart/payment",
-		        	 data : {
-		        		 		payCode : rsp.merchant_uid,
-		        		 		payMethod : "kakaopay_" + rsp.pay_method,
-		        		 		payStatus : 1,
-		        		 		payPrice : rsp.paid_amount,
-		        		 		id : rsp.buyer_name,
-		        		 		payDivision : 1,
-		        		 		productQ : productQ,
-		        		 		pcode : pcode,
-		        		 		cartCodes : cartCodes
-		        		 	},
-		        	 method : "POST",
-		        	 dateType : "json",
-		        	 success : function(msg) {
-		        		 alert(msg.msg)
-		        		 location.href = "${contextPath}/pay/cart";
-		        	 },
-		        	 error: function(e) {
-		        		 console.log(e)
-		        	 }
-		          })
-		      } else {
-		          // 결제 실패 시 로직,
-		          console.log("결제실패")
-		          alert("결제를 취소하였습니다")
-		      }
+		    }, function (rsp) {
+		    	if (rsp.success) {
+			          // 결제 성공 시 로직
+		        	  $.ajax({
+			        	 url : "${ pageContext.request.contextPath }/pay/cart/payment",
+			        	 data : {
+			        		 		payCode : rsp.merchant_uid,
+			        		 		payMethod : "kakaopay_" + rsp.pay_method,
+			        		 		payStatus : 1,
+			        		 		payPrice : rsp.paid_amount,
+			        		 		id : rsp.buyer_name,
+			        		 		payDivision : 1,
+			        		 		buyQ : buyQ,
+			        		 		pcode : pcode,
+			        		 		cartCodes : cartCodes
+			        		 	},
+			        	 method : "POST",
+			        	 dateType : "json",
+			        	 success : function(msg) {
+			        		 alert(msg.msg)
+			        		 location.href="${ pageContext.request.contextPath }/pay/cart"
+			        	 },
+			        	 error: function(e) {
+			        		 console.log(e)
+			        	 }
+			          })
+			      } else {
+			          // 결제 실패 시 로직,
+			          console.log("결제실패")
+			          alert("결제를 취소하였습니다")
+			      }
 		    });
 	    });
+	    	
     </script>
     </c:if>
 	<c:if test="${ empty loginUser }">

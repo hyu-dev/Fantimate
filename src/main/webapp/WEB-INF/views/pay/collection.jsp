@@ -51,6 +51,7 @@
                 </div>
             </h1>
             <div class="display-stand">
+            	<c:if test="${ !empty collection }">
             	<c:forEach var="coll" items="${ collection }">
                 <article class="product">
                     <div class="product-background list-product">
@@ -62,12 +63,12 @@
                     </div>
                     <div class="product-operation">
                     	<input type="hidden" class="pcode" value="${ coll.store.pcode }">
-                    	<input type="hidden" class="bcode" value="${ coll.pbuy.bcode }">
+                    	<input type="hidden" class="cartCode" value="${ coll.cart.cartCode }">
                     	<c:choose>
-                    		<c:when test="${ coll.review.rvCode eq '' && coll.payment.payStatus eq 2 }">
+                    		<c:when test="${ coll.review.rvCode eq '' && coll.cart.isBought eq 'C' }">
                     			<button class="write-photo">포토리뷰 등록하기</button>
                     		</c:when>
-                    		<c:when test="${ coll.payment.payStatus ne 2 }">
+                    		<c:when test="${ coll.cart.isBought eq 'Y' }">
                     			<p class="not-confirmed-product">구매 미확정 상품</p>
                     		</c:when>
                     		<c:otherwise>
@@ -97,6 +98,10 @@
                     </div>
                 </article>
                 </c:forEach>
+                </c:if>
+                <c:if test="${ empty collection }">
+                	<h1>구입한 상품이 없습니다</h1>
+                </c:if>
             </div>
             <div class="more-product">
            		<button type="button" class="more-btn">+MORE</button>
@@ -157,14 +162,14 @@
 	 	// 포토리뷰 등록
 	    $('.write-photo').click(function() {
 	    	var pcode = $(this).siblings(".pcode").val();
-	    	var bcode = $(this).siblings(".bcode").val();
+	    	var cartCode = $(this).siblings(".cartCode").val();
 	    	var insertProd = $(".insert-product").children("img");
 	    	var artiName = $(".insert-info").children("p");
 	    	var pName = $(".insert-info").children("b")
 	    	var pCode = $(".insert-pcode");
-	    	var bCode = $(".insert-bcode");
+	    	var cCode = $(".insert-cartCode");
 	    	$.ajax({
-	    		url : "${ pageContext.request.contextPath }/store/" + pcode + "/" + bcode,
+	    		url : "${ pageContext.request.contextPath }/store/" + pcode + "/" + cartCode,
 	    		data : "get",
 	    		dataType : "json",
 	    		success : function(data) {
@@ -174,7 +179,7 @@
 	    			artiName.text(data.storeCate.artiNameEn)
 	    			pName.text(data.store.pname)
 	    			pCode.val(pcode)
-	    			bCode.val(bcode)
+	    			cCode.val(cartCode)
 	    		},
 	    		error : function(e) {
 	    			console.log(e)
@@ -186,9 +191,9 @@
 	    // 포토리뷰 보기
 	    $('.completed-review').click(function() {
 	    	var pcode = $(this).siblings(".pcode").val();
-	    	var bcode = $(this).siblings(".bcode").val();
+	    	var cartCode = $(this).siblings(".cartCode").val();
 	    	$.ajax({
-	    		url : "${ pageContext.request.contextPath }/store/review/" + pcode + "/" + bcode,
+	    		url : "${ pageContext.request.contextPath }/store/review/" + pcode + "/" + cartCode,
 	    		data : "get",
 	    		dataType : "json",
 	    		success : function(data) {

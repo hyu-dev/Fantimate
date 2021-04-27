@@ -124,6 +124,7 @@
 	    <section class="subscribe-section">
 	        <p class="sub-title"><span>${ artNameEn } </span>피드에 사용할 닉네임을 입력하세요.</p>
 	        <input type="hidden" name="artNameEn" value="${ artNameEn }">
+	        <input type="hidden" name="uid" value="${ loginUser.id }">
 	        <!-- 파일 첨부-->
 	            <label class="file-label">
 	                <span class="file-title">

@@ -2,10 +2,10 @@ package com.kh.fantimate.pay.model.service;
 
 import java.util.List;
 
+import com.kh.fantimate.pay.model.vo.Cart;
 import com.kh.fantimate.pay.model.vo.CartCollection;
 import com.kh.fantimate.pay.model.vo.PayCollection;
 import com.kh.fantimate.pay.model.vo.Payment;
-import com.kh.fantimate.pay.model.vo.ProductBuy;
 
 public interface PaymentService {
 
@@ -25,9 +25,12 @@ public interface PaymentService {
 	int insertStoreOnePayment(PayCollection paycoll);
 
 	// 장바구니에서 결제
-	int insertCartPayment(Payment payment, List<ProductBuy> pbuyList, List<Integer> cartCodes);
+	int insertCartPayment(Payment payment, List<Cart> cartList, List<Integer> cartCodes);
 
 	// 미디어컬렉션 불러오기
 	List<CartCollection> selectCollectionMedia(String userId);
+
+	// 멤버십등록
+	int enrollMembership(Payment payment);
 	
 }

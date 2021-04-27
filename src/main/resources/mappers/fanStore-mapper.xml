@@ -1,0 +1,756 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="fanStoreMapper">
+	<resultMap type="FanStore" id="fstoreResultSet">
+		<id property="fcode" column="F_CODE"/>
+		<result property="fname" column="F_NAME"/>
+		<result property="offerPrice" column="OFFER_PRICE"/>
+		<result property="contact" column="CONTECT"/>
+		<result property="deal" column="DEAL"/>
+		<result property="finfo" column="F_INFO"/>
+		<result property="isActive" column="IS_ACTIVE"/>
+		<result property="id" column="ID"/>
+		<result property="areaCode" column="AREA_CODE"/>
+		<result property="artiNameEn" column="ARTI_NAME_EN"/>
+	</resultMap>
+	<resultMap type="Attachment" id="attResultSet">
+		<id property="attCode" column="ATT_CODE"/>
+		<result property="attRoot" column="ATT_ROOT"/>
+		<result property="attClName" column="ATT_CL_NAME"/>
+		<result property="attSvName" column="ATT_SV_NAME"/>
+		<result property="attStatus" column="ATT_STATUS"/>
+		<result property="attMain" column="IS_MAIN_ATT"/>
+		<result property="refId" column="F_CODE"/>
+	</resultMap>
+	<resultMap type="Wish" id="wishResultSet">
+		<id property="code" column="F_CODE"/>
+		<result property="wishDate" column="WISH_DATE"/>
+		<result property="isWish" column="IS_WISH"/>
+		<result property="id" column="W_ID"/>
+	</resultMap>
+	<resultMap type="Area" id="areaResultSet">
+		<id property="areaCode" column="AREA_CODE"/>
+		<result property="areaName" column="AREA_NAME"/>
+	</resultMap>
+	<resultMap type="hashTag" id="hashResultSet">
+		<id property="tagCode" column="TAG_CODE"/>
+		<result property="tagName" column="TAG_NAME"/>
+		<result property="searchCount" column="SEARCH_COUNT"/>
+		<result property="fcode" column="F_CODE"/>
+	</resultMap>
+	<resultMap type="User" id="userResultSet">
+		<id property="id" column="U_ID"/>
+		<result property="uaddress" column="U_ADD"/>
+		<result property="uemail" column="U_EMAIL"/>
+		<result property="ucountry" column="U_COUNTRY"/>
+		<result property="areaReg" column="AREA_REGISTER"/>
+		<result property="areaCertify" column="AREA_CERTIFY"/>
+		<result property="areaCode" column="AREA_CODE"/>
+		<result property="isMembership" column="IS_MEMBERSHIP"/>
+		<result property="uPaidStart" column="U_PAID_START"/>
+		<result property="uPaidEnd" column="U_PAID_END"/>
+		<result property="uSuspendStart" column="U_SUSPEND_START"/>
+		<result property="uSuspendEnd" column="U_SUSPEND_END"/>
+		<result property="uProfile" column="U_PROFILE"/>
+	</resultMap>
+	<resultMap type="Attachment" id="attUserResultSet">
+		<id property="attCode" column="UP_CODE"/>
+		<result property="attRoot" column="UP_ROOT"/>
+		<result property="attClName" column="UP_CL_NAME"/>
+		<result property="attSvName" column="UP_SV_NAME"/>
+		<result property="attStatus" column="UP_STATUS"/>
+		<result property="id" column="U_ID"/>
+	</resultMap>
+	<resultMap type="ArtistGroup" id="artiGroupResultSet">
+		<id property="artNameEn" column="ARTI_NAME_EN"/>
+		<result property="artNameKr" column="ARTI_NAME_KR"/>
+		<result property="agId" column="AG_ID"/>
+	</resultMap>
+	<resultMap type="Reply" id="replyResultSet">
+		<id property="rid" column="FR_CODE"/>
+		<result property="rcreate" column="FR_DATE"/>
+		<result property="rcontent" column="FR_CONTENT"/>
+		<result property="refId" column="F_CODE"/>
+		<result property="writer" column="ID"/>
+		<result property="refRid" column="REF_CODE"/>
+		<result property="rstatus" column="FR_STATUS"/>
+	</resultMap>
+	<!-- 쪽지 -->
+	<resultMap type="Message" id="messageResultSet">
+		<id property = "messCode" column="MESS_NO"/>
+		<result property="messContent" column="MESS_CONTENT"/>
+		<result property="messDate" column="MESS_DATE"/>
+		<result property="messRead" column="MESS_READ"/>
+		<result property="messSendId" column="U_ID_SEND"/>
+		<result property="id" column="U_ID_RECEIVE"/>
+		<result property="messTitle" column="MESS_TITLE"/>
+		<result property="messStatus" column="MESS_STATUS"/>
+	</resultMap> 
+	<!-- 팬스토어 신고 -->
+	<resultMap type="Report" id="reportResultSet">
+		<id property = "rptCode" column="RPT_CODE"/>
+		<result property="rptType" column="RPT_TYPE"/>
+		<result property="rptReason" column="RPT_REASON"/>
+		<result property="rptDate" column="RPT_DATE"/>
+		<result property="isReported" column="IS_REPORTED"/>
+		<result property="rptId" column="ID"/>
+		<result property="refId" column="F_CODE"/>
+	</resultMap> 
+	<resultMap type="FStoreListCollection" id="fsListCollResultSet">
+		<collection property="fstore" resultMap="fstoreResultSet" />
+		<collection property="hash" resultMap="hashResultSet" />
+		<collection property="att"  resultMap="attResultSet" />
+		<collection property="area"  resultMap="areaResultSet" />
+		<collection property="user" resultMap="userResultSet" />
+		<collection property="wish" resultMap="wishResultSet" />
+	</resultMap>
+	<resultMap type="UserCollection" id="userCollResultSet">
+		<collection property="user" resultMap="userResultSet" />
+		<collection property="area"  resultMap="areaResultSet" />
+		<collection property="attUser"  resultMap="attUserResultSet" />
+	</resultMap>
+	<resultMap type="FanStoreReplyCollection" id="fsReplyCollResultSet">
+		<collection property="user" resultMap="userResultSet" />
+		<collection property="attUser"  resultMap="attUserResultSet" />
+		<collection property="area"  resultMap="areaResultSet" />
+		<collection property="fsReply"  resultMap="replyResultSet" />
+	</resultMap>
+	
+	<select id="isSettingArea" parameterType="string" resultMap="userResultSet">
+		SELECT
+				U_ID
+			  , U_ADD
+			  , U_EMAIL
+			  , U_COUNTRY
+			  , AREA_REGISTER
+			  , AREA_CERTIFY
+			  , AREA_CODE
+			  , IS_MEMBERSHIP
+			  , U_PAID_START
+			  , U_PAID_END
+			  , U_SUSPEND_START
+			  , U_SUSPEND_END
+			  , U_PROFILE
+		  FROM
+		  		USER_
+		 WHERE
+		 		U_ID = #{userId}
+	</select>
+	<select id="selectFanStoreList" parameterType="_int" resultMap="fsListCollResultSet">
+		SELECT
+		        F_CODE
+		      , F_NAME
+		      , OFFER_PRICE
+		      , CONTECT
+		      , DEAL
+		      , F_INFO
+		      , IS_ACTIVE
+		      , F.ID AS ID
+		      , AREA_CODE
+		      , ARTI_NAME_EN
+		      , ATT_CODE
+		      , ATT_CL_NAME
+		      , ATT_SV_NAME
+		      , ATT_STATUS
+		      , IS_MAIN_ATT
+		      , TAG_CODE
+		      , TAG_NAME
+		      , SEARCH_COUNT
+		      , AREA_NAME
+		  FROM
+		        F_STORE F
+		  LEFT JOIN
+		        ATT_FSTORE USING(F_CODE)
+		  LEFT JOIN
+		        ENROLL_TAG USING(F_CODE)
+		  LEFT JOIN
+		        TAG USING(TAG_CODE)
+		  LEFT JOIN
+		        USER_AREA USING(AREA_CODE)
+		 <trim prefix="WHERE" prefixOverrides="AND|OR">
+		 <if test='_parameter != 1'>
+		        AREA_CODE = #{areaCode}
+		 </if>
+           AND  IS_MAIN_ATT = 'Y'
+           AND  IS_ACTIVE = 'Y'
+         </trim>
+      ORDER BY  F_CODE DESC
+	</select>
+	<select id="selectAreaList" parameterType="string" resultMap="areaResultSet">
+		SELECT
+				AREA_CODE
+			  , AREA_NAME
+		  FROM
+		  		USER_AREA
+		 WHERE  
+		 		AREA_NAME LIKE '%' || #{search} || '%'
+	</select>
+	<select id="selectAreaCode" parameterType="string" resultType="_int">
+		SELECT
+				AREA_CODE
+		  FROM
+		  		USER_AREA
+		 WHERE
+		 		AREA_NAME LIKE '%' || #{area} || '%'
+	</select>
+	<update id="settingArea" parameterType="User">
+		UPDATE
+				USER_
+		   SET
+		   		AREA_REGISTER = 'Y'
+		   	  , AREA_CERTIFY = 'N'
+		   	  , AREA_CODE = #{areaCode}
+		 WHERE
+		 		U_ID = #{id}
+	</update>
+	<update id="certifyArea" parameterType="User">
+		UPDATE
+				USER_
+		   SET
+		   		AREA_REGISTER = 'N'
+		   	  , AREA_CERTIFY = 'Y'
+		   	  , AREA_CODE = #{areaCode}
+		 WHERE
+		 		U_ID = #{id}
+	</update>
+	<select id="selectUserCollection" parameterType="string" resultMap="userCollResultSet">
+		SELECT 
+	          U_ID
+	        , U_ADD
+	        , U_EMAIL
+	        , U_COUNTRY
+	        , AREA_REGISTER
+	        , AREA_CERTIFY
+	        , AREA_CODE
+	        , IS_MEMBERSHIP
+	        , U_PAID_START
+	        , U_PAID_END
+	        , U_SUSPEND_START
+	        , U_SUSPEND_END
+	        , U_PROFILE
+            , UP_CODE
+            , UP_ROOT
+            , UP_CL_NAME
+            , UP_SV_NAME
+            , UP_STATUS
+            , U_ID
+            , AREA_NAME
+		FROM 
+		     USER_
+        JOIN USER_PROFILE USING(U_ID)
+        JOIN USER_AREA USING(AREA_CODE)
+		WHERE
+		     U_ID = #{userId}
+	</select>
+	<select id="selectHashList" resultMap="hashResultSet">
+		SELECT
+				TAG_CODE
+			  , TAG_NAME
+			  , SEARCH_COUNT
+              , F_CODE
+		  FROM
+		  		TAG
+          JOIN
+                ENROLL_TAG USING(TAG_CODE)
+          LEFT JOIN
+                F_STORE USING(F_CODE)
+         WHERE
+         		AREA_CODE = #{areaCode}
+      ORDER BY
+		 		SEARCH_COUNT DESC
+	</select>
+	<select id="selectMyStoreList" parameterType="User" resultMap="fsListCollResultSet">
+		SELECT
+		        F_CODE
+		      , F_NAME
+		      , OFFER_PRICE
+		      , CONTECT
+		      , DEAL
+		      , F_INFO
+		      , IS_ACTIVE
+		      , F.ID AS ID
+		      , AREA_CODE
+		      , ARTI_NAME_EN
+		      , ATT_CODE
+		      , ATT_CL_NAME
+		      , ATT_SV_NAME
+		      , ATT_STATUS
+		      , IS_MAIN_ATT
+		      , TAG_CODE
+		      , TAG_NAME
+		      , SEARCH_COUNT
+		      , AREA_NAME
+		  FROM
+		        F_STORE F
+		  LEFT JOIN
+		        ATT_FSTORE USING(F_CODE)
+		  LEFT JOIN
+		        ENROLL_TAG USING(F_CODE)
+		  LEFT JOIN
+		        TAG USING(TAG_CODE)
+		  LEFT JOIN
+		        USER_AREA USING(AREA_CODE)
+		 WHERE
+		        AREA_CODE = #{areaCode}
+           AND
+                IS_MAIN_ATT = 'Y'
+           AND  IS_ACTIVE = 'Y'
+           AND  F.ID = #{id}
+      ORDER BY  F_CODE DESC
+	</select>
+	<select id="selectHashListBySearch" parameterType="hashMap" resultMap="hashResultSet">
+		SELECT
+				TAG_CODE
+			  , TAG_NAME
+			  , SEARCH_COUNT
+              , F_CODE
+		  FROM
+		  		TAG
+          JOIN
+                ENROLL_TAG USING(TAG_CODE)
+          LEFT JOIN
+                F_STORE USING(F_CODE)
+         WHERE
+         		AREA_CODE = #{areaCode}
+           AND  TAG_NAME LIKE '%' || #{search} || '%'
+      ORDER BY  TAG_NAME ASC
+	</select>
+	<select id="selectFNameListBySearch" parameterType="hashMap" resultMap="fstoreResultSet">
+		SELECT
+				F_CODE
+		      , F_NAME
+		      , OFFER_PRICE
+		      , CONTECT
+		      , DEAL
+		      , F_INFO
+		      , IS_ACTIVE
+		      , ID
+		      , AREA_CODE
+		      , ARTI_NAME_EN
+		  FROM
+		  		F_STORE
+		 WHERE
+		 		AREA_CODE = #{areaCode}
+		   AND
+		   		F_NAME LIKE '%' || #{search} || '%'
+	  ORDER BY
+	  			F_NAME ASC
+	</select>
+	<select id="selectfStoreListBySearch" parameterType="hashMap" resultMap="fsListCollResultSet">
+		SELECT
+		        F_CODE
+		      , F_NAME
+		      , OFFER_PRICE
+		      , CONTECT
+		      , DEAL
+		      , F_INFO
+		      , IS_ACTIVE
+		      , F.ID AS ID
+		      , AREA_CODE
+		      , ARTI_NAME_EN
+		      , ATT_CODE
+		      , ATT_CL_NAME
+		      , ATT_SV_NAME
+		      , ATT_STATUS
+		      , IS_MAIN_ATT
+		      , TAG_CODE
+		      , TAG_NAME
+		      , SEARCH_COUNT
+		      , AREA_NAME
+		  FROM
+		        F_STORE F
+		  LEFT JOIN
+		        ATT_FSTORE USING(F_CODE)
+		  LEFT JOIN
+		        ENROLL_TAG USING(F_CODE)
+		  LEFT JOIN
+		        TAG USING(TAG_CODE)
+		  LEFT JOIN
+		        USER_AREA USING(AREA_CODE)
+		 WHERE
+		        AREA_CODE = #{areaCode}
+           AND
+                IS_MAIN_ATT = 'Y'
+           AND  IS_ACTIVE = 'Y'
+           <if test='type.equals("상품")'>
+           AND  F_NAME LIKE '%' || #{search} || '%'
+           </if>
+           <if test='type.equals("태그")'>
+           AND  TAG_NAME LIKE '%' || #{search} || '%'
+           </if>
+      ORDER BY  F_CODE DESC
+	</select>
+	<select id="isEnrollWish" parameterType="Wish" resultType="_int">
+		SELECT
+				COUNT(*)
+		  FROM
+		  		F_WISH
+		 WHERE
+		 		ID = #{id}
+		   AND
+		   		F_CODE = #{code}
+	</select>
+	<update id="enrollUpdateWish" parameterType="Wish">
+		UPDATE
+				F_WISH
+		   SET
+		   		IS_WISH = 'Y'
+		 WHERE
+		 		ID = #{id}
+		   AND
+		   		F_CODE = #{code}
+	</update>
+	<insert id="enrollWish" parameterType="Wish">
+		INSERT
+		INTO F_WISH
+		(
+			F_CODE
+		  , WISH_DATE
+		  , IS_WISH
+		  , ID
+		)
+		VALUES
+		(
+			#{code}
+		  , SYSDATE
+		  , DEFAULT
+		  , #{id}
+		)
+	</insert>
+	<update id="cancelWish" parameterType="Wish">
+		UPDATE
+				F_WISH
+		   SET
+		   		IS_WISH = 'N'
+		 WHERE
+		 		ID = #{id}
+		   AND
+		   		F_CODE = #{code}
+	</update>
+	<select id="selectArtiNameList" parameterType="string" resultMap="artiGroupResultSet">
+		SELECT
+				ARTI_NAME_EN
+			  , ARTI_NAME_KR
+			  , AG_ID
+		  FROM
+		  		ART_MAIN
+		 WHERE
+		 		ARTI_NAME_EN = #{search}
+		    OR
+		    	ARTI_NAME_KR = #{search}
+	</select>
+	<select id="selectFanStore" parameterType="_int" resultMap="fsListCollResultSet">
+		SELECT
+		        F_CODE
+		      , F_NAME
+		      , OFFER_PRICE
+		      , CONTECT
+		      , DEAL
+		      , F_INFO
+		      , IS_ACTIVE
+		      , F.ID
+		      , AREA_CODE
+		      , AREA_NAME
+		      , ARTI_NAME_EN
+		      , ATT_CODE
+		      , ATT_ROOT
+		      , ATT_CL_NAME
+		      , ATT_SV_NAME
+		      , ATT_STATUS
+		      , IS_MAIN_ATT
+		      , TAG_CODE
+		      , TAG_NAME
+		      , SEARCH_COUNT
+		FROM
+		        F_STORE F
+		LEFT JOIN
+		        ATT_FSTORE USING(F_CODE)
+		LEFT JOIN
+		        ENROLL_TAG USING(F_CODE)
+		LEFT JOIN
+		        TAG USING(TAG_CODE)
+		LEFT JOIN
+		        USER_AREA USING(AREA_CODE)
+		WHERE
+		        F_CODE = #{fcode}
+	</select>
+	<select id="selectFanStoreReply" parameterType="hashMap" resultMap="fsReplyCollResultSet">
+		SELECT
+		        U_ID
+		      , U_ADD
+		      , U_EMAIL
+		      , U_COUNTRY
+		      , AREA_REGISTER
+		      , AREA_CERTIFY
+		      , AREA_CODE
+		      , AREA_NAME
+		      , IS_MEMBERSHIP
+		      , U_PAID_START
+		      , U_PAID_END
+		      , U_SUSPEND_START
+		      , U_SUSPEND_END
+		      , U_PROFILE
+		      , UP_CODE
+		      , UP_ROOT
+		      , UP_CL_NAME
+		      , UP_SV_NAME
+		      , UP_STATUS
+		      , FR_CODE
+		      , FR_DATE
+		      , FR_CONTENT
+		      , F_CODE
+		      , REF_CODE
+		      , FR_STATUS
+		FROM
+		        USER_
+		LEFT JOIN
+		        USER_AREA USING(AREA_CODE)
+		LEFT JOIN
+		        USER_PROFILE USING(U_ID)
+		LEFT JOIN
+		        F_REPLY ON(ID = U_ID)
+		WHERE
+		        F_CODE = #{fcode}
+		  AND   (U_ID = #{writer} OR U_ID = #{id})
+          AND   (REF_CODE = (SELECT FR_CODE FROM F_REPLY
+                            WHERE REF_CODE IS NULL AND ID = #{id})
+           OR   FR_CODE = (SELECT FR_CODE FROM F_REPLY
+                            WHERE REF_CODE IS NULL AND ID = #{id}))
+	 ORDER BY   FR_CODE ASC
+	</select>
+	<select id="selectWish" parameterType="Wish" resultMap="wishResultSet">
+		SELECT
+				F_CODE
+			  , WISH_DATE
+			  , IS_WISH
+			  , ID AS W_ID
+		  FROM
+		  		F_WISH
+		 WHERE
+		 		ID = #{id}
+		   AND	F_CODE = #{code}
+	</select>
+	<select id="selectWishList" parameterType="string" resultMap="wishResultSet">
+		SELECT
+				F_CODE
+			  , WISH_DATE
+			  , IS_WISH
+			  , ID AS W_ID
+		  FROM
+		  		F_WISH
+		 WHERE
+		 		ID = #{id}
+	</select>
+	<select id="selectReplyWriter" parameterType="hashMap" resultMap="fsReplyCollResultSet">
+		SELECT
+		        U_ID
+		      , MAX(FR_DATE) AS FR_DATE
+		      , UP_SV_NAME
+		  FROM  
+		  		F_REPLY
+		  LEFT JOIN
+		  		USER_ ON(ID = U_ID)
+		  LEFT JOIN
+		  		USER_PROFILE USING(U_ID)
+		 WHERE  
+		 		F_CODE = #{fcode}
+		   AND  ID != #{writer}
+	  GROUP BY  U_ID, UP_SV_NAME
+	</select>
+	<insert id="insertReply" parameterType="Reply">
+		INSERT
+		INTO F_REPLY
+		(
+			FR_CODE
+		  , FR_DATE
+		  , FR_CONTENT
+		  , F_CODE
+		  , ID
+		  , REF_CODE
+		  , FR_STATUS
+		)
+		VALUES
+		(
+			SEQ_F_REPLY.NEXTVAL
+		  , SYSDATE
+		  , #{rcontent}
+		  , #{refId}
+		  , #{writer}
+		  , #{refRid}
+		  , DEFAULT
+		)
+	</insert>
+	<insert id="insertReplyNotiBuyer" parameterType="hashMap">
+		INSERT
+		INTO ALARM
+		(
+			AL_MADE_CODE
+		  , AL_CONTENT
+		  , AL_TIME
+		  , AL_STATUS
+		  , AL_CODE
+		  , ID
+		  , REF_ID
+		)
+		VALUES
+		(
+			SEQ_ALARM.NEXTVAL
+		  , #{writer} || ' 님이 팬스토어에 댓글을 작성하셨습니다'
+		  , SYSDATE
+		  , DEFAULT
+		  , 12
+		  , #{id}
+		  , #{fcode}
+		)
+	</insert>
+	<insert id="insertReplyNotiSeller" parameterType="hashMap">
+		INSERT
+		INTO ALARM
+		(
+			AL_MADE_CODE
+		  , AL_CONTENT
+		  , AL_TIME
+		  , AL_STATUS
+		  , AL_CODE
+		  , ID
+		  , REF_ID
+		)
+		VALUES
+		(
+			SEQ_ALARM.NEXTVAL
+		  , #{id} || ' 님이 팬스토어에 댓글을 작성하셨습니다'
+		  , SYSDATE
+		  , DEFAULT
+		  , 12
+		  , #{writer}
+		  , #{fcode}
+		)
+	</insert>
+	<update id="deleteReply" parameterType="_int">
+		UPDATE
+				F_REPLY
+		   SET
+		   		FR_STATUS = 'N'
+		 WHERE
+		 		FR_CODE = #{rid}
+	</update>
+	<insert id="sendMessage" parameterType="Message">
+		INSERT
+		INTO MESSAGE
+		(
+			MESS_NO
+		  , MESS_CONTENT
+		  , MESS_DATE
+		  , MESS_READ
+		  , U_ID_SEND
+		  , U_ID_RECEIVE
+		  , MESS_TITLE
+		  , MESS_STATUS
+		)
+		VALUES
+		(
+			SEQ_MESSAGE.NEXTVAL
+		  , #{messContent}
+		  , SYSDATE
+		  , DEFAULT
+		  , #{messSendId}
+		  , #{messRecId}
+		  , #{messTitle}
+		  , DEFAULT
+		)
+	</insert>
+	<insert id="reportFanStore" parameterType="Report">
+		INSERT
+		INTO RPT_FSTORE
+		(
+			RPT_CODE
+		  , F_CODE
+		  , RPT_TYPE
+		  , RPT_REASON
+		  , RPT_DATE
+		  , IS_REPORTED
+		  , ID
+		)
+		VALUES
+		(
+			SEQ_RPT_FSTORE.NEXTVAL
+		  , #{refId}
+		  , #{rptType}
+		  , #{rptReason}
+		  , SYSDATE
+		  , DEFAULT
+		  , #{rptId}
+		)
+	</insert>
+	<insert id="insertNotiReportFanStore" parameterType="Report">
+		INSERT
+		INTO ALARM
+		(
+			AL_MADE_CODE
+		  , AL_CONTENT
+		  , AL_TIME
+		  , AL_STATUS
+		  , AL_CODE
+		  , ID
+		  , REF_ID
+		)
+		VALUES
+		(
+			SEQ_ALARM.NEXTVAL
+		  , #{rptId} || ' 님이 팬스토어를 신고하였습니다'
+		  , SYSDATE
+		  , DEFAULT
+		  , 13
+		  , 'admin'
+		  , #{refId}
+		)
+	</insert>
+	<insert id="reportFanStoreReply" parameterType="Report">
+		INSERT
+		INTO RPT_FREPLY
+		(
+			RPT_CODE
+		  , FR_CODE
+		  , RPT_TYPE
+		  , RPT_REASON
+		  , RPT_DATE
+		  , IS_REPORTED
+		  , ID
+		)
+		VALUES
+		(
+			SEQ_RPT_FSTORE.NEXTVAL
+		  , #{refId}
+		  , #{rptType}
+		  , #{rptReason}
+		  , SYSDATE
+		  , DEFAULT
+		  , #{rptId}
+		)
+	</insert>
+	<insert id="insertNotiReportFSReply" parameterType="Report">
+		INSERT
+		INTO ALARM
+		(
+			AL_MADE_CODE
+		  , AL_CONTENT
+		  , AL_TIME
+		  , AL_STATUS
+		  , AL_CODE
+		  , ID
+		  , REF_ID
+		)
+		VALUES
+		(
+			SEQ_ALARM.NEXTVAL
+		  , #{rptId} || ' 님이 팬스토어에 작성된 댓글을 신고하였습니다'
+		  , SYSDATE
+		  , DEFAULT
+		  , 14
+		  , 'admin'
+		  , #{refId}
+		)
+	</insert>
+</mapper>

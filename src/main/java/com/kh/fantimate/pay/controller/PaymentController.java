@@ -20,10 +20,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.fantimate.member.model.vo.Member;
 import com.kh.fantimate.pay.model.service.PaymentService;
+import com.kh.fantimate.pay.model.vo.Cart;
 import com.kh.fantimate.pay.model.vo.CartCollection;
 import com.kh.fantimate.pay.model.vo.PayCollection;
 import com.kh.fantimate.pay.model.vo.Payment;
-import com.kh.fantimate.pay.model.vo.ProductBuy;
 
 @Controller
 @RequestMapping("/pay")
@@ -97,11 +97,11 @@ public class PaymentController {
 	
 	@PostMapping("/storeOne/payment")
 	@ResponseBody
-	public Map<String, String> insertStoreOnePayment(Payment payment, ProductBuy pbuy) {
+	public Map<String, String> insertStoreOnePayment(Payment payment, Cart cart) {
 		
 		PayCollection paycoll = new PayCollection();
 		paycoll.setPayment(payment);
-		paycoll.setPbuy(pbuy);
+		paycoll.setCart(cart);
 		
 		String msg = pService.insertStoreOnePayment(paycoll) > 0 ? "결제가 완료되었습니다" : "결제가 취소되었습니다";
 		
@@ -115,23 +115,23 @@ public class PaymentController {
 	public Map<String, String> insertCartPayment(HttpServletRequest request,
 												 Payment payment, 
 												 @RequestParam(value="pcode[]") List<Integer> pcode,
-												 @RequestParam(value="productQ[]") List<Integer> productQ,
+												 @RequestParam(value="buyQ[]") List<Integer> buyQ,
 												 @RequestParam(value="cartCodes[]") List<Integer> cartCodes) {
-		List<ProductBuy> pbuyList = new ArrayList<>();
-		ProductBuy pbuy = null;
+		List<Cart> cartList = new ArrayList<>();
+		Cart cart = null;
 		String msg = "";
-		if(pcode.get(0) != 0 && productQ.get(0) != 0) {
+		if(pcode.get(0) != 0 && buyQ.get(0) != 0) {
 			for(int i = 0; i < pcode.size(); i++) {
-				pbuy = new ProductBuy();
-				pbuy.setPayCode(payment.getPayCode());
-				pbuy.setPcode(pcode.get(i));
-				pbuy.setProductQ(productQ.get(i));
-				pbuy.setId(((Member)request.getSession().getAttribute("loginUser")).getId());
-				pbuyList.add(pbuy);
+				cart = new Cart();
+				cart.setPayCode(payment.getPayCode());
+				cart.setPcode(pcode.get(i));
+				cart.setBuyQ(buyQ.get(i));
+				cart.setId(((Member)request.getSession().getAttribute("loginUser")).getId());
+				cartList.add(cart);
 			}
 		}
 		
-		msg = pService.insertCartPayment(payment, pbuyList, cartCodes) > 0 ? "결제가 완료되었습니다" : "결제가 취소되었습니다";
+		msg = pService.insertCartPayment(payment, cartList, cartCodes) > 0 ? "결제가 완료되었습니다" : "결제가 취소되었습니다";
 		
 		Map<String, String> map = new HashMap<>();
 		map.put("msg", msg);
@@ -155,5 +155,21 @@ public class PaymentController {
 			session.setAttribute("referer", request.getHeader("Referer"));
 		}
 		return list;
+	}
+	
+	@GetMapping("/plan")
+	public String planPage() {
+		return "pay/plan";
+	}
+	
+	@PostMapping("/membership")
+	@ResponseBody
+	public Map<String, String> enrollMembership(HttpServletRequest request,
+												Payment payment) {
+		String msg = "";
+		msg = pService.enrollMembership(payment) > 0 ? "결제가 완료되었습니다" : "결제가 취소되었습니다";
+		Map<String, String> map = new HashMap<>();
+		map.put("msg", msg);
+		return map;
 	}
 }

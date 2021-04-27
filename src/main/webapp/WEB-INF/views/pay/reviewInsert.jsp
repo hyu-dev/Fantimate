@@ -19,13 +19,13 @@
 	<section class="insert-section">
         <form class="main-template" action="" method="POST" enctype="multipart/form-data">
         	<input type="hidden" name="pcode" class="insert-pcode">
-        	<input type="hidden" name="bcode" class="insert-bcode">
+        	<input type="hidden" name="cartCode" class="insert-cartCode">
         	<input type="hidden" name="rvScore" class="insert-score">
         	<input type="hidden" name="id" value="${ loginUser.id }">
             <div class="my-score">
                 <article>
                     <div class="product-background insert-product">
-                        <img src="${ contextPath }/resources/uploadFiles/아이유_밤편지.jpg" alt="">
+                        <img src="" alt="">
                     </div>
                     <div class="product-info insert-info">
                         <p></p>

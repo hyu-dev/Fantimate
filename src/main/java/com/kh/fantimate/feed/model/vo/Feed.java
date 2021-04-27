@@ -2,6 +2,13 @@ package com.kh.fantimate.feed.model.vo;
 
 import java.util.Date;
 
+import java.util.List;
+
+import com.kh.fantimate.common.model.vo.Attachment;
+import com.kh.fantimate.common.model.vo.Reply;
+import com.kh.fantimate.common.model.vo.Subscribe;
+
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,4 +30,8 @@ public class Feed {
 	private String fstatus;		// 게시글 상태
 	private String writer;		// 작성자
 	private String artiName;	// 아티스트명
+	private Subscribe subscribe;
+	private Attachment attachment;
+	private List<AttachmentF> attachmentf;
+	private List<Reply> reply;
 }

@@ -9,7 +9,7 @@ import lombok.Data;
 
 @Data
 public class FeedCollection {
-	private Feed feed;
+  private Feed feed;
 	private Subscribe subscribe;
 	private Artist artist;
 	private Attachment attachment;

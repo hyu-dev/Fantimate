@@ -86,16 +86,24 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<result property="payDivision" column="PAY_DIVISION"/>
 		<result property="payPlan" column="PAY_PLAN"/>
 	</resultMap>
-	<resultMap type="ProductBuy" id="pbuyResultSet">
-		<id property="bcode" column="B_CODE"/>
-		<result property="productQ" column="PROD_Q"/>
-		<result property="payCode" column="PAY_CODE"/>
-		<result property="pcode" column="P_CODE"/>
-		<result property="id" column="ID"/>
-	</resultMap>
 	<resultMap type="PayCollection" id="payCollResultSet">
 		<collection property="payment" resultMap="paymentResultSet"/>
-		<collection property="pbuy" resultMap="pbuyResultSet" />
+		<collection property="cart" resultMap="cartResultSet" />
+	</resultMap>
+	<resultMap type="User" id="userResultSet">
+		<id property="id" column="U_ID"/>
+		<result property="uaddress" column="U_ADD"/>
+		<result property="uemail" column="U_EMAIL"/>
+		<result property="ucountry" column="U_COUNTRY"/>
+		<result property="areaReg" column="AREA_REGISTER"/>
+		<result property="areaCertify" column="AREA_CERTIFY"/>
+		<result property="areaCode" column="AREA_CODE"/>
+		<result property="isMembership" column="IS_MEMBERSHIP"/>
+		<result property="uPaidStart" column="U_PAID_START"/>
+		<result property="uPaidEnd" column="U_PAID_END"/>
+		<result property="uSuspendStart" column="U_SUSPEND_START"/>
+		<result property="uSuspendEnd" column="U_SUSPEND_END"/>
+		<result property="uProfile" column="U_PROFILE"/>
 	</resultMap>
 	<select id="selectCartList" parameterType="string" resultMap="cartCollResultSet">
 		SELECT 
@@ -216,32 +224,42 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		  , #{payment.payDivision}
 		)
 	</insert>
-	<insert id="insertProductBuy" parameterType="PayCollection">
+	<insert id="insertCartStoreOne" parameterType="PayCollection">
 		INSERT
-		INTO P_BUY
+		INTO CART
 		(
-			B_CODE
-		  , PROD_Q
-		  , PAY_CODE
+			CART_CODE
+		  , BUY_Q
+		  , B_PRICE
+		  , FEE
+		  , ENROLL_DATE
+		  , IS_BOUGHT
 		  , P_CODE
 		  , ID
+		  , BOUGHT_DATE
+		  , PAY_CODE
 		)
 		VALUES
 		(
-			SEQ_P_BUY.NEXTVAL
-		  , #{pbuy.productQ}
-		  , #{pbuy.payCode}
-		  , #{pbuy.pcode}
-		  , #{pbuy.id}
+			SEQ_CART.NEXTVAL
+		  , #{cart.buyQ}
+		  , #{payment.payPrice}
+		  , DEFAULT
+		  , SYSDATE
+		  , 'Y'
+		  , #{cart.pcode}
+		  , #{payment.id}
+		  , SYSDATE
+		  , #{payment.payCode}
 		)
 	</insert>
 	<update id="updateStoreSalesQ" parameterType="PayCollection">
 		UPDATE
 				STORE
 		   SET
-		   		SALES_Q = SALES_Q - #{pbuy.productQ}
+		   		SALES_Q = SALES_Q - #{cart.buyQ}
 		 WHERE
-		 		P_CODE = #{pbuy.pcode}
+		 		P_CODE = #{cart.pcode}
 	</update>
 	<insert id="insertCartPayment" parameterType="Payment">
 		INSERT
@@ -266,47 +284,26 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		  , #{payDivision}
 		)
 	</insert>
-	<insert id="insertProductBuyList" parameterType="list">
-		INSERT
-		INTO P_BUY
-		(
-			B_CODE
-		  , PROD_Q
-		  , PAY_CODE
-		  , P_CODE
-		  , ID
-		)
-		SELECT SEQ_P_BUY.NEXTVAL, A.*
-	    FROM
-	    (
-	      <foreach collection="list" item="i" separator="UNION ALL">
-		  SELECT #{i.productQ} AS PROD_Q
-			   , #{i.payCode} AS PAY_CODE
-			   , #{i.pcode} AS P_CODE
-			   , #{i.id} AS ID
-		    FROM DUAL
-	      </foreach>
-	    ) A
-	</insert>
 	<update id="updateStoreSalesQList" parameterType="list">
 		<foreach collection="list" item="i" open="BEGIN" close="; END;" separator=";">
 		UPDATE
 				STORE
 		   SET
-		   		SALES_Q = SALES_Q - #{i.productQ}
+		   		SALES_Q = SALES_Q - #{i.buyQ}
 		 WHERE
 		 		P_CODE = #{i.pcode}
 		</foreach>
 	</update>
-	<update id="updateCartIsBought">
+	<update id="updateCartIsBought" parameterType="hashMap">
 		UPDATE
 				CART
 		   SET
-		   		IS_BOUGHT = 'Y',
-		   		BOUGHT_DATE = SYSDATE
+		   		IS_BOUGHT = 'Y'
+		   	  , BOUGHT_DATE = SYSDATE
+		   	  , PAY_CODE = #{payCode}
 		 WHERE
 		 		CART_CODE IN
- 		<foreach collection="list" item="item" open="(" separator="," close=")">
+ 		<foreach collection="cartCodes" item="item" open="(" separator="," close=")">
 	    		#{item}
 	    </foreach>
 	</update>
@@ -351,4 +348,55 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		   		IS_BOUGHT = 'Y'
 	  ORDER BY 	BOUGHT_DATE DESC
 	</select>
+	<insert id="insertPayment" parameterType="Payment">
+		INSERT
+		INTO PAYMENT
+		(
+			PAY_CODE
+		  , PAY_METHOD
+		  , PAY_STATUS
+		  , PAY_PRICE
+		  , PAY_DATE
+		  , ID
+		  , PAY_DIVISION
+		  , PAY_PLAN
+		)
+		VALUES
+		(
+			#{payCode}
+		  , #{payMethod}
+		  , #{payStatus}
+		  , #{payPrice}
+		  , SYSDATE
+		  , #{id}
+		  , #{payDivision}
+		  , #{payPlan}
+		)
+	</insert>
+	<select id="isMembership" parameterType="Payment" resultType="string">
+		SELECT
+				IS_MEMBERSHIP
+		  FROM
+		  		USER_
+		 WHERE
+		 		U_ID = #{id}
+	</select>
+	<update id="updateMembershipDate" parameterType="Payment">
+		UPDATE
+				USER_
+		   SET
+		   		U_PAID_END = ADD_MONTHS(U_PAID_END, #{payPlan})
+		 WHERE
+		 		U_ID = #{id}
+	</update>
+	<update id="updateUserMembership" parameterType="Payment">
+		UPDATE
+				USER_
+		   SET
+		   		IS_MEMBERSHIP = 'Y'
+		   	  , U_PAID_START = SYSDATE
+		   	  , U_PAID_END = ADD_MONTHS(SYSDATE, #{payPlan})
+		 WHERE
+		 		U_ID = #{id}
+	</update>
 </mapper>
