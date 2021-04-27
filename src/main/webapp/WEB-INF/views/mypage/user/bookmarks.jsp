@@ -16,9 +16,14 @@
 <title>bookmarks</title>
 </head>
 <body>
-	<jsp:include page="../../common/navbar.jsp"></jsp:include>
+<!-- 	네비바 -->
+	<jsp:include page="../../common/navbar.jsp"/>
 <%-- 	<jsp:include page="${ contextPath }'WEB-INF/views/common/navbar.jsp'"></jsp:include> --%>
-	<!-- 	상단 -->
+
+	<!-- 유저 정보수정 팝업 -->
+	<jsp:include page="updateUserPop.jsp"/>
+	
+	<!-- 	상단 유저 공통영역 -->
 	<section id="mypageUserProfile">
 		<jsp:include page="userDiv.jsp"/>
     </section>

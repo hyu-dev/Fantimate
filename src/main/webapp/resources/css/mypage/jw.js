@@ -52,4 +52,19 @@ $(document).ready(function() {
     			console.log("닫기버튼");
     		});
 		
+	// 유저 회원정보수정 팝업창
+	$("#mypageUserProfile #userProfileUpdate").click(function() { 
+		console.log('정상클릭');
+		$("#mypageUserUpdateDivWrap").fadeIn().addClass("mypagebground");
+		$("#mypageUserUpdateDiv").fadeIn();
+		console.log('정상실행');
+	});
+		
+	// 취소하기
+	$("#userPopUpdateCancelBtn").click(function () {				// article
+		console.log('정상클릭');
+		$(this).closest("#mypageUserUpdateDivWrap").fadeOut();
+		//$(this).fadeOut();
+		console.log("닫기버튼");
+	});
 });

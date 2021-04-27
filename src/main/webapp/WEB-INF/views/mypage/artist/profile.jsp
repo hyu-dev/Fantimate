@@ -10,11 +10,11 @@
 <link rel="stylesheet" href="${ contextPath }/resources/css/mypage/artist/profile.css">
 </head>
 <body>
-<section class="profile-container nanumsquare">
+	<section class="profile-container nanumsquare">
         <div class="profile-box">
             <div class="profile-left">
                 <img id="profileImg" src="${ contextPath }/resources/images/member/${ arti.attachment.attSvName }">
-                <table class="profile-info">
+                <table class="profile-area">
                     <colgroup>
                         <col width="15%"/>
                         <col width="85%"/>

@@ -3,5 +3,710 @@
 PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="mypage2Mapper">
-
+	<!-- 피드 -->
+	<resultMap type="Feed" id="feedResultSet">
+		<id property="fid" column="BID"/>
+		<result property="ftype" column="BTYPE"/>
+		<result property="fcontent" column="BCONTENT"/>
+		<result property="fcreate" column="BCREATE"/>
+		<result property="fmodify" column="BMODIFY"/>
+		<result property="flike" column="BLIKE"/>
+		<result property="fstatus" column="BSTATUS"/>
+		<result property="writer" column="ID"/>
+		<result property="artiName" column="ARTI_NAME_EN"/>
+	</resultMap>
+	<!-- 구독한 유저 정보 -->
+	<resultMap type="Subscribe" id="subscribe">
+		<id property="subCode" column="SUB_CODE"/>
+		<result property="uid" column="U_ID"/>
+		<result property="unickname" column="U_NICKNAME"/>
+		<result property="subStatus" column="SUB_STATUS"/>
+		<result property="artiname" column="ARTI_NAME_EN"/>
+	</resultMap>
+	<!-- 아티스트 -->
+	<resultMap type="Artist" id="artistResultSet">
+		<id property="artiId" column="ARTI_ID"/>
+		<result property="artiName" column="ARTI_ONE_NAME"/>
+		<result property="artiNickname" column="NICKNAME"/>
+		<result property="artiFacebook" column="FACEBOOK"/>
+		<result property="artiInsta" column="INSTAGRAM"/>
+		<result property="artiTwitter" column="TWITTER"/>
+		<result property="artiDailymsg" column="DAILY_MSG"/>
+		<result property="isTeam" column="IS_TEAM"/>
+		<result property="agencyId" column="ID"/>
+		<result property="artiNameEn" column="ARTI_NAME_EN"/>
+	</resultMap>
+	<!-- 피드 파일 -->
+	<resultMap type="Attachment" id="attachResultSet">
+		<id property="attCode" column="BPID"/>
+		<result property="attRoot" column="BP_PATH"/>
+		<result property="attClName" column="BP_OGNAME"/>
+		<result property="attSvName" column="BP_CHNAME"/>
+		<result property="attStatus" column="AB_STATUS"/>
+		<result property="refId" column="BID"/>
+	</resultMap>
+	<!-- 피드 북마크 -->
+	<resultMap type="BookMark" id="feedBookmarkResultSet">
+		<id property="id" column="ID"/>
+		<result property="refId" column="BID"/>
+		<result property="bmCreate" column="BMCREATE"/>
+		<result property="bmstatus" column="BM_STATUS"/>
+	</resultMap>
+	<!-- 피드 컬렉션 -->
+	<resultMap type="FeedCollection" id="feedCollResultSet">
+		<collection property="feed" resultMap="feedResultSet"/>
+		<collection property="subscribe" resultMap="subscribe"/>
+		<collection property="artist" resultMap="artistResultSet"/>
+		<collection property="attachment" resultMap="attachResultSet"/>
+		<collection property="artiAttach" resultMap="artiAttachResultSet"/>
+		<collection property="userAttach" resultMap="userAttachResultSet"/>
+		<collection property="bookmark" resultMap="feedBookmarkResultSet"/>
+	</resultMap>
+	
+	<!-- 미디어 -->
+	<resultMap type="Official" id="mediaResultSet">
+		<id property="mediaNum" column="MEDIA_NUM"/>
+		<result property="mediaTtl" column="MEDIA_TTL"/>
+		<result property="mediaCtt" column="MEDIA_CTT"/>
+		<result property="mediaDate" column="MEDIA_DATE"/>
+		<result property="mediaStatus" column="MEDIA_STATUS"/>
+		<result property="isPay" column="IS_PAY"/>
+		<result property="cateCode" column="CATE_CODE"/>
+		<result property="mediaPay" column="MEDIA_PAY"/>
+		<result property="mediaCount" column="MEDIA_COUNT"/>
+	</resultMap>
+	<!-- 미디어 북마크 -->
+	<resultMap type="BookMark" id="mediaBookmarkResultSet">
+		<id property="id" column="ID"/>
+		<result property="refId" column="MEDIA_NUM"/>
+		<result property="bmCreate" column="BM_DATE"/>
+		<result property="bmstatus" column="BM_STATUS"/>
+	</resultMap>
+	<!-- 미디어 컬렉션 -->
+	<resultMap type="MediaCollection" id="mediaCollResultSet">
+		<collection property="official" resultMap="mediaResultSet"/>
+		<collection property="category" resultMap="category"/>
+		<collection property="mediaFile" resultMap="mediaFileResultSet"/>
+		<collection property="hitCount" resultMap="hitCountResultSet"/>
+		<collection property="bookmark" resultMap="mediaBookmarkResultSet"/>
+	</resultMap>
+	
+	<!-- 유저 프로필 -->
+	<resultMap type="Attachment" id="userAttachResultSet">
+		<id property="attCode" column="UP_CODE"/>
+		<result property="attRoot" column="UP_ROOT"/>
+		<result property="attClName" column="UP_CL_NAME"/>
+		<result property="attSvName" column="UP_SV_NAME"/>
+		<result property="attStatus" column="UP_STATUS"/>
+		<result property="id" column="U_ID"/>
+	</resultMap>
+	<!-- 아티스트 프로필 -->
+	<resultMap type="Attachment" id="artiAttachResultSet">
+		<id property="attCode" column="ATT_CODE"/>
+		<result property="attRoot" column="ATT_ROOT"/>
+		<result property="attClName" column="ATT_CL_NAME"/>
+		<result property="attSvName" column="ATT_SV_NAME"/>
+		<result property="attStatus" column="ATT_STATUS"/>
+		<result property="id" column="ARTI_ID"/>
+	</resultMap>
+	<!-- 피드 댓글 -->
+	<resultMap type="Reply" id="feedReplyResultSet">
+		<id property="rid" column="BRID"/>
+		<result property="rcontent" column="BRCONTENT"/>
+		<result property="rcreate" column="BRCREATE"/>
+		<result property="rstatus" column="BR_STATUS"/>
+		<result property="refId" column="BID"/>
+		<result property="writer" column="ID"/>
+		<result property="refRid" column="BRRID"/>
+		<result property="likeCount" column="BLIKE_COUNT"/>
+		<result property="rrcount" column="BRRPT_COUNT"/>
+		<result property="nickname" column="NICKNAME"/>
+		<result property="category" column="CATEGORY"/>
+	</resultMap>
+	<!-- 미디어 댓글 -->
+	<resultMap type="Reply" id="mediaReplyResultSet">
+		<id property="rid" column="CMT_NUM"/>
+		<result property="rcontent" column="CMT_CTT"/>
+		<result property="rcreate" column="CMT_DATE"/>
+		<result property="rstatus" column="CMT_STATUS"/>
+		<result property="refId" column="MEDIA_NUM"/>
+		<result property="writer" column="ID"/>
+		<result property="refRid" column="RE_CMT_NUM"/>
+		<result property="likeCount" column="LIKE_COUNT"/>
+		<result property="rrcount" column="RPT_COUNT"/>
+		<result property="nickname" column="NICKNAME"/>
+		<result property="category" column="CATEGORY"/>
+	</resultMap>
+	<!-- 피드 댓글 좋아요 -->
+	<resultMap type="Like" id="feedLikeResultSet">
+		<id property="lid" column="BRLID"/>
+		<result property="id" column="ID"/>
+		<result property="refId" column="BRID"/>
+		<result property="lstatus" column="BRL_STATUS"/>
+	</resultMap>
+	<!-- 미디어 댓글 좋아요 -->
+	<resultMap type="Like" id="mediaLikeResultSet">
+		<id property="lid" column="LIKE_ID"/>
+		<result property="id" column="ID"/>
+		<result property="refId" column="CMT_NUM"/>
+		<result property="lstatus" column="IS_LIKED"/>
+	</resultMap>
+	<!-- 댓글 컬렉션 -->
+	<resultMap type="ReplyCollection" id="replyCollResultSet">
+		<collection property="feedReply" resultMap="feedReplyResultSet"/>
+		<collection property="mediaReply" resultMap="mediaReplyResultSet"/>
+		<collection property="subscribe" resultMap="subscribe"/>
+		<collection property="artist" resultMap="artistResultSet"/>
+		<collection property="artiAttach" resultMap="artiAttachResultSet"/>
+		<collection property="userAttach" resultMap="userAttachResultSet"/>
+		<collection property="feed" resultMap="feedResultSet"/>
+		<collection property="official" resultMap="mediaResultSet"/>
+		<collection property="feedLike" resultMap="feedLikeResultSet"/>
+		<collection property="mediaLike" resultMap="mediaLikeResultSet"/>
+	</resultMap>
+	
+	<!-- 아티스트 메인 -->
+	<resultMap type="ArtistGroup" id="artistGroupResultSet">
+		<id property="artNameEn" column="ARTI_NAME_EN"/>
+		<result property="artNameKr" column="ARTI_NAME_KR"/>
+		<result property="agId" column="AG_ID"/>
+	</resultMap>
+	
+	<!-- 피드 리스트 가져오기 -->
+	<select id="selectFeedList" parameterType="string" resultMap="feedResultSet">
+	  SELECT
+	         BID
+           , BTYPE
+           , BCONTENT
+           , BCREATE
+           , BMODIFY
+           , BLIKE
+           , BSTATUS
+           , ID
+           , ARTI_NAME_EN
+	    FROM 
+	         BOARD
+       WHERE 
+	         ID = #{id}
+	     AND
+	    	 BSTATUS = 'Y'
+    ORDER BY
+   			 BCREATE DESC
+	</select>
+	
+	<!-- 피드 이미지 가져오기 -->
+	<select id="selectFeedImage" parameterType="string" resultMap="feedCollResultSet">
+      SELECT 
+             BID
+           , BTYPE
+           , BCONTENT
+           , BCREATE
+           , BMODIFY
+           , BLIKE
+           , BSTATUS
+           , ID
+           , ARTI_NAME_EN
+           , BPID
+           , BP_PATH
+           , BP_OGNAME
+           , BP_CHNAME
+           , AB_STATUS
+	    FROM 
+	         BOARD
+        JOIN
+             ATT_BOARD USING(BID)
+       WHERE 
+	         ID = #{id}
+	     AND
+	    	 AB_STATUS = 'Y'
+	</select>
+	
+	<!-- 댓글 리스트 가져오기 -->
+	<select id="selectReplyList" parameterType="string" resultMap="replyCollResultSet">
+    SELECT
+           A.BRID
+         , BRCONTENT
+         , BRCREATE
+         , BID
+         , A.ID
+         , BRRID
+         , BLIKE_COUNT
+         , BRRPT_COUNT
+         , ARTI_ONE_NAME
+         , NICKNAME
+         , FACEBOOK
+         , INSTAGRAM
+         , TWITTER
+         , DAILY_MSG
+         , IS_TEAM
+         , F.ARTI_NAME_EN
+         , U_NICKNAME
+         , ATT_SV_NAME
+         , UP_SV_NAME
+         , BRLID
+         , G.BRID
+	  FROM
+	       B_REPLY A
+ LEFT JOIN
+           ART_PERSON B ON(A.ID = B.ARTI_ID)
+ LEFT JOIN
+           ATT_SUBSCRIBE C ON(A.ID = C.U_ID)
+ LEFT JOIN
+           ART_PIC D ON(B.ARTI_ID = D.ARTI_ID)
+ LEFT JOIN
+           USER_PROFILE E ON(C.U_ID = E.U_ID)
+ LEFT JOIN
+           BOARD F USING(BID)
+ LEFT JOIN
+           B_RE_LIKE G ON(A.BRID = G.BRID)
+	 WHERE
+           F.ARTI_NAME_EN = #{artiName}
+       AND
+          (
+           D.ATT_STATUS = 'Y'
+        OR
+           E.UP_STATUS = 'Y'
+          )
+       AND
+          (
+           B.ARTI_NAME_EN = #{artiName}
+        OR
+           C.ARTI_NAME_EN = #{artiName}
+          )
+       AND
+           BR_STATUS = 'Y'
+       AND
+           BSTATUS = 'Y'
+  ORDER BY
+           BRCREATE DESC
+	</select>
+	
+	<!-- 좋아요수 상승 -->
+	<update id="raiseLikeCount" parameterType="object">
+	UPDATE 
+		   B_REPLY
+	   SET
+	       BLIKE_COUNT = BLIKE_COUNT + 1
+     WHERE
+           BRID = #{rid}		
+	</update>
+	
+	<!-- 좋아요 추가 -->
+	<insert id="insertLike" parameterType="hashMap">
+    INSERT
+      INTO B_RE_LIKE
+    VALUES
+         (
+          SEQ_B_RE_LIKE.NEXTVAL
+        , #{id}
+		, #{rid}
+        , DEFAULT
+          )
+	</insert>
+	
+	<!-- 좋아요수 하락 -->
+	<update id="reduceLikeCount" parameterType="_int">
+	UPDATE 
+		   B_REPLY
+	   SET
+	       BLIKE_COUNT = BLIKE_COUNT - 1
+     WHERE
+           BRID = #{rid}		
+	</update>
+	
+	<!-- 좋아요 삭제 -->
+	<update id="deleteLike" parameterType="_int">
+	DELETE
+	  FROM
+		   B_RE_LIKE
+     WHERE
+           BRID = #{lid}
+	</update>
+	
+	<!-- 댓글 삭제하기 -->
+	<update id="deleteReply" parameterType="_int">
+	UPDATE 
+		   B_REPLY
+	   SET
+	       BR_STATUS = 'N'
+     WHERE
+           BRID = #{rid}	
+	</update>
+	
+	<!-- 댓글 신고하기 -->
+	<insert id="reportReply" parameterType="Report">
+    INSERT
+      INTO B_RE_RPT
+    VALUES
+         (
+          SEQ_B_RE_RPT.NEXTVAL
+        , #{rptType}
+        , #{rptReason}
+        , SYSDATE
+        , DEFAULT
+        , #{refId}
+        , #{id}
+          )
+	</insert>
+	
+	<!-- 북마크 피드 리스트 가져오기 -->
+	<select id="selectBookmarkList" parameterType="hashMap" resultMap="feedCollResultSet">
+      SELECT
+             BID
+           , BTYPE
+           , BCONTENT
+           , BCREATE
+           , BMODIFY
+           , BLIKE
+           , A.ID
+           , B.ARTI_ID AS
+           , ARTI_ONE_NAME
+           , NICKNAME
+           , FACEBOOK
+           , INSTAGRAM
+           , TWITTER
+           , DAILY_MSG
+           , IS_TEAM
+           , C.U_ID
+           , U_NICKNAME
+           , ATT_SV_NAME
+           , UP_SV_NAME
+           , CASE WHEN C.U_ID IS NULL THEN B.ARTI_NAME_EN
+             ELSE C.ARTI_NAME_EN END
+        FROM 
+             BOARD A
+   LEFT JOIN
+             ART_PERSON B ON(A.ID = B.ARTI_ID)
+   LEFT JOIN
+             ATT_SUBSCRIBE C ON(A.ID = C.U_ID)
+   LEFT JOIN
+             ART_PIC D ON(B.ARTI_ID = D.ARTI_ID)
+   LEFT JOIN
+             USER_PROFILE E ON(C.U_ID = E.U_ID)
+   LEFT JOIN
+             B_BMARK F USING(BID)
+       WHERE
+             BSTATUS = 'Y'
+         AND
+             (
+             D.ATT_STATUS = 'Y'
+          OR
+             E.UP_STATUS = 'Y'
+             )
+         AND
+             BM_STATUS = 'Y'
+         AND
+             F.ID = #{id}
+         AND
+            (
+             B.ARTI_NAME_EN = #{artiName}
+          OR 
+             C.ARTI_NAME_EN = #{artiName}
+             )
+	</select>
+	
+	<!-- 북마크  미디어 리스트 가져오기 -->
+	<select id="selectMediaList" parameterType="string" resultMap="mediaCollResultSet">
+      SELECT
+             MEDIA_NUM
+           , MEDIA_TTL
+           , MEDIA_CTT
+           , MEDIA_DATE
+           , VID_SV_NAME
+           , PIC_SV_NAME
+        FROM 
+             MEDIA
+   LEFT JOIN
+             MD_FILE USING(MEDIA_NUM)
+   LEFT JOIN
+             MD_BMARK USING(MEDIA_NUM)
+       WHERE
+             ID = #{id}
+         AND
+             MEDIA_STATUS = 'Y'
+         AND
+             ATT_STATUS = 'Y'
+         AND
+             BM_STATUS = 'Y'
+	</select>
+	
+	<!-- 북마크 이미지 가져오기 -->
+	<select id="selectBookmarkImage" parameterType="hashMap" resultMap="feedCollResultSet">
+      SELECT 
+             BID
+           , BTYPE
+           , BCONTENT
+           , BCREATE
+           , BMODIFY
+           , BLIKE
+           , A.ID
+           , ARTI_NAME_EN
+           , B.ID
+           , BP_PATH
+           , BP_CHNAME
+	    FROM 
+	         BOARD A
+        JOIN
+             ATT_BOARD USING(BID)
+        JOIN
+             B_BMARK B USING(BID)
+       WHERE 
+	         B.ID = #{id}
+	     AND
+	         ARTI_NAME_EN = #{artiName}
+         AND
+             BSTATUS = 'Y'
+	     AND
+	    	 AB_STATUS = 'Y'
+         AND
+             BM_STATUS = 'Y'
+	</select>
+	
+	<!-- 북마크 피드 댓글 리스트 가져오기 -->
+	<select id="selectBookmarkReplyList" parameterType="hashMap" resultMap="replyCollResultSet">
+    SELECT
+           A.BRID
+         , BRCONTENT
+         , BRCREATE
+         , BID
+         , A.ID
+         , BRRID
+         , BLIKE_COUNT
+         , BRRPT_COUNT
+         , ARTI_ONE_NAME
+         , NICKNAME
+         , FACEBOOK
+         , INSTAGRAM
+         , TWITTER
+         , DAILY_MSG
+         , IS_TEAM
+         , F.ARTI_NAME_EN
+         , U_NICKNAME
+         , ATT_SV_NAME
+         , UP_SV_NAME
+         , BRLID
+         , H.BRID
+	  FROM
+	       B_REPLY A
+ LEFT JOIN
+           ART_PERSON B ON(A.ID = B.ARTI_ID)
+ LEFT JOIN
+           ATT_SUBSCRIBE C ON(A.ID = C.U_ID)
+ LEFT JOIN
+           ART_PIC D ON(B.ARTI_ID = D.ARTI_ID)
+ LEFT JOIN
+           USER_PROFILE E ON(C.U_ID = E.U_ID)
+ LEFT JOIN
+           BOARD F USING(BID)
+ LEFT JOIN
+           B_BMARK G USING(BID)
+ LEFT JOIN
+           B_RE_LIKE H ON(A.BRID = H.BRID)
+	 WHERE
+           G.ID = #{id}
+       AND
+           F.ARTI_NAME_EN = #{artiName}
+       AND
+          (
+           D.ATT_STATUS = 'Y'
+        OR
+           E.UP_STATUS = 'Y'
+          )
+       AND
+          (
+           B.ARTI_NAME_EN = #{artiName}
+        OR
+           C.ARTI_NAME_EN = #{artiName}
+          )
+       AND
+           BR_STATUS = 'Y'
+       AND
+           BSTATUS = 'Y'
+       AND
+           BM_STATUS = 'Y'
+  ORDER BY
+           BRCREATE DESC
+	</select>
+	
+	<!-- 북마크 미디어 댓글 리스트 가져오기 -->
+	<select id="selectMediaReplyList" parameterType="hashMap" resultMap="replyCollResultSet">
+    SELECT
+           A.CMT_NUM
+         , CMT_CTT
+         , CMT_DATE
+         , RPT_COUNT
+         , A.ID
+         , RE_CMT_NUM
+         , LIKE_COUNT
+         , ARTI_ONE_NAME
+         , NICKNAME
+         , FACEBOOK
+         , INSTAGRAM
+         , TWITTER
+         , DAILY_MSG
+         , IS_TEAM
+         , U_NICKNAME
+         , ATT_SV_NAME
+         , UP_SV_NAME
+         , LIKE_ID
+         , H.CMT_NUM
+	  FROM
+	       MD_CMT A
+ LEFT JOIN
+           ART_PERSON B ON(A.ID = B.ARTI_ID)
+ LEFT JOIN
+           ATT_SUBSCRIBE C ON(A.ID = C.U_ID)
+ LEFT JOIN
+           ART_PIC D ON(B.ARTI_ID = D.ARTI_ID)
+ LEFT JOIN
+           USER_PROFILE E ON(C.U_ID = E.U_ID)
+ LEFT JOIN
+           MEDIA F USING(MEDIA_NUM)
+ LEFT JOIN
+           MD_BMARK G USING(MEDIA_NUM)
+ LEFT JOIN
+           MD_CMT_LIKE H ON(A.CMT_NUM = H.CMT_NUM)
+	 WHERE
+           G.ID = #{id}
+       AND
+          (
+           D.ATT_STATUS = 'Y'
+        OR
+           E.UP_STATUS = 'Y'
+          )
+       AND
+          (
+           B.ARTI_NAME_EN = #{artiName}
+        OR
+           C.ARTI_NAME_EN = #{artiName}
+          )
+       AND
+           CMT_STATUS = 'Y'
+       AND
+           MEDIA_STATUS = 'Y'
+       AND
+           BM_STATUS = 'Y'
+  ORDER BY
+           CMT_DATE DESC
+	</select>
+	
+	<!-- 내 댓글 리스트 가져오기 -->
+	<select id="selectMyCommentList" parameterType="string" resultMap="replyCollResultSet">
+	SELECT 
+	       M.*
+      FROM 
+           (SELECT
+		           A.BRID
+		         , A.BRCONTENT
+		         , A.BRCREATE
+		         , A.BID
+		         , A.BRRID
+		         , CASE WHEN C.NICKNAME IS NULL THEN D.U_NICKNAME
+		           ELSE C.NICKNAME END NICKNAME
+		         , 'FEED' CATEGORY
+		      FROM
+			       B_REPLY A 
+		 LEFT JOIN 
+		           B_REPLY B ON(A.BRRID = B.BRID)
+		 LEFT JOIN 
+		           ART_PERSON C ON(B.ID = C.ARTI_ID)
+		      JOIN
+		           BOARD J ON(A.BID = J.BID)
+		 LEFT JOIN
+		           ATT_SUBSCRIBE D ON(B.ID = D.U_ID AND J.ARTI_NAME_EN = D.ARTI_NAME_EN)
+		     WHERE
+		           A.ID = #{id}
+		       AND
+		           A.BR_STATUS = 'Y'
+		     UNION
+		    SELECT
+		           E.CMT_NUM
+		         , E.CMT_CTT
+		         , E.CMT_DATE
+		         , E.MEDIA_NUM
+		         , E.RE_CMT_NUM
+		         , CASE WHEN G.NICKNAME IS NULL THEN H.U_NICKNAME
+		           ELSE G.NICKNAME END NICKNAME
+		         , 'OFFICIAL' CATEGORY
+		      FROM
+			       MD_CMT E 
+		 LEFT JOIN 
+		           MD_CMT F ON(E.RE_CMT_NUM = F.CMT_NUM)
+		 LEFT JOIN 
+		           ART_PERSON G ON(F.ID = G.ARTI_ID)
+		      JOIN
+		           MEDIA K ON(E.MEDIA_NUM = K.MEDIA_NUM)
+		      JOIN
+		           M_CATEGORY L ON(K.CATE_CODE = L.CATE_CODE)
+		 LEFT JOIN 
+		           ATT_SUBSCRIBE H ON(F.ID = H.U_ID AND L.ARTI_NAME_EN = H.ARTI_NAME_EN)
+		     WHERE
+		           E.ID = #{id}
+		       AND
+		           E.CMT_STATUS = 'Y') M
+		  ORDER BY 
+		           BRCREATE DESC
+	</select>
+	
+	<!-- 내 댓글 삭제하기 -->
+	<update id="deleteMyReply" parameterType="Reply">
+	UPDATE 
+		   B_REPLY
+	   SET
+	       BR_STATUS = 'N'
+     WHERE
+           BRID = #{rid}
+	</update>
+	
+	<!-- 아티스트 목록 불러오기 -->
+	<select id="selectArtistList" parameterType="string" resultMap="artistGroupResultSet">
+	SELECT 
+		   ARTI_NAME_EN
+	  FROM 
+	       ART_MAIN
+	 WHERE 
+	       AG_ID = #{id}
+	</select>
+	
+	<!-- 솔로 아티스트 불러오기 -->
+		<select id="selectSolo" parameterType="string" resultMap="artistGroupResultSet">
+	SELECT 
+		   ARTI_NAME_EN
+	  FROM 
+	       ART_MAIN
+	  JOIN 
+	       ART_PERSON USING(ARTI_NAME_EN)
+	 WHERE 
+	       AG_ID = #{id}
+       AND 
+           IS_TEAM = 'N'
+	</select>
+	
+	<!-- 그룹 아티스트 불러오기 -->
+	<select id="selectTeam" parameterType="string" resultMap="artistGroupResultSet">
+	SELECT 
+		   DISTINCT ARTI_NAME_EN
+	  FROM 
+	       ART_MAIN
+	  JOIN 
+	       ART_PERSON USING(ARTI_NAME_EN)
+	 WHERE 
+	       AG_ID = #{id}
+       AND 
+           IS_TEAM = 'Y'
+	</select>
+	
+	<!-- 그룹 멤버 불러오기 -->
+	<select id="selectMember" parameterType="string" resultMap="artistResultSet">
+	SELECT 
+		   ARTI_ONE_NAME, ARTI_NAME_EN
+	  FROM 
+	       ART_PERSON
+	  JOIN 
+	       ART_MAIN USING(ARTI_NAME_EN)
+	 WHERE 
+	       AG_ID = #{id}
+	   AND 
+	       IS_TEAM = 'Y'
+	</select>
 </mapper>

@@ -212,6 +212,7 @@ public class StoreController {
 	@GetMapping("/search/{search}")
 	public Map<String, Object> searchStore(@PathVariable String search,
 										   HttpServletRequest request) {
+		System.out.println(search);
 		// 세션에 담긴 카테고리명을 담음
 		String artiName = (String)request.getSession().getAttribute("artiName");
 		String cateName = (String)request.getSession().getAttribute("cateName");
@@ -225,6 +226,7 @@ public class StoreController {
 		map.put("cateName", cateName);
 		map.put("artiName", artiName);
 		map.put("toggle", toggle);
+		System.out.println(artiName + " " + cateName + " " + toggle);
 		
 		List<StoreCollection> list = sService.searchStoreList(map);
 		// 유저별 찜 리스트 호출
@@ -654,7 +656,9 @@ public class StoreController {
 				request.getSession().setAttribute("collection", list);
 				mv.addObject("list", list);
 				mv.setViewName("pay/collection");
-			} 
+			} else {
+				mv.setViewName("pay/collection");
+			}
 		}
 		return mv;
 	}

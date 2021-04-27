@@ -10,6 +10,7 @@ import com.kh.fantimate.member.model.vo.Agency;
 import com.kh.fantimate.member.model.vo.Artist;
 import com.kh.fantimate.member.model.vo.ArtistCollection;
 import com.kh.fantimate.member.model.vo.ArtistGroup;
+import com.kh.fantimate.member.model.vo.FindIdCollection;
 import com.kh.fantimate.member.model.vo.Member;
 import com.kh.fantimate.member.model.vo.User;
 import com.kh.fantimate.member.model.vo.UserCollection;
@@ -48,6 +49,12 @@ public interface MemberService {
 
 	// 7_4. 관리자 로그인
 	public Admin loginAdmin(String id);
+	
+	// 8. 아이디 찾기
+	public FindIdCollection findUserId(Map<String, String> map);
+
+	// 9. 비밀번호 찾기 
+	public Member findUserPwd(String id);
 
 
 }

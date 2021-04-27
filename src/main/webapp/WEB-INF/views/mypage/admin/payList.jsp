@@ -8,13 +8,7 @@
 </head>
 <body>
 	<!-- 네비바 -->
-	<jsp:include page="../../common/navbar.jsp"></jsp:include>
-	
-	<!--소속사 정보 등록창 -->
-	<jsp:include page="insertAgency.jsp"/>
-	
-	<!-- 신고 상세 -->
-	<jsp:include page="reportDetail.jsp"/>
+	<jsp:include page="../../common/navbar.jsp"/>
 	
     <!-- 밑에 섹션 -->
     <section id="mypageAdminSection">

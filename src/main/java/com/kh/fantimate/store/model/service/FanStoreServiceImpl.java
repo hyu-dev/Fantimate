@@ -6,7 +6,9 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kh.fantimate.common.model.vo.Message;
 import com.kh.fantimate.common.model.vo.Reply;
+import com.kh.fantimate.common.model.vo.Report;
 import com.kh.fantimate.member.model.vo.ArtistGroup;
 import com.kh.fantimate.member.model.vo.User;
 import com.kh.fantimate.member.model.vo.UserCollection;
@@ -49,7 +51,7 @@ public class FanStoreServiceImpl implements FanStoreService{
 	}
 
 	@Override
-	public UserCollection selectUserCollection(String userId) {
+	public List<UserCollection> selectUserCollection(String userId) {
 		return fDao.selectUserCollection(userId);
 	}
 
@@ -131,6 +133,51 @@ public class FanStoreServiceImpl implements FanStoreService{
 	@Override
 	public int insertReply(Reply reply) {
 		return fDao.insertReply(reply);
+	}
+
+	@Override
+	public void insertReplyNotiBuyer(Map map) {
+		fDao.insertReplyNotiBuyer(map);
+	}
+
+	@Override
+	public void insertReplyNotiSeller(Map map) {
+		fDao.insertReplyNotiSeller(map);
+	}
+
+	@Override
+	public int deleteReply(int rid) {
+		return fDao.deleteReply(rid);
+	}
+
+	@Override
+	public int sendMessage(Message message) {
+		return fDao.sendMessage(message);
+	}
+
+	@Override
+	public int reportFanStore(Report report) {
+		return fDao.reportFanStore(report);
+	}
+
+	@Override
+	public void insertNotiReportFanStore(Report report) {
+		fDao.insertNotiReportFanStore(report);
+	}
+
+	@Override
+	public int reportFanStoreReply(Report report) {
+		return fDao.reportFanStoreReply(report);
+	}
+
+	@Override
+	public void insertNotiReportFSReply(Report report) {
+		fDao.insertNotiReportFSReply(report);
+	}
+
+	@Override
+	public List<ArtistGroup> selectHashTagList(String search) {
+		return fDao.selectHashTagList(search);
 	}
 	
 	

@@ -83,7 +83,7 @@
         /* 미디어 클릭 시 */
         function selectMedia(mediaNum, isPay, mediaPay) {
         	var loginUser = ${ loginUser.classifyMem }
-        	var membership = "${ user.isMembership }"
+        	var membership = "${ userColl.user.isMembership }"
         	
         	/* 미디어가 유료일 때 */
         	if(isPay == "Y") {

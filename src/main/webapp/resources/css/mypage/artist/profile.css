@@ -38,7 +38,7 @@
     margin-right: 50px;
 }
 
-.profile-info {
+.profile-area {
     /* border: 1px solid red; */
     width: 1000px;
     height: 100%;
@@ -46,11 +46,11 @@
     table-layout: fixed;
 }
 
-.profile-info tr {
+.profile-area tr {
     height: 25%;
 }
 
-.profile-info img{
+.profile-area img{
     border-radius: 10px;
     width: 30px;
     height: 30px;

@@ -106,10 +106,16 @@
 		            <div class="main-menu">
 		                <!-- 회원가입 버튼 생성전 예시 -->
 		                <c:if test="${ loginUser.classifyMem eq 1}">
+		                	<img src="${ contextPath }/resources/icon/user.svg" alt="" class="nav-icon" onclick="location.href='${ contextPath }/mypage/user/payments'">
+		                </c:if>
+		                <c:if test="${ loginUser.classifyMem eq 2}">
 		                	<img src="${ contextPath }/resources/icon/user.svg" alt="" class="nav-icon" onclick="location.href='${ contextPath }/mypage/artist/feed'">
 		                </c:if>
 		                <c:if test="${ loginUser.classifyMem eq 3}">
 		                	<img src="${ contextPath }/resources/icon/user.svg" alt="" class="nav-icon" onclick="location.href='${ contextPath }/mypage/agency/main'">
+		                </c:if>
+		                <c:if test="${ loginUser.classifyMem eq 4}">
+		                	<img src="${ contextPath }/resources/icon/user.svg" alt="" class="nav-icon" onclick="location.href='${ contextPath }/mypage/admin/paylist'">
 		                </c:if>
 		                <img src="${ contextPath }/resources/icon/alarm.svg" alt="" class="nav-icon" id="alarm-icon" onclick="alarmPage()">
 		                <!-- 알람 갯수 카운트 -->
