@@ -13,7 +13,7 @@
     <section class="profile-container nanumsquare">
         <div class="profile-box">
             <div class="profile-left">
-                <table class="profile-info">
+                <table class="profile-area">
                     <colgroup>
                         <col width="40%"/>
                         <col width="60%"/>

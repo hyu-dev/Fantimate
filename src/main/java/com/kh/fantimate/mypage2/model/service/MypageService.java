@@ -10,6 +10,7 @@ import com.kh.fantimate.common.model.vo.Report;
 import com.kh.fantimate.feed.model.vo.Feed;
 import com.kh.fantimate.feed.model.vo.FeedCollection;
 import com.kh.fantimate.member.model.vo.Artist;
+import com.kh.fantimate.member.model.vo.ArtistGroup;
 import com.kh.fantimate.official.model.vo.MediaCollection;
 
 public interface MypageService {
@@ -59,7 +60,16 @@ public interface MypageService {
 
 	/* 소속사 메인 페이지 */
 	
-	// 아티스트 목록 불러오기
-	List<Artist> selectArtistList(String id);
+	// 소속 아티스트 목록 불러오기
+	List<ArtistGroup> selectArtistList(String id);
+
+	// 솔로 아티스트 불러오기
+	List<ArtistGroup> selectSolo(String id);
+
+	// 그룹 아티스트 불러오기
+	List<ArtistGroup> selectTeam(String id);
+
+	// 그룹 멤버 불러오기
+	List<Artist> selectMember(String id);
 
 }

@@ -1,6 +1,5 @@
 package com.kh.fantimate.mypage2.model.service;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -14,6 +13,7 @@ import com.kh.fantimate.common.model.vo.Report;
 import com.kh.fantimate.feed.model.vo.Feed;
 import com.kh.fantimate.feed.model.vo.FeedCollection;
 import com.kh.fantimate.member.model.vo.Artist;
+import com.kh.fantimate.member.model.vo.ArtistGroup;
 import com.kh.fantimate.mypage2.model.dao.MypageDao;
 import com.kh.fantimate.official.model.vo.MediaCollection;
 
@@ -116,8 +116,26 @@ public class MypageServiceImpl implements MypageService{
 	
 	// 아티스트 목록 불러오기
 	@Override
-	public List<Artist> selectArtistList(String id) {
+	public List<ArtistGroup> selectArtistList(String id) {
 		return mDao.selectArtistList(id);
+	}
+
+	// 솔로 아티스트 불러오기
+	@Override
+	public List<ArtistGroup> selectSolo(String id) {
+		return mDao.selectSolo(id);
+	}
+
+	// 그룹 아티스트 불러오기
+	@Override
+	public List<ArtistGroup> selectTeam(String id) {
+		return mDao.selectTeam(id);
+	}
+	
+	// 그룹 멤버 불러오기
+	@Override
+	public List<Artist> selectMember(String id) {
+		return mDao.selectMember(id);
 	}
 
 

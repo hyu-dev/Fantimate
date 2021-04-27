@@ -24,6 +24,7 @@ import com.kh.fantimate.common.model.vo.Reply;
 import com.kh.fantimate.common.model.vo.ReplyCollection;
 import com.kh.fantimate.member.model.vo.Member;
 import com.kh.fantimate.member.model.vo.User;
+import com.kh.fantimate.member.model.vo.UserCollection;
 import com.kh.fantimate.official.model.service.OfficialService;
 import com.kh.fantimate.official.model.vo.MediaCategory;
 import com.kh.fantimate.official.model.vo.MediaCollection;
@@ -58,8 +59,8 @@ public class OfficialController {
 		System.out.println(loginUser);
 		
 		if(loginUser.getClassifyMem() == 1) {
-			User user = (User)request.getSession().getAttribute("user");
-			mv.addObject("user", user);
+			UserCollection userColl = (UserCollection)request.getSession().getAttribute("user");
+			mv.addObject("userColl", userColl);
 		}
 		
 		if(list != null) {
