@@ -147,8 +147,6 @@
 			                <input id="mainPhoto" name="mainPhoto" class="photo" type="file" style="display: none;">
 			                <input type="hidden" name="mainClName" value="${ att.att.attClName }">
 							<input type="hidden" name="mainSvName" value="${ att.att.attSvName }">
-							<input type="hidden" name="subClName" value="">
-							<input type="hidden" name="subSvName" value="">
 	                	</c:when>
 	                	<c:otherwise>
 		                	<label for="addPhoto${ count }" class="add-photo"><img src="${ contextPath }/resources/uploadFiles/${ att.att.attSvName }" width="130px"></label>
