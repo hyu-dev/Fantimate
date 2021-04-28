@@ -176,9 +176,8 @@ public class MemberController {
 			
 			// 1:일반유저 / 2: 소속사 / 3: 아티스트
 			// loginUser.class == 1 (일반유저) 일때
-			if(loginUser.getClassifyMem() == 1) {
+			if(loginUser.getClassifyMem() == 1 && loginUser.getStatus().equals("Y")) {
 				
-
 				List<UserCollection> user = (ArrayList<UserCollection>)mService.loginUser(loginUser.getId());
 				System.out.println("유저 정보 : " + user);
 				model.addAttribute("loginUser", loginUser);
@@ -204,13 +203,16 @@ public class MemberController {
 				model.addAttribute("loginUser", loginUser);
 				session.setAttribute("admin", admin);
 				model.addAttribute("msg", "success");
+			} else if(loginUser.getClassifyMem() == 1 && loginUser.getStatus().equals("N")) {
+				
+				model.addAttribute("msg", "stop");
 			}
-			
 			return "account/login";
+			
 		} else {
 			model.addAttribute("msg", "fail");
 			return "account/login";
-		}
+		} 
 
 	}
 	

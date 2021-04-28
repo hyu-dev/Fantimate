@@ -57,7 +57,7 @@
            </div>
             
              <!-- 로그인 유저가 아티스트일때 포스트 작성 보이게 하기 -->
-      <c:if test="${ loginUser.classifyMem == 3 }">
+      <c:if test="${ loginUser.classifyMem == 2 }">
           <jsp:include page="../artistfeed/artistfeedinsert.jsp"/>
 	  </c:if>	
 

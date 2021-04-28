@@ -110,6 +110,11 @@
 				    alert("로그인 실패!");
 			    </script>
 			 </c:when>
+			 <c:when test="${ msg eq 'stop'}">
+			 	<script>
+				    alert("활동이 정지된 회원입니다.");
+			    </script>
+			 </c:when>
 		</c:choose>
 	</c:if>
  <!-- 로그인 -->
