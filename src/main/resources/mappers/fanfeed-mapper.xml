@@ -127,21 +127,19 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		INTO ATT_BOARD
 		(
 				BPID
-			,	BP_PATH
+			,	BID		
 			,	BP_OGNAME
 			,	BP_CHNAME
 			,	AB_STATUS
-			,	BID		
 		)
 		SELECT SEQ_ATT_BOARD.NEXTVAL, SEQ_BOARD.CURRVAL, A.*
 		FROM
 		(
 		 <foreach collection="list" item="i" separator="UNION ALL">
 			SELECT	
-					DEFAULT AS BP_PATH
-				,	#{i.attClName} AS BP_OGNAME
+					#{i.attClName} AS BP_OGNAME
 		  		, 	#{i.attSvName} AS BP_CHNAME
-		  		,	DEFAULT AS AB_STATUS
+		  		,	'Y'
 		  	FROM  DUAL
 		  </foreach>
 		) A

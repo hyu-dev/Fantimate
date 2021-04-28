@@ -230,8 +230,6 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	 	    ID = #{id}
 	 	AND
 	 		PWD = #{pwd}
-	    AND 
-	 	    STATUS = 'Y' 
 	</select>
 	
 	<!-- 유저 테이블 select -->
