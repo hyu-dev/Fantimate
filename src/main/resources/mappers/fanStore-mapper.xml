@@ -547,10 +547,10 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		WHERE
 		        F_CODE = #{fcode}
 		  AND   (U_ID = #{writer} OR U_ID = #{id})
-          AND   (REF_CODE = (SELECT FR_CODE FROM F_REPLY
-                            WHERE REF_CODE IS NULL AND ID = #{id})
-           OR   FR_CODE = (SELECT FR_CODE FROM F_REPLY
-                            WHERE REF_CODE IS NULL AND ID = #{id}))
+          AND   (REF_CODE IN (SELECT FR_CODE FROM F_REPLY
+                            WHERE REF_CODE = 0 AND ID = #{id})
+           OR   FR_CODE IN (SELECT FR_CODE FROM F_REPLY
+                            WHERE REF_CODE = 0 AND ID = #{id}))
 	 ORDER BY   FR_CODE ASC
 	</select>
 	<select id="selectWish" parameterType="Wish" resultMap="wishResultSet">
