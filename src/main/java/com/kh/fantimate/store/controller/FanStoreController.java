@@ -471,6 +471,11 @@ public class FanStoreController {
 							@RequestParam(value="subSvName") String[] subClName)
 							throws IOException{
 		
+		System.out.println(fstore);
+
+		for(int i = 0; i < tagName.length; i++) {
+			System.out.println(tagName[i]);
+		}
 		List<Attachment> attList = new ArrayList<>();
 		Attachment att = null;
 		// 업로드 파일 서버에 저장

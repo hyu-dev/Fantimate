@@ -39,6 +39,10 @@
 		<c:remove var="error"/>
 	</c:if>
 	
+	<c:if test="${ fsFlag eq 'yes' }">
+		<c:remove var="fsFlag"/>
+	</c:if>
+	
 	<jsp:include page="settingArea.jsp"/>
 	<c:if test="${ !empty loginUser }">
 	<jsp:include page="fanStoreInsert.jsp"/>

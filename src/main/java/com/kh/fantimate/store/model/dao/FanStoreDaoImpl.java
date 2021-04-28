@@ -270,5 +270,10 @@ public class FanStoreDaoImpl implements FanStoreDao{
 	public void updateHashSearchCount(Map map) {
 		sqlSession.update("fanStoreMapper.updateHashSearchCount", map);
 	}
+
+	@Override
+	public void insertUpdateEnrollTag(Map map) {
+		sqlSession.insert("fanStoreMapper.insertUpdateEnrollTag", map);
+	}
 	
 }

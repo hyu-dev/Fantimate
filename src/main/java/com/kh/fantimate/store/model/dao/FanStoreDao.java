@@ -165,4 +165,7 @@ public interface FanStoreDao {
 	// 해시태그 서치카운트 증가
 	void updateHashSearchCount(Map map);
 
+	// 팬스토어 업데이트시 중복되지 않은 태그명 연결
+	void insertUpdateEnrollTag(Map map);
+
 }
