@@ -654,6 +654,7 @@ body{
 #mypageAdminpaylist,
 #mypageAdminReportlist,
 #mypageAdminFanstorelist,
+#mypageAdminFanstoreRlist,
 #mypageAdminNotice,
 #mypageAdminManage{
     width: 100%; 
@@ -667,6 +668,7 @@ body{
 #mypageAdminpaylist thead,
 #mypageAdminReportlist thead,
 #mypageAdminFanstorelist thead,
+#mypageAdminFanstoreRlist thead,
 
 #mypageAdminNotice thead,
 #mypageAdminManage thead{
@@ -676,6 +678,7 @@ body{
 #mypageAdminpaylist thead tr,
 #mypageAdminReportlist thead tr,
 #mypageAdminFanstorelist, thead tr,
+#mypageAdminFanstoreRlist, thead tr,
 #mypageAdminNotice thead tr,
 #mypageAdminManage thead tr{
     height: 50px;
@@ -707,6 +710,7 @@ body{
 #mypageAdminpaylist tbody td,
 #mypageAdminReportlist tbody td,
 #mypageAdminFanstorelist tbody td,
+#mypageAdminFanstoreRlist tbody td,
 #mypageAdminNotice tbody td,
 #mypageAdminManage tbody td{
     margin-top: 10px;
@@ -720,30 +724,36 @@ body{
 /*      table-layout:fixed; */
 }
 #mypageAdminReportlist th:nth-child(1),
-#mypageAdminFanstorelist th:nth-child(1){
+#mypageAdminFanstorelist th:nth-child(1),
+#mypageAdminFanstoreRlist th:nth-child(1){
     width: 120px;
 }
 #mypageAdminReportlist th:nth-child(2),
-#mypageAdminFanstorelist th:nth-child(2){
+#mypageAdminFanstorelist th:nth-child(2),
+#mypageAdminFanstoreRlist th:nth-child(2){
     width: 100px;
 }
 #mypageAdminReportlist th:nth-child(3),
-#mypageAdminFanstorelist th:nth-child(3){
+#mypageAdminFanstorelist th:nth-child(3),
+#mypageAdminFanstoreRlist th:nth-child(3){
     width: 100px;
 }
 #mypageAdminReportlist th:nth-child(4),
-#mypageAdminFanstorelist th:nth-child(4){
+#mypageAdminFanstorelist th:nth-child(4),
+#mypageAdminFanstoreRlist th:nth-child(4){
     width: 400px;
     /* table-layout:fixed; */
     text-overflow:ellipsis; overflow:hidden; white-space:nowrap;    /*...처리*/
 
 }
 #mypageAdminReportlist th:nth-child(5),
-#mypageAdminFanstorelist th:nth-child(5){
+#mypageAdminFanstorelist th:nth-child(5),
+#mypageAdminFanstoreRlist th:nth-child(5){
     width: 100px;
 }
 #mypageAdminReportlist th:nth-child(6),
-#mypageAdminFanstorelist th:nth-child(6){
+#mypageAdminFanstorelist th:nth-child(6),
+#mypageAdminFanstoreRlist th:nth-child(6){
     width: 100px;
 }
 

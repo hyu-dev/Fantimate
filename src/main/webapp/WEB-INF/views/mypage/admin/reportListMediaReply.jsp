@@ -52,7 +52,7 @@
                 href="${contextPath}/mypage/admin/report/fanstoreReply">팬스토어 댓글</a>
                 /
                 <a class="mypageContentCategory"
-                href="${contextPath}/mypage/admin/report/media">미디어</a>
+                href="${contextPath}/mypage/admin/report/media" style="font-weight: 700;">미디어</a>
                 /
                 <a class="mypageContentCategory"
                 href="${contextPath}/mypage/admin/report/feed">피드,아티스트</a>
@@ -66,7 +66,7 @@
                         <th>신고날짜</th>
                         <th>신고인</th>
                         <th>피의자</th>
-                        <th>신고 게시물 정보</th>
+                        <th>신고 댓글 내용</th>
                         <th>신고유형</th>
                         <th>주소</th>
                     </tr>
@@ -92,6 +92,9 @@
 <%--                 			${ r.messCode } --%>
 <%--                 				<a onclick="${contextPath}/"> --%>
                 			</td>
+                			<input type="hidden" value="${ r.report.rptCode }" style="display:none;">	<!-- 9 -->
+                			<input type="hidden" value="${ r.report.refId }" style="display:none;">	<!-- 10 -->
+                			<input type="hidden" value="MD_CMT_RPT" style="display:none;">	<!-- 11 -->
                 		</tr>
                 	</c:forEach>
                 	

@@ -1,7 +1,6 @@
 package com.kh.fantimate.mypage1.controller;
 
 import java.io.File;
-
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -27,7 +26,9 @@ import com.kh.fantimate.common.model.vo.Friend;
 import com.kh.fantimate.member.model.vo.Member;
 import com.kh.fantimate.member.model.vo.User;
 import com.kh.fantimate.mypage1.model.Service.Mypage1Service;
+import com.kh.fantimate.mypage1.model.vo.AttSubscribe;
 import com.kh.fantimate.mypage1.model.vo.FriendPageInfo;
+import com.kh.fantimate.mypage1.model.vo.SubscribeUser;
 import com.kh.fantimate.mypage1.model.vo.User2;
 import com.kh.fantimate.mypage1.model.vo.UserPaymentCol2;
 import com.kh.fantimate.mypage1.model.vo.UserUpdateVo;
@@ -177,11 +178,61 @@ public class MypageUserController {
 		}
 		
 		@GetMapping("/subscribes")
-		public ModelAndView userMysubscribes(ModelAndView mv) {
+		public ModelAndView userMysubscribes(ModelAndView mv,
+				@RequestParam(value="page", required=false, defaultValue="1") int currentPage,
+				HttpSession session) {
+//			mv.setViewName("mypage/user/subscribes");
+//			return mv;
 			
-			mv.setViewName("mypage/user/subscribes");
+			Member m = (Member) session.getAttribute("loginUser");
+			System.out.println("m.getId() : " + m.getId());
 			
+			// 친구개수
+			int listCount = mService.RListCountSubscribe(m);
+			System.out.println("구독자 수 : " + listCount);
+			
+			// 요청 페이지에 맞는 리스트 조회
+			FriendPageInfo pi = pagingFriend(currentPage, listCount, m.getId());
+			List<SubscribeUser> list = mService.requestSubscribeList(pi);	// 아직
+			System.out.println("읽어온 구독리스트 : " + list);
+			
+			if(list != null) {
+				mv.addObject("list", list);
+				mv.addObject("pi", pi);
+				mv.setViewName("mypage/user/subscribes");
+			}else{
+				mv.addObject("msg", "조회에 실패하였습니다.");
+				mv.setViewName("mypage/admin/errorpage");
+			}
 			return mv;
+		}
+		
+		@GetMapping("/subscribes/update")
+		public String userFriendUpdate(
+//				ModelAndView mv,
+				@RequestParam(value="userid", required=true) String userid,
+				@RequestParam(value="subCode", required=true) String subCode,
+				HttpSession session) {
+			// 친구요청 객체 전달
+			AttSubscribe subs = new AttSubscribe();
+			subs.setSubCode(Integer.parseInt(subCode));
+			subs.setUid(userid);
+			System.out.println("넘어온 객체 값 : " + subs);
+			
+			int result = mService.userSubsUpdate(subs);
+			// 업데이트 성공시
+			if(result > 0) {
+				System.out.println("구독취소 완료 : " + result);
+//				mv.addObject("meg", "구독취소에 완료되었습니다.");
+//				mv.setViewName("mypage/user/subscribes");
+				return "redirect:/mypage/user/subscribes";
+				
+			// 업데이트 실패시
+			}else {
+				System.out.println("구독취소 실패");
+//				mv.addObject("msg", "구독취소에 실패했습니다.");
+				return "redirect:/mypage/admin/errorpage";
+			}
 		}
 		
 		@GetMapping("/dibs")

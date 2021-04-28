@@ -195,7 +195,7 @@ public class MypageAdminController {
 			}
 			return mv;
 		}
-		
+		// 신고관리
 		@PostMapping("/report/user")
 		public String reportUser(
 				HttpSession session,
@@ -213,7 +213,7 @@ public class MypageAdminController {
 			int rptDate = Integer.parseInt(reportDay);
 			System.out.println("rptDate : " + rptDate);
 			
-			// Y로 바꿔주기 (처리완료로 상태변경)
+			// Y로 바꿔주기 (처리완료로 상태변경) --> 쪽지/팬스토어/팬스토어댓글
 			int colupdate = mService.updateRpt(report);
 			System.out.println("colupdate : " + colupdate);
 			

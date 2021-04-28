@@ -197,6 +197,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 			<result property="pcode" column="P_CODE"/>
 			<result property="mediaNum" column="MEDIA_NUM"/>
 			<result property="id" column="PAY_USERID"/>
+			<result property="payCode" column="CPAY_CODE"/>
 		</resultMap>
 <!-- STORE -->
 		<resultMap type="Store" id="StoreRSet">
@@ -259,9 +260,68 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<result property="attStatus" column="UP_STATUS"/>
 		<result property="id" column="U_ID"/>
 	</resultMap> 	
+
+
+<!-- 구독 -->
+	<resultMap type="AttSubscribe" id="AttSubscribeRSet">
+		<id property = "subCode" column="UP_CODE"/>
+		<result property="uid" column="UP_CL_NAME"/>
+		<result property="unickname" column="UP_SV_NAME"/>
+		<result property="subStatus" column="UP_STATUS"/>
+		<result property="artiNameEn" column="U_ID"/>
+	</resultMap>		
+	<resultMap type="Attachment" id="subprofileRSet">
+			<id property="attCode" column="S_CODE"/>
+			<result property="attRoot" column="S_ROOT"/>
+			<result property="attClName" column="S_CL_NAME"/>
+			<result property="attSvName" column="S_SV_NAME"/>
+			<result property="attStatus" column="S_STATUS"/>
+<!-- 			<result property="id" column="ARTI_NAME_EN"/> -->
+			<!-- 참조 구독 코드(ATT_SUBSCRIBE PK-SUB_CODE ) -->
+			<result property="refId" column="SUB_CODE"/>
+<!-- 			<result property="refuid" column="ARTI_NAME_EN"/> -->
+			<result property="attMain" column="IS_MAIN_ATT"/>
+	</resultMap>		
+	<resultMap type="ArtiMain" id="artmainRSet">
+		<id property = "artiNameEn" column="ARTI_NAME_EN"/>
+		<result property="artiNameKr" column="ARTI_NAME_KR"/>
+		<result property="agID" column="AG_ID"/>
+	</resultMap>
+	<resultMap type="Artist" id="artpersonRSet">
+		<id property = "artiId" column="ARTI_ID"/>
+		<result property="artiName" column="ARTI_ONE_NAME"/>		
+		<result property="artiNickname" column="NICKNAME"/>		
+		<result property="artiFacebook" column="FACEBOOK"/>		
+		<result property="artiInsta" column="INSTAGRAM"/>		
+		<result property="artiTwitter" column="TWITTER"/>		
+		<result property="artiDailymsg" column="DAILY_MSG"/>		
+		<result property="isTeam" column="IS_TEAM"/>		
+		<result property="agencyId" column="ID"/>		
+		<result property="artiNameEn" column="ARTI_NAME_EN"/>		
+	</resultMap>
+	<resultMap type="Attachment" id="artPicRSet">
+		<id property="attCode" column="ATT_CODE"/>
+		<result property="attRoot" column="ATT_ROOT"/>
+		<result property="attClName" column="ATT_CL_NAME"/>
+		<result property="attSvName" column="ATT_SV_NAME"/>
+		<result property="attStatus" column="ATT_STATUS"/>
+		<!-- 참조 구독 코드(ATT_PIC 조인키, 실제 아티스트아이디 ) -->
+		<result property="id" column="ARTI_ID"/>
+		<result property="attMain" column="IS_MAIN_ATT"/>
+	</resultMap>
+	
+	<resultMap type="SubscribeUser" id="SubscribeUserRSet">
+		<collection property="subati" resultMap="AttSubscribeRSet"/>
+		<collection property="user" resultMap="userResultSet"/>
+		<collection property="subprofile" resultMap="subprofileRSet"/>
+		<collection property="artmain" resultMap="artmainRSet"/>
+		<collection property="artperson" resultMap="artpersonRSet"/>
+		<collection property="artPic" resultMap="artPicRSet"/>
+	</resultMap>
 		
-		
-		
+<!-- ////////////////////////////////////////////////////////////////////////////////////// -->
+<!-- ////////////////////////////////////////////////////////////////////////////////////// -->
+<!-- ////////////////////////////////////////////////////////////////////////////////////// -->
 		
 	<select id="checkId" parameterType="string" resultType="integer">
 		SELECT
@@ -341,6 +401,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		    	MESSAGE b
 		    ON
 		    	a.MESS_NO = b.MESS_NO
+         WHERE  IS_REPORTED = 'N'		    	
 	  ORDER BY 	RPT_DATE
 	</select>
 	
@@ -377,6 +438,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
     		 	F_STORE f
 			ON
     			r.F_CODE = f.F_CODE
+         WHERE  IS_REPORTED = 'N'
       ORDER BY 	RPT_DATE
 	</select>
 	
@@ -504,7 +566,8 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 <!-- 		  </choose> -->
 	</select>
 	
-	<!-- 팬스토어 댓글 신고 -->
+	
+	<!-- 팬스토어 댓글 신고 WHERE  IS_REPORTED = 'N' 추가하면 신고한것만-->
 	<select id="selectfanstoreRList" resultMap="fanstoreRListMap">
         SELECT
                 RPT_CODE
@@ -526,6 +589,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
                 F_REPLY f
             ON
                 r.FR_CODE = f.FR_CODE
+         WHERE  IS_REPORTED = 'N'
       ORDER BY 	RPT_DATE
 	</select>
 	
@@ -554,6 +618,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	            MD_CMT m
 	        ON
 	            r.CMT_NUM = m.CMT_NUM
+         WHERE  IS_REPORTED = 'N'	            
 	  ORDER BY 	RPT_DATE
 	</select>
 	
@@ -976,17 +1041,30 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		   		UP_STATUS = #{status}
 	</update>
 	
-	<!-- #{isReported} = 테이블 이름 -->
+	<!-- #{isReported} = 테이블 이름 md_rpt_cmt 만 다름-->
 	<update id="updateRpt" parameterType="ReportAdmin">
 		UPDATE
 				(
-                     SELECT 
+				<choose>
+					<when test="isReported == 'MD_CMT_RPT'">
+					 SELECT 
+                            RPT_NUM
+                          , IS_REPORTED
+                      FROM 
+                     		${isReported}
+                     WHERE
+                            RPT_NUM = #{rptCode}
+					</when>
+					<otherwise>
+					SELECT 
                             RPT_CODE
                           , IS_REPORTED
-                     FROM 
+                      FROM 
                      		${isReported}
-                      WHERE
+                     WHERE
                             RPT_CODE = #{rptCode}
+					</otherwise>
+				</choose>
                     )
 		   SET
 		   		IS_REPORTED = 'Y'
@@ -1147,6 +1225,112 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
              WHERE  
 				    (IS_MAIN_ATT != 'N' OR c.P_CODE IS NULL)
           ORDER BY  CART_CODE
-				
 	</select>
+<!-- 구독 SubscribeUserRSet -->
+	<select id="RListCountSubscribe" parameterType="Member" resultType="_int">
+		  SELECT
+  					COUNT(*)
+            FROM   
+                    ATT_SUBSCRIBE s
+       LEFT JOIN
+                    USER_ u
+              ON
+                    s.U_ID = u.U_ID
+            JOIN
+                    SUB_PROFILE sp
+              ON
+                    s.SUB_CODE = sp.SUB_CODE
+            JOIN
+                    ART_MAIN am
+              ON
+                    am.ARTI_NAME_EN = s.ARTI_NAME_EN
+            JOIN
+                    ART_PERSON ap
+              ON
+                    ap.ARTI_NAME_EN = am.ARTI_NAME_EN
+            JOIN
+                    ART_PIC apic
+              ON
+                    apic.ARTI_ID = ap.ARTI_ID
+            WHERE   s.U_ID = #{id}
+	</select>
+	<select id="requestSubscribeList" resultMap="SubscribeUserRSet">
+          SELECT
+                    s.SUB_CODE
+                  , s.U_ID
+                  , U_NICKNAME
+                  , s.SUB_STATUS
+                  
+                  , U_ADD
+                  , U_EMAIL
+                  , U_COUNTRY
+                  , AREA_REGISTER
+                  , AREA_CODE
+                  , IS_MEMBERSHIP
+                  , U_PAID_START
+                  , U_PAID_END
+                
+                  , S_CODE
+                  , S_ROOT
+                  , S_CL_NAME
+                  , S_SV_NAME
+                  , S_STATUS
+                  
+                  , ARTI_NAME_KR
+                  , AG_ID
+
+                  , ap.ARTI_ID
+                  , ARTI_ONE_NAME
+                  , NICKNAME
+                  , FACEBOOK
+                  , INSTAGRAM
+                  , TWITTER
+                  , DAILY_MSG
+                  , IS_TEAM
+                  , ID
+                  , ap.ARTI_NAME_EN
+
+                  
+                  , ATT_CODE
+                  , ATT_ROOT
+                  , ATT_CL_NAME
+                  , ATT_SV_NAME
+                  , ATT_STATUS
+                  
+
+            FROM   
+                    ATT_SUBSCRIBE s
+       LEFT JOIN
+                    USER_ u
+              ON
+                    s.U_ID = u.U_ID
+            JOIN
+                    SUB_PROFILE sp
+              ON
+                    s.SUB_CODE = sp.SUB_CODE
+            JOIN
+                    ART_MAIN am
+              ON
+                    am.ARTI_NAME_EN = s.ARTI_NAME_EN
+            JOIN
+                    ART_PERSON ap
+              ON
+                    ap.ARTI_NAME_EN = am.ARTI_NAME_EN
+            JOIN
+                    ART_PIC apic
+              ON
+                    apic.ARTI_ID = ap.ARTI_ID
+           WHERE   s.U_ID = #{serchCondition}
+             AND   s.SUB_STATUS = 'Y'
+	</select>	
+	
+	<update id="userSubsUpdate" parameterType="AttSubscribe">
+		    UPDATE
+                    ATT_SUBSCRIBE
+               SET
+                    SUB_STATUS = 'N'
+             WHERE
+                    U_ID = #{uid}
+               AND  SUB_CODE = #{subCode}
+	</update>
 </mapper>
