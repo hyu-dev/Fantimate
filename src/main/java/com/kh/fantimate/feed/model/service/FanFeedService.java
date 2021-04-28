@@ -37,8 +37,6 @@ public interface FanFeedService {
    // 구독 유저 조회
    public List<Subscribe> selectSubList(String artNameEn);
 
-   // 피드 컬렉션
-   public List<FeedCollection> selectfcList();
    
    // 유저 프로필 사진 조회
    public List<Attachment> selectatList(String artNameEn);
