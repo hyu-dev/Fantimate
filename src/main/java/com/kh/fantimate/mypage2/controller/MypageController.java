@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.fantimate.common.model.vo.Attachment;
 import com.kh.fantimate.common.model.vo.Like;
 import com.kh.fantimate.common.model.vo.Reply;
 import com.kh.fantimate.common.model.vo.ReplyCollection;
@@ -26,6 +27,7 @@ import com.kh.fantimate.member.model.vo.Agency;
 import com.kh.fantimate.member.model.vo.Artist;
 import com.kh.fantimate.member.model.vo.ArtistCollection;
 import com.kh.fantimate.member.model.vo.ArtistGroup;
+import com.kh.fantimate.member.model.vo.Member;
 import com.kh.fantimate.mypage2.model.service.MypageService;
 import com.kh.fantimate.official.model.vo.MediaCollection;
 
@@ -283,5 +285,119 @@ public class MypageController {
 		}
 		
 		return mv;
+	}
+	
+	// 아티스트 솔로 삭제하기
+	@PostMapping(value="/deleteArtistSolo", produces="application/json; charset=utf-8")
+	public @ResponseBody void deleteArtistSolo(Artist a, HttpServletRequest request) {
+		Agency agency = (Agency)request.getSession().getAttribute("agency");
+		
+		// System.out.println(a);
+		
+		Map<String, String> map = new HashMap<>();
+		map.put("artiNameEn", a.getArtiNameEn());
+		map.put("agencyId", agency.getAgId());
+		
+		// 아티스트 솔로 아이디 불러오기
+		String id = mService.selectArtistSoloId(map);
+		// 아티스트 솔로 삭제하기
+		int result = mService.deleteMemberSolo(id);
+		// 아티스트 메인 솔로 삭제하기
+		int result2 = mService.deleteMain(map);
+		
+		if(result > 0) {
+			System.out.println("솔로 삭제 성공");
+		} else {
+			System.out.println("솔로 삭제 실패");
+		}
+		
+		if(result2 > 0) {
+			System.out.println("메인에서 삭제 성공");
+		} else {
+			System.out.println("메인에서 삭제 실패");
+		}
+	}
+	
+	// 아티스트 개인 삭제하기
+	@PostMapping(value="/deleteArtistOne", produces="application/json; charset=utf-8")
+	public @ResponseBody void deleteArtistOne(Member m, HttpServletRequest request) {
+		Agency agency = (Agency)request.getSession().getAttribute("agency");
+		
+		// System.out.println(m);
+		
+		// 아티스트 개인 아이디 불러오기
+		String id = mService.selectArtistOneId(m.getName());
+		
+		Map<String, String> map = new HashMap<>();
+		map.put("id", id);
+		map.put("agencyId", agency.getAgId());
+		
+		int result = mService.deleteMemberOne(map);
+		
+		if(result > 0) {
+			System.out.println("개인 삭제 성공");
+		} else {
+			System.out.println("개인 삭제 실패");
+		}
+	}
+	
+	// 아티스트 그룹 삭제하기
+	@PostMapping(value="/deleteArtistGroup", produces="application/json; charset=utf-8")
+	public @ResponseBody void deleteArtistGroup(ArtistGroup a, HttpServletRequest request) {
+		Agency agency = (Agency)request.getSession().getAttribute("agency");
+		
+		// System.out.println(a);
+		
+		Map<String, String> map = new HashMap<>();
+		map.put("artiNameEn", a.getArtNameEn());
+		map.put("agencyId", agency.getAgId());
+
+		// 아티스트 메인 그룹 삭제하기
+		int result = mService.deleteMain(map);
+		
+		if(result > 0) {
+			System.out.println("메인에서 삭제 성공");
+		} else {
+			System.out.println("메인에서 삭제 실패");
+		}
+	}
+	
+	// 아티스트 솔로 등록하기
+	@PostMapping(value="/enrollArtistSolo", produces="application/json; charset=utf-8")
+	public @ResponseBody void enrollArtistSolo(ArtistGroup ag, Artist a, Attachment att, 
+											   Member m, HttpServletRequest request) {
+		Agency agency = (Agency)request.getSession().getAttribute("agency");
+		
+		// System.out.println("artistGroup : " + ag + ", attachment : " + att + "member : " + m);
+		
+		ag.setAgId(agency.getAgId());
+		a.setAgencyId(agency.getAgId());
+		String attClName = att.getAttClName();
+		String id = a.getArtiId();
+		
+		// 회원 등록하기
+		int result1 = mService.enrollMember(m);
+		// 메인에 아티스트 등록하기
+		int result2 = mService.enrollArtistMain(ag, id, attClName);
+		// 아티스트 솔로 등록하기
+		int result3 = mService.enrollArtistSolo(a, attClName);
+		
+		if(result1 > 0) {
+			System.out.println("회원 등록 성공");
+		} else {
+			System.out.println("회원 등록 실패");
+		}
+		
+		if(result2 > 0) {
+			System.out.println("메인에 등록 성공");
+		} else {
+			System.out.println("메인에 등록 실패");
+		}
+		
+		if(result3 > 0) {
+			System.out.println("아티스트 등록 성공");
+		} else {
+			System.out.println("아티스트 등록 실패");
+		}
 	}
 }

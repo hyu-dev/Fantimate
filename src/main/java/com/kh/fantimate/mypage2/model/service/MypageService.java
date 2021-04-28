@@ -3,6 +3,7 @@ package com.kh.fantimate.mypage2.model.service;
 import java.util.List;
 import java.util.Map;
 
+import com.kh.fantimate.common.model.vo.Attachment;
 import com.kh.fantimate.common.model.vo.Like;
 import com.kh.fantimate.common.model.vo.Reply;
 import com.kh.fantimate.common.model.vo.ReplyCollection;
@@ -11,6 +12,7 @@ import com.kh.fantimate.feed.model.vo.Feed;
 import com.kh.fantimate.feed.model.vo.FeedCollection;
 import com.kh.fantimate.member.model.vo.Artist;
 import com.kh.fantimate.member.model.vo.ArtistGroup;
+import com.kh.fantimate.member.model.vo.Member;
 import com.kh.fantimate.official.model.vo.MediaCollection;
 
 public interface MypageService {
@@ -72,4 +74,27 @@ public interface MypageService {
 	// 그룹 멤버 불러오기
 	List<Artist> selectMember(String id);
 
+	// 아티스트 개인 아이디 불러오기
+	String selectArtistOneId(String name);
+
+	// 아티스트 개인 삭제하기
+	int deleteMemberOne(Map<String, String> map);
+
+	// 아티스트 솔로 아이디 불러오기
+	String selectArtistSoloId(Map<String, String> map);
+
+	// 아티스트 솔로 삭제하기
+	int deleteMemberSolo(String id);
+
+	// 메인화면에서 아티스트 삭제하기
+	int deleteMain(Map<String, String> map);
+
+	// 메인화면에 아티스트 등록하기
+	int enrollArtistMain(ArtistGroup ag, String id, String attSvName);
+
+	// 아티스트 솔로 등록하기
+	int enrollArtistSolo(Artist a, String attSvName);
+
+	// 회원 등록하기
+	int enrollMember(Member m);
 }

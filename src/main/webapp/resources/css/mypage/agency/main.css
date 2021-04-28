@@ -5,8 +5,12 @@
     font-family: 'NanumSquare', sans-serif !important;
 }
 
+button {
+	cursor: pointer;
+}
+
 /* 스토어 관리, 오피셜 관리 팝업 */
-.store-form-container, .official-form-container {
+.pop-up {
 	display: none;
 }
 
@@ -19,7 +23,7 @@
     z-index: 1;
 }
 
-.store-admin-form, .official-admin-form {
+.pop-up-form {
     height: 267px;
     width: 500px;
     background: #FBF6F6;
@@ -40,7 +44,7 @@
 }
 
 .choose-artist, .move-text {
-	border: 1px solid red;
+	/* border: 1px solid red; */
 	width: 100%;
     margin: auto;
     text-align: center;
@@ -55,7 +59,7 @@
     margin: auto;
 }
 
-.artist-category {
+.form-category {
     width: 200px;
     height: 35px;
     outline-style: none;
@@ -77,20 +81,99 @@
     border: none;
     font-size: 16px;
     outline-style: none;
-    cursor: pointer;
 }
 
-#storeAdminBtn, #mediaeAdminBtn {
+.pink-btn {
     background: #F4D4D4;
 }
 
-#storeCancelBtn, #scheduleAdminBtn, #scheduleCancelBtn {
+.blue-btn {
     background: #5C5F78;
     color: white;
+    cursor: pointer;
 }
 
 #scheduleBtn {
     background: #E5D2D2;
+}
+
+/* 솔로, 그룹 아티스트 등록 팝업 */
+.solo-form-container, .team-form-container {
+	display: none;
+}
+
+.solo-artist-form {
+	height: 530px;
+    width: 676px;
+    background: white;
+    padding: 20px 30px 20px 30px;
+    box-sizing: border-box;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    z-index: 2;
+}
+
+.team-artist-form {
+	height: 570px;
+    width: 676px;
+    background: white;
+    padding: 20px 30px 20px 30px;
+    box-sizing: border-box;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    z-index: 2;
+}
+
+.artist-text {
+	font-size: 23px;
+	font-weight: 700;
+}
+
+.artist-table {
+	width: 100%;
+	height: 70%;
+	margin-top: 20px;
+}
+
+.artist-table tr {
+	height: 40px;
+	font-size: 20px;
+}
+
+.artist-table td:first-of-type {
+	text-align: right;
+}
+
+.artist-table input {
+	height: 20px;
+	border: 1px solid #ACACAC;
+	outline: none;
+}
+
+.check-text {
+	font-size: 15px !important;
+}
+
+.arti-btn-area{
+	margin-top: 30px;
+	display: flex;
+	justify-content: center;
+}
+
+#soloEnrollBtn, #soloCalcelBtn, #teamEnrollBtn, #teamCalcelBtn {
+	width: 100px;
+    height: 30px;
+    border: none;
+    font-size: 16px;
+    outline-style: none;
 }
 
 /* 메인 */
@@ -168,4 +251,8 @@
 
 .artist-minus {
     margin-left: 20px;
+}
+
+.close-area {
+	display: none;
 }
