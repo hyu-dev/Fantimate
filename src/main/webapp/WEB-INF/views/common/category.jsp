@@ -35,17 +35,17 @@
                 <input type="text" name="search" class="contents-search-input">
                 <img src="${ contextPath }/resources/icon/search-icon.svg" class="search-icon" alt="">
             </div>
-            <div class="category-search-result"></div>
+            <div class="category-search-result store-result"></div>
         </div>
         </c:if>
         <c:if test="${ page eq 'http://localhost:8800/fantimate/WEB-INF/views/official/media/main.jsp' }">
-        <form class="official-search contents-search" action="" method="get">
+        <div class="official-search contents-search" action="" method="get">
             <div class="search-area">
-                <input type="search" class="contents-search-input">
+                <input type="text" class="contents-search-input">
                 <img src="${ contextPath }/resources/icon/search-icon.svg" class="search-icon" alt="">
             </div>
-            <div class="category-search-result"></div>
-        </form>
+            <div class="category-search-result official-result"></div>
+        </div>
         </c:if>
      </aside>
      
@@ -77,9 +77,9 @@
      	});
 	     
 	    // 카테고리 검색창에 데이터 입력시
-		$(".contents-search-input").on('keyup', function() {
+		$(".contents-search-input").on('keyup', function(e) {
 			var search = $(this).val();
-			var div = $(".category-search-result");
+			var div = $(this).parent().next(".category-search-result");
 			console.log(search)
 	        // 스토어에서 검색한 것이라면
 	        if($('.category a').eq(3).css('color') == 'rgb(92, 95, 120)') {
@@ -90,13 +90,13 @@
 					success : function(data) {
 						div.html("");
 						if(data.list.length > 0) {
-							$('.category-search-result').css('display', 'block');
+							div.css('display', 'block');
 							for(var i in data.list) {
 								var p = $("<p>").text(data.list[i].store.pname);
 								div.append(p);
 							}
 						} else {
-							$('.category-search-result').css('display', 'block');
+							div.css('display', 'block');
 							var p = $("<p>").text("검색된 데이터가 없습니다");
 							div.append(p);
 						}
@@ -110,22 +110,24 @@
 		    	console.log("오피셜 등록")
 		    	$.ajax({
 		    		// 컨트롤러랑 경로만 맞춰주시면 됩니다
-		    		url : "${ pageContext.request.contextPath }/official/search",
-		    		data : {
-		    			search : search,
-		    		},
+		    		url : "${ pageContext.request.contextPath }/official/search?search=" + search,
+		    		data : "get",
 					dateType : "json",
 					success : function(data) {
 						console.log(data)
 						div.html("");
 						if(data.length > 0) {
-							$('.category-search-result').css('display', 'block');
-							for(var i in data) {
-								var p = $("<p>").text(data[i].official.mediaTtl);
-								div.append(p);
+							if(search == '') {
+								div.css('display', 'none');
+							} else {
+								div.css('display', 'block');
+								for(var i in data) {
+									var p = $("<p>").text(data[i].official.mediaTtl);
+									div.append(p);
+								}
 							}
 						} else {
-							$('.category-search-result').css('display', 'block');
+							div.css('display', 'block');
 							var p = $("<p>").text("검색된 데이터가 없습니다");
 							div.append(p);
 						}
@@ -137,7 +139,7 @@
 		    }
 	        // 인풋값이 비어있다면
 	        if(search == '') {
-	        	$('.category-search-result').css('display', 'none');
+	        	div.css('display', 'none');
 	        }
 		})
 		

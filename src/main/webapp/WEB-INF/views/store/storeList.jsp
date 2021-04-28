@@ -250,7 +250,7 @@
 			// ajax 호출
 			callAjax(clickMe, url);
 		    $(".contents-search-input").val("").focus();
-	        $('.category-search-result').css('display', 'none');
+	        $('.category-search-result.store-result').css('display', 'none');
 		})
 		
 		// 반복하는 AJAX 공통 함수로 구분

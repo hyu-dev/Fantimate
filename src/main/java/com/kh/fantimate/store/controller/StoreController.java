@@ -232,6 +232,7 @@ public class StoreController {
 		// 유저별 찜 리스트 호출
 		String userId = ((Member)request.getSession().getAttribute("loginUser")).getId();
 		List<Wish> wishList = sService.selectWishList(userId);
+		System.out.println(list);
 		Map<String, Object> data = new HashMap<>();
 		if(!list.isEmpty() || list.size() > 0)  {
 			// 세션에 담음 (상품 검색시 필요)

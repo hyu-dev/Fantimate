@@ -117,7 +117,6 @@ public class OfficialController {
 	public @ResponseBody List<MediaCollection> searchMediaList(@RequestParam(value="search") String search,
 											     HttpServletRequest request) {
 		
-		System.out.println("미디어 검색 : " + search);
 		// 세션에 담긴 카테고리명을 담음
 		String artiName = (String)request.getSession().getAttribute("artiName");
 		
@@ -128,7 +127,6 @@ public class OfficialController {
 		
 		// 해당 검색어가 포함된 미디어 리스트 호출
 		List<MediaCollection> list = (ArrayList<MediaCollection>)oService.searchMediaList(map);
-		System.out.println(list);
 		if(list == null || list.size() < 1) list = new ArrayList<>();
 		return list;
 	}
