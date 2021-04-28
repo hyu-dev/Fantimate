@@ -3,6 +3,7 @@ package com.kh.fantimate.mypage2.model.dao;
 import java.util.List;
 import java.util.Map;
 
+import com.kh.fantimate.common.model.vo.Attachment;
 import com.kh.fantimate.common.model.vo.Like;
 import com.kh.fantimate.common.model.vo.Reply;
 import com.kh.fantimate.common.model.vo.ReplyCollection;
@@ -11,6 +12,7 @@ import com.kh.fantimate.feed.model.vo.Feed;
 import com.kh.fantimate.feed.model.vo.FeedCollection;
 import com.kh.fantimate.member.model.vo.Artist;
 import com.kh.fantimate.member.model.vo.ArtistGroup;
+import com.kh.fantimate.member.model.vo.Member;
 import com.kh.fantimate.official.model.vo.MediaCollection;
 
 public interface MypageDao {
@@ -78,5 +80,42 @@ public interface MypageDao {
 	// 그룹 멤버 불러오기
 	List<Artist> selectMember(String id);
 
+	// 아티스트 개인 아이디 불러오기
+	String selectArtistOneId(String name);
+	
+	// 아티스트 개인 사진 삭제하기
+	void deleteArtistOnePic(String id);
+	
+	// 아티스트 개인 삭제하기
+	void deleteArtistOne(Map<String, String> map);
+	
+	// 전체 회원에서 삭제하기
+	int deleteMemberOne(String id);
 
+	// 아티스트 솔로 아이디 불러오기
+	String selectArtistSoloId(Map<String, String> map);
+
+	// 아티스트 솔로 삭제하기
+	void deleteArtistSolo(String id);
+	
+	// 메인화면에서 아티스트 사진 삭제하기
+	void deleteMainPic(String artiNameEn);
+	
+	// 메인화면에서 아티스트 삭제하기
+	int deleteMain(Map<String, String> map);
+
+	// 회원 등록하기
+	int enrollMember(Member m);
+	
+	// 메인화면에서 아티스트 등록하기
+	int enrollMain(ArtistGroup ag);
+	
+	// 메인화면에서 아티스트 사진 등록하기
+	void enrollMainPic(Map<String, String> map);
+
+	// 아티스트 솔로 등록하기
+	int enrollArtistSolo(Artist a);
+
+	// 아티스트 솔로 사진 등록하기
+	void enrollArtistOnePic(Map<String, String> map);
 }

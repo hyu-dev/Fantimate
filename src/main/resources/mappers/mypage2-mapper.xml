@@ -172,6 +172,13 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<result property="agId" column="AG_ID"/>
 	</resultMap>
 	
+	<!-- 아티스트 메인 -->
+	<resultMap type="ArtistGroup" id="artistGroupResultSet">
+		<id property="artNameEn" column="ARTI_NAME_EN"/>
+		<result property="artNameKr" column="ARTI_NAME_KR"/>
+		<result property="agId" column="AG_ID"/>
+	</resultMap>
+	
 	<!-- 피드 리스트 가져오기 -->
 	<select id="selectFeedList" parameterType="string" resultMap="feedResultSet">
 	  SELECT
@@ -709,4 +716,121 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	   AND 
 	       IS_TEAM = 'Y'
 	</select>
+	
+	<!-- 아티스트 개인 아이디 불러오기 -->
+	<select id="selectArtistOneId" parameterType="string" resultType="string">
+	SELECT
+	       ID
+	  FROM 
+	       COMMON
+	 WHERE
+	       NAME = #{name}
+	</select>
+	
+	<!-- 아티스트 개인 사진 삭제하기 -->
+	<delete id="deleteArtistOnePic" parameterType="string">
+	DELETE
+	  FROM 
+	       ART_PIC
+	 WHERE
+	       ARTI_ID = #{id}
+	</delete>
+	
+	<!-- 아티스트 개인 삭제하기 -->
+	<delete id="deleteArtistOne" parameterType="hashMap">
+	DELETE
+	  FROM 
+	       ART_PERSON
+	 WHERE
+	       ARTI_ID = #{id}
+	   AND
+	       ID= #{agencyId}
+	   AND
+	       IS_TEAM = 'Y'
+	</delete>
+	
+	<!-- 전체 회원에서 삭제하기 -->
+	<delete id="deleteMemberOne" parameterType="string">
+	UPDATE
+	       COMMON
+	   SET
+	       STATUS = 'N'
+	 WHERE
+	 	   ID = #{id}
+	   AND
+	       CLASSIFY_MEM = 2
+	</delete>
+	
+	<!-- 아티스트 솔로 아이디 불러오기 -->
+	<select id="selectArtistSoloId" parameterType="hashMap" resultType="string">
+	SELECT
+	       ARTI_ID
+	  FROM 
+	       ART_PERSON
+	 WHERE
+	       ARTI_NAME_EN = #{artiNameEn}
+	   AND
+	       ID = #{agencyId}
+	   AND
+	       IS_TEAM = 'N'
+	</select>
+	
+	<!-- 아티스트 솔로 삭제하기 -->
+	<delete id="deleteArtistSolo" parameterType="string">
+	DELETE
+	  FROM 
+	       ART_PERSON
+	 WHERE
+	       ARTI_ID = #{id}
+	</delete>
+	
+	<!-- 메인화면에서 아티스트 사진 삭제하기 -->
+	<delete id="deleteSoloMainPic" parameterType="string">
+	DELETE
+	  FROM 
+	       ART_MAIN_PIC
+	 WHERE
+	       ARTI_NAME_EN = #{artiNameEn}
+	</delete>
+	
+	<!-- 메인화면에서 아티스트 삭제하기 -->
+	<delete id="deleteSoloMain" parameterType="string">
+	DELETE
+	  FROM 
+	       ART_MAIN
+	 WHERE
+	       ARTI_NAME_EN = #{artiNameEn}
+	   AND
+	   	   AG_ID = #{agencyId}
+	</delete>
+	
+	<!-- 회원 등록하기 -->
+	<insert id="" parameterType="">
+	
+	</insert>
+	
+	<!-- 회원 등록하기 -->
+	<insert id="enrollMember" parameterType="Member">
+	
+	</insert>
+	
+	<!-- 메인화면에 아티스트 등록하기 -->
+	<insert id="enrollMain" parameterType="ArtistGroup">
+	
+	</insert>
+	
+	<!-- 메인화면에 아티스트 사진 등록하기 -->
+	<insert id="enrollMainPic" parameterType="hashMap">
+	
+	</insert>
+	
+	<!-- 아티스트 솔로 등록하기 -->
+	<insert id="enrollArtistSolo" parameterType="Artist">
+	
+	</insert>
+	
+	<!-- 아티스트 솔로 사진 등록하기 -->
+	<insert id="enrollArtistOnePic" parameterType="hashMap">
+	
+	</insert>
 </mapper>

@@ -1,11 +1,13 @@
 package com.kh.fantimate.mypage2.model.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kh.fantimate.common.model.vo.Attachment;
 import com.kh.fantimate.common.model.vo.Like;
 import com.kh.fantimate.common.model.vo.Reply;
 import com.kh.fantimate.common.model.vo.ReplyCollection;
@@ -14,6 +16,7 @@ import com.kh.fantimate.feed.model.vo.Feed;
 import com.kh.fantimate.feed.model.vo.FeedCollection;
 import com.kh.fantimate.member.model.vo.Artist;
 import com.kh.fantimate.member.model.vo.ArtistGroup;
+import com.kh.fantimate.member.model.vo.Member;
 import com.kh.fantimate.mypage2.model.dao.MypageDao;
 import com.kh.fantimate.official.model.vo.MediaCollection;
 
@@ -137,6 +140,67 @@ public class MypageServiceImpl implements MypageService{
 	public List<Artist> selectMember(String id) {
 		return mDao.selectMember(id);
 	}
+	
+	// 아티스트 개인 아이디 불러오기
+	@Override
+	public String selectArtistOneId(String name) {
+		return mDao.selectArtistOneId(name);
+	}
+	
+	// 아티스트 개인 삭제하기
+	@Override
+	public int deleteMemberOne(Map<String, String> map) {
+		mDao.deleteArtistOnePic(map.get("id"));
+		mDao.deleteArtistOne(map);
+		return mDao.deleteMemberOne(map.get("id"));
+	}
 
+	// 아티스트 솔로 아이디 불러오기
+	@Override
+	public String selectArtistSoloId(Map<String, String> map) {
+		return mDao.selectArtistSoloId(map);
+	}
 
+	// 아티스트 솔로 삭제하기
+	@Override
+	public int deleteMemberSolo(String id) {
+		mDao.deleteArtistOnePic(id);
+		mDao.deleteArtistSolo(id);
+		return mDao.deleteMemberOne(id);
+	}
+
+	// 메인에서 아티스트 삭제하기
+	@Override
+	public int deleteMain(Map<String, String> map) {
+		mDao.deleteMainPic(map.get("artiNameEn"));
+		return mDao.deleteMain(map);
+	}
+	
+	// 회원 등록하기
+	@Override
+	public int enrollMember(Member m) {
+		return mDao.enrollMember(m);
+	}
+
+	// 메인화면에 아티스트 등록하기
+	@Override
+	public int enrollArtistMain(ArtistGroup ag, String id, String attSvName) {
+		Map<String, String> map = new HashMap<>();
+		map.put("id", id);
+		map.put("attSvName", attSvName);
+		
+		mDao.enrollMainPic(map);
+		return mDao.enrollMain(ag);
+	}
+
+	// 아티스트 솔로 등록하기
+	@Override
+	public int enrollArtistSolo(Artist a, String attSvName) {
+		Map<String, String> map = new HashMap<>();
+		map.put("id", a.getArtiId());
+		map.put("attSvName", attSvName);
+		
+		mDao.enrollArtistOnePic(map);
+		return mDao.enrollArtistSolo(a);
+	}
 }
