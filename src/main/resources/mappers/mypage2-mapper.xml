@@ -808,9 +808,9 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	</delete>
 	
 	<!-- 회원 등록하기 -->
-	<insert id="" parameterType="">
+	<!-- <insert id="" parameterType="">
 	
-	</insert>
+	</insert> -->
 	
 	<!-- 회원 등록하기 -->
 	<insert id="enrollMember" parameterType="Member">

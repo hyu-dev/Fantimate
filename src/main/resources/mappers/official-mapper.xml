@@ -309,10 +309,10 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	    OR
 	       MEDIA_CTT LIKE '%' || #{search} || '%'
 	    OR
-	       CATE_NAME = #{search}
+	       CATE_NAME LIKE '%' || #{search} || '%'
 	       )
 	   AND
-           ARTI_NAME_EN = #{artiNameEn}
+           ARTI_NAME_EN = #{artiName}
        AND
 	       MEDIA_STATUS = 'Y'
 	   AND
@@ -417,36 +417,19 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	
 	<!-- 클릭한 미디어 조회수 추가 -->
 	<insert id="insertHitCount" parameterType="_int">
-<!--      MERGE 
-      INTO 
-           MD_COUNT
-     USING 
-           DUAL
-        ON 
-           (MEDIA_NUM = #{mediaNum})
-      WHEN 
-           MATCHED THEN
-	UPDATE 
-	   SET
-	   	   COUNT = COUNT + 1
-      WHEN 
-           NOT MATCHED THEN
-    INSERT 
-           (COUNT, COUNT_DATE, MEDIA_NUM)
-    VALUES 
-           (DEFAULT, SYSDATE, #{mediaNum}) -->
-	INSERT
-	      (
-	       COUNT
-	     , COUNT_DATE
-	     , MEDIA_NUM
-	      )
-    VALUES
-    	  (
-    	   DEFAULT
-    	 , SYSDATE
-    	 , #{mediaNum}
-    	  )
+		INSERT
+		INTO MD_COUNT
+	    (
+		     COUNT
+		   , COUNT_DATE
+		   , MEDIA_NUM
+	    )
+	    VALUES
+	    (
+		     DEFAULT
+		   , SYSDATE
+		   , #{mediaNum}
+	    )
 	</insert>
 	
 	<update id="updateMediaCount" parameterType="_int">
