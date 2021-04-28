@@ -466,15 +466,16 @@ public class FanStoreController {
 							@RequestParam(value="mainPhoto") MultipartFile main,
 							@RequestParam(value="mainSvName") String mainSvName,
 							@RequestParam(value="mainClName") String mainClName,
-							@RequestParam(value="subPhotos") MultipartFile[] subs,
-							@RequestParam(value="subSvName") String[] subSvName,
-							@RequestParam(value="subSvName") String[] subClName)
+							@RequestParam(value="subPhotos") MultipartFile[] subs)
 							throws IOException{
 		
-		System.out.println(fstore);
-
-		for(int i = 0; i < tagName.length; i++) {
-			System.out.println(tagName[i]);
+		String[] subSvName = null;
+		String[] subClName = null;
+		if(request.getParameterValues("subSvName") != null || request.getParameterValues("subClName") != null) {
+			subSvName = request.getParameterValues("subSvName");
+			subClName = request.getParameterValues("subClName");
+			System.out.println(subSvName.length);
+			System.out.println(subClName.length);
 		}
 		List<Attachment> attList = new ArrayList<>();
 		Attachment att = null;
