@@ -158,7 +158,6 @@
 						
 						var upper = $("<div class='category-upper'>");
 						var span = $("<span class='category-title nanumsquare'>").text("검색 키워드 : " + search)
-						var 
 						
 					}
 				}
