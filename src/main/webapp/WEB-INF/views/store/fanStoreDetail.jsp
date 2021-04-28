@@ -476,8 +476,6 @@
 			var refRid = parseInt($("#rid").val());
 			var fanStoreWriter = "${ fanStore.get(0).fstore.id }";
 			var firstWriter = $("#rcWriter").val();
-			console.log(firstWriter);
-			console.log(!refRid)
 	 		// 댓글 ajax에 보낼 데이터 변수에 담기
 	 		var url = "${ pageContext.request.contextPath }/fanStore/insertReply";
 	 		var data = {};
