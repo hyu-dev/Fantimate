@@ -861,7 +861,8 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
              WHERE  
                     c.ID = #{serchCondition}
                AND  (IS_MAIN_ATT != 'N' OR c.P_CODE IS NULL)
-          ORDER BY  CART_CODE
+          ORDER BY  BOUGHT_DATE DESC
+          		  , CART_CODE
 	</select>	
 	
 <!-- 결제내역 업데이트 --> 

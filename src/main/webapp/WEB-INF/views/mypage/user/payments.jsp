@@ -55,7 +55,7 @@
                     	<c:forEach var="p" items="${ list }">
                     	<tr>
                         	<c:set var="date" value="<%= new Date() %>"/>
-                    		<td><fmt:formatDate type="date" value="${ p.payment.payDate }"/></td><!-- 주문일자 -->
+                    		<td><fmt:formatDate type="date" value="${ p.cart.boughtDate }"/></td><!-- 주문일자 -->
                     		
                     		<c:choose>
                     			<c:when test="${ p.cart.pcode eq 0 }">
