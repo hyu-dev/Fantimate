@@ -217,6 +217,16 @@ public class Mypage1ServiceImpl implements Mypage1Service{
 		return mDao.userSubsUpdate(subs);
 	}
 
+	@Override
+	public List<Report> requestReportFeedList(ReportPageInfo pi) {
+		return mDao.requestReportFeedList(pi);
+	}
+
+	@Override
+	public List<Report> requestReportFeedRList(ReportPageInfo pi) {
+		return mDao.requestReportFeedRList(pi);
+	}
+
 
 
 }

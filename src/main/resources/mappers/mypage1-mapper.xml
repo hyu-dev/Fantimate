@@ -138,7 +138,72 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 			<collection property="report" resultMap="rptMediaR"/>
 		</resultMap>
 	
+<!-- 피드 신고 -->
+		<resultMap type="BoardList" id="BoardListRSet">
+			<collection property="board" resultMap="BoardRSet"/>
+			<collection property="report" resultMap="BoardRptRSet"/>
+		</resultMap>		
+		<!-- BOARD -->
+		<resultMap type="Board" id="BoardRSet">
+			<id property="bid" column="BID"/>
+			<result property="btype" column="BTYPE"/>
+			<result property="bcontent" column="BCONTENT"/>
+			<result property="bcreate" column="BCREATE"/>
+			<result property="bmodify" column="BMODIFY"/>
+			<result property="blike" column="BLIKE"/>
+			<result property="bStatus" column="BSTATUS"/>
+			<result property="id" column="reportedid"/>	<!-- 신고당한회원 -->
+			<result property="artinameEn" column="ARTI_NAME_EN"/>
+		</resultMap>
+		
+		<!-- B_RPT -->
+<!-- 		<resultMap type="BoardRpt" id="BoardRptRSet"> -->
+<!-- 			<id property="brpid" column="BRPID"/> -->
+<!-- 			<result property="brptype" column="BRPTYPE"/> -->
+<!-- 			<result property="brpcontent" column="BRPCONTENT"/> -->
+<!-- 			<result property="brpcreate" column="BRPCREATE"/> -->
+<!-- 			<result property="brpstatus" column="BRP_STATUS"/> -->
+<!-- 			<result property="id" column="reportid"/> 신고한회원 -->
+<!-- 			<result property="bid" column="BID"/> -->
+<!-- 		</resultMap> -->
+		<resultMap type="Report" id="BoardRptRSet">
+			<id property="rptCode" column="BRPID"/>
+			<result property="rptType" column="BRPTYPE"/>
+			<result property="rptReason" column="BRPCONTENT"/>
+			<result property="rptDate" column="BRPCREATE"/>
+			<result property="isReported" column="BRP_STATUS"/>
+			<result property="rptId" column="reportid"/>	<!-- 신고한회원 -->
+			<result property="refId" column="BID"/>
+		</resultMap>
 
+<!-- 피드 댓글 신고 BoardRListRSet -->
+		<resultMap type="BoardRList" id="BoardRListRSet">
+			<collection property="boardr" resultMap="BoardrRSet"/>
+			<collection property="report" resultMap="BoardrRptRSet"/>
+		</resultMap>	
+		
+		<!-- B_REPLY -->
+		<resultMap type="BoardR" id="BoardrRSet">
+			<id property="brid" column="BRID"/>
+			<result property="brcontent" column="BRCONTENT"/>
+			<result property="brcreate" column="BRCREATE"/>
+			<result property="br_status" column="BR_STATUS"/>
+			<result property="bid" column="BID"/>
+			<result property="id" column="reportedid"/>
+			<result property="brrid" column="BRRID"/>
+			<result property="brlike_count" column="BRLIKE_COUNT"/>	
+			<result property="brrpt_count" column="BRRPT_COUNT"/>
+		</resultMap>
+		<!-- B_RE_RPT -->
+		<resultMap type="Report" id="BoardrRptRSet">
+			<id property="rptCode" column="BRRPID"/>
+			<result property="rptType" column="BRRPTYPE"/>
+			<result property="rptReason" column="BRRPCONTENT"/>
+			<result property="rptDate" column="BRRPCREATE"/>
+			<result property="isReported" column="BRRP_STATUS"/>
+			<result property="rptId" column="reportid"/>	
+			<result property="refId" column="BRID"/>
+		</resultMap>		
 <!-- 마이페이지 User -->
 <!-- 친구 -->
 		<resultMap type="Friend" id="FriendRset">
@@ -622,6 +687,64 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	  ORDER BY 	RPT_DATE
 	</select>
 	
+	<!-- 피드 신고 -->
+	<select id="requestReportFeedList" resultMap="BoardListRSet">
+	 	SELECT
+                br.BRPID
+              , br.BRPTYPE
+              , br.BRPCONTENT
+              , br.BRPCREATE
+              , br.BRP_STATUS
+              , br.BID 
+              , br.ID as reportid
+                
+              , b.BTYPE
+              , b.BCONTENT
+              , b.BCREATE
+              , b.BMODIFY
+              , b.BLIKE
+              , b.BSTATUS 
+              , b.ID as reportedid 
+              , b.ARTI_NAME_EN
+              
+         FROM
+                B_RPT br
+    LEFT JOIN  
+                BOARD b
+           ON   
+                br.BID = b.BID
+        WHERE   
+                BRP_STATUS = 'N'
+				
+	</select>
+	
+	<!-- 피드 댓글 신고 -->
+	<select id="requestReportFeedRList" resultMap="BoardRListRSet">
+	 	     SELECT
+                    BRRPID
+                  , BRRPTYPE
+                  , BRRPCONTENT
+                  , BRRPCREATE
+                  , BRRP_STATUS
+                  , rr.BRID 
+                  , rr.ID as reportid      
+                    
+                  , r.BRID
+                  , BRCONTENT
+                  , BRCREATE
+                  , BR_STATUS
+                  , BID
+                  , r.ID as reportedid
+                  , BRLIKE_COUNT
+                  , BRRPT_COUNT
+              FROM                    
+                    B_RE_RPT rr
+              JOIN
+                    B_REPLY r
+                ON  rr.BRID = r.BRID
+             WHERE  
+             		BRRP_STATUS = 'N'
+	</select>
 	
 	
 	
@@ -1055,6 +1178,33 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
                      		${isReported}
                      WHERE
                             RPT_NUM = #{rptCode}
+				)
+		   SET
+		   		IS_REPORTED = #{rptId}
+					</when>
+					<when test="isReported == 'B_RPT'">
+					 SELECT 
+                            BRPID
+                          , BRP_STATUS
+                      FROM 
+                     		${isReported}
+                     WHERE
+                            BRPID = #{rptCode}
+                 )
+		   SET
+		   		BRP_STATUS = #{rptId}
+					</when>
+					<when test="isReported == 'B_RE_RPT'">
+					 SELECT 
+                            BRRPID
+                          , BRRP_STATUS
+                      FROM 
+                     		${isReported}
+                     WHERE
+                            BRRPID = #{rptCode}
+                 )
+		   SET
+		   		BRRP_STATUS = #{rptId}
 					</when>
 					<otherwise>
 					SELECT 
@@ -1064,11 +1214,12 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
                      		${isReported}
                      WHERE
                             RPT_CODE = #{rptCode}
+                 )
+		   SET
+		   		IS_REPORTED = #{rptId}
 					</otherwise>
 				</choose>
-                    )
-		   SET
-		   		IS_REPORTED = 'Y'
+
 	</update>
 <!-- N으로 바꾸기 -->	
 	<update id="updateUserReportN" parameterType="ReportAdmin">

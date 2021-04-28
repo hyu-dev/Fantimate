@@ -41,6 +41,10 @@
 		<typeAlias type="com.kh.fantimate.mypage1.model.vo.AttSubscribe" alias="AttSubscribe"/>
 		<typeAlias type="com.kh.fantimate.mypage1.model.vo.ArtiMain" alias="ArtiMain"/>
 		<typeAlias type="com.kh.fantimate.mypage1.model.vo.SubscribeUser" alias="SubscribeUser"/>
+		<typeAlias type="com.kh.fantimate.mypage1.model.vo.Board" alias="Board"/>
+		<typeAlias type="com.kh.fantimate.mypage1.model.vo.BoardR" alias="BoardR"/>
+		<typeAlias type="com.kh.fantimate.mypage1.model.vo.BoardList" alias="BoardList"/>
+		<typeAlias type="com.kh.fantimate.mypage1.model.vo.BoardRList" alias="BoardRList"/>
 		<typeAlias type="com.kh.fantimate.common.model.vo.Alarm" alias="Alarm"/>
 		<typeAlias type="com.kh.fantimate.common.model.vo.BookMark" alias="BookMark"/>
 		<typeAlias type="com.kh.fantimate.common.model.vo.Message" alias="Message"/>

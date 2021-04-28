@@ -155,16 +155,16 @@ public class MypageAdminController {
 			// 신고리스트 개수(신고 처리된 개수만해야하나)
 //			int listCount = mService.reportListCountfanstoreR();
 			int listCount = RListCountMethod(4);
-			System.out.println("피드/아티스트 신고 개수 : " + listCount);
+			System.out.println("피드 신고 개수 : " + listCount);
 			
 			// 요청 페이지에 맞는 리스트 조회
 			ReportPageInfo pi = pagingReport(currentPage, listCount);
 			List<Report> list = mService.requestReportFeedList(pi);	// 아직
-			System.out.println("읽어온 피드/아티스트 신고 : " + list);
+			System.out.println("읽어온 피드 신고 : " + list);
 			if(list != null) {
 				mv.addObject("list", list);
 				mv.addObject("pi", pi);
-				mv.setViewName("mypage/admin/reportListFanstoreReply");
+				mv.setViewName("mypage/admin/reportListBoard");
 			}else{
 				mv.addObject("msg", "조회에 실패하였습니다.");
 				mv.setViewName("mypage/admin/errorpage");
@@ -188,7 +188,7 @@ public class MypageAdminController {
 			if(list != null) {
 				mv.addObject("list", list);
 				mv.addObject("pi", pi);
-				mv.setViewName("mypage/admin/reportListFanstoreReply");
+				mv.setViewName("mypage/admin/reportListBoardR");
 			}else{
 				mv.addObject("msg", "조회에 실패하였습니다.");
 				mv.setViewName("mypage/admin/errorpage");
@@ -212,6 +212,11 @@ public class MypageAdminController {
 			
 			int rptDate = Integer.parseInt(reportDay);
 			System.out.println("rptDate : " + rptDate);
+			
+			// 0이 들어왔다면 반려처리 ( C처리)
+			if(rptDate == 0)
+			report.setRptId("C");
+			else report.setRptId("Y");
 			
 			// Y로 바꿔주기 (처리완료로 상태변경) --> 쪽지/팬스토어/팬스토어댓글
 			int colupdate = mService.updateRpt(report);
@@ -362,7 +367,12 @@ public class MypageAdminController {
 			 	5 : 피드, 아티스트 댓글
 			 	6 : 회원관리(COMMON)
 			 */ 
-			String[] Reportcategory = { "RPT_MESSAGE", "RPT_FSTORE", "RPT_FREPLY", "MD_CMT_RPT",  "B_RPT", "B_RE_RPT"
+			String[] Reportcategory = { "RPT_MESSAGE",
+										"RPT_FSTORE", 
+										"RPT_FREPLY", 
+										"MD_CMT_RPT",  
+										"B_RPT", 
+										"B_RE_RPT"
 										, "COMMON" };
 			System.out.println("RListName : " + Reportcategory[category]);
 			

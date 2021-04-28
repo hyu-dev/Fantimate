@@ -289,6 +289,20 @@ public class Mypage1DaoImpl implements Mypage1Dao{
 		return sqlSession.update("mypage1Mapper.userSubsUpdate", subs);
 	}
 
+	@Override
+	public List<Report> requestReportFeedList(ReportPageInfo pi) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return sqlSession.selectList("mypage1Mapper.requestReportFeedList", null, rowBounds);
+	}
+
+	@Override
+	public List<Report> requestReportFeedRList(ReportPageInfo pi) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return sqlSession.selectList("mypage1Mapper.requestReportFeedRList", null, rowBounds);
+	}
+
 
 	
 	
