@@ -27,7 +27,7 @@
 		<c:remove var="msg"/>
 	</c:if>
 	<c:if test="${ !empty loginUser }">
-	<c:set var="flag" value="yes" scope="session"/>
+	<c:set var="fsFlag" value="yes" scope="session"/>
 	<jsp:include page="fanStoreInsert.jsp"/>
 	<jsp:include page="../common/report.jsp"/>
 	<jsp:include page="../common/messageSend.jsp"/>

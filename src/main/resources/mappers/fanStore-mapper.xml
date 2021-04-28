@@ -896,9 +896,12 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		  , #{tc}
 		)
 	</insert>
-	<select id="checkDuplicationUpdate" parameterType="string" resultMap="hashResultSet">
-		SELECT TAG_CODE, TAG_NAME
-		FROM TAG
+	<select id="checkDuplicationUpdate" parameterType="list" resultMap="hashResultSet">
+		SELECT 
+				TAG_CODE
+			  , TAG_NAME
+		FROM 
+				TAG
 		WHERE TAG_NAME IN
 		<foreach collection="list" item="i" open="(" close=")" separator=",">
 		#{i}
@@ -930,7 +933,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		 WHERE 
 		 		TAG_NAME IN
 		 		<foreach collection="isDup" item="i" open="(" close=")" separator=",">
-				#{i}
+				#{i.tagName}
 				</foreach>
 		   AND F_CODE = #{fcode}
 	</select>
@@ -989,4 +992,17 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		 		ATT_CODE = #{i.attCode}
 		</foreach>
 	</update>
+	<insert id="insertUpdateEnrollTag" parameterType="map">
+		INSERT
+		INTO ENROLL_TAG
+		(
+			F_CODE
+		  , TAG_CODE
+		)
+		VALUES
+		(
+			#{fcode}
+		  , SEQ_TAG.CURRVAL
+		)
+	</insert>
 </mapper>

@@ -18,11 +18,16 @@
 <body>
 	<section class="insert-section">
         <form class="main-template" action="" method="POST" enctype="multipart/form-data">
-        	<c:if test="${ flag eq 'yes' }">
-        		<input type="hidden" name="fcode" id="pcode" value="${ sc.get(0).store.pcode }">
+        	<c:if test="${ fsFlag eq 'yes' }">
+        		<input type="hidden" name="fcode" id="fcode" value="${ fanStore.get(0).fstore.fcode }">
         	</c:if>
         	<input type="hidden" name="id" id="loginUser" value="${ loginUser.id }">
-            <h3 class="store-write-title">팬스토어등록</h3>
+        	<h3 class="store-write-title">
+        	<c:choose>
+        		<c:when test="${ fsFlag eq 'yes' }">팬스토어수정</c:when>
+        		<c:otherwise>팬스토어등록</c:otherwise>
+        	</c:choose>
+            </h3>
             <table class="store-write">
                 <tbody>
                     <tr>
@@ -30,7 +35,14 @@
                         <td>
                             <div class="artist-search">
                                 <img src="${ contextPath }/resources/icon/search-icon.svg" alt="" width="30" height="30">
-                                <input type="text" name="artiNameEn" class="input-data artist-source" placeholder="아티스트 검색">
+                                <c:choose>
+	                                <c:when test="${ fsFlag eq 'yes' }">
+		                                <input type="text" name="artiNameEn" class="input-data artist-source" placeholder="아티스트 검색" value="${ fanStore.get(0).fstore.artiNameEn }">
+	                                </c:when>
+	                                <c:otherwise>
+		                                <input type="text" name="artiNameEn" class="input-data artist-source" placeholder="아티스트 검색">
+		                            </c:otherwise>
+                                </c:choose>
                                 <div class="artist-search-area"></div>
                             </div>
                         </td>
@@ -38,23 +50,48 @@
                     <tr>
                         <th>상품명 *</th>
                         <td>
-                            <input type="text" name="fname" placeholder="30자 이내 입력" class="input-data" maxlength="30">
+                        	<c:choose>
+                               <c:when test="${ fsFlag eq 'yes' }">
+	                            <input type="text" name="fname" placeholder="30자 이내 입력" class="input-data" maxlength="30" value="${ fanStore.get(0).fstore.fname }">
+                               </c:when>
+                               <c:otherwise>
+	                            <input type="text" name="fname" placeholder="30자 이내 입력" class="input-data" maxlength="30">
+                           	   </c:otherwise>
+                            </c:choose>
                         </td>
                     </tr>
                     <tr>
                         <th>제안가격 *</th>
                         <td>
-                            <input type="number" name="offerPrice" min="100" step="100" class="input-data">
+                            <c:choose>
+                               <c:when test="${ fsFlag eq 'yes' }">
+	                            <input type="number" name="offerPrice" min="100" step="100" class="input-data" value="${ fanStore.get(0).fstore.offerPrice }">
+                               </c:when>
+                               <c:otherwise>
+	                            <input type="number" name="offerPrice" min="100" step="100" class="input-data">
+                           	   </c:otherwise>
+                            </c:choose>
                         </td>
                     </tr>
                     <tr>
                         <th>해시태그 *</th>
                         <td>
                             <div class="artist-search tag-search">
-                                <img src="${ contextPath }/resources/icon/hash-gray.png" alt="" width="30" height="30">
-                                <input type="text" class="input-data tag-source">
-                                <div class="search-area"></div>
-                                <ul class="tagArea"></ul>
+		                        <img src="${ contextPath }/resources/icon/hash-gray.png" alt="" width="30" height="30">
+		                        <input type="text" class="input-data tag-source">
+		                        <div class="search-area"></div>
+                                <ul class="tagArea">
+                            	<c:choose>
+	                                <c:when test="${ fsFlag eq 'yes' }">
+                                		<c:set var="atcode" value="${ fanStore.get(0).att.attCode }"/>
+			                        	<c:forEach var="tagList" items="${ fanStore }" varStatus="status">
+			                        	<c:if test="${ atcode eq tagList.att.attCode }">
+			                            <li>${ tagList.hash.tagName }<input type="hidden" name="tagName" class="tag" id="tag${ status.index + 1 }" value="${ tagList.hash.tagName }"><button type="button">❌</button></li>
+			                            </c:if>
+			                            </c:forEach>
+	                                </c:when>
+                            	</c:choose>
+                               	</ul>
                             </div>
                         </td>
                     </tr>
@@ -69,10 +106,10 @@
                         <th>선호연락방식</th>
                         <td>
                             <select name="contact" id="contactCategory" class="select">
-                                <option selected>연락방식 선택</option>
-                                <option value="쪽지">쪽지</option>
-                                <option value="댓글">댓글</option>
-                                <option value="상품소개글">상품소개글로 안내</option>
+                                <option <c:if test="${ fsFlag eq 'yes' && fanStore.get(0).fstore.contact eq null }">selected</c:if>>연락방식 선택</option>
+                                <option value="쪽지" <c:if test="${ fsFlag eq 'yes' && fanStore.get(0).fstore.contact eq '쪽지' }">selected</c:if>>쪽지</option>
+                                <option value="댓글" <c:if test="${ fsFlag eq 'yes' && fanStore.get(0).fstore.contact eq '댓글' }">selected</c:if>>댓글</option>
+                                <option value="상품소개글" <c:if test="${ fsFlag eq 'yes' && fanStore.get(0).fstore.contact eq '상품소개글' }">selected</c:if>>상품소개글로 안내</option>
                             </select>
                         </td>
                     </tr>
@@ -80,31 +117,60 @@
                         <th>선호거래방식</th>
                         <td>
                             <select name="deal" id="transferCategory" class="select">
-                                <option selected>거래방식 선택</option>
-                                <option value="직거래">직거래</option>
-                                <option value="택배">택배</option>
-                                <option value="상품소개글">상품소개글로 안내</option>
+                                <option <c:if test="${ fsFlag eq 'yes' && fanStore.get(0).fstore.deal eq null }">selected</c:if>>거래방식 선택</option>
+                                <option value="직거래" <c:if test="${ fsFlag eq 'yes' && fanStore.get(0).fstore.deal eq '직거래' }">selected</c:if>>직거래</option>
+                                <option value="택배" <c:if test="${ fsFlag eq 'yes' && fanStore.get(0).fstore.deal eq '택배' }">selected</c:if>>택배</option>
+                                <option value="상품소개글" <c:if test="${ fsFlag eq 'yes' && fanStore.get(0).fstore.deal eq '상품소개글' }">selected</c:if>>상품소개글로 안내</option>
                             </select>
                         </td>
                     </tr>
                     <tr>
                         <th>상품소개글 *</th>
                         <td>
-                            <textarea onkeyup="chkword(this, 1000)" name="finfo" class="guide-text" cols="30" rows="10"></textarea>
+                            <textarea onkeyup="chkword(this, 1000)" name="finfo" class="guide-text" cols="30" rows="10"><c:if test="${ fsFlag eq 'yes' }">${ fanStore.get(0).fstore.finfo }</c:if></textarea>
                             <div class="limit-text">0 / 1000</div>
                         </td>
                     </tr>
                 </tbody>
             </table>
             <div class="my-photo">
-                <sub class="addGuide">* 대표사진 등록 필수 / 추가사진은 최대 4장 등록가능</sub>
-                <label for="mainPhoto" class="main-photo">대표사진첨부</label>
-                <input id="mainPhoto" name="mainPhoto" class="photo" type="file" style="display: none;">
-                <label class="add-photo click-btn">+</label>
+             	<sub class="addGuide">* 대표사진 등록 필수 / 추가사진은 최대 4장 등록가능</sub>
+	            <c:choose>
+	            <c:when test="${ fsFlag eq 'yes' }">
+	            	<c:set var="count" value="1" />
+	            	<c:set var="tagCode" value="${ fanStore.get(0).hash.tagCode }" />
+	            	<c:forEach var="att" items="${ fanStore }">
+	            	<c:if test="${ att.hash.tagCode eq tagCode }">
+	            	<c:choose>
+	            		<c:when test="${ att.att.attMain eq 'Y' }">
+			            	<label for="mainPhoto" class="main-photo"><img src="${ contextPath }/resources/uploadFiles/${ att.att.attSvName }" width="150px"></label>
+			                <input id="mainPhoto" name="mainPhoto" class="photo" type="file" style="display: none;">
+			                <input type="hidden" name="mainClName" value="${ att.att.attClName }">
+							<input type="hidden" name="mainSvName" value="${ att.att.attSvName }">
+							<input type="hidden" name="subClName" value="">
+							<input type="hidden" name="subSvName" value="">
+	                	</c:when>
+	                	<c:otherwise>
+		                	<label for="addPhoto${ count }" class="add-photo"><img src="${ contextPath }/resources/uploadFiles/${ att.att.attSvName }" width="130px"></label>
+			                <input id="addPhoto${ count }" name="subPhotos" class="photo" type="file" style="display: none;">
+			                <input type="hidden" name="subClName" value="${ att.att.attClName }">
+							<input type="hidden" name="subSvName" value="${ att.att.attSvName }">
+			                <c:set var="count" value="${ count + 1 }" />
+	                	</c:otherwise>
+	                </c:choose>
+	                </c:if>
+	                </c:forEach>
+	            </c:when>
+	            <c:otherwise>
+	                <label for="mainPhoto" class="main-photo">대표사진첨부</label>
+	                <input id="mainPhoto" name="mainPhoto" class="photo" type="file" style="display: none;">
+	                <label class="add-photo click-btn">+</label>
+	            </c:otherwise>
+	            </c:choose>
             </div>
             <div class="btn-area">
                 <c:choose>
-                	<c:when test="${ flag eq 'yes' }">
+                	<c:when test="${ fsFlag eq 'yes' }">
                 		<button type="button" class="update-btn">수정하기</button>
                 	</c:when>
                 	<c:otherwise>
@@ -116,7 +182,17 @@
         </form>
     </section>
     <script>
-		 // 사진첨부시
+	     let num = 1;
+	     let keyCount = 1;
+    	 $(function() {
+    		var fsFlag = "${ fsFlag }";
+    		if(fsFlag == 'yes') {
+    			$(".tagArea").css("display", "flex");
+    			num = $(".tagArea li").length + 1;
+    			keyCount = $(".tagArea li").length + 1;
+    		}
+    	 });
+		 // 사진변경시(첨부시)
 		 $(document).on('change', ".photo", function(e) {
 		     let files = e.target.files;
 		     let filesArr = Array.prototype.slice.call(files);
@@ -124,6 +200,7 @@
 		     let addImg = $("<img class='add-photo-img'>");
 		     let label = $(this).prev("label");
 		     let id = $(this).attr('id');
+		     console.log(id)
 		
 		     filesArr.forEach(function(f) {
 		         if(!f.type.match("image.*")) {
@@ -242,8 +319,6 @@
 			}
 		 })
 		
-		 let num = 1;
-	     let keyCount = 1;
 		 // 해시태그 검색란에 데이터 입력시
 		 $(document).on('keyup', '.tag-source', function(e) {
 			 var tagName = $(this).val();
@@ -393,9 +468,10 @@
 		 
 		 // 수정하기 버튼을 클릭했을 때
 		 $(".update-btn").click(function() {
+			 console.log($(""))			 
 			 var url = "${contextPath}/fanStore/update";
 			 $(".main-template").attr("action", url);
-			 $(".input-data:nth-of-type(1)").attr("disabled", false);
+			 $(".input-data:nth-of-type(5)").attr("disabled", false);
 			 $(".main-template").submit(); 
 		 });
     </script>
