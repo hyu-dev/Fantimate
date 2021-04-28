@@ -476,17 +476,29 @@
 			var refRid = parseInt($("#rid").val());
 			var fanStoreWriter = "${ fanStore.get(0).fstore.id }";
 			var firstWriter = $("#rcWriter").val();
-			console.log(rcontent, fcode, id, refRid, fanStoreWriter, firstWriter)
+			console.log(!refRid)
 	 		// 댓글 ajax에 보낼 데이터 변수에 담기
 	 		var url = "${ pageContext.request.contextPath }/fanStore/insertReply";
-	 		var data = {
-	 			rcontent : rcontent,
- 				refId : fcode,
- 				writer : id,
- 				refRid : refRid,
- 				fanStoreWriter : fanStoreWriter,
- 				firstWriter : firstWriter,
+	 		var data = {};
+	 		if(!refRid) {
+	 			data = {
+ 		 			rcontent : rcontent,
+ 	 				refId : fcode,
+ 	 				writer : id,
+ 	 				fanStoreWriter : fanStoreWriter,
+ 	 				firstWriter : ""
+ 		 		}
+	 		} else {
+	 			data = {
+ 		 			rcontent : rcontent,
+ 	 				refId : fcode,
+ 	 				writer : id,
+ 	 				refRid : refRid,
+ 	 				fanStoreWriter : fanStoreWriter,
+ 	 				firstWriter : firstWriter,
+ 		 		}
 	 		}
+	 		
 	 		// 댓글 ajax 호출
 	 		ajaxReply(url, data)
 	 	});
