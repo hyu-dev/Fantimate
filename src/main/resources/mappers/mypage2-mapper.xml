@@ -173,10 +173,13 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	</resultMap>
 	
 	<!-- 아티스트 메인 -->
-	<resultMap type="ArtistGroup" id="artistGroupResultSet">
-		<id property="artNameEn" column="ARTI_NAME_EN"/>
-		<result property="artNameKr" column="ARTI_NAME_KR"/>
-		<result property="agId" column="AG_ID"/>
+	<resultMap type="Member" id="memberResultSet">
+		<id property="id" column="ID"/>
+		<result property="pwd" column="PWD"/>
+		<result property="name" column="NAME"/>
+		<result property="status" column="STATUS"/>
+		<result property="signupDate" column="SIGNUP_DATE"/>
+		<result property="classifyMem" column="CLASSIFY_MEM"/>
 	</resultMap>
 	
 	<!-- 피드 리스트 가져오기 -->
