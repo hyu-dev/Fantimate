@@ -5,26 +5,12 @@ html {
 
 .container {
    
-    height : 550px;
-    width : 1250px;
-    margin-top: 25px;
-    margin-left : 17px;
-    display: flex;
-}
-/* 이미지 바깥 영역 */
-.imageOuter {
-    background-color: #343131;
-    width : 950px;
-    height : 550px;
+   
     
-    display: inline-block;
 }
 
-/* 이미지 */
-.board-img {
-    width : 55%;
-    height : 550px;
-    padding-left: 21%;
+.inner{
+	
 }
 
 /* 오른쪽 영역 */
@@ -159,12 +145,3 @@ html {
     
 }
 
-/* 캐러셀 슬라이드 */
-#carouselExampleDark {
-	padding-top: 2%;
-}
-
-.carousel-inner>.carousel-item>img {
-	width: 400px;
-	height: 500px;
-}

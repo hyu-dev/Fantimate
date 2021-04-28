@@ -104,6 +104,15 @@ public interface FanFeedDao {
 	// 게시글 사진 갯수 조회
 	public int selectptListCount(int refId);
 
+	// 좋아요 취소한 유저 삭제
+	public int cancelLike(int refId);
+
+	// 좋아요 취소 시 feed 테이블에서 좋아요 수 -1
+	public int updateFeedLikeCancel(Feed f);
+
+	// 좋아요 눌렀을 시 화면단에 좋아요 갯수 증가시키기
+	public int selectFeedLike(int fid);
+
 	
 
 	

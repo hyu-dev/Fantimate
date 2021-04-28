@@ -195,6 +195,25 @@ public class FanFeedDaoImpl implements FanFeedDao{
 		return sqlSession.selectOne("fanfeedMapper.selectptListCount", refId);
 	}
 
+	// 좋아요 취소한 유저 삭제
+	@Override
+	public int cancelLike(int refId) {
+		return sqlSession.delete("fanfeedMapper.deleteLike", refId); 
+		
+	}
+
+	// 좋아요 취소 시 feed 테이블에서 좋아요 수 -1
+	@Override
+	public int updateFeedLikeCancel(Feed f) {
+		return sqlSession.update("fanfeedMapper.updateFeedLikeCancel", f);
+	}
+
+	// 좋아요 눌렀을 시 화면단에 좋아요 갯수 증가 시키기
+	@Override
+	public int selectFeedLike(int fid) {
+		return sqlSession.selectOne("fanfeedMapper.selectFeedLike", fid);
+	}
+
 	
 	
 

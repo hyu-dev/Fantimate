@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -126,6 +127,7 @@ public class FanFeedController {
 			mv.addObject("ptlist", ptlist);
 			mv.addObject("atlist", atlist);
 			mv.addObject("artist", artist);
+			mv.addObject("lklist", lklist);
 			mv.setViewName("fanfeed/fanFeedList");
 			
 		} else {
@@ -137,8 +139,10 @@ public class FanFeedController {
 	
 	// 게시글 작성 (작성자 닉네임, 작성자 프로필 사진, 아티스트의 그룹명 넘겨받아야 함) 
 	@PostMapping("/insert")
-	public void insertFeed(HttpServletResponse response,
+	public String insertFeed(HttpServletResponse response,
 							Feed f,
+							Model model,
+							RedirectAttributes rd,
 							@RequestParam(value="uploadFile1") MultipartFile one,
 							@RequestParam(value="uploadFile2") MultipartFile two,
 							@RequestParam(value="uploadFile3") MultipartFile three,
@@ -204,10 +208,11 @@ public class FanFeedController {
 		int result = fService.insertFeed(f, attList);
 		
 		if(result > 0) {
-			request.getSession().setAttribute("msg", "게시글이 등록되었습니다.");
-			response.sendRedirect("fanFeedList?artNameEn=" + artiName);
+			rd.addFlashAttribute("msg", "게시글이 등록되었습니다.");
+			return "redirect:/fanfeed/fanFeedList?artNameEn=" + artiName;
 		} else {
-			System.out.println("게시글 등록에 실패하였습니다");
+			rd.addFlashAttribute("msg", "게시글 등록에 실패하였습니다.");
+			return "redirect:/fanfeed/fanFeedList?artNameEn=" + artiName;
 		}
 		
 		
@@ -632,6 +637,23 @@ public class FanFeedController {
 										   HttpSession session) {
 		f.setFid(refId);
 		int result = fService.insertLike(l, f);
+		
+		// 응답 작성
+		Gson gson = new GsonBuilder()
+					.create();
+		
+		return gson.toJson(result);
+		
+	}
+	
+	// 게시글 좋아요 취소
+	@PostMapping(value="/cancelLike", produces="application/json; charset=utf-8")
+	public @ResponseBody String cancelLike(Like l, int refId, 
+										   int flike,
+										   Feed f,
+										   HttpSession session) {
+		f.setFid(refId);
+		int result = fService.cancelLike(refId, f);
 		
 		// 응답 작성
 		Gson gson = new GsonBuilder()

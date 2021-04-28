@@ -98,6 +98,9 @@ public interface FanFeedService {
    // 게시글당 사진 갯수
    public int selectptListCount(int refId);
 
+   // 게시글 좋아요 취소누른 유저 삭제 
+   public int cancelLike(int refId, Feed f);
+
 
    
 }

@@ -622,7 +622,34 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	SELECT 	COUNT(BP_CHNAME)
 	FROM 	ATT_BOARD
 	WHERE 	BID = #{refId}
+	</select>
 	
+	<!-- 좋아요 취소 -->
+	<delete id="deleteLike" parameterType="_int">
+		DELETE 
+		FROM 	B_LIKE
+		WHERE 
+				BID = #{refId}
+	</delete>
+	
+	<!-- 좋아요 취소시 좋아요 수 업데이트 -->
+	<update id="updateFeedLikeCancel" parameterType="Feed">
+	UPDATE
+			BOARD
+	SET
+			BLIKE = #{flike} - 1
+	WHERE
+			BID = #{fid}
+	</update>
+	
+	<!-- 좋아요 눌렀을 시 화면단에 좋아요 갯수 증가 시키기 -->
+	<select id="selectFeedLike" resultType="_int">
+	SELECT
+			BLIKE
+	FROM
+			BOARD
+	WHERE
+			BID = #{fid}
 	
 	</select>			
 </mapper>

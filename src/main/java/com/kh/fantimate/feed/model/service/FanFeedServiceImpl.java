@@ -141,7 +141,8 @@ public class FanFeedServiceImpl implements FanFeedService {
 	@Override
 	public int insertLike(Like l, Feed f) {
 		 fDao.insertLike(l);
-		return fDao.updateFeedLike(f);
+		 fDao.updateFeedLike(f);
+	return fDao.selectFeedLike(f.getFid());
 	}
 
 	// 쪽지 보내기
@@ -180,6 +181,13 @@ public class FanFeedServiceImpl implements FanFeedService {
 	@Override
 	public int selectptListCount(int refId) {
 		return fDao.selectptListCount(refId);
+	}
+
+	// 좋아요 취소 누른 유저 삭제
+	@Override
+	public int cancelLike(int refId, Feed f) {
+		fDao.cancelLike(refId);
+ return fDao.updateFeedLikeCancel(f);
 	}
 
 	

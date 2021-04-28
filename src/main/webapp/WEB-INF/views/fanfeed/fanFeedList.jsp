@@ -17,6 +17,11 @@
 <title>Insert title here</title>
 </head>
 <body>
+	<c:if test="${ !empty msg }">
+		<script>alert('${msg}')</script>
+		<c:remove var="msg"/>
+	</c:if>
+	
 	<!-- 네비바 인클루드 -->
 	<jsp:include page="../common/navbar.jsp"/>
 	
@@ -131,8 +136,17 @@
                         	
                         	<!-- 좋아요 누른애는 검정아이콘, 안누른애는 하얀아이콘 -->
                         	
-                            <td><img id="insertLike" src="../resources/images/feed/like-icon.png" class="like-icon" onclick="insertLike(${f.fid},${f.flike});"></td>
-			
+                        	<c:forEach var="l" items="${ lklist }">
+                        	
+                        	<c:if test="${loginUser.id eq l.id and f.fid eq l.refId}">
+                            <td><img id="insertLike" src="../resources/images/feed/likeblack-icon.png" class="like-icon" onclick="cancelLike(${f.fid},${f.flike});"></td>
+							</c:if>
+							</c:forEach>
+							<c:forEach var="l" items="${ lklist }">
+							<c:if test="${loginUser.id ne l.id or f.fid ne l.refId}">
+							<td><img id="cancelLike" src="../resources/images/feed/like-icon.png" class="like-icon" onclick="insertLike(${f.fid},${f.flike});"></td>
+							</c:if>
+							</c:forEach>
 							
 						
 							<%-- <td><img id="insertLike" src="../resources/images/feed/likeblack-icon.png" class="like-icon" onclick="insertLike(${f.fid},${f.flike});"></td> --%>
@@ -543,15 +557,53 @@
 	   var id = "${ loginUser.id }";	 // 좋아요 누른 유저 아이디
 	   var refId = fid;					 // 좋아요 누른 게시글 번호 
 	   var flike = flike;		 		 // 좋아요 갯수
+	   var artNameEn = "${ artiName }";
 	   $.ajax({
 		  	url : "${ contextPath }/fanfeed/insertLike?refId=" + refId + '&flike=' + flike,
 			data : { id : id },
 			type : "post",
 			dataType : "json",
 			success : function(data){
-				console.log(data);	// (화면)좋아요 갯수 증가하면서 좋아요아이콘 검정색으로 바꾸기, db b_like테이블에 인서트 , BOARD테이블 B_LIKE 컬럼 +1 업데이트 
+				console.log(data);	// (화면)좋아요 갯수 증가하면서 좋아요아이콘 검정색으로 바꾸기
 				alert("좋아요 인서트 성공");
-				document.getElementById("insertLike").src = "${ contextPath }/resources/images/feed/likeblack-icon.png";
+				
+					
+				
+				
+				//	 var change = document.getElementById("insertLike");
+			//	 document.querySelector(change).setAttribute("src", "https://placeimg.com/200/200/" + i);
+			//	 $("#insertlike").attr('src',"${ contextPath }/resources/images/feed/likeblack-icon.png");
+				//$('#insertLike').attr('src','../resources/images/feed/likeblack-icon.png')
+//				url : "${ contextPath }/fanfeed/fanFeedList?artNameEn=" + artNameEn;
+			//	document.getElementById("insertLike").src = "${ contextPath }/resources/images/feed/likeblack-icon.png";
+//				if(document.getElementById("insertLike").getAttribute('src') == "${ contextPath }/resources/images/feed/like-icon.png") {
+//	                document.getElementById("insertLike").src = "${ contextPath }/resources/images/feed/likeblack-icon.png";
+	               
+//	            } else {
+//	                document.getElementById("insertLike").src = "${ contextPath }/resources/images/feed/like-icon.png";
+//	            }
+//			}
+		 }
+	  });
+   }
+   </script>
+   
+   <!-- 좋아요 취소 시 누른 유저 삭제 -->
+   <script>
+   function	cancelLike(fid,flike){
+	   var id = "${ loginUser.id }";	 // 좋아요 취소한 유저 아이디
+	   var refId = fid;					 // 좋아요 취소한 게시글 번호 
+	   var flike = flike;		 		 // 좋아요 갯수
+	   $.ajax({
+		  	url : "${ contextPath }/fanfeed/cancelLike?refId=" + refId + '&flike=' + flike,
+			data : { id : id },
+			type : "post",
+			dataType : "json",
+			success : function(data){
+				console.log(data);	// (화면)좋아요 갯수 증가하면서 좋아요아이콘 검정색으로 바꾸기, db b_like테이블에 인서트 , BOARD테이블 B_LIKE 컬럼 +1 업데이트 
+				alert("좋아요 취소 성공");
+				 
+//				document.getElementById("cancelLike").src = "${ contextPath }/resources/images/feed/like-icon.png";
 //				if(document.getElementById("insertLike").getAttribute('src') == "${ contextPath }/resources/images/feed/like-icon.png") {
 //	                document.getElementById("insertLike").src = "${ contextPath }/resources/images/feed/likeblack-icon.png";
 	               
