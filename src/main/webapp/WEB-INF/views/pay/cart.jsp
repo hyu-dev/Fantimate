@@ -59,8 +59,7 @@
             
             <c:forEach var="cl" items="${ cartList }">
             <c:choose>
-            <c:when test="${ cl.store.pcode eq null }">
-	            <c:if test="${ cl.attMedia.picSvName ne ''}">
+            <c:when test="${ cl.store.pcode eq 0 }">
 	           	<tr>
 	                <td>
 	                    <label class="jelly-checkbox">
@@ -92,10 +91,9 @@
 	                </td>
 	            </tr>
 	            <c:set var="sum" value="${ sum + cl.cart.buyPrice }" />
-	            </c:if>
             </c:when>
             <c:otherwise>
-	           	<c:if test="${ cl.att.attMain eq 'Y'}">
+	           	<c:if test="${ cl.att.attMain eq 'Y' }">
 	           	<tr>
 	                <td>
 	                    <label class="jelly-checkbox">
@@ -346,7 +344,7 @@
 			        		 location.href="${ pageContext.request.contextPath }/pay/cart"
 			        	 },
 			        	 error: function(e) {
-			        		 console.log(e)
+			        		 console.log(e);
 			        	 }
 			          })
 			      } else {

@@ -129,6 +129,24 @@
         		location.href="${ contextPath }/official/media/detail?mediaNum=" + mediaNum;
         	}
         }
+        
+     	// 카테고리 검색창에 글씨 입력 후 엔터를 클릭했을 때
+		$(".contents-search-input").keyup(function(e) {
+			if(e.keyCode == 13) {
+				$(".search-area img").click();
+			}
+		})
+		
+		// 카테고리 검색창에 돋보기 아이콘 클릭시
+		$(".search-area img").click(function() {
+			var search = $(".contents-search-input").val();
+			var url = "${ pageContext.request.contextPath }/official/search?search=" + search;
+		    
+			// ajax 호출
+			callAjax( url);
+		    $(".contents-search-input").val("").focus();
+	        $('.category-search-result').css('display', 'none');
+		})
         </script>
         
         <!-- 오른쪽 -->

@@ -47,6 +47,7 @@
         /* 유료 상품 클릭 시 구매 유도 알럿창 */
         /* 미디어 클릭 시 */
         function selectMedia(mediaNum, isPay, mediaPay) {
+        	console.log(mediaNum)
         	var loginUser = ${ loginUser.classifyMem }
         	var membership = "${ userColl.user.isMembership }"
         	

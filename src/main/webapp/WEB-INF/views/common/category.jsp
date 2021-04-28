@@ -16,6 +16,7 @@
     <title>Fantimate</title>
 </head>
 <body>
+	<c:set var="page" value="<%= request.getRequestURL() %>" />
 	<aside class="main-contents-left">
         <div class="artist-follower">
             <p class="artist-name">${artiName}</p>
@@ -28,7 +29,7 @@
             <a class="official-url" href="${ contextPath }/official/media/main">OFFICIAL</a>
             <a href="${ contextPath }/store/storeList">STORE</a>
         </div>
-        <if test="${ page eq 'http://localhost:8800/fantimate/WEB-INF/views/store/storeList.jsp' }">
+        <c:if test="${ page eq 'http://localhost:8800/fantimate/WEB-INF/views/store/storeList.jsp' }">
         <div class="store-search contents-search">
             <div class="search-area">
                 <input type="text" name="search" class="contents-search-input">
@@ -36,8 +37,8 @@
             </div>
             <div class="category-search-result"></div>
         </div>
-        </if>
-        <if test="${ page eq 'http://localhost:8800/fantimate/WEB-INF/views/official/media/main.jsp' }">
+        </c:if>
+        <c:if test="${ page eq 'http://localhost:8800/fantimate/WEB-INF/views/official/media/main.jsp' }">
         <form class="official-search contents-search" action="" method="get">
             <div class="search-area">
                 <input type="search" class="contents-search-input">
@@ -45,9 +46,8 @@
             </div>
             <div class="category-search-result"></div>
         </form>
-        </if>
+        </c:if>
      </aside>
-     <c:set var="page" value="<%= request.getRequestURL() %>" />
      
      <script type="text/javascript">
      	// 페이지로드시 카테고리 색상변화
@@ -107,13 +107,16 @@
 		    	})
 		    } else {
 		    	// 스토어에서 검색한 것이 아니라면 (오피셜에서 검색한 것이라면)
+		    	console.log("오피셜 등록")
 		    	$.ajax({
 		    		// 컨트롤러랑 경로만 맞춰주시면 됩니다
-		    		url : "${ pageContext.request.contextPath }/official/search/" + search,
-		    		data : "get",
+		    		url : "${ pageContext.request.contextPath }/official/search",
+		    		data : {
+		    			search : search,
+		    		},
 					dateType : "json",
-					contentType : "application/json; charset=utf-8",
 					success : function(data) {
+						console.log(data)
 						div.html("");
 						if(data.length > 0) {
 							$('.category-search-result').css('display', 'block');

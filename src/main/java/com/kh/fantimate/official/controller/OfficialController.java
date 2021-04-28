@@ -39,7 +39,7 @@ public class OfficialController {
 	// 오피셜 메인페이지 & 메인에 뿌려질 미디어 전체 리스트 출력
 	@GetMapping("/media/main")
 	public ModelAndView officialMain(ModelAndView mv, HttpServletRequest request) {
-		String artiName = "BTS";
+		String artiName = ((String)request.getSession().getAttribute("artiName"));
 		
 		// 미디어 전체 리스트 호출을 위한 카테고리 선택
 		List<MediaCategory> category = oService.selectCategory(artiName);
@@ -76,8 +76,8 @@ public class OfficialController {
 	
 	// 미디어 개수 조회하기
 	@PostMapping(value="/countMedia", produces="application/json; charset=utf-8")
-	public @ResponseBody int countMedia() {
-		String artiName = "BTS";
+	public @ResponseBody int countMedia(HttpServletRequest request) {
+		String artiName = ((String)request.getSession().getAttribute("artiName"));
 		
 		int count = oService.countMedia(artiName);
 		System.out.println("미디어 개수 : " + count);
@@ -113,24 +113,18 @@ public class OfficialController {
 	}
 	
 	// 검색
-	@GetMapping("/search/{search}")
-	public List<MediaCollection> searchMediaList(@PathVariable String search,
-											 HttpServletRequest request) {
-		// 세션에 담긴 카테고리명을 담음
-		String cateName = (String)request.getSession().getAttribute("cateName");
-		String artiName = (String)request.getSession().getAttribute("artiName");
-		String toggle = (String)request.getSession().getAttribute("toggle");
+	@GetMapping("/search")
+	public @ResponseBody List<MediaCollection> searchMediaList(@RequestParam(value="search") String search,
+											     HttpServletRequest request) {
 		
-		/*
-		if(toggle == null) {
-			toggle = "NEW";
-		}*/
+		System.out.println("미디어 검색 : " + search);
+		// 세션에 담긴 카테고리명을 담음
+		String artiName = (String)request.getSession().getAttribute("artiName");
 		
 		// 맵에 해당 데이터 담음
 		Map<String, String> map = new HashMap<>();
 		map.put("search", search);
 		map.put("artiName", artiName);
-		// map.put("toggle", toggle);
 		
 		// 해당 검색어가 포함된 미디어 리스트 호출
 		List<MediaCollection> list = (ArrayList<MediaCollection>)oService.searchMediaList(map);
@@ -142,7 +136,7 @@ public class OfficialController {
 	// 오피셜 리스트 페이지 출력
 	@GetMapping("/media/list")
 	public ModelAndView selectMediaList(String category, ModelAndView mv, HttpServletRequest request) {
-		String artiName = "BTS";
+		String artiName = ((String)request.getSession().getAttribute("artiName"));;
 		
 		System.out.println("카테고리명 : " + category);
 		
@@ -177,7 +171,7 @@ public class OfficialController {
 	// 오피셜 상세페이지 출력
 	@GetMapping("/media/detail")
 	public ModelAndView selectMedia(int mediaNum, ModelAndView mv, HttpServletRequest request) {
-		String artiName = "BTS";
+		String artiName = ((String)request.getSession().getAttribute("artiName"));
 		
 		System.out.println("미디어 번호 : " + mediaNum);
 		
@@ -224,8 +218,8 @@ public class OfficialController {
 	
 	// 댓글 등록하기
 	@PostMapping(value="/insertReply", produces="application/json; charset=utf-8")
-	public @ResponseBody String insertReply(Reply r, HttpSession session, Model model) {
-		String artiName = "BTS";
+	public @ResponseBody String insertReply(Reply r, HttpSession session, Model model, HttpServletRequest request) {
+		String artiName = ((String)request.getSession().getAttribute("artiName"));
 		Member loginUser = (Member)session.getAttribute("loginUser");
 		String writer = loginUser.getId();
 		r.setWriter(writer);
@@ -244,8 +238,8 @@ public class OfficialController {
 	
 	// 댓글 삭제하기
 	@PostMapping(value="/deleteReply", produces="application/json; charset=utf-8")
-	public @ResponseBody String deleteReply(Reply r, HttpSession session, Model model) {
-		String artiName = "BTS";
+	public @ResponseBody String deleteReply(Reply r, HttpSession session, Model model, HttpServletRequest request) {
+		String artiName = ((String)request.getSession().getAttribute("artiName"));
 		
 		System.out.println("전송된 댓글 : " + r);
 		

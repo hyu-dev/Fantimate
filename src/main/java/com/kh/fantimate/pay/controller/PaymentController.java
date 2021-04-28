@@ -39,10 +39,11 @@ public class PaymentController {
 			mv.setViewName(request.getHeader("referer"));
 		} else {
 			userId = ((Member)request.getSession().getAttribute("loginUser")).getId();
+			List<CartCollection> cartList = pService.selectCartList(userId);
+			System.out.println(cartList);
+			mv.addObject("cartList", cartList);
+			
 		}
-		
-		List<CartCollection> cartList = pService.selectCartList(userId);
-		mv.addObject("cartList", cartList);
 		mv.setViewName("pay/cart");
 		return mv;
 	}
