@@ -53,11 +53,6 @@ public class FanFeedServiceImpl implements FanFeedService {
 		return fDao.selectSubList(artNameEn);
 	}
 
-	// 피드 컬렉션
-	@Override
-	public List<FeedCollection> selectfcList() {
-		return fDao.selectfcList();
-	}
 
 	// 유저 프로필 사진 조회
 	@Override

@@ -49,12 +49,6 @@ public class FanFeedDaoImpl implements FanFeedDao{
 		return sqlSession.selectList("fanfeedMapper.selectSubList", artNameEn);
 	}
 
-	// 피드 컬렉션
-	@Override
-	public List<FeedCollection> selectfcList() {
-		return sqlSession.selectList("fanfeedMapper.selectfcList");
-	}
-
 	// 유저 프로필 사진 조회
 	@Override
 	public List<Attachment> selectatList(String artNameEn) {

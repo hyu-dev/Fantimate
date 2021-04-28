@@ -103,9 +103,6 @@ public class FanFeedController {
 		
 		
 		
-		List<FeedCollection> flist = fService.selectfcList();
-		System.out.println("컬렉션 리스트 : " + flist);
-		
 		List<Reply> rlist = fService.selectReplyList();
 		System.out.println("댓글 리스트 : " + rlist);
 		
@@ -125,7 +122,6 @@ public class FanFeedController {
 
 		if(list != null && !list.isEmpty()) {
 			mv.addObject("list", list);
-			mv.addObject("flist", flist);
 			mv.addObject("rlist", rlist);
 			mv.addObject("ptlist", ptlist);
 			mv.addObject("atlist", atlist);
