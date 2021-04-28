@@ -29,15 +29,16 @@ public class FanFeedServiceImpl implements FanFeedService {
 	@Override
 	public int insertFeed(Feed f, List<AttachmentF> attList) {
 	//	System.out.println("사진안올리고 등록할 떄 : " + attList);
-		
-		fDao.insertFeed(f);
+		int result = 0;
+		result = fDao.insertFeed(f);
 	
-		return fDao.insertFeedAtt(attList);
-		/*
-		 * int result = 0; //if(attList.) { result = fDao.insertFeedAtt(attList);
-		 * 
-		 * } return result;
-		 */
+		if(attList.size() > 0) {
+			result = fDao.insertFeedAtt(attList);
+		} 
+		
+		System.out.print("리스트 넘어오니" + attList);
+		
+		return result;
 		
 	}
 

@@ -24,9 +24,13 @@ public class ArtistFeedServiceImpl implements ArtistFeedService {
 	// 게시글 작성 
 	@Override
 	public int insertFeed(Feed f, List<AttachmentF> attList, List<Subscribe> sblist) {
-		aDao.insertFeed(f);
 		
-		 aDao.insertFeedAtt(attList);
+		aDao.insertFeed(f);
+			
+		if(attList.size() > 0) {
+			aDao.insertFeedAtt(attList);
+		}
+		 
   return aDao.insertsubAlarm(sblist);
 	}
 	

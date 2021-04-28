@@ -80,7 +80,8 @@
                         <td>
                         	
                             <div class="board-menu">
-                                <p onclick="showUpdateFeed(${f.fid});">수정하기</p>
+                                <p onclick="showUpdateFeed(${f.fid},${pt.refId});">수정하기</p>
+                                
                                 <p onclick="deleteFeed(${f.fid});">삭제하기</p>
                             </div>
                             <img class="board-more-icon" src="../resources/images/feed/board-more-icon.png">
@@ -431,7 +432,7 @@
 	 <script>
 	  // 게시글 수정 팝업창
 	  
-     function showUpdateFeed(fid){
+     function showUpdateFeed(fid, refId){
 		
 			
          // 팝업 가운데에 띄우기
@@ -444,7 +445,6 @@
          var popupY = Math.ceil((window.screen.width - popupHeight)/2);
          // 만들 팝업창 height 크기의 1/2 만큼 보정값으로 빼주었음
         
-         var refId = $('input[name=refId]').val();
          var url = "${ contextPath }/fanfeed/updateView?fid=" + fid + '&refId=' + refId;
         // var url = "${ contextPath }/fanfeed/updateView?fid=" + fid + '&attCode=' + attCode;
       

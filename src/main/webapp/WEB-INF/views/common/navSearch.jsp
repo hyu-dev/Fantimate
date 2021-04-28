@@ -359,7 +359,7 @@
 								console.log(min + "분 전");
 							} else if(sec > 0){
 								// 몇 초 전인지
-								document.getElementsByClassName("alarm-time")[i].innerHTML = sec+"분 전";
+								document.getElementsByClassName("alarm-time")[i].innerHTML = sec+"초 전";
 								console.log(sec + "초 전");
 							}
 							
@@ -409,6 +409,13 @@
 				alarmList = $(".today-alarm");
 				alarmList.html("");
 				
+				if(data.alist.length==0){
+					
+					alarmList.append("<li class='alarm-content'>"+ "알람 내역 없음" +"<p class='alarm-time'></p></li>");
+					$(".alarm-list").css("height","200px");
+					
+				} else {
+					
 				for(var i in data.alist){
 					
 					if(data.alist[i].refAlCode == 16){
@@ -478,12 +485,13 @@
 								console.log(min + "분 전");
 							} else if(sec > 0){
 								// 몇 초 전인지
-								document.getElementsByClassName("alarm-time")[i].innerHTML = sec+"분 전";
+								document.getElementsByClassName("alarm-time")[i].innerHTML = sec+"초 전";
 								console.log(sec + "초 전");
 							}
 							
 						}
 					}
+				}
 				}
 				
 				// 알람 카운트 -1
@@ -775,7 +783,7 @@
 											console.log(min + "분 전");
 										} else if(sec > 0){
 											// 몇 초 전인지
-											document.getElementsByClassName("mail-time")[j].innerHTML = sec+"분 전";
+											document.getElementsByClassName("mail-time")[j].innerHTML = sec+"초 전";
 											console.log(sec + "초 전");
 										}
 										
