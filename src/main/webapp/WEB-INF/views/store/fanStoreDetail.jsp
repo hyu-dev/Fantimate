@@ -59,11 +59,10 @@
                 </c:if>
                 <!-- 축소된 뷰 영역 -->
                 <div class="is-view">
-                	<c:set var="attName" value=""/>
+                	<c:set var="tagCode" value="${ fanStore.get(0).hash.tagCode }" />
                 	<c:forEach var="attList" items="${ fanStore }">
-	                <c:if test="${ attList.att.attSvName ne attName }">
+	                <c:if test="${ attList.hash.tagCode eq tagCode }">
                 	<img class="small-img" src="${ contextPath }/resources/uploadFiles/${ attList.att.attSvName }" alt="">
-	                <c:set var="attName" value="${ attList.att.attSvName }"/>
 	                </c:if>
                 	</c:forEach>
                 </div>
