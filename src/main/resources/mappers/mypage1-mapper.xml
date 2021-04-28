@@ -197,6 +197,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 			<result property="pcode" column="P_CODE"/>
 			<result property="mediaNum" column="MEDIA_NUM"/>
 			<result property="id" column="PAY_USERID"/>
+			<result property="payCode" column="CPAY_CODE"/>
 		</resultMap>
 <!-- STORE -->
 		<resultMap type="Store" id="StoreRSet">
@@ -341,6 +342,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		    	MESSAGE b
 		    ON
 		    	a.MESS_NO = b.MESS_NO
+         WHERE  IS_REPORTED = 'N'		    	
 	  ORDER BY 	RPT_DATE
 	</select>
 	
@@ -377,6 +379,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
     		 	F_STORE f
 			ON
     			r.F_CODE = f.F_CODE
+         WHERE  IS_REPORTED = 'N'
       ORDER BY 	RPT_DATE
 	</select>
 	
@@ -504,7 +507,8 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 <!-- 		  </choose> -->
 	</select>
 	
-	<!-- 팬스토어 댓글 신고 -->
+	
+	<!-- 팬스토어 댓글 신고 WHERE  IS_REPORTED = 'N' 추가하면 신고한것만-->
 	<select id="selectfanstoreRList" resultMap="fanstoreRListMap">
         SELECT
                 RPT_CODE
@@ -526,6 +530,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
                 F_REPLY f
             ON
                 r.FR_CODE = f.FR_CODE
+         WHERE  IS_REPORTED = 'N'
       ORDER BY 	RPT_DATE
 	</select>
 	
@@ -554,6 +559,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	            MD_CMT m
 	        ON
 	            r.CMT_NUM = m.CMT_NUM
+         WHERE  IS_REPORTED = 'N'	            
 	  ORDER BY 	RPT_DATE
 	</select>
 	
@@ -976,17 +982,30 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		   		UP_STATUS = #{status}
 	</update>
 	
-	<!-- #{isReported} = 테이블 이름 -->
+	<!-- #{isReported} = 테이블 이름 md_rpt_cmt 만 다름-->
 	<update id="updateRpt" parameterType="ReportAdmin">
 		UPDATE
 				(
-                     SELECT 
+				<choose>
+					<when test="isReported == 'MD_CMT_RPT'">
+					 SELECT 
+                            RPT_NUM
+                          , IS_REPORTED
+                      FROM 
+                     		${isReported}
+                     WHERE
+                            RPT_NUM = #{rptCode}
+					</when>
+					<otherwise>
+					SELECT 
                             RPT_CODE
                           , IS_REPORTED
-                     FROM 
+                      FROM 
                      		${isReported}
-                      WHERE
+                     WHERE
                             RPT_CODE = #{rptCode}
+					</otherwise>
+				</choose>
                     )
 		   SET
 		   		IS_REPORTED = 'Y'

@@ -8,6 +8,7 @@
 <meta charset="UTF-8">
 <title>paylist</title>
 </head>
+    <c:if test="${ loginUser.classifyMem == '4' }">
 <body>
 	<!-- 네비바 -->
 	<jsp:include page="../../common/navbar.jsp"/>
@@ -83,100 +84,12 @@
 	                    		</c:choose>
 						</td><!-- 결제상태 -->
                     	<td></td><!-- 응답 -->
-                    	
+                    	<input type="hidden" id="cartcode" value="${ p.cart.cartCode }" >
+                    	<input type="hidden" id="cartcode" value="${ p.cart.payCode }" >
+<%--                     	<input type="hidden" value="${ p.cart.cartCode }" style="display:none;"> --%>
                     	
                 	</tr>
                 	</c:forEach>
-<!--                     <tr> -->
-<!--                         <td>2021.01.01</td> -->
-<!--                         <td>cheonsik2323</td> -->
-<!--                         <td>신용카드</td> -->
-<!--                         <td>The 3st Album - Dark & Wild</td> -->
-<!--                         <td>18,000</td> -->
-<!--                         <td>구매확정</td> -->
-<!--                         <td>환불하기</td> -->
-<!--                     </tr> -->
-<!--                     <tr> -->
-<!--                         <td>2021.01.01</td> -->
-<!--                         <td>cheonsik2323</td> -->
-<!--                         <td>신용카드</td> -->
-<!--                         <td>The 3st Album - Dark & Wild</td> -->
-<!--                         <td>18,000</td> -->
-<!--                         <td>구매확정</td> -->
-<!--                         <td>환불하기</td> -->
-<!--                     </tr> -->
-<!--                     <tr> -->
-<!--                         <td>2021.01.01</td> -->
-<!--                         <td>cheonsik2323</td> -->
-<!--                         <td>신용카드</td> -->
-<!--                         <td>The 3st Album - Dark & Wild</td> -->
-<!--                         <td>18,000</td> -->
-<!--                         <td>구매확정</td> -->
-<!--                         <td>환불하기</td> -->
-<!--                     </tr> -->
-<!--                     <tr> -->
-<!--                         <td>2021.01.01</td> -->
-<!--                         <td>cheonsik2323</td> -->
-<!--                         <td>신용카드</td> -->
-<!--                         <td>The 3st Album - Dark & Wild</td> -->
-<!--                         <td>18,000</td> -->
-<!--                         <td>구매확정</td> -->
-<!--                         <td>환불하기</td> -->
-<!--                     </tr> -->
-<!--                     <tr> -->
-<!--                         <td>2021.01.01</td> -->
-<!--                         <td>cheonsik2323</td> -->
-<!--                         <td>신용카드</td> -->
-<!--                         <td>The 3st Album - Dark & Wild</td> -->
-<!--                         <td>18,000</td> -->
-<!--                         <td>구매확정</td> -->
-<!--                         <td>환불하기</td> -->
-<!--                     </tr> -->
-<!--                     <tr> -->
-<!--                         <td>2021.01.01</td> -->
-<!--                         <td>cheonsik2323</td> -->
-<!--                         <td>신용카드</td> -->
-<!--                         <td>The 3st Album - Dark & Wild</td> -->
-<!--                         <td>18,000</td> -->
-<!--                         <td>구매확정</td> -->
-<!--                         <td>환불하기</td> -->
-<!--                     </tr> -->
-<!--                     <tr> -->
-<!--                         <td>2021.01.01</td> -->
-<!--                         <td>cheonsik2323</td> -->
-<!--                         <td>신용카드</td> -->
-<!--                         <td>The 3st Album - Dark & Wild</td> -->
-<!--                         <td>18,000</td> -->
-<!--                         <td>구매확정</td> -->
-<!--                         <td>환불하기</td> -->
-<!--                     </tr> -->
-<!--                     <tr> -->
-<!--                         <td>2021.01.01</td> -->
-<!--                         <td>cheonsik2323</td> -->
-<!--                         <td>신용카드</td> -->
-<!--                         <td>The 3st Album - Dark & Wild</td> -->
-<!--                         <td>18,000</td> -->
-<!--                         <td>구매확정</td> -->
-<!--                         <td>환불하기</td> -->
-<!--                     </tr> -->
-<!--                     <tr> -->
-<!--                         <td>2021.01.01</td> -->
-<!--                         <td>cheonsik2323</td> -->
-<!--                         <td>신용카드</td> -->
-<!--                         <td>The 3st Album - Dark & Wild</td> -->
-<!--                         <td>18,000</td> -->
-<!--                         <td>구매확정</td> -->
-<!--                         <td>환불하기</td> -->
-<!--                     </tr> -->
-<!--                     <tr> -->
-<!--                         <td>2021.01.01</td> -->
-<!--                         <td>cheonsik2323</td> -->
-<!--                         <td>신용카드</td> -->
-<!--                         <td>The 3st Album - Dark & Wild</td> -->
-<!--                         <td>18,000</td> -->
-<!--                         <td>구매확정</td> -->
-<!--                         <td>환불하기</td> -->
-<!--                     </tr> -->
                 </tbody>
             </table>
                     <!-- 나중에 페이징처리 따로 -->
@@ -219,5 +132,16 @@
             		</div>
         </article>
     </section>
+    <script>
+    $(document).ready(function() {
+	    $("#mypageAdminpaylist tbody tr").click(function(){
+	    	
+	    });
+    });
+    </script>
+    </c:if>
+    <c:if test="${ loginUser.classifyMem != '4' }">
+    	<jsp:include page="errorpage.jsp"></jsp:include>
+    </c:if>
 </body>
 </html>

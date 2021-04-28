@@ -58,6 +58,10 @@ $(document).ready(function() {
     			$("#reportDetail5").val($(this).children().eq(7).text());
     			$("#reportDetail6").val($(this).children().eq(1).val()); 
 
+				$("#reportDetail7").val($(this).children().eq(9).val()); 	// number rptCode
+    			$("#reportDetail9").val($(this).children().eq(10).val()); 	// number refid
+    			$("#reportDetail10").val($(this).children().eq(11).val()); 	// text isReported
+    			
     			$("#mypageReportDetailWrap").fadeIn().addClass("mypagebground");
     			$("#mypageReportDetail").fadeIn();
     			
@@ -70,6 +74,35 @@ $(document).ready(function() {
     			//$(this).fadeOut();
     			console.log("닫기버튼");
     		});
+    		
+    		
+    // 팬스토어 신고관리
+    		$("#mypageAdminFanstoreRlist tbody tr").click(function() { 
+    			console.log('정상클릭');
+    			$("#reportDetail1").val($(this).children().eq(4).text());	// 유저아이디
+    			$("#reportDetail2").val($(this).children().eq(3).text());	// 신고일자
+    			$("#reportDetail3").val($(this).children().eq(5).text());	// 신고당한 유저아이디
+    			$("#reportDetail4").val($(this).children().eq(6).text()); 	// 신고한 게시물 제목
+    			$("#reportDetail5").val($(this).children().eq(7).text());
+    			$("#reportDetail6").val($(this).children().eq(1).val()); 
+
+				$("#reportDetail7").val($(this).children().eq(9).val()); 
+    			$("#reportDetail9").val($(this).children().eq(10).val()); 
+    			$("#reportDetail10").val($(this).children().eq(11).val()); 
+    			
+    			$("#mypageReportDetailWrap").fadeIn().addClass("mypagebground");
+    			$("#mypageReportDetail").fadeIn();
+    			
+    		});
+    			
+    		// 취소하기
+    		$("#mypageReportDetailWrap .mypage-pop-Btn-navi").click(function () {				// article
+    			$(this).closest("#mypageReportDetailWrap").fadeOut();
+    			//$(this).fadeOut();
+    			console.log("닫기버튼");
+    		});
+    		
+    		
     		
 //			$("#reportThis").click(function(){
 //				let reportDay = prompt("정지할 날짜를 적으세요");

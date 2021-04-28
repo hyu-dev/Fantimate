@@ -45,7 +45,7 @@
                 href="${contextPath}/mypage/admin/report">쪽지</a>
                 /
                 <a class="mypageContentCategory"
-                href="${contextPath}/mypage/admin/report/fanstore">팬스토어</a>
+                href="${contextPath}/mypage/admin/report/fanstore" style="font-weight: 700;">팬스토어</a>
                 /
                 <a class="mypageContentCategory"
                 href="${contextPath}/mypage/admin/report/fanstoreReply">팬스토어 댓글</a>
@@ -91,6 +91,9 @@
 <%--                 			${ r.messCode } --%>
 <%--                 				<a onclick="${contextPath}/"> --%>
                 			</td>
+                			<input type="hidden" value="${ r.report.rptCode }" style="display:none;">	<!-- 9 -->
+                			<input type="hidden" value="${ r.report.refId }" style="display:none;">	<!-- 10 -->
+                			<input type="hidden" value="RPT_FSTORE" style="display:none;">	<!-- 11 -->
                 		</tr>
                 	</c:forEach>
                 	

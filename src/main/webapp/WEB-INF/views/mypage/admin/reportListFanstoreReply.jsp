@@ -48,7 +48,7 @@
                 href="${contextPath}/mypage/admin/report/fanstore">팬스토어</a>
                 /
                 <a class="mypageContentCategory"
-                href="${contextPath}/mypage/admin/report/fanstoreReply">팬스토어 댓글</a>
+                href="${contextPath}/mypage/admin/report/fanstoreReply" style="font-weight: 700;">팬스토어 댓글</a>
                 /
                 <a class="mypageContentCategory"
                 href="${contextPath}/mypage/admin/report/media">미디어</a>
@@ -59,7 +59,7 @@
                 <a class="mypageContentCategory"
                 href="${contextPath}/mypage/admin/report/feedReply">피드,아티스트 댓글</a>
             </div>
-            <table id="mypageAdminFanstorelist">
+            <table id="mypageAdminFanstoreRlist">
                 <thead>
                     <tr>
                         <th>신고날짜</th>
@@ -91,6 +91,9 @@
 <%--                 			${ r.messCode } --%>
 <%--                 				<a onclick="${contextPath}/"> --%>
                 			</td>
+                			<input type="hidden" value="${ r.report.rptCode }" style="display:none;">	<!-- 9 -->
+                			<input type="hidden" value="${ r.report.refId }" style="display:none;">	<!-- 10 -->
+                			<input type="hidden" value="RPT_FREPLY" style="display:none;">	<!-- 11 -->
                 		</tr>
                 	</c:forEach>
                 	

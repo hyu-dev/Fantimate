@@ -42,7 +42,7 @@
             <h3>신고관리</h3>
             <div id="mypageContentListDiv">
                 <a class="mypageContentCategory"
-                href="${contextPath}/mypage/admin/report">쪽지</a>
+                href="${contextPath}/mypage/admin/report" style="font-weight: 700;">쪽지</a>
                 /
                 <a class="mypageContentCategory"
                 href="${contextPath}/mypage/admin/report/fanstore">팬스토어</a>
@@ -105,7 +105,7 @@
                 			</script>
                 			<input type="hidden" value="${ r.report.rptCode }" style="display:none;">	<!-- 9 -->
                 			<input type="hidden" value="${ r.report.refId }" style="display:none;">	<!-- 10 -->
-                			<input type="hidden" value="RPT_MESSAGE" style="display:none;">	<!-- 10 -->
+                			<input type="hidden" value="RPT_MESSAGE" style="display:none;">	<!-- 11 -->
                 			<!-- 날짜 넘기기 불가능.. -->
 <%--                 			<input type="hidden" value="${ r.report.rptDate }" style="display:none;"> --%>
                 		</tr>
