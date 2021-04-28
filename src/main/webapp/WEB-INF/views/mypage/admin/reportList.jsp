@@ -159,12 +159,12 @@
 //     		location.href='${contextPath}/notice/detail?nid=' + nid + '&page=${ pi.currentPage }';
     	}
     	// 처리된 글 회식으로
-    	$(document).ready(function() {
-	    	var isReported = $("#isReported").val(); 
-	    	if($("#mypageAdminReportlist tbody tr").children().eq(9).val() == "Y"){
-	    		$("#mypageAdminReportlist tbody tr").childrens().css("color:red");
-	    	}
-    	});
+//     	$(document).ready(function() {
+// 	    	var isReported = $("#isReported").val(); 
+// 	    	if($("#mypageAdminReportlist tbody tr").children().eq(9).val() == "Y"){
+// 	    		$("#mypageAdminReportlist tbody tr").childrens().css("color:red");
+// 	    	}
+//     	});
     </script>
     </c:if>
     <c:if test="${ loginUser.classifyMem != '4' }">

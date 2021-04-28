@@ -12,9 +12,11 @@ import com.kh.fantimate.common.model.vo.Friend;
 import com.kh.fantimate.common.model.vo.Report;
 import com.kh.fantimate.member.model.vo.Agency;
 import com.kh.fantimate.member.model.vo.Member;
+import com.kh.fantimate.mypage1.model.vo.AttSubscribe;
 import com.kh.fantimate.mypage1.model.vo.FriendPageInfo;
 import com.kh.fantimate.mypage1.model.vo.ReportAdmin;
 import com.kh.fantimate.mypage1.model.vo.ReportPageInfo;
+import com.kh.fantimate.mypage1.model.vo.SubscribeUser;
 import com.kh.fantimate.mypage1.model.vo.UserPaymentCol2;
 import com.kh.fantimate.mypage1.model.vo.UserUpdateVo;
 
@@ -268,6 +270,23 @@ public class Mypage1DaoImpl implements Mypage1Dao{
 		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 		return sqlSession.selectList("mypage1Mapper.requestPayListAdmin", null, rowBounds);
+	}
+// User 구독내역
+	@Override
+	public int RListCountSubscribe(Member m) {
+		return sqlSession.selectOne("mypage1Mapper.RListCountSubscribe", m);
+	}
+	@Override
+	public List<SubscribeUser> requestSubscribeList(FriendPageInfo pi) {
+		System.out.println("pi.getSerchCondition() : " + pi.getSerchCondition());
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return sqlSession.selectList("mypage1Mapper.requestSubscribeList", pi.getSerchCondition(), rowBounds);
+	}
+
+	@Override
+	public int userSubsUpdate(AttSubscribe subs) {
+		return sqlSession.update("mypage1Mapper.userSubsUpdate", subs);
 	}
 
 

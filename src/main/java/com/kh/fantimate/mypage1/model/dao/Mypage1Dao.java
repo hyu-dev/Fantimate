@@ -7,9 +7,11 @@ import com.kh.fantimate.common.model.vo.Friend;
 import com.kh.fantimate.common.model.vo.Report;
 import com.kh.fantimate.member.model.vo.Agency;
 import com.kh.fantimate.member.model.vo.Member;
+import com.kh.fantimate.mypage1.model.vo.AttSubscribe;
 import com.kh.fantimate.mypage1.model.vo.FriendPageInfo;
 import com.kh.fantimate.mypage1.model.vo.ReportAdmin;
 import com.kh.fantimate.mypage1.model.vo.ReportPageInfo;
+import com.kh.fantimate.mypage1.model.vo.SubscribeUser;
 import com.kh.fantimate.mypage1.model.vo.UserPaymentCol2;
 import com.kh.fantimate.mypage1.model.vo.UserUpdateVo;
 
@@ -82,4 +84,10 @@ public interface Mypage1Dao {
 	public int RListCountPayListAdmin();
 
 	public List<UserPaymentCol2> requestPayListAdmin(ReportPageInfo pi);
+
+	public int RListCountSubscribe(Member m);
+
+	public List<SubscribeUser> requestSubscribeList(FriendPageInfo pi);
+
+	public int userSubsUpdate(AttSubscribe subs);
 }

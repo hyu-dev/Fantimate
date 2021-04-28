@@ -16,6 +16,14 @@
 <title>Subscribes</title>
 </head>
 <body>
+<!-- 메세지 -->
+	 <c:if test="${ !empty msg }">
+	 	<script>
+	 		var message = "<c:out value="${msg}"/>";
+	 		alert(message);
+	 	</script>
+			    <c:remove var="msg"/>
+	</c:if>
 <!-- 네비바 -->
 	<jsp:include page="../../common/navbar.jsp"/>
 
@@ -33,54 +41,61 @@
             <div id="mypageUserContentDiv">
                 <!-- <h2 id="mypageUserContentDivTitle">My Subscribes</h2> -->
                 <h2>My Subscribes</h2>
-<!-- for문 -->                
+<!-- for문 -->             
+				<c:forEach var="s" items="${ list }">
                     <div class="mypage-content-subscribes">
-                        <img src="${ contextPath }/resources/images/mypage/user/Dibs1.png">
-                        <h3>Henry</h3>
-<!-- 이미지 경로도 EL태그 -->                
+						<img src="${ contextPath }/resources/${ s.subprofile.attSvName }" alt="경로참조">
+						<h3>${ s.artperson.artiNameEn }</h3>
+						<button onclick="cancel('${ s.user.id }', '${ s.subprofile.refId }')">구독취소</button>
+					</div>
+				</c:forEach>   
+<!--                     <div class="mypage-content-subscribes"> -->
+<%--                         <img src="${ contextPath }/resources/images/mypage/user/Dibs1.png"> --%>
+<!--                         <h3>Henry</h3> -->
+<!-- 이미지 경로도 EL태그                 -->
 <!-- 버튼 onclick="javascript:location.href='mypage/user/feed';" -->
-                        <button>구독취소</button>
-                    </div>
-                <div class="mypage-content-subscribes">
-                    <img src="${ contextPath }/resources/images/mypage/user/subscribes/henry.png">
-                    <h3>Henry</h3>
-                    <button>구독취소</button>
-                </div>
-                <div class="mypage-content-subscribes">
-                    <img src="${ contextPath }/resources/images/mypage/user/subscribes/iu.png">
-                    <h3>IU</h3>
-                    <button>구독취소</button>
-                </div>
-                <div class="mypage-content-subscribes">
-                    <img src="${ contextPath }/resources/images/mypage/user/subscribes/henry.png">
-                    <h3>Henry</h3>
-                    <button>구독취소</button>
-                </div>
-                <div class="mypage-content-subscribes">
-                    <img src="${ contextPath }/resources/images/mypage/user/subscribes/henry.png">
-                    <h3>Henry</h3>
-                    <button>구독취소</button>
-                </div>
-                <div class="mypage-content-subscribes">
-                    <img src="${ contextPath }/resources/images/mypage/user/subscribes/henry.png">
-                    <h3>Henry</h3>
-                    <button>구독취소</button>
-                </div>
-                <div class="mypage-content-subscribes">
-                    <img src="${ contextPath }/resources/images/mypage/user/subscribes/henry.png">
-                    <h3>Henry</h3>
-                    <button>구독취소</button>
-                </div>
-                <div class="mypage-content-subscribes">
-                    <img src="${ contextPath }/resources/images/mypage/user/subscribes/henry.png">
-                    <h3>Henry</h3>
-                    <button>구독취소</button>
-                </div>
-                <div class="mypage-content-subscribes">
-                    <img src="${ contextPath }/resources/images/mypage/user/subscribes/henry.png">
-                    <h3>Henry</h3>
-                    <button>구독취소</button>
-                </div>
+<!--                         <button>구독취소</button> -->
+<!--                     </div> -->
+<!--                 <div class="mypage-content-subscribes"> -->
+<%--                     <img src="${ contextPath }/resources/images/mypage/user/subscribes/henry.png"> --%>
+<!--                     <h3>Henry</h3> -->
+<!--                     <button>구독취소</button> -->
+<!--                 </div> -->
+<!--                 <div class="mypage-content-subscribes"> -->
+<%--                     <img src="${ contextPath }/resources/images/mypage/user/subscribes/iu.png"> --%>
+<!--                     <h3>IU</h3> -->
+<!--                     <button>구독취소</button> -->
+<!--                 </div> -->
+<!--                 <div class="mypage-content-subscribes"> -->
+<%--                     <img src="${ contextPath }/resources/images/mypage/user/subscribes/henry.png"> --%>
+<!--                     <h3>Henry</h3> -->
+<!--                     <button>구독취소</button> -->
+<!--                 </div> -->
+<!--                 <div class="mypage-content-subscribes"> -->
+<%--                     <img src="${ contextPath }/resources/images/mypage/user/subscribes/henry.png"> --%>
+<!--                     <h3>Henry</h3> -->
+<!--                     <button>구독취소</button> -->
+<!--                 </div> -->
+<!--                 <div class="mypage-content-subscribes"> -->
+<%--                     <img src="${ contextPath }/resources/images/mypage/user/subscribes/henry.png"> --%>
+<!--                     <h3>Henry</h3> -->
+<!--                     <button>구독취소</button> -->
+<!--                 </div> -->
+<!--                 <div class="mypage-content-subscribes"> -->
+<%--                     <img src="${ contextPath }/resources/images/mypage/user/subscribes/henry.png"> --%>
+<!--                     <h3>Henry</h3> -->
+<!--                     <button>구독취소</button> -->
+<!--                 </div> -->
+<!--                 <div class="mypage-content-subscribes"> -->
+<%--                     <img src="${ contextPath }/resources/images/mypage/user/subscribes/henry.png"> --%>
+<!--                     <h3>Henry</h3> -->
+<!--                     <button>구독취소</button> -->
+<!--                 </div> -->
+<!--                 <div class="mypage-content-subscribes"> -->
+<%--                     <img src="${ contextPath }/resources/images/mypage/user/subscribes/henry.png"> --%>
+<!--                     <h3>Henry</h3> -->
+<!--                     <button>구독취소</button> -->
+<!--                 </div> -->
             </div>
         </article>
 	
@@ -98,7 +113,9 @@
             console.log("addClass 동작");
             
     });
-
+	function cancel(userid, subCode){
+		location.href='${contextPath}/mypage/user/subscribes/update?userid=' + userid + '&subCode=' + subCode;
+	}
 </script>
 </body>
 </html>
