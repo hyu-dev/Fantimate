@@ -142,8 +142,27 @@
 			var search = $(".contents-search-input").val();
 			var url = "${ pageContext.request.contextPath }/official/search?search=" + search;
 		    
-			// ajax 호출
-			callAjax( url);
+			$.ajax({
+				url : url,
+				data : {
+					search : search,
+				},
+				dataType : "json",
+				success : function(data) {
+					console.log(data)
+					if(data.length < 1) {
+						alert('검색된 영상이 없습니다')
+					} else {
+						var container = $(".category-container");
+						container.html("");
+						
+						var upper = $("<div class='category-upper'>");
+						var span = $("<span class='category-title nanumsquare'>").text("검색 키워드 : " + search)
+						var 
+						
+					}
+				}
+			})
 		    $(".contents-search-input").val("").focus();
 	        $('.category-search-result').css('display', 'none');
 		})
