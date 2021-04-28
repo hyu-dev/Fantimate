@@ -100,7 +100,10 @@
       - 구입한 스토어에 한하여 리뷰 작성, 작성한 리뷰 보기
       
 ## 참고문서
-   **기획서** : [https://drive.google.com/drive/u/0/folders/1u86iemOZwXJl182LX2CgMw9cjTFonK-9](기획서)  
-   **디자인** : [https://drive.google.com/drive/u/0/folders/1wvtfF4kC4Wqe5JPe2vBL50-XqtAWzzZ8](디자인문서)  
-   **DB설계** : [https://drive.google.com/drive/u/0/folders/1CBSuv7n5SuUCKT8BjwWcWSaH6I1O2bgu](DB설계문서)  
-   **UML설계** : [https://drive.google.com/drive/u/0/folders/1ZSQ77NNALBVV4RGmX-8sM-2AwAehUvmo](UML설계문서)
+   [기획서](https://drive.google.com/drive/u/0/folders/1u86iemOZwXJl182LX2CgMw9cjTFonK-9)
+   
+   [디자인](https://drive.google.com/drive/u/0/folders/1wvtfF4kC4Wqe5JPe2vBL50-XqtAWzzZ8)  
+   
+   [DB설계](https://drive.google.com/drive/u/0/folders/1CBSuv7n5SuUCKT8BjwWcWSaH6I1O2bgu)  
+   
+   [UML설계](https://drive.google.com/drive/u/0/folders/1ZSQ77NNALBVV4RGmX-8sM-2AwAehUvmo)
