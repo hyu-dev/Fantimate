@@ -179,6 +179,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<id property="artNameEn" column="ARTI_NAME_EN"/>
 		<result property="artNameKr" column="ARTI_NAME_KR"/>
 		<result property="agId" column="AG_ID"/>
+		<result property="isTeam" column="AG_IS_TEAM"/>
 	</resultMap>
 	
 	<!-- 멤버 -->
@@ -728,13 +729,13 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	SELECT 
 		   ARTI_NAME_EN
 	  FROM 
-	       ART_MAIN
+	       ART_MAIN AM
 	  JOIN 
 	       ART_PERSON USING(ARTI_NAME_EN)
 	 WHERE 
 	       AG_ID = #{id}
        AND 
-           IS_TEAM = 'N'
+           AG_IS_TEAM = 'N'
   ORDER BY
            ARTI_NAME_EN
 	</select>
@@ -745,12 +746,12 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		   DISTINCT ARTI_NAME_EN
 	  FROM 
 	       ART_MAIN
-	  JOIN 
+	  LEFT JOIN 
 	       ART_PERSON USING(ARTI_NAME_EN)
 	 WHERE 
 	       AG_ID = #{id}
-       AND 
-           IS_TEAM = 'Y'
+	   AND 
+	   	   AG_IS_TEAM = 'Y'
   ORDER BY
            ARTI_NAME_EN
 	</select>
@@ -758,7 +759,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	<!-- 그룹 멤버 불러오기 -->
 	<select id="selectMember" parameterType="string" resultMap="artistResultSet">
 	SELECT 
-		   ARTI_ONE_NAME, ARTI_NAME_EN
+		   ARTI_ID, ARTI_ONE_NAME, ARTI_NAME_EN
 	  FROM 
 	       ART_PERSON
 	  JOIN 
@@ -870,7 +871,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	</delete>
 	
 	<!-- 메인화면에서 아티스트 삭제하기 -->
-	<delete id="deleteMain" parameterType="string">
+	<delete id="deleteMain" parameterType="hashMap">
 	DELETE
 	  FROM 
 	       ART_MAIN
@@ -906,6 +907,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	       #{artNameEn}
 	     , #{artNameKr}
 	     , #{agId}
+	     , #{isTeam}
 	       )
 	</insert>
 	
