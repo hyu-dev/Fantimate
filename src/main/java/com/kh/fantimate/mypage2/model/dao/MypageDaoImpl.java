@@ -14,10 +14,12 @@ import com.kh.fantimate.common.model.vo.ReplyCollection;
 import com.kh.fantimate.common.model.vo.Report;
 import com.kh.fantimate.feed.model.vo.Feed;
 import com.kh.fantimate.feed.model.vo.FeedCollection;
+import com.kh.fantimate.member.model.vo.Agency;
 import com.kh.fantimate.member.model.vo.Artist;
 import com.kh.fantimate.member.model.vo.ArtistGroup;
 import com.kh.fantimate.member.model.vo.Member;
 import com.kh.fantimate.official.model.vo.MediaCollection;
+import com.kh.fantimate.store.model.vo.StoreCollection;
 
 @Repository
 public class MypageDaoImpl implements MypageDao{
@@ -149,6 +151,19 @@ public class MypageDaoImpl implements MypageDao{
 	public List<Artist> selectMember(String id) {
 		return sqlSession.selectList("mypage2Mapper.selectMember", id);
 	}
+	
+	// 소속사 비번 수정하기
+	@Override
+	public void updateAgencyPwd(Member m) {
+		sqlSession.update("mypage2Mapper.updateAgencyPwd", m);
+		
+	}
+
+	// 소속사 프로필 수정하기
+	@Override
+	public int updateAgencyProfile(Agency a) {
+		return sqlSession.update("mypage2Mapper.updateAgencyProfile", a);
+	}
 	// 아티스트 개인 아이디 불러오기
 	@Override
 	public String selectArtistOneId(String name) {
@@ -205,25 +220,50 @@ public class MypageDaoImpl implements MypageDao{
 
 	// 메인화면에 아티스트 등록하기
 	@Override
-	public int enrollMain(ArtistGroup ag) {
-		return sqlSession.insert("mypage2Mapper.enrollMain", ag);
+	public void enrollMain(ArtistGroup ag) {
+		sqlSession.insert("mypage2Mapper.enrollMain", ag);
 	}
 	
 	// 메인화면에 아티스트 사진 등록하기
 	@Override
-	public void enrollMainPic(Map<String, String> map) {
-		sqlSession.insert("mypage2Mapper.enrollMainPic", map);
+	public int enrollMainPic(Map<String, String> map) {
+		return sqlSession.insert("mypage2Mapper.enrollMainPic", map);
 	}
 
 	// 아티스트 솔로 등록하기
 	@Override
-	public int enrollArtistSolo(Artist a) {
-		return sqlSession.insert("mypage2Mapper.enrollArtistSolo", a);
+	public void enrollArtistSolo(Artist a) {
+		sqlSession.insert("mypage2Mapper.enrollArtistSolo", a);
+	}
+	
+	// 아티스트 개인 등록하기
+	@Override
+	public void enrollArtistOne(Artist a) {
+		sqlSession.insert("mypage2Mapper.enrollArtistOne", a);
 	}
 
-	// 아티스트 솔로 사진 등록하기
+	// 아티스트 사진 등록하기
 	@Override
-	public void enrollArtistOnePic(Map<String, String> map) {
-		sqlSession.insert("mypage2Mapper.enrollArtistOnePic", map);
+	public int enrollArtistOnePic(Map<String, String> map) {
+		return sqlSession.insert("mypage2Mapper.enrollArtistOnePic", map);
 	}
+
+	// 소속사 프로필 가져오기
+	@Override
+	public Agency selectAgencyProfile(String agId) {
+		return sqlSession.selectOne("mypage2Mapper.selectAgencyProfile", agId);
+	}
+
+	// 스토어 리스트 가져오기
+	@Override
+	public List<StoreCollection> selectStoreList(String artiName) {
+		return sqlSession.selectList("mypage2Mapper.selectStoreList", artiName);
+	}
+
+	// 스토어 삭제하기
+	@Override
+	public int deleteStoreItem(String pname) {
+		return sqlSession.update("mypage2Mapper.deleteStoreItem", pname);
+	}
+
 }

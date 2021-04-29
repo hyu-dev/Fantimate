@@ -36,7 +36,7 @@
                                 </div>
                             </div>
                             <div class="new-media-right">
-                                <img class="new-media-img" src="${ contextPath }/resources/images/official/${ s.mediaFile.picSvName }">
+                                <img class="new-media-img" src="${ contextPath }/resources/uploadFiles/${ s.mediaFile.picSvName }">
                             </div>
                         </div>
                     </li>
@@ -67,7 +67,7 @@
                     	<c:if test="${ m.official.isPay eq 'Y' }">
                         <div class="media-pay-sign">유료</div>
                         </c:if>
-                        <img src="${ contextPath }/resources/images/official/${ m.mediaFile.picSvName }"
+                        <img src="${ contextPath }/resources/uploadFiles/${ m.mediaFile.picSvName }"
                          	 onclick="selectMedia(${ m.official.mediaNum }, '${ m.official.isPay }', ${ m.official.mediaPay })">
                         <div class="media-title nanumsquare">${ m.official.mediaTtl }</div>
                         <div class="media-date nanumsquare">${ m.official.mediaDate }</div>

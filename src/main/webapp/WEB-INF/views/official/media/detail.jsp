@@ -24,11 +24,11 @@
             <div class="media-container">
                 <div class="media-upper">
                     <div id="mediaTitle">${ media.official.mediaTtl }</div>
-                    <a href="media-list.html" id="backLink">뒤로 가기</a>
+                    <!-- <a href="media-list.html" id="backLink">뒤로 가기</a> -->
                 </div>
                 <div class="media-center">
-                    <video src="${ contextPath }/resources/images/official/${ media.mediaFile.vidSvName }"
-                    controls="controls" poster="${ contextPath }/resources/images/official/${ media.mediaFile.picSvName }"></video>
+                    <video src="${ contextPath }/resources/uploadFiles/${ media.mediaFile.vidSvName }"
+                    controls="controls" poster="${ contextPath }/resources/uploadFiles/${ media.mediaFile.picSvName }"></video>
                     <div class="media-main">
                         <textarea class="media-content nanumsquare" style="resize:none;">${ media.official.mediaCtt }</textarea>
                         <c:choose>
@@ -75,7 +75,7 @@
 	                                    <p>피드로 이동</p>
 	                                </div>
 	                                </c:if>
-	                                <img class="profile-picture" src="${ contextPath }/resources/images/member/${ c.artiAttach.attSvName }">
+	                                <img class="profile-picture" src="${ contextPath }/resources/uploadFiles/${ c.artiAttach.attSvName }">
 	                            </td>
 	                            <td>
 	                                <div class="comment-box">
@@ -137,7 +137,7 @@
 					                                    <p>피드로 이동</p>
 					                                </div>
 					                                </c:if>
-		                                            <img class="re-profile-picture" src="${ contextPath }/resources/images/member/${ r.artiAttach.attSvName }">
+		                                            <img class="re-profile-picture" src="${ contextPath }/resources/uploadFiles/${ r.artiAttach.attSvName }">
 		                                        </td>
 		                                        <td>
 		                                            <div class="comment-box">
@@ -176,7 +176,7 @@
 					                                    <p>쪽지 보내기</p>
 					                                </div>
 					                                </c:if>
-		                                            <img class="re-profile-picture" src="${ contextPath }/resources/images/account/${ r.userAttach.attSvName }">
+		                                            <img class="re-profile-picture" src="${ contextPath }/resources/uploadFiles/${ r.userAttach.attSvName }">
 		                                        </td>
 		                                        <td>
 		                                            <div class="comment-box">
@@ -227,7 +227,7 @@
 	                                    <p>쪽지 보내기</p>
 	                                </div>
 	                                </c:if>
-	                                <img class="profile-picture" src="${ contextPath }/resources/images/account/${ c.userAttach.attSvName }">
+	                                <img class="profile-picture" src="${ contextPath }/resources/uploadFiles/${ c.userAttach.attSvName }">
 	                            </td>
 	                            <td>
 	                                <div class="comment-box">
@@ -290,7 +290,7 @@
 					                                    <p>피드로 이동</p>
 					                                </div>
 					                                </c:if>
-		                                            <img class="re-profile-picture" src="${ contextPath }/resources/images/member/${ r.artiAttach.attSvName }">
+		                                            <img class="re-profile-picture" src="${ contextPath }/resources/uploadFiles/${ r.artiAttach.attSvName }">
 		                                        </td>
 		                                        <td>
 		                                            <div class="comment-box">
@@ -324,7 +324,7 @@
 					                                    <p>쪽지 보내기</p>
 					                                </div>
 					                                </c:if>
-		                                            <img class="re-profile-picture" src="${ contextPath }/resources/images/account/${ r.userAttach.attSvName }">
+		                                            <img class="re-profile-picture" src="${ contextPath }/resources/uploadFiles/${ r.userAttach.attSvName }">
 		                                        </td>
 		                                        <td>
 		                                            <div class="comment-box">

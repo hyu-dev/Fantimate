@@ -14,11 +14,13 @@ import com.kh.fantimate.common.model.vo.ReplyCollection;
 import com.kh.fantimate.common.model.vo.Report;
 import com.kh.fantimate.feed.model.vo.Feed;
 import com.kh.fantimate.feed.model.vo.FeedCollection;
+import com.kh.fantimate.member.model.vo.Agency;
 import com.kh.fantimate.member.model.vo.Artist;
 import com.kh.fantimate.member.model.vo.ArtistGroup;
 import com.kh.fantimate.member.model.vo.Member;
 import com.kh.fantimate.mypage2.model.dao.MypageDao;
 import com.kh.fantimate.official.model.vo.MediaCollection;
+import com.kh.fantimate.store.model.vo.StoreCollection;
 
 @Service
 public class MypageServiceImpl implements MypageService{
@@ -141,6 +143,13 @@ public class MypageServiceImpl implements MypageService{
 		return mDao.selectMember(id);
 	}
 	
+	// 소속사 프로필 수정하기
+	@Override
+	public int updateAgencyProfile(Agency a, Member m) {
+		mDao.updateAgencyPwd(m);
+		return mDao.updateAgencyProfile(a);
+	}
+	
 	// 아티스트 개인 아이디 불러오기
 	@Override
 	public String selectArtistOneId(String name) {
@@ -184,23 +193,55 @@ public class MypageServiceImpl implements MypageService{
 
 	// 메인화면에 아티스트 등록하기
 	@Override
-	public int enrollArtistMain(ArtistGroup ag, String id, String attSvName) {
+	public int enrollArtistMain(ArtistGroup ag, Attachment att) {
 		Map<String, String> map = new HashMap<>();
-		map.put("id", id);
-		map.put("attSvName", attSvName);
+		map.put("artNameEn", ag.getArtNameEn());
+		map.put("attClName", att.getAttClName());
+		map.put("attSvName", att.getAttSvName());
 		
-		mDao.enrollMainPic(map);
-		return mDao.enrollMain(ag);
+		mDao.enrollMain(ag);
+		return mDao.enrollMainPic(map);
 	}
 
 	// 아티스트 솔로 등록하기
 	@Override
-	public int enrollArtistSolo(Artist a, String attSvName) {
+	public int enrollArtistSolo(Artist a, Attachment att) {
 		Map<String, String> map = new HashMap<>();
 		map.put("id", a.getArtiId());
-		map.put("attSvName", attSvName);
+		map.put("attClName", att.getAttClName());
+		map.put("attSvName", att.getAttSvName());
 		
-		mDao.enrollArtistOnePic(map);
-		return mDao.enrollArtistSolo(a);
+		mDao.enrollArtistSolo(a);
+		return mDao.enrollArtistOnePic(map);
+	}
+
+	// 아티스트 개인 등록하기
+	@Override
+	public int enrollArtistOne(Artist a, Attachment att) {
+		Map<String, String> map = new HashMap<>();
+		map.put("id", a.getArtiId());
+		map.put("attClName", att.getAttClName());
+		map.put("attSvName", att.getAttSvName());
+		
+		mDao.enrollArtistOne(a);
+		return mDao.enrollArtistOnePic(map);
+	}
+
+	// 소속사 프로필 가져오기
+	@Override
+	public Agency selectAgencyProfile(String agId) {
+		return mDao.selectAgencyProfile(agId);
+	}
+
+	// 스토어 리스트 가져오기
+	@Override
+	public List<StoreCollection> selectStoreList(String artiName) {
+		return mDao.selectStoreList(artiName);
+	}
+
+	// 스토어 삭제하기
+	@Override
+	public int deleteStoreItem(String pname) {
+		return mDao.deleteStoreItem(pname);
 	}
 }

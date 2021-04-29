@@ -10,10 +10,12 @@ import com.kh.fantimate.common.model.vo.ReplyCollection;
 import com.kh.fantimate.common.model.vo.Report;
 import com.kh.fantimate.feed.model.vo.Feed;
 import com.kh.fantimate.feed.model.vo.FeedCollection;
+import com.kh.fantimate.member.model.vo.Agency;
 import com.kh.fantimate.member.model.vo.Artist;
 import com.kh.fantimate.member.model.vo.ArtistGroup;
 import com.kh.fantimate.member.model.vo.Member;
 import com.kh.fantimate.official.model.vo.MediaCollection;
+import com.kh.fantimate.store.model.vo.StoreCollection;
 
 public interface MypageDao {
 	/* 아티스트 메인(피드)페이지 */
@@ -79,6 +81,12 @@ public interface MypageDao {
 
 	// 그룹 멤버 불러오기
 	List<Artist> selectMember(String id);
+	
+	// 소속사 비번 변경하기
+	void updateAgencyPwd(Member m);
+
+	// 소속사 프로필 수정하기
+	int updateAgencyProfile(Agency a);
 
 	// 아티스트 개인 아이디 불러오기
 	String selectArtistOneId(String name);
@@ -108,14 +116,26 @@ public interface MypageDao {
 	int enrollMember(Member m);
 	
 	// 메인화면에서 아티스트 등록하기
-	int enrollMain(ArtistGroup ag);
+	void enrollMain(ArtistGroup ag);
 	
 	// 메인화면에서 아티스트 사진 등록하기
-	void enrollMainPic(Map<String, String> map);
+	int enrollMainPic(Map<String, String> map);
 
 	// 아티스트 솔로 등록하기
-	int enrollArtistSolo(Artist a);
+	void enrollArtistSolo(Artist a);
+	
+	// 아티스트 개인 등록하기
+	void enrollArtistOne(Artist a);
 
-	// 아티스트 솔로 사진 등록하기
-	void enrollArtistOnePic(Map<String, String> map);
+	// 아티스트 사진 등록하기
+	int enrollArtistOnePic(Map<String, String> map);
+
+	// 소속사 프로필 가져오기
+	Agency selectAgencyProfile(String agId);
+
+	// 스토어 리스트 가져오기
+	List<StoreCollection> selectStoreList(String artiName);
+
+	// 스토어 삭제하기
+	int deleteStoreItem(String pname);
 }

@@ -36,7 +36,7 @@
                             <tr class="comment-line">
                                 <td>
                                     <div class="comment-info">
-                                        <img class="profile-img" src="${ contextPath }/resources/images/member/${ arti.attachment.attSvName }">&nbsp;
+                                        <img class="profile-img" src="${ contextPath }/resources/uploadFiles/${ arti.attachment.attSvName }">&nbsp;
                                         <span>▶</span>
                                         <span class="artist-name nanumsquare">${ arti.artist.artiNameEn }</span>&nbsp;
                                         <span class="nanumsquare">${ c.feedReply.category }</span>&nbsp;

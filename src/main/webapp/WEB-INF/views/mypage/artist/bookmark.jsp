@@ -43,12 +43,12 @@
                         <p class="top-content-left">
                         <c:choose>
                         	<c:when test="${ f.artist.artiNickname ne null }">
-	                            <img class="profile-img" src="${ contextPath }/resources/images/member/${ f.artiAttach.attSvName }">&nbsp;&nbsp;
+	                            <img class="profile-img" src="${ contextPath }/resources/uploadFiles/${ f.artiAttach.attSvName }">&nbsp;&nbsp;
 	                            <span class="profile-name nanumsquare">${ f.artist.artiNickname }</span>
 	                            <img class="artist-check" src="${ contextPath }/resources/icon/tick.svg">
                             </c:when>
                             <c:when test="${ f.subscribe.unickname ne null }">
-	                            <img class="profile-img" src="${ contextPath }/resources/images/account/${ f.userAttach.attSvName }">&nbsp;&nbsp;
+	                            <img class="profile-img" src="${ contextPath }/resources/uploadFiles/${ f.userAttach.attSvName }">&nbsp;&nbsp;
 	                            <span class="profile-name nanumsquare">${ f.subscribe.unickname }</span>
                             </c:when>
                         </c:choose>
@@ -71,23 +71,23 @@
                         	<c:when test="${ count eq 0 }">
                             <input class="p" type="hidden" value="Y">
                             <c:set var="no" value="${ count }"/>
-                            <img class="pic" src="${ contextPath }/resources/images/uploadFiles/${ attach.attachment.attSvName }">
+                            <img class="pic" src="${ contextPath }/resources/uploadFiles/${ attach.attachment.attSvName }">
                             </c:when>
                         	<c:when test="${ count eq 1 }">
                         	<input class="p1" type="hidden" value="Y">
-                            <img class="pic1" src="${ contextPath }/resources/images/uploadFiles/${ attach.attachment.attSvName }">
+                            <img class="pic1" src="${ contextPath }/resources/uploadFiles/${ attach.attachment.attSvName }">
                             </c:when>
                             <c:when test="${ count eq 2 }">
                             <input class="p2" type="hidden" value="Y">
-                            <img class="pic2" src="${ contextPath }/resources/images/uploadFiles/${ attach.attachment.attSvName }">
+                            <img class="pic2" src="${ contextPath }/resources/uploadFiles/${ attach.attachment.attSvName }">
                             </c:when>
                             <c:when test="${ count eq 3 }">
                             <input class="p3" type="hidden" value="Y">
-                            <img class="pic3" src="${ contextPath }/resources/images/uploadFiles/${ attach.attachment.attSvName }">
+                            <img class="pic3" src="${ contextPath }/resources/uploadFiles/${ attach.attachment.attSvName }">
                             </c:when>
                             <c:when test="${ count eq 4 }">
                             <input class="p4" type="hidden" value="Y">
-                            <img class="pic4" src="${ contextPath }/resources/images/uploadFiles/${ attach.attachment.attSvName }">
+                            <img class="pic4" src="${ contextPath }/resources/uploadFiles/${ attach.attachment.attSvName }">
                             </c:when>
                             </c:choose>
                         </c:if>
@@ -184,7 +184,7 @@
 						                                    <p class="feed-link">피드로 이동</p>
 						                                </div>
 						                                </c:if>
-			                                            <img class="re-profile-picture" src="${ contextPath }/resources/images/member/${ fr.artiAttach.attSvName }">
+			                                            <img class="re-profile-picture" src="${ contextPath }/resources/uploadFiles/${ fr.artiAttach.attSvName }">
 			                                        </td>
 			                                        <td>
 			                                            <div class="comment-box">
@@ -219,7 +219,7 @@
 			                                    <c:otherwise>
 			                                    <tr class="comment-line">
 			                                        <td>
-			                                            <img class="re-profile-picture" src="${ contextPath }/resources/images/account/${ fr.userAttach.attSvName }">
+			                                            <img class="re-profile-picture" src="${ contextPath }/resources/uploadFiles/${ fr.userAttach.attSvName }">
 			                                        </td>
 			                                        <td>
 			                                            <div class="comment-box">
@@ -266,7 +266,7 @@
 		                        <c:otherwise>
 		                          <tr class="comment-line">
 		                            <td>
-		                                <img class="profile-picture" src="${ contextPath }/resources/images/account/${ fc.userAttach.attSvName }">
+		                                <img class="profile-picture" src="${ contextPath }/resources/uploadFiles/${ fc.userAttach.attSvName }">
 		                            </td>
 		                            <td>
 		                                <div class="comment-box">
@@ -319,7 +319,7 @@
 						                                    <p class="feed-link">피드로 이동</p>
 						                                </div>
 						                                </c:if>
-			                                            <img class="re-profile-picture" src="${ contextPath }/resources/images/member/${ fr.artiAttach.attSvName }">
+			                                            <img class="re-profile-picture" src="${ contextPath }/resources/uploadFiles/${ fr.artiAttach.attSvName }">
 			                                        </td>
 			                                        <td>
 			                                            <div class="comment-box">
@@ -354,7 +354,7 @@
 			                                    <c:otherwise>		                                    	
 			                                      <tr class="comment-line">
 			                                        <td>
-			                                            <img class="re-profile-picture" src="${ contextPath }/resources/images/account/${ fr.userAttach.attSvName }">
+			                                            <img class="re-profile-picture" src="${ contextPath }/resources/uploadFiles/${ fr.userAttach.attSvName }">
 			                                        </td>
 			                                        <td>
 			                                            <div class="comment-box">
@@ -457,8 +457,8 @@
                     </div>                   
                     <div class="main-content">
                         <div class="video-area">
-                            <video src="${ contextPath }/resources/images/official/${ m.mediaFile.vidSvName }"
-                            controls="controls" poster="${ contextPath }/resources/images/official/${ m.mediaFile.picSvName }"></video>
+                            <video src="${ contextPath }/resources/uploadFiles/${ m.mediaFile.vidSvName }"
+                            controls="controls" poster="${ contextPath }/resources/uploadFiles/${ m.mediaFile.picSvName }"></video>
                         </div>
                         <div class="text-area nanumsquare" style="resize:none;">${ m.official.mediaCtt }</div>
                     </div>
@@ -491,7 +491,7 @@
 		                                    <p class="feed-link">피드로 이동</p>
 		                                </div>
 		                                </c:if>
-		                                <img class="profile-picture" src="${ contextPath }/resources/images/member/${ mc.artiAttach.attSvName }">
+		                                <img class="profile-picture" src="${ contextPath }/resources/uploadFiles/${ mc.artiAttach.attSvName }">
 		                            </td>
 		                            <td>
 		                                <div class="comment-box">
@@ -551,7 +551,7 @@
 						                                    <p class="feed-link">피드로 이동</p>
 						                                </div>
 						                                </c:if>
-			                                            <img class="re-profile-picture" src="${ contextPath }/resources/images/member/${ mr.artiAttach.attSvName }">
+			                                            <img class="re-profile-picture" src="${ contextPath }/resources/uploadFiles/${ mr.artiAttach.attSvName }">
 			                                        </td>
 			                                        <td>
 			                                            <div class="comment-box">
@@ -586,7 +586,7 @@
 			                                    <c:otherwise>
 			                                    <tr class="comment-line">
 			                                        <td>
-			                                            <img class="re-profile-picture" src="${ contextPath }/resources/images/account/${ mr.userAttach.attSvName }">
+			                                            <img class="re-profile-picture" src="${ contextPath }/resources/uploadFiles/${ mr.userAttach.attSvName }">
 			                                        </td>
 			                                        <td>
 			                                            <div class="comment-box">
@@ -633,7 +633,7 @@
 		                        <c:otherwise>
 		                          <tr class="comment-line">
 		                            <td>
-		                                <img class="profile-picture" src="${ contextPath }/resources/images/account/${ mc.userAttach.attSvName }">
+		                                <img class="profile-picture" src="${ contextPath }/resources/uploadFiles/${ mc.userAttach.attSvName }">
 		                            </td>
 		                            <td>
 		                                <div class="comment-box">
@@ -686,7 +686,7 @@
 						                                    <p class="feed-link">피드로 이동</p>
 						                                </div>
 						                                </c:if>
-			                                            <img class="re-profile-picture" src="${ contextPath }/resources/images/member/${ mr.artiAttach.attSvName }">
+			                                            <img class="re-profile-picture" src="${ contextPath }/resources/uploadFiles/${ mr.artiAttach.attSvName }">
 			                                        </td>
 			                                        <td>
 			                                            <div class="comment-box">
@@ -721,7 +721,7 @@
 			                                    <c:otherwise>		                                    	
 			                                      <tr class="comment-line">
 			                                        <td>
-			                                            <img class="re-profile-picture" src="${ contextPath }/resources/images/account/${ mr.userAttach.attSvName }">
+			                                            <img class="re-profile-picture" src="${ contextPath }/resources/uploadFiles/${ mr.userAttach.attSvName }">
 			                                        </td>
 			                                        <td>
 			                                            <div class="comment-box">

@@ -13,7 +13,7 @@
 	<section class="profile-container nanumsquare">
         <div class="profile-box">
             <div class="profile-left">
-                <img id="profileImg" src="${ contextPath }/resources/images/member/${ arti.attachment.attSvName }">
+                <img id="profileImg" src="${ contextPath }/resources/uploadFiles/${ arti.attachment.attSvName }">
                 <table class="profile-area">
                     <colgroup>
                         <col width="15%"/>

@@ -34,7 +34,7 @@
                     <tr>
                         <th>소속아티스트</th>
                         <td>
-                            <input type="text" name="artiNameEn" value="IU" class="input-data" disabled>
+                            <input type="text" name="artiNameEn" value="IU" class="arti input-data" disabled>
                         </td>
                     </tr>
                     <tr>

@@ -10,10 +10,12 @@ import com.kh.fantimate.common.model.vo.ReplyCollection;
 import com.kh.fantimate.common.model.vo.Report;
 import com.kh.fantimate.feed.model.vo.Feed;
 import com.kh.fantimate.feed.model.vo.FeedCollection;
+import com.kh.fantimate.member.model.vo.Agency;
 import com.kh.fantimate.member.model.vo.Artist;
 import com.kh.fantimate.member.model.vo.ArtistGroup;
 import com.kh.fantimate.member.model.vo.Member;
 import com.kh.fantimate.official.model.vo.MediaCollection;
+import com.kh.fantimate.store.model.vo.StoreCollection;
 
 public interface MypageService {
 	/* 아티스트 메인(피드)페이지 */
@@ -73,6 +75,9 @@ public interface MypageService {
 
 	// 그룹 멤버 불러오기
 	List<Artist> selectMember(String id);
+	
+	// 소속사 프로필 수정하기
+	int updateAgencyProfile(Agency a, Member m);
 
 	// 아티스트 개인 아이디 불러오기
 	String selectArtistOneId(String name);
@@ -90,11 +95,23 @@ public interface MypageService {
 	int deleteMain(Map<String, String> map);
 
 	// 메인화면에 아티스트 등록하기
-	int enrollArtistMain(ArtistGroup ag, String id, String attSvName);
+	int enrollArtistMain(ArtistGroup ag, Attachment att);
 
 	// 아티스트 솔로 등록하기
-	int enrollArtistSolo(Artist a, String attSvName);
+	int enrollArtistSolo(Artist a, Attachment att);
 
 	// 회원 등록하기
 	int enrollMember(Member m);
+
+	// 아티스트 개인 등록하기
+	int enrollArtistOne(Artist a, Attachment att);
+
+	// 소속사 프로필 가져오기
+	Agency selectAgencyProfile(String agId);
+
+	// 스토어 리스트 가져오기
+	List<StoreCollection> selectStoreList(String artiName);
+
+	// 스토어 삭제하기
+	int deleteStoreItem(String pname);
 }
