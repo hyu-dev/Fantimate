@@ -117,8 +117,8 @@
 				$("input[name=agNum]").select();
 				return false;
 			}
-			if(!(/^(?=.*[a-zA-Z])(?=.*\d)(?=.*\W).{8,20}$/.test($("input[name=pwd]").val()))){
-				alert('비밀번호는 영어,숫자,특수문자를 포함한 8자리~20자리로 설정해 주세요.');
+			if(!(/^(?=.*[a-zA-Z])(?=.*\d)(?=.*\W).{5,20}$/.test($("input[name=pwd]").val()))){
+				alert('비밀번호는 영어,숫자,특수문자를 포함한 5자리~20자리로 설정해 주세요.');
 				$("input[name=pwd]").select();
 				return false;
 			}
