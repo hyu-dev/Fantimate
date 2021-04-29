@@ -1306,7 +1306,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		    UPDATE
                     ATT_SUBSCRIBE
                SET
-                    SUB_STATUS = 'N'
+                    SUB_STATUS = 'Y'
              WHERE
                     U_ID = #{uid}
                AND  SUB_CODE = #{subCode}
