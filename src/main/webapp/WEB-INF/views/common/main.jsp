@@ -89,7 +89,7 @@
         			artistList.html("");
         			
         			 for(var i in data){
-        				 artistList.append("<div class='artistList-move' onclick='subscribePage()'><img src='${ contextPath }/resources/images/main/"+ data[i].att.attSvName +"' alt='' class='artist-pic'><span class='artist-name'>"+ data[i].artG.artNameEn +"</span></div>");
+        				 artistList.append("<div class='artistList-move' onclick='subscribePage()'><img src='${ contextPath }/resources/uploadFiles/"+ data[i].att.attSvName +"' alt='' class='artist-pic'><span class='artist-name'>"+ data[i].artG.artNameEn +"</span></div>");
         				 //console.log(data[i].artNameEn);
         			 }
         			
@@ -160,7 +160,7 @@
         			artistList.html("");
         			
         			 for(var i in data){
-        				 artistList.append("<div class='artistList-move2' onclick='subScribe(" + "\"" + data[i].artG.artNameEn + "\"" + ")'><img src='${ contextPath }/resources/images/main/"+ data[i].att.attSvName +"' alt='' class='artist-pic'><span class='artist-name'>"+ data[i].artG.artNameEn +"</span><img src='${ contextPath }/resources/icon/heart-pink.png' alt='' class='fav-img'></div>");
+        				 artistList.append("<div class='artistList-move2' onclick='subScribe(" + "\"" + data[i].artG.artNameEn + "\"" + ")'><img src='${ contextPath }/resources/uploadFiles/"+ data[i].att.attSvName +"' alt='' class='artist-pic'><span class='artist-name'>"+ data[i].artG.artNameEn +"</span><img src='${ contextPath }/resources/icon/heart-pink.png' alt='' class='fav-img'></div>");
         				// <img src="${ contextPath }/resources/icon/heart-pink.png" alt="" class="like-img">
 
         			 }
@@ -202,7 +202,7 @@
         			artistList.html("");
         			
         			 for(var i in data){
-        				 artistList.append("<div class='artistList-move' onclick='subScribe(" + "\"" + data[i].artG.artNameEn + "\"" + ")'><img src='${ contextPath }/resources/images/main/"+ data[i].att.attSvName +"' alt='' class='artist-pic'><span class='artist-name'>"+ data[i].artG.artNameEn +"</span></div>");
+        				 artistList.append("<div class='artistList-move' onclick='subScribe(" + "\"" + data[i].artG.artNameEn + "\"" + ")'><img src='${ contextPath }/resources/uploadFiles/"+ data[i].att.attSvName +"' alt='' class='artist-pic'><span class='artist-name'>"+ data[i].artG.artNameEn +"</span></div>");
         			 }
         			
         			
@@ -292,9 +292,9 @@
        						if(data[i].att2.attSvName != undefined){ // 사진이 있는 경우 
 	       						// 슬라이드 1
 	        					var feedInfoSlide1= $("<div class='artist-feed-info'>");
-	        					var aSlide1=$("<a href='#' class='img-box'><img src='${ contextPath }/resources/images/main/"+ data[i].att2.attSvName+"' alt='' class='feed-pic' onclick='goToFeed("+ data[i].fd.fid +")'></a>")
+	        					var aSlide1=$("<a href='#' class='img-box'><img src='${ contextPath }/resources/uploadFiles/"+ data[i].att2.attSvName+"' alt='' class='feed-pic' onclick='goToFeed("+ data[i].fd.fid +")'></a>")
 	        					var feedSlide1= $("<div class='feed-info-section'>");
-	        					var profileSlide1=$("<div class='profile-info'><div class='profile-circle'><img src='${ contextPath }/resources/images/main/"+ data[i].att.attSvName+"' alt='' class='feed-profile'></div><p class='profile-name'>"+ data[i].li.id+"</p></div>");
+	        					var profileSlide1=$("<div class='profile-info'><div class='profile-circle'><img src='${ contextPath }/resources/uploadFiles/"+ data[i].att.attSvName+"' alt='' class='feed-profile'></div><p class='profile-name'>"+ data[i].li.id+"</p></div>");
 	        					var likeSlide1 =$("<div class='like-info'><img src='${ contextPath }/resources/icon/heart-pink.png' alt='' class='like-img'><p class='like-count'>"+ data[i].fd.flike +"</p></div>");
 	        					
 	        					feedSlide1.append(profileSlide1,likeSlide1);
@@ -310,7 +310,7 @@
 	        					var feedInfoSlide1= $("<div class='artist-feed-info'>");
 	        					var textSlide1=$("<div class='feed-text-section'><img src='${ contextPath }/resources/images/main/text2.svg' alt='' onclick='goToFeed("+ data[i].fd.fid +")' class='feed-pic'><span class='feed-text'>"+ data[i].fd.fcontent +"</span></div>");
 	        					var feedSlide1= $("<div class='feed-info-section'>");
-	        					var profileSlide1=$("<div class='profile-info'><div class='profile-circle'><img src='${ contextPath }/resources/images/main/"+ data[i].att.attSvName+"' alt='' class='feed-profile'></div><p class='profile-name'>"+ data[i].li.id+"</p></div>");
+	        					var profileSlide1=$("<div class='profile-info'><div class='profile-circle'><img src='${ contextPath }/resources/uploadFiles/"+ data[i].att.attSvName+"' alt='' class='feed-profile'></div><p class='profile-name'>"+ data[i].li.id+"</p></div>");
 	        					var likeSlide1 =$("<div class='like-info'><img src='${ contextPath }/resources/icon/heart-pink.png' alt='' class='like-img'><p class='like-count'>"+ data[i].fd.flike +"</p></div>");
 	        					
 	        					feedSlide1.append(profileSlide1,likeSlide1);
@@ -329,9 +329,9 @@
        						if(data[i].att2.attSvName != undefined){
 	       						// 슬라이드 2
 	       						var feedInfoSlide2= $("<div class='artist-feed-info'>");
-	        					var aSlide2=$("<a href='#' class='img-box'><img src='${ contextPath }/resources/images/main/"+ data[i].att2.attSvName+"' alt='' onclick='goToFeed("+ data[i].fd.fid +")' class='feed-pic'></a>")
+	        					var aSlide2=$("<a href='#' class='img-box'><img src='${ contextPath }/resources/uploadFiles/"+ data[i].att2.attSvName+"' alt='' onclick='goToFeed("+ data[i].fd.fid +")' class='feed-pic'></a>")
 	        					var feedSlide2= $("<div class='feed-info-section'>");
-	        					var profileSlide2=$("<div class='profile-info'><div class='profile-circle'><img src='${ contextPath }/resources/images/main/"+ data[i].att.attSvName+"' alt='' class='feed-profile'></div><p class='profile-name'>"+ data[i].li.id+"</p></div>");
+	        					var profileSlide2=$("<div class='profile-info'><div class='profile-circle'><img src='${ contextPath }/resources/uploadFiles/"+ data[i].att.attSvName+"' alt='' class='feed-profile'></div><p class='profile-name'>"+ data[i].li.id+"</p></div>");
 	        					var likeSlide2 =$("<div class='like-info'><img src='${ contextPath }/resources/icon/heart-pink.png' alt='' class='like-img'><p class='like-count'>"+ data[i].fd.flike +"</p></div>");
 	        					
 	        					feedSlide2.append(profileSlide2,likeSlide2);
@@ -345,7 +345,7 @@
        							var feedInfoSlide2= $("<div class='artist-feed-info'>");
 	        					var textSlide2=$("<div class='feed-text-section'><img src='${ contextPath }/resources/images/main/text2.svg' onclick='goToFeed("+ data[i].fd.fid +")' alt='' class='feed-pic'><span class='feed-text'>"+ data[i].fd.fcontent +"</span></div>");
 	        					var feedSlide2= $("<div class='feed-info-section'>");
-	        					var profileSlide2=$("<div class='profile-info'><div class='profile-circle'><img src='${ contextPath }/resources/images/main/"+ data[i].att.attSvName+"' alt='' class='feed-profile'></div><p class='profile-name'>"+ data[i].li.id+"</p></div>");
+	        					var profileSlide2=$("<div class='profile-info'><div class='profile-circle'><img src='${ contextPath }/resources/uploadFiles/"+ data[i].att.attSvName+"' alt='' class='feed-profile'></div><p class='profile-name'>"+ data[i].li.id+"</p></div>");
 	        					var likeSlide2 =$("<div class='like-info'><img src='${ contextPath }/resources/icon/heart-pink.png' alt='' class='like-img'><p class='like-count'>"+ data[i].fd.flike +"</p></div>");
 	        					
 	        					feedSlide2.append(profileSlide2,likeSlide2);
@@ -363,9 +363,9 @@
        						if(data[i].att2.attSvName != undefined){
 	       						// 슬라이드 3
 	       						var feedInfoSlide3= $("<div class='artist-feed-info'>");
-	        					var aSlide3=$("<a href='#' class='img-box'><img src='${ contextPath }/resources/images/main/"+ data[i].att2.attSvName+"' alt='' onclick='goToFeed("+ data[i].fd.fid +")' class='feed-pic'></a>")
+	        					var aSlide3=$("<a href='#' class='img-box'><img src='${ contextPath }/resources/uploadFiles/"+ data[i].att2.attSvName+"' alt='' onclick='goToFeed("+ data[i].fd.fid +")' class='feed-pic'></a>")
 	        					var feedSlide3= $("<div class='feed-info-section'>");
-	        					var profileSlide3=$("<div class='profile-info'><div class='profile-circle'><img src='${ contextPath }/resources/images/main/"+ data[i].att.attSvName+"' alt='' class='feed-profile'></div><p class='profile-name'>"+ data[i].li.id+"</p></div>");
+	        					var profileSlide3=$("<div class='profile-info'><div class='profile-circle'><img src='${ contextPath }/resources/uploadFiles/"+ data[i].att.attSvName+"' alt='' class='feed-profile'></div><p class='profile-name'>"+ data[i].li.id+"</p></div>");
 	        					var likeSlide3 =$("<div class='like-info'><img src='${ contextPath }/resources/icon/heart-pink.png' alt='' class='like-img'><p class='like-count'>"+ data[i].fd.flike +"</p></div>");
 	        					
 	        					feedSlide3.append(profileSlide3,likeSlide3);
@@ -379,7 +379,7 @@
        							var feedInfoSlide3= $("<div class='artist-feed-info'>");
 	        					var textSlide3=$("<div class='feed-text-section'><img src='${ contextPath }/resources/images/main/text2.svg' alt='' onclick='goToFeed("+ data[i].fd.fid +")' class='feed-pic'><span class='feed-text'>"+ data[i].fd.fcontent +"</span></div>");
 	        					var feedSlide3= $("<div class='feed-info-section'>");
-	        					var profileSlide3=$("<div class='profile-info'><div class='profile-circle'><img src='${ contextPath }/resources/images/main/"+ data[i].att.attSvName+"' alt='' class='feed-profile'></div><p class='profile-name'>"+ data[i].li.id+"</p></div>");
+	        					var profileSlide3=$("<div class='profile-info'><div class='profile-circle'><img src='${ contextPath }/resources/uploadFiles/"+ data[i].att.attSvName+"' alt='' class='feed-profile'></div><p class='profile-name'>"+ data[i].li.id+"</p></div>");
 	        					var likeSlide3 =$("<div class='like-info'><img src='${ contextPath }/resources/icon/heart-pink.png' alt='' class='like-img'><p class='like-count'>"+ data[i].fd.flike +"</p></div>");
 	        					
 	        					feedSlide3.append(profileSlide3,likeSlide3);
@@ -486,9 +486,9 @@
        						
 	       						// 슬라이드 1
 	        					var feedInfoSlide1= $("<div class='media-feed-info'>");
-	        					var aSlide1=$("<video src='${ contextPath }/resources/images/official/"+ data[i].mf.vidSvName+"' controls='controls' poster='${ contextPath }/resources/images/official/"+ data[i].mf.picSvName+"' class='media-pic'></video>")
+	        					var aSlide1=$("<video src='${ contextPath }/resources/uploadFiles/"+ data[i].mf.vidSvName+"' controls='controls' poster='${ contextPath }/resources/uploadFiles/"+ data[i].mf.picSvName+"' class='media-pic'></video>")
 	        					var feedSlide1= $("<div class='media-info-section' onclick='goToMedia("+ data[i].of.mediaNum +")'>");
-	        					var profileSlide1=$("<div class='profile-info'><div class='profile-circle'><img src='${ contextPath }/resources/images/main/"+ data[i].att.attSvName+"' alt='' class='feed-profile'></div><p class='profile-name'>"+ data[i].sb.artNameEn+"</p></div>");
+	        					var profileSlide1=$("<div class='profile-info'><div class='profile-circle'><img src='${ contextPath }/resources/uploadFiles/"+ data[i].att.attSvName+"' alt='' class='feed-profile'></div><p class='profile-name'>"+ data[i].sb.artNameEn+"</p></div>");
 	        					var likeSlide1 =$("<div class='play-info'><img src='${ contextPath }/resources/images/main/play.svg' alt='' class='play-img'><p class='like-count'>"+ data[i].of.mediaCount +"</p></div>");
 	        					
 	        					feedSlide1.append(profileSlide1,likeSlide1);
@@ -503,9 +503,9 @@
        						
 	       						// 슬라이드 2
 	       						var feedInfoSlide2= $("<div class='media-feed-info'>");
-	        					var aSlide2=$("<video src='${ contextPath }/resources/images/official/"+ data[i].mf.vidSvName+"' controls='controls' poster='${ contextPath }/resources/images/official/"+ data[i].mf.picSvName+"' class='media-pic'></video>")
+	        					var aSlide2=$("<video src='${ contextPath }/resources/uploadFiles/"+ data[i].mf.vidSvName+"' controls='controls' poster='${ contextPath }/resources/uploadFiles/"+ data[i].mf.picSvName+"' class='media-pic'></video>")
 	        					var feedSlide2= $("<div class='media-info-section' onclick='goToMedia("+ data[i].of.mediaNum +")'>");
-	        					var profileSlide2=$("<div class='profile-info'><div class='profile-circle'><img src='${ contextPath }/resources/images/main/"+ data[i].att.attSvName+"' alt='' class='feed-profile'></div><p class='profile-name'>"+ data[i].sb.artNameEn+"</p></div>");
+	        					var profileSlide2=$("<div class='profile-info'><div class='profile-circle'><img src='${ contextPath }/resources/uploadFiles/"+ data[i].att.attSvName+"' alt='' class='feed-profile'></div><p class='profile-name'>"+ data[i].sb.artNameEn+"</p></div>");
 	        					var likeSlide2 =$("<div class='play-info'><img src='${ contextPath }/resources/images/main/play.svg' alt='' class='play-img'><p class='like-count'>"+ data[i].of.mediaCount +"</p></div>");
 	        					
 	        					feedSlide2.append(profileSlide2,likeSlide2);
@@ -520,9 +520,9 @@
        						
 	       						// 슬라이드 3
 	       						var feedInfoSlide3= $("<div class='media-feed-info'>");
-	        					var aSlide3=$("<video src='${ contextPath }/resources/images/official/"+ data[i].mf.vidSvName+"' controls='controls' poster='${ contextPath }/resources/images/official/"+ data[i].mf.picSvName+"' class='media-pic'></video>")
+	        					var aSlide3=$("<video src='${ contextPath }/resources/uploadFiles/"+ data[i].mf.vidSvName+"' controls='controls' poster='${ contextPath }/resources/uploadFiles/"+ data[i].mf.picSvName+"' class='media-pic'></video>")
 	        					var feedSlide3= $("<div class='media-info-section' onclick='goToMedia("+ data[i].of.mediaNum +")'>");
-	        					var profileSlide3=$("<div class='profile-info'><div class='profile-circle'><img src='${ contextPath }/resources/images/main/"+ data[i].att.attSvName+"' alt='' class='feed-profile'></div><p class='profile-name'>"+ data[i].sb.artNameEn+"</p></div>");
+	        					var profileSlide3=$("<div class='profile-info'><div class='profile-circle'><img src='${ contextPath }/resources/uploadFiles/"+ data[i].att.attSvName+"' alt='' class='feed-profile'></div><p class='profile-name'>"+ data[i].sb.artNameEn+"</p></div>");
 	        					var likeSlide3 =$("<div class='play-info'><img src='${ contextPath }/resources/images/main/play.svg' alt='' class='play-img'><p class='like-count'>"+ data[i].of.mediaCount +"</p></div>");
 	        					
 	        					feedSlide3.append(profileSlide3,likeSlide3);
@@ -623,7 +623,7 @@
 	       						// 슬라이드 1
 	        					var feedInfoSlide1= $("<div class='store-feed-info'>");
 	        					var aSlide1=$("<img src='${ contextPath }/resources/images/main/storeBackground.svg' alt='' class='store-background'>")
-	        					var aSlide11=$("<img src='${ contextPath }/resources/images/store/"+ data[i].att.attSvName+"' alt='' onclick='goToStore("+ data[i].s.pcode +")' class='store-pic'>")
+	        					var aSlide11=$("<img src='${ contextPath }/resources/uploadFiles/"+ data[i].att.attSvName+"' alt='' onclick='goToStore("+ data[i].s.pcode +")' class='store-pic'>")
 	        					var profileSlide1=$("<div class='profile-info'><p class='profile-name'>"+ data[i].s.pname+"</p></div>");
 	        					
 	        					feedInfoSlide1.append(aSlide1,aSlide11,profileSlide1);
@@ -637,7 +637,7 @@
 	       						// 슬라이드 2
 	        					var feedInfoSlide2= $("<div class='store-feed-info'>");
 	        					var aSlide2=$("<img src='${ contextPath }/resources/images/main/storeBackground.svg' alt='' class='store-background'>")
-	        					var aSlide22=$("<img src='${ contextPath }/resources/images/store/"+ data[i].att.attSvName+"' alt='' onclick='goToStore("+ data[i].s.pcode +")' class='store-pic'>")
+	        					var aSlide22=$("<img src='${ contextPath }/resources/uploadFiles/"+ data[i].att.attSvName+"' alt='' onclick='goToStore("+ data[i].s.pcode +")' class='store-pic'>")
 	        					var profileSlide2=$("<div class='profile-info'><p class='profile-name'>"+ data[i].s.pname+"</p></div>");
 	        					
 	        					feedInfoSlide2.append(aSlide2,aSlide22,profileSlide2);
@@ -652,7 +652,7 @@
 	       						// 슬라이드 3
 	        					var feedInfoSlide3= $("<div class='store-feed-info'>");
 	        					var aSlide3=$("<img src='${ contextPath }/resources/images/main/storeBackground.svg' alt='' class='store-background'>")
-	        					var aSlide33=$("<img src='${ contextPath }/resources/images/store/"+ data[i].att.attSvName+"' onclick='goToStore("+ data[i].s.pcode +")' alt='' class='store-pic'>")
+	        					var aSlide33=$("<img src='${ contextPath }/resources/uploadFiles/"+ data[i].att.attSvName+"' onclick='goToStore("+ data[i].s.pcode +")' alt='' class='store-pic'>")
 	        					var profileSlide3=$("<div class='profile-info'><p class='profile-name'>"+ data[i].s.pname+"</p></div>");
 	        					
 	        					feedInfoSlide3.append(aSlide3,aSlide33,profileSlide3);
@@ -723,7 +723,7 @@
          				if(i == 1){
          					
          					var mediaInfo1 = $("<div class='media-feed-info'>");
-         					var video1 = $("<video src='${ contextPath }/resources/images/official/"+ data[i].mf.vidSvName+"' controls='controls' poster='${ contextPath }/resources/images/official/"+ data[i].mf.picSvName+"' class='chart-pic'></video>");
+         					var video1 = $("<video src='${ contextPath }/resources/uploadFiles/"+ data[i].mf.vidSvName+"' controls='controls' poster='${ contextPath }/resources/uploadFiles/"+ data[i].mf.picSvName+"' class='chart-pic'></video>");
          					var div1 = $("<div class='chart-info-section'>");
          					var title1=$("<div class='profile-info'><p class='chart-rank'>"+"#2"+"</p><p class='profile-name'>"+data[i].of.mediaTtl+"</p></div>");
          					var hit1=$("<div class='play-info'><img src='${ contextPath }/resources/images/main/play.svg' alt='' class='play-img'><p class='like-count'>"+data[i].hc.count+"</p></div>");
@@ -734,7 +734,7 @@
          				}else if(i == 0){
          					
          					var mediaInfo2 = $("<div class='media-feed-info'>");
-         					var video2 = $("<video src='${ contextPath }/resources/images/official/"+ data[i].mf.vidSvName+"' controls='controls' poster='${ contextPath }/resources/images/official/"+ data[i].mf.picSvName+"' id='numberOneChart'></video>");
+         					var video2 = $("<video src='${ contextPath }/resources/uploadFiles/"+ data[i].mf.vidSvName+"' controls='controls' poster='${ contextPath }/resources/uploadFiles/"+ data[i].mf.picSvName+"' id='numberOneChart'></video>");
          					var div2 = $("<div class='rank1-info-section'>");
          					var title2=$("<div class='profile-info'><p class='chart-rank'>"+"#1"+"</p><p class='profile-name'>"+data[i].of.mediaTtl+"</p></div>");
          					var hit2=$("<div class='play-info'><img src='${ contextPath }/resources/images/main/play.svg' alt='' class='play-img'><p class='like-count'>"+data[i].hc.count+"</p></div>");
@@ -745,7 +745,7 @@
          				}else if(i == 2){
          					
          					var mediaInfo3 = $("<div class='media-feed-info'>");
-         					var video3 = $("<video src='${ contextPath }/resources/images/official/"+ data[i].mf.vidSvName+"' controls='controls' poster='${ contextPath }/resources/images/official/"+ data[i].mf.picSvName+"' class='chart-pic'></video>");
+         					var video3 = $("<video src='${ contextPath }/resources/uploadFiles/"+ data[i].mf.vidSvName+"' controls='controls' poster='${ contextPath }/resources/uploadFiles/"+ data[i].mf.picSvName+"' class='chart-pic'></video>");
          					var div3 = $("<div class='chart-info-section'>");
          					var title3=$("<div class='profile-info'><p class='chart-rank'>"+"#3"+"</p><p class='profile-name'>"+data[i].of.mediaTtl+"</p></div>");
          					var hit3=$("<div class='play-info'><img src='${ contextPath }/resources/images/main/play.svg' alt='' class='play-img'><p class='like-count'>"+data[i].hc.count+"</p></div>");

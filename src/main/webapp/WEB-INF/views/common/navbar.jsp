@@ -804,7 +804,7 @@
 						var label = $("<label for='friend"+i+"'>");
                         var friendInfo = $("<div class='friend-info-section'>");
                         var profileInfo = $("<div class='profile-info'>");
-                        var friendProfile = $("<div class='profile-circle'><img src='${ contextPath }/resources/images/main/"+ data.flist[i].att.attSvName+"' alt='' class='friend-profile'></div>")
+                        var friendProfile = $("<div class='profile-circle'><img src='${ contextPath }/resources/uploadFiles/"+ data.flist[i].att.attSvName+"' alt='' class='friend-profile'></div>")
                         var friendId = $("<p class='friend-profile-name'>"+ data.flist[i].att.id +"</p>");
                         var sendBtn = $("<div class='sendBtn-section'><button class='sendBtn' onclick='sendMess("+ "\"" + data.flist[i].att.id+ "\"" + ")'>"+ "쪽지 보내기" +"</button></div>");
                         var arrow = $("<em></em>");

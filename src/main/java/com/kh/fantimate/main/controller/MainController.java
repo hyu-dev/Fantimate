@@ -215,7 +215,7 @@ public class MainController {
 	
 	public String saveFile(MultipartFile file, HttpServletRequest request) {
 		String root = request.getSession().getServletContext().getRealPath("resources");
-		String savePath = root + "\\suploadFiles";
+		String savePath = root + "\\uploadFiles";
 		File folder = new File(savePath); // 메모리상에서 객체 파일 만들기 
 		if(!folder.exists()) folder.mkdir(); // -> 해당 경로가 존재하지 않는다면 디렉토리 생성
 		
