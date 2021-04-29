@@ -200,6 +200,15 @@
             $(this).prop('selected', false);
         });
     }
+	
+	// 카테고리를 변경할 때
+	$("category-box").change(function() {
+		var category = $("category-box option:selected").val();
+		
+		if(category != "") {
+			location.href = "${ contextPath }/mypage/agency/store?category=" + category;
+		} 
+	});
 	</script>
 </body>
 </html>

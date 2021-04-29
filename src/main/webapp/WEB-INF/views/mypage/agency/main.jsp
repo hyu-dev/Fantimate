@@ -122,7 +122,7 @@
     <!-- 솔로 아티스트 등록 -->
     <section class="solo-form-container pop-up">
         <div class="black-back"></div>
-        <form class="solo-artist-form artist-form">
+        <form class="solo-artist-form artist-form" enctype="multipart/form-data">
             <span class="artist-text nanumsquare">아티스트 등록 (솔로)</span>
             <hr>
             <table class="artist-table" class="nanumsquare">
@@ -187,7 +187,7 @@
     <!-- 그룹 아티스트 등록 -->
     <section class="team-form-container pop-up">
         <div class="black-back"></div>
-        <form class="team-artist-form artist-form">
+        <form class="team-artist-form artist-form" enctype="multipart/form-data">
             <span class="artist-text nanumsquare">아티스트 등록 (팀)</span>
             <hr>
             <table class="team-artist-table" class="nanumsquare">
@@ -226,7 +226,7 @@
     <!-- 개인 아티스트 등록 -->
     <section class="one-form-container pop-up">
         <div class="black-back"></div>
-        <form class="one-artist-form artist-form">
+        <form class="one-artist-form artist-form" enctype="multipart/form-data">
             <span class="artist-text nanumsquare">아티스트 등록 (개인)</span>
             <hr>
             <table class="artist-table" class="nanumsquare">
