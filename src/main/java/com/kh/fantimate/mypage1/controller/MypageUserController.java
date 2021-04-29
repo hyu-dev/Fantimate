@@ -543,7 +543,7 @@ public class MypageUserController {
 			
 			Map<String, String> map = new HashMap<>();
 			map.put("id", id);
-			map.put("artiName", artiName);
+			map.put("artiName", artiName); 
 			
 			// 북마크(피드/미디어) 리스트 가져오기
 			List<FeedCollection> feed = mService.selectBookmarkList(map);
