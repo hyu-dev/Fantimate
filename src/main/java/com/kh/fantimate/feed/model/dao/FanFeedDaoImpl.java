@@ -228,6 +228,40 @@ public class FanFeedDaoImpl implements FanFeedDao{
 		return sqlSession.selectList("fanfeedMapper.selectReplyAllList", artNameEn);
 	}
 
+	// ***************************** 좋아요 수정 
+	
+	// 좋아요 등록 
+	@Override
+	public int insertLike2(Like like) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("fanfeedMapper.insertLike2" ,like);
+	}
+
+	@Override
+	public int updateLike2(int fid) {
+		
+		return sqlSession.update("fanfeedMapper.updateFeedLike2",fid);
+	}
+
+	// 좋아요 취소 
+	@Override
+	public int deleteLike2(Like like) {
+		
+		return sqlSession.delete("fanfeedMapper.deleteLike2",like);
+	}
+
+	@Override
+	public int updateDeleteLike2(int fid) {
+		
+		return sqlSession.update("fanfeedMapper.updateFeedLikeCancel2",fid);
+	}
+
+	@Override
+	public int selectLike2(int fid) {
+		
+		return sqlSession.selectOne("fanfeedMapper.selectLike2" ,fid);
+	}
+
 	// 모든 유저 컬렉션
 	/*
 	 * @Override public List<MemberCollection> selectSumList() { return

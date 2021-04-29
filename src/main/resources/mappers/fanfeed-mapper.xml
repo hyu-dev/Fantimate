@@ -452,7 +452,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	</insert>
 	
 	<!-- 좋아요 누른 유저 추가 -->
-	<insert id="insertLike">
+	<!-- <insert id="insertLike">
 	INSERT
 		INTO	B_LIKE
 		(
@@ -468,17 +468,17 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 			,	#{refId}
 			,	DEFAULT
 		)	
-	</insert>
+	</insert> -->
 	
 	<!-- 좋아요 누른 유저 추가될 때 BOARD 테이블 BLIKE 컬럼 업데이트 -->
-	<update id="updateFeedLike" parameterType="Feed">
+	<!-- <update id="updateFeedLike" parameterType="Feed">
 	UPDATE
 			BOARD
 	SET
-			BLIKE = #{flike} + 1
+			BLIKE = BLIKE + 1
 	WHERE
 			BID = #{fid}
-	</update>
+	</update> -->
 	
 	<!-- 쪽지 보내기 -->
 	<insert id="insertMessage">
@@ -653,22 +653,22 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	</select>
 	
 	<!-- 좋아요 취소 -->
-	<delete id="deleteLike" parameterType="_int">
+	<!-- <delete id="deleteLike" parameterType="_int">
 		DELETE 
 		FROM 	B_LIKE
 		WHERE 
 				BID = #{refId}
-	</delete>
+	</delete> -->
 	
 	<!-- 좋아요 취소시 좋아요 수 업데이트 -->
-	<update id="updateFeedLikeCancel" parameterType="Feed">
+	<!-- <update id="updateFeedLikeCancel" parameterType="Feed">
 	UPDATE
 			BOARD
 	SET
 			BLIKE = #{flike} - 1
 	WHERE
 			BID = #{fid}
-	</update>
+	</update> -->
 	
 	<!-- 좋아요 눌렀을 시 화면단에 좋아요 갯수 증가 시키기 -->
 	<select id="selectFeedLike" resultType="_int">
@@ -753,5 +753,69 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
            BSTATUS = 'Y'
   ORDER BY
            BRCREATE DESC
-	</select>			
+	</select>	
+	
+	
+	<!-- 좋아요 수정 ***************************** -->	
+	
+	<!-- 좋아요 누른 유저 추가 -->
+	<insert id="insertLike2" parameterType="Like">
+	INSERT
+		INTO	B_LIKE
+		(
+				BLID
+			,	ID
+			,	BID
+			,	BL_STATUS
+		)
+		VALUES
+		(
+				SEQ_B_LIKE.NEXTVAL
+			,	#{id}
+			,	#{refId}
+			,	DEFAULT
+		)	
+	</insert>
+	
+	<!-- 좋아요 누른 유저 추가될 때 BOARD 테이블 BLIKE 컬럼 업데이트 -->
+	<update id="updateFeedLike2" parameterType="_int">
+	UPDATE
+			BOARD
+	SET
+			BLIKE = BLIKE + 1
+	WHERE
+			BID = #{fid}
+	</update>
+	
+	<!-- 좋아요 취소 -->
+	<delete id="deleteLike2" parameterType="Like">
+		DELETE 
+		FROM 	B_LIKE
+		WHERE 
+				BID = #{refId}
+		AND 
+			   ID = #{id}
+	</delete>
+	
+	<!-- 좋아요 취소시 좋아요 수 업데이트 -->
+	<update id="updateFeedLikeCancel2" parameterType="_int">
+	UPDATE
+			BOARD
+	SET
+			BLIKE = BLIKE - 1
+	WHERE
+			BID = #{fid}
+	</update>
+	
+	<!-- 좋아요 갯수 select -->
+	<select id="selectLike2" resultType="_int">
+	SELECT
+          BLIKE
+    FROM
+          BOARD
+    WHERE
+         BID = #{fid}
+	</select>
+	
+		
 </mapper>
