@@ -16,6 +16,7 @@
     <title>Fantimate</title>
 </head>
 <body>
+	<c:set var="page" value="<%= request.getRequestURL() %>" />
 	<aside class="main-contents-left">
         <div class="artist-follower">
             <p class="artist-name">${artiName}</p>
@@ -28,26 +29,25 @@
             <a class="official-url" href="${ contextPath }/official/media/main">OFFICIAL</a>
             <a href="${ contextPath }/store/storeList">STORE</a>
         </div>
-        <if test="${ page eq 'http://localhost:8800/fantimate/WEB-INF/views/store/storeList.jsp' }">
+        <c:if test="${ page eq 'http://localhost:8800/fantimate/WEB-INF/views/store/storeList.jsp' }">
         <div class="store-search contents-search">
             <div class="search-area">
                 <input type="text" name="search" class="contents-search-input">
                 <img src="${ contextPath }/resources/icon/search-icon.svg" class="search-icon" alt="">
             </div>
-            <div class="category-search-result"></div>
+            <div class="category-search-result store-result"></div>
         </div>
-        </if>
-        <if test="${ page eq 'http://localhost:8800/fantimate/WEB-INF/views/official/media/main.jsp' }">
-        <form class="official-search contents-search" action="" method="get">
+        </c:if>
+        <c:if test="${ page eq 'http://localhost:8800/fantimate/WEB-INF/views/official/media/main.jsp' }">
+        <div class="official-search contents-search" action="" method="get">
             <div class="search-area">
-                <input type="search" class="contents-search-input">
+                <input type="text" class="contents-search-input">
                 <img src="${ contextPath }/resources/icon/search-icon.svg" class="search-icon" alt="">
             </div>
-            <div class="category-search-result"></div>
-        </form>
-        </if>
+            <div class="category-search-result official-result"></div>
+        </div>
+        </c:if>
      </aside>
-     <c:set var="page" value="<%= request.getRequestURL() %>" />
      
      <script type="text/javascript">
      	// 페이지로드시 카테고리 색상변화
@@ -77,9 +77,9 @@
      	});
 	     
 	    // 카테고리 검색창에 데이터 입력시
-		$(".contents-search-input").on('keyup', function() {
+		$(".contents-search-input").on('keyup', function(e) {
 			var search = $(this).val();
-			var div = $(".category-search-result");
+			var div = $(this).parent().next(".category-search-result");
 			console.log(search)
 	        // 스토어에서 검색한 것이라면
 	        if($('.category a').eq(3).css('color') == 'rgb(92, 95, 120)') {
@@ -90,13 +90,13 @@
 					success : function(data) {
 						div.html("");
 						if(data.list.length > 0) {
-							$('.category-search-result').css('display', 'block');
+							div.css('display', 'block');
 							for(var i in data.list) {
 								var p = $("<p>").text(data.list[i].store.pname);
 								div.append(p);
 							}
 						} else {
-							$('.category-search-result').css('display', 'block');
+							div.css('display', 'block');
 							var p = $("<p>").text("검색된 데이터가 없습니다");
 							div.append(p);
 						}
@@ -107,22 +107,27 @@
 		    	})
 		    } else {
 		    	// 스토어에서 검색한 것이 아니라면 (오피셜에서 검색한 것이라면)
+		    	console.log("오피셜 등록")
 		    	$.ajax({
 		    		// 컨트롤러랑 경로만 맞춰주시면 됩니다
-		    		url : "${ pageContext.request.contextPath }/official/search/" + search,
+		    		url : "${ pageContext.request.contextPath }/official/search?search=" + search,
 		    		data : "get",
 					dateType : "json",
-					contentType : "application/json; charset=utf-8",
 					success : function(data) {
+						console.log(data)
 						div.html("");
 						if(data.length > 0) {
-							$('.category-search-result').css('display', 'block');
-							for(var i in data) {
-								var p = $("<p>").text(data[i].official.mediaTtl);
-								div.append(p);
+							if(search == '') {
+								div.css('display', 'none');
+							} else {
+								div.css('display', 'block');
+								for(var i in data) {
+									var p = $("<p>").text(data[i].official.mediaTtl);
+									div.append(p);
+								}
 							}
 						} else {
-							$('.category-search-result').css('display', 'block');
+							div.css('display', 'block');
 							var p = $("<p>").text("검색된 데이터가 없습니다");
 							div.append(p);
 						}
@@ -134,7 +139,7 @@
 		    }
 	        // 인풋값이 비어있다면
 	        if(search == '') {
-	        	$('.category-search-result').css('display', 'none');
+	        	div.css('display', 'none');
 	        }
 		})
 		

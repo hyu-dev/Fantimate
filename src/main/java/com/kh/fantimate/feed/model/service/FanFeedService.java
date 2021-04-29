@@ -17,6 +17,7 @@ import com.kh.fantimate.common.model.vo.Friend;
 import com.kh.fantimate.common.model.vo.Like;
 import com.kh.fantimate.common.model.vo.Message;
 import com.kh.fantimate.common.model.vo.Reply;
+import com.kh.fantimate.common.model.vo.ReplyCollection;
 import com.kh.fantimate.common.model.vo.Report;
 import com.kh.fantimate.common.model.vo.Subscribe;
 import com.kh.fantimate.feed.model.vo.AttachmentF;
@@ -24,6 +25,7 @@ import com.kh.fantimate.feed.model.vo.Feed;
 import com.kh.fantimate.feed.model.vo.FeedCollection;
 
 import com.kh.fantimate.member.model.vo.Artist;
+import com.kh.fantimate.member.model.vo.MemberCollection;
 
 
 public interface FanFeedService {
@@ -98,6 +100,18 @@ public interface FanFeedService {
    // 게시글당 사진 갯수
    public int selectptListCount(int refId);
 
+   // 게시글 좋아요 취소누른 유저 삭제 
+   public int cancelLike(int refId, Feed f);
+
+   // 아티스트 프로필 사진 리스트
+   public List<Attachment> selectapList();
+
+   // 댓글 모든정보 
+   public List<ReplyCollection> selectReplyAllList(String artNameEn);
+
+   // 모든 유저 정보 컬렉션
+  // public List<MemberCollection> selectSumList();
+   
 
    
 }

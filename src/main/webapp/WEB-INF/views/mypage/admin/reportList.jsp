@@ -42,7 +42,7 @@
             <h3>신고관리</h3>
             <div id="mypageContentListDiv">
                 <a class="mypageContentCategory"
-                href="${contextPath}/mypage/admin/report">쪽지</a>
+                href="${contextPath}/mypage/admin/report" style="font-weight: 700;">쪽지</a>
                 /
                 <a class="mypageContentCategory"
                 href="${contextPath}/mypage/admin/report/fanstore">팬스토어</a>
@@ -65,7 +65,7 @@
                         <th>신고날짜</th>
                         <th>신고인</th>
                         <th>피의자</th>
-                        <th>신고 게시물 정보</th>
+                        <th>신고 쪽지 내용</th>
                         <th>신고유형</th>
                         <th>처리여부</th>
                     </tr>
@@ -105,7 +105,7 @@
                 			</script>
                 			<input type="hidden" value="${ r.report.rptCode }" style="display:none;">	<!-- 9 -->
                 			<input type="hidden" value="${ r.report.refId }" style="display:none;">	<!-- 10 -->
-                			<input type="hidden" value="RPT_MESSAGE" style="display:none;">	<!-- 10 -->
+                			<input type="hidden" value="RPT_MESSAGE" style="display:none;">	<!-- 11 -->
                 			<!-- 날짜 넘기기 불가능.. -->
 <%--                 			<input type="hidden" value="${ r.report.rptDate }" style="display:none;"> --%>
                 		</tr>
@@ -159,12 +159,12 @@
 //     		location.href='${contextPath}/notice/detail?nid=' + nid + '&page=${ pi.currentPage }';
     	}
     	// 처리된 글 회식으로
-    	$(document).ready(function() {
-	    	var isReported = $("#isReported").val(); 
-	    	if($("#mypageAdminReportlist tbody tr").children().eq(9).val() == "Y"){
-	    		$("#mypageAdminReportlist tbody tr").childrens().css("color:red");
-	    	}
-    	});
+//     	$(document).ready(function() {
+// 	    	var isReported = $("#isReported").val(); 
+// 	    	if($("#mypageAdminReportlist tbody tr").children().eq(9).val() == "Y"){
+// 	    		$("#mypageAdminReportlist tbody tr").childrens().css("color:red");
+// 	    	}
+//     	});
     </script>
     </c:if>
     <c:if test="${ loginUser.classifyMem != '4' }">

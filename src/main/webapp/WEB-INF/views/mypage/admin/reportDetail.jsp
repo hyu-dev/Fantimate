@@ -44,12 +44,12 @@
                             <textarea id="reportDetail6" name="rptReason" cols="30" rows="10"></textarea>
                         </label>
                         <label>정지할 일수 입력
-                        	<input type="text" name ="reportDay">
+                        	<input type="text" name ="reportDay" placeholder="정지할 일수(반려시  0입력)">
                         </label>
                         <input id="reportDetail7" type="number" name="rptCode" readonly style="display:none;">
 <!--                         <input id="reportDetail8" type="number" name="reportDay" readonly style="display:none;"> -->
                         <input id="reportDetail9" type="number" name="refId" readonly style="display:none;">
-                        <input id="reportDetail10" type="text" name="isReported" readonly style="display:none;">
+                        <input id="reportDetail10" type="text" name="isReported" readonly style="display:none;"><%-- 안쓰는거 넘기기 --%>
                     </div>
                     <div class="mypage-Btn-align-center">
                         <button class="mypage-pop-Btn-pink" id="reportThis">제재하기</button>

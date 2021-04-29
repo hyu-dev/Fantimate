@@ -8,6 +8,7 @@
 <meta charset="UTF-8">
 <title>admin notice detail</title>
 </head>
+    <c:if test="${ loginUser.classifyMem == '4' }">
 <body>
 <!-- 	<div id="mypageAdminSignInWrap"> -->
 	<!-- 네비바 -->
@@ -202,6 +203,9 @@
             </div>
         </article>
     </section>
-<!--     </div> -->
+    </c:if>
+        <c:if test="${ loginUser.classifyMem != '4' }">
+    	<jsp:include page="errorpage.jsp"></jsp:include>
+    </c:if>
 </body>
 </html>

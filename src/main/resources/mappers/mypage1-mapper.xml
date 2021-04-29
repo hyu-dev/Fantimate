@@ -3,7 +3,69 @@
 PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="mypage1Mapper">
-	<!-- 공통 유저 정보 -->
+<!-- 북마크 -->
+		<!-- 피드 -->
+	<resultMap type="Feed" id="feedResultSet">
+		<id property="fid" column="BID"/>
+		<result property="ftype" column="BTYPE"/>
+		<result property="fcontent" column="BCONTENT"/>
+		<result property="fcreate" column="BCREATE"/>
+		<result property="fmodify" column="BMODIFY"/>
+		<result property="flike" column="BLIKE"/>
+		<result property="fstatus" column="BSTATUS"/>
+		<result property="writer" column="ID"/>
+		<result property="artiName" column="ARTI_NAME_EN"/>
+	</resultMap>
+	<!-- 구독한 유저 정보 -->
+	<resultMap type="Subscribe" id="subscribe">
+		<id property="subCode" column="SUB_CODE"/>
+		<result property="uid" column="U_ID"/>
+		<result property="unickname" column="U_NICKNAME"/>
+		<result property="subStatus" column="SUB_STATUS"/>
+		<result property="artiname" column="ARTI_NAME_EN"/>
+	</resultMap>
+	<!-- 아티스트 -->
+	<resultMap type="Artist" id="artistResultSet">
+		<id property="artiId" column="ARTI_ID"/>
+		<result property="artiName" column="ARTI_ONE_NAME"/>
+		<result property="artiNickname" column="NICKNAME"/>
+		<result property="artiFacebook" column="FACEBOOK"/>
+		<result property="artiInsta" column="INSTAGRAM"/>
+		<result property="artiTwitter" column="TWITTER"/>
+		<result property="artiDailymsg" column="DAILY_MSG"/>
+		<result property="isTeam" column="IS_TEAM"/>
+		<result property="agencyId" column="ID"/>
+		<result property="artiNameEn" column="ARTI_NAME_EN"/>
+	</resultMap>
+	<!-- 피드 파일 -->
+	<resultMap type="Attachment" id="attachResultSet">
+		<id property="attCode" column="BPID"/>
+		<result property="attRoot" column="BP_PATH"/>
+		<result property="attClName" column="BP_OGNAME"/>
+		<result property="attSvName" column="BP_CHNAME"/>
+		<result property="attStatus" column="AB_STATUS"/>
+		<result property="refId" column="BID"/>
+	</resultMap>
+	<!-- 피드 북마크 -->
+	<resultMap type="BookMark" id="feedBookmarkResultSet">
+		<id property="id" column="ID"/>
+		<result property="refId" column="BID"/>
+		<result property="bmCreate" column="BMCREATE"/>
+		<result property="bmstatus" column="BM_STATUS"/>
+	</resultMap>
+	<!-- 피드 컬렉션 -->
+	<resultMap type="FeedCollection" id="feedCollResultSet">
+		<collection property="feed" resultMap="feedResultSet"/>
+		<collection property="subscribe" resultMap="subscribe"/>
+		<collection property="artist" resultMap="artistResultSet"/>
+		<collection property="attachment" resultMap="attachResultSet"/>
+		<collection property="artiAttach" resultMap="artiAttachResultSet"/>
+		<collection property="userAttach" resultMap="userAttachResultSet"/>
+		<collection property="bookmark" resultMap="feedBookmarkResultSet"/>
+	</resultMap>
+	
+	
+<!-- 공통 유저 정보 -->
 	<resultMap type="Member" id="commonResultSet">
 		<id property = "id" column="ID"/>
 		<result property="pwd" column="PWD"/>
@@ -138,7 +200,72 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 			<collection property="report" resultMap="rptMediaR"/>
 		</resultMap>
 	
+<!-- 피드 신고 -->
+		<resultMap type="BoardList" id="BoardListRSet">
+			<collection property="board" resultMap="BoardRSet"/>
+			<collection property="report" resultMap="BoardRptRSet"/>
+		</resultMap>		
+		<!-- BOARD -->
+		<resultMap type="Board" id="BoardRSet">
+			<id property="bid" column="BID"/>
+			<result property="btype" column="BTYPE"/>
+			<result property="bcontent" column="BCONTENT"/>
+			<result property="bcreate" column="BCREATE"/>
+			<result property="bmodify" column="BMODIFY"/>
+			<result property="blike" column="BLIKE"/>
+			<result property="bStatus" column="BSTATUS"/>
+			<result property="id" column="reportedid"/>	<!-- 신고당한회원 -->
+			<result property="artinameEn" column="ARTI_NAME_EN"/>
+		</resultMap>
+		
+		<!-- B_RPT -->
+<!-- 		<resultMap type="BoardRpt" id="BoardRptRSet"> -->
+<!-- 			<id property="brpid" column="BRPID"/> -->
+<!-- 			<result property="brptype" column="BRPTYPE"/> -->
+<!-- 			<result property="brpcontent" column="BRPCONTENT"/> -->
+<!-- 			<result property="brpcreate" column="BRPCREATE"/> -->
+<!-- 			<result property="brpstatus" column="BRP_STATUS"/> -->
+<!-- 			<result property="id" column="reportid"/> 신고한회원 -->
+<!-- 			<result property="bid" column="BID"/> -->
+<!-- 		</resultMap> -->
+		<resultMap type="Report" id="BoardRptRSet">
+			<id property="rptCode" column="BRPID"/>
+			<result property="rptType" column="BRPTYPE"/>
+			<result property="rptReason" column="BRPCONTENT"/>
+			<result property="rptDate" column="BRPCREATE"/>
+			<result property="isReported" column="BRP_STATUS"/>
+			<result property="rptId" column="reportid"/>	<!-- 신고한회원 -->
+			<result property="refId" column="BID"/>
+		</resultMap>
 
+<!-- 피드 댓글 신고 BoardRListRSet -->
+		<resultMap type="BoardRList" id="BoardRListRSet">
+			<collection property="boardr" resultMap="BoardrRSet"/>
+			<collection property="report" resultMap="BoardrRptRSet"/>
+		</resultMap>	
+		
+		<!-- B_REPLY -->
+		<resultMap type="BoardR" id="BoardrRSet">
+			<id property="brid" column="BRID"/>
+			<result property="brcontent" column="BRCONTENT"/>
+			<result property="brcreate" column="BRCREATE"/>
+			<result property="br_status" column="BR_STATUS"/>
+			<result property="bid" column="BID"/>
+			<result property="id" column="reportedid"/>
+			<result property="brrid" column="BRRID"/>
+			<result property="brlike_count" column="BRLIKE_COUNT"/>	
+			<result property="brrpt_count" column="BRRPT_COUNT"/>
+		</resultMap>
+		<!-- B_RE_RPT -->
+		<resultMap type="Report" id="BoardrRptRSet">
+			<id property="rptCode" column="BRRPID"/>
+			<result property="rptType" column="BRRPTYPE"/>
+			<result property="rptReason" column="BRRPCONTENT"/>
+			<result property="rptDate" column="BRRPCREATE"/>
+			<result property="isReported" column="BRRP_STATUS"/>
+			<result property="rptId" column="reportid"/>	
+			<result property="refId" column="BRID"/>
+		</resultMap>		
 <!-- 마이페이지 User -->
 <!-- 친구 -->
 		<resultMap type="Friend" id="FriendRset">
@@ -197,6 +324,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 			<result property="pcode" column="P_CODE"/>
 			<result property="mediaNum" column="MEDIA_NUM"/>
 			<result property="id" column="PAY_USERID"/>
+			<result property="payCode" column="CPAY_CODE"/>
 		</resultMap>
 <!-- STORE -->
 		<resultMap type="Store" id="StoreRSet">
@@ -259,9 +387,78 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<result property="attStatus" column="UP_STATUS"/>
 		<result property="id" column="U_ID"/>
 	</resultMap> 	
+
+
+<!-- 구독 -->
+	<resultMap type="AttSubscribe" id="AttSubscribeRSet">
+		<id property = "subCode" column="SUB_CODE"/>
+		<result property="uid" column="U_ID"/>
+		<result property="unickname" column="U_NICKNAME"/>
+		<result property="subStatus" column="SUB_STATUS"/>
+		<result property="artiNameEn" column="ARTI_NAME_EN"/>
+	</resultMap>		
+	<resultMap type="Attachment" id="subprofileRSet">
+			<id property="attCode" column="S_CODE"/>
+			<result property="attRoot" column="S_ROOT"/>
+			<result property="attClName" column="S_CL_NAME"/>
+			<result property="attSvName" column="S_SV_NAME"/>
+			<result property="attStatus" column="S_STATUS"/>
+<!-- 			<result property="id" column="ARTI_NAME_EN"/> -->
+			<!-- 참조 구독 코드(ATT_SUBSCRIBE PK-SUB_CODE ) -->
+			<result property="refId" column="SUB_CODE"/>
+<!-- 			<result property="refuid" column="ARTI_NAME_EN"/> -->
+			<result property="attMain" column="IS_MAIN_ATT"/>
+	</resultMap>		
+	<resultMap type="ArtiMain" id="artmainRSet">
+		<id property = "artiNameEn" column="ARTI_NAME_EN"/>
+		<result property="artiNameKr" column="ARTI_NAME_KR"/>
+		<result property="agID" column="AG_ID"/>
+	</resultMap>
+	<resultMap type="Artist" id="artpersonRSet">
+		<id property = "artiId" column="ARTI_ID"/>
+		<result property="artiName" column="ARTI_ONE_NAME"/>		
+		<result property="artiNickname" column="NICKNAME"/>		
+		<result property="artiFacebook" column="FACEBOOK"/>		
+		<result property="artiInsta" column="INSTAGRAM"/>		
+		<result property="artiTwitter" column="TWITTER"/>		
+		<result property="artiDailymsg" column="DAILY_MSG"/>		
+		<result property="isTeam" column="IS_TEAM"/>		
+		<result property="agencyId" column="ID"/>		
+		<result property="artiNameEn" column="ARTI_NAME_EN"/>		
+	</resultMap>
+<!-- 	<resultMap type="Attachment" id="artPicRSet"> -->
+<!-- 		<id property="attCode" column="ATT_CODE"/> -->
+<!-- 		<result property="attRoot" column="ATT_ROOT"/> -->
+<!-- 		<result property="attClName" column="ATT_CL_NAME"/> -->
+<!-- 		<result property="attSvName" column="ATT_SV_NAME"/> -->
+<!-- 		<result property="attStatus" column="ATT_STATUS"/> -->
+<!-- 		 참조 구독 코드(ATT_PIC 조인키, 실제 아티스트아이디 ) -->
+<!-- 		<result property="id" column="ARTI_ID"/> -->
+<!-- 		<result property="attMain" column="IS_MAIN_ATT"/> -->
+<!-- 	</resultMap> -->
+	<resultMap type="Attachment" id="artmainpicRSet">
+		<id property="attCode" column="ATT_CODE"/>
+		<result property="attRoot" column="ATT_ROOT"/>
+		<result property="attClName" column="ATT_CL_NAME"/>
+		<result property="attSvName" column="ATT_SV_NAME"/>
+		<result property="attStatus" column="ATT_STATUS"/>
+		<result property="attMain" column="ARTI_NAME_EN"/>
+	</resultMap>
+	
+	<resultMap type="SubscribeUser" id="SubscribeUserRSet">
+		<collection property="subati" resultMap="AttSubscribeRSet"/>
+		<collection property="user" resultMap="userResultSet"/>
+		<collection property="artmainpic" resultMap="artmainpicRSet"/>
 		
+<!-- 		<collection property="subprofile" resultMap="subprofileRSet"/> -->
+<!-- 		<collection property="artmain" resultMap="artmainRSet"/> -->
+<!-- 		<collection property="artperson" resultMap="artpersonRSet"/> -->
+<!-- 		<collection property="artPic" resultMap="artPicRSet"/> -->
+	</resultMap>
 		
-		
+<!-- ////////////////////////////////////////////////////////////////////////////////////// -->
+<!-- ////////////////////////////////////////////////////////////////////////////////////// -->
+<!-- ////////////////////////////////////////////////////////////////////////////////////// -->
 		
 	<select id="checkId" parameterType="string" resultType="integer">
 		SELECT
@@ -341,6 +538,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		    	MESSAGE b
 		    ON
 		    	a.MESS_NO = b.MESS_NO
+         WHERE  IS_REPORTED = 'N'		    	
 	  ORDER BY 	RPT_DATE
 	</select>
 	
@@ -377,6 +575,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
     		 	F_STORE f
 			ON
     			r.F_CODE = f.F_CODE
+         WHERE  IS_REPORTED = 'N'
       ORDER BY 	RPT_DATE
 	</select>
 	
@@ -504,7 +703,8 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 <!-- 		  </choose> -->
 	</select>
 	
-	<!-- 팬스토어 댓글 신고 -->
+	
+	<!-- 팬스토어 댓글 신고 WHERE  IS_REPORTED = 'N' 추가하면 신고한것만-->
 	<select id="selectfanstoreRList" resultMap="fanstoreRListMap">
         SELECT
                 RPT_CODE
@@ -526,6 +726,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
                 F_REPLY f
             ON
                 r.FR_CODE = f.FR_CODE
+         WHERE  IS_REPORTED = 'N'
       ORDER BY 	RPT_DATE
 	</select>
 	
@@ -554,9 +755,68 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	            MD_CMT m
 	        ON
 	            r.CMT_NUM = m.CMT_NUM
+         WHERE  IS_REPORTED = 'N'	            
 	  ORDER BY 	RPT_DATE
 	</select>
 	
+	<!-- 피드 신고 -->
+	<select id="requestReportFeedList" resultMap="BoardListRSet">
+	 	SELECT
+                br.BRPID
+              , br.BRPTYPE
+              , br.BRPCONTENT
+              , br.BRPCREATE
+              , br.BRP_STATUS
+              , br.BID 
+              , br.ID as reportid
+                
+              , b.BTYPE
+              , b.BCONTENT
+              , b.BCREATE
+              , b.BMODIFY
+              , b.BLIKE
+              , b.BSTATUS 
+              , b.ID as reportedid 
+              , b.ARTI_NAME_EN
+              
+         FROM
+                B_RPT br
+    LEFT JOIN  
+                BOARD b
+           ON   
+                br.BID = b.BID
+        WHERE   
+                BRP_STATUS = 'N'
+				
+	</select>
+	
+	<!-- 피드 댓글 신고 -->
+	<select id="requestReportFeedRList" resultMap="BoardRListRSet">
+	 	     SELECT
+                    BRRPID
+                  , BRRPTYPE
+                  , BRRPCONTENT
+                  , BRRPCREATE
+                  , BRRP_STATUS
+                  , rr.BRID 
+                  , rr.ID as reportid      
+                    
+                  , r.BRID
+                  , BRCONTENT
+                  , BRCREATE
+                  , BR_STATUS
+                  , BID
+                  , r.ID as reportedid
+                  , BRLIKE_COUNT
+                  , BRRPT_COUNT
+              FROM                    
+                    B_RE_RPT rr
+              JOIN
+                    B_REPLY r
+                ON  rr.BRID = r.BRID
+             WHERE  
+             		BRRP_STATUS = 'N'
+	</select>
 	
 	
 	
@@ -796,7 +1056,8 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
              WHERE  
                     c.ID = #{serchCondition}
                AND  (IS_MAIN_ATT != 'N' OR c.P_CODE IS NULL)
-          ORDER BY  CART_CODE
+          ORDER BY  BOUGHT_DATE DESC
+          		  , CART_CODE
 	</select>	
 	
 <!-- 결제내역 업데이트 --> 
@@ -976,20 +1237,61 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		   		UP_STATUS = #{status}
 	</update>
 	
-	<!-- #{isReported} = 테이블 이름 -->
+	<!-- #{isReported} = 테이블 이름 md_rpt_cmt 만 다름-->
 	<update id="updateRpt" parameterType="ReportAdmin">
 		UPDATE
 				(
-                     SELECT 
+				<choose>
+					<when test="isReported == 'MD_CMT_RPT'">
+					 SELECT 
+                            RPT_NUM
+                          , IS_REPORTED
+                      FROM 
+                     		${isReported}
+                     WHERE
+                            RPT_NUM = #{rptCode}
+				)
+		   SET
+		   		IS_REPORTED = #{rptId}
+					</when>
+					<when test="isReported == 'B_RPT'">
+					 SELECT 
+                            BRPID
+                          , BRP_STATUS
+                      FROM 
+                     		${isReported}
+                     WHERE
+                            BRPID = #{rptCode}
+                 )
+		   SET
+		   		BRP_STATUS = #{rptId}
+					</when>
+					<when test="isReported == 'B_RE_RPT'">
+					 SELECT 
+                            BRRPID
+                          , BRRP_STATUS
+                      FROM 
+                     		${isReported}
+                     WHERE
+                            BRRPID = #{rptCode}
+                 )
+		   SET
+		   		BRRP_STATUS = #{rptId}
+					</when>
+					<otherwise>
+					SELECT 
                             RPT_CODE
                           , IS_REPORTED
-                     FROM 
+                      FROM 
                      		${isReported}
-                      WHERE
+                     WHERE
                             RPT_CODE = #{rptCode}
-                    )
+                 )
 		   SET
-		   		IS_REPORTED = 'Y'
+		   		IS_REPORTED = #{rptId}
+					</otherwise>
+				</choose>
+
 	</update>
 <!-- N으로 바꾸기 -->	
 	<update id="updateUserReportN" parameterType="ReportAdmin">
@@ -1147,6 +1449,81 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
              WHERE  
 				    (IS_MAIN_ATT != 'N' OR c.P_CODE IS NULL)
           ORDER BY  CART_CODE
-				
 	</select>
+<!-- 구독 SubscribeUserRSet -->
+	<select id="RListCountSubscribe" parameterType="Member" resultType="_int">
+		  SELECT
+  					COUNT(*)
+            FROM   
+                    ATT_SUBSCRIBE s
+       LEFT JOIN
+                    USER_ u
+              ON
+                    s.U_ID = u.U_ID
+            JOIN
+                    SUB_PROFILE sp
+              ON
+                    s.SUB_CODE = sp.SUB_CODE
+            JOIN
+                    ART_MAIN am
+              ON
+                    am.ARTI_NAME_EN = s.ARTI_NAME_EN
+            JOIN
+                    ART_PERSON ap
+              ON
+                    ap.ARTI_NAME_EN = am.ARTI_NAME_EN
+            JOIN
+                    ART_PIC apic
+              ON
+                    apic.ARTI_ID = ap.ARTI_ID
+            WHERE   s.U_ID = #{id}
+	</select>
+	<select id="requestSubscribeList" resultMap="SubscribeUserRSet">
+           SELECT
+                    s.SUB_CODE
+                  , s.U_ID
+                  , U_NICKNAME
+                  , s.SUB_STATUS
+                  
+                  , U_ADD
+                  , U_EMAIL
+                  , U_COUNTRY
+                  , AREA_REGISTER
+                  , AREA_CODE
+                  , IS_MEMBERSHIP
+                  , U_PAID_START
+                  , U_PAID_END
+                  
+                  , ATT_CODE
+                  , ATT_ROOT
+                  , ATT_CL_NAME
+                  , ATT_SV_NAME
+                  , ATT_STATUS
+                  , apic.ARTI_NAME_EN
+
+              FROM   
+                    ATT_SUBSCRIBE s
+       LEFT JOIN
+                    USER_ u
+              ON
+                    s.U_ID = u.U_ID
+              JOIN
+                    ART_MAIN_PIC apic
+              ON
+                    s.ARTI_NAME_EN = apic.ARTI_NAME_EN
+            WHERE  
+                    s.U_ID = #{serchCondition}
+            AND     s.SUB_STATUS = 'N'
+	</select>	
+	
+	<update id="userSubsUpdate" parameterType="AttSubscribe">
+		    UPDATE
+                    ATT_SUBSCRIBE
+               SET
+                    SUB_STATUS = 'Y'
+             WHERE
+                    U_ID = #{uid}
+               AND  SUB_CODE = #{subCode}
+	</update>
+	
 </mapper>

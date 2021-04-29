@@ -12,6 +12,7 @@ import com.kh.fantimate.main.model.vo.FeedTopNineCollection;
 import com.kh.fantimate.main.model.vo.FriendCollection;
 import com.kh.fantimate.main.model.vo.MainCollection;
 import com.kh.fantimate.main.model.vo.MediaTopNineCollection;
+import com.kh.fantimate.main.model.vo.QuitSubscribeCollection;
 import com.kh.fantimate.main.model.vo.StoreTopNineCollection;
 import com.kh.fantimate.main.model.vo.SubscribeArtist;
 
@@ -82,5 +83,11 @@ public interface MainDao {
 	public int sendMessage(Message message);
 
 	public int selectCartCount(String user);
+
+	public SubscribeArtist selectQuitSub(SubscribeArtist sb);
+
+	public QuitSubscribeCollection selectQuitInfo(SubscribeArtist sb);
+
+	public int updateStatus(SubscribeArtist sb);
 
 }

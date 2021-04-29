@@ -100,7 +100,9 @@
                 </c:forEach>
                 </c:if>
                 <c:if test="${ empty collection }">
+                <div id="noneProduct">
                 	<h1>구입한 상품이 없습니다</h1>
+                </div>
                 </c:if>
             </div>
             <div class="more-product">
@@ -108,6 +110,7 @@
            	</div>
         </section>
     </section>
+    <c:if test="${ !empty collection }">
     <script>
 	 	// 토클 클릭시 
 		let flag = true;
@@ -246,6 +249,7 @@
 		    }
 		})
     </script>
+    </c:if>
     </c:if>
     <c:if test="${ empty loginUser }">
 	<script>

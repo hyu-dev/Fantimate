@@ -25,4 +25,5 @@ public class Attachment {
 	private String refuid;		// 참조 유저 아이디
 	private String attMain;		// 대표사진여부
 	private String artiNameEn;	// 아티스트 등록명(영어)
+	private int subCode;	    // 구독 프로필 subCode
 }

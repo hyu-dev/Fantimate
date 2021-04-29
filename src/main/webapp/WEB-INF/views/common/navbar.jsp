@@ -201,10 +201,10 @@
     	
     	/* $(function(){
             $('.divSec').mouseenter(function(){
-                $('.cancel-btn').show();
+                $('.trash-btn').show();
             });
             $('.divSec').mouseleave(function(){
-                $('.cancel-btn').hide();
+                $('.trash-btn').hide();
             });
         }); */
     	
@@ -249,35 +249,35 @@
 					} else if(data[i].refAlCode == 2 || data[i].refAlCode == 3){
 						// 팬피드 디테일 
 						//<input type="hidden" name="challNo" value="">
-						alarmList.append("<div class='divSec'><li class='alarm-content' onclick='fanFeed(" + data[i].ref_id + ")'>"+ data[i].alContent +"<p class='alarm-time'></p></li><img src='${ contextPath }/resources/icon/trash.png' alt='' onclick='trash(" + data[i].alCode + ")' id='sample' class='cancel-btn'></div>");
+						alarmList.append("<div class='divSec'><li class='alarm-content' onclick='fanFeed(" + data[i].ref_id + ")'>"+ data[i].alContent +"<p class='alarm-time'></p></li><img src='${ contextPath }/resources/icon/trash.png' alt='' onclick='trash(" + data[i].alCode + ")' id='sample' class='trash-btn'></div>");
 						alarmList.append("<hr>");
 					} else if (data[i].refAlCode == 1){
 						// 아티스트피드 디테일 
-						alarmList.append("<div class='divSec'><li class='alarm-content' onclick='artistFeed(" + data[i].ref_id + ")'>"+ data[i].alContent +"<p class='alarm-time'></p></li><img src='${ contextPath }/resources/icon/trash.png' alt='' onclick='trash(" + data[i].alCode + ")' class='cancel-btn'></div>");
+						alarmList.append("<div class='divSec'><li class='alarm-content' onclick='artistFeed(" + data[i].ref_id + ")'>"+ data[i].alContent +"<p class='alarm-time'></p></li><img src='${ contextPath }/resources/icon/trash.png' alt='' onclick='trash(" + data[i].alCode + ")' class='trash-btn'></div>");
 						alarmList.append("<hr>");
 					} else if(data[i].refAlCode == 6 || data[i].refAlCode == 7 || data[i].refAlCode == 11 || data[i].refAlCode == 13 || data[i].refAlCode == 14 || data[i].refAlCode == 15){
 						// 신고 디테일
-						alarmList.append("<div class='divSec'><li class='alarm-content' onclick='reportDetail()'>"+ data[i].alContent +"<p class='alarm-time'></p></li><img src='${ contextPath }/resources/icon/trash.png' alt='' onclick='trash(" + data[i].alCode + ")' class='cancel-btn'></div>");
+						alarmList.append("<div class='divSec'><li class='alarm-content' onclick='reportDetail()'>"+ data[i].alContent +"<p class='alarm-time'></p></li><img src='${ contextPath }/resources/icon/trash.png' alt='' onclick='trash(" + data[i].alCode + ")' class='trash-btn'></div>");
 						alarmList.append("<hr>");
 					} else if(data[i].refAlCode == 10){
 						// 오피셜 디테일
-						alarmList.append("<div class='divSec'><li class='alarm-content' onclick='mediaDetail(" + data[i].ref_id + ")'>"+ data[i].alContent +"<p class='alarm-time'></p></li><img src='${ contextPath }/resources/icon/trash.png' alt='' onclick='trash(" + data[i].alCode + ")' class='cancel-btn'></div>");
+						alarmList.append("<div class='divSec'><li class='alarm-content' onclick='mediaDetail(" + data[i].ref_id + ")'>"+ data[i].alContent +"<p class='alarm-time'></p></li><img src='${ contextPath }/resources/icon/trash.png' alt='' onclick='trash(" + data[i].alCode + ")' class='trash-btn'></div>");
 						alarmList.append("<hr>");
 					} else if(data[i].refAlCode == 9){
 						// 오피셜 스케줄 등록
 						var sendArtiName = data[i].alContent.substr(0,data[i].alContent.indexOf("님"));
-						alarmList.append("<div class='divSec'><li class='alarm-content' onclick='schedule(" + "\"" + sendArtiName + "\"" + ")'>"+ data[i].alContent +"<p class='alarm-time'></p></li><img src='${ contextPath }/resources/icon/trash.png' alt='' onclick='trash(" + data[i].alCode + ")' class='cancel-btn'></div>");
+						alarmList.append("<div class='divSec'><li class='alarm-content' onclick='schedule(" + "\"" + sendArtiName + "\"" + ")'>"+ data[i].alContent +"<p class='alarm-time'></p></li><img src='${ contextPath }/resources/icon/trash.png' alt='' onclick='trash(" + data[i].alCode + ")' class='trash-btn'></div>");
 						alarmList.append("<hr>");
 					} else if (data[i].refAlCode == 12){
 						// 팬스토어 상세페이지
-						alarmList.append("<div class='divSec'><li class='alarm-content' onclick='fanStore(" + data[i].ref_id + ")'>"+ data[i].alContent +"<p class='alarm-time'></p></li><img src='${ contextPath }/resources/icon/trash.png' alt='' onclick='trash(" + data[i].alCode + ")' class='cancel-btn'></div>");
+						alarmList.append("<div class='divSec'><li class='alarm-content' onclick='fanStore(" + data[i].ref_id + ")'>"+ data[i].alContent +"<p class='alarm-time'></p></li><img src='${ contextPath }/resources/icon/trash.png' alt='' onclick='trash(" + data[i].alCode + ")' class='trash-btn'></div>");
 						alarmList.append("<hr>");
 					} else if(data[i].refAlCode == 18){
 						// 공지사항 상세페이지
-						alarmList.append("<div class='divSec'><li class='alarm-content' onclick='notice(" + data[i].ref_id + ")'>"+ data[i].alContent +"<p class='alarm-time'></p></li><img src='${ contextPath }/resources/icon/trash.png' alt='' onclick='trash(" + data[i].alCode + ")' class='cancel-btn'></div>");
+						alarmList.append("<div class='divSec'><li class='alarm-content' onclick='notice(" + data[i].ref_id + ")'>"+ data[i].alContent +"<p class='alarm-time'></p></li><img src='${ contextPath }/resources/icon/trash.png' alt='' onclick='trash(" + data[i].alCode + ")' class='trash-btn'></div>");
 						alarmList.append("<hr>");
 					} else {
-						alarmList.append("<div class='divSec'><li class='alarm-content'>"+ data[i].alContent +"<p class='alarm-time'></p></li><img src='${ contextPath }/resources/icon/trash.png' alt='' onclick='trash(" + data[i].alCode + ")' class='cancel-btn'></div>");
+						alarmList.append("<div class='divSec'><li class='alarm-content'>"+ data[i].alContent +"<p class='alarm-time'></p></li><img src='${ contextPath }/resources/icon/trash.png' alt='' onclick='trash(" + data[i].alCode + ")' class='trash-btn'></div>");
 						alarmList.append("<hr>");
 					}
 					
@@ -309,7 +309,7 @@
 								console.log(min + "분 전");
 							} else if(sec > 0){
 								// 몇 초 전인지
-								document.getElementsByClassName("alarm-time")[i].innerHTML = sec+"분 전";
+								document.getElementsByClassName("alarm-time")[i].innerHTML = sec+"초 전";
 								console.log(sec + "초 전");
 							}
 							
@@ -359,6 +359,13 @@
 				alarmList = $(".today-alarm");
 				alarmList.html("");
 				
+				if(data.alist.length==0){
+					
+					alarmList.append("<li class='alarm-content'>"+ "알람 내역 없음" +"<p class='alarm-time'></p></li>");
+					$(".alarm-list").css("height","200px");
+					
+				} else {
+					
 				for(var i in data.alist){
 					
 					if(data.alist[i].refAlCode == 16){
@@ -368,35 +375,35 @@
 					} else if(data.alist[i].refAlCode == 2 || data.alist[i].refAlCode == 3){
 						// 팬피드 디테일 
 						//<input type="hidden" name="challNo" value="">
-						alarmList.append("<div class='divSec'><li class='alarm-content' onclick='fanFeed(" + data.alist[i].ref_id + ")'>"+ data.alist[i].alContent +"<p class='alarm-time'></p></li><img src='${ contextPath }/resources/icon/trash.png' alt='' onclick='trash(" + data.alist[i].alCode + ")' id='sample' class='cancel-btn'></div>");
+						alarmList.append("<div class='divSec'><li class='alarm-content' onclick='fanFeed(" + data.alist[i].ref_id + ")'>"+ data.alist[i].alContent +"<p class='alarm-time'></p></li><img src='${ contextPath }/resources/icon/trash.png' alt='' onclick='trash(" + data.alist[i].alCode + ")' id='sample' class='trash-btn'></div>");
 						alarmList.append("<hr>");
 					} else if (data.alist[i].refAlCode == 1){
 						// 아티스트피드 디테일 
-						alarmList.append("<div class='divSec'><li class='alarm-content' onclick='artistFeed(" + data.alist[i].ref_id + ")'>"+ data.alist[i].alContent +"<p class='alarm-time'></p></li><img src='${ contextPath }/resources/icon/trash.png' alt='' onclick='trash(" + data.alist[i].alCode + ")' class='cancel-btn'></div>");
+						alarmList.append("<div class='divSec'><li class='alarm-content' onclick='artistFeed(" + data.alist[i].ref_id + ")'>"+ data.alist[i].alContent +"<p class='alarm-time'></p></li><img src='${ contextPath }/resources/icon/trash.png' alt='' onclick='trash(" + data.alist[i].alCode + ")' class='trash-btn'></div>");
 						alarmList.append("<hr>");
 					} else if(data.alist[i].refAlCode == 6 || data.alist[i].refAlCode == 7 || data.alist[i].refAlCode == 11 || data.alist[i].refAlCode == 13 || data.alist[i].refAlCode == 14 || data.alist[i].refAlCode == 15){
 						// 신고 디테일
-						alarmList.append("<div class='divSec'><li class='alarm-content' onclick='reportDetail()'>"+ data.alist[i].alContent +"<p class='alarm-time'></p></li><img src='${ contextPath }/resources/icon/trash.png' alt='' onclick='trash(" + data.alist[i].alCode + ")' class='cancel-btn'></div>");
+						alarmList.append("<div class='divSec'><li class='alarm-content' onclick='reportDetail()'>"+ data.alist[i].alContent +"<p class='alarm-time'></p></li><img src='${ contextPath }/resources/icon/trash.png' alt='' onclick='trash(" + data.alist[i].alCode + ")' class='trash-btn'></div>");
 						alarmList.append("<hr>");
 					} else if(data.alist[i].refAlCode == 10){
 						// 오피셜 디테일
-						alarmList.append("<div class='divSec'><li class='alarm-content' onclick='mediaDetail(" + data.alist[i].ref_id + ")'>"+ data.alist[i].alContent +"<p class='alarm-time'></p></li><img src='${ contextPath }/resources/icon/trash.png' alt='' onclick='trash(" + data.alist[i].alCode + ")' class='cancel-btn'></div>");
+						alarmList.append("<div class='divSec'><li class='alarm-content' onclick='mediaDetail(" + data.alist[i].ref_id + ")'>"+ data.alist[i].alContent +"<p class='alarm-time'></p></li><img src='${ contextPath }/resources/icon/trash.png' alt='' onclick='trash(" + data.alist[i].alCode + ")' class='trash-btn'></div>");
 						alarmList.append("<hr>");
 					} else if(data.alist[i].refAlCode == 9){
 						// 오피셜 스케줄 등록
 						var sendArtiName = data.alist[i].alContent.substr(0,data.alist[i].alContent.indexOf("님"));
-						alarmList.append("<div class='divSec'><li class='alarm-content' onclick='schedule(" + "\"" + sendArtiName + "\"" + ")'>"+ data.alist[i].alContent +"<p class='alarm-time'></p></li><img src='${ contextPath }/resources/icon/trash.png' alt='' onclick='trash(" + data.alist[i].alCode + ")' class='cancel-btn'></div>");
+						alarmList.append("<div class='divSec'><li class='alarm-content' onclick='schedule(" + "\"" + sendArtiName + "\"" + ")'>"+ data.alist[i].alContent +"<p class='alarm-time'></p></li><img src='${ contextPath }/resources/icon/trash.png' alt='' onclick='trash(" + data.alist[i].alCode + ")' class='trash-btn'></div>");
 						alarmList.append("<hr>");
 					} else if (data.alist[i].refAlCode == 12){
 						// 팬스토어 상세페이지
-						alarmList.append("<div class='divSec'><li class='alarm-content' onclick='fanStore(" + data.alist[i].ref_id + ")'>"+ data.alist[i].alContent +"<p class='alarm-time'></p></li><img src='${ contextPath }/resources/icon/trash.png' alt='' onclick='trash(" + data.alist[i].alCode + ")' class='cancel-btn'></div>");
+						alarmList.append("<div class='divSec'><li class='alarm-content' onclick='fanStore(" + data.alist[i].ref_id + ")'>"+ data.alist[i].alContent +"<p class='alarm-time'></p></li><img src='${ contextPath }/resources/icon/trash.png' alt='' onclick='trash(" + data.alist[i].alCode + ")' class='trash-btn'></div>");
 						alarmList.append("<hr>");
 					} else if(data.alist[i].refAlCode == 18){
 						// 공지사항 상세페이지
-						alarmList.append("<div class='divSec'><li class='alarm-content' onclick='notice(" + data.alist[i].ref_id + ")'>"+ data.alist[i].alContent +"<p class='alarm-time'></p></li><img src='${ contextPath }/resources/icon/trash.png' alt='' onclick='trash(" + data.alist[i].alCode + ")' class='cancel-btn'></div>");
+						alarmList.append("<div class='divSec'><li class='alarm-content' onclick='notice(" + data.alist[i].ref_id + ")'>"+ data.alist[i].alContent +"<p class='alarm-time'></p></li><img src='${ contextPath }/resources/icon/trash.png' alt='' onclick='trash(" + data.alist[i].alCode + ")' class='trash-btn'></div>");
 						alarmList.append("<hr>");
 					} else {
-						alarmList.append("<div class='divSec'><li class='alarm-content'>"+ data.alist[i].alContent +"<p class='alarm-time'></p></li><img src='${ contextPath }/resources/icon/trash.png' alt='' onclick='trash(" + data.alist[i].alCode + ")' class='cancel-btn'></div>");
+						alarmList.append("<div class='divSec'><li class='alarm-content'>"+ data.alist[i].alContent +"<p class='alarm-time'></p></li><img src='${ contextPath }/resources/icon/trash.png' alt='' onclick='trash(" + data.alist[i].alCode + ")' class='trash-btn'></div>");
 						alarmList.append("<hr>");
 					}
 					
@@ -428,12 +435,13 @@
 								console.log(min + "분 전");
 							} else if(sec > 0){
 								// 몇 초 전인지
-								document.getElementsByClassName("alarm-time")[i].innerHTML = sec+"분 전";
+								document.getElementsByClassName("alarm-time")[i].innerHTML = sec+"초 전";
 								console.log(sec + "초 전");
 							}
 							
 						}
 					}
+				}
 				}
 				
 				// 알람 카운트 -1
@@ -725,7 +733,7 @@
 											console.log(min + "분 전");
 										} else if(sec > 0){
 											// 몇 초 전인지
-											document.getElementsByClassName("mail-time")[j].innerHTML = sec+"분 전";
+											document.getElementsByClassName("mail-time")[j].innerHTML = sec+"초 전";
 											console.log(sec + "초 전");
 										}
 										
@@ -796,7 +804,7 @@
 						var label = $("<label for='friend"+i+"'>");
                         var friendInfo = $("<div class='friend-info-section'>");
                         var profileInfo = $("<div class='profile-info'>");
-                        var friendProfile = $("<div class='profile-circle'><img src='${ contextPath }/resources/images/main/"+ data.flist[i].att.attSvName+"' alt='' class='friend-profile'></div>")
+                        var friendProfile = $("<div class='profile-circle'><img src='${ contextPath }/resources/uploadFiles/"+ data.flist[i].att.attSvName+"' alt='' class='friend-profile'></div>")
                         var friendId = $("<p class='friend-profile-name'>"+ data.flist[i].att.id +"</p>");
                         var sendBtn = $("<div class='sendBtn-section'><button class='sendBtn' onclick='sendMess("+ "\"" + data.flist[i].att.id+ "\"" + ")'>"+ "쪽지 보내기" +"</button></div>");
                         var arrow = $("<em></em>");

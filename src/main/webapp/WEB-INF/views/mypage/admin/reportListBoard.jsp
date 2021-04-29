@@ -2,6 +2,7 @@
     pageEncoding="UTF-8" import="java.util.Date"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -48,18 +49,18 @@
                 href="${contextPath}/mypage/admin/report/fanstore">팬스토어</a>
                 /
                 <a class="mypageContentCategory"
-                href="${contextPath}/mypage/admin/report/fanstoreReply" style="font-weight: 700;">팬스토어 댓글</a>
+                href="${contextPath}/mypage/admin/report/fanstoreReply">팬스토어 댓글</a>
                 /
                 <a class="mypageContentCategory"
                 href="${contextPath}/mypage/admin/report/media">미디어</a>
                 /
                 <a class="mypageContentCategory"
-                href="${contextPath}/mypage/admin/report/feed">피드,아티스트</a>
+                href="${contextPath}/mypage/admin/report/feed" style="font-weight: 700;">피드,아티스트</a>
                 /
                 <a class="mypageContentCategory"
                 href="${contextPath}/mypage/admin/report/feedReply">피드,아티스트 댓글</a>
             </div>
-            <table id="mypageAdminFanstoreRlist">
+            <table id="mypageAdminFanstorelist">
                 <thead>
                     <tr>
                         <th>신고날짜</th>
@@ -84,16 +85,16 @@
                 		 	<c:set var="date" value="<%= new Date() %>"/>
                 			<td><fmt:formatDate type="date" value="${ r.report.rptDate }"/></td>	<!-- 3 -->
                 			<td>${ r.report.rptId }</td>		<!-- 신고인 4 -->
-                			<td>${ r.fanStoreR.id }</td>			<!-- 피의자 -->
-                			<td>${ r.fanStoreR.frcontent }</td>		<!-- 신고 게시물 정보 -->
+                			<td>${ r.board.id }</td>			<!-- 피의자 -->
+                			<td>${ r.board.bcontent }</td>		<!-- 신고 게시물 정보 -->
                				<td>${ r.report.rptType }</td>		<!-- 신고유형 7 -->
-                			<td>주석
+                			<td>링크
 <%--                 			${ r.messCode } --%>
 <%--                 				<a onclick="${contextPath}/"> --%>
                 			</td>
                 			<input type="hidden" value="${ r.report.rptCode }" style="display:none;">	<!-- 9 -->
                 			<input type="hidden" value="${ r.report.refId }" style="display:none;">	<!-- 10 -->
-                			<input type="hidden" value="RPT_FREPLY" style="display:none;">	<!-- 11 -->
+                			<input type="hidden" value="B_RPT" style="display:none;">	<!-- 11 쓰지않는거 넘기기-->
                 		</tr>
                 	</c:forEach>
                 	
@@ -107,7 +108,7 @@
 						</c:if>
 <!-- 숨기면안되나?						 -->
 						<c:if test="${ pi.currentPage > 1 }">
-							<c:url var="before" value="/mypage/admin/report/fanstoreReply">
+							<c:url var="before" value="/mypage/admin/report/media">
 								<c:param name="page" value="${ pi.currentPage - 1 }"/>
 							</c:url>
 							<a href="${ before }"> &lt; </a> &nbsp;
@@ -119,7 +120,7 @@
 								<b>[${ p }]</b>								
 							</c:if>
 							<c:if test="${ p ne pi.currentPage }">
-								<c:url var="pagination" value="/mypage/admin/report/fanstoreReply">
+								<c:url var="pagination" value="/mypage/admin/report/media">
 									<c:param name="page" value="${ p }"/>
 								</c:url>
 								<a href="${ pagination }">${ p }</a>
@@ -131,7 +132,7 @@
 							&nbsp; &gt;
 						</c:if>
 						<c:if test="${ pi.currentPage < pi.maxPage }">
-							<c:url var="after" value="/mypage/admin/report/fanstoreReply">
+							<c:url var="after" value="/mypage/admin/report/media">
 								<c:param name="page" value="${ pi.currentPage + 1 }" />
 							</c:url>
 							<a href="${ after }">&gt;</a>

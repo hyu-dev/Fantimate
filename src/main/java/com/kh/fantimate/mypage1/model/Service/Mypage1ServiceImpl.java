@@ -13,9 +13,11 @@ import com.kh.fantimate.common.model.vo.Report;
 import com.kh.fantimate.member.model.vo.Agency;
 import com.kh.fantimate.member.model.vo.Member;
 import com.kh.fantimate.mypage1.model.dao.Mypage1Dao;
+import com.kh.fantimate.mypage1.model.vo.AttSubscribe;
 import com.kh.fantimate.mypage1.model.vo.FriendPageInfo;
 import com.kh.fantimate.mypage1.model.vo.ReportAdmin;
 import com.kh.fantimate.mypage1.model.vo.ReportPageInfo;
+import com.kh.fantimate.mypage1.model.vo.SubscribeUser;
 import com.kh.fantimate.mypage1.model.vo.UserPaymentCol2;
 import com.kh.fantimate.mypage1.model.vo.UserUpdateVo;
 
@@ -198,6 +200,31 @@ public class Mypage1ServiceImpl implements Mypage1Service{
 	@Override
 	public List<UserPaymentCol2> requestPayListAdmin(ReportPageInfo pi) {
 		return mDao.requestPayListAdmin(pi);
+	}
+
+	@Override
+	public int RListCountSubscribe(Member m) {
+		return mDao.RListCountSubscribe(m);
+	}
+
+	@Override
+	public List<SubscribeUser> requestSubscribeList(FriendPageInfo pi) {
+		return mDao.requestSubscribeList(pi);
+	}
+
+	@Override
+	public int userSubsUpdate(AttSubscribe subs) {
+		return mDao.userSubsUpdate(subs);
+	}
+
+	@Override
+	public List<Report> requestReportFeedList(ReportPageInfo pi) {
+		return mDao.requestReportFeedList(pi);
+	}
+
+	@Override
+	public List<Report> requestReportFeedRList(ReportPageInfo pi) {
+		return mDao.requestReportFeedRList(pi);
 	}
 
 

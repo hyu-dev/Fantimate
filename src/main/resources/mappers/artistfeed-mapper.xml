@@ -89,30 +89,27 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	</insert>
 	
 	<!-- 게시글 사진 등록 -->
-	<insert id="insertFeedAtt">
-		
-		<foreach collection="list" item="i" index="index" open="INSERT ALL" close="SELECT * FROM DUAL">
-		
+	<insert id="insertFeedAtt" parameterType="list">
+		INSERT
 		INTO ATT_BOARD
 		(
-					BPID
-				,	BP_PATH
-				,	BP_OGNAME
-				,	BP_CHNAME
-				,	AB_STATUS
-				,	BID		
+				BPID
+			,	BID		
+			,	BP_OGNAME
+			,	BP_CHNAME
+			,	AB_STATUS
 		)
-		VALUES
+		SELECT SEQ_ATT_BOARD.NEXTVAL, SEQ_BOARD.CURRVAL, A.*
+		FROM
 		(
-					#{index} + SEQ_ATT_BOARD.NEXTVAL
-				,	DEFAULT
-				,	#{i.attClName}
-		  		, 	#{i.attSvName}
-		  		,	DEFAULT
-		  		,	SEQ_BOARD.CURRVAL		
-		)
-		
-		</foreach>
+		 <foreach collection="list" item="i" separator="UNION ALL">
+			SELECT	
+					#{i.attClName} AS BP_OGNAME
+		  		, 	#{i.attSvName} AS BP_CHNAME
+		  		,	'Y'
+		  	FROM  DUAL
+		  </foreach>
+		) A
 	</insert>
 
 	<!-- 게시글 조회 -->
@@ -207,13 +204,14 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 				ARTI_NAME_EN = #{artiName} 
 	ORDER BY SUB_CODE
 	</select>
-
-	<!-- 아티스트가 새 글 작성 시 구독자들에게 알람 -->
-	<insert id="insertsubAlarm">
-	<foreach collection="list" item="i" index="index" open="INSERT ALL" close="SELECT * FROM DUAL">	
+	
+	<!-- 아티스트가 새 글 작성 시 구독자들에게 알람 (수정)-->
+	<insert id="insertsubAlarm" parameterType="list">
+		INSERT
 		INTO ALARM
 		(
 					AL_MADE_CODE
+				, 	REF_ID
 				,	AL_CONTENT
 				,	AL_TIME
 				,	AL_STATUS
@@ -221,16 +219,19 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 				,	ID
 						
 		)
-		VALUES
+		SELECT SEQ_ALARM.NEXTVAL, SEQ_BOARD.CURRVAL, A.*
+		FROM
 		(
-					#{index} + SEQ_ALARM.NEXTVAL
-				,	#{i.artiname} || '님이 새글을 작성하였습니다.'
+		<foreach collection="list" item="i" separator="UNION ALL">	
+		  SELECT		
+					#{i.artiname} || '님이 새글을 작성하였습니다.' AS AL_CONTENT
 				,	SYSDATE
-		  		, 	DEFAULT
+		  		, 	'Y'
 		  		,	'1'
-		  		,	#{i.uid}		
-		)
-	</foreach>
+		  		,	#{i.uid} AS ID	
+		  FROM DUAL	
+		</foreach>
+		) A
 	</insert>
 
 	<!-- 그룹별 아티스트 멤버 조회 -->

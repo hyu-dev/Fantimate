@@ -221,7 +221,7 @@
                  <tr>
                      <td colspan="1">
                      <c:choose>
-	                     <c:when test="${ user.isMembership eq 'Y' }">
+	                     <c:when test="${ user.get(0).user.isMembership eq 'Y' }">
 	                     	\ <fmt:formatNumber type="number" value="${ discountPrice }"/>
 	                     </c:when>
 	                     <c:otherwise>
@@ -233,7 +233,7 @@
                      	<s>\ <fmt:formatNumber type="number" value="${ price }"/></s>
                      	<span>
                      		&nbsp;&nbsp; ${ sc.get(0).store.discount }% D.C.
-                     		<c:if test="${ user.isMembership ne 'Y' }">
+                     		<c:if test="${ user.get(0).user.isMembership ne 'Y' }">
                      		(멤버십전용 : \ <fmt:formatNumber type="number" value="${ discountPrice }"/>)
                      		</c:if>
                      	</span>
@@ -255,7 +255,7 @@
                      <td colspan="2">TOTAL</td>
                      <td colspan="2">
                      	<c:choose>
-	                     	<c:when test="${ user.isMembership eq 'Y' }">
+	                     	<c:when test="${ user.get(0).user.isMembership eq 'Y' }">
 		                    	\ <fmt:formatNumber type="number" value="${ discountPrice }"/>
 		                    </c:when>
 		                    <c:otherwise>
@@ -449,14 +449,14 @@
 		let memberShip = '';
 		// 수량 클릭시
 		$(function() {
-			memberShip = "${ user.isMembership }";
+			memberShip = "${ user.get(0).user.isMembership }";
 		    memberShip == "Y" ? price = "${ discountPrice }" : price = "${ price }";
 		});
 		// 마이너스 버튼
 		$('.minus-btn').click(function() {
 		    $(".right-contents tr:nth-of-type(5) td:last-of-type").text("")
 		    quantity = parseInt($(this).siblings('.product-quantity').text());
-		    let memberShip = "${ user.isMembership }";
+		    let memberShip = "${ user.get(0).user.isMembership }";
 		    memberShip == "Y" ? price = "${ discountPrice }" : price = "${ price }";
 		    if($(this).siblings('.product-quantity').text() > 1) {
 		        quantity -= 1;
@@ -472,7 +472,7 @@
 		$('.plus-btn').click(function() {
 		    $(".right-contents tr:nth-of-type(5) td:last-of-type").text("")
 		    quantity = parseInt($(this).siblings('.product-quantity').text());
-		    let memberShip = "${ user.isMembership }";
+		    let memberShip = "${ user.get(0).user.isMembership }";
 		    memberShip == "Y" ? price = "${ discountPrice }" : price = "${ price }";
 		    quantity += 1;
 		    $(this).siblings('.product-quantity').text(quantity);
@@ -520,7 +520,7 @@
 		    	// 주문자명
 		    	var name = "${ loginUser.id }";
 		    	// 주문자 이메일
-		    	var email = "${ user.uemail }";
+		    	var email = "${ user.get(0).user.uemail }";
 		    	// 상품명
 		    	var pname = "${ sc.get(0).store.pname }";
 		    	// 상품코드

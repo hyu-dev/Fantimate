@@ -129,6 +129,56 @@
         		location.href="${ contextPath }/official/media/detail?mediaNum=" + mediaNum;
         	}
         }
+        
+     	// 카테고리 검색창에 글씨 입력 후 엔터를 클릭했을 때
+		$(".contents-search-input").keyup(function(e) {
+			if(e.keyCode == 13) {
+				$(".search-area img").click();
+				$(".contents-search-input").val("").focus();
+		        $(".category-search-result.official-result").css('display', 'none');
+			}
+		})
+		
+		// 카테고리 검색창에 돋보기 아이콘 클릭시
+		$(".search-area img").click(function() {
+			var search = $(".contents-search-input").val();
+			$.ajax({
+				url : "${ pageContext.request.contextPath }/official/search?search=" + search,
+	    		data : "get",
+				dataType : "json",
+				success : function(data) {
+					console.log(data)
+					if(data.length < 1) {
+						alert('검색된 영상이 없습니다')
+					} else {
+						var main = $(".main-contents");
+						main.html("");
+						// 중간 데이터에 삽입
+						var container = $("<div class='category-container'>");
+						var upper = $("<div class='category-upper'>");
+						var span = $("<span class='category-title nanumsquare'>").text("검색 키워드 : " + search)
+						var under = $("<div class='category-under'>");
+						for(var i in data) {
+							var media = $("<div class='category-media'>");
+							var pay = $("<div class='media-pay-sign'>").text("유료");
+							var img = $("<img onclick='selectMedia(" + data[i].official.mediaNum + "," + data[i].official.isPay + "," + data[i].official.mediaPay + ")'>")
+							img.attr("src", "${contextPath}/resources/images/official/" + data[i].mediaFile.picSvName);
+							var title = $("<div class='media-title nanumsquare'>").text(data[i].official.mediaTtl);
+							var date = $("<div class='media-date nanumsquare'>").text(data[i].official.mediaDate);
+							
+							if(data[i].official.isPay == 'Y') {
+								media.append(pay)
+							}
+							media.append(img, title, date);
+							under.append(media);
+						}
+						upper.append(span);
+						container.append(upper, under);
+						main.append(container);
+					}
+				}
+			})
+		})
         </script>
         
         <!-- 오른쪽 -->

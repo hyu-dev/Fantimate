@@ -102,7 +102,7 @@
 						
 						if(i < 3){
 							var li = $("<li class='top3-info'>");
-	     					var video1 = $("<video src='${ contextPath }/resources/images/official/"+ data[i].mf.vidSvName+"' controls='controls' poster='${ contextPath }/resources/images/official/"+ data[i].mf.picSvName+"' class='artist-media'></video>");
+	     					var video1 = $("<video src='${ contextPath }/resources/uploadFiles/"+ data[i].mf.vidSvName+"' controls='controls' poster='${ contextPath }/resources/uploadFiles/"+ data[i].mf.picSvName+"' class='artist-media'></video>");
 							var divSec = $("<div class='media-info'>");
 							var div1 = $("<div class='m-title'><p class='rank-num'>"+j+"</p><p class='rank-title'>"+ data[i].of.mediaTtl+"</p></div>");
 							var div2 = $("<div class='m-time-area'><p class='m-times'>"+ data[i].of.mediaDate + " |"+"</p>"+"&nbsp;"+"<p class='m-artistName'>"+ data[i].mc.artiNameEn +"</p></div>");
@@ -166,7 +166,7 @@
 						} else {  
 							
 							var li1 = $("<li class='rest-info'>");
-	     					var video2 = $("<video src='${ contextPath }/resources/images/official/"+ data[i].mf.vidSvName+"' controls='controls' poster='${ contextPath }/resources/images/official/"+ data[i].mf.picSvName+"' class='rest-media'></video>");
+	     					var video2 = $("<video src='${ contextPath }/resources/uploadFiles/"+ data[i].mf.vidSvName+"' controls='controls' poster='${ contextPath }/resources/uploadFiles/"+ data[i].mf.picSvName+"' class='rest-media'></video>");
 	     					var divSec1 = $("<div class='rest-media-info'>");
 							var div11 = $("<div class='m-title'><p class='rank-num'>"+j+"</p><p class='rank-title'>"+ data[i].of.mediaTtl+"</p></div>");
 							var div22 = $("<div class='m-time-area'><p class='m-times'>"+ data[i].of.mediaDate + " |"+"</p>"+"&nbsp;"+"<p class='m-artistName'>"+ data[i].mc.artiNameEn +"</p></div>");
@@ -277,7 +277,7 @@
 						if(i < 3){
 							
 							var li = $("<li class='top3-info'>");
-	     					var video1 = $("<video src='${ contextPath }/resources/images/official/"+ data[i].mf.vidSvName+"' controls='controls' poster='${ contextPath }/resources/images/official/"+ data[i].mf.picSvName+"' class='artist-media'></video>");
+	     					var video1 = $("<video src='${ contextPath }/resources/uploadFiles/"+ data[i].mf.vidSvName+"' controls='controls' poster='${ contextPath }/resources/uploadFiles/"+ data[i].mf.picSvName+"' class='artist-media'></video>");
 							var divSec = $("<div class='media-info'>");
 							var div1 = $("<div class='m-title'><p class='rank-num'>"+j+"</p><p class='rank-title'>"+ data[i].of.mediaTtl+"</p></div>");
 							var div2 = $("<div class='m-time-area'><p class='m-times'>"+ data[i].of.mediaDate + " |"+"</p>"+"&nbsp;"+"<p class='m-artistName'>"+ data[i].mc.artiNameEn +"</p></div>");
@@ -289,7 +289,7 @@
 						} else {
 							
 							var li1 = $("<li class='rest-info'>");
-	     					var video2 = $("<video src='${ contextPath }/resources/images/official/"+ data[i].mf.vidSvName+"' controls='controls' poster='${ contextPath }/resources/images/official/"+ data[i].mf.picSvName+"' class='rest-media'></video>");
+	     					var video2 = $("<video src='${ contextPath }/resources/uploadFiles/"+ data[i].mf.vidSvName+"' controls='controls' poster='${ contextPath }/resources/uploadFiles/"+ data[i].mf.picSvName+"' class='rest-media'></video>");
 	     					var divSec1 = $("<div class='rest-media-info'>");
 							var div11 = $("<div class='m-title'><p class='rank-num'>"+j+"</p><p class='rank-title'>"+ data[i].of.mediaTtl+"</p></div>");
 							var div22 = $("<div class='m-time-area'><p class='m-times'>"+ data[i].of.mediaDate + " |"+"</p>"+"&nbsp;"+"<p class='m-artistName'>"+ data[i].mc.artiNameEn +"</p></div>");

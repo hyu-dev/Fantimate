@@ -92,16 +92,6 @@
 		 <c:choose>
 			 <c:when test="${ msg eq 'success'}">
 			 	<script>
-				    // CONFIRM 창으로 (피드로 이동하시겠습니까? Y:FEED , N:MAINPAGE)
-				  /*   $(function(){
-					    var result = confirm("구독이 완료 되었습니다! 팬피드로 이동하시겠어요?");
-					    if(result == true){
-					 	  location.href="${ contextPath }/fanfeed/fanFeedList?artNameEn="+${artNameEn};
-					    } else {
-						 location.href="${ contextPath }";
-					    }
-				    }); */
-				    
 				    alert("구독이 완료 되었습니다!");
 				    location.href="${ contextPath }";
 			    </script>
@@ -112,6 +102,11 @@
 			 		location.href="${ contextPath }/main/subscribe?artNameEn="+${artNameEn};
 			 	</script>
 			 </c:when>
+			 <c:when test="${ msg eq 'subscribeMess'}">
+			 	<script>
+			 		alert("구독했던 내역이 있습니다. 다시 구독하시겠습니까?");
+			 	</script>
+			 </c:when>
 			 <c:otherwise>
 			 	<script>
 				    alert("구독 실패!");
@@ -120,6 +115,7 @@
 		</c:choose>
 	</c:if>
 	
+	<c:if test="${ empty qs }">
 	<form action="${ contextPath }/main/subscribe" method="post" enctype="multipart/form-data">
 	    <section class="subscribe-section">
 	        <p class="sub-title"><span>${ artNameEn } </span>피드에 사용할 닉네임을 입력하세요.</p>
@@ -156,5 +152,39 @@
            </script>
 	    </section>
     </form>
+    </c:if>
+    
+    <!-- 구독 취소 후 다시 하는 경우 -->
+    <c:if test="${ !empty qs }">
+    <form action="${ contextPath }/main/updateStatus" method="post" enctype="multipart/form-data">
+	    <section class="subscribe-section">
+	        <p class="sub-title"><span>${ artNameEn } </span>피드에 사용할 닉네임을 입력하세요.</p>
+	        <input type="hidden" name="artNameEn" value="${ artNameEn }">
+	        <input type="hidden" name="uid" value="${ loginUser.id }">
+	        <!-- 파일 첨부-->
+	            <label class="file-label">
+	                <span class="file-title">
+	                                   이미지 선택
+	                </span>
+	                <input class="file-upload" id="fileInput" name="uploadFile" type="file" onchange="previewImage(this,'filePreview')"/>
+	                <div id='filePreview'><img src="${ contextPath }/resources/uploadFiles/${ qs.att.attSvName }" id="remainPic"></div>
+	            </label>
+	         
+		
+	        <!-- 닉네임 입력 -->
+	        <div class="nickname-section">
+	            <p class="nickname-title">11자 내로 입력하세요.</p>
+	            <input type="text" class="nickname-input" name="nickname" value="${qs.sb.nickname}" required>
+	        </div>
+	        <!-- 버튼 -->
+	        <div class="subscribe-btn-section">
+	            <button id="subscribeBtn">구독하기</button>
+	            <button type="button" id="closeBtn" onclick="location.href='javascript:history.back(-1)'">닫기</button>
+	        </div>
+	    </section>
+    </form>
+    </c:if>
+    
+    
 </body>
 </html>

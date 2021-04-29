@@ -232,6 +232,7 @@ public class StoreController {
 		// 유저별 찜 리스트 호출
 		String userId = ((Member)request.getSession().getAttribute("loginUser")).getId();
 		List<Wish> wishList = sService.selectWishList(userId);
+		System.out.println(list);
 		Map<String, Object> data = new HashMap<>();
 		if(!list.isEmpty() || list.size() > 0)  {
 			// 세션에 담음 (상품 검색시 필요)
@@ -357,11 +358,16 @@ public class StoreController {
 							@RequestParam(value="mainPhoto") MultipartFile main,
 							@RequestParam(value="mainSvName") String mainSvName,
 							@RequestParam(value="mainClName") String mainClName,
-							@RequestParam(value="subPhotos") MultipartFile[] subs,
-							@RequestParam(value="subSvName") String[] subSvName,
-							@RequestParam(value="subSvName") String[] subClName)
+							@RequestParam(value="subPhotos") MultipartFile[] subs)
 							throws IOException{
-		
+		String[] subSvName = null;
+		String[] subClName = null;
+		if(request.getParameterValues("subSvName") != null || request.getParameterValues("subClName") != null) {
+			subSvName = request.getParameterValues("subSvName");
+			subClName = request.getParameterValues("subClName");
+			System.out.println(subSvName.length);
+			System.out.println(subClName.length);
+		}
 		List<Attachment> attList = new ArrayList<>();
 		Attachment att = null;
 		// 업로드 파일 서버에 저장

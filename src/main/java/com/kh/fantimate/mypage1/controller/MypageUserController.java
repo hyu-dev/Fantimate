@@ -1,11 +1,12 @@
 package com.kh.fantimate.mypage1.controller;
 
 import java.io.File;
-
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -24,13 +25,19 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kh.fantimate.common.model.vo.Attachment;
 import com.kh.fantimate.common.model.vo.Friend;
+import com.kh.fantimate.common.model.vo.ReplyCollection;
+import com.kh.fantimate.feed.model.vo.FeedCollection;
 import com.kh.fantimate.member.model.vo.Member;
 import com.kh.fantimate.member.model.vo.User;
+import com.kh.fantimate.member.model.vo.UserCollection;
 import com.kh.fantimate.mypage1.model.Service.Mypage1Service;
+import com.kh.fantimate.mypage1.model.vo.AttSubscribe;
 import com.kh.fantimate.mypage1.model.vo.FriendPageInfo;
+import com.kh.fantimate.mypage1.model.vo.SubscribeUser;
 import com.kh.fantimate.mypage1.model.vo.User2;
 import com.kh.fantimate.mypage1.model.vo.UserPaymentCol2;
 import com.kh.fantimate.mypage1.model.vo.UserUpdateVo;
+import com.kh.fantimate.official.model.vo.MediaCollection;
 import com.kh.fantimate.pay.model.vo.Cart;
 import com.kh.fantimate.pay.model.vo.Payment;
 
@@ -60,7 +67,8 @@ public class MypageUserController {
 			Attachment userAtt = mService.selectProfile(((Member)request.getSession().getAttribute("loginUser")));
 			System.out.println("userAtt : " + userAtt);
 			// 프로필 저장 경로(미리선언)
-			String savePath = session.getServletContext().getRealPath("resources") + "\\images\\mypage\\user\\profile\\" + paramId;
+//			String savePath = session.getServletContext().getRealPath("resources") + "\\images\\mypage\\user\\profile\\" + paramId;
+			String savePath = session.getServletContext().getRealPath("resources") + "\\uploadFiles";
 
 			UserUpdateVo updateUser = new UserUpdateVo();
 
@@ -78,7 +86,7 @@ public class MypageUserController {
 
 			//프로필정보가 제대로 바꼇다면
 			if(upResult > 0) {
-
+ 
 				// 업로드 파일이 있다면 삭제하기
 				if(!file.isEmpty()) {
 					// 파일 원본이름 배열
@@ -177,11 +185,61 @@ public class MypageUserController {
 		}
 		
 		@GetMapping("/subscribes")
-		public ModelAndView userMysubscribes(ModelAndView mv) {
+		public ModelAndView userMysubscribes(ModelAndView mv,
+				@RequestParam(value="page", required=false, defaultValue="1") int currentPage,
+				HttpSession session) {
+//			mv.setViewName("mypage/user/subscribes");
+//			return mv;
 			
-			mv.setViewName("mypage/user/subscribes");
+			Member m = (Member) session.getAttribute("loginUser");
+			System.out.println("m.getId() : " + m.getId());
 			
+			// 친구개수
+			int listCount = mService.RListCountSubscribe(m);
+			System.out.println("구독자 수 : " + listCount);
+			
+			// 요청 페이지에 맞는 리스트 조회
+			FriendPageInfo pi = pagingFriend(currentPage, listCount, m.getId());
+			List<SubscribeUser> list = mService.requestSubscribeList(pi);	// 아직
+			System.out.println("읽어온 구독리스트 : " + list);
+			
+			if(list != null) {
+				mv.addObject("list", list);
+				mv.addObject("pi", pi);
+				mv.setViewName("mypage/user/subscribes");
+			}else{
+				mv.addObject("msg", "조회에 실패하였습니다.");
+				mv.setViewName("mypage/admin/errorpage");
+			}
 			return mv;
+		}
+		
+		@GetMapping("/subscribes/update")
+		public String userFriendUpdate(
+//				ModelAndView mv,
+				@RequestParam(value="userid", required=true) String userid,
+				@RequestParam(value="subCode", required=true) String subCode,
+				HttpSession session) {
+			// 친구요청 객체 전달
+			AttSubscribe subs = new AttSubscribe();
+			subs.setSubCode(Integer.parseInt(subCode));
+			subs.setUid(userid);
+			System.out.println("넘어온 객체 값 : " + subs);
+			
+			int result = mService.userSubsUpdate(subs);
+			// 업데이트 성공시
+			if(result > 0) {
+				System.out.println("구독취소 완료 : " + result);
+//				mv.addObject("meg", "구독취소에 완료되었습니다.");
+//				mv.setViewName("mypage/user/subscribes");
+				return "redirect:/mypage/user/subscribes";
+				
+			// 업데이트 실패시
+			}else {
+				System.out.println("구독취소 실패");
+//				mv.addObject("msg", "구독취소에 실패했습니다.");
+				return "redirect:/mypage/admin/errorpage";
+			}
 		}
 		
 		@GetMapping("/dibs")
@@ -317,10 +375,59 @@ public class MypageUserController {
 			return mv;
 		}
 		
+//		@GetMapping("/bookmarks")
+//		public ModelAndView userMybookmarks(ModelAndView mv) {
+//			
+//			mv.setViewName("mypage/user/bookmarks");
+//			
+//			return mv;
+//		}
+		// 마이페이지 아티스트 북마크 페이지 & 북마크에 뿌려질 피드 전체 리스트 출력
 		@GetMapping("/bookmarks")
-		public ModelAndView userMybookmarks(ModelAndView mv) {
+		public ModelAndView userMybookmarks(ModelAndView mv, HttpServletRequest request) {
+			UserCollection userCol = (UserCollection)request.getSession().getAttribute("user");
 			
-			mv.setViewName("mypage/user/bookmarks");
+			// 아티스트 아이디
+			String id = userCol.getUser().getId();
+			// 아티스트명(그룹)
+			String artiName = arti.getArtist().getArtiNameEn();
+			
+			Map<String, String> map = new HashMap<>();
+			map.put("id", id);
+			map.put("artiName", artiName);
+			
+			// 북마크(피드/미디어) 리스트 가져오기
+			List<FeedCollection> feed = mService.selectBookmarkList(map);
+			System.out.println("북마크 피드 : " + feed);
+			List<MediaCollection> media = mService.selectMediaList(id);
+			System.out.println("북마크 미디어 : " + media);
+			// 북마크(피드) 이미지 가져오기
+			List<FeedCollection> attachment = mService.selectBookmarkImage(map);
+			System.out.println("북마크 : " + attachment);
+			// 북마크(피드/미디어) 댓글 리스트 호출
+			List<ReplyCollection> feedCmt = mService.selectBookmarkReplyList(map);
+			System.out.println("북마크 피드 댓글 : " + feedCmt);
+			List<ReplyCollection> mediaCmt = mService.selectMediaReplyList(map);
+			System.out.println("북마크 미디어 댓글 : " + mediaCmt);
+			System.out.println("----");
+			
+			if(arti != null) {
+				// 해당 아티스트 정보
+				mv.addObject("arti", arti);
+				mv.setViewName("mypage/artist/bookmark");
+			}
+			
+			if(feed != null) {
+				// 피드 리스트, 피드 이미지
+				mv.addObject("feed", feed);
+				mv.addObject("attachment", attachment);
+				mv.addObject("feedCmt", feedCmt);
+			}
+			
+			if(media != null) {
+				mv.addObject("media", media);
+				mv.addObject("mediaCmt", mediaCmt);
+			}
 			
 			return mv;
 		}
