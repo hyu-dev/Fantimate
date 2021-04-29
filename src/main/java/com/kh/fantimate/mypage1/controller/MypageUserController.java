@@ -86,7 +86,7 @@ public class MypageUserController {
 
 			//프로필정보가 제대로 바꼇다면
 			if(upResult > 0) {
-
+ 
 				// 업로드 파일이 있다면 삭제하기
 				if(!file.isEmpty()) {
 					// 파일 원본이름 배열
