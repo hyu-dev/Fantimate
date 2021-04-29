@@ -114,6 +114,10 @@ public interface Mypage1Service {
 
 	public int userSubsUpdate(AttSubscribe subs);
 
+	public List<Report> requestReportFeedList(ReportPageInfo pi);
+
+	public List<Report> requestReportFeedRList(ReportPageInfo pi);
+
 	
 	
 }

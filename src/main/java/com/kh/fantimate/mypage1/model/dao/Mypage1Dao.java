@@ -90,4 +90,8 @@ public interface Mypage1Dao {
 	public List<SubscribeUser> requestSubscribeList(FriendPageInfo pi);
 
 	public int userSubsUpdate(AttSubscribe subs);
+
+	public List<Report> requestReportFeedList(ReportPageInfo pi);
+
+	public List<Report> requestReportFeedRList(ReportPageInfo pi);
 }

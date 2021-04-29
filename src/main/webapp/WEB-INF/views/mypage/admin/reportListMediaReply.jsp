@@ -83,7 +83,7 @@
                 			<input type="hidden" value="${ r.report.rptReason }">
                 			<input type="hidden" value="${ r.report.rptCode }">
                 		 	<c:set var="date" value="<%= new Date() %>"/>
-                			<td><fmt:formatDate type="date" value="${ r.report.rptDate }"/></td>	<!-- 3 -->
+                			<td><fmt:formatDate type="date" value="${ r.report.rptDate }"/></td>	<!-- 3 신고날짜 -->
                 			<td>${ r.report.rptId }</td>		<!-- 신고인 4 -->
                 			<td>${ r.mediar.id }</td>			<!-- 피의자 -->
                 			<td>${ r.mediar.cmtctt }</td>		<!-- 신고 게시물 정보 -->
@@ -91,7 +91,7 @@
                 			<td>주석
 <%--                 			${ r.messCode } --%>
 <%--                 				<a onclick="${contextPath}/"> --%>
-                			</td>
+                			</td><!-- 처리여부 -->
                 			<input type="hidden" value="${ r.report.rptCode }" style="display:none;">	<!-- 9 -->
                 			<input type="hidden" value="${ r.report.refId }" style="display:none;">	<!-- 10 -->
                 			<input type="hidden" value="MD_CMT_RPT" style="display:none;">	<!-- 11 -->
