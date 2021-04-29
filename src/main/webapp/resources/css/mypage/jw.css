@@ -361,7 +361,9 @@ body{
     left: 495px;
     text-align: center;
 }
-
+button:hover{
+	cursor: pointer;
+}
 #mypageUserUpdateLeft{
     display: inline-block;
     

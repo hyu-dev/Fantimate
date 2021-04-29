@@ -118,7 +118,7 @@
 		                	<img src="${ contextPath }/resources/icon/user.svg" alt="" class="nav-icon" onclick="location.href='${ contextPath }/mypage/agency/main'">
 		                </c:if>
 		                 <c:if test="${ loginUser.classifyMem eq 4}">
-		                	<img src="${ contextPath }/resources/icon/user.svg" alt="" class="nav-icon" onclick="location.href='${ contextPath }/mypage/admin/paylist'">
+		                	<img src="${ contextPath }/resources/icon/user.svg" alt="" class="nav-icon" onclick="location.href='${ contextPath }/mypage/admin/management'">
 		                </c:if>
 		                <img src="${ contextPath }/resources/icon/alarm.svg" alt="" class="nav-icon" id="alarm-icon" onclick="alarmPage()">
 		                <!-- 알람 갯수 카운트 -->
