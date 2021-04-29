@@ -352,19 +352,23 @@
         <div class="join-id">
             <input type="text" class="chk" id="join-input-id" name="id" placeholder="아이디 입력" title="아이디" required>
             <button type="button" id="idCheckBtn">중복 확인</button> 
-            <p class="valid">아이디를 입력하세요. (영문 소문자, 숫자만 입력 가능)</p>
+            <p class="valid id-valid">아이디를 입력하세요. (영문 소문자, 숫자만 입력 가능)</p>
         </div>
         <div class="join-pass">
             <span class="text-pass">비밀번호는 5-10자의 영문, 숫자를 조합하여 설정해주세요.</span>
-            <input type="password" id="showPass" class="chk" name="pwd" placeholder="비밀번호 입력" title="비밀번호" required>
-            <p class="valid">5-10자의 영문, 숫자</p>
-            <div class="eyes">
-                <img src="${ contextPath }/resources/images/account/hide.png" alt="" class="eye-pass">
+            <div class="join-area">
+            	<input type="password" id="showPass" class="chk" name="pwd" placeholder="비밀번호 입력" title="비밀번호" required>
+	            <p class="valid">5-10자의 영문, 숫자</p>
+	            <div class="eyes">
+                	<img src="${ contextPath }/resources/images/account/hide.png" alt="" class="eye-pass">
+            	</div>
             </div>
-            <input type="password" id="showPass2" class="chk" name="pwd2" placeholder="비밀번호 확인" title="비밀번호 확인" required>
-            <p class="valid">비밀번호를 다시 입력하세요.</p>
-            <div class="eyes2">
-                <img src="${ contextPath }/resources/images/account/hide.png" alt="" class="eye-pass2">
+            <div class="join-area">
+	            <input type="password" id="showPass2" class="chk" name="pwd2" placeholder="비밀번호 확인" title="비밀번호 확인" required>
+	            <p class="valid">비밀번호를 다시 입력하세요.</p>
+	            <div class="eyes2">
+	                <img src="${ contextPath }/resources/images/account/hide.png" alt="" class="eye-pass2">
+	            </div>
             </div>
         </div>
         <div class="join-btn-section">
