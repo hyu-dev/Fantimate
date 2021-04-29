@@ -318,9 +318,9 @@ public class MypageAdminController {
 //										  Model model,
 										  RedirectAttributes rd) {
 			
+			common.setName(agency.getAgName());
 			System.out.println("common 객체 : " + common);
 			System.out.println("agency 객체 : " + agency);
-			
 			// 아이디 중복검사 로직
 			int idcheck = mService.checkId(common.getId());
 			
