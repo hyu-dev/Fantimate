@@ -13,6 +13,7 @@ import com.kh.fantimate.main.model.vo.FeedTopNineCollection;
 import com.kh.fantimate.main.model.vo.FriendCollection;
 import com.kh.fantimate.main.model.vo.MainCollection;
 import com.kh.fantimate.main.model.vo.MediaTopNineCollection;
+import com.kh.fantimate.main.model.vo.QuitSubscribeCollection;
 import com.kh.fantimate.main.model.vo.StoreTopNineCollection;
 import com.kh.fantimate.main.model.vo.SubscribeArtist;
 
@@ -116,6 +117,15 @@ public interface MainService {
 
 	// 33. 카트 카운트 
 	public int selectCartCount(String user);
+
+	// 34. 구독 취소 여부 확인 
+	public SubscribeArtist selectQuitSub(SubscribeArtist sb);
+
+	// 35. 구독 취소한 회원이면 예전 구독 정보 가져오기 
+	public QuitSubscribeCollection selectQuitInfo(SubscribeArtist sb);
+
+	// 36. 구독 취소 후 다시 구독할 경우 상태값 N으로 업데이트 
+	public int updateStatus(SubscribeArtist sb);
 
 
 }

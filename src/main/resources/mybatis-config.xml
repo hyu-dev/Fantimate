@@ -71,6 +71,7 @@
 		<typeAlias type="com.kh.fantimate.main.model.vo.MediaTopNineCollection" alias="MediaTopNineCollection"/>
 		<typeAlias type="com.kh.fantimate.main.model.vo.StoreTopNineCollection" alias="StoreTopNineCollection"/>
 		<typeAlias type="com.kh.fantimate.main.model.vo.SubscribeArtist" alias="SubscribeArtist"/>
+		<typeAlias type="com.kh.fantimate.main.model.vo.QuitSubscribeCollection" alias="QuitSubscribeCollection"/>
 		<typeAlias type="com.kh.fantimate.store.model.vo.StoreInfo" alias="StoreInfo"/>
 		<typeAlias type="com.kh.fantimate.feed.model.vo.Feed" alias="Feed"/>
 		<typeAlias type="com.kh.fantimate.store.model.vo.Review" alias="Review"/>

@@ -194,6 +194,15 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<result property="mediaNum" column="MEDIA_NUM"/>
 		<result property="id" column="ID"/>
 	</resultMap>
+	<!-- 구독 프로필 사진  -->
+	<resultMap type="Attachment" id="subPicAttResultSet">
+		<id property="attCode" column="S_CODE"/>
+		<result property="attRoot" column="S_ROOT"/>
+		<result property="attClName" column="S_CL_NAME"/>
+		<result property="attSvName" column="S_SV_NAME"/>
+		<result property="attStatus" column="S_STATUS"/>
+		<result property="subCode" column="SUB_CODE"/>
+	</resultMap>
 	
 	<!-- collection -->
 	<resultMap type="MainCollection" id="mainCollResultSet">
@@ -231,6 +240,10 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<collection property="sb"  resultMap="subArtistResultSet" />
 		<collection property="sc"  resultMap="storeCategory" />
 		<collection property="s"  resultMap="storeResultSet" />
+	</resultMap>
+	<resultMap type="QuitSubscribeCollection" id="QuitSubscribeCollection">
+		<collection property="sb"  resultMap="subArtistResultSet" />
+		<collection property="att"  resultMap="subPicAttResultSet" />
 	</resultMap>
 	
 	
@@ -364,8 +377,6 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		     U_ID = #{id}
 		AND
 		     ARTI_NAME_EN = #{artNameEn}
-		AND
-			 SUB_STATUS = 'N'
 	</select>
 	
 	<!-- 검색 결과 select -->
@@ -1018,6 +1029,57 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
     	 IS_BOUGHT = 'N'
 	</select>
 	
+	<!-- 구독 취소여부 select -->
+	<select id="selectQuitSub" resultMap="subArtistResultSet" parameterType="SubscribeArtist">
+	SELECT 
+	        SUB_CODE
+	      , U_ID
+	      , U_NICKNAME
+	      , SUB_STATUS
+	      , ARTI_NAME_EN
+	FROM 
+	      ATT_SUBSCRIBE
+	WHERE
+	      U_ID = #{id}
+	AND    
+	      ARTI_NAME_EN = #{artNameEn}
+	</select>	
 	
+	<!-- 구독 다시 할 경우 정보 select-->
+	<select id="selectQuitInfo" resultMap="QuitSubscribeCollection">
+	SELECT 
+	        S.SUB_CODE
+	      , S.U_ID
+	      , S.U_NICKNAME
+	      , S.SUB_STATUS
+	      , S.ARTI_NAME_EN
+	      , SP.S_CODE
+	      , SP.S_ROOT
+	      , SP.S_CL_NAME
+	      , SP.S_SV_NAME
+	      , SP.S_STATUS
+	      , SP.SUB_CODE
+	FROM 
+	     ATT_SUBSCRIBE S
+	JOIN SUB_PROFILE SP ON (S.SUB_CODE = SP.SUB_CODE)
+	WHERE 
+	     S.U_ID = #{id}
+	AND
+	     S.SUB_STATUS = 'Y'
+	AND  
+	     S.ARTI_NAME_EN = #{artNameEn}
+	</select>
+	
+	<!-- 구독취소후 다시 구독할 경우 상태값 업데이트 해주기 -->
+	<update id="updateStatus" parameterType="SubscribeArtist">
+	UPDATE
+		  ATT_SUBSCRIBE
+	SET	
+	     SUB_STATUS = 'N'
+	WHERE
+		 U_ID = #{id}
+ 	AND
+ 		 ARTI_NAME_EN = #{artNameEn}
+	</update>
 	
 </mapper>

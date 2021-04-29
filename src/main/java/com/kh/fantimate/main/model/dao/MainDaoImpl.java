@@ -16,6 +16,7 @@ import com.kh.fantimate.main.model.vo.FeedTopNineCollection;
 import com.kh.fantimate.main.model.vo.FriendCollection;
 import com.kh.fantimate.main.model.vo.MainCollection;
 import com.kh.fantimate.main.model.vo.MediaTopNineCollection;
+import com.kh.fantimate.main.model.vo.QuitSubscribeCollection;
 import com.kh.fantimate.main.model.vo.StoreTopNineCollection;
 import com.kh.fantimate.main.model.vo.SubscribeArtist;
 import com.kh.fantimate.member.model.vo.Member;
@@ -225,6 +226,24 @@ public class MainDaoImpl implements MainDao{
 	public int selectCartCount(String user) {
 		
 		return sqlSession.selectOne("mainMapper.selectCartCount",user);
+	}
+
+	@Override
+	public SubscribeArtist selectQuitSub(SubscribeArtist sb) {
+		
+		return sqlSession.selectOne("mainMapper.selectQuitSub",sb);
+	}
+
+	@Override
+	public QuitSubscribeCollection selectQuitInfo(SubscribeArtist sb) {
+		
+		return sqlSession.selectOne("mainMapper.selectQuitInfo",sb);
+	}
+
+	@Override
+	public int updateStatus(SubscribeArtist sb) {
+		
+		return sqlSession.update("mainMapper.updateStatus",sb);
 	}
 
 	

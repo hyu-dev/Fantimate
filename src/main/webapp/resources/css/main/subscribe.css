@@ -176,3 +176,9 @@ body::-webkit-scrollbar-track{
     border-radius: 5px;
     background: transparent;
 }
+
+#remainPic{
+	width : 150px; 
+	height : 150px;
+	border-radius : 50%;	
+}

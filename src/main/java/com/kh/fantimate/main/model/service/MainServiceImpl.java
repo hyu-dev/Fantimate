@@ -17,6 +17,7 @@ import com.kh.fantimate.main.model.vo.FeedTopNineCollection;
 import com.kh.fantimate.main.model.vo.FriendCollection;
 import com.kh.fantimate.main.model.vo.MainCollection;
 import com.kh.fantimate.main.model.vo.MediaTopNineCollection;
+import com.kh.fantimate.main.model.vo.QuitSubscribeCollection;
 import com.kh.fantimate.main.model.vo.StoreTopNineCollection;
 import com.kh.fantimate.main.model.vo.SubscribeArtist;
 
@@ -223,6 +224,24 @@ public class MainServiceImpl implements MainService{
 	public int selectCartCount(String user) {
 		
 		return mpDao.selectCartCount(user);
+	}
+
+	@Override
+	public SubscribeArtist selectQuitSub(SubscribeArtist sb) {
+		
+		return mpDao.selectQuitSub(sb);
+	}
+
+	@Override
+	public QuitSubscribeCollection selectQuitInfo(SubscribeArtist sb) {
+		
+		return mpDao.selectQuitInfo(sb);
+	}
+
+	@Override
+	public int updateStatus(SubscribeArtist sb) {
+		
+		return mpDao.updateStatus(sb);
 	}
 
 
