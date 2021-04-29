@@ -121,6 +121,8 @@ public interface FanFeedDao {
 	// 댓글 모든 정보
 	public List<ReplyCollection> selectReplyAllList(String artNameEn);
 
+	
+
 	// 모든 유저 컬렉션
 	//public List<MemberCollection> selectSumList();
 

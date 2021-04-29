@@ -109,6 +109,8 @@ public interface FanFeedService {
    // 댓글 모든정보 
    public List<ReplyCollection> selectReplyAllList(String artNameEn);
 
+  
+
    // 모든 유저 정보 컬렉션
   // public List<MemberCollection> selectSumList();
    

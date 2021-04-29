@@ -28,6 +28,8 @@
          <section class="main-contents">
            
              <!-- 모먼트 영역 -->
+          
+          
            <div class="moment-outer">
            
             <div class="momentArea">
@@ -79,7 +81,7 @@
                                 <p class="friend-application">친구 신청</p>
                                 <p class="send-message">쪽지 보내기</p>
                             </div>
-                             <img class="profile-picture" src="${ contextPath }/resources/uploadFiles/${ ap.attSvName }">
+                             <img class="profile-picture" src="${ contextPath }/resources/uploadFiles/${ ap.attSvName }" onclick="profilePage()">
                         </td>
                         </c:if>
                         </c:forEach>
@@ -134,7 +136,7 @@
                         <col width="15%"/>
 
                         <tr>
-                            <td><img src="../../resources/images/feed/like-icon.png" class="like-icon"></td>
+                            <td><img src="../resources/images/feed/like-icon.png" class="like-icon"></td>
                             <td>5,000</td>
                             <td class="reply-info">댓글</td>
                             <td class="reply-count">2,300</td>
@@ -159,9 +161,9 @@
                             <td>
                                 <div class="comment-box">
                                     <div id="artist-comment" class="comment-main comment-center nanumsquare">
-                                        <span class="comment-name">뷔</span>
+                                        <span class="comment-name">뷔<!-- 닉네임 들어가야 함 --></span>
                                         <span class="comment-content">
-                                            영상 재밌게 보셨나요?
+                                            영상 재밌게 보셨나요?<!-- 댓글 내용 들어가야 함 -->
                                         </span>
                                         <span class="re-commentBtn">답글 열기</span>
                                     </div>
@@ -174,10 +176,14 @@
 
                                     </div>
                                 </div>
+                                
+                                <!-- 댓글 아래 좋아요, 작성날짜 영역 -->
                                 <div class="comment-info comment-center nanumsquare">
-                                    <img class="likeBtn" src="../../resources/images/feed/like-icon.png">
+                                    <img class="likeBtn" src="../resources/images/feed/like-icon.png">
                                     <span class="like-count">1,000</span><span class="comment-date">2021.03.08</span>
                                 </div>
+                                
+                                <!-- 댓글 옆 ... 더보기 영역 -->
                                 <div class="comment-toggle">
                                     <div class="re-comment-container">
                                         <div class="comment-area">
@@ -187,163 +193,16 @@
                                     </div>
                                 </div>
 
-                                <!-- 대댓글 -->
-                                <table class="re-comment">
-                                    <colgroup>
-                                        <col width="5%"/>
-                                        <col width="95%"/>
-                                    </colgroup>
-                                    <tr class="comment-line">
-                                        <td>
-                                            <div class="re-profile-bubble">
-                                                <p>친구 신청</p>
-                                                <p>쪽지 보내기</p>
-                                            </div>
-                                            <img class="re-profile-picture" src="../resource/official/noPicture.png">
-                                        </td>
-                                        <td>
-                                            <div class="comment-box">
-                                                <div class="comment-main comment-center nanumsquare">
-                                                    <span class="comment-name">뷔바라기</span>
-                                                    <span class="comment-content">
-                                                        당연하죠. 완전 꿀잼ㅠㅠㅠㅠㅠ
-                                                    </span>
-                                                </div>
-                                                <div class="re-comment-etc">···
-                                                    <div class="re-comment-bubble">
-                                                        <p>댓글 신고</div>
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                            <div class="re-comment-info comment-center nanumsquare">
-                                                <img class="likeBtn" src="../../resources/images/feed/like-icon.png">
-                                                <span class="like-count">10</span><span class="comment-date">2021.03.08</span>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </table>
+                             
                             </td>
                         </tr>
-                        <tr class="comment-line">
-                            <td>
-                                <div class="profile-bubble">
-                                    <p>친구 신청</p>
-                                    <p>쪽지 보내기</p>
-                                </div>
-                                <img class="profile-picture" src="../../resources/images/feed/스마일.jpg">
-                            </td>
-                            <td>
-                                <div class="comment-box">
-                                    <div class="comment-main comment-center nanumsquare">
-                                        <span class="comment-name">방탄1호팬</span>
-                                        <span class="comment-content">
-                                            풀영상 기대하고 있어요!!
-                                        </span>
-                                        <span class="re-commentBtn">답글 열기</span>
-                                    </div>
-                                    <div class="comment-etc">···
-                                        <div class="comment-bubble">
-                                            <p class="add-comment">답글 달기</p>
-                                            <p>댓글 신고</p>
-                                        </div>
-                                    </div>
-
-                                </div>
-                                <div class="comment-info comment-center nanumsquare">
-                                    <img class="likeBtn" src="../../resources/images/feed/like-icon.png">
-                                    <span class="like-count">100</span><span class="comment-date">2021.03.08</span>
-                                </div>
-                                <div class="comment-toggle">
-                                    <div class="re-comment-container">
-                                        <div class="comment-area">
-                                            <textarea class="nanumsquare" style="resize: none;" rows="1" placeholder="답글을 입력하세요..."></textarea>
-                                        </div>&nbsp;&nbsp;&nbsp;
-                                        <img class="re-send-btn" src="../resource/official/send.svg">
-                                    </div>
-                                </div>
-
-                                <!-- 대댓글 -->
-                                <table class="re-comment">
-                                    <colgroup>
-                                        <col width="5%"/>
-                                        <col width="95%"/>
-                                    </colgroup>
-                                    <tr class="comment-line">
-                                        <td>
-                                            <div class="re-profile-bubble">
-                                                <p>친구 신청</p>
-                                                <p>쪽지 보내기</p>
-                                            </div>
-                                            <img class="re-profile-picture" src="../resource/official/noPicture.png">
-                                        </td>
-                                        <td>
-                                            <div class="comment-box">
-                                                <div class="comment-main comment-center nanumsquare">
-                                                    <span class="comment-name">뷔바라기</span>
-                                                    <span class="comment-content">
-                                                        저두요ㅎㅎ
-                                                    </span>
-                                                </div>
-                                                <div class="re-comment-etc">···
-                                                    <div class="re-comment-bubble">
-                                                        <p>댓글 신고</div>
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                            <div class="re-comment-info comment-center nanumsquare">
-                                                <img class="likeBtn" src="../../resources/images/feed/like-icon.png">
-                                                <span class="like-count">10</span><span class="comment-date">2021.03.08</span>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </td>
-                        </tr>
-                        <tr class="comment-line">
-                            <td>
-                                <div class="profile-bubble">
-                                    <p>피드로 이동</p>
-                                    <p>쪽지 보내기</p>
-                                </div>
-                                <img class="profile-picture" src="../../resources/images/feed/스마일.jpg">
-                            </td>
-                            <td>
-                                <div class="comment-box">
-                                    <div class="comment-main comment-center nanumsquare">
-                                        <span class="comment-name">불타오르네</span>
-                                        <span class="comment-content">
-                                            풀영상 기대하고 있어요!!
-                                        </span>
-                                        <span class="re-commentBtn">답글 열기</span>
-                                    </div>
-                                    <div class="comment-etc">···
-                                        <div class="comment-bubble">
-                                            <p class="add-comment">답글 달기</p>
-                                            <p>댓글 신고</p>
-                                        </div>
-                                    </div>
-
-                                    </div>
-                                </div>
-                                <div class="comment-info comment-center nanumsquare">
-                                    <img class="likeBtn" src="../../resources/images/feed/like-icon.png">
-                                    <span class="like-count">100</span><span class="comment-date">2021.03.08</span>
-                                </div>
-                                <div class="comment-toggle">
-                                    <div class="re-comment-container">
-                                        <div class="comment-area">
-                                            <textarea class="nanumsquare" style="resize: none;" rows="1" placeholder="답글을 입력하세요..."></textarea>
-                                        </div>&nbsp;&nbsp;&nbsp;
-                                        <img class="re-send-btn" src="../resource/official/send.svg">
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
+                        
+                       
                     </table>
                     <button class="reply-more">. . .</button>
                     
+                    <!-- 댓글 등록 영역 -->
+                    <form>
                     <div class="insert-replyArea">
                         <div class="replyArea">
                             <div class="insert-reply">
@@ -352,13 +211,17 @@
                             <img class="insert-replyBtn" src="../../resources/icon/send.png">
                         </div>
                     </div>
-                    
+                    </form>
                     
 
 
              </div>
+        
+        
              </c:forEach>
          </section>
+	
+
 
 
          <!-- 오른쪽 영역 -->
@@ -509,6 +372,30 @@
     <script>
     function feedAll(artNameEn){
     	location.href='${contextPath}/artistfeed/artistFeedList?artNameEn=' + artNameEn;
+    }
+    </script>
+    
+    <!-- 아티스트 프로필사진 클릭 시 -->
+    <script>
+    function profilePage(){
+
+        if($('.mail-hide-show').css('display') == 'none' && $('.alarm-hide-show').css('display') != 'none'){
+            $('.mail-hide-show').show();
+            $('.alarm-hide-show').hide();
+        } 
+        else if($('.mail-hide-show').css('display') == 'none' && $('.etc-hide-show').css('display') != 'none'){
+            $('.mail-hide-show').show();
+            $('.etc-hide-show').hide();
+        }
+        else if($('.mail-hide-show').css('display') == 'none' && $('.alarm-hide-show').css('display') == 'none' && $('.etc-hide-show').css('display') == 'none'){
+            $('.mail-hide-show').show();
+        }else{
+            $('.mail-hide-show').hide();
+        }
+        
+        // 공통 ajax
+        callAjax();
+    	        
     }
     </script>
 </body>

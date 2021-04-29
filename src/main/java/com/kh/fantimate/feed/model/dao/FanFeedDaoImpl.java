@@ -228,6 +228,9 @@ public class FanFeedDaoImpl implements FanFeedDao{
 		return sqlSession.selectList("fanfeedMapper.selectReplyAllList", artNameEn);
 	}
 
+
+	
+
 	// 모든 유저 컬렉션
 	/*
 	 * @Override public List<MemberCollection> selectSumList() { return

@@ -204,6 +204,7 @@ public class FanFeedServiceImpl implements FanFeedService {
 		return fDao.selectReplyAllList(artNameEn);
 	}
 
+	
 	// 모든 유저 정보 컬렉션
 	/*
 	 * @Override public List<MemberCollection> selectSumList() { return
