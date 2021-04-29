@@ -9,7 +9,11 @@ import com.kh.fantimate.common.model.vo.Attachment;
 import com.kh.fantimate.common.model.vo.Friend;
 import com.kh.fantimate.common.model.vo.Notice;
 import com.kh.fantimate.common.model.vo.PageInfo;
+import com.kh.fantimate.common.model.vo.ReplyCollection;
 import com.kh.fantimate.common.model.vo.Report;
+import com.kh.fantimate.feed.model.vo.AttachmentF;
+import com.kh.fantimate.feed.model.vo.Feed;
+import com.kh.fantimate.feed.model.vo.FeedCollection;
 import com.kh.fantimate.member.model.vo.Agency;
 import com.kh.fantimate.member.model.vo.Member;
 import com.kh.fantimate.mypage1.model.dao.Mypage1Dao;
@@ -225,6 +229,46 @@ public class Mypage1ServiceImpl implements Mypage1Service{
 	@Override
 	public List<Report> requestReportFeedRList(ReportPageInfo pi) {
 		return mDao.requestReportFeedRList(pi);
+	}
+
+	@Override
+	public List<Feed> selectFeedList(String id) {
+		return mDao.selectFeedList(id);
+	}
+
+	@Override
+	public List<FeedCollection> selectFeedImage(String id) {
+		return mDao.selectFeedImage(id);
+	}
+
+	@Override
+	public int insertAlarmF(Friend f) {
+		return mDao.insertAlarmF(f);
+	}
+
+	@Override
+	public int updateAlarmStatus(Friend f) {
+		return mDao.updateAlarmStatus(f);
+	}
+
+	@Override
+	public List<Feed> selectUserFeedList(String paramId) {
+		return mDao.selectUserFeedList(paramId);
+	}
+
+	@Override
+	public List<Attachment> selectatList() {
+		return mDao.selectatList();
+	}
+
+	@Override
+	public List<AttachmentF> selectptList() {
+		return mDao.selectptList();
+	}
+
+	@Override
+	public List<ReplyCollection> selectReplyAllList() {
+		return mDao.selectReplyAllList();
 	}
 
 
