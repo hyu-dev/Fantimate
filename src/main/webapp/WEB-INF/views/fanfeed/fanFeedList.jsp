@@ -42,6 +42,8 @@
 			
 			<c:forEach var="f" items="${ list }">
 			
+			
+			
              <!-- 게시글 리스트 영역 -->
              <div class="boardArea">
 
@@ -145,16 +147,17 @@
 							</c:choose>
 							</c:forEach> --%>
 							
+							
 							<c:set var="ddimCheck" value="0"/>
 							<c:forEach var="l" items="${ lklist }">
-                                 <c:if test="${ loginUser.id eq l.id && f.fid eq l.refId }">
-                                
-                            <td><img id="cancelLike" src="../resources/images/feed/likeblack-icon.png" class="like-icon" onclick="cancelLike(${f.fid},${f.flike});"></td>
+                                <c:if test="${ loginUser.id eq l.id && f.fid eq l.refId }">
+                                <!-- 좋아요를 누른 상태 -->
+                           		<td><img id="cancelLike" src="../resources/images/feed/likeblack-icon.png" class="like-icon${f.fid}" onclick="insertLike(${f.fid})"></td>
                                 <c:set var="ddimCheck" value="1"/>
-                                 </c:if>
-                              </c:forEach>
+                                </c:if>
+                             </c:forEach>
                               <c:if test="${ ddimCheck eq 0 }">
-							<td><img id="insertLike" src="../resources/images/feed/like-icon.png" class="like-icon" onclick="insertLike(${f.fid},${f.flike});"></td>
+							<td><img id="insertLike" src="../resources/images/feed/like-icon.png" class="like-icon${f.fid}" onclick="insertLike(${f.fid})"></td>
                               </c:if>
 							
 						
@@ -162,9 +165,9 @@
 							                           
                             <%-- <td><img id="insertLike" src="../resources/images/feed/likeblack-icon.png" class="like-icon" onclick="insertLike(${f.fid},${f.flike});"></td> --%>
                             
-                            
+                         
                            
-                            <td>${ f.flike }</td>
+                            <td id="likeCount${f.fid}"><!-- 카운트 ajax --></td>
                             <td class="reply-info">댓글</td>
                             <td class="reply-count">2,300</td>
                         </tr>
@@ -335,13 +338,106 @@
                     </div>
                     </form> 
                     
+                    
+                     <script>
+                            // 좋아요 카운트 
+                         	$(function(){
+                         		likeCount((${f.fid}));
+                         	});
+                            
+                      
+                     </script>
                         
                
 
              </div>
              
+             
+             
              </c:forEach>
+          <!-- fList 끝 -->
           
+             <!-- 좋아요 ajax 수정************************** -->
+             <script>
+             function insertLike(fid){
+            	 var data;
+            	 var fid = fid;
+            	 var img = $(".like-icon" + fid);
+            	 if($(".like-icon" + fid).attr('src') == "../resources/images/feed/like-icon.png"){
+            		 data = {
+            			fid : fid,
+            			id : "${loginUser.id}",
+            			type: '등록'
+            				 
+            		 }
+            	 } else if($(".like-icon" + fid).attr('src') == "../resources/images/feed/likeblack-icon.png"){
+            		 data = {
+            				fid : fid,
+                 			id : "${loginUser.id}",
+                 			type: '취소'
+                 				 
+                 		 }
+            	 }
+            	 var url = "${pageContext.request.contextPath}/fanfeed/like"
+         	     callAjaxWish(url, data, img, fid);
+             
+             }
+             
+             // 좋아요 ajax
+             function callAjaxWish(url, data, img ,fid){
+            	 console.log(img.attr("src"));
+            	 $.ajax({
+            		 url : url,
+            		 method : "POST",
+            		 data : data,
+            		 dateType : "json",
+            		 success : function(map) {
+            			 alert(map.msg)
+            			 var src = "../resources/images/feed/"
+            			 if(map.msg == "좋아요가 등록 되었습니다"){
+            				 img.attr("src", src + "likeblack-icon.png");
+              				 document.getElementById("likeCount"+fid).innerHTML = map.count;
+            			 } else if(map.msg == "좋아요가 취소되었습니다"){
+            				 img.attr("src", src + "like-icon.png");
+              				 document.getElementById("likeCount"+fid).innerHTML = map.count;
+            			 }
+            			 console.log("적용후 : " , img.attr("src"))
+            			 
+            		 },
+            		 error : function(e) {
+     	        		console.log(e)
+     	        	}
+            	 });
+            	 
+             }
+             
+          
+         	function likeCount(fid){
+         		
+       		 var fid = fid;
+       		
+       		$.ajax({
+       			url: "${contextPath}/fanfeed/likeCount",
+       			data : {fid : fid},
+       			dataType : "json",
+       			success : function(data){
+       				console.log(data);
+       				
+       				document.getElementById("likeCount"+fid).innerHTML = data;
+       				
+       				
+       			},
+       			error : function(e){
+       				alert("code : " + e.status + "\n"
+       						+ "message : " + e.responseText);
+       			}
+       			
+       		}); 
+       		
+       	}
+      
+             
+             </script>
              
             
              
@@ -578,7 +674,7 @@
    </script>
    
    <!-- 좋아요 클릭시  누른 유저 추가 -->
-   <script>
+ <!--   <script>
    function insertLike(fid,flike){
 	   var id = "${ loginUser.id }";	 // 좋아요 누른 유저 아이디
 	   var refId = fid;					 // 좋아요 누른 게시글 번호 
@@ -612,10 +708,10 @@
 		 }
 	  });
    }
-   </script>
+   </script> -->
    
    <!-- 좋아요 취소 시 누른 유저 삭제 -->
-   <script>
+  <!--  <script>
    function	cancelLike(fid,flike){
 	   var id = "${ loginUser.id }";	 // 좋아요 취소한 유저 아이디
 	   var refId = fid;					 // 좋아요 취소한 게시글 번호 
@@ -644,7 +740,7 @@
 	  });
    }
    </script>
-   
+    -->
    
    
    <!-- 친구 신청 -->
