@@ -3,7 +3,69 @@
 PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="mypage1Mapper">
-	<!-- 공통 유저 정보 -->
+<!-- 북마크 -->
+		<!-- 피드 -->
+	<resultMap type="Feed" id="feedResultSet">
+		<id property="fid" column="BID"/>
+		<result property="ftype" column="BTYPE"/>
+		<result property="fcontent" column="BCONTENT"/>
+		<result property="fcreate" column="BCREATE"/>
+		<result property="fmodify" column="BMODIFY"/>
+		<result property="flike" column="BLIKE"/>
+		<result property="fstatus" column="BSTATUS"/>
+		<result property="writer" column="ID"/>
+		<result property="artiName" column="ARTI_NAME_EN"/>
+	</resultMap>
+	<!-- 구독한 유저 정보 -->
+	<resultMap type="Subscribe" id="subscribe">
+		<id property="subCode" column="SUB_CODE"/>
+		<result property="uid" column="U_ID"/>
+		<result property="unickname" column="U_NICKNAME"/>
+		<result property="subStatus" column="SUB_STATUS"/>
+		<result property="artiname" column="ARTI_NAME_EN"/>
+	</resultMap>
+	<!-- 아티스트 -->
+	<resultMap type="Artist" id="artistResultSet">
+		<id property="artiId" column="ARTI_ID"/>
+		<result property="artiName" column="ARTI_ONE_NAME"/>
+		<result property="artiNickname" column="NICKNAME"/>
+		<result property="artiFacebook" column="FACEBOOK"/>
+		<result property="artiInsta" column="INSTAGRAM"/>
+		<result property="artiTwitter" column="TWITTER"/>
+		<result property="artiDailymsg" column="DAILY_MSG"/>
+		<result property="isTeam" column="IS_TEAM"/>
+		<result property="agencyId" column="ID"/>
+		<result property="artiNameEn" column="ARTI_NAME_EN"/>
+	</resultMap>
+	<!-- 피드 파일 -->
+	<resultMap type="Attachment" id="attachResultSet">
+		<id property="attCode" column="BPID"/>
+		<result property="attRoot" column="BP_PATH"/>
+		<result property="attClName" column="BP_OGNAME"/>
+		<result property="attSvName" column="BP_CHNAME"/>
+		<result property="attStatus" column="AB_STATUS"/>
+		<result property="refId" column="BID"/>
+	</resultMap>
+	<!-- 피드 북마크 -->
+	<resultMap type="BookMark" id="feedBookmarkResultSet">
+		<id property="id" column="ID"/>
+		<result property="refId" column="BID"/>
+		<result property="bmCreate" column="BMCREATE"/>
+		<result property="bmstatus" column="BM_STATUS"/>
+	</resultMap>
+	<!-- 피드 컬렉션 -->
+	<resultMap type="FeedCollection" id="feedCollResultSet">
+		<collection property="feed" resultMap="feedResultSet"/>
+		<collection property="subscribe" resultMap="subscribe"/>
+		<collection property="artist" resultMap="artistResultSet"/>
+		<collection property="attachment" resultMap="attachResultSet"/>
+		<collection property="artiAttach" resultMap="artiAttachResultSet"/>
+		<collection property="userAttach" resultMap="userAttachResultSet"/>
+		<collection property="bookmark" resultMap="feedBookmarkResultSet"/>
+	</resultMap>
+	
+	
+<!-- 공통 유저 정보 -->
 	<resultMap type="Member" id="commonResultSet">
 		<id property = "id" column="ID"/>
 		<result property="pwd" column="PWD"/>
@@ -1463,4 +1525,5 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
                     U_ID = #{uid}
                AND  SUB_CODE = #{subCode}
 	</update>
+	
 </mapper>
