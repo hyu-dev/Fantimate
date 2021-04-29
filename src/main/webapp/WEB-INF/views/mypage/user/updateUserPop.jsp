@@ -31,7 +31,7 @@
 		                <div id="mypageUserUpdateLeft">
 		                	<div style="margin-bottom: 12px;">
 <%-- 		                		<c:if test="${ empty uploadfile }"> --%>
-			                    <img id="preview-image" src="${ contextPath }/resources/images/mypage/user/profile/${ loginUser.id }/${ user.get(0).attUser.attSvName }" alt="프로필사진">
+			                    <img id="preview-image" src="${ contextPath }/resources/uploadFiles/${ user.get(0).attUser.attSvName }" alt="프로필사진">
 <%-- 		                		</c:if> --%>
 <!-- 								<div class="image-container"> -->
 <!-- 								    <img style="width: 500px;" id="preview-image" src="https://dummyimage.com/500x500/ffffff/000000.png&text=preview+image"> -->

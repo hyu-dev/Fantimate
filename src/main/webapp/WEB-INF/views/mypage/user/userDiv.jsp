@@ -20,7 +20,7 @@
 		 
 	<div id="mypageUserProfileWrap">
             <div id="mypageUserProfileImgDiv">
-                <img id="mypageUserProfileImg" src="${ contextPath }/resources/images/mypage/user/profile/${ user.get(0).user.id }/${ user.get(0).attUser.attSvName }">
+                <img id="mypageUserProfileImg" src="${ contextPath }/resources/uploadFiles/${ user.get(0).attUser.attSvName }">
 <%--                 <img id="mypageUserProfileImg" src="${ contextPath }/resources/images/mypage/user/profile/${ user.id }/mansik.png"> --%>
             </div>
             <div id="mypageUserProfileImgDivRight">

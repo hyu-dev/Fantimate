@@ -4,7 +4,9 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -23,8 +25,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kh.fantimate.common.model.vo.Attachment;
 import com.kh.fantimate.common.model.vo.Friend;
+import com.kh.fantimate.common.model.vo.ReplyCollection;
+import com.kh.fantimate.feed.model.vo.FeedCollection;
 import com.kh.fantimate.member.model.vo.Member;
 import com.kh.fantimate.member.model.vo.User;
+import com.kh.fantimate.member.model.vo.UserCollection;
 import com.kh.fantimate.mypage1.model.Service.Mypage1Service;
 import com.kh.fantimate.mypage1.model.vo.AttSubscribe;
 import com.kh.fantimate.mypage1.model.vo.FriendPageInfo;
@@ -32,6 +37,7 @@ import com.kh.fantimate.mypage1.model.vo.SubscribeUser;
 import com.kh.fantimate.mypage1.model.vo.User2;
 import com.kh.fantimate.mypage1.model.vo.UserPaymentCol2;
 import com.kh.fantimate.mypage1.model.vo.UserUpdateVo;
+import com.kh.fantimate.official.model.vo.MediaCollection;
 import com.kh.fantimate.pay.model.vo.Cart;
 import com.kh.fantimate.pay.model.vo.Payment;
 
@@ -61,7 +67,8 @@ public class MypageUserController {
 			Attachment userAtt = mService.selectProfile(((Member)request.getSession().getAttribute("loginUser")));
 			System.out.println("userAtt : " + userAtt);
 			// 프로필 저장 경로(미리선언)
-			String savePath = session.getServletContext().getRealPath("resources") + "\\images\\mypage\\user\\profile\\" + paramId;
+//			String savePath = session.getServletContext().getRealPath("resources") + "\\images\\mypage\\user\\profile\\" + paramId;
+			String savePath = session.getServletContext().getRealPath("resources") + "\\uploadFiles";
 
 			UserUpdateVo updateUser = new UserUpdateVo();
 
@@ -368,10 +375,59 @@ public class MypageUserController {
 			return mv;
 		}
 		
+//		@GetMapping("/bookmarks")
+//		public ModelAndView userMybookmarks(ModelAndView mv) {
+//			
+//			mv.setViewName("mypage/user/bookmarks");
+//			
+//			return mv;
+//		}
+		// 마이페이지 아티스트 북마크 페이지 & 북마크에 뿌려질 피드 전체 리스트 출력
 		@GetMapping("/bookmarks")
-		public ModelAndView userMybookmarks(ModelAndView mv) {
+		public ModelAndView userMybookmarks(ModelAndView mv, HttpServletRequest request) {
+			UserCollection userCol = (UserCollection)request.getSession().getAttribute("user");
 			
-			mv.setViewName("mypage/user/bookmarks");
+			// 아티스트 아이디
+			String id = userCol.getUser().getId();
+			// 아티스트명(그룹)
+			String artiName = arti.getArtist().getArtiNameEn();
+			
+			Map<String, String> map = new HashMap<>();
+			map.put("id", id);
+			map.put("artiName", artiName);
+			
+			// 북마크(피드/미디어) 리스트 가져오기
+			List<FeedCollection> feed = mService.selectBookmarkList(map);
+			System.out.println("북마크 피드 : " + feed);
+			List<MediaCollection> media = mService.selectMediaList(id);
+			System.out.println("북마크 미디어 : " + media);
+			// 북마크(피드) 이미지 가져오기
+			List<FeedCollection> attachment = mService.selectBookmarkImage(map);
+			System.out.println("북마크 : " + attachment);
+			// 북마크(피드/미디어) 댓글 리스트 호출
+			List<ReplyCollection> feedCmt = mService.selectBookmarkReplyList(map);
+			System.out.println("북마크 피드 댓글 : " + feedCmt);
+			List<ReplyCollection> mediaCmt = mService.selectMediaReplyList(map);
+			System.out.println("북마크 미디어 댓글 : " + mediaCmt);
+			System.out.println("----");
+			
+			if(arti != null) {
+				// 해당 아티스트 정보
+				mv.addObject("arti", arti);
+				mv.setViewName("mypage/artist/bookmark");
+			}
+			
+			if(feed != null) {
+				// 피드 리스트, 피드 이미지
+				mv.addObject("feed", feed);
+				mv.addObject("attachment", attachment);
+				mv.addObject("feedCmt", feedCmt);
+			}
+			
+			if(media != null) {
+				mv.addObject("media", media);
+				mv.addObject("mediaCmt", mediaCmt);
+			}
 			
 			return mv;
 		}
