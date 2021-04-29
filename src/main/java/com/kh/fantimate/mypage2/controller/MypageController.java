@@ -568,16 +568,24 @@ public class MypageController {
 	
 	// 마이페이지 소속사 스토어 관리 페이지 & 스토어 관리 페이지에 뿌려질 전체 리스트 출력
 	@GetMapping("/agency/store")
-	public ModelAndView agencyStoreAdmin(String artiName, ModelAndView mv, HttpServletRequest request) {
+	public ModelAndView agencyStoreAdmin(String artiName, String category, 
+										 ModelAndView mv, HttpServletRequest request) {
 		Agency agency = (Agency)request.getSession().getAttribute("agency");
 		
 		// 스토어 리스트 가져오기
 		List<StoreCollection> store = mService.selectStoreList(artiName);
 		
-		mv.addObject("agency", agency);
-		mv.addObject("store", store);
-		mv.addObject("artiName", artiName);
-		mv.setViewName("mypage/agency/store");
+		if(category == "" || category == null) {
+			mv.addObject("agency", agency);
+			mv.addObject("store", store);
+			mv.addObject("artiName", artiName);
+			mv.setViewName("mypage/agency/store");
+		} else {
+			mv.addObject("agency", agency);
+			mv.addObject("store", store);
+			mv.addObject("artiName", artiName);
+			mv.setViewName("mypage/agency/store");
+		}
 		
 		return mv;
 	}
