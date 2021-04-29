@@ -77,7 +77,22 @@ html, body {
     padding-left: 10px;
 }
 
-#showPass, #showPass2, #join-input-address, .join-input-phone{
+#showPass, #showPass2 {
+	width: 460px;
+    height: 60px;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 43px;
+    color: black;
+    margin: 10px 0;
+    border: 1px solid #ACACAC;
+    outline: none;
+    padding-left: 10px;
+    box-sizing: border-box;
+}
+
+#join-input-address, .join-input-phone {
     width: 450px;
     height: 60px;
     font-size: 20px;
@@ -395,20 +410,20 @@ body::-webkit-scrollbar-track ,.check-content::-webkit-scrollbar-track {
 
 /*패스워드 눈모양*/
 .eyes {
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
     position: absolute;
-    right: 11.5%;
-    top: 67%;
+    right: 10px;
+    top: 10%;
     cursor: pointer;
 }
 
 .eyes2{
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
     position: absolute;
-    right: 11.5%;
-    top: 87%;
+    right: 10px;
+    top: 10%;
     cursor: pointer;
 }
 .eye-pass ,.eye-pass2{
@@ -426,9 +441,10 @@ body::-webkit-scrollbar-track ,.check-content::-webkit-scrollbar-track {
     font-size: 18px;
     line-height: 29px;
     margin-top: 0;
-    margin-left: 54px;
     align-self: flex-end;
-	
+}
+.id-valid {
+	margin-left: 54px;
 }
 
 .valid { color: #FC9C9C; }
@@ -539,4 +555,12 @@ input:checked ~ .check-pic::after{
     /* 스크롤 막대 외부 */
     border-radius: 5px;
     background: transparent;
+}
+
+.join-area {
+	width: 460px;
+	height: auto;
+	box-sizing: border-box;
+	margin: 0 0 0 54px;
+	position: relative;
 }
