@@ -167,7 +167,7 @@
 	                                   이미지 선택
 	                </span>
 	                <input class="file-upload" id="fileInput" name="uploadFile" type="file" onchange="previewImage(this,'filePreview')"/>
-	                <div id='filePreview'><img src="${ contextPath }/resources/suploadFiles/${ qs.att.attSvName }" id="remainPic"></div>
+	                <div id='filePreview'><img src="${ contextPath }/resources/uploadFiles/${ qs.att.attSvName }" id="remainPic"></div>
 	            </label>
 	         
 		
