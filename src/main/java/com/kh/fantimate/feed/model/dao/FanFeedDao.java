@@ -10,12 +10,14 @@ import com.kh.fantimate.common.model.vo.Friend;
 import com.kh.fantimate.common.model.vo.Like;
 import com.kh.fantimate.common.model.vo.Message;
 import com.kh.fantimate.common.model.vo.Reply;
+import com.kh.fantimate.common.model.vo.ReplyCollection;
 import com.kh.fantimate.common.model.vo.Report;
 import com.kh.fantimate.common.model.vo.Subscribe;
 import com.kh.fantimate.feed.model.vo.AttachmentF;
 import com.kh.fantimate.feed.model.vo.Feed;
 import com.kh.fantimate.feed.model.vo.FeedCollection;
 import com.kh.fantimate.member.model.vo.Artist;
+import com.kh.fantimate.member.model.vo.MemberCollection;
 
 public interface FanFeedDao {
 
@@ -112,6 +114,15 @@ public interface FanFeedDao {
 
 	// 좋아요 눌렀을 시 화면단에 좋아요 갯수 증가시키기
 	public int selectFeedLike(int fid);
+
+	// 아티스트 프로필 사진 리스트
+	public List<Attachment> selectapList();
+
+	// 댓글 모든 정보
+	public List<ReplyCollection> selectReplyAllList(String artNameEn);
+
+	// 모든 유저 컬렉션
+	//public List<MemberCollection> selectSumList();
 
 	
 

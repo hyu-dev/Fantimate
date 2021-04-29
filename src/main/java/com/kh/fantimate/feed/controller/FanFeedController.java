@@ -7,6 +7,7 @@ import java.io.File;
 
 
 
+
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -40,6 +41,7 @@ import com.kh.fantimate.common.model.vo.Friend;
 import com.kh.fantimate.common.model.vo.Like;
 import com.kh.fantimate.common.model.vo.Message;
 import com.kh.fantimate.common.model.vo.Reply;
+import com.kh.fantimate.common.model.vo.ReplyCollection;
 import com.kh.fantimate.common.model.vo.Report;
 import com.kh.fantimate.common.model.vo.Subscribe;
 import com.kh.fantimate.feed.model.service.FanFeedService;
@@ -49,6 +51,7 @@ import com.kh.fantimate.feed.model.vo.FeedCollection;
 import com.kh.fantimate.member.model.vo.Artist;
 import com.kh.fantimate.member.model.vo.ArtistGroup;
 import com.kh.fantimate.member.model.vo.Member;
+import com.kh.fantimate.member.model.vo.MemberCollection;
 
 
 
@@ -115,12 +118,23 @@ public class FanFeedController {
 		List<Artist> artist = fService.selectArtistList();
 		System.out.println("아티스트 리스트 : " + artist);
 		
+		// 아티스트 프로필 리스트
+		List<Attachment> aplist = fService.selectapList();
+		System.out.println("아티스트 프로필 사진 리스트 : " + aplist);
+		
+		// 아티스트 개인,사진/ 유저 개인, 사진 콜렉션
+//		List<MemberCollection> sumlist = fService.selectSumList();
+		
+		// 댓글 리스트 호출
+		List<ReplyCollection> comment = fService.selectReplyAllList(artNameEn);
+		System.out.println(comment);
+		
 		
 		// artiName 세션에 저장
 		HttpSession session = request.getSession(); // 세션을 생성해서
 		session.setAttribute("artiName", artNameEn); // userid로 uid값을 넘기자
 		session.setAttribute("subList", subList);
-
+       
 		if(list != null && !list.isEmpty()) {
 			mv.addObject("list", list);
 			mv.addObject("rlist", rlist);
@@ -128,6 +142,8 @@ public class FanFeedController {
 			mv.addObject("atlist", atlist);
 			mv.addObject("artist", artist);
 			mv.addObject("lklist", lklist);
+			mv.addObject("aplist", lklist);
+			mv.addObject("comment", comment);
 			mv.setViewName("fanfeed/fanFeedList");
 			
 		} else {

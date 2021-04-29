@@ -13,12 +13,14 @@ import com.kh.fantimate.common.model.vo.Friend;
 import com.kh.fantimate.common.model.vo.Like;
 import com.kh.fantimate.common.model.vo.Message;
 import com.kh.fantimate.common.model.vo.Reply;
+import com.kh.fantimate.common.model.vo.ReplyCollection;
 import com.kh.fantimate.common.model.vo.Report;
 import com.kh.fantimate.common.model.vo.Subscribe;
 import com.kh.fantimate.feed.model.vo.AttachmentF;
 import com.kh.fantimate.feed.model.vo.Feed;
 import com.kh.fantimate.feed.model.vo.FeedCollection;
 import com.kh.fantimate.member.model.vo.Artist;
+import com.kh.fantimate.member.model.vo.MemberCollection;
 
 @Repository
 public class FanFeedDaoImpl implements FanFeedDao{
@@ -214,6 +216,23 @@ public class FanFeedDaoImpl implements FanFeedDao{
 		return sqlSession.selectOne("fanfeedMapper.selectFeedLike", fid);
 	}
 
+	// 아티스트 프로필 사진 리스트
+	@Override
+	public List<Attachment> selectapList() {
+		return sqlSession.selectList("fanfeedMapper.selectapList");
+	}
+
+	// 댓글 모든 정보
+	@Override
+	public List<ReplyCollection> selectReplyAllList(String artNameEn) {
+		return sqlSession.selectList("fanfeedMapper.selectReplyAllList", artNameEn);
+	}
+
+	// 모든 유저 컬렉션
+	/*
+	 * @Override public List<MemberCollection> selectSumList() { return
+	 * sqlSession.selectList("fanfeedMapper.selectSumList"); }
+	 */
 	
 	
 

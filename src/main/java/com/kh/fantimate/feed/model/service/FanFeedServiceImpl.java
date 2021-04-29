@@ -12,6 +12,7 @@ import com.kh.fantimate.common.model.vo.Friend;
 import com.kh.fantimate.common.model.vo.Like;
 import com.kh.fantimate.common.model.vo.Message;
 import com.kh.fantimate.common.model.vo.Reply;
+import com.kh.fantimate.common.model.vo.ReplyCollection;
 import com.kh.fantimate.common.model.vo.Report;
 import com.kh.fantimate.common.model.vo.Subscribe;
 import com.kh.fantimate.feed.model.dao.FanFeedDao;
@@ -19,6 +20,7 @@ import com.kh.fantimate.feed.model.vo.AttachmentF;
 import com.kh.fantimate.feed.model.vo.Feed;
 import com.kh.fantimate.feed.model.vo.FeedCollection;
 import com.kh.fantimate.member.model.vo.Artist;
+import com.kh.fantimate.member.model.vo.MemberCollection;
 
 @Service
 public class FanFeedServiceImpl implements FanFeedService {
@@ -189,6 +191,24 @@ public class FanFeedServiceImpl implements FanFeedService {
 		fDao.cancelLike(refId);
  return fDao.updateFeedLikeCancel(f);
 	}
+
+	// 아티스트 프로필 사진 리스트
+	@Override
+	public List<Attachment> selectapList() {
+		return fDao.selectapList();
+	}
+	
+	// 댓글 모든 정보
+	@Override
+	public List<ReplyCollection> selectReplyAllList(String artNameEn) {
+		return fDao.selectReplyAllList(artNameEn);
+	}
+
+	// 모든 유저 정보 컬렉션
+	/*
+	 * @Override public List<MemberCollection> selectSumList() { return
+	 * fDao.selectSumList(); }
+	 */
 
 	
 	

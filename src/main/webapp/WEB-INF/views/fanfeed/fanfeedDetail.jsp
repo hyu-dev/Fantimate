@@ -11,7 +11,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="${ contextPath }/resources/css/common/font.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css">
-    <link rel="stylesheet" href="${ contextPath }/resources/css/feed/feedDetail.css?after">
+    <link rel="stylesheet" href="${ contextPath }/resources/css/feed/feedDetail.css?aftr">
     <link rel="icon" type="image/png" sizes="16x16" href="${ contextPath }/resources/icon/faviconF.png">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <!-- Bootstrap core CSS -->
@@ -23,26 +23,59 @@
 	
 <title>Insert title here</title>
 </head>
- <body>
-   <div class="container" style="width:600px;">
-  
-   
-   <div class="imageOuter">
-   		<c:forEach var="pt" items="${ ptlist }">
-   		<div class="imageInner">
-    		<img src="${ contextPath }/resources/uploadFiles/${ pt.attSvName }" alt="이미지">
-    	</div>
-    	</c:forEach>	
-   </div>
-   
-   
-   
-   
-   
-   
-   
-   
-     <!-- 댓글,대댓글, 게시물 탑헤드 , 게시글 텍스트 영역 -->
+<body>
+   <div class="container">
+    <!-- carousel slide-->
+		<div id="carouselExampleDark" class="carousel carousel-dark slide"
+			data-bs-ride="carousel">
+			<ol class="carousel-indicators">
+			
+			<c:forEach begin="0" end="${ ptlistCount - 1}" step="1" var="s">
+			
+					<li data-bs-target="#carouselExampleDark" data-bs-slide-to=${ s } class="active"></li>
+			
+			
+			
+					<li data-bs-target="#carouselExampleDark" data-bs-slide-to=${ s }></li>
+			</c:forEach>
+			
+			</ol>
+			<div class="carousel-inner">
+				<!-- 슬라이드 쇼 -->
+				<c:forEach var="pt" items="${ ptlist }">
+				
+				<div class="carousel-item active" data-bs-interval="10000">
+					<!--가로 사진-->
+					<img
+						src="${ contextPath }/resources/uploadFiles/${ pt.attSvName }"
+						class="d-block w-100" alt="이미지">
+				</div>
+				
+					
+				
+				<div class="carousel-item" data-bs-interval="2000">
+					<img
+						src="${ contextPath }/resources/uploadFiles/${ pt.attSvName }"
+						class="d-block w-100" alt="이미지">
+				</div>
+				</c:forEach>
+					
+			</div>
+			<!-- / 슬라이드 쇼 끝 -->
+    
+    		<!-- 왼쪽 오른쪽 화살표 버튼 -->
+			<a class="carousel-control-prev" href="#carouselExampleDark"
+				role="button" data-bs-slide="prev"> <span
+				class="carousel-control-prev-icon" aria-hidden="true"></span> <span
+				class="visually-hidden">Previous</span>
+			</a> <a class="carousel-control-next" href="#carouselExampleDark"
+				role="button" data-bs-slide="next"> <span
+				class="carousel-control-next-icon" aria-hidden="true"></span> <span
+				class="visually-hidden">Next</span>
+			</a>
+			<!-- / 화살표 버튼 끝 -->
+		</div>
+    <!-- 댓글,대댓글, 게시물 탑헤드 , 게시글 텍스트 영역 -->
     <span style="display:inline-block; width:380px; background:white;">
         <div class="right-side">
 
@@ -118,8 +151,11 @@
                     </c:forEach>
                 
         </div>
-    </span> 
-   </div>
-    
-</body> 
+    </span>
+    </div>
+    <script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
+		crossorigin="anonymous"></script>
+</body>
 </html>
