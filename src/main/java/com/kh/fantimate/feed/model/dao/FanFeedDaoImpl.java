@@ -268,15 +268,7 @@ public class FanFeedDaoImpl implements FanFeedDao{
 	 * sqlSession.selectList("fanfeedMapper.selectSumList"); }
 	 */
 	
-	
 
-	
-	
-
-	
-	
-
-	
 	
 
 }

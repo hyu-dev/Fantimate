@@ -80,11 +80,15 @@ public class FanFeedController {
 		System.out.println("어떤 아티스트 팬 피드인가? : " + artNameEn);
 		// 게시글 불러올 때 필요한 리스트
 		
+		
+		
 		List<Subscribe> subList = fService.selectSubList(artNameEn);
 		System.out.println("구독 유저 리스트 : " + subList);
 		
 		List<Feed> list = fService.selectFeedList(artNameEn);
 		System.out.println("게시글 리스트 : " + list);
+		
+		
 		
 		List<Attachment> atlist = fService.selectatList(artNameEn);
 		System.out.println("유저 프로필 사진 리스트 : " + atlist);
@@ -93,6 +97,15 @@ public class FanFeedController {
 		System.out.println("게시글 사진 리스트 : " + ptlist);
 		
 		
+	   
+		
+		
+		//게시글당 사진 갯수
+	//	int ptlistCount = fService.selectptListCount();
+	//	System.out.println("사진 갯수 : " + ptlistCount);
+		
+		
+		 
 		
 	//	AttachmentF ptc = fService.selectptListCount();
 	//	System.out.println("사진 갯수 : " + ptc);
@@ -140,6 +153,7 @@ public class FanFeedController {
 			
 		} else {
 			mv.addObject("msg", "조회된 리스트가 없습니다.");
+			
 			mv.setViewName("fanfeed/fanFeedList");
 		}
 		return mv;

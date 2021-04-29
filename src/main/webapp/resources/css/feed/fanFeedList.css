@@ -261,6 +261,20 @@ html, body {
     position: relative;
 }
 
+/* 게시글 사진 갯수에 따라 영역 표시 */
+/*  .photo-area {
+    border: 1px solid red;
+    width: 100%;
+    height: auto;
+    display: grid;
+    flex-wrap : wrap;
+    display: grid;
+    grid-template-columns: 50% 50%;
+    grid-template-rows: 50% 50%;
+    margin: auto;
+    margin-bottom: 30px;
+}  */
+
 .main-photo {
     width: 132px;
     height: 132px;
@@ -468,9 +482,10 @@ html, body {
 
 }
 
+/* 팬 피드랑 다른곳 체크********/
 .imgArea {
-	display : flex;
-	justify-content : center;
+	width: 100%;
+    height: 225px;
 }
 
 
@@ -498,9 +513,7 @@ html, body {
 /* 댓글 카운트 */
 
 /************** 댓글 리스트 영역 ******************/
-.media-lower {
-    height: 100%;
-}
+
 
 .comment-toggle {
     display: none;
@@ -786,4 +799,139 @@ html, body {
     overflow: hidden;
 }
 
+/* 토글 스위치 */
+.toggle-area {
+    width: auto;
+    height: auto;
+    /* border: 2px solid red; */
+    margin: 75px 0 0 10px;
+}
 
+.toggle-switch {
+    --width: 80px;
+    --height: 40px;
+    --padding: 3px;
+    --handle-size: calc(var(--height) - var(--padding) * 2);
+    display: inline-block;
+    outline-width: 0;
+  }
+  
+  .toggle-switch > input {
+    position: absolute;
+    clip: rect(1px, 1px, 1px, 1px);
+    clip-path: inset(50%);
+    height: 1px;
+    width: 1px;
+    margin: -1px;
+    overflow: hidden;
+  }
+  
+  .area {
+    padding: 4px;
+    margin: -4px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    /* border: 2px solid red; */
+  }
+
+  .area p {
+      margin: 0;
+      padding: 1px 3px 0;
+      font-size: 13px;
+     position: absolute;
+     right: 13px;
+     font-family: "Wemakeprice-bold";
+  }
+
+  .background,
+  .handle,
+  .area p {
+    transition: all 0.3s ease;
+  }
+  
+  .background {
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    width: var(--width);
+    height: var(--height);
+    border-radius: var(--height);
+    padding: 0 var(--padding);
+    vertical-align: text-bottom;
+    user-select: none;
+    background-color: #ebebeb;
+    box-shadow: inset 0px 0px 5px 2px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    transition: background-color .15s ease;
+    cursor: pointer;
+  }
+
+  
+  .handle {
+    width: var(--handle-size);
+    height: var(--handle-size);
+    background-color: white;
+    border-radius: 50%;
+    box-shadow:
+      0 2px 4px rgba(0, 0, 0, 0.5),
+      inset 0 2px 4px rgba(0, 0, 0, 0.15);
+  }
+
+
+  
+  input:checked + label .area .background {
+    background-color: #5C5F78;
+  }
+  
+  input:checked + label .area .handle {
+    /* background-color: white; */
+    transform: translateX(calc(var(--width) - var(--handle-size)));
+  }
+
+  input:checked + label .area p {
+    position: absolute;
+    left: 12px;
+    color: white;
+  }
+  
+  
+/* 게시글 사진 개수당 다르게 세팅*/
+.photo-area {
+    /* border: 1px solid red; */
+    width: 100%;
+    height: auto;
+    display: grid;
+    /* flex-wrap : wrap;
+    display: grid; */ 
+    grid-template-columns: 50% 50%;
+    grid-template-rows: 50% 50%;
+    margin: auto;
+    margin-bottom: 30px;
+}
+
+.pic-size1 {
+   grid-row-start: 1;
+    grid-row-end: 3;
+    grid-column-start: 1;
+    grid-column-end: 3;
+    height: 450px !important;
+   border-radius: 10px;
+}
+
+.pic-size2 {
+   grid-row-start: 1;
+    grid-row-end: 3;
+    height: 450px !important;
+}
+
+.pic-size3 {
+   grid-row-start: 1;
+    grid-row-end: 3;
+    height: 450px !important;
+}
+
+.photo-area img {
+    width: 100%;
+    height: 225px;
+}

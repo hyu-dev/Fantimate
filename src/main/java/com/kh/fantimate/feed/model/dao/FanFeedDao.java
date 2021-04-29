@@ -139,8 +139,5 @@ public interface FanFeedDao {
 
 	// 모든 유저 컬렉션
 	//public List<MemberCollection> selectSumList();
-
-	
-
 	
 }

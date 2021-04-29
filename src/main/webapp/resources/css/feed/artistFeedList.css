@@ -513,6 +513,7 @@ html, body {
 
 }
 
+/* 팬피드랑 다른곳 체크**********/
 .imgArea {
 	display : flex;
 	justify-content : center;

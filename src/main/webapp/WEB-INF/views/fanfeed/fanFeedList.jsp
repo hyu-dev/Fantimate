@@ -11,7 +11,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="${ contextPath }/resources/css/common/font.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css">
-    <link rel="stylesheet" href="${ contextPath }/resources/css/feed/fanFeedList.css?aftre">
+    <link rel="stylesheet" href="${ contextPath }/resources/css/feed/fanFeedList.css?aftrs">
     <link rel="icon" type="image/png" sizes="16x16" href="${ contextPath }/resources/icon/faviconF.png">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 <title>Insert title here</title>
@@ -54,19 +54,24 @@
                     <col width="15%"/>
                     <col width="15%"/>
                     <tr>
-                      <c:forEach var="at" items="${ atlist }">
-                     		<c:if test="${ at.refuid eq f.writer }">
+                     	<!--  -->	
                         <td>
-                            <div class="profile-bubble">
+                            <!-- <div class="profile-bubble">
                                 <p>친구 신청</p>
                                 <p onclick="insertMessage();">쪽지 보내기</p>
-                            </div>
-                             
-                            
-                             <img class="profile-picture" src="${ contextPath }/resources/uploadFiles/${ at.attSvName }">
-                        </td>
+                            </div> -->
+                             <c:if test="${ loginUser.id ne f.writer }">
+                            	<div class="profile-bubble">
+                                    <p onclick="insertFriend('${f.writer}');">친구 신청</p>
+                                    <p onclick="insertMessage('${f.writer}');">쪽지 보내기</p>
+                                </div>
+                            </c:if>     
+                      <c:forEach var="at" items="${ atlist }">
+                            <c:if test="${ at.refuid eq f.writer }">
+                             <img class="profile-picture" src="${ contextPath }/resources/uploadFiles/${ at.attSvName }" >
                         </c:if>
                         </c:forEach>
+                        </td>
                         <td> 
                         	<!-- 게시글작성자의 아이디와 구독유저의 아이디가 같다면 닉네임 불러오기 -->
                         	 <c:forEach var="sb" items="${ subList }">
@@ -109,23 +114,48 @@
                        
                         <!-- 이미지 영역 -->
                         <!-- 게시글 bid와 사진이 참조하고 있는 bid가 같고, 사진 리스트가 있다면 반복문돌려서 이미지 갯수만큼 불러오기 -->
+                        <div class="photo-area">
+                        <c:set var="count" value="0"/>
                         <c:forEach var="pt" items="${ ptlist }">
                         <c:if test="${ f.fid eq pt.refId }">
-                        <div class="imgArea">
-                        	
-                           <%--  <img src="${ contextPath }/resources/uploadFiles/${ pt.attSvName }" alt="이미지" width="600px" height="400px"> --%>
-                           <img src="${ contextPath }/resources/uploadFiles/${ pt.attSvName }" alt="이미지" width="200px" height="400px" style="display:flex;">
-                            <input type="hidden" name="attCode" value="${ pt.attCode }">
-                            <input type="hidden" name="fid" value="${ f.fid }">
-                            <input type="hidden" name="refId" value="${ pt.refId }">
-                           
-                        </div>
+                        <c:set var="count" value="${ count + 1 }"/>	
                         </c:if>
                         </c:forEach>
+                        <c:forEach var="pt" items="${ ptlist }">
+                        <c:if test="${ f.fid eq pt.refId }">
+                        <c:choose>
+                        <c:when test="${ count eq 0 }">
+                        <input class="p" type="hidden" value="Y">
+                        <c:set var="no" value="${ count }"/>
+                           <img class="pic" src="${ contextPath }/resources/uploadFiles/${ pt.attSvName }">
+						</c:when>
+						<c:when test="${ count eq 1 }">
+						<input class="p1" type="hidden" value="Y">
+                            <img class="pic1" src="${ contextPath }/resources/uploadFiles/${ pt.attSvName }">
+						</c:when>
+						<c:when test="${ count eq 2 }">
+                            <input class="p2" type="hidden" value="Y">
+                            <img class="pic2" src="${ contextPath }/resources/uploadFiles/${ pt.attSvName }">
+                        </c:when>
+						<c:when test="${ count eq 3 }">
+                            <input class="p3" type="hidden" value="Y">
+                            <img class="pic3" src="${ contextPath }/resources/uploadFiles/${ pt.attSvName }">
+                        </c:when>
+                        <c:when test="${ count eq 4 }">
+                            <input class="p4" type="hidden" value="Y">
+                            <img class="pic4" src="${ contextPath }/resources/uploadFiles/${ pt.attSvName }">
+                        </c:when>
+						</c:choose>
+						 </c:if>                       
+                         </c:forEach>  
+                        </div>
                        
                         
                     </div>
                     <br><br>
+                    <input type="hidden" name="attCode" value="${ pt.attCode }">
+                    <input type="hidden" name="fid" value="${ f.fid }">
+                    <input type="hidden" name="refId" value="${ pt.refId }">
                     <!-- 좋아요 영역 -->
                     <table class="board-like">
                         <col width="13%"/>
@@ -179,10 +209,11 @@
                      <!-- 댓글 리스트 영역 -->
                    <c:forEach var="r" items="${ rlist }">
                    <c:if test="${ f.fid eq r.refId }">
+                   <!-- 쪽지 관련 히든 태그 -->
                     <input type="hidden" value="${ r.writer }" name="messRecId" id="messRecId">
                    
-                    <table id="replyTable" class="original-comment">
-                    <tbody>
+                    <table class="original-comment">
+                    <!-- <tbody>비교해서 다른부분**************** --> 
                         <colgroup>
                             <col width="5%"/>
                             <col width="95%"/>
@@ -225,8 +256,8 @@
                                         </span>
                                         <span class="re-commentBtn">답글 열기</span>
                                     </div>
-                                    <div class="">
-                                    	<span class="comment-etc" >···</span>
+                                    <div class="comment-etc">...
+                                 <!-- 다른부분 아티스트jsp170번째줄 -->   	<!-- <span class="comment-etc" >···</span> -->
                                     	<c:if test="${ loginUser.id ne r.writer }">
                                         <div class="comment-bubble">
                                             <p class="add-comment">답글 달기</p>
@@ -244,35 +275,28 @@
 
                                     </div>
                                    
-                                   </td>
+                                   
                                    </c:if>
                                    
                                    
                                    
-                                    </c:forEach>
+                                   
                                     
                                   
-                                
+                                <!-- 댓글 좋아요 영역 -->
                                 <div class="comment-info comment-center nanumsquare">
                                 
                                     <img class="likeBtn" src="../resources/images/feed/like-icon.png">
                                     <span class="like-count">1,000</span>
                                     <span class="comment-date"><fmt:formatDate value="${ r.rcreate }" pattern="yyyy.MM.dd HH:mm"/></span>
                                 </div>
+                               </c:forEach>
                                
-                                <!-- 대댓글 등록 -->
-                                <div class="comment-toggle">
-                                    <div class="re-comment-container">
-                                        <div class="comment-area">
-                                            <textarea class="nanumsquare" style="resize: none;" rows="1" placeholder="답글을 입력하세요..."></textarea>
-                                        </div>&nbsp;&nbsp;&nbsp;
-                                        <img class="re-send-btn" src="">
-                                    </div>
-                                </div>
                                 
-								</tbody>
+                                
+								<!-- </tbody> -->
                                 <!-- 대댓글 -->
-                                <table class="re-comment">
+                               <%--  <table class="re-comment">
                                     <colgroup>
                                         <col width="5%"/>
                                         <col width="95%"/>
@@ -306,9 +330,11 @@
                                             </div>
                                         </td>
                                     </tr>
-                                </table>
+                             
+                                </table> --%>
+                     	 	</td>
                      	  </tr>   
-             		</tbody>
+             		<!-- </tbody> -->
                     </table>
                  	</c:if>
                  	</c:forEach>
@@ -813,6 +839,53 @@
           }
       }
   });
+  </script>
+  
+  <!-- 게시글 사진 개수에 따라 css 조절 -->
+  <script>
+  	var p1 = $(".p1").val();
+	var p2 = $(".p2").val();
+	var p3 = $(".p3").val();
+	var p4 = $(".p4").val();
+	var pic = $(".pic");
+	var pic1 = $(".pic1");
+	var pic2 = $(".pic2");
+	var pic3 = $(".pic3:first-of-type");
+	var not1 = $(".comment-line:nth-of-type(1)");
+	var not2 = $(".comment-line:nth-of-type(2)");
+	var not3 = $(".comment-line:nth-of-type(3)");
+	
+	$(document).ready(function(){
+		
+		// 사진 사이즈 지정하기(1/2/3/4개)
+		console.log("pic1 : " + pic1);
+		console.log("pic2 : " + pic2);
+		console.log("pic3 : " + pic3);
+		
+		if(p1 == "Y") {
+			pic1.addClass("pic-size1");
+		}
+		
+		if(p2 == "Y") {
+			pic2.addClass("pic-size2");
+			$(".pic2:nth-of-type(1)").css({"border-top-left-radius":"10px", "border-bottom-left-radius":"10px"}); 
+			$(".pic2:nth-of-type(2)").css({"border-top-right-radius":"10px", "border-bottom-right-radius":"10px"});
+		} 
+		
+		if(p3 == "Y") {
+			pic3.addClass("pic-size3");
+			$(".pic3:nth-of-type(1)").css({"border-top-left-radius":"10px", "border-bottom-left-radius":"10px"}); 
+			$(".pic3:nth-of-type(2)").css("border-top-right-radius","10px");
+			$(".pic3:nth-of-type(3)").css("border-bottom-right-radius","10px");
+		}
+		
+		if(p4 == "Y") {
+			$(".pic4:nth-of-type(1)").css("border-top-left-radius","10px"); 
+			$(".pic4:nth-of-type(2)").css("border-top-right-radius","10px");
+			$(".pic4:nth-of-type(3)").css("border-bottom-left-radius","10px"); 
+			$(".pic4:nth-of-type(4)").css("border-bottom-right-radius","10px");
+		}
+	});
   </script>
 </body>
 </html>
