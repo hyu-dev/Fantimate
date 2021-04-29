@@ -1013,7 +1013,9 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	FROM 
 	     CART
 	WHERE
-     ID = #{id}
+     	 ID = #{id}
+    AND  
+    	 IS_BOUGHT = 'N'
 	</select>
 	
 	
