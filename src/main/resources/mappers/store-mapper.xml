@@ -461,7 +461,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 			  , ATT_SV_NAME
 			  , ATT_STATUS
 			  , IS_MAIN_ATT
-              , ORIGIN
+              , ORIGINㅗ
               , BRAND
               , CONTACT
               , USE_TERM
