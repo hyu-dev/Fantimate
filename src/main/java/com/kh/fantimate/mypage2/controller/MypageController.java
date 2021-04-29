@@ -1,5 +1,9 @@
 package com.kh.fantimate.mypage2.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,9 +17,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
 import com.kh.fantimate.common.model.vo.Attachment;
 import com.kh.fantimate.common.model.vo.Like;
 import com.kh.fantimate.common.model.vo.Reply;
@@ -30,6 +37,8 @@ import com.kh.fantimate.member.model.vo.ArtistGroup;
 import com.kh.fantimate.member.model.vo.Member;
 import com.kh.fantimate.mypage2.model.service.MypageService;
 import com.kh.fantimate.official.model.vo.MediaCollection;
+import com.kh.fantimate.store.model.vo.Store;
+import com.kh.fantimate.store.model.vo.StoreCollection;
 
 @Controller
 @RequestMapping("/mypage")
@@ -258,21 +267,21 @@ public class MypageController {
 		
 		// 소속 아티스트 목록 전체 불러오기(관리 페이지로 넘어가기 위해)
 		List<ArtistGroup> artist = mService.selectArtistList(id);
-		System.out.println("아티스트 전체 목록 : " + artist);
+		// System.out.println("아티스트 전체 목록 : " + artist);
 
 		
 		// 솔로 아티스트 불러오기
 		List<ArtistGroup> solo = mService.selectSolo(id);
-		System.out.println("솔로 아티스트 : " + solo);
+		// System.out.println("솔로 아티스트 : " + solo);
 		
 		// 그룹 아티스트 불러오기
 		List<ArtistGroup> team = mService.selectTeam(id);
+		// System.out.println("그룹 아티스트 : " + team);
 		
-		System.out.println("그룹 아티스트 : " + team);
 		// 그룹 멤버 불러오기
 		List<Artist> member = mService.selectMember(id);
-		System.out.println("멤버 개인 : " + member);
-		System.out.println("----");
+		// System.out.println("멤버 개인 : " + member);
+		// System.out.println("----");
 		
 		if(agency != null) {
 			// 해당 아티스트 정보
@@ -287,9 +296,30 @@ public class MypageController {
 		return mv;
 	}
 	
+	// 소속사 프로필 수정하기
+	@PostMapping(value="/updateAgencyProfile", produces="application/json; charset=utf-8")
+	public @ResponseBody String updateAgencyProfile(Member m, Agency a, 
+												  HttpServletRequest request) {
+		Agency agency = (Agency)request.getSession().getAttribute("agency");
+		a.setAgId(agency.getAgId());
+		
+		// 소속사 프로필 수정하기
+		int result = mService.updateAgencyProfile(a, m);
+		
+		if(result > 0) {
+			System.out.println("프로필 수정 성공");
+		} else {
+			System.out.println("프로필 수정 실패");
+		}
+		
+		// 다시 솔로 리스트 반환하기
+		Agency ag = mService.selectAgencyProfile(agency.getAgId());
+		return new Gson().toJson(ag);
+	}
+	
 	// 아티스트 솔로 삭제하기
 	@PostMapping(value="/deleteArtistSolo", produces="application/json; charset=utf-8")
-	public @ResponseBody void deleteArtistSolo(Artist a, HttpServletRequest request) {
+	public @ResponseBody String deleteArtistSolo(Artist a, HttpServletRequest request) {
 		Agency agency = (Agency)request.getSession().getAttribute("agency");
 		
 		// System.out.println(a);
@@ -313,14 +343,16 @@ public class MypageController {
 		
 		if(result2 > 0) {
 			System.out.println("메인에서 삭제 성공");
+			return "성공";
 		} else {
 			System.out.println("메인에서 삭제 실패");
+			return "실패";
 		}
 	}
 	
 	// 아티스트 개인 삭제하기
 	@PostMapping(value="/deleteArtistOne", produces="application/json; charset=utf-8")
-	public @ResponseBody void deleteArtistOne(Member m, HttpServletRequest request) {
+	public @ResponseBody String deleteArtistOne(Member m, HttpServletRequest request) {
 		Agency agency = (Agency)request.getSession().getAttribute("agency");
 		
 		// System.out.println(m);
@@ -336,14 +368,16 @@ public class MypageController {
 		
 		if(result > 0) {
 			System.out.println("개인 삭제 성공");
+			return "성공";
 		} else {
 			System.out.println("개인 삭제 실패");
+			return "실패";
 		}
 	}
 	
 	// 아티스트 그룹 삭제하기
 	@PostMapping(value="/deleteArtistGroup", produces="application/json; charset=utf-8")
-	public @ResponseBody void deleteArtistGroup(ArtistGroup a, HttpServletRequest request) {
+	public @ResponseBody String deleteArtistGroup(ArtistGroup a, HttpServletRequest request) {
 		Agency agency = (Agency)request.getSession().getAttribute("agency");
 		
 		// System.out.println(a);
@@ -357,30 +391,49 @@ public class MypageController {
 		
 		if(result > 0) {
 			System.out.println("메인에서 삭제 성공");
+			return "성공";
 		} else {
 			System.out.println("메인에서 삭제 실패");
+			return "실패";
 		}
 	}
 	
 	// 아티스트 솔로 등록하기
 	@PostMapping(value="/enrollArtistSolo", produces="application/json; charset=utf-8")
-	public @ResponseBody void enrollArtistSolo(ArtistGroup ag, Artist a, Attachment att, 
-											   Member m, HttpServletRequest request) {
+	public @ResponseBody String enrollArtistSolo(ArtistGroup ag, Artist a, Attachment att, 
+											   Member m, HttpServletRequest request,
+											   @RequestParam(value="soloAttClName") MultipartFile file) {
 		Agency agency = (Agency)request.getSession().getAttribute("agency");
 		
 		// System.out.println("artistGroup : " + ag + ", attachment : " + att + "member : " + m);
 		
 		ag.setAgId(agency.getAgId());
 		a.setAgencyId(agency.getAgId());
-		String attClName = att.getAttClName();
-		String id = a.getArtiId();
+		
+		// 대문자로 변환
+		String originName = ag.getArtNameEn().toUpperCase();
+		String originName2 = a.getArtiNameEn().toUpperCase();
+		ag.setArtNameEn(originName);
+		a.setArtiNameEn(originName2);
+		
+		// 사진이 등록되었을 때
+		if(!file.getOriginalFilename().equals("")) {
+			att = new Attachment();
+			String renameFileName = saveFile(file, request);
+			
+			// DB에 저장하기 위해 att에 저장
+			if(renameFileName != null) {
+				att.setAttClName(file.getOriginalFilename());
+				att.setAttSvName(renameFileName);
+			}
+		}
 		
 		// 회원 등록하기
 		int result1 = mService.enrollMember(m);
 		// 메인에 아티스트 등록하기
-		int result2 = mService.enrollArtistMain(ag, id, attClName);
+		int result2 = mService.enrollArtistMain(ag, att);
 		// 아티스트 솔로 등록하기
-		int result3 = mService.enrollArtistSolo(a, attClName);
+		int result3 = mService.enrollArtistSolo(a, att);
 		
 		if(result1 > 0) {
 			System.out.println("회원 등록 성공");
@@ -399,5 +452,193 @@ public class MypageController {
 		} else {
 			System.out.println("아티스트 등록 실패");
 		}
+		
+		// 다시 솔로 리스트 반환하기
+		List<ArtistGroup> solo = mService.selectSolo(agency.getAgId());
+		
+		return new Gson().toJson(solo);
+	}
+
+	// 아티스트 메인 등록하기
+	@PostMapping(value="/enrollArtistGroup", produces="application/json; charset=utf-8")
+	public @ResponseBody String enrollArtistGroup(ArtistGroup ag, Attachment att, 
+												  HttpServletRequest request, 
+												  @RequestParam(value="groupAttClName") MultipartFile file) {
+		Agency agency = (Agency)request.getSession().getAttribute("agency");
+		
+		ag.setAgId(agency.getAgId());
+		
+		// 대문자로 변환
+		String originName = ag.getArtNameEn().toUpperCase();
+		ag.setArtNameEn(originName);
+		
+		// 사진이 등록되었을 때
+		if(!file.getOriginalFilename().equals("")) {
+			att = new Attachment();
+			String renameFileName = saveFile(file, request);
+			
+			// DB에 저장하기 위해 att에 저장
+			if(renameFileName != null) {
+				att.setAttClName(file.getOriginalFilename());
+				att.setAttSvName(renameFileName);
+			}
+		}
+		
+		// 메인에 아티스트 등록하기
+		int result = mService.enrollArtistMain(ag, att);
+		
+		if(result > 0) {
+			System.out.println("메인에 등록 성공");
+			return "성공";
+		} else {
+			System.out.println("메인에 등록 실패");
+			return "실패";
+		}
+	}
+	
+	// 아티스트 개인 등록하기
+	@PostMapping(value="/enrollArtistOne", produces="application/json; charset=utf-8")
+	public @ResponseBody String enrollArtistOne(Artist a, Attachment att, 
+											    Member m, HttpServletRequest request,
+											    @RequestParam(value="oneAttClName") MultipartFile file) {
+		// 소속사 정보
+		Agency agency = (Agency)request.getSession().getAttribute("agency");
+		a.setAgencyId(agency.getAgId());
+		
+		// 사진이 등록되었을 때
+		if(!file.getOriginalFilename().equals("")) {
+			att = new Attachment();
+			String renameFileName = saveFile(file, request);
+			
+			// DB에 저장하기 위해 att에 저장
+			if(renameFileName != null) {
+				att.setAttClName(file.getOriginalFilename());
+				att.setAttSvName(renameFileName);
+			}
+		}
+		
+		// 회원 등록하기
+		int result1 = mService.enrollMember(m);
+		// 아티스트 개인 등록하기
+		int result2 = mService.enrollArtistOne(a, att);
+		
+		if(result1 > 0) {
+			System.out.println("회원 등록 성공");
+		} else {
+			System.out.println("회원 등록 실패");
+		}
+		
+		if(result2 > 0) {
+			System.out.println("아티스트 등록 성공");
+			return "성공";
+		} else {
+			System.out.println("아티스트 등록 실패");
+			return "실패";
+		}
+	}
+	
+	// 프로필 사진 저장 경로
+	private String saveFile(MultipartFile file, HttpServletRequest request) {
+		String root = request.getSession().getServletContext().getRealPath("resources");
+		String savePath = root + "\\uploadFiles";
+		File folder = new File(savePath);
+		
+		// -> 해당 경로가 존재하지 않는다면 디렉토리 생성
+		if(!folder.exists()) folder.mkdirs();
+		
+		// 파일명 리네임 규칙 "년월일시분초_랜덤값.확장자"
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+		String originalFileName = file.getOriginalFilename();
+		String renameFileName = sdf.format(new Date()) + "_"
+							+ (int)(Math.random() * 100000) 
+							+ originalFileName.substring(originalFileName.lastIndexOf("."));
+		
+		// 저장하고자하는 경로 + 파일명
+		String renamePath = folder + "\\" + renameFileName;
+		
+		try {
+			file.transferTo(new File(renamePath));
+			// => 업로드 된 파일 (MultipartFile) 이 rename명으로 서버에 저장
+		} catch (IllegalStateException | IOException e) {
+			System.out.println("파일 업로드 에러 : " + e.getMessage());
+		} 
+		
+		return renameFileName;
+	}
+	
+	// 마이페이지 소속사 스토어 관리 페이지 & 스토어 관리 페이지에 뿌려질 전체 리스트 출력
+	@GetMapping("/agency/store")
+	public ModelAndView agencyStoreAdmin(String artiName, ModelAndView mv, HttpServletRequest request) {
+		Agency agency = (Agency)request.getSession().getAttribute("agency");
+		
+		// 스토어 리스트 가져오기
+		List<StoreCollection> store = mService.selectStoreList(artiName);
+		
+		mv.addObject("agency", agency);
+		mv.addObject("store", store);
+		mv.addObject("artiName", artiName);
+		mv.setViewName("mypage/agency/store");
+		
+		return mv;
+	}
+	
+	// 마이페이지 소속사 메인 페이지 & 메인 페이지에 뿌려질 전체 리스트 출력
+	@GetMapping("/agency/media")
+	public ModelAndView agencyMediaAdmin(ModelAndView mv, HttpServletRequest request) {
+		Agency agency = (Agency)request.getSession().getAttribute("agency");
+		
+		// 소속사 아이디
+		String id = agency.getAgId();
+		
+		// 소속 아티스트 목록 전체 불러오기(관리 페이지로 넘어가기 위해)
+		List<ArtistGroup> artist = mService.selectArtistList(id);
+		// System.out.println("아티스트 전체 목록 : " + artist);
+
+		
+		// 솔로 아티스트 불러오기
+		List<ArtistGroup> solo = mService.selectSolo(id);
+		// System.out.println("솔로 아티스트 : " + solo);
+		
+		// 그룹 아티스트 불러오기
+		List<ArtistGroup> team = mService.selectTeam(id);
+		// System.out.println("그룹 아티스트 : " + team);
+		
+		// 그룹 멤버 불러오기
+		List<Artist> member = mService.selectMember(id);
+		// System.out.println("멤버 개인 : " + member);
+		// System.out.println("----");
+		
+		if(agency != null) {
+			// 해당 아티스트 정보
+			mv.addObject("agency", agency);
+			mv.addObject("artist", artist);
+			mv.addObject("solo", solo);
+			mv.addObject("team", team);
+			mv.addObject("member", member);
+			mv.setViewName("mypage/agency/main");
+		}
+		
+		return mv;
+	}
+	
+	// 스토어 삭제하기
+	@PostMapping(value="/deleteStoreItem", produces="application/json; charset=utf-8")
+	public @ResponseBody String deleteStoreItem(String pname, String artiName, HttpServletRequest request) {
+		
+		System.out.println("pname : " + pname);
+		System.out.println("artiName : " + artiName);
+		// 스토어 삭제하기
+		int result = mService.deleteStoreItem(pname);
+		
+		if(result > 0) {
+			System.out.println("스토어 삭제 성공");
+		} else {
+			System.out.println("스토어 삭제 실패");
+		}
+
+		// 스토어 리스트 가져오기
+		List<StoreCollection> store = mService.selectStoreList(artiName);
+		
+		return new Gson().toJson(store);
 	}
 }

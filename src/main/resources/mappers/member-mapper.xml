@@ -35,6 +35,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	<!-- 소속사 -->
 	<resultMap type="Agency" id="agencyResultSet">
 		<id property = "agId" column="AG_ID"/>
+		<result property ="agName" column="AG_NAME"/>
 		<result property="agNum" column="AG_NUM"/>
 		<result property="agPhone" column="AG_PHONE"/>
 		<result property="agEmail" column="AG_EMAIL"/>

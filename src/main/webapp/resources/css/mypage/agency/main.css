@@ -97,39 +97,39 @@ button {
     background: #E5D2D2;
 }
 
-/* 솔로, 그룹 아티스트 등록 팝업 */
-.solo-form-container, .team-form-container {
+/* 솔로, 그룹, 개인 아티스트 등록 팝업 */
+.solo-form-container, .team-form-container, .one-form-container {
 	display: none;
+}
+
+.artist-form {
+    width: 676px;
+    background: white;
+    padding: 20px 30px 20px 30px;
+    box-sizing: border-box;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    z-index: 2;
 }
 
 .solo-artist-form {
 	height: 530px;
-    width: 676px;
-    background: white;
-    padding: 20px 30px 20px 30px;
-    box-sizing: border-box;
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    margin: auto;
-    z-index: 2;
+}
+
+.profile-form {
+	height: 500px;
 }
 
 .team-artist-form {
+	height: 370px;
+}
+
+.one-artist-form {
 	height: 570px;
-    width: 676px;
-    background: white;
-    padding: 20px 30px 20px 30px;
-    box-sizing: border-box;
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    margin: auto;
-    z-index: 2;
 }
 
 .artist-text {
@@ -143,19 +143,35 @@ button {
 	margin-top: 20px;
 }
 
+.team-artist-table {
+	width: 100%;
+	height: 50%;
+	margin-top: 20px;
+}
+
 .artist-table tr {
 	height: 40px;
 	font-size: 20px;
 }
 
-.artist-table td:first-of-type {
+.team-artist-table tr {
+	height: 30px;
+	font-size: 20px;
+}
+
+.artist-table td:first-of-type, .team-artist-table td:first-of-type {
 	text-align: right;
 }
 
-.artist-table input {
+.artist-table input, .team-artist-table input {
 	height: 20px;
 	border: 1px solid #ACACAC;
 	outline: none;
+}
+
+#soloFileInput, #teamFileInput, #oneFileInput {
+	border: none;
+	height: 30px;
 }
 
 .check-text {
@@ -168,7 +184,7 @@ button {
 	justify-content: center;
 }
 
-#soloEnrollBtn, #soloCalcelBtn, #teamEnrollBtn, #teamCalcelBtn {
+.enroll-cancel-btn {
 	width: 100px;
     height: 30px;
     border: none;
@@ -223,17 +239,16 @@ button {
 }
 
 .solo-list > tbody > tr > td, 
-.group-list > tbody > tr > td, 
-.group-member > tbody > tr > td {
+.group-list > tbody > tr > td {
     height: 40px;
     font-weight:900;
 }
 
 .group-member > tbody > tr > td {
-    font-weight:normal !important;
+    font-weight: normal;
 }
 
-.solo-list span, .group-list span {
+.team-name, .artist-one {
     cursor: pointer;
 }
 

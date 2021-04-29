@@ -24,4 +24,5 @@ public class Attachment {
 	private int refId;			// 참조 게시글 번호
 	private String refuid;		// 참조 유저 아이디
 	private String attMain;		// 대표사진여부
+	private String artiNameEn;	// 아티스트 등록명(영어)
 }
