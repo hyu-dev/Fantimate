@@ -270,7 +270,7 @@
                      	<c:if test="${ loginUser.classifyMem eq 1 }">
                         <button class="buy">바로 구매하기</button>
                         </c:if>
-                        <c:if test="${ loginUser.classifyMem eq 2 }">
+                        <c:if test="${ loginUser.classifyMem eq 3 }">
                         <button class="update-store">수정하기</button>
                         </c:if>
                      </td>
