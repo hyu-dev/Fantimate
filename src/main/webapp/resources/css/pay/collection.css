@@ -317,3 +317,23 @@ input:checked + label .area p {
     text-shadow: none;
 }
 
+#noneProduct {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	box-sizing: border-box;
+	position: relative;
+}
+
+#noneProduct h1 {
+	position: absolute;
+	top : 300px;
+	font-family: WemakePrice;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 55px;
+    line-height: 14px;
+}
+
