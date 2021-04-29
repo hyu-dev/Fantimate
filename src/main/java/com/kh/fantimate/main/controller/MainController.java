@@ -27,7 +27,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -41,6 +40,7 @@ import com.kh.fantimate.main.model.vo.FeedTopNineCollection;
 import com.kh.fantimate.main.model.vo.FriendCollection;
 import com.kh.fantimate.main.model.vo.MainCollection;
 import com.kh.fantimate.main.model.vo.MediaTopNineCollection;
+import com.kh.fantimate.main.model.vo.QuitSubscribeCollection;
 import com.kh.fantimate.main.model.vo.StoreTopNineCollection;
 import com.kh.fantimate.main.model.vo.SubscribeArtist;
 import com.kh.fantimate.member.model.vo.Member;
@@ -101,6 +101,7 @@ public class MainController {
 	@GetMapping("/subscribe")
 	public String joinView(String artNameEn, Model model, HttpSession session, SubscribeArtist sb) {
 		
+		SubscribeArtist s = new SubscribeArtist();
 		Member loginUser = (Member)session.getAttribute("loginUser");
 		String user = loginUser.getId();
 		
@@ -109,17 +110,36 @@ public class MainController {
 		
 		// 1. 구독 여부 확인 (유저아이디, 아티스트명 가지고 가서 있는지 확인)
 		int count = mpService.selectSubCount(sb);
+		// 2. 구독 취소 여부 확인
+		if(count >= 1)
+		  s = mpService.selectQuitSub(sb);
 		
-		if(count >= 1) {
-			// 구독 했으면 ---> 해당 피드로 이동 (아티스트명 같이 보내기)
-			return "redirect:/fanfeed/fanFeedList?artNameEn="+artNameEn;
-		} else if(count == 0 && loginUser.getClassifyMem() == 1){
-			// 구독 안 했을 경우 & 일반유저인경우 ---> 구독 페이지로 이동 
-			model.addAttribute("artNameEn", artNameEn);
-			return "main/subscribe";
-		} else if (count == 0 && (loginUser.getClassifyMem() == 2 || loginUser.getClassifyMem() == 3 || loginUser.getClassifyMem()==4)) {
-			// 소속사, 관리자, 아티스트로 로그인한 경우 --> 바로 팬 피드 이동 
-			return "redirect:/fanfeed/fanFeedList?artNameEn="+artNameEn;
+		System.out.println("ssssss" + s);
+		System.out.println("status 나오니 : " + s.getSubStatus());
+		
+		if (s != null && count >= 1) {
+			if(s.getSubStatus().equals("N")) {
+				// 구독 했으면 ---> 해당 피드로 이동 (아티스트명 같이 보내기)
+				return "redirect:/fanfeed/fanFeedList?artNameEn="+artNameEn;
+			} else if (s.getSubStatus().equals("Y") ) {
+				// 예전에 구독했던 닉네임 이름, 구독 프로필 정보 가져오기 
+				QuitSubscribeCollection qs = mpService.selectQuitInfo(sb);
+				System.out.println("qs정보나오니"+ qs);
+				model.addAttribute("qs", qs);
+				model.addAttribute("artNameEn", artNameEn);
+				model.addAttribute("msg", "subscribeMess");
+				return "main/subscribe";
+			}
+			
+		} else {
+			if(loginUser.getClassifyMem() == 1){
+				// 구독 안 했을 경우 & 일반유저인경우 ---> 구독 페이지로 이동 
+				model.addAttribute("artNameEn", artNameEn);
+				return "main/subscribe";
+			} else if (loginUser.getClassifyMem() == 2 || loginUser.getClassifyMem() == 3 || loginUser.getClassifyMem()==4) {
+				// 소속사, 관리자, 아티스트로 로그인한 경우 --> 바로 팬 피드 이동 
+				return "redirect:/fanfeed/fanFeedList?artNameEn="+artNameEn;
+			}
 		}
 		
 		model.addAttribute("msg", "fail");
@@ -217,6 +237,36 @@ public class MainController {
 		
 		return renameFileName;
 	}
+	
+	// 구독했는데 다시 구독할 경우 --> 업데이트 해주기 
+	@PostMapping("/updateStatus")
+	public String updateSubStatus(SubscribeArtist sb,
+								  @RequestParam(value="nickname", required=false) String nickname,
+								  @RequestParam(value="artNameEn", required=false) String artNameEn,
+								  HttpSession session,
+								  Model model) {
+		
+		// 로그인유저 set
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		String user = loginUser.getId();
+		sb.setId(user);
+		// 아티스트 명 set
+		sb.setArtNameEn(artNameEn);
+		// 구독 닉네임 set
+		sb.setNickname(nickname);
+		
+		// 아티스트 이름, 유저 닉네임 가져가서 status N으로 다시 변경 
+		int result = mpService.updateStatus(sb);
+		
+		if(result > 0) {
+			model.addAttribute("msg", "success");
+		} else {
+			model.addAttribute("msg", "fail");
+		}
+		
+		return "main/subscribe";
+	}
+	
 	
 	// 메인 아티스트명 검색
 	@RequestMapping("/search")
