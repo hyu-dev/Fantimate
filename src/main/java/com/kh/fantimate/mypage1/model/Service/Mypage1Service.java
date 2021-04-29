@@ -6,7 +6,11 @@ import com.kh.fantimate.common.model.vo.Attachment;
 import com.kh.fantimate.common.model.vo.Friend;
 import com.kh.fantimate.common.model.vo.Notice;
 import com.kh.fantimate.common.model.vo.PageInfo;
+import com.kh.fantimate.common.model.vo.ReplyCollection;
 import com.kh.fantimate.common.model.vo.Report;
+import com.kh.fantimate.feed.model.vo.AttachmentF;
+import com.kh.fantimate.feed.model.vo.Feed;
+import com.kh.fantimate.feed.model.vo.FeedCollection;
 import com.kh.fantimate.member.model.vo.Agency;
 import com.kh.fantimate.member.model.vo.Member;
 import com.kh.fantimate.mypage1.model.vo.AttSubscribe;
@@ -117,6 +121,22 @@ public interface Mypage1Service {
 	public List<Report> requestReportFeedList(ReportPageInfo pi);
 
 	public List<Report> requestReportFeedRList(ReportPageInfo pi);
+
+	public List<Feed> selectFeedList(String id);
+
+	public List<FeedCollection> selectFeedImage(String id);
+
+	public int insertAlarmF(Friend f);
+
+	public int updateAlarmStatus(Friend f);
+
+	public List<Feed> selectUserFeedList(String paramId);
+
+	public List<Attachment> selectatList();
+
+	public List<AttachmentF> selectptList();
+
+	public List<ReplyCollection> selectReplyAllList();
 
 	
 	

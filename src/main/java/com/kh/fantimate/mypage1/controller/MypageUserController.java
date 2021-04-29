@@ -25,8 +25,17 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kh.fantimate.common.model.vo.Attachment;
 import com.kh.fantimate.common.model.vo.Friend;
+import com.kh.fantimate.common.model.vo.Like;
+import com.kh.fantimate.common.model.vo.Reply;
 import com.kh.fantimate.common.model.vo.ReplyCollection;
+import com.kh.fantimate.common.model.vo.Subscribe;
+import com.kh.fantimate.feed.model.service.FanFeedService;
+import com.kh.fantimate.feed.model.vo.AttachmentF;
+import com.kh.fantimate.feed.model.vo.Feed;
 import com.kh.fantimate.feed.model.vo.FeedCollection;
+import com.kh.fantimate.member.model.vo.Artist;
+import com.kh.fantimate.member.model.vo.ArtistCollection;
+import com.kh.fantimate.member.model.vo.ArtistGroup;
 import com.kh.fantimate.member.model.vo.Member;
 import com.kh.fantimate.member.model.vo.User;
 import com.kh.fantimate.member.model.vo.UserCollection;
@@ -46,7 +55,9 @@ import com.kh.fantimate.pay.model.vo.Payment;
 public class MypageUserController {
 	@Autowired
 	private Mypage1Service mService;
-		
+	
+	@Autowired
+	private FanFeedService fService;
 		
 		// 회원정보 수정
 		@PostMapping("/update")
@@ -171,18 +182,137 @@ public class MypageUserController {
 		
 	// 재우추가
 		@GetMapping("/feed")
-		public ModelAndView userMyFeed(ModelAndView mv) {
-//			List<Feed> feed = nService.selelctList();
+		public ModelAndView fanFeedList(ModelAndView mv,
+				@ModelAttribute ArtistGroup ag,
+				@ModelAttribute Subscribe s,
+				@ModelAttribute FeedCollection fc,
+				@ModelAttribute Member m,
+				@ModelAttribute Feed f,
+				@ModelAttribute Attachment at,
+				@ModelAttribute AttachmentF pt,
+				@ModelAttribute Reply r,
+				@ModelAttribute Like lk,
+				@ModelAttribute Artist ar,
+				Model model,
+//				@RequestParam(value="artNameEn") String artNameEn,
+				HttpServletRequest request) {
 			
-//			if(feed != null) {
-//				mv.addObject("feed", feed);
-				mv.setViewName("mypage/user/feed");
-//			}else{
-//				mv.addObject("msg", "피드 조회에 실패하였습니다.");
-//				mv.setViewName("common/errorpage");
-//			}
+			String paramId = ((Member)request.getSession().getAttribute("loginUser")).getId();
+
+//			f.setArtiName(artNameEn);
+//			s.setArtiname(artNameEn);
+//			System.out.println(f);
+
+//			System.out.println("어떤 아티스트 팬 피드인가? : " + artNameEn);
+			// 게시글 불러올 때 필요한 리스트
+
+//			List<Subscribe> subList = fService.selectSubList(artNameEn);
+//			System.out.println("구독 유저 리스트 : " + subList);
+
+			List<Feed> list = mService.selectUserFeedList(paramId);
+			System.out.println("게시글 리스트 : " + list);
+
+			List<Attachment> atlist = mService.selectatList();
+			System.out.println("유저 프로필 사진 리스트 : " + atlist);
+
+			List<AttachmentF> ptlist = mService.selectptList();
+			System.out.println("게시글 사진 리스트 : " + ptlist);
+
+
+
+			//	AttachmentF ptc = fService.selectptListCount();
+			//	System.out.println("사진 갯수 : " + ptc);
+
+
+
+			List<Reply> rlist = fService.selectReplyList();
+			System.out.println("댓글 리스트 : " + rlist);
+
+			// 한 게시글에서 좋아요 누른 유저
+			List<Like> lklist = fService.selectLikeList();
+			System.out.println("좋아유 누른 유저 리스트 : " + lklist);
+
+			//아티스트 리스트
+			List<Artist> artist = fService.selectArtistList();
+			System.out.println("아티스트 리스트 : " + artist);
+
+			// 아티스트 프로필 리스트
+			List<Attachment> aplist = fService.selectapList();
+			System.out.println("아티스트 프로필 사진 리스트 : " + aplist);
+
+			// 댓글 리스트 호출
+			List<ReplyCollection> comment = mService.selectReplyAllList();
+			System.out.println(comment);
+
+
+			// artiName 세션에 저장 -- 임시 주석
+//			HttpSession session = request.getSession(); // 세션을 생성해서
+//			session.setAttribute("artiName", artNameEn); // userid로 uid값을 넘기자
+//			session.setAttribute("subList", subList);
+
+			if(list != null && !list.isEmpty()) {
+				mv.addObject("list", list);
+				mv.addObject("rlist", rlist);
+				mv.addObject("ptlist", ptlist);
+				mv.addObject("atlist", atlist);
+				mv.addObject("artist", artist);
+				mv.addObject("lklist", lklist);
+				mv.addObject("aplist", lklist);
+				mv.addObject("comment", comment);
+				mv.setViewName("fanfeed/fanFeedList");
+
+			} else {
+				mv.addObject("msg", "조회된 리스트가 없습니다.");
+				mv.setViewName("fanfeed/fanFeedList");
+			}
 			return mv;
 		}
+//		public ModelAndView userMyFeed(ModelAndView mv,
+//				 HttpServletRequest request) {
+////				mv.setViewName("mypage/user/feed");
+////			return mv;
+//			
+//			UserCollection user = (UserCollection)request.getSession().getAttribute("user");
+//			System.out.println("user 객체 정보 : user");
+////			ArtistCollection arti = (ArtistCollection)request.getSession().getAttribute("artist");
+////			System.out.println("아티스트 정보 : " + arti);
+//			
+//			// 유저 아이디
+//			String id = user.getUser().getId();
+//			// 아티스트명(그룹)
+//			String artiName = arti.getArtist().getArtiNameEn();
+//			
+//			// 아티스트 아이디
+////			String id = arti.getArtist().getArtiId();
+//			// 아티스트명(그룹)
+//			String artiName = arti.getArtist().getArtiNameEn();
+//			
+//			// 피드 리스트 가져오기
+//			List<Feed> feed = mService.selectFeedList(id);
+//			System.out.println(feed);
+//			// 피드 이미지 가져오기
+//			List<FeedCollection> attachment = mService.selectFeedImage(id);
+//			System.out.println(attachment);
+//			// 댓글 리스트 호출
+//			List<ReplyCollection> comment = mService.selectReplyList(artiName);
+//			System.out.println(comment);
+//			System.out.println("----");
+//			
+//			if(arti != null) {
+//				// 해당 아티스트 정보
+//				mv.addObject("arti", arti);
+//				mv.setViewName("mypage/artist/feed");
+//			}
+//			
+//			if(feed != null) {
+//				// 피드 리스트, 피드 이미지
+//				mv.addObject("feed", feed);
+//				mv.addObject("attachment", attachment);
+//				mv.addObject("comment", comment);
+//			}
+//			
+//			return mv;
+//		}
 		
 		@GetMapping("/subscribes")
 		public ModelAndView userMysubscribes(ModelAndView mv,
@@ -348,6 +478,25 @@ public class MypageUserController {
 			if(stat > 0) {	// 친구를 수락(2) 거절(3) 삭제도일단 (3)
 				int result = mService.userFriendUpdate2(f);
 				System.out.println("친구 상태 업데이트 완료 : " + result);
+				// 친구 수락이라면 수락알람 insert
+				if(f.getFrStatus() == 2) {
+					int alarmFriend = mService.insertAlarmF(f);
+					System.out.println("알람 수행 됐니? (0 or 1) " + alarmFriend);
+					if(alarmFriend < 0) {
+					System.out.println("알람 실패");
+					mv.addObject("msg", "알람업데이트에 실패하였습니다..");
+					mv.setViewName("mypage/admin/errorpage");
+					}
+				// 친구 거절시 알람타입 16상태 알람코드 N으로
+				}else if(f.getFrStatus() == 3) {
+					int hideAlarm = mService.updateAlarmStatus(f);
+					System.out.println("친구거절 알람 수행 됐니? (0 or 1) " + hideAlarm);
+					if(hideAlarm < 0) {
+						System.out.println("알람 실패");
+						mv.addObject("msg", "알람업데이트에 실패하였습니다..");
+						mv.setViewName("mypage/admin/errorpage");
+					}
+				}
 				// 업데이트 성공시
 				if(result > 0) {
 					mv.addObject("message", "친구정보가 수정되었습니다.");
@@ -603,32 +752,6 @@ public class MypageUserController {
 			return "redirect:/mypage/user/payments";
 		}
 		
-		//파일 저장 아직(참고용)
-		private String saveFile(MultipartFile file, HttpServletRequest request) {
-			String root = request.getSession().getServletContext().getRealPath("resources");
-			System.out.println(root);
-			String savePath = root + "\\buploadFiles";
-			File folder = new File(savePath);
-			if(!folder.exists()) folder.mkdirs();	// -> 해당 경로가 존재하지 않는다면 디렉토리 생성
-			
-			// 파일명 리네임 규칙 년월일시분초_랜덤값.확장자
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
-			String originalFileName = file.getOriginalFilename();
-			String renameFileName = sdf.format(new Date()) 
-								+ "_"
-								+ (int)(Math.random() * 100000)
-								+ originalFileName.substring(originalFileName.lastIndexOf("."));
-			String renamePath = folder + "\\" + renameFileName; // 저장하고자 하는 경로 + 파일명
-			
-			try {
-				file.transferTo(new File(renamePath));
-				// => 업로드 된 파일 (MultipartFIle) 이 rename 명으로 서버에 저장
-			} catch (IllegalStateException | IOException e) {
-				System.out.println("파일 업로드 에러  : " + e.getMessage());
-			}	
-			
-			return renameFileName;
-		}
 		
 		// 검색조건에 맞는 페이징 구하기
 		public int RListCountMethod2(String category) {
