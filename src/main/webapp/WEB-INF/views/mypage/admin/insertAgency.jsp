@@ -29,14 +29,14 @@
 					</div>
 					<div id="mypageUserUpdateRight">
 						<%-- value="${}""--%>
-						<input type="text" name="name" value="SM">
-						<input type="text" name="agNum" value="143-88-12345" placeholder="143-24-12345"> 
-						<input type="email" name="agEmail" value="smenter33@sm.town">
-						<input type="text" name="agPhone" value="010-1234-4321" placeholder="010-0000-0000(-포함)"> 
-						<input type="text" name="id" value="edam1">
+						<input type="text" name="name" placeholder="소속사명은 2~20글자 입력(영어,숫자 한글 포함 가능)">
+						<input type="text" name="agNum"  placeholder="143-24-12345"> 
+						<input type="email" name="agEmail" placeholder="abc@naver.com">
+						<input type="text" name="agPhone" placeholder="010-0000-0000(-포함)"> 
+						<input type="text" name="id" placeholder="아이디는 영어 4~20글자로 입력해주세요.">
 						<button type="button" id="idCheckAgency" onclick="" name="idCheck">중복확인</button>
-						<input type="password" name="pwd" value="qwe123!@#" placeholder="비밀번호는 8-20자의 영문, 숫자, 특수문자를 조합하여 설정해주세요."> 
-						<input type="password" name="pwd2" value="qwe123!@#" placeholder="비밀번호는 8-20자의 영문, 숫자, 특수문자를 조합하여 설정해주세요.">
+						<input type="password" name="pwd"  placeholder="비밀번호는 8-20자의 영문, 숫자, 특수문자를 조합하여 설정해주세요."> 
+						<input type="password" name="pwd2"  placeholder="비밀번호는 8-20자의 영문, 숫자, 특수문자를 조합하여 설정해주세요.">
 					</div>
 				</div>
 
@@ -117,8 +117,8 @@
 				$("input[name=agNum]").select();
 				return false;
 			}
-			if(!(/^(?=.*[a-zA-Z])(?=.*\d)(?=.*\W).{8,20}$/.test($("input[name=pwd]").val()))){
-				alert('비밀번호는 영어,숫자,특수문자를 포함한 8자리~20자리로 설정해 주세요.');
+			if(!(/^(?=.*[a-zA-Z])(?=.*\d)(?=.*\W).{5,20}$/.test($("input[name=pwd]").val()))){
+				alert('비밀번호는 영어,숫자,특수문자를 포함한 5자리~20자리로 설정해 주세요.');
 				$("input[name=pwd]").select();
 				return false;
 			}

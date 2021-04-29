@@ -358,10 +358,12 @@ body{
     color: #FFFFFF;
     position: absolute;
     top: 263px;
-    left: 489px;
+    left: 495px;
     text-align: center;
 }
-
+button:hover{
+	cursor: pointer;
+}
 #mypageUserUpdateLeft{
     display: inline-block;
     
