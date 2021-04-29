@@ -16,8 +16,10 @@ import lombok.ToString;
 public class SubscribeUser {
 	private AttSubscribe subati;
 	private User2 user;
-	private Attachment subprofile;
-	private ArtiMain artmain;
-	private Artist artperson;
-	private Attachment artPic;
+	private Attachment artmainpic;
+	
+//	private Attachment subprofile;
+//	private ArtiMain artmain;
+//	private Artist artperson;
+//	private Attachment artPic;
 }

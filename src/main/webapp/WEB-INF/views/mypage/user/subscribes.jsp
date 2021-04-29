@@ -44,9 +44,9 @@
 <!-- for문 -->             
 				<c:forEach var="s" items="${ list }">
                     <div class="mypage-content-subscribes">
-						<img src="${ contextPath }/resources/${ s.subprofile.attSvName }" alt="경로참조">
-						<h3>${ s.artperson.artiNameEn }</h3>
-						<button onclick="cancel('${ s.user.id }', '${ s.subprofile.refId }')">구독취소</button>
+						<img src="${ contextPath }/resources/${ s.artmainpic.attSvName }" alt="경로참조">
+						<h3>${ s.artmainpic.attMain }</h3>
+						<button onclick="cancel('${ s.user.id }', '${ s.subati.subCode }')">구독취소</button>
 					</div>
 				</c:forEach>   
 <!--                     <div class="mypage-content-subscribes"> -->
