@@ -7,6 +7,7 @@ import java.io.File;
 
 
 
+
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -30,6 +31,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -39,6 +41,7 @@ import com.kh.fantimate.common.model.vo.Friend;
 import com.kh.fantimate.common.model.vo.Like;
 import com.kh.fantimate.common.model.vo.Message;
 import com.kh.fantimate.common.model.vo.Reply;
+import com.kh.fantimate.common.model.vo.ReplyCollection;
 import com.kh.fantimate.common.model.vo.Report;
 import com.kh.fantimate.common.model.vo.Subscribe;
 import com.kh.fantimate.feed.model.service.FanFeedService;
@@ -48,6 +51,7 @@ import com.kh.fantimate.feed.model.vo.FeedCollection;
 import com.kh.fantimate.member.model.vo.Artist;
 import com.kh.fantimate.member.model.vo.ArtistGroup;
 import com.kh.fantimate.member.model.vo.Member;
+import com.kh.fantimate.member.model.vo.MemberCollection;
 
 
 
@@ -114,18 +118,32 @@ public class FanFeedController {
 		List<Artist> artist = fService.selectArtistList();
 		System.out.println("아티스트 리스트 : " + artist);
 		
+		// 아티스트 프로필 리스트
+		List<Attachment> aplist = fService.selectapList();
+		System.out.println("아티스트 프로필 사진 리스트 : " + aplist);
+		
+		// 아티스트 개인,사진/ 유저 개인, 사진 콜렉션
+//		List<MemberCollection> sumlist = fService.selectSumList();
+		
+		// 댓글 리스트 호출
+		List<ReplyCollection> comment = fService.selectReplyAllList(artNameEn);
+		System.out.println(comment);
+		
 		
 		// artiName 세션에 저장
 		HttpSession session = request.getSession(); // 세션을 생성해서
 		session.setAttribute("artiName", artNameEn); // userid로 uid값을 넘기자
 		session.setAttribute("subList", subList);
-
+       
 		if(list != null && !list.isEmpty()) {
 			mv.addObject("list", list);
 			mv.addObject("rlist", rlist);
 			mv.addObject("ptlist", ptlist);
 			mv.addObject("atlist", atlist);
 			mv.addObject("artist", artist);
+			mv.addObject("lklist", lklist);
+			mv.addObject("aplist", lklist);
+			mv.addObject("comment", comment);
 			mv.setViewName("fanfeed/fanFeedList");
 			
 		} else {
@@ -137,8 +155,10 @@ public class FanFeedController {
 	
 	// 게시글 작성 (작성자 닉네임, 작성자 프로필 사진, 아티스트의 그룹명 넘겨받아야 함) 
 	@PostMapping("/insert")
-	public void insertFeed(HttpServletResponse response,
+	public String insertFeed(HttpServletResponse response,
 							Feed f,
+							Model model,
+							RedirectAttributes rd,
 							@RequestParam(value="uploadFile1") MultipartFile one,
 							@RequestParam(value="uploadFile2") MultipartFile two,
 							@RequestParam(value="uploadFile3") MultipartFile three,
@@ -204,10 +224,11 @@ public class FanFeedController {
 		int result = fService.insertFeed(f, attList);
 		
 		if(result > 0) {
-			request.getSession().setAttribute("msg", "게시글이 등록되었습니다.");
-			response.sendRedirect("fanFeedList?artNameEn=" + artiName);
+			rd.addFlashAttribute("msg", "게시글이 등록되었습니다.");
+			return "redirect:/fanfeed/fanFeedList?artNameEn=" + artiName;
 		} else {
-			System.out.println("게시글 등록에 실패하였습니다");
+			rd.addFlashAttribute("msg", "게시글 등록에 실패하였습니다.");
+			return "redirect:/fanfeed/fanFeedList?artNameEn=" + artiName;
 		}
 		
 		
@@ -632,6 +653,23 @@ public class FanFeedController {
 										   HttpSession session) {
 		f.setFid(refId);
 		int result = fService.insertLike(l, f);
+		
+		// 응답 작성
+		Gson gson = new GsonBuilder()
+					.create();
+		
+		return gson.toJson(result);
+		
+	}
+	
+	// 게시글 좋아요 취소
+	@PostMapping(value="/cancelLike", produces="application/json; charset=utf-8")
+	public @ResponseBody String cancelLike(Like l, int refId, 
+										   int flike,
+										   Feed f,
+										   HttpSession session) {
+		f.setFid(refId);
+		int result = fService.cancelLike(refId, f);
 		
 		// 응답 작성
 		Gson gson = new GsonBuilder()
