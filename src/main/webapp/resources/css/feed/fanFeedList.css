@@ -497,12 +497,12 @@ html, body {
 
 
 /* 좋아요 아이콘 */
-.like-icon {
-    width : 30px;
+
+#cancelLike, #insertLike{
+	 width : 30px;
     height : 30px;
     margin-left: 85px;
     cursor: pointer;
-    
 }
 
 /* 댓글 텍스트 */

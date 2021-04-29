@@ -1,20 +1,14 @@
 package com.kh.fantimate.feed.controller;
 
 import java.io.File;
-
-
-
-
-
-
-
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -28,7 +22,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -51,7 +44,6 @@ import com.kh.fantimate.feed.model.vo.FeedCollection;
 import com.kh.fantimate.member.model.vo.Artist;
 import com.kh.fantimate.member.model.vo.ArtistGroup;
 import com.kh.fantimate.member.model.vo.Member;
-import com.kh.fantimate.member.model.vo.MemberCollection;
 
 
 
@@ -785,5 +777,58 @@ public class FanFeedController {
 	}
 	
 // 상세 페이지 댓글 작성
+	
+	//*********************************************************
+	// 좋아요 등록 / 취소 
+	@PostMapping("/like")
+	public @ResponseBody Map<String, String> feedLike(Like like,
+			 				@RequestParam(value="type")String type,
+			 				int fid,
+			 				String id){
+		
+		System.out.println("피드번호뜨니??????" + fid);
+		like.setId(id);
+		like.setRefId(fid);
+		
+		String msg = "";
+		int result = 0;
+		int countLike = 0;
+		switch(type) {
+		case "등록" : 
+			result = fService.insertLike2(like, fid);
+			countLike = fService.selectLike2(fid);
+			msg = result > 0 ? "좋아요가 등록 되었습니다" : "좋아요 등록에 실패하였습니다";
+			break;
+		case "취소" :
+			result = fService.deleteLike2(like,fid);
+			countLike = fService.selectLike2(fid);
+			msg = result > 0 ? "좋아요가 취소되었습니다" : "좋아요 취소 실패하였습니다";
+			break;
+		
+		}
+		
+		String count = Integer.toString(countLike);
+		System.out.println("countㄴㄴㄴㄴㄴ:" + count);
+		Map<String, String> map = new HashMap<>();
+		map.put("msg", msg);
+		map.put("count", count);
+		return map;
+		
+		
+	}
+	
+	//likeCount
+	// 알람 갯수 카운트 (세션에 담기)
+	@RequestMapping(value="/likeCount", produces="application/json; charset=utf-8")
+	public @ResponseBody String countLike(int fid) {
+		
+		int countLike = fService.selectLike2(fid);
+		
+
+		return new Gson().toJson(countLike);
+		
+	}
+	
+	
 	
 }

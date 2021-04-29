@@ -272,6 +272,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		     , AG_NUM
 		     , AG_PHONE
 		     , AG_EMAIL
+		     , AG_NAME
 		FROM 
 		      AGENCY
 		WHERE 
