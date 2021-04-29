@@ -291,6 +291,7 @@ public class MypageController {
 			mv.addObject("team", team);
 			mv.addObject("member", member);
 			mv.setViewName("mypage/agency/main");
+			System.out.println(agency);
 		}
 		
 		return mv;
@@ -318,8 +319,8 @@ public class MypageController {
 	}
 	
 	// 아티스트 솔로 삭제하기
-	@PostMapping(value="/deleteArtistSolo", produces="application/json; charset=utf-8")
-	public @ResponseBody String deleteArtistSolo(Artist a, HttpServletRequest request) {
+	@PostMapping(value="/deleteArtistSolo")
+	public @ResponseBody Map<String, String> deleteArtistSolo(Artist a, HttpServletRequest request) {
 		Agency agency = (Agency)request.getSession().getAttribute("agency");
 		
 		// System.out.println(a);
@@ -334,53 +335,68 @@ public class MypageController {
 		int result = mService.deleteMemberSolo(id);
 		// 아티스트 메인 솔로 삭제하기
 		int result2 = mService.deleteMain(map);
-		
+		boolean flag = true;
 		if(result > 0) {
 			System.out.println("솔로 삭제 성공");
 		} else {
 			System.out.println("솔로 삭제 실패");
+			flag = false;
 		}
 		
 		if(result2 > 0) {
 			System.out.println("메인에서 삭제 성공");
-			return "성공";
 		} else {
 			System.out.println("메인에서 삭제 실패");
-			return "실패";
+			flag = false;
 		}
+		String msg = "";
+		if(flag)
+			msg = "아티스트가 정상적으로 삭제되었습니다"; 
+		else 
+			msg = "아티스트 삭제에 실패하였습니다";
+		
+		Map<String, String> resultMsg = new HashMap<>();
+		resultMsg.put("msg", msg);
+		return resultMsg;
 	}
 	
 	// 아티스트 개인 삭제하기
-	@PostMapping(value="/deleteArtistOne", produces="application/json; charset=utf-8")
-	public @ResponseBody String deleteArtistOne(Member m, HttpServletRequest request) {
+	@PostMapping(value="/deleteArtistOne")
+	public @ResponseBody Map<String, String> deleteArtistOne(String id, HttpServletRequest request) {
 		Agency agency = (Agency)request.getSession().getAttribute("agency");
 		
-		// System.out.println(m);
-		
 		// 아티스트 개인 아이디 불러오기
-		String id = mService.selectArtistOneId(m.getName());
-		
 		Map<String, String> map = new HashMap<>();
 		map.put("id", id);
 		map.put("agencyId", agency.getAgId());
 		
 		int result = mService.deleteMemberOne(map);
-		
+		boolean flag = true;
 		if(result > 0) {
 			System.out.println("개인 삭제 성공");
-			return "성공";
 		} else {
 			System.out.println("개인 삭제 실패");
-			return "실패";
+			flag = false;
 		}
+		
+		String msg = "";
+		if(flag)
+			msg = "아티스트가 정상적으로 삭제되었습니다"; 
+		else 
+			msg = "아티스트 삭제에 실패하였습니다";
+		
+		Map<String, String> resultMsg = new HashMap<>();
+		resultMsg.put("msg", msg);
+		return resultMsg;
+		
 	}
 	
 	// 아티스트 그룹 삭제하기
-	@PostMapping(value="/deleteArtistGroup", produces="application/json; charset=utf-8")
-	public @ResponseBody String deleteArtistGroup(ArtistGroup a, HttpServletRequest request) {
+	@PostMapping(value="/deleteArtistGroup")
+	public @ResponseBody Map<String, String> deleteArtistGroup(ArtistGroup a, HttpServletRequest request) {
 		Agency agency = (Agency)request.getSession().getAttribute("agency");
 		
-		// System.out.println(a);
+		System.out.println(a);
 		
 		Map<String, String> map = new HashMap<>();
 		map.put("artiNameEn", a.getArtNameEn());
@@ -388,27 +404,35 @@ public class MypageController {
 
 		// 아티스트 메인 그룹 삭제하기
 		int result = mService.deleteMain(map);
-		
+		boolean flag = true;
 		if(result > 0) {
 			System.out.println("메인에서 삭제 성공");
-			return "성공";
 		} else {
 			System.out.println("메인에서 삭제 실패");
-			return "실패";
+			flag = false;
 		}
+		
+		String msg = "";
+		if(flag)
+			msg = "아티스트가 정상적으로 삭제되었습니다"; 
+		else 
+			msg = "아티스트 삭제에 실패하였습니다";
+		
+		Map<String, String> resultMsg = new HashMap<>();
+		resultMsg.put("msg", msg);
+		return resultMsg;
 	}
 	
 	// 아티스트 솔로 등록하기
-	@PostMapping(value="/enrollArtistSolo", produces="application/json; charset=utf-8")
-	public @ResponseBody String enrollArtistSolo(ArtistGroup ag, Artist a, Attachment att, 
+	@PostMapping(value="/enrollArtistSolo")
+	public @ResponseBody Map<String, String> enrollArtistSolo(ArtistGroup ag, Artist a, Attachment att, 
 											   Member m, HttpServletRequest request,
 											   @RequestParam(value="soloAttClName") MultipartFile file) {
 		Agency agency = (Agency)request.getSession().getAttribute("agency");
-		
-		// System.out.println("artistGroup : " + ag + ", attachment : " + att + "member : " + m);
-		
 		ag.setAgId(agency.getAgId());
 		a.setAgencyId(agency.getAgId());
+		System.out.println("artistGroup : " + ag + ", attachment : " + att + "member : " + m);
+		System.out.println(file.getOriginalFilename());
 		
 		// 대문자로 변환
 		String originName = ag.getArtNameEn().toUpperCase();
@@ -428,6 +452,7 @@ public class MypageController {
 			}
 		}
 		
+		boolean flag = true;
 		// 회원 등록하기
 		int result1 = mService.enrollMember(m);
 		// 메인에 아티스트 등록하기
@@ -439,33 +464,40 @@ public class MypageController {
 			System.out.println("회원 등록 성공");
 		} else {
 			System.out.println("회원 등록 실패");
+			flag = false;
 		}
 		
 		if(result2 > 0) {
 			System.out.println("메인에 등록 성공");
 		} else {
 			System.out.println("메인에 등록 실패");
+			flag = false;
 		}
 		
 		if(result3 > 0) {
 			System.out.println("아티스트 등록 성공");
 		} else {
 			System.out.println("아티스트 등록 실패");
+			flag = false;
 		}
 		
-		// 다시 솔로 리스트 반환하기
-		List<ArtistGroup> solo = mService.selectSolo(agency.getAgId());
+		String msg = "";
+		if(flag) 
+			msg = "아티스트가 정상적으로 등록되었습니다."; 
+		else 
+			msg = "아티스트 등록에 실패하였습니다";
 		
-		return new Gson().toJson(solo);
+		Map<String, String> map = new HashMap<>();
+		map.put("msg", msg);
+		return map;
 	}
 
 	// 아티스트 메인 등록하기
-	@PostMapping(value="/enrollArtistGroup", produces="application/json; charset=utf-8")
-	public @ResponseBody String enrollArtistGroup(ArtistGroup ag, Attachment att, 
+	@PostMapping(value="/enrollArtistGroup")
+	public @ResponseBody Map<String, String> enrollArtistGroup(ArtistGroup ag, Attachment att, 
 												  HttpServletRequest request, 
 												  @RequestParam(value="groupAttClName") MultipartFile file) {
 		Agency agency = (Agency)request.getSession().getAttribute("agency");
-		
 		ag.setAgId(agency.getAgId());
 		
 		// 대문자로 변환
@@ -483,27 +515,37 @@ public class MypageController {
 				att.setAttSvName(renameFileName);
 			}
 		}
-		
 		// 메인에 아티스트 등록하기
 		int result = mService.enrollArtistMain(ag, att);
-		
+		boolean flag = true;
 		if(result > 0) {
 			System.out.println("메인에 등록 성공");
-			return "성공";
 		} else {
 			System.out.println("메인에 등록 실패");
-			return "실패";
+			flag = false;
 		}
+		
+		String msg = "";
+		if(flag) 
+			msg = "아티스트가 정상적으로 등록되었습니다."; 
+		else 
+			msg = "아티스트 등록에 실패하였습니다";
+		
+		Map<String, String> map = new HashMap<>();
+		map.put("msg", msg);
+		return map;
 	}
 	
 	// 아티스트 개인 등록하기
 	@PostMapping(value="/enrollArtistOne", produces="application/json; charset=utf-8")
-	public @ResponseBody String enrollArtistOne(Artist a, Attachment att, 
+	public @ResponseBody Map<String, String> enrollArtistOne(Artist a, Attachment att, 
 											    Member m, HttpServletRequest request,
 											    @RequestParam(value="oneAttClName") MultipartFile file) {
+		
 		// 소속사 정보
 		Agency agency = (Agency)request.getSession().getAttribute("agency");
 		a.setAgencyId(agency.getAgId());
+		
 		
 		// 사진이 등록되었을 때
 		if(!file.getOriginalFilename().equals("")) {
@@ -521,20 +563,30 @@ public class MypageController {
 		int result1 = mService.enrollMember(m);
 		// 아티스트 개인 등록하기
 		int result2 = mService.enrollArtistOne(a, att);
-		
+		boolean flag = true;
 		if(result1 > 0) {
 			System.out.println("회원 등록 성공");
 		} else {
 			System.out.println("회원 등록 실패");
+			flag = false;
 		}
 		
 		if(result2 > 0) {
 			System.out.println("아티스트 등록 성공");
-			return "성공";
 		} else {
 			System.out.println("아티스트 등록 실패");
-			return "실패";
+			flag = false;
 		}
+		
+		String msg = "";
+		if(flag) 
+			msg = "아티스트가 정상적으로 등록되었습니다."; 
+		else 
+			msg = "아티스트 등록에 실패하였습니다";
+		
+		Map<String, String> map = new HashMap<>();
+		map.put("msg", msg);
+		return map;
 	}
 	
 	// 프로필 사진 저장 경로
