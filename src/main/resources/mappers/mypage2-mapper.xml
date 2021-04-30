@@ -143,7 +143,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<result property="refId" column="BID"/>
 		<result property="writer" column="ID"/>
 		<result property="refRid" column="BRRID"/>
-		<result property="likeCount" column="BLIKE_COUNT"/>
+		<result property="likeCount" column="BRLIKE_COUNT"/>
 		<result property="rrcount" column="BRRPT_COUNT"/>
 		<result property="nickname" column="NICKNAME"/>
 		<result property="category" column="CATEGORY"/>
@@ -300,7 +300,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
          , BID
          , A.ID
          , BRRID
-         , BLIKE_COUNT
+         , BRLIKE_COUNT
          , BRRPT_COUNT
          , ARTI_ONE_NAME
          , NICKNAME
@@ -356,7 +356,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	UPDATE 
 		   B_REPLY
 	   SET
-	       BLIKE_COUNT = BLIKE_COUNT + 1
+	       BRLIKE_COUNT = BRLIKE_COUNT + 1
      WHERE
            BRID = #{rid}		
 	</update>
@@ -379,7 +379,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	UPDATE 
 		   B_REPLY
 	   SET
-	       BLIKE_COUNT = BLIKE_COUNT - 1
+	       BRLIKE_COUNT = BRLIKE_COUNT - 1
      WHERE
            BRID = #{rid}		
 	</update>
@@ -541,7 +541,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
          , BID
          , A.ID
          , BRRID
-         , BLIKE_COUNT
+         , BRLIKE_COUNT
          , BRRPT_COUNT
          , ARTI_ONE_NAME
          , NICKNAME
@@ -1115,7 +1115,17 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	
 	<insert id="insertOfficial" parameterType="Official">
 	INSERT
-      INTO MEDIA
+      INTO MEDIA(
+      			 MEDIA_NUM
+			   , MEDIA_TTL
+			   , MEDIA_CTT
+			   , MEDIA_DATE
+			   , MEDIA_STATUS
+			   , IS_PAY
+			   , CATE_CODE
+			   , MEDIA_PAY
+			   , MEDIA_COUNT
+			   )
     VALUES
          (
           SEQ_MEDIA.NEXTVAL
@@ -1132,7 +1142,16 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	
 	<insert id="insertMediaFile" parameterType="MediaFile">
 	INSERT
-      INTO MD_FILE
+      INTO MD_FILE(
+      		       ATT_CODE
+				 , ATT_ROOT
+				 , VID_CL_NAME
+				 , VID_SV_NAME
+				 , ATT_STATUS
+				 , MEDIA_NUM
+				 , PIC_CL_NAME
+				 , PIC_SV_NAME
+      			  )
     VALUES
          (
           SEQ_MD_FILE.NEXTVAL

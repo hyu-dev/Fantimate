@@ -53,7 +53,7 @@
 	                <tr class="nanumsquare">
 	                	<td>가격&nbsp;&nbsp;</td>
 	                	<td>
-	                		<input type="number" name="mediaPay">
+	                		<input type="number" name="mediaPay" placeholder="0">
 	                	</td>
 	                </tr>
 	                <tr class="nanumsquare">
