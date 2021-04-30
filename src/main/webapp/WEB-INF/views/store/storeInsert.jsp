@@ -42,11 +42,11 @@
                         <td>
                             <select name="cateName" id="selectCategory" class="select">
                                 <option <c:if test="${ flag eq 'yes' && sc.get(0).storeCate.cateName eq null }">selected</c:if>>카테고리선택</option>
-                                <option value="앨범" <c:if test="${ flag eq 'yes' && sc.get(0).storeCate.cateName eq 'ALBUM' }">selected</c:if>>ALBUM</option>
-                                <option value="굿즈" <c:if test="${ flag eq 'yes' && sc.get(0).storeCate.cateName eq 'GOODS' }">selected</c:if>>GOODS</option>
-                                <option value="티켓" <c:if test="${ flag eq 'yes' && sc.get(0).storeCate.cateName eq 'TICKET' }">selected</c:if>>TICKET</option>
-                                <option value="포토" <c:if test="${ flag eq 'yes' && sc.get(0).storeCate.cateName eq 'PHOTO' }">selected</c:if>>PHOTO</option>
-                                <option value="기타" <c:if test="${ flag eq 'yes' && sc.get(0).storeCate.cateName eq 'ETC' }"></c:if>>ETC</option>
+                                <option value="ALBUM" <c:if test="${ flag eq 'yes' && sc.get(0).storeCate.cateName eq 'ALBUM' }">selected</c:if>>ALBUM</option>
+                                <option value="GOODS" <c:if test="${ flag eq 'yes' && sc.get(0).storeCate.cateName eq 'GOODS' }">selected</c:if>>GOODS</option>
+                                <option value="TICKET" <c:if test="${ flag eq 'yes' && sc.get(0).storeCate.cateName eq 'TICKET' }">selected</c:if>>TICKET</option>
+                                <option value="PHOTO" <c:if test="${ flag eq 'yes' && sc.get(0).storeCate.cateName eq 'PHOTO' }">selected</c:if>>PHOTO</option>
+                                <option value="ETC" <c:if test="${ flag eq 'yes' && sc.get(0).storeCate.cateName eq 'ETC' }"></c:if>>ETC</option>
                             </select>
                         </td>
                     </tr>

@@ -67,35 +67,43 @@
                             <select class="category-box nanumsquare" name="category">
                                 <option value="">카테고리</option>
 	                            <c:choose>
-	                            <c:when test="${ category eq  '앨범' }">
-	                                <option value="앨범" selected>앨범</option>
+	                            <c:when test="${ category eq  'ALBUM' }">
+	                                <option value="ALBUM" selected>ALBUM</option>
 	                            </c:when>
 	                            <c:otherwise>
-	                            	<option value="앨범">앨범</option>
+	                            	<option value="ALBUM">ALBUM</option>
 	                            </c:otherwise>
 	                            </c:choose>
 	                            <c:choose>
-	                            <c:when test="${ category eq  '굿즈' }">
-	                                <option value="굿즈" selected>굿즈</option>
+	                            <c:when test="${ category eq  'GOODS' }">
+	                                <option value="GOODS" selected>GOODS</option>
 	                            </c:when>
 	                            <c:otherwise>
-	                            	<option value="굿즈">굿즈</option>
+	                            	<option value="GOODS">GOODS</option>
 	                            </c:otherwise>
 	                            </c:choose>
 	                            <c:choose>
-	                            <c:when test="${ category eq  '티켓' }">
-	                                <option value="티켓" selected>티켓</option>
+	                            <c:when test="${ category eq  'TICKET' }">
+	                                <option value="TICKET" selected>TICKET</option>
 	                            </c:when>
 	                            <c:otherwise>
-	                            	<option value="티켓">티켓</option>
+	                            	<option value="TICKET">TICKET</option>
 	                            </c:otherwise>
 	                            </c:choose>
 	                            <c:choose>
-	                            <c:when test="${ category eq  '포토' }">
-	                                <option value="포토" selected>포토</option>
+	                            <c:when test="${ category eq  'PHOTO' }">
+	                                <option value="PHOTO" selected>PHOTO</option>
 	                            </c:when>
 	                            <c:otherwise>
-	                            	<option value="포토">앨범</option>
+	                            	<option value="PHOTO">PHOTO</option>
+	                            </c:otherwise>
+	                            </c:choose>
+	                            <c:choose>
+	                            <c:when test="${ category eq  'ETC' }">
+	                                <option value=ETC selected>ETC</option>
+	                            </c:when>
+	                            <c:otherwise>
+	                            	<option value="ETC">ETC</option>
 	                            </c:otherwise>
 	                            </c:choose>
 	                        </select>
