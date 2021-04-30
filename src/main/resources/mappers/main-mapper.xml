@@ -766,6 +766,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		     A.U_ID = #{id}
 		AND  M.MEDIA_STATUS = 'Y'
 		AND MP.ATT_STATUS = 'Y' 
+		AND  A.SUB_STATUS = 'N'
 		ORDER BY
 			M.MEDIA_COUNT DESC
 	</select>
@@ -805,6 +806,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		AND  S.IS_ACTIVE = 'Y'
 		AND  S.IS_SOLDOUT = 'N'
 		AND ATS.IS_MAIN_ATT = 'Y'
+		AND  A.SUB_STATUS = 'N'
 		ORDER BY
 			S.VIEWCOUNT DESC
 	</select>
