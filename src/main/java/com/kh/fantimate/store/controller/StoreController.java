@@ -422,7 +422,7 @@ public class StoreController {
 			}
 		}
 		
-		if(store.getIsView().equals("on"))
+		if(store.getIsView() != null)
 			store.setIsView("Y");
 		else 
 			store.setIsView("N");
