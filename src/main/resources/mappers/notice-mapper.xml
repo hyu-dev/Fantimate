@@ -114,4 +114,39 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		 WHERE
 		 		NID = #{nid}
 	</delete>
+	<!-- 공지사항 알람  (친구 수락이라면 알람 해당 쿼리문 삽입)-->
+<!-- 알람 삽입 recId가 친구 요청을 받았던 사람, fid가 신청했던사람 -->
+	<insert id="insertAlarm2" parameterType="Friend">
+		INSERT 
+		INTO ALARM
+		(
+			AL_MADE_CODE
+	      , AL_CONTENT
+	      , AL_TIME
+	      , AL_STATUS
+	      , AL_CODE
+	      , ID
+		)
+		VALUES
+		(
+		    SEQ_ALARM.NEXTVAL
+		  , '공지사항이 등록됐습니다.'
+		  , SYSDATE
+		  , DEFAULT
+		  , 18
+		  , #{fid}
+		)
+		<foreach collection="list" item="item" open="INSERT ALL" close="SELECT * FROM DUAL" separator=" ">
+		   INTO 
+		 		  WEB_MP_MENU 
+		 VALUES 
+		 		  (SEQ_ALARM.NEXTVAL
+				  , '공지사항이 등록됐습니다.'
+				  , SYSDATE
+				  , DEFAULT
+				  , 18
+				  , #{fid}) 
+		 </foreach>
+
+	</insert>
 </mapper>

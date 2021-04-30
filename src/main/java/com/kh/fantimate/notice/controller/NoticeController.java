@@ -104,8 +104,17 @@ public class NoticeController {
 	public String noticeInsert(Notice n,
 							   HttpServletRequest request) {
 		
+		// 공지사항 등록
 		int result = nService.insertNotice(n);
-		
+		/*
+		// 공지사항 등록 알림(아티스트 소속사)
+		if(n.getRlevel() == 2 || n.getRlevel() == 3) {
+			int alarmFriend = nService.insertAlarmF(n);
+			System.out.println("공지사항 알람 수행 됐니? (0 or 1) " + alarmFriend);
+			if(alarmFriend < 0) {
+			System.out.println("알람 실패");
+			}
+		*/
 		if(result > 0) {
 			System.out.println("공지사항 등록 성공");
 		}

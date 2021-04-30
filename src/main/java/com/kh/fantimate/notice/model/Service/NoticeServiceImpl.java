@@ -47,4 +47,9 @@ public class NoticeServiceImpl implements NoticeService{
 		return nDao.deleteNotice(nid);
 	}
 
+	@Override
+	public int insertAlarmF(Notice n) {
+		return nDao.insertAlarmF(n);
+	}
+
 }

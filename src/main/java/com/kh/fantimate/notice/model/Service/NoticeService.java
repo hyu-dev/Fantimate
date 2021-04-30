@@ -24,5 +24,8 @@ public interface NoticeService {
 	// 공지사항 삭제(진짜삭제)
 	public int deleteNotice(int nid);
 
+	// 공지사항 작성시 알람 보내기 (rlevel)
+	public int insertAlarmF(Notice n);
+
 	
 }
