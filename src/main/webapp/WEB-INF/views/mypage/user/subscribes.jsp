@@ -44,7 +44,7 @@
 <!-- for문 -->             
 				<c:forEach var="s" items="${ list }">
                     <div class="mypage-content-subscribes">
-						<img src="${ contextPath }/resources/${ s.artmainpic.attSvName }" alt="경로참조">
+						<img src="${ contextPath }/resources/uploadFiles/${ s.artmainpic.attSvName }" alt="경로참조">
 						<h3>${ s.artmainpic.attMain }</h3>
 						<button onclick="cancel('${ s.user.id }', '${ s.subati.subCode }')">구독취소</button>
 					</div>

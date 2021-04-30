@@ -29,7 +29,7 @@
 					</div>
 					<div id="mypageUserUpdateRight">
 						<%-- value="${}""--%>
-						<input type="text" name="agName" placeholder="소속사명은 2~20글자 입력(영어,숫자 한글 포함 가능)">
+						<input type="text" name="agName" placeholder="소속사명은 1~20글자 입력(영어,숫자 한글 포함 가능)">
 						<input type="text" name="agNum"  placeholder="143-24-12345"> 
 						<input type="email" name="agEmail" placeholder="abc@naver.com">
 						<input type="text" name="agPhone" placeholder="010-0000-0000(-포함)"> 
@@ -107,8 +107,8 @@
 
 		// 유효성 검사
 		function joinValidate(){
-			if(!(/^[a-z0-9가-힣A-Z]{2,20}$/.test($("input[name=agName]").val()))){
-				alert('소속사명은 2~20글자 입력(영어,숫자 한글 포함 가능)');
+			if(!(/^[a-z0-9가-힣A-Z]{1,20}$/.test($("input[name=agName]").val()))){
+				alert('소속사명은 1~20글자 입력(영어,숫자 한글 포함 가능)');
 				$("input[name=name]").select();
 				return false;
 			}

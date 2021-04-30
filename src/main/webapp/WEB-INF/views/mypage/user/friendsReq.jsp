@@ -57,7 +57,7 @@
                     
                 	<c:forEach var="f" items="${ list }">
                 		<div class="mypage-content-friends">
-	                        <img src="${ contextPath }/resources/images/mypage/user/profile/${ f.friend.frSend }/${ f.attachment.attSvName }">
+	                        <img src="${ contextPath }/resources/uploadFiles/${ f.attachment.attSvName }">
 <%--                 			<img src="${  }"> --%>
                 			<h3>${ f.friend.frSend }</h3>
                 			<button type="button" onclick="acceptFriend('${f.friend.frSend}');">수락하기</button>
