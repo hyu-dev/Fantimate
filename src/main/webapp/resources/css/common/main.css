@@ -33,6 +33,8 @@
     margin: auto;
     padding-top: 108px;
 }
+/**/
+/**/
 
 .artists-L{
 	max-width: 1200px;
@@ -45,7 +47,6 @@
     /* justify-content: center; */
     /* margin-bottom: 40px; */
     justify-content: space-between;
-    align-content: flex-start;
 }
 
 /* 타이틀 호버 */
@@ -241,7 +242,6 @@
 .artist-pic{
     width: 360px;
     height: 260px;
-    margin-bottom: 30px;
 
 }
 
