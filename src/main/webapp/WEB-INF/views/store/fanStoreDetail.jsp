@@ -544,9 +544,15 @@
 				 					article.append(userProfile, content, myRcreate, myController, myRController, rid, rcWriter);
 		 						}
 		 					} else {
-		 						rController.append(sendMessage, report)
-			 					controller.append(dot)
-			 					article.append(userProfile, content, rcreate, controller, rController, rid, rcWriter);
+		 						if(data[i].fsReply.rstatus == 'N') {
+		 							content = $("<div class='text-content'>").text("삭제된 댓글입니다")
+		 							article.append(userProfile, content, controller, rController, rid, rcWriter);
+		 						} else {
+			 						rController.append(sendMessage, report)
+				 					controller.append(dot)
+				 					article.append(userProfile, content, rcreate, controller, rController, rid, rcWriter);
+		 						}
+		 						
 		 					}
 		 					$(".content-view").append(article)
 		 				}
