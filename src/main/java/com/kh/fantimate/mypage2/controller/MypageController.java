@@ -644,7 +644,7 @@ public class MypageController {
 		if(category == "" && search == "") {
 			
 			// 미디어 리스트 가져오기
-			// List<MediaCollection> media = mService.selectMediaList(artiName);
+			List<MediaCollection> media = mService.selectMediaList(artiName);
 			
 			mv.addObject("agency", agency);
 			// mv.addObject("media", media);
@@ -657,10 +657,10 @@ public class MypageController {
 			map.put("category", category);
 			
 			// 카테고리 검색 결과 가져오기
-			// List<MediaCollection> media = mService.selectCategoryMediaList(map);
+			List<MediaCollection> media = mService.selectCategoryMediaList(map);
 			
 			mv.addObject("agency", agency);
-			// mv.addObject("media", media);
+			mv.addObject("media", media);
 			mv.addObject("artiName", artiName);
 			mv.addObject("category", category);
 			mv.setViewName("mypage/agency/media");
@@ -671,7 +671,7 @@ public class MypageController {
 			map.put("search", search);
 			
 			// 카테고리 검색 결과 가져오기
-			// List<MediaCollection> media = mService.selectSearchMediaList(map);
+			List<MediaCollection> media = mService.selectSearchMediaList(map);
 			
 			mv.addObject("agency", agency);
 			// mv.addObject("media", media);
