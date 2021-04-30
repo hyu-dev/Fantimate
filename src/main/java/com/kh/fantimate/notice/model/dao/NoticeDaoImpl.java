@@ -56,4 +56,16 @@ public class NoticeDaoImpl implements NoticeDao{
 		return sqlSession.delete("noticeMapper.deleteNotice", nid);
 	}
 
+	@Override
+	public int insertAlarmF(Notice n) {
+		if(n.getRlevel() == 2) {
+			return sqlSession.insert("noticeMapper.insertAlarm2", n);
+		}else if(n.getRlevel() == 3) {
+			return sqlSession.insert("noticeMapper.insertAlarm3", n);
+		}else {
+			System.out.println("넘어온 값이 2나 3이 아닙니다.");
+			return -1;
+		}
+	}
+
 }
