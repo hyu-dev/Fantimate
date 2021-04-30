@@ -93,7 +93,7 @@ button {
     cursor: pointer;
 }
 
-#scheduleBtn {
+#scheduleBtn, #passwordBtn {
     background: #E5D2D2;
 }
 
@@ -121,7 +121,7 @@ button {
 }
 
 .profile-form {
-	height: 500px;
+	height: 400px;
 }
 
 .team-artist-form {
@@ -149,6 +149,12 @@ button {
 	margin-top: 20px;
 }
 
+.agency-table {
+	width: 100%;
+	height: 60%;
+	margin-top: 20px;
+}
+
 .artist-table tr {
 	height: 40px;
 	font-size: 20px;
@@ -159,11 +165,16 @@ button {
 	font-size: 20px;
 }
 
-.artist-table td:first-of-type, .team-artist-table td:first-of-type {
+.agency-table tr {
+	height: 40px;
+	font-size: 20px;
+}
+
+.artist-table td:first-of-type, .team-artist-table td:first-of-type, .agency-table td:first-of-type {
 	text-align: right;
 }
 
-.artist-table input, .team-artist-table input {
+.artist-table input, .team-artist-table input, .agency-table input {
 	height: 20px;
 	border: 1px solid #ACACAC;
 	outline: none;
@@ -189,6 +200,14 @@ button {
     height: 30px;
     border: none;
     font-size: 16px;
+    outline-style: none;
+}
+
+#passwordBtn {
+	width: 110px;
+    height: 25px;
+    border: none;
+    font-size: 15px;
     outline-style: none;
 }
 

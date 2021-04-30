@@ -135,6 +135,12 @@ public interface MypageDao {
 
 	// 스토어 리스트 가져오기
 	List<StoreCollection> selectStoreList(String artiName);
+	
+	// 스토어 카테고리 리스트 가져오기
+	List<StoreCollection> selectCategoryStoreList(Map<String, String> map);
+	
+	// 스토어 검색 리스트 가져오기
+	List<StoreCollection> selectSearchStoreList(Map<String, String> map);
 
 	// 스토어 삭제하기
 	int deleteStoreItem(String pname);

@@ -21,7 +21,7 @@
         <form class="profile-form artist-form">
             <span class="artist-text nanumsquare">프로필 수정</span>
             <hr>
-            <table class="profile-table artist-table" class="nanumsquare">
+            <table class="profile-table agency-table" class="nanumsquare">
             	<colgroup>
                     <col width="30%"/>
                     <col width="70%"/>
@@ -35,15 +35,7 @@
                 <tr class="nanumsquare">
                 	<td>비밀번호&nbsp;&nbsp;</td>
                 	<td>
-                		<input type="password" name="agPwd">&nbsp;
-                		<span class="check-text">중복된 아이디입니다.</span>
-                	</td>
-                </tr>
-                <tr class="nanumsquare">
-                	<td>비밀번호 확인&nbsp;&nbsp;</td>
-                	<td>
-                		<input type="password" name="agRePwd">&nbsp;
-                		<span class="check-text">비밀번호가 일치하지 않습니다.</span>
+                		<input type="password" name="agPwd">&nbsp;<button id="passwordBtn" class="nanumsquare" type="button">비밀번호 변경</button>
                 	</td>
                 </tr>
                 <tr class="nanumsquare">
@@ -444,6 +436,9 @@
    			dataType : "json",
    			success : function(data) {
 				console.log("data : " + data);	// 프로필 데이터 받아오기
+				if(data != null) {
+					alert("프로필 수정이 완료되었습니다.");
+				}
 				
 				profileArea = $(".profile-area");			
 				profileArea.html("");
@@ -486,6 +481,10 @@
         $(".profile-form-container").css("display", "none");
     });
     
+ 	// 프로필 수정 팝업 취소하기 버튼 눌렀을 때
+ 	$("#profileCancelBtn").click(function() {
+ 		$(".profile-form-container").css("display", "none");
+    });
     
  	// ---------------------------------------------------------------------------
     
@@ -524,15 +523,6 @@
     	 $(".official-form-container").css("display", "block");
     });
     
-    // 오피셜 관리 스케줄 버튼 눌렀을 때
-     $("#scheduleAdminBtn").click(function() {
-    	$("#officialCategory").css("display", "none");
-     	$(".choose-artist").css("display", "none");
-     	$(".btn-area").css("display", "none");
-     	$(".move-text").css("display", "block");
-     	$(".sub-btn-area").css("display", "flex");
-    });
-    
     // 오피셜 미디어 버튼 눌렀을 때
     $("#mediaAdminBtn").click(function() {
     	var artiName = $("#officialCategory").val();
@@ -541,6 +531,21 @@
     		location.href="${ contextPath }/mypage/agency/media?artiName=" + artiName;
     	} else {
     		alert("아티스트를 선택해주세요");
+    	}
+    });
+    
+    // 오피셜 스케줄 버튼 눌렀을 때
+    $("#scheduleAdminBtn").click(function() {
+    	var artiName = $("#officialCategory").val();
+    	
+    	if(artiName == "") {
+    		alert("아티스트를 선택해주세요");
+    	} else {
+    		$("#officialCategory").css("display", "none");
+         	$(".choose-artist").css("display", "none");
+         	$(".btn-area").css("display", "none");
+         	$(".move-text").css("display", "block");
+         	$(".sub-btn-area").css("display", "flex");
     	}
     });
     
