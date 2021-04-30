@@ -17,6 +17,9 @@
     <title>Fantimate</title>
 </head>
 <body>
+	<c:if test="${ flag eq 'yes' }">
+		<c:remove var="flag"/>
+	</c:if>
 	<c:if test="${ !empty msg }">
 		<script>
 			$(function() {
