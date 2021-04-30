@@ -63,7 +63,8 @@
                 	<c:forEach var="f" items="${ list }">
                 		<div class="mypage-content-friends">
 <%--f.attachment.attMain => 친구아이디 --%>
-	                        <img src="${ contextPath }/resources/images/mypage/user/profile/${ f.attachment.attMain }/${ f.attachment.attSvName }">
+<%-- 	                        <img src="${ contextPath }/resources/images/mypage/user/profile/${ f.attachment.attMain }/${ f.attachment.attSvName }"> --%>
+	                        <img src="${ contextPath }/resources/uploadFiles/${ f.attachment.attSvName }">
 <%--                 			<img src="${  }"> --%>
                 			<h3>${ f.attachment.attMain }</h3>
                 			<button type="button" onclick="deleteFriend('${f.attachment.attMain}');">친구삭제</button>

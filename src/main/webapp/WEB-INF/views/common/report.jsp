@@ -46,7 +46,7 @@
         <!-- 신고 버튼 -->
         <div class="report-btn-section">
             <button type="button" id="reportBtn">신고하기</button>
-            <button type="button" id="closeBtn" onclick="closeReport();">취소하기</button>
+            <button type="button" id="closeBtnReport" onclick="closeReport();">취소하기</button>
         </div>
     </section>
     </form>

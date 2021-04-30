@@ -798,7 +798,7 @@
 					friendContent.append(toggle);
 					
 					for(var i in data.flist){
-						
+						console.log(data.flist);
 						var friendInfoDiv = $("<div class='accordion-friendInfo'>");
 						var checkbox = $("<input type='checkbox' id='friend"+i+"'>");
 						var label = $("<label for='friend"+i+"'>");
@@ -808,7 +808,7 @@
                         var friendId = $("<p class='friend-profile-name'>"+ data.flist[i].att.id +"</p>");
                         var sendBtn = $("<div class='sendBtn-section'><button class='sendBtn' onclick='sendMess("+ "\"" + data.flist[i].att.id+ "\"" + ")'>"+ "쪽지 보내기" +"</button></div>");
                         var arrow = $("<em></em>");
-                        
+                        console.log(data.flist[i].att.id)
                         friendInfo.append(profileInfo,sendBtn);
                         profileInfo.append(friendProfile,friendId);
                         label.append(friendInfo,arrow);
@@ -835,9 +835,6 @@
 								ul2.append(li2);
 								fmailList.append(ul2);
 								friendInfoDiv.append(fmailList);
-								
-					
-								
                         	}
                         	
                         }
@@ -866,14 +863,15 @@
     	$(".form-send-message").css({"display":"block"})
     	var messSendId = "${loginUser.id}";
     	var messRecId = recId;
+    	console.log(messRecId)
     	$(".to-id").text(messRecId);
     }
-	
     // 쪽지 보내기의 보내기 버튼클릭시 
     $("#sendBtn").click(function(){
     	var messSendId = "${loginUser.id}";
     	var messRecId = $(".to-id").text();
     	
+    	console.log(messRecId)
     	
     	$(".mess-send-id").val(messSendId)
 		$(".mess-rec-id").val(messRecId)

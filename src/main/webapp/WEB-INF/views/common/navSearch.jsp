@@ -185,7 +185,7 @@
 					$('.search-result').css('display', 'block');
 					for(var i in data) {
 						var divArea = $("<div id='divSearchArea' onclick='goSearch(" + "\"" + data[i].artG.artNameEn + "\"" + ")'>");
-						var div = $("<div class='profile-circle'><img src='${ contextPath }/resources/images/main/"+ data[i].att.attSvName +"' alt='' class='feed-profile'></div>");
+						var div = $("<div class='profile-circle'><img src='${ contextPath }/resources/uploadFiles/"+ data[i].att.attSvName +"' alt='' class='feed-profile'></div>");
 						var span = $("<span id='artistN'>"+data[i].artG.artNameEn +"</span>");
 						divArea.append(div,span);
 						$(".search-result").append(divArea);

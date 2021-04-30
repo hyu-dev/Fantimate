@@ -94,7 +94,7 @@
         </div>
         <!-- 버튼 -->
         <div class="message-btn-section">
-            <button type="button" id="sendBtn" onclick="sendMessage()">답장하기</button>
+            <button type="button" id="sendMessage" onclick="sendMessage()">답장하기</button>
             <button type="button" id="closeBtn" onclick="location.href='${contextPath}'">취소하기</button>
         </div>
     </section>
@@ -115,7 +115,7 @@
         
         <!-- 버튼 -->
         <div class="message-btn-section">
-            <button id="sendBtn">보내기</button>
+            <button id="sendBtnNavi">보내기</button>
             <button type="button" id="closeBtn" onclick="quitReply()">취소하기</button>
         </div>
 

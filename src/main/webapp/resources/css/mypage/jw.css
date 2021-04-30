@@ -413,7 +413,7 @@ button:hover{
     text-align: right;
     font-weight: bold;
     font-family: Yoon Minguk;
-    margin-bottom: 25.1px;
+    margin-bottom: 23.1px;
 }
 
 
@@ -439,7 +439,7 @@ button:hover{
     height: 310px;
 }
 #mypageUserUpdateRight input{
-    width: 320px;
+    width: 310px;
     height: 32px;
     margin: 5px 10px 8px 27px;
     border: 1px #D8D8D8 solid;
@@ -542,13 +542,13 @@ button:hover{
     width: 225px;
 }
 #mypageUserPay tr:first-child th:nth-child(3){
-    width: 51px;
+    width: 57px;
 }
 #mypageUserPay tr:first-child th:nth-child(4){
-    width: 44px;
+    width: 57px;
 }
 #mypageUserPay tr:first-child th:nth-child(5){
-    width: 75px;
+    width: 91px;
 }
 
 #mypageUserPay td:nth-child(2){
