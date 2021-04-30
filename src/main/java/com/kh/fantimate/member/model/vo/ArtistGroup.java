@@ -15,4 +15,5 @@ public class ArtistGroup {
 	private String artNameEn;	// 아티스트 등록명(영어)
 	private String artNameKr;	// 아티스트 등록명(한글)
 	private String agId;		// 소속사 아이디
+	private String isTeam;		// 팀 여부
 }

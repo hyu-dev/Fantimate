@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.kh.fantimate.common.model.vo.Attachment;
 import com.kh.fantimate.main.model.vo.FavoriteArtist;
+import com.kh.fantimate.main.model.vo.SubscribeArtist;
 import com.kh.fantimate.member.model.vo.Admin;
 import com.kh.fantimate.member.model.vo.Agency;
 import com.kh.fantimate.member.model.vo.Artist;
@@ -42,6 +43,8 @@ public interface MemberDao {
 	public FindIdCollection findUserId(Map<String, String> map);
 
 	public Member findUserPwd(String id);
+
+	public List<SubscribeArtist> selectSubA(String id);
 
 
 }

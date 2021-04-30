@@ -181,6 +181,7 @@ public class MypageServiceImpl implements MypageService{
 	// 메인에서 아티스트 삭제하기
 	@Override
 	public int deleteMain(Map<String, String> map) {
+		System.out.println(map.get("artiNameEn"));
 		mDao.deleteMainPic(map.get("artiNameEn"));
 		return mDao.deleteMain(map);
 	}

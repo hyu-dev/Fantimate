@@ -204,6 +204,28 @@ public class FanFeedServiceImpl implements FanFeedService {
 		return fDao.selectReplyAllList(artNameEn);
 	}
 
+	
+	// *********** 좋아요 수정 
+	@Override
+	public int insertLike2(Like like, int fid) {
+		
+		fDao.insertLike2(like);
+		return fDao.updateLike2(fid);
+	}
+
+	@Override
+	public int deleteLike2(Like like, int fid) {
+		
+		fDao.deleteLike2(like);
+		return fDao.updateDeleteLike2(fid);
+	}
+
+	@Override
+	public int selectLike2(int fid) {
+		
+		return fDao.selectLike2(fid);
+	}
+
 	// 모든 유저 정보 컬렉션
 	/*
 	 * @Override public List<MemberCollection> selectSumList() { return

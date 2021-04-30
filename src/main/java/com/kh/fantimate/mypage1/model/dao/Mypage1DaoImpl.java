@@ -9,7 +9,11 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.fantimate.common.model.vo.Attachment;
 import com.kh.fantimate.common.model.vo.Friend;
+import com.kh.fantimate.common.model.vo.ReplyCollection;
 import com.kh.fantimate.common.model.vo.Report;
+import com.kh.fantimate.feed.model.vo.AttachmentF;
+import com.kh.fantimate.feed.model.vo.Feed;
+import com.kh.fantimate.feed.model.vo.FeedCollection;
 import com.kh.fantimate.member.model.vo.Agency;
 import com.kh.fantimate.member.model.vo.Member;
 import com.kh.fantimate.mypage1.model.vo.AttSubscribe;
@@ -301,6 +305,47 @@ public class Mypage1DaoImpl implements Mypage1Dao{
 		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 		return sqlSession.selectList("mypage1Mapper.requestReportFeedRList", null, rowBounds);
+	}
+
+	@Override
+	public List<Feed> selectFeedList(String id) {
+		return sqlSession.selectList("mypage1Mapper.selectFeedList", id);
+	}
+
+	@Override
+	public List<FeedCollection> selectFeedImage(String id) {
+		return sqlSession.selectList("mypage1Mapper.selectFeedImage", id);
+	}
+
+	@Override
+	public int insertAlarmF(Friend f) {
+		return sqlSession.insert("mypage1Mapper.insertAlarmF", f);
+	}
+
+	@Override
+	public int updateAlarmStatus(Friend f) {
+		return sqlSession.update("mypage1Mapper.updateAlarmStatus", f);
+	}
+
+	@Override
+	public List<Feed> selectUserFeedList(String paramId) {
+		return sqlSession.selectList("mypage1Mapper.selectUserFeedList", paramId);
+	}
+
+	@Override
+	public List<Attachment> selectatList() {
+		return sqlSession.selectList("mypage1Mapper.selectatList");
+	}
+
+	@Override
+	public List<AttachmentF> selectptList() {
+		return sqlSession.selectList("mypage1Mapper.selectptList");
+	}
+
+
+	@Override
+	public List<ReplyCollection> selectReplyAllList() {
+		return sqlSession.selectList("mypage1Mapper.selectReplyAllList");
 	}
 
 

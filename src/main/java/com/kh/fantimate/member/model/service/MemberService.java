@@ -1,10 +1,12 @@
 package com.kh.fantimate.member.model.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import com.kh.fantimate.common.model.vo.Attachment;
 import com.kh.fantimate.main.model.vo.FavoriteArtist;
+import com.kh.fantimate.main.model.vo.SubscribeArtist;
 import com.kh.fantimate.member.model.vo.Admin;
 import com.kh.fantimate.member.model.vo.Agency;
 import com.kh.fantimate.member.model.vo.Artist;
@@ -55,6 +57,9 @@ public interface MemberService {
 
 	// 9. 비밀번호 찾기 
 	public Member findUserPwd(String id);
+
+	// 10. 로그인유저의 구독 정보 
+	public List<SubscribeArtist> selectSubA(String id);
 
 
 }

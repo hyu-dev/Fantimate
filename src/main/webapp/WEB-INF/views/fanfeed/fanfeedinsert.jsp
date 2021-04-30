@@ -15,10 +15,10 @@
                 </div>
                 
                 
+                    <c:forEach var="at" items="${ atlist }">
                 <!-- 포스트 작성 -->
                 <form action="${ contextPath }/fanfeed/insert" method="post" enctype="multipart/form-data">
                 
-                    <c:forEach var="at" items="${ atlist }">
                     <c:if test="${ loginUser.id eq at.refuid }">
                     <div class="postArea">
                     <input type="hidden" name="writer" value="${ loginUser.id }">
@@ -72,8 +72,8 @@
                     </div>
                     <br>
                      </c:if>
-                    </c:forEach>
                 </form>
+                    </c:forEach>
                  
              </div>
 </body>

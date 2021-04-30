@@ -11,7 +11,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="${ contextPath }/resources/css/common/font.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css">
-    <link rel="stylesheet" href="${ contextPath }/resources/css/feed/fanFeedList.css?aftre">
+    <link rel="stylesheet" href="${ contextPath }/resources/css/feed/fanFeedList.css?aftrs">
     <link rel="icon" type="image/png" sizes="16x16" href="${ contextPath }/resources/icon/faviconF.png">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 <title>Insert title here</title>
@@ -42,6 +42,8 @@
 			
 			<c:forEach var="f" items="${ list }">
 			
+			
+			
              <!-- 게시글 리스트 영역 -->
              <div class="boardArea">
 
@@ -52,19 +54,24 @@
                     <col width="15%"/>
                     <col width="15%"/>
                     <tr>
-                      <c:forEach var="at" items="${ atlist }">
-                     		<c:if test="${ at.refuid eq f.writer }">
+                     	<!--  -->	
                         <td>
-                            <div class="profile-bubble">
+                            <!-- <div class="profile-bubble">
                                 <p>친구 신청</p>
                                 <p onclick="insertMessage();">쪽지 보내기</p>
-                            </div>
-                             
-                            
-                             <img class="profile-picture" src="${ contextPath }/resources/uploadFiles/${ at.attSvName }">
-                        </td>
+                            </div> -->
+                             <c:if test="${ loginUser.id ne f.writer }">
+                            	<div class="profile-bubble">
+                                    <p onclick="insertFriend('${f.writer}');">친구 신청</p>
+                                    <p onclick="insertMessage('${f.writer}');">쪽지 보내기</p>
+                                </div>
+                            </c:if>     
+                      <c:forEach var="at" items="${ atlist }">
+                            <c:if test="${ at.refuid eq f.writer }">
+                             <img class="profile-picture" src="${ contextPath }/resources/uploadFiles/${ at.attSvName }" >
                         </c:if>
                         </c:forEach>
+                        </td>
                         <td> 
                         	<!-- 게시글작성자의 아이디와 구독유저의 아이디가 같다면 닉네임 불러오기 -->
                         	 <c:forEach var="sb" items="${ subList }">
@@ -107,23 +114,48 @@
                        
                         <!-- 이미지 영역 -->
                         <!-- 게시글 bid와 사진이 참조하고 있는 bid가 같고, 사진 리스트가 있다면 반복문돌려서 이미지 갯수만큼 불러오기 -->
+                        <div class="photo-area">
+                        <c:set var="count" value="0"/>
                         <c:forEach var="pt" items="${ ptlist }">
                         <c:if test="${ f.fid eq pt.refId }">
-                        <div class="imgArea">
-                        	
-                           <%--  <img src="${ contextPath }/resources/uploadFiles/${ pt.attSvName }" alt="이미지" width="600px" height="400px"> --%>
-                           <img src="${ contextPath }/resources/uploadFiles/${ pt.attSvName }" alt="이미지" width="200px" height="400px" style="display:flex;">
-                            <input type="hidden" name="attCode" value="${ pt.attCode }">
-                            <input type="hidden" name="fid" value="${ f.fid }">
-                            <input type="hidden" name="refId" value="${ pt.refId }">
-                           
-                        </div>
+                        <c:set var="count" value="${ count + 1 }"/>	
                         </c:if>
                         </c:forEach>
+                        <c:forEach var="pt" items="${ ptlist }">
+                        <c:if test="${ f.fid eq pt.refId }">
+                        <c:choose>
+                        <c:when test="${ count eq 0 }">
+                        <input class="p" type="hidden" value="Y">
+                        <c:set var="no" value="${ count }"/>
+                           <img class="pic" src="${ contextPath }/resources/uploadFiles/${ pt.attSvName }">
+						</c:when>
+						<c:when test="${ count eq 1 }">
+						<input class="p1" type="hidden" value="Y">
+                            <img class="pic1" src="${ contextPath }/resources/uploadFiles/${ pt.attSvName }">
+						</c:when>
+						<c:when test="${ count eq 2 }">
+                            <input class="p2" type="hidden" value="Y">
+                            <img class="pic2" src="${ contextPath }/resources/uploadFiles/${ pt.attSvName }">
+                        </c:when>
+						<c:when test="${ count eq 3 }">
+                            <input class="p3" type="hidden" value="Y">
+                            <img class="pic3" src="${ contextPath }/resources/uploadFiles/${ pt.attSvName }">
+                        </c:when>
+                        <c:when test="${ count eq 4 }">
+                            <input class="p4" type="hidden" value="Y">
+                            <img class="pic4" src="${ contextPath }/resources/uploadFiles/${ pt.attSvName }">
+                        </c:when>
+						</c:choose>
+						 </c:if>                       
+                         </c:forEach>  
+                        </div>
                        
                         
                     </div>
                     <br><br>
+                    <input type="hidden" name="attCode" value="${ pt.attCode }">
+                    <input type="hidden" name="fid" value="${ f.fid }">
+                    <input type="hidden" name="refId" value="${ pt.refId }">
                     <!-- 좋아요 영역 -->
                     <table class="board-like">
                         <col width="13%"/>
@@ -145,16 +177,17 @@
 							</c:choose>
 							</c:forEach> --%>
 							
+							
 							<c:set var="ddimCheck" value="0"/>
 							<c:forEach var="l" items="${ lklist }">
-                                 <c:if test="${ loginUser.id eq l.id && f.fid eq l.refId }">
-                                
-                            <td><img id="cancelLike" src="../resources/images/feed/likeblack-icon.png" class="like-icon" onclick="cancelLike(${f.fid},${f.flike});"></td>
+                                <c:if test="${ loginUser.id eq l.id && f.fid eq l.refId }">
+                                <!-- 좋아요를 누른 상태 -->
+                           		<td><img id="cancelLike" src="../resources/images/feed/likeblack-icon.png" class="like-icon${f.fid}" onclick="insertLike(${f.fid})"></td>
                                 <c:set var="ddimCheck" value="1"/>
-                                 </c:if>
-                              </c:forEach>
+                                </c:if>
+                             </c:forEach>
                               <c:if test="${ ddimCheck eq 0 }">
-							<td><img id="insertLike" src="../resources/images/feed/like-icon.png" class="like-icon" onclick="insertLike(${f.fid},${f.flike});"></td>
+							<td><img id="insertLike" src="../resources/images/feed/like-icon.png" class="like-icon${f.fid}" onclick="insertLike(${f.fid})"></td>
                               </c:if>
 							
 						
@@ -162,9 +195,9 @@
 							                           
                             <%-- <td><img id="insertLike" src="../resources/images/feed/likeblack-icon.png" class="like-icon" onclick="insertLike(${f.fid},${f.flike});"></td> --%>
                             
-                            
+                         
                            
-                            <td>${ f.flike }</td>
+                            <td id="likeCount${f.fid}"><!-- 카운트 ajax --></td>
                             <td class="reply-info">댓글</td>
                             <td class="reply-count">2,300</td>
                         </tr>
@@ -176,10 +209,11 @@
                      <!-- 댓글 리스트 영역 -->
                    <c:forEach var="r" items="${ rlist }">
                    <c:if test="${ f.fid eq r.refId }">
+                   <!-- 쪽지 관련 히든 태그 -->
                     <input type="hidden" value="${ r.writer }" name="messRecId" id="messRecId">
                    
-                    <table id="replyTable" class="original-comment">
-                    <tbody>
+                    <table class="original-comment">
+                    <!-- <tbody>비교해서 다른부분**************** --> 
                         <colgroup>
                             <col width="5%"/>
                             <col width="95%"/>
@@ -222,8 +256,8 @@
                                         </span>
                                         <span class="re-commentBtn">답글 열기</span>
                                     </div>
-                                    <div class="">
-                                    	<span class="comment-etc" >···</span>
+                                    <div class="comment-etc">...
+                                 <!-- 다른부분 아티스트jsp170번째줄 -->   	<!-- <span class="comment-etc" >···</span> -->
                                     	<c:if test="${ loginUser.id ne r.writer }">
                                         <div class="comment-bubble">
                                             <p class="add-comment">답글 달기</p>
@@ -241,35 +275,28 @@
 
                                     </div>
                                    
-                                   </td>
+                                   
                                    </c:if>
                                    
                                    
                                    
-                                    </c:forEach>
+                                   
                                     
                                   
-                                
+                                <!-- 댓글 좋아요 영역 -->
                                 <div class="comment-info comment-center nanumsquare">
                                 
                                     <img class="likeBtn" src="../resources/images/feed/like-icon.png">
                                     <span class="like-count">1,000</span>
                                     <span class="comment-date"><fmt:formatDate value="${ r.rcreate }" pattern="yyyy.MM.dd HH:mm"/></span>
                                 </div>
+                               </c:forEach>
                                
-                                <!-- 대댓글 등록 -->
-                                <div class="comment-toggle">
-                                    <div class="re-comment-container">
-                                        <div class="comment-area">
-                                            <textarea class="nanumsquare" style="resize: none;" rows="1" placeholder="답글을 입력하세요..."></textarea>
-                                        </div>&nbsp;&nbsp;&nbsp;
-                                        <img class="re-send-btn" src="">
-                                    </div>
-                                </div>
                                 
-								</tbody>
+                                
+								<!-- </tbody> -->
                                 <!-- 대댓글 -->
-                                <table class="re-comment">
+                               <%--  <table class="re-comment">
                                     <colgroup>
                                         <col width="5%"/>
                                         <col width="95%"/>
@@ -303,9 +330,11 @@
                                             </div>
                                         </td>
                                     </tr>
-                                </table>
+                             
+                                </table> --%>
+                     	 	</td>
                      	  </tr>   
-             		</tbody>
+             		<!-- </tbody> -->
                     </table>
                  	</c:if>
                  	</c:forEach>
@@ -335,13 +364,106 @@
                     </div>
                     </form> 
                     
+                    
+                     <script>
+                            // 좋아요 카운트 
+                         	$(function(){
+                         		likeCount((${f.fid}));
+                         	});
+                            
+                      
+                     </script>
                         
                
 
              </div>
              
+             
+             
              </c:forEach>
+          <!-- fList 끝 -->
           
+             <!-- 좋아요 ajax 수정************************** -->
+             <script>
+             function insertLike(fid){
+            	 var data;
+            	 var fid = fid;
+            	 var img = $(".like-icon" + fid);
+            	 if($(".like-icon" + fid).attr('src') == "../resources/images/feed/like-icon.png"){
+            		 data = {
+            			fid : fid,
+            			id : "${loginUser.id}",
+            			type: '등록'
+            				 
+            		 }
+            	 } else if($(".like-icon" + fid).attr('src') == "../resources/images/feed/likeblack-icon.png"){
+            		 data = {
+            				fid : fid,
+                 			id : "${loginUser.id}",
+                 			type: '취소'
+                 				 
+                 		 }
+            	 }
+            	 var url = "${pageContext.request.contextPath}/fanfeed/like"
+         	     callAjaxWish(url, data, img, fid);
+             
+             }
+             
+             // 좋아요 ajax
+             function callAjaxWish(url, data, img ,fid){
+            	 console.log(img.attr("src"));
+            	 $.ajax({
+            		 url : url,
+            		 method : "POST",
+            		 data : data,
+            		 dateType : "json",
+            		 success : function(map) {
+            			 alert(map.msg)
+            			 var src = "../resources/images/feed/"
+            			 if(map.msg == "좋아요가 등록 되었습니다"){
+            				 img.attr("src", src + "likeblack-icon.png");
+              				 document.getElementById("likeCount"+fid).innerHTML = map.count;
+            			 } else if(map.msg == "좋아요가 취소되었습니다"){
+            				 img.attr("src", src + "like-icon.png");
+              				 document.getElementById("likeCount"+fid).innerHTML = map.count;
+            			 }
+            			 console.log("적용후 : " , img.attr("src"))
+            			 
+            		 },
+            		 error : function(e) {
+     	        		console.log(e)
+     	        	}
+            	 });
+            	 
+             }
+             
+          
+         	function likeCount(fid){
+         		
+       		 var fid = fid;
+       		
+       		$.ajax({
+       			url: "${contextPath}/fanfeed/likeCount",
+       			data : {fid : fid},
+       			dataType : "json",
+       			success : function(data){
+       				console.log(data);
+       				
+       				document.getElementById("likeCount"+fid).innerHTML = data;
+       				
+       				
+       			},
+       			error : function(e){
+       				alert("code : " + e.status + "\n"
+       						+ "message : " + e.responseText);
+       			}
+       			
+       		}); 
+       		
+       	}
+      
+             
+             </script>
              
             
              
@@ -578,7 +700,7 @@
    </script>
    
    <!-- 좋아요 클릭시  누른 유저 추가 -->
-   <script>
+ <!--   <script>
    function insertLike(fid,flike){
 	   var id = "${ loginUser.id }";	 // 좋아요 누른 유저 아이디
 	   var refId = fid;					 // 좋아요 누른 게시글 번호 
@@ -612,10 +734,10 @@
 		 }
 	  });
    }
-   </script>
+   </script> -->
    
    <!-- 좋아요 취소 시 누른 유저 삭제 -->
-   <script>
+  <!--  <script>
    function	cancelLike(fid,flike){
 	   var id = "${ loginUser.id }";	 // 좋아요 취소한 유저 아이디
 	   var refId = fid;					 // 좋아요 취소한 게시글 번호 
@@ -644,7 +766,7 @@
 	  });
    }
    </script>
-   
+    -->
    
    
    <!-- 친구 신청 -->
@@ -717,6 +839,53 @@
           }
       }
   });
+  </script>
+  
+  <!-- 게시글 사진 개수에 따라 css 조절 -->
+  <script>
+  	var p1 = $(".p1").val();
+	var p2 = $(".p2").val();
+	var p3 = $(".p3").val();
+	var p4 = $(".p4").val();
+	var pic = $(".pic");
+	var pic1 = $(".pic1");
+	var pic2 = $(".pic2");
+	var pic3 = $(".pic3:first-of-type");
+	var not1 = $(".comment-line:nth-of-type(1)");
+	var not2 = $(".comment-line:nth-of-type(2)");
+	var not3 = $(".comment-line:nth-of-type(3)");
+	
+	$(document).ready(function(){
+		
+		// 사진 사이즈 지정하기(1/2/3/4개)
+		console.log("pic1 : " + pic1);
+		console.log("pic2 : " + pic2);
+		console.log("pic3 : " + pic3);
+		
+		if(p1 == "Y") {
+			pic1.addClass("pic-size1");
+		}
+		
+		if(p2 == "Y") {
+			pic2.addClass("pic-size2");
+			$(".pic2:nth-of-type(1)").css({"border-top-left-radius":"10px", "border-bottom-left-radius":"10px"}); 
+			$(".pic2:nth-of-type(2)").css({"border-top-right-radius":"10px", "border-bottom-right-radius":"10px"});
+		} 
+		
+		if(p3 == "Y") {
+			pic3.addClass("pic-size3");
+			$(".pic3:nth-of-type(1)").css({"border-top-left-radius":"10px", "border-bottom-left-radius":"10px"}); 
+			$(".pic3:nth-of-type(2)").css("border-top-right-radius","10px");
+			$(".pic3:nth-of-type(3)").css("border-bottom-right-radius","10px");
+		}
+		
+		if(p4 == "Y") {
+			$(".pic4:nth-of-type(1)").css("border-top-left-radius","10px"); 
+			$(".pic4:nth-of-type(2)").css("border-top-right-radius","10px");
+			$(".pic4:nth-of-type(3)").css("border-bottom-left-radius","10px"); 
+			$(".pic4:nth-of-type(4)").css("border-bottom-right-radius","10px");
+		}
+	});
   </script>
 </body>
 </html>

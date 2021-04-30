@@ -63,7 +63,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<collection property="userAttach" resultMap="userAttachResultSet"/>
 		<collection property="bookmark" resultMap="feedBookmarkResultSet"/>
 	</resultMap>
-	
+
 	
 <!-- 공통 유저 정보 -->
 	<resultMap type="Member" id="commonResultSet">
@@ -449,16 +449,136 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<collection property="subati" resultMap="AttSubscribeRSet"/>
 		<collection property="user" resultMap="userResultSet"/>
 		<collection property="artmainpic" resultMap="artmainpicRSet"/>
-		
-<!-- 		<collection property="subprofile" resultMap="subprofileRSet"/> -->
-<!-- 		<collection property="artmain" resultMap="artmainRSet"/> -->
-<!-- 		<collection property="artperson" resultMap="artpersonRSet"/> -->
-<!-- 		<collection property="artPic" resultMap="artPicRSet"/> -->
+		<collection property="subprofile" resultMap="subprofileRSet"/>
+		<collection property="artmain" resultMap="artmainRSet"/>
+		<collection property="artperson" resultMap="artpersonRSet"/>
+		<collection property="artPic" resultMap="artPicRSet"/>
 	</resultMap>
-		
+	<resultMap type="AttachmentF" id="attResultSet">
+		<id property="attCode" column="BPID"/>
+		<result property="attRoot" column="BP_PATH"/>
+		<result property="attClName" column="BP_OGNAME"/>
+		<result property="attSvName" column="BP_CHNAME"/>
+		<result property="attStatus" column="AB_STATUS"/>
+		<result property="refId" column="BID"/>
+	</resultMap>
+	<resultMap id="fanfeedResultSet" type="Feed">
+		<id property="fid" column="BID"/>
+		<result property="ftype" column="BTYPE"/>
+		<result property="fcontent" column="BCONTENT"/>
+		<result property="fcreate" column="BCREATE"/>
+		<result property="fmodify" column="BMODIFY"/>
+		<result property="flike" column="BLIKE"/>
+		<result property="fstatus" column="BSTATUS"/>
+		<result property="writer" column="ID"/>
+		<result property="artiName" column="ARTI_NAME_EN"/>
+	</resultMap>
 <!-- ////////////////////////////////////////////////////////////////////////////////////// -->
 <!-- ////////////////////////////////////////////////////////////////////////////////////// -->
+	<!-- 댓글 모든정보 컬렉션 -->
+	<resultMap type="ReplyCollection" id="replyCollResultSet">
+		<collection property="feedReply" resultMap="replyResultSet"/>
+		<collection property="subscribe" resultMap="subscribeResultSet"/>
+		<collection property="artist" resultMap="ArtistResultSet"/>
+		<collection property="artiAttach" resultMap="artiattResultSet"/>
+		<collection property="userAttach" resultMap="usattResultSet"/>
+	</resultMap>
+	<resultMap type="Reply" id="replyResultSet">
+		<id property="rid" column="BRID"/>
+		<result property="rcontent" column="BRCONTENT"/>
+		<result property="rcreate" column="BRCREATE"/>
+		<result property="rstatus" column="BR_STATUS"/>
+		<result property="refId" column="BID"/>
+		<result property="writer" column="ID"/>
+		<result property="refRid" column="BRRID"/>
+		<result property="likeCount" column="BRLIKE_COUNT"/> 
+		<result property="rrcount" column="BRRPT_COUNT"/>
+	</resultMap>
+	<resultMap type="Subscribe" id="subscribeResultSet">
+		<id property="subCode" column="SUB_CODE"/>
+		<result property="uid" column="U_ID"/>
+		<result property="unickname" column="U_NICKNAME"/>
+		<result property="subStatus" column="SUB_STATUS"/>
+		<result property="artiname" column="ARTI_NAME_EN"/>
+	</resultMap>	
+	<resultMap type="Artist" id="ArtistResultSet">
+		<id property="artiId" column="ARTI_ID"/>
+		<result property="artiName" column="ARTI_ONE_NAME"/>
+		<result property="artiNickname" column="NICKNAME"/>
+		<result property="artiFacebook" column="FACEBOOK"/>
+		<result property="artiInsta" column="INSTAGRAM"/>
+		<result property="artiTwitter" column="TWITTER"/>
+		<result property="artiDailymsg" column="DAILY_MSG"/>
+		<result property="isTeam" column="IS_TEAM"/>
+		<result property="agencyId" column="AG_ID"/>
+		<result property="artiNameEn" column="ARTI_NAME_EN"/>
+	</resultMap>	
+	<resultMap type="Attachment" id="artiattResultSet">
+		<id property="attCode" column="ATT_CODE"/>
+		<result property="attRoot" column="ATT_ROOT"/>
+		<result property="attClName" column="ATT_CL_NAME"/>
+		<result property="attSvName" column="ATT_SV_NAME"/>
+		<result property="attStatus" column="ATT_STATUS"/>
+		<result property="refuid" column="ARTI_ID"/>
+	</resultMap>	
+	<resultMap type="Attachment" id="usattResultSet">
+		<id property="attCode" column="UP_CODE"/>
+		<result property="attRoot" column="UP_ROOT"/>
+		<result property="attClName" column="UP_CL_NAME"/>
+		<result property="attSvName" column="UP_SV_NAME"/>
+		<result property="attStatus" column="UP_STATUS"/>
+		<result property="refuid" column="U_ID"/>	
+	</resultMap>	
 <!-- ////////////////////////////////////////////////////////////////////////////////////// -->
+	
+	<!-- 피드 리스트 가져오기 -->
+	<select id="selectFeedList" parameterType="string" resultMap="feedResultSet">
+	  SELECT
+	         BID
+           , BTYPE
+           , BCONTENT
+           , BCREATE
+           , BMODIFY
+           , BLIKE
+           , BSTATUS
+           , ID
+           , ARTI_NAME_EN
+	    FROM 
+	         BOARD
+       WHERE 
+	         ID = #{id}
+	     AND
+	    	 BSTATUS = 'Y'
+    ORDER BY
+   			 BCREATE DESC
+	</select>
+
+	<!-- 피드 이미지 가져오기 -->
+	<select id="selectFeedImage" parameterType="string" resultMap="feedCollResultSet">
+      SELECT 
+             BID
+           , BTYPE
+           , BCONTENT
+           , BCREATE
+           , BMODIFY
+           , BLIKE
+           , BSTATUS
+           , ID
+           , ARTI_NAME_EN
+           , BPID
+           , BP_PATH
+           , BP_OGNAME
+           , BP_CHNAME
+           , AB_STATUS
+	    FROM 
+	         BOARD
+        JOIN
+             ATT_BOARD USING(BID)
+       WHERE 
+	         ID = #{id}
+	     AND
+	    	 AB_STATUS = 'Y'
+	</select>
 		
 	<select id="checkId" parameterType="string" resultType="integer">
 		SELECT
@@ -957,7 +1077,50 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
             U_ID_SEND = #{frSend}
        AND  U_ID_RECEIVE  = #{frRecId}
 	</update>
-
+<!-- 친구 알람  (친구 수락이라면 알람 해당 쿼리문 삽입)-->
+<!-- 알람 삽입 recId가 친구 요청을 받았던 사람, fid가 신청했던사람 -->
+	<insert id="insertAlarmF" parameterType="Friend">
+		INSERT 
+		INTO ALARM
+		(
+			AL_MADE_CODE
+	      , AL_CONTENT
+	      , AL_TIME
+	      , AL_STATUS
+	      , AL_CODE
+	      , ID
+		)
+		VALUES
+		(
+		    SEQ_ALARM.NEXTVAL
+		  , #{recId} || '님이 친구를 수락했습니다.'
+		  , SYSDATE
+		  , DEFAULT
+		  , 17
+		  , #{fid}
+		)
+	</insert>
+	
+<!-- 친구 거절시 알람 숨기기 -->
+	<update id="updateAlarmStatus" parameterType="Friend">
+        UPDATE 
+			  ALARM
+		   SET
+		   	  AL_STATUS = 'N'
+		WHERE 
+			  AL_MADE_CODE = (
+                             SELECT
+                                    AL_MADE_CODE
+                               FROM
+                                    ALARM
+                              WHERE
+                                    id = #{recId}
+                                AND AL_CODE = 16
+                                AND AL_CONTENT LIKE || #{fid} || '%'
+                             ) 
+	</update>
+	
+		
 	<select id="RListCountPayList" parameterType="Member" resultType="integer">
 			SELECT
 					COUNT(*)
@@ -1528,4 +1691,114 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
                AND  SUB_CODE = #{subCode}
 	</update>
 	
+<!-- 여기서부터 테스트 -->	
+<!-- 게시글 조회 -->
+	<select id="selectUserFeedList" parameterType="string" resultMap="fanfeedResultSet">
+           SELECT
+					BID
+				,	BCONTENT
+				,	BCREATE
+				,	BMODIFY
+				,	BLIKE
+				,	BSTATUS
+				,	ID
+				,	BTYPE
+				,	ARTI_NAME_EN
+				
+		
+		FROM
+					BOARD
+		
+		WHERE
+					BTYPE = 'F'
+		AND			BSTATUS = 'Y'
+		AND         ID = #{paramId}
+		ORDER BY 	BCREATE DESC
+	</select>
+<!-- 유저 프로필 사진 조회 -->
+	<select id="selectatList" resultMap="usattResultSet">
+	 SELECT DISTINCT
+						UP_CODE
+					,	UP_ROOT
+					,	UP_CL_NAME
+					,	UP_SV_NAME
+					,	UP_STATUS
+					,	U_ID
+            		
+				FROM
+						USER_PROFILE
+   
+	</select>
+<!-- 게시글 사진 조회 -->
+	<select id="selectptList" resultMap="attResultSet">
+		SELECT
+					BPID
+				,	BP_PATH
+				,	BP_OGNAME
+				,	BP_CHNAME
+				,	AB_STATUS
+				,	BID
+		FROM
+					ATT_BOARD
+		ORDER BY 	BPID DESC		
+	</select>	
+<select id="selectReplyAllList" parameterType="string" resultMap="replyCollResultSet">
+        SELECT
+           	   A.BRID
+	         , BRCONTENT
+	         , BRCREATE
+	         , BID
+	         , A.ID
+	         , BRRID
+	         , BRLIKE_COUNT
+	         , BRRPT_COUNT
+	         , ARTI_ONE_NAME
+	         , NICKNAME
+	         , FACEBOOK
+	         , INSTAGRAM
+	         , TWITTER
+	         , DAILY_MSG
+	         , IS_TEAM
+	         , F.ARTI_NAME_EN
+	         , U_NICKNAME
+	         , ATT_SV_NAME
+	         , UP_SV_NAME
+	         , BRLID
+	         , G.BRID
+		  FROM
+		       B_REPLY A
+	 LEFT JOIN
+	           ART_PERSON B ON(A.ID = B.ARTI_ID)
+	 LEFT JOIN
+	           ATT_SUBSCRIBE C ON(A.ID = C.U_ID)
+	 LEFT JOIN
+	           ART_PIC D ON(B.ARTI_ID = D.ARTI_ID)
+	 LEFT JOIN
+	           USER_PROFILE E ON(C.U_ID = E.U_ID)
+	 LEFT JOIN
+	           BOARD F USING(BID)
+	 LEFT JOIN
+	           B_RE_LIKE G ON(A.BRID = G.BRID)
+		 WHERE
+	--           F.ARTI_NAME_EN = 'IU'
+	--       AND
+	          (
+	           D.ATT_STATUS = 'Y'
+	        OR
+	           E.UP_STATUS = 'Y'
+	          )
+	--       AND
+	--          (
+	--           B.ARTI_NAME_EN = 'IU'
+	--        OR
+	--           C.ARTI_NAME_EN = 'IU'
+	--          )
+	       AND
+	           BR_STATUS = 'Y'
+	       AND
+	           BSTATUS = 'Y'
+	  ORDER BY
+	           BRCREATE DESC
+</select>
+<!-- 여기까지테스트 -->
 </mapper>
