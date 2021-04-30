@@ -623,7 +623,7 @@ public class MypageController {
 	public ModelAndView agencyStoreAdmin(String artiName, String category, String search,
 										 ModelAndView mv, HttpServletRequest request) {
 		Agency agency = (Agency)request.getSession().getAttribute("agency");
-		
+		System.out.println(artiName);
 		if(category == "" && search == "") {
 			
 			// 스토어 리스트 가져오기
@@ -632,6 +632,7 @@ public class MypageController {
 			mv.addObject("agency", agency);
 			mv.addObject("store", store);
 			mv.addObject("artiName", artiName);
+			System.out.println("더 찍어본다1 : " + artiName);
 			mv.setViewName("mypage/agency/store");
 		} else if(category != "" && search == "") {
 			
@@ -645,6 +646,7 @@ public class MypageController {
 			mv.addObject("agency", agency);
 			mv.addObject("store", store);
 			mv.addObject("artiName", artiName);
+			System.out.println("더 찍어본다2 : " + artiName);
 			mv.addObject("category", category);
 			mv.setViewName("mypage/agency/store");
 		} else if(category == "" && search != "") {
@@ -659,7 +661,16 @@ public class MypageController {
 			mv.addObject("agency", agency);
 			mv.addObject("store", store);
 			mv.addObject("artiName", artiName);
+			System.out.println("더 찍어본다3 : " + artiName);
 			mv.addObject("search", search);
+			mv.setViewName("mypage/agency/store");
+		} else {
+			// 스토어 리스트 가져오기
+			List<StoreCollection> store = mService.selectStoreList(artiName);
+			mv.addObject("store", store);
+			mv.addObject("agency", agency);
+			mv.addObject("artiName", artiName);
+			System.out.println("더 찍어본다3 : " + artiName + store);
 			mv.setViewName("mypage/agency/store");
 		}
 		
