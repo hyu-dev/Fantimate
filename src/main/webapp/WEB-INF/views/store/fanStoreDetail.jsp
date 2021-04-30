@@ -30,7 +30,7 @@
 	<c:set var="fsFlag" value="yes" scope="session"/>
 	<jsp:include page="fanStoreInsert.jsp"/>
 	<jsp:include page="../common/report.jsp"/>
-	<jsp:include page="../common/messageSend.jsp"/>
+	<jsp:include page="../common/messageSend2.jsp"/>
 	<!-- 네비바 인클루드 -->
 	<jsp:include page="../common/navbar.jsp"/>
 	<section class="main-section">
@@ -195,12 +195,17 @@
 		                         </c:when>
 		                         <c:otherwise>
 		                         <article>
-		                             <img class="user-profile" src="${ contextPath }/resources/uploadFiles/${r.attUser.attSvName}" alt="">
-		                             <div class="text-content">${ r.fsReply.rcontent }</div>
-		                             <span class="text-write-date"><fmt:formatDate value="${ r.fsReply.rcreate }" type="date" /></span>
-		                             <div class="controller">
-		                                 <img src="${ contextPath }/resources/icon/dot.png" alt="">
-		                             </div>
+			                         <img class="user-profile" src="${ contextPath }/resources/uploadFiles/${r.attUser.attSvName}" alt="">
+		                         	 <c:if test="${ r.fsReply.rstatus eq 'Y' }">
+			                             <div class="text-content">${ r.fsReply.rcontent }</div>
+			                             <span class="text-write-date"><fmt:formatDate value="${ r.fsReply.rcreate }" type="date" /></span>
+			                             <div class="controller">
+			                                 <img src="${ contextPath }/resources/icon/dot.png" alt="">
+			                             </div>
+		                             </c:if>
+		                              <c:if test="${ r.fsReply.rstatus eq 'N' }">
+		                             	<div class="text-content">삭제된 댓글입니다</div>
+		                             </c:if>
 		                             <div class="reply-controller">
 		                                 <div class="reply-controll">쪽지보내기</div>
 		                                 <div class="reply-controll">신고하기</div>
@@ -290,17 +295,16 @@
 		})
 		// 쪽지보내기 클릭시
 		$(".fs-send-message").click(function() {
-			$(".form-send-message").css({"display":"block"})
+			$(".form-send-message2").css({"display":"block"})
 			var messSendId = "${loginUser.id}";
 			var messRecId = "${ fanStore.get(0).fstore.id }";
 			if(messSendId == messRecId) {
 				messRecId = $("#rcWriter").val();
 			}
-			console.log(messRecId)
-			$(".to-id").text(messRecId);
+			$(".to-id2").text(messRecId);
 		});
 	 	// 쪽지보내기의 보내기 버튼 클릭시
-	 	$("#sendBtn").click(function() {
+	 	$(".send-message").click(function() {
 	 		var messSendId = "${loginUser.id}";
 			var messRecId = "${ fanStore.get(0).fstore.id }";
 			if(messSendId == messRecId) {
@@ -316,7 +320,7 @@
 			// 보내는 이의 인증지역과 팬스토어가 등록된 지역이 같다면
 				$(".mess-send-id").val(messSendId)
 				$(".mess-rec-id").val(messRecId)
-				var form = $(".form-send-message").serialize();
+				var form = $(".form-send-message2").serialize();
 				$.ajax({
 					url : "${pageContext.request.contextPath}/fanStore/sendMessage",
 					method : "post",
@@ -421,8 +425,8 @@
 				if(messSendId == messRecId) {
 					messRecId = $("#rcWriter").val();
 				}
-	    		$(".form-send-message").css({"display":"block"})
-				$(".to-id").text(messRecId);
+	    		$(".form-send-message2").css({"display":"block"})
+				$(".to-id2").text(messRecId);
 	    		break;
 	    	case '신고하기' :
 	    		reportType = "댓글";

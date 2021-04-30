@@ -3,13 +3,24 @@
 html, body {
     margin: 0;
     padding: 0;
-    background: rgba(0,0,0,0.5);
+    position: relative;
+    z-index: 2;
 }
 
+.form-send-message2, .form-report {
+	position: fixed;
+	top: 0;
+	left: 0;
+	background: rgba(0,0,0,0.5);
+	z-index: 3;
+	height: 100%;
+	width: 100%;
+	display: none;
+}
 
 .received-message-section ,.report-message-section ,.send-message-section{
     width: 600px;  
-    position: fixed;    
+    position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -72,7 +83,7 @@ body::-webkit-scrollbar-track ,.message-content::-webkit-scrollbar-track, .repor
     margin-bottom: 100px;
 }
 
-#sendBtnNavi {
+#sendBtn2{
     background: #F4D4D4;
     width: 150px;
     height: 50px;
@@ -84,19 +95,8 @@ body::-webkit-scrollbar-track ,.message-content::-webkit-scrollbar-track, .repor
     border: 1px solid #F4D4D4;
 }
 
-#sendMessage {
-    background: #F4D4D4;
-    width: 150px;
-    height: 50px;
-    font-style: normal;
-    font-size: 22px;
-    line-height: 43px;
-    text-align: center;
-    color: #5C5F78;
-    border: 1px solid #F4D4D4;
-}
 
-#closeBtn{
+#closeBtn2{
     width: 150px;
     height: 50px;
     background: #5C5F78;
@@ -140,9 +140,9 @@ body::-webkit-scrollbar-track ,.message-content::-webkit-scrollbar-track, .repor
     margin-left: 45px;
 }
 
-.send-message-section{
+/* .send-message-section{
     display: none;
-}
+} */
 
 .message-input-section{
     display: flex;
@@ -181,9 +181,9 @@ body::-webkit-scrollbar-track ,.message-content::-webkit-scrollbar-track, .repor
 
 /*신고하기 페이지*/
 
-.report-message-section{
+/* .report-message-section{
     display: none;
-}
+} */
 
 .report-img{
     width:30px;
