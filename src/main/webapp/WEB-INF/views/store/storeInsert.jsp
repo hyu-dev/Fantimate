@@ -298,7 +298,7 @@
 		 $(".enroll-btn").click(function() {
 			 if($("#selectCategory").val() == null || $("#selectCategory").val() == '카테고리선택') {
 				 alert("카테고리를 선택하세요")
-			 } else if($("#mainPhoto").attr("src") == null) {
+			 } else if($("#mainPhoto").attr("src") == '') {
 	        	 alert('대표사진을 등록하세요')
 			 } else {
 				 var url = "${contextPath}/store/insert";
