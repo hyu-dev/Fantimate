@@ -14,7 +14,7 @@
 }
 
 #mediaForm {
-    height: 650px;
+    height: 720px;
     width: 600px;
     background: #FBF6F6;
     padding: 20px 30px 20px 30px;
@@ -55,9 +55,25 @@
     font-size: 20px;
 }
 
-.media-insert-table input {
+.media-insert-table input, #insertMediaCategory {
 	width: 100%;
 	height: 40px;
+	border: 1px solid #ACACAC;
+	outline: none;
+}
+
+.arti-name-span, .limit-text {
+	font-weight: 500;
+    font-size: 18px;
+}
+
+.limit-text {
+	float: right;
+}
+
+.media-text {
+	width: 100%;
+	height: 80px;
 	border: 1px solid #ACACAC;
 	outline: none;
 }

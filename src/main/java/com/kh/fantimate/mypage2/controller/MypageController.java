@@ -36,7 +36,10 @@ import com.kh.fantimate.member.model.vo.ArtistCollection;
 import com.kh.fantimate.member.model.vo.ArtistGroup;
 import com.kh.fantimate.member.model.vo.Member;
 import com.kh.fantimate.mypage2.model.service.MypageService;
+import com.kh.fantimate.official.model.vo.MediaCategory;
 import com.kh.fantimate.official.model.vo.MediaCollection;
+import com.kh.fantimate.official.model.vo.MediaFile;
+import com.kh.fantimate.official.model.vo.Official;
 import com.kh.fantimate.store.model.vo.Store;
 import com.kh.fantimate.store.model.vo.StoreCollection;
 
@@ -515,6 +518,7 @@ public class MypageController {
 				att.setAttSvName(renameFileName);
 			}
 		}
+		
 		// 메인에 아티스트 등록하기
 		int result = mService.enrollArtistMain(ag, att);
 		boolean flag = true;
@@ -589,51 +593,21 @@ public class MypageController {
 		return map;
 	}
 	
-	// 프로필 사진 저장 경로
-	private String saveFile(MultipartFile file, HttpServletRequest request) {
-		String root = request.getSession().getServletContext().getRealPath("resources");
-		String savePath = root + "\\uploadFiles";
-		File folder = new File(savePath);
-		
-		// -> 해당 경로가 존재하지 않는다면 디렉토리 생성
-		if(!folder.exists()) folder.mkdirs();
-		
-		// 파일명 리네임 규칙 "년월일시분초_랜덤값.확장자"
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
-		String originalFileName = file.getOriginalFilename();
-		String renameFileName = sdf.format(new Date()) + "_"
-							+ (int)(Math.random() * 100000) 
-							+ originalFileName.substring(originalFileName.lastIndexOf("."));
-		
-		// 저장하고자하는 경로 + 파일명
-		String renamePath = folder + "\\" + renameFileName;
-		
-		try {
-			file.transferTo(new File(renamePath));
-			// => 업로드 된 파일 (MultipartFile) 이 rename명으로 서버에 저장
-		} catch (IllegalStateException | IOException e) {
-			System.out.println("파일 업로드 에러 : " + e.getMessage());
-		} 
-		
-		return renameFileName;
-	}
+	
 	
 	// 마이페이지 소속사 스토어 관리 페이지 & 스토어 관리 페이지에 뿌려질 전체 리스트 출력
 	@GetMapping("/agency/store")
 	public ModelAndView agencyStoreAdmin(String artiName, String category, String search,
 										 ModelAndView mv, HttpServletRequest request) {
 		Agency agency = (Agency)request.getSession().getAttribute("agency");
-		System.out.println(artiName);
+		mv.addObject("agency", agency);
+		mv.addObject("artiName", artiName);
+		
 		if(category == "" && search == "") {
-			
 			// 스토어 리스트 가져오기
 			List<StoreCollection> store = mService.selectStoreList(artiName);
-			
-			mv.addObject("agency", agency);
 			mv.addObject("store", store);
-			mv.addObject("artiName", artiName);
-			System.out.println("더 찍어본다1 : " + artiName);
-			mv.setViewName("mypage/agency/store");
+			
 		} else if(category != "" && search == "") {
 			
 			Map<String, String> map = new HashMap<>();
@@ -643,12 +617,9 @@ public class MypageController {
 			// 카테고리 검색 결과 가져오기
 			List<StoreCollection> store = mService.selectCategoryStoreList(map);
 			
-			mv.addObject("agency", agency);
 			mv.addObject("store", store);
-			mv.addObject("artiName", artiName);
-			System.out.println("더 찍어본다2 : " + artiName);
 			mv.addObject("category", category);
-			mv.setViewName("mypage/agency/store");
+
 		} else if(category == "" && search != "") {
 			
 			Map<String, String> map = new HashMap<>();
@@ -658,21 +629,16 @@ public class MypageController {
 			// 카테고리 검색 결과 가져오기
 			List<StoreCollection> store = mService.selectSearchStoreList(map);
 			
-			mv.addObject("agency", agency);
 			mv.addObject("store", store);
-			mv.addObject("artiName", artiName);
-			System.out.println("더 찍어본다3 : " + artiName);
 			mv.addObject("search", search);
-			mv.setViewName("mypage/agency/store");
+
 		} else {
 			// 스토어 리스트 가져오기
 			List<StoreCollection> store = mService.selectStoreList(artiName);
 			mv.addObject("store", store);
-			mv.addObject("agency", agency);
-			mv.addObject("artiName", artiName);
-			System.out.println("더 찍어본다3 : " + artiName + store);
-			mv.setViewName("mypage/agency/store");
 		}
+		
+		mv.setViewName("mypage/agency/store");
 		
 		return mv;
 	}
@@ -704,45 +670,153 @@ public class MypageController {
 										 ModelAndView mv, HttpServletRequest request) {
 		Agency agency = (Agency)request.getSession().getAttribute("agency");
 		
+		// 소속 아티스트 목록 전체 불러오기(관리 페이지로 넘어가기 위해)
+		List<ArtistGroup> artist = mService.selectArtistList(agency.getAgId());
+		
+		mv.addObject("artist", artist);
+		mv.addObject("agency", agency);
+		mv.addObject("artiName", artiName);
+		
 		if(category == "" && search == "") {
-			
 			// 미디어 리스트 가져오기
-			List<MediaCollection> media = mService.selectMediaList(artiName);
+			List<MediaCollection> media = mService.selectMediaAdminList(artiName);
+			mv.addObject("media", media);
 			
-			mv.addObject("agency", agency);
-			// mv.addObject("media", media);
-			mv.addObject("artiName", artiName);
-			mv.setViewName("mypage/agency/media");
 		} else if(category != "" && search == "") {
-			
 			Map<String, String> map = new HashMap<>();
 			map.put("artiName", artiName);
 			map.put("category", category);
 			
 			// 카테고리 검색 결과 가져오기
-			List<MediaCollection> media = mService.selectCategoryMediaList(map);
-			
-			mv.addObject("agency", agency);
-			mv.addObject("media", media);
-			mv.addObject("artiName", artiName);
+			//List<MediaCollection> media = mService.selectCategoryMediaList(map);
+			//mv.addObject("media", media);
 			mv.addObject("category", category);
-			mv.setViewName("mypage/agency/media");
-		} else if(category == "" && search != "") {
 			
+		} else if(category == "" && search != "") {
 			Map<String, String> map = new HashMap<>();
 			map.put("artiName", artiName);
 			map.put("search", search);
 			
 			// 카테고리 검색 결과 가져오기
-			List<MediaCollection> media = mService.selectSearchMediaList(map);
-			
-			mv.addObject("agency", agency);
-			// mv.addObject("media", media);
-			mv.addObject("artiName", artiName);
+			//List<MediaCollection> media = mService.selectSearchMediaList(map);
+			//mv.addObject("media", media);
 			mv.addObject("search", search);
-			mv.setViewName("mypage/agency/store");
+			
+		} else {
+			// 미디어 리스트 가져오기
+			List<MediaCollection> media = mService.selectMediaAdminList(artiName);
+			mv.addObject("media", media);
 		}
+		
+		mv.setViewName("mypage/agency/media");
 		
 		return mv;
 	}
+	
+	// 미디어 등록하기
+	@PostMapping(value="/insertMedia")
+	public @ResponseBody void insertMedia(Official o, MediaFile att, MediaCategory mc, 
+										  String addCate, HttpServletRequest request,
+										  @RequestParam(value="picClName") MultipartFile file1,
+										  @RequestParam(value="vidClName") MultipartFile file2,
+										  Model m) {
+		
+		System.out.println(file1.getOriginalFilename());
+		System.out.println(file2.getOriginalFilename());
+		
+		// 카테고리 대문자로 변환
+		String originName = mc.getCateName().toUpperCase();
+		mc.setCateName(originName);
+		
+		// 사진이 등록되었을 때
+		if(!file1.getOriginalFilename().equals("")) {
+			att = new MediaFile();
+			String renameFileName1 = saveFile(file1, request);
+			
+			// DB에 저장하기 위해 att에 저장
+			if(renameFileName1 != null) {
+				att.setPicClName(file1.getOriginalFilename());
+				att.setPicSvName(renameFileName1);
+			}
+		}
+		
+		// 영상이 등록되었을 때
+		if(!file2.getOriginalFilename().equals("")) {
+			att = new MediaFile();
+			String renameFileName2 = saveFile(file2, request);
+			
+			// DB에 저장하기 위해 att에 저장
+			if(renameFileName2 != null) {
+				att.setVidClName(file2.getOriginalFilename());
+				att.setVidSvName(renameFileName2);
+			}
+		}
+		
+		if(!addCate.equals("")) {
+			mc.setCateName(addCate);
+		}
+		
+		// 카테고리 등록
+		int result1 = mService.insertMediaCategory(mc);
+		
+		if(result1 > 0) {
+			System.out.println("카테고리 등록 성공");
+		} else {
+			System.out.println("카테고리 등록 실패");
+		}
+		
+		// 오피셜 등록
+		int price = o.getMediaPay();
+		if(price != 0 ) {
+			o.setIsPay("Y");
+		} else {
+			o.setIsPay("N");
+		}
+		
+		int result2 = mService.insertOfficial(o);
+		
+		if(result2 > 0) {
+			System.out.println("미디어 등록 성공");
+		} else {
+			System.out.println("미디어 등록 실패");
+		}
+		
+		// 미디어 파일 등록
+		int result3 = mService.insertMediaFile(att);
+		
+		if(result3 > 0) {
+			System.out.println("미디어 파일 등록 성공");
+		} else {
+			System.out.println("미디어 파일 등록 실패");
+		}
+	}
+	
+	// 사진 저장 경로
+		private String saveFile(MultipartFile file, HttpServletRequest request) {
+			String root = request.getSession().getServletContext().getRealPath("resources");
+			String savePath = root + "\\uploadFiles";
+			File folder = new File(savePath);
+			
+			// -> 해당 경로가 존재하지 않는다면 디렉토리 생성
+			if(!folder.exists()) folder.mkdirs();
+			
+			// 파일명 리네임 규칙 "년월일시분초_랜덤값.확장자"
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+			String originalFileName = file.getOriginalFilename();
+			String renameFileName = sdf.format(new Date()) + "_"
+								+ (int)(Math.random() * 100000) 
+								+ originalFileName.substring(originalFileName.lastIndexOf("."));
+			
+			// 저장하고자하는 경로 + 파일명
+			String renamePath = folder + "\\" + renameFileName;
+			
+			try {
+				file.transferTo(new File(renamePath));
+				// => 업로드 된 파일 (MultipartFile) 이 rename명으로 서버에 저장
+			} catch (IllegalStateException | IOException e) {
+				System.out.println("파일 업로드 에러 : " + e.getMessage());
+			} 
+			
+			return renameFileName;
+		}
 }

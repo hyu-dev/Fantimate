@@ -60,9 +60,9 @@
 		<typeAlias type="com.kh.fantimate.store.model.vo.Wish" alias="Wish"/>
 		<typeAlias type="com.kh.fantimate.common.model.vo.Notice" alias="Notice"/>
 		<typeAlias type="com.kh.fantimate.official.model.vo.Official" alias="Official"/>
-		<typeAlias type="com.kh.fantimate.official.model.vo.MediaCategory" alias="Category"/>
 		<typeAlias type="com.kh.fantimate.official.model.vo.HitCount" alias="HitCount"/>
 		<typeAlias type="com.kh.fantimate.official.model.vo.MediaFile" alias="MediaFile"/>
+		<typeAlias type="com.kh.fantimate.official.model.vo.MediaCategory" alias="Category"/>
 		<typeAlias type="com.kh.fantimate.official.model.vo.MediaCollection" alias="MediaCollection"/>
 		<typeAlias type="com.kh.fantimate.official.model.vo.Schedule" alias="Schedule"/>
 		<typeAlias type="com.kh.fantimate.main.model.vo.MainCollection" alias="MainCollection"/>

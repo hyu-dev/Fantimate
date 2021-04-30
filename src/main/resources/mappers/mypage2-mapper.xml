@@ -82,12 +82,28 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<result property="bmCreate" column="BM_DATE"/>
 		<result property="bmstatus" column="BM_STATUS"/>
 	</resultMap>
+	<!-- 미디어 카테고리 -->
+	<resultMap type="Category" id="mediaCategory">
+		<id property="cateCode" column="CATE_CODE"/>
+		<result property="cateName" column="CATE_NAME"/>
+		<result property="artiNameEn" column="ARTI_NAME_EN"/>
+	</resultMap>
+	<!-- 미디어 파일 -->
+	<resultMap type="MediaFile" id="mediaFileResultSet">
+		<id property="attCode" column="ATT_CODE"/>
+		<result property="attRoot" column="ATT_ROOT"/>
+		<result property="vidClName" column="VID_CL_NAME"/>
+		<result property="vidSvName" column="VID_SV_NAME"/>
+		<result property="attStatus" column="ATT_STATUS"/>
+		<result property="refId" column="MEDIA_NUM"/>
+		<result property="picClName" column="PIC_CL_NAME"/>
+		<result property="picSvName" column="PIC_SV_NAME"/>
+	</resultMap>
 	<!-- 미디어 컬렉션 -->
 	<resultMap type="MediaCollection" id="mediaCollResultSet">
 		<collection property="official" resultMap="mediaResultSet"/>
-		<collection property="category" resultMap="category"/>
+		<collection property="category" resultMap="mediaCategory"/>
 		<collection property="mediaFile" resultMap="mediaFileResultSet"/>
-		<collection property="hitCount" resultMap="hitCountResultSet"/>
 		<collection property="bookmark" resultMap="mediaBookmarkResultSet"/>
 	</resultMap>
 	
@@ -215,14 +231,14 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<result property="cateCode" column="C_CODE"/>
 	</resultMap>
 	<!-- 스토어 카테고리 -->
-	<resultMap type="StoreCategory" id="category">
+	<resultMap type="StoreCategory" id="storeCategory">
 		<id property="cateCode" column="C_CODE"/>
 		<result property="cateName" column="C_NAME"/>
 		<result property="artiNameEn" column="ARTI_NAME_EN"/>
 	</resultMap>
 	<!-- 스토어 컬렉션 -->
 	<resultMap type="StoreCollection" id="storeCollResultSet">
-		<collection property="storeCate" resultMap="category" />
+		<collection property="storeCate" resultMap="storeCategory" />
 		<collection property="store" resultMap="storeResultSet" />
 	</resultMap>
 	
@@ -1011,6 +1027,8 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	       ARTI_NAME_EN = #{artiName}
 	   AND
 	       IS_ACTIVE = 'Y'
+  ORDER BY
+           P_CODE DESC
 	</select>
 	
 	<!-- 스토어 카테고리 리스트 가져오기 -->
@@ -1030,6 +1048,8 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	   	   C_NAME = #{category}
 	   AND
 	       IS_ACTIVE = 'Y'
+  ORDER BY
+           P_CODE DESC
 	</select>
 	
 	<!-- 스토어 검색 리스트 가져오기 -->
@@ -1049,6 +1069,8 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	   	   P_NAME LIKE '%' || #{search} || '%'
 	   AND
 	       IS_ACTIVE = 'Y'
+  ORDER BY
+           P_CODE DESC
 	</select>
 	
 	<!-- 스토어 삭제하기 -->
@@ -1060,4 +1082,67 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	 WHERE
 	 	   P_NAME = #{pname}
 	</update>
+	
+	<!-- 미디어 리스트 가져오기 -->
+	<select id="selectMediaAdminList" parameterType="string" resultMap="mediaCollResultSet">
+	SELECT 
+	       MEDIA_NUM
+	     , MEDIA_TTL
+         , CATE_NAME
+         , ARTI_NAME_EN
+	  FROM 
+	       MEDIA
+      JOIN
+           M_CATEGORY USING(CATE_CODE)
+	 WHERE
+           ARTI_NAME_EN = #{artiName}
+       AND
+	       MEDIA_STATUS = 'Y'
+  ORDER BY 
+	       MEDIA_DATE DESC
+	</select>
+	
+	<insert id="insertMediaCategory" parameterType="Category">
+	INSERT
+      INTO M_CATEGORY
+    VALUES
+         (
+          SEQ_M_CATEGORY.NEXTVAL
+        , #{cateName}
+        , #{artiNameEn}
+          )
+	</insert>
+	
+	<insert id="insertOfficial" parameterType="Official">
+	INSERT
+      INTO MEDIA
+    VALUES
+         (
+          SEQ_MEDIA.NEXTVAL
+        , #{mediaTtl}
+        , #{mediaCtt}
+        , SYSDATE
+        , 'Y'
+        , #{isPay}
+        , SEQ_M_CATEGORY.CURRVAL
+        , #{mediaPay}
+        , DEFAULT
+          )	
+	</insert>
+	
+	<insert id="insertMediaFile" parameterType="MediaFile">
+	INSERT
+      INTO MD_FILE
+    VALUES
+         (
+          SEQ_MD_FILE.NEXTVAL
+        , NULL
+        , #{vidClName}
+        , #{vidSvName}
+        , 'Y'
+        , SEQ_MEDIA.CURRVAL
+        , #{picClName}
+        , #{picSvName}
+          )	
+	</insert>
 </mapper>
