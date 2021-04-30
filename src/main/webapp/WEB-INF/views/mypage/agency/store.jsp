@@ -10,6 +10,9 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 </head>
 <body>
+	<c:if test="${ flag eq 'yes' }">
+		<c:remove var="flag"/>
+	</c:if>
 	<!-- 스토어 작성폼 인클루드 -->
 	<jsp:include page="../../store/storeInsert.jsp"/>
 
