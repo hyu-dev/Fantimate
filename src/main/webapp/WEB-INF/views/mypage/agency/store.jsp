@@ -24,8 +24,8 @@
             <div class="select-area">
                 <select id="storeCategory" class="form-category" name="artiName">
                     <option value="">검색</option>
-                    <c:forEach var="ss" items="${ store.store }">
-                    <option class="search-value" value="${ ss.pname }">${ ss.pname }</option>
+                    <c:forEach var="ss" items="${ store }">
+                    <option class="search-value" value="${ ss.store.pname }">${ ss.store.pname }</option>
                     </c:forEach>
                 </select>
                 <br><br>
@@ -146,11 +146,11 @@
 	// 스토어 + 버튼 클릭할 때
 	$(".store-plus").click(function() {
 		var artiName = "${ artiName }";
-		
+		console.log(artiName);
 		$(".main-template").css("display", "block");
-         $(".insert-section").css("display", "block");
+        $(".insert-section").css("display", "block");
          
-         $(".arti").val(artiName);
+        $(".arti").val(artiName);
 	});
 	
 	// 스토어 - 버튼 클릭할 때
