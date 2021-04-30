@@ -18,7 +18,10 @@ import com.kh.fantimate.member.model.vo.Agency;
 import com.kh.fantimate.member.model.vo.Artist;
 import com.kh.fantimate.member.model.vo.ArtistGroup;
 import com.kh.fantimate.member.model.vo.Member;
+import com.kh.fantimate.official.model.vo.MediaCategory;
 import com.kh.fantimate.official.model.vo.MediaCollection;
+import com.kh.fantimate.official.model.vo.MediaFile;
+import com.kh.fantimate.official.model.vo.Official;
 import com.kh.fantimate.store.model.vo.StoreCollection;
 
 @Repository
@@ -276,5 +279,29 @@ public class MypageDaoImpl implements MypageDao{
 	@Override
 	public int deleteStoreItem(String pname) {
 		return sqlSession.update("mypage2Mapper.deleteStoreItem", pname);
+	}
+
+	// 미디어 리스트 가져오기
+	@Override
+	public List<MediaCollection> selectMediaAdminList(String artiName) {
+		return sqlSession.selectList("mypage2Mapper.selectMediaAdminList", artiName);
+	}
+
+	// 카테고리 등록
+	@Override
+	public int insertMediaCategory(MediaCategory mc) {
+		return sqlSession.insert("mypage2Mapper.insertMediaCategory", mc);
+	}
+
+	// 미디어 등록
+	@Override
+	public int insertOfficial(Official o) {
+		return sqlSession.insert("mypage2Mapper.insertOfficial", o);
+	}
+
+	// 미디어 파일 등록
+	@Override
+	public int insertMediaFile(MediaFile att) {
+		return sqlSession.insert("mypage2Mapper.insertMediaFile", att);
 	}
 }

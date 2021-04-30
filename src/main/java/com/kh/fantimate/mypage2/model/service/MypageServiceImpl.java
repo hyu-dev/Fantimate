@@ -19,7 +19,10 @@ import com.kh.fantimate.member.model.vo.Artist;
 import com.kh.fantimate.member.model.vo.ArtistGroup;
 import com.kh.fantimate.member.model.vo.Member;
 import com.kh.fantimate.mypage2.model.dao.MypageDao;
+import com.kh.fantimate.official.model.vo.MediaCategory;
 import com.kh.fantimate.official.model.vo.MediaCollection;
+import com.kh.fantimate.official.model.vo.MediaFile;
+import com.kh.fantimate.official.model.vo.Official;
 import com.kh.fantimate.store.model.vo.StoreCollection;
 
 @Service
@@ -257,4 +260,29 @@ public class MypageServiceImpl implements MypageService{
 	public int deleteStoreItem(String pname) {
 		return mDao.deleteStoreItem(pname);
 	}
+
+	// 미디어 리스트 가져오기
+	@Override
+	public List<MediaCollection> selectMediaAdminList(String artiName) {
+		return mDao.selectMediaAdminList(artiName);
+	}
+
+	// 카테고리 등록
+	@Override
+	public int insertMediaCategory(MediaCategory mc) {
+		return mDao.insertMediaCategory(mc);
+	}
+
+	// 오피셜 등록
+	@Override
+	public int insertOfficial(Official o) {
+		return mDao.insertOfficial(o);
+	}
+	
+	// 미디어 파일 등록
+	@Override
+	public int insertMediaFile(MediaFile att) {
+		return mDao.insertMediaFile(att);
+	}
+
 }

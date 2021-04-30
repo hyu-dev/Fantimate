@@ -24,8 +24,8 @@
             <div class="select-area">
                 <select id="mediaCategory" class="form-category" name="artiName">
                     <option value="">검색</option>
-                    <c:forEach var="mo" items="${ media.official }">
-                    <option class="search-value" value="${ mo.mediaTtl }">${ mo.mediaTtl }</option>
+                    <c:forEach var="mo" items="${ media }">
+                    <option class="search-value" value="${ mo.official.mediaTtl }">${ mo.official.mediaTtl }</option>
                     </c:forEach>
                 </select>
                 <br><br>
@@ -63,8 +63,8 @@
                         <td>
                             <select class="category-box nanumsquare" name="category">
                                 <option value="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;카테고리</option>
-                                <c:forEach var="mc" items="${ media.category }">
-                                <option value="${ mc.cateName }">${ mc.cateName }</option>
+                                <c:forEach var="mc" items="${ media }">
+                                <option value="${ mc.category.cateName }">${ mc.category.cateName }</option>
                                 </c:forEach>
                             </select>
                         </td>
@@ -108,6 +108,11 @@
 	<script>
 	// 미디어 +버튼 클릭할 때
 	$(".official-plus").click(function() {
+		$(".media-form-container").css("display", "block");
+	});
+	
+	// 미디어 등록하기 팝업 등록하기 버튼 클릭할 때
+	$("#mediaInsertBtn").click(function() {
 		$(".media-form-container").css("display", "block");
 	});
 	

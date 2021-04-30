@@ -14,7 +14,10 @@ import com.kh.fantimate.member.model.vo.Agency;
 import com.kh.fantimate.member.model.vo.Artist;
 import com.kh.fantimate.member.model.vo.ArtistGroup;
 import com.kh.fantimate.member.model.vo.Member;
+import com.kh.fantimate.official.model.vo.MediaCategory;
 import com.kh.fantimate.official.model.vo.MediaCollection;
+import com.kh.fantimate.official.model.vo.MediaFile;
+import com.kh.fantimate.official.model.vo.Official;
 import com.kh.fantimate.store.model.vo.StoreCollection;
 
 public interface MypageService {
@@ -121,7 +124,20 @@ public interface MypageService {
 	// 스토어 삭제하기
 	int deleteStoreItem(String pname);
 
-	List<MediaCollection> selectCategoryMediaList(Map<String, String> map);
+	//List<MediaCollection> selectCategoryMediaList(Map<String, String> map);
 
-	List<MediaCollection> selectSearchMediaList(Map<String, String> map);
+	//List<MediaCollection> selectSearchMediaList(Map<String, String> map);
+
+	// 미디어 리스트 가져오기
+	List<MediaCollection> selectMediaAdminList(String artiName);
+	
+	// 카테고리 등록
+	int insertMediaCategory(MediaCategory mc);
+
+	// 미디어 등록
+	int insertOfficial(Official o);
+
+	// 미디어 파일 등록
+	int insertMediaFile(MediaFile att);
+
 }
