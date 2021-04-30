@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.kh.fantimate.common.model.vo.Attachment;
 import com.kh.fantimate.main.model.vo.FavoriteArtist;
+import com.kh.fantimate.main.model.vo.SubscribeArtist;
 import com.kh.fantimate.member.model.dao.MemberDao;
 import com.kh.fantimate.member.model.vo.Admin;
 import com.kh.fantimate.member.model.vo.Agency;
@@ -98,6 +99,12 @@ public class MemberServiceImpl implements MemberService{
 	public Member findUserPwd(String id) {
 		
 		return mDao.findUserPwd(id);
+	}
+
+	@Override
+	public List<SubscribeArtist> selectSubA(String id) {
+		
+		return mDao.selectSubA(id);
 	}
 
 }
