@@ -24,8 +24,8 @@
             <div class="select-area">
                 <select id="storeCategory" class="form-category" name="artiName">
                     <option value="">검색</option>
-                    <c:forEach var="sc" items="${ store }">
-                    <option class="search-value" value="${ sc.store.pname }">${ sc.store.pname }</option>
+                    <c:forEach var="ss" items="${ store.store }">
+                    <option class="search-value" value="${ ss.pname }">${ ss.pname }</option>
                     </c:forEach>
                 </select>
                 <br><br>
@@ -63,11 +63,39 @@
                         <td>
                             <select class="category-box nanumsquare" name="category">
                                 <option value="">카테고리</option>
-                                <option value="앨범">앨범</option>
-                                <option value="굿즈">굿즈</option>
-                                <option value="티켓">티켓</option>
-                                <option value="포토">포토</option>
-                            </select>
+	                            <c:choose>
+	                            <c:when test="${ category eq  '앨범' }">
+	                                <option value="앨범" selected>앨범</option>
+	                            </c:when>
+	                            <c:otherwise>
+	                            	<option value="앨범">앨범</option>
+	                            </c:otherwise>
+	                            </c:choose>
+	                            <c:choose>
+	                            <c:when test="${ category eq  '굿즈' }">
+	                                <option value="굿즈" selected>굿즈</option>
+	                            </c:when>
+	                            <c:otherwise>
+	                            	<option value="굿즈">굿즈</option>
+	                            </c:otherwise>
+	                            </c:choose>
+	                            <c:choose>
+	                            <c:when test="${ category eq  '티켓' }">
+	                                <option value="티켓" selected>티켓</option>
+	                            </c:when>
+	                            <c:otherwise>
+	                            	<option value="티켓">티켓</option>
+	                            </c:otherwise>
+	                            </c:choose>
+	                            <c:choose>
+	                            <c:when test="${ category eq  '포토' }">
+	                                <option value="포토" selected>포토</option>
+	                            </c:when>
+	                            <c:otherwise>
+	                            	<option value="포토">앨범</option>
+	                            </c:otherwise>
+	                            </c:choose>
+	                        </select>
                         </td>
                         <td id="itemName">상품명</td>
                         <td>품절 여부</td>
@@ -106,7 +134,7 @@
                 </table>
             </div>
             <div class="search-area">
-                <input type="search" class="contents-search-input">
+                <input type="search" class="contents-search-input" value="${ search }">
                 <img src="${ contextPath }/resources/icon/search-icon.svg" class="search-icon" alt="">
                 <span class="store-plus nanumsquare">+</span>
                 <span class="store-minus nanumsquare">-</span>
@@ -115,7 +143,7 @@
     </section>
 	<!-- 본문 끝 -->
 	<script>
-	// 스토어 추가 버튼 클릭할 때
+	// 스토어 + 버튼 클릭할 때
 	$(".store-plus").click(function() {
 		var artiName = "${ artiName }";
 		
@@ -125,7 +153,7 @@
          $(".arti").val(artiName);
 	});
 	
-	// 스토어 삭제 버튼 클릭할 때
+	// 스토어 - 버튼 클릭할 때
 	$(".store-minus").click(function() {
 		$(".store-delete-form-container").css("display", "block");
 	});
@@ -135,7 +163,7 @@
 		var pname = $("#storeCategory").val();
 		var artiName = "${ artiName }";
 		
-		if(confirm("해당 상품을 삭제하시겠습니까?")) {
+		if(artiName != "") {
 			$.ajax({
     			url : "${ contextPath }/mypage/deleteStoreItem",
     			data : { pname : pname, artiName : artiName },
@@ -172,7 +200,6 @@
     					}
     					
     					var td = $("<td>").text(data[i]);
-    					var btn = $("")
     					
     					tr.append(td);
     				}
@@ -184,15 +211,17 @@
     				tr.append(td2);
     			} 
     		});
-		}
+    	} else {
+    		alert("상품명을 선택해주세요");
+    	}
 	});
 	
 	var storeName = [];
 	
 	// 스토어 삭제 팝업 취소 버튼 클릭할 때
-	$("#storeCancelBtn").click(deleteReturn);
+	$("#storeCancelBtn").click(storeDeleteReturn);
 	
-	function deleteReturn() {
+	function storeDeleteReturn() {
     	$(".store-delete-form-container").css("display", "none");
     	
         $.each($("#storeCategory option:selected"), function () {
@@ -209,6 +238,15 @@
 			location.href = "${ contextPath }/mypage/agency/store?category=" + category;
 		} 
 	});
+	
+	// 리스트 검색 기능 사용
+	$(".contents-search-input").keydown(function(key) {
+		var search = $(".contents-search-input").val();
+		
+        if (key.keyCode == 13) {
+        	location.href = "${ contextPath }/mypage/agency/store?search=" + search;
+        }
+    });
 	</script>
 </body>
 </html>

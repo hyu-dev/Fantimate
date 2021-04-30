@@ -259,11 +259,22 @@ public class MypageDaoImpl implements MypageDao{
 	public List<StoreCollection> selectStoreList(String artiName) {
 		return sqlSession.selectList("mypage2Mapper.selectStoreList", artiName);
 	}
+	
+	// 스토어 카테고리 리스트 가져오기
+	@Override
+	public List<StoreCollection> selectCategoryStoreList(Map<String, String> map) {
+		return sqlSession.selectList("mypage2Mapper.selectCategoryStoreList", map);
+	}
+	
+	// 스토어 검색 리스트 가져오기
+	@Override
+	public List<StoreCollection> selectSearchStoreList(Map<String, String> map) {
+		return sqlSession.selectList("mypage2Mapper.selectSearchStoreList", map);
+	}
 
 	// 스토어 삭제하기
 	@Override
 	public int deleteStoreItem(String pname) {
 		return sqlSession.update("mypage2Mapper.deleteStoreItem", pname);
 	}
-
 }
