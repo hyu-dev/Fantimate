@@ -18,8 +18,8 @@ public class SubscribeUser {
 	private User2 user;
 	private Attachment artmainpic;
 	
-//	private Attachment subprofile;
-//	private ArtiMain artmain;
-//	private Artist artperson;
-//	private Attachment artPic;
+	private Attachment subprofile;
+	private ArtiMain artmain;
+	private Artist artperson;
+	private Attachment artPic;
 }
