@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kh.fantimate.common.model.vo.Attachment;
+import com.kh.fantimate.main.model.vo.SubscribeArtist;
 import com.kh.fantimate.member.model.vo.Admin;
 import com.kh.fantimate.member.model.vo.Agency;
 import com.kh.fantimate.member.model.vo.ArtistCollection;
@@ -89,6 +90,12 @@ public class MemberDaoImpl implements MemberDao{
 	public Member findUserPwd(String id) {
 		
 		return sqlSession.selectOne("memberMapper.findUserPwd",id);
+	}
+
+	@Override
+	public List<SubscribeArtist> selectSubA(String id) {
+		
+		return sqlSession.selectList("memberMapper.selectSubA",id);
 	}
 	
 	

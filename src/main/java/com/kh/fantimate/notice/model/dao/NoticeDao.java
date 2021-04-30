@@ -21,5 +21,7 @@ public interface NoticeDao {
 	public int updateNotice(Notice n);
 
 	public int deleteNotice(int nid);
+
+	public int insertAlarmF(Notice n);
 	
 }

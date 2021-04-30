@@ -121,10 +121,23 @@ public interface FanFeedDao {
 	// 댓글 모든 정보
 	public List<ReplyCollection> selectReplyAllList(String artNameEn);
 
+	// *******************************좋아요 수정 
+	// 좋아요 인서트 
+	public int insertLike2(Like like);
+
+	// 보드 테이블 좋아요 업데이트 
+	public int updateLike2(int fid);
+	
+	// 좋아요 취소 
+	public int deleteLike2(Like like);
+
+	// 좋아요 취소 후 보드 업데이트 
+	public int updateDeleteLike2(int fid);
+
+	// 좋아요 갯수 select
+	public int selectLike2(int fid);
+
 	// 모든 유저 컬렉션
 	//public List<MemberCollection> selectSumList();
-
-	
-
 	
 }

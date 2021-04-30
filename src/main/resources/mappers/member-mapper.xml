@@ -110,6 +110,14 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<collection property="us" resultMap="userResultSet" />
 		<collection property="mem"  resultMap="commonResultSet" />
 	</resultMap>
+	<!-- 회원 구독 정보 -->
+	<resultMap type="SubscribeArtist" id="subArtistResultSet">
+		<id property = "subCode" column="SUB_CODE"/>
+		<result property="id" column="U_ID"/>
+		<result property="nickname" column="U_NICKNAME"/>
+		<result property="subStatus" column="SUB_STATUS"/>
+		<result property="artNameEn" column="ARTI_NAME_EN"/>
+	</resultMap> 
 	
 	<!-- 전체 아티스트 영어 이름 select -->
 	<select id="selectArtistList" parameterType="ArtistGroup" resultMap="artistgroupResultSet">
@@ -272,6 +280,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		     , AG_NUM
 		     , AG_PHONE
 		     , AG_EMAIL
+		     , AG_NAME
 		FROM 
 		      AGENCY
 		WHERE 
@@ -334,6 +343,17 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		  COMMON
 	WHERE
 		  ID= #{id}
+	</select>
+	
+	<select id="selectSubA" resultMap="subArtistResultSet">
+	SELECT 
+		*
+	FROM 
+		ATT_SUBSCRIBE
+	WHERE 
+		U_ID = #{id}
+	AND 
+		SUB_STATUS = 'N'
 	</select>
 	
 </mapper>

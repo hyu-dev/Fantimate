@@ -4,10 +4,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<link rel="stylesheet" href="${ contextPath }/resources/css/mypage/agency/main.css">
-<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="${ contextPath }/resources/css/common/font.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css">
+    <link rel="stylesheet" href="${ contextPath }/resources/css/mypage/agency/main.css">
+    <link rel="icon" type="image/png" sizes="16x16" href="${ contextPath }/resources/icon/faviconF.png">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <title>Fantimate</title>
 </head>
 <body>
 	<!-- 프로필 수정 -->
@@ -115,8 +120,9 @@
     <!-- 솔로 아티스트 등록 -->
     <section class="solo-form-container pop-up">
         <div class="black-back"></div>
-        <form class="solo-artist-form artist-form" enctype="multipart/form-data">
+        <form class="solo-artist-form artist-form" action="" method="POST" enctype="multipart/form-data">
             <span class="artist-text nanumsquare">아티스트 등록 (솔로)</span>
+            <input type="hidden" name="isTeam" value="N">
             <hr>
             <table class="artist-table" class="nanumsquare">
             	<colgroup>
@@ -126,14 +132,15 @@
                 <tr class="nanumsquare">
                 	<td>아이디&nbsp;&nbsp;</td>
                 	<td>
-                		<input type="text" name="soloId">&nbsp;
+                		<input type="text" name="id" id="input-id">&nbsp;
+                		<input type="hidden" name="artiId" id="input-artiId">
                 		<span class="check-text">중복된 아이디입니다.</span>
                 	</td>
                 </tr>
                 <tr class="nanumsquare">
                 	<td>비밀번호&nbsp;&nbsp;</td>
                 	<td>
-                		<input type="password" name="soloPwd">&nbsp;
+                		<input type="password" name="pwd">&nbsp;
                 		<span class="check-text">비밀번호 형식이 맞지 않습니다.</span>
                 	</td>
                 </tr>
@@ -147,19 +154,22 @@
                 <tr class="nanumsquare">
                 	<td>활동명(영어)&nbsp;&nbsp;</td>
                 	<td>
-                		<input type="text" name="soloArtiName">
+                		<input type="text" name="artiName" id="input-artiName">
+                		<input type="hidden" name="artiNameEn" id="input-artiNameEn">
+                		<input type="hidden" name="artNameEn" id="input-artNameEn">
                 	</td>
                 </tr>
                 <tr class="nanumsquare">
                 	<td>활동명(한글)&nbsp;&nbsp;</td>
                 	<td>
-                		<input type="text" name="soloName">
+                		<input type="text" name="name" id="input-name">
+                		<input type="hidden" name="artNameKr" id="input-artNameKr">
                 	</td>
                 </tr>
                 <tr class="nanumsquare">
                 	<td>닉네임&nbsp;&nbsp;</td>
                 	<td>
-                		<input type="text" name="soloArtiNickname">
+                		<input type="text" name="artiNickname">
                 		<span class="check-text">중복된 닉네임입니다.</span>
                 	</td>
                 </tr>
@@ -182,6 +192,7 @@
         <div class="black-back"></div>
         <form class="team-artist-form artist-form" enctype="multipart/form-data">
             <span class="artist-text nanumsquare">아티스트 등록 (팀)</span>
+            <input type="hidden" name="isTeam" value="Y">
             <hr>
             <table class="team-artist-table" class="nanumsquare">
             	<colgroup>
@@ -191,14 +202,14 @@
                 <tr class="nanumsquare">
                 	<td>그룹명(영어)&nbsp;&nbsp;</td>
                 	<td>
-                		<input type="text" name="groupArtNameEn">&nbsp;
+                		<input type="text" name="artNameEn">&nbsp;
                 		<span class="check-text">중복된 이름입니다.</span>
                 	</td>
                 </tr>
                 <tr class="nanumsquare">
                 	<td>그룹명(한글)&nbsp;&nbsp;</td>
                 	<td>
-                		<input type="text" name="groupArtNameKr">&nbsp;
+                		<input type="text" name="artNameKr">&nbsp;
                 		<span class="check-text">중복된 이름입니다.</span>
                 	</td>
                 </tr>
@@ -231,19 +242,21 @@
                 	<td>그룹명&nbsp;&nbsp;</td>
                 	<td>
                 		<span id="GroupName"></span>&nbsp;
+                		<input type="hidden" name="artiNameEn" value="" id="input-one-group">
                 	</td>
                 </tr>
                 <tr class="nanumsquare">
                 	<td>아이디&nbsp;&nbsp;</td>
                 	<td>
-                		<input type="text" name="oneId">&nbsp;
+                		<input type="text" name="id" id="input-one-id">&nbsp;
+                		<input type="hidden" name="artiId" id="input-one-artiId">
                 		<span class="check-text">중복된 아이디입니다.</span>
                 	</td>
                 </tr>
                 <tr class="nanumsquare">
                 	<td>비밀번호&nbsp;&nbsp;</td>
                 	<td>
-                		<input type="password" name="onePwd">&nbsp;
+                		<input type="password" name="pwd">&nbsp;
                 		<span class="check-text">중복된 아이디입니다.</span>
                 	</td>
                 </tr>
@@ -257,19 +270,19 @@
                 <tr class="nanumsquare">
                 	<td>활동명(영어)&nbsp;&nbsp;</td>
                 	<td>
-                		<input type="text" name="oneArtiName">
+                		<input type="text" name="artiName">
                 	</td>
                 </tr>
                 <tr class="nanumsquare">
                 	<td>활동명(한글)&nbsp;&nbsp;</td>
                 	<td>
-                		<input type="text" name="oneName">
+                		<input type="text" name="name">
                 	</td>
                 </tr>
                 <tr class="nanumsquare">
                 	<td>닉네임&nbsp;&nbsp;</td>
                 	<td>
-                		<input type="text" name="oneArtiNickname">
+                		<input type="text" name="artiNickname">
                 		<div></div>
                 	</td>
                 </tr>
@@ -384,7 +397,7 @@
 	                                            <c:if test="${ team.artNameEn eq member.artiNameEn }">
 	                                            <tr class="artist-click">
 	                                                <td>┕</td>
-	                                                <td><span class="artist-one">${ member.artiName }</span></td>
+	                                                <td><span class="artist-one">${ member.artiName }<input type="hidden" class="artist-one-id" value="${ member.artiId }"></span></td>
 	                                            </tr>
 	                                            </c:if>
                                             </c:forEach>
@@ -574,56 +587,44 @@
  	
  	// 개인팝업 등록하기 누를 때
     $('#oneEnrollBtn').click(function () {
-    	var id = $("input[name=oneId]").val();
-        var pwd = $("input[name=onePwd]").val();
-        var name = $("input[name=oneName]").val();
-        var artiId = $("input[name=oneId]").val();
-        var artiName = $("input[name=oneArtiName]").val();
-        var artiNickname = $("input[name=oneArtiNickname]").val();
-        var AttClName = $("input[name=oneAttClName]").val();
-       	var artiNameEn = $("#GroupName").text();
-    		
+    	$("#input-one-artiId").val($("#input-one-id").val())
+        $("#input-one-group").val($("#GroupName").text())
+        
+    	var form = $(".one-artist-form")[0];
+        var formData = new FormData(form);
    		$.ajax({
    			url : "${ contextPath }/mypage/enrollArtistOne",
-   			data : { id : id, pwd : pwd, name : name, artiId : artiId, artiName : artiName, 
-					 artiNickname : artiNickname, AttClName : AttClName, artiNameEn : artiNameEn},
-   			type : "post",
+   			type : "POST",
+			enctype: "multipart/form-data",
+			processData: false,
+	        contentType: false,
+			data : formData,
    			dataType : "json",
    			success : function(data) {
-   				console.log(data);	// 솔로 리스트 새로 받아오기
-   			} 
+   				alert(data.msg);
+				location.href="${contextPath}/mypage/agency/main";
+			},
+			error : function(e) {
+				console.log(e)
+			}
    		});
-   		
-   		$("#GroupName").text("");
-   		$("input[name=oneId]").val("");
-        $("input[name=onePwd]").val("");
-        $("input[name=oneRePwd]").val("");
-        $("input[name=oneName]").val("");
-        $("input[name=oneArtiName]").val("");
-        $("input[name=oneArtiNickname]").val("");
-        $("input[name=oneAttClName]").val("");
-        
-        $(".one-form-container").css("display", "none");
     });
  	
     // 개인 아티스트 이름 클릭할 때
     $('.artist-one').click(function () {
-    	var name = $(this).text();
-    	
+    	var id = $(this).children("input").val();
+    	console.log(name);
     	if(confirm("해당 아티스트를 삭제하시겠습니까?")) {
     		$(this).parent().parent(".artist-click").css("display", "none");
     		
     		$.ajax({
     			url : "${ contextPath }/mypage/deleteArtistOne",
-    			data : { name : name },
+    			data : { id : id },
     			type : "post",
     			dataType : "json",
     			success : function(data) {
-    				if(data == "성공") {
-    					alert("아티스트가 정상적으로 삭제되었습니다.");
-    				} else {
-    					alert("아티스트 삭제에 실패하였습니다.");
-    				}
+    				alert(data.msg);
+    				location.href="${contextPath}/mypage/agency/main";
     			} 
     		});
     	}
@@ -648,60 +649,31 @@
  	
  	// 솔로팝업 등록하기 버튼 클릭할 때
  	$("#soloEnrollBtn").click(function () {
-        var id = $("input[name=soloId]").val();
-        var pwd = $("input[name=soloPwd]").val();
-        var name = $("input[name=soloName]").val();
-        var artiId = $("input[name=soloId]").val();
-        var artiName = $("input[name=soloArtiName]").val();
-        var artiNickname = $("input[name=soloArtiNickname]").val();
-        var AttClName = $("input[name=soloAttClName]").val();
-        var artiNameEn = $("input[name=soloArtiName]").val();
-        var artNameEn = $("input[name=soloArtiName]").val();
-        var artNameKr = $("input[name=soloName]").val();
+ 		// 동일한 데이터를 이용하는 input태그에 값 넣기
+        $("#input-artiId").val($("#input-id").val())
+        $("#input-artiNameEn").val($("#input-artiName").val())
+        $("#input-artNameEn").val($("#input-artiName").val())
+        $("#input-artNameKr").val($("#input-name").val())
+        
+        var form = $(".solo-artist-form")[0];
+        var formData = new FormData(form);
         
         $.ajax({
 			url : "${ contextPath }/mypage/enrollArtistSolo",
-			data : { id : id, pwd : pwd, name : name, artiId : artiId, artiName : artiName, 
-					 artiNickname : artiNickname, AttClName : AttClName, artiNameEn : artiNameEn,
-					 artNameEn : artNameEn, artNameKr : artNameKr },
-			type : "post",
+			type : "POST",
+			enctype: "multipart/form-data",
+			processData: false,
+	        contentType: false,
+			data : formData,
 			dataType : "json",
 			success : function(data) {
-				console.log(data);	// 솔로 리스트 새로 받아오기
-				
-				soloList = $(".solo-list tbody");			
-				soloList.html("");
-
-				for(var i in data){
-					var tr = $("<tr>");
-					var artNameEn = $("<td>").text(data[i].artNameEn);
-					
-					tr.append(artNameEn);
-					soloList.append(tr);
-				}
-				
-				category = $(".select-area select option");
-				category.val("");
-				
-				console.log(category);
-				
-				for(var i in data){
-					var artNameEn = category.val(data[i].artNameEn);
-				}
-				
-				alert("아티스트가 정상적으로 등록되었습니다.");
-			} 
+				alert(data.msg);
+				location.href="${contextPath}/mypage/agency/main";
+			},
+			error : function(e) {
+				console.log(e)
+			}
 		});
-        
-        $("input[name=soloId]").val("");
-        $("input[name=soloPwd]").val("");
-        $("input[name=soloRePwd]").val("");
-        $("input[name=soloName]").val("");
-        $("input[name=soloArtiName]").val("");
-        $("input[name=soloArtiNickname]").val("");
-        $("input[name=soloAttClName]").val("");
-        
-        $(".solo-form-container").css("display", "none");
     });
     
     // 솔로팝업 취소하기 버튼 클릭할 때
@@ -713,23 +685,16 @@
     $('#removeSoloBtn').click(function () {
     	var artiNameEn = $("#removeSoloCategory").val();
     	
-    	if(artiNameEn != "") {
-    		$.ajax({
-    			url : "${ contextPath }/mypage/deleteArtistSolo",
-    			data : { artiNameEn : artiNameEn },
-    			type : "post",
-    			dataType : "json",
-    			success : function(data) {
-    				if(data == "성공") {
-    					alert("아티스트가 정상적으로 삭제되었습니다.");
-    				} else {
-    					alert("아티스트 삭제에 실패하였습니다.");
-    				}
-    			} 
-    		});
-    	} else {
-    		alert("아티스트를 선택해주세요");
-    	}
+    	$.ajax({
+			url : "${ contextPath }/mypage/deleteArtistSolo",
+			data : { artiNameEn : artiNameEn },
+			type : "post",
+			dataType : "json",
+			success : function(data) {
+				alert(data.msg);
+				location.href="${contextPath}/mypage/agency/main";
+			} 
+		});
     });
     
     // 솔로 삭제팝업 취소 버튼 클릭할 때
@@ -758,27 +723,24 @@
  	
  	// 그룹팝업 등록하기 버튼 클릭할 때
  	$("#teamEnrollBtn").click(function () {
-        var artNameEn = $("input[name=groupArtNameEn]").val();
-        var artNameKr = $("input[name=groupArtNameKr]").val();
-        
+        var form = $(".team-artist-form")[0];
+        var formData = new FormData(form)
         $.ajax({
 			url : "${ contextPath }/mypage/enrollArtistGroup",
-			data : { artNameEn : artNameEn, artNameKr : artNameKr },
-			type : "post",
+			type : "POST",
+			enctype: "multipart/form-data",
+			processData: false,
+	        contentType: false,
+			data : formData,
 			dataType : "json",
 			success : function(data) {
-				if(data == "성공") {
-					alert("아티스트가 정상적으로 등록되었습니다.");
-				} else {
-					alert("아티스트 등록에 실패하였습니다.");
-				}
-			} 
+				alert(data.msg);
+				location.href="${contextPath}/mypage/agency/main";
+			},
+			error : function(e) {
+				alert(e);
+			}
 		});
-
-        $("input[groupArtNameEn]").val("");
-        $("input[name=groupArtNameKr]").val("");
-        
-        $(".team-form-container").css("display", "none");
     });
  	
  	// 그룹팝업 취소하기 버튼 클릭할 때
@@ -788,25 +750,17 @@
  	
  	// 그룹 삭제팝업 확인 버튼 클릭할 때
     $('#removeTeamBtn').click(function () {
-    	var artiNameEn = $("#removeTeamCategory").val();
-    	
-    	if(artiNameEn != "") {
-    		$.ajax({
-    			url : "${ contextPath }/mypage/deleteArtistGroup",
-    			data : { artiNameEn : artiNameEn },
-    			type : "post",
-    			dataType : "json",
-    			success : function(data) {
-    				if(data == "성공") {
-    					alert("아티스트가 정상적으로 삭제되었습니다.");
-    				} else {
-    					alert("아티스트 삭제에 실패하였습니다.");
-    				}
-    			} 
-    		});
-    	} else {
-    		alert("아티스트를 선택해주세요");
-    	}
+    	var artNameEn = $("#removeTeamCategory option:selected").val();
+    	$.ajax({
+			url : "${ contextPath }/mypage/deleteArtistGroup",
+			data : { artNameEn : artNameEn },
+			type : "post",
+			dataType : "json",
+			success : function(data) {
+				alert(data.msg);
+				location.href="${contextPath}/mypage/agency/main";
+			} 
+		});
     });
     
  	// 그룹 삭제팝업 취소 버튼 클릭할 때    

@@ -116,10 +116,6 @@
     	</div>
         <div id="mainPage-artistList" class="artists-L">
            <!-- ajax로 전체 아티스트 리스트 뿌려주기 -->
-           <%--  <div class="artistList-move" onclick="subscribePage()">            
-                <img src="${ contextPath }/resources/images/main/artist1.svg" alt="" class="artist-pic">
-                <span class="artist-name">Alexander 23</span>
-            </div> --%>
         </div>
         
         <c:if test="${ loginUser.classifyMem eq 2}">
@@ -223,6 +219,9 @@
         </c:if>
         
         
+        
+       
+     
         <!-- 회원이 구독한 아티스트 인기 피드 탑 9 -->
         <c:if test="${ !empty sessionScope.loginUser}">
           <script>
@@ -778,7 +777,7 @@
 		<!-- 아티스트 인기 게시물 (좋아요 순)-->
 		<c:choose>
 			<c:when test="${ !empty sessionScope.loginUser}">
-				<c:if test="${ loginUser.classifyMem eq 1}">
+				<c:if test="${ loginUser.classifyMem eq 1 && !empty subArtist}">
 					<div class="mainPage-artistFeed">
 						<!-- ajax 공간 -->
 					</div>
@@ -795,7 +794,7 @@
 		<!-- 아티스트 인기 미디어 -->
 		<c:choose>
 			<c:when test="${ !empty sessionScope.loginUser}">
-				<c:if test="${ loginUser.classifyMem eq 1}">
+				<c:if test="${ loginUser.classifyMem eq 1 && !empty subArtist}">
 					<div class="mainPage-media">
 						<!-- ajax 공간 -->
 					</div>
@@ -811,7 +810,7 @@
 		<!-- 아티스트 스토어 -->
 		<c:choose>
 			<c:when test="${ !empty sessionScope.loginUser}">
-				<c:if test="${ loginUser.classifyMem eq 1}">
+				<c:if test="${ loginUser.classifyMem eq 1 && !empty subArtist}">
 					<div class="mainPage-store">
 						<!-- ajax 공간 -->
 					</div>
