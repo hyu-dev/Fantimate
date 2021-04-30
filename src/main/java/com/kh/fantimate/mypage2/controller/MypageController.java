@@ -699,7 +699,7 @@ public class MypageController {
 			List<MediaCollection> media = mService.selectMediaList(artiName);
 			
 			mv.addObject("agency", agency);
-			// mv.addObject("media", media);
+			mv.addObject("media", media);
 			mv.addObject("artiName", artiName);
 			mv.setViewName("mypage/agency/media");
 		} else if(category != "" && search == "") {
@@ -726,7 +726,7 @@ public class MypageController {
 			List<MediaCollection> media = mService.selectSearchMediaList(map);
 			
 			mv.addObject("agency", agency);
-			// mv.addObject("media", media);
+			mv.addObject("media", media);
 			mv.addObject("artiName", artiName);
 			mv.addObject("search", search);
 			mv.setViewName("mypage/agency/store");
