@@ -715,10 +715,11 @@ public class MypageController {
 	
 	// 미디어 등록하기
 	@PostMapping(value="/insertMedia")
-	public String insertMedia(Official o, MediaFile att, MediaCategory mc, 
+	public ModelAndView insertMedia(ModelAndView mv, Official o, MediaFile att, MediaCategory mc, 
 										  String addCate, HttpServletRequest request,
 										  @RequestParam(value="picName") MultipartFile picName,
 										  @RequestParam(value="vidName") MultipartFile vidName) {
+		Agency agency = (Agency)request.getSession().getAttribute("agency");
 		
 		System.out.println(picName.getOriginalFilename());
 		System.out.println(vidName.getOriginalFilename());
@@ -789,35 +790,46 @@ public class MypageController {
 			System.out.println("미디어 파일 등록 실패");
 		}
 		
-		return "redirect:/mypage/agency/media";
+		// 소속 아티스트 목록 전체 불러오기(관리 페이지로 넘어가기 위해)
+		List<ArtistGroup> artist = mService.selectArtistList(agency.getAgId());
+		// 미디어 리스트 가져오기
+		List<MediaCollection> media = mService.selectMediaAdminList(mc.getArtiNameEn());
+		
+		mv.addObject("media", media);
+		mv.addObject("artiName", mc.getArtiNameEn());
+		mv.addObject("artist", artist);
+		mv.addObject("agency", agency);
+		mv.setViewName("mypage/agency/media");
+		
+		return mv;
 	}
 	
 	// 사진 저장 경로
-		private String saveFile(MultipartFile file, HttpServletRequest request) {
-			String root = request.getSession().getServletContext().getRealPath("resources");
-			String savePath = root + "\\uploadFiles";
-			File folder = new File(savePath);
-			
-			// -> 해당 경로가 존재하지 않는다면 디렉토리 생성
-			if(!folder.exists()) folder.mkdirs();
-			
-			// 파일명 리네임 규칙 "년월일시분초_랜덤값.확장자"
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
-			String originalFileName = file.getOriginalFilename();
-			String renameFileName = sdf.format(new Date()) + "_"
-								+ (int)(Math.random() * 100000) 
-								+ originalFileName.substring(originalFileName.lastIndexOf("."));
-			
-			// 저장하고자하는 경로 + 파일명
-			String renamePath = folder + "\\" + renameFileName;
-			
-			try {
-				file.transferTo(new File(renamePath));
-				// => 업로드 된 파일 (MultipartFile) 이 rename명으로 서버에 저장
-			} catch (IllegalStateException | IOException e) {
-				System.out.println("파일 업로드 에러 : " + e.getMessage());
-			} 
-			
-			return renameFileName;
-		}
+	private String saveFile(MultipartFile file, HttpServletRequest request) {
+		String root = request.getSession().getServletContext().getRealPath("resources");
+		String savePath = root + "\\uploadFiles";
+		File folder = new File(savePath);
+		
+		// -> 해당 경로가 존재하지 않는다면 디렉토리 생성
+		if(!folder.exists()) folder.mkdirs();
+		
+		// 파일명 리네임 규칙 "년월일시분초_랜덤값.확장자"
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+		String originalFileName = file.getOriginalFilename();
+		String renameFileName = sdf.format(new Date()) + "_"
+							+ (int)(Math.random() * 100000) 
+							+ originalFileName.substring(originalFileName.lastIndexOf("."));
+		
+		// 저장하고자하는 경로 + 파일명
+		String renamePath = folder + "\\" + renameFileName;
+		
+		try {
+			file.transferTo(new File(renamePath));
+			// => 업로드 된 파일 (MultipartFile) 이 rename명으로 서버에 저장
+		} catch (IllegalStateException | IOException e) {
+			System.out.println("파일 업로드 에러 : " + e.getMessage());
+		} 
+		
+		return renameFileName;
+	}
 }
