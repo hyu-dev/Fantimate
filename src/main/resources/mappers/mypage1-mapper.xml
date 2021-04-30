@@ -426,16 +426,16 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<result property="agencyId" column="ID"/>		
 		<result property="artiNameEn" column="ARTI_NAME_EN"/>		
 	</resultMap>
-<!-- 	<resultMap type="Attachment" id="artPicRSet"> -->
-<!-- 		<id property="attCode" column="ATT_CODE"/> -->
-<!-- 		<result property="attRoot" column="ATT_ROOT"/> -->
-<!-- 		<result property="attClName" column="ATT_CL_NAME"/> -->
-<!-- 		<result property="attSvName" column="ATT_SV_NAME"/> -->
-<!-- 		<result property="attStatus" column="ATT_STATUS"/> -->
+	<resultMap type="Attachment" id="artPicRSet">
+		<id property="attCode" column="ATT_CODE"/>
+		<result property="attRoot" column="ATT_ROOT"/>
+		<result property="attClName" column="ATT_CL_NAME"/>
+		<result property="attSvName" column="ATT_SV_NAME"/>
+		<result property="attStatus" column="ATT_STATUS"/>
 <!-- 		 참조 구독 코드(ATT_PIC 조인키, 실제 아티스트아이디 ) -->
-<!-- 		<result property="id" column="ARTI_ID"/> -->
-<!-- 		<result property="attMain" column="IS_MAIN_ATT"/> -->
-<!-- 	</resultMap> -->
+		<result property="id" column="ARTI_ID"/>
+		<result property="attMain" column="IS_MAIN_ATT"/>
+	</resultMap>
 	<resultMap type="Attachment" id="artmainpicRSet">
 		<id property="attCode" column="ATT_CODE"/>
 		<result property="attRoot" column="ATT_ROOT"/>
