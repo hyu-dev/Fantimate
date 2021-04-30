@@ -10,7 +10,7 @@
 <body>
 	<section class="media-form-container pop-up">
 		<div class="black-back"></div>
-        <form id="mediaForm" class="media-form pop-up-form" action="" method="POST" enctype="multipart/form-data">
+        <form id="mediaForm" class="media-form pop-up-form" action="${ contextPath }/mypage/agency/media" method="POST" enctype="multipart/form-data">
         	<span class="pop-up-text nanumsquare">미디어 등록</span>
         	<br><br>
         	<div class="center">

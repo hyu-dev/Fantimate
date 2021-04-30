@@ -120,4 +120,8 @@ public interface MypageService {
 
 	// 스토어 삭제하기
 	int deleteStoreItem(String pname);
+
+	List<MediaCollection> selectCategoryMediaList(Map<String, String> map);
+
+	List<MediaCollection> selectSearchMediaList(Map<String, String> map);
 }
