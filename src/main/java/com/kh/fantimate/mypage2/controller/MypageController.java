@@ -715,39 +715,38 @@ public class MypageController {
 	
 	// 미디어 등록하기
 	@PostMapping(value="/insertMedia")
-	public @ResponseBody void insertMedia(Official o, MediaFile att, MediaCategory mc, 
+	public String insertMedia(Official o, MediaFile att, MediaCategory mc, 
 										  String addCate, HttpServletRequest request,
-										  @RequestParam(value="picClName") MultipartFile file1,
-										  @RequestParam(value="vidClName") MultipartFile file2,
-										  Model m) {
+										  @RequestParam(value="picName") MultipartFile picName,
+										  @RequestParam(value="vidName") MultipartFile vidName) {
 		
-		System.out.println(file1.getOriginalFilename());
-		System.out.println(file2.getOriginalFilename());
+		System.out.println(picName.getOriginalFilename());
+		System.out.println(vidName.getOriginalFilename());
 		
 		// 카테고리 대문자로 변환
 		String originName = mc.getCateName().toUpperCase();
 		mc.setCateName(originName);
 		
+		att = new MediaFile();
+		
 		// 사진이 등록되었을 때
-		if(!file1.getOriginalFilename().equals("")) {
-			att = new MediaFile();
-			String renameFileName1 = saveFile(file1, request);
+		if(!picName.getOriginalFilename().equals("")) {
+			String renameFileName1 = saveFile(picName, request);
 			
 			// DB에 저장하기 위해 att에 저장
 			if(renameFileName1 != null) {
-				att.setPicClName(file1.getOriginalFilename());
+				att.setPicClName(picName.getOriginalFilename());
 				att.setPicSvName(renameFileName1);
 			}
 		}
 		
 		// 영상이 등록되었을 때
-		if(!file2.getOriginalFilename().equals("")) {
-			att = new MediaFile();
-			String renameFileName2 = saveFile(file2, request);
+		if(!vidName.getOriginalFilename().equals("")) {
+			String renameFileName2 = saveFile(vidName, request);
 			
 			// DB에 저장하기 위해 att에 저장
 			if(renameFileName2 != null) {
-				att.setVidClName(file2.getOriginalFilename());
+				att.setVidClName(vidName.getOriginalFilename());
 				att.setVidSvName(renameFileName2);
 			}
 		}
@@ -789,6 +788,8 @@ public class MypageController {
 		} else {
 			System.out.println("미디어 파일 등록 실패");
 		}
+		
+		return "redirect:/mypage/agency/media";
 	}
 	
 	// 사진 저장 경로

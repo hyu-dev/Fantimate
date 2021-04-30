@@ -61,7 +61,7 @@
 	                	<td>
 	                		<input class="sub-button" type="text" disabled="disabled">
 							<label class="upload-label nanumsqure" for="thumbnail">찾아보기</label>
-	                		<input id="thumbnail" type="file" class="file-input" name="picClName">
+	                		<input id="thumbnail" type="file" class="file-input" name="picName">
 	                	</td>
 	                </tr>
 	                <tr class="nanumsquare">
@@ -69,7 +69,7 @@
 	                	<td>
 	                		<input class="sub-button" type="text" disabled="disabled">
 							<label class="upload-label nanumsqure" for="video">찾아보기</label>
-	                		<input id="video" type="file" class="file-input" name="vidClName">
+	                		<input id="video" type="file" class="file-input" name="vidName">
 	                	</td>
 	                </tr>
 	                <tr class="nanumsquare">
