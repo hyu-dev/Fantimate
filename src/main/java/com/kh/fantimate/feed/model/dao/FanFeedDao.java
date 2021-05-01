@@ -1,6 +1,7 @@
 package com.kh.fantimate.feed.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -136,6 +137,9 @@ public interface FanFeedDao {
 
 	// 좋아요 갯수 select
 	public int selectLike2(int fid);
+
+	// 친구신청이 되어있는지 확인
+	public int isAlreadyAppliedFriend(Map<String, String> map);
 
 	// 모든 유저 컬렉션
 	//public List<MemberCollection> selectSumList();

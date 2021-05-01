@@ -816,5 +816,14 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
     WHERE
          BID = #{fid}
 	</select>
-	
+	<select id="isAlreadyAppliedFriend" parameterType="hashMap" resultType="_int">
+		SELECT
+		        COUNT(*)
+		  FROM
+		        FRIEND
+		 WHERE
+		        U_ID_SEND = #{frSend}
+		   AND
+		        U_ID_RECEIVE = #{frRecId}
+	</select>
 </mapper>

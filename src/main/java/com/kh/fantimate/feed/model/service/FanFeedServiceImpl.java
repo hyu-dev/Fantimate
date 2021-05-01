@@ -1,6 +1,8 @@
 package com.kh.fantimate.feed.model.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,7 +22,6 @@ import com.kh.fantimate.feed.model.vo.AttachmentF;
 import com.kh.fantimate.feed.model.vo.Feed;
 import com.kh.fantimate.feed.model.vo.FeedCollection;
 import com.kh.fantimate.member.model.vo.Artist;
-import com.kh.fantimate.member.model.vo.MemberCollection;
 
 @Service
 public class FanFeedServiceImpl implements FanFeedService {
@@ -224,6 +225,24 @@ public class FanFeedServiceImpl implements FanFeedService {
 	public int selectLike2(int fid) {
 		
 		return fDao.selectLike2(fid);
+	}
+
+	// 이미 친구신청이 되어있는지 확인
+	@Override
+	public int isAlreadyAppliedFriend(String frSend, String frRecId) {
+		Map<String, String> map = new HashMap<>();
+		map.put("frSend", frSend);
+		map.put("frRecId", frRecId);
+		int isAlready = fDao.isAlreadyAppliedFriend(map);
+		// 친구신청이 안되어있다면 반대로 확인
+		if(isAlready < 1) {
+			Map<String, String> mapReverse = new HashMap<>();
+			mapReverse.put("frSend", frRecId);
+			mapReverse.put("frRecId", frSend);
+			isAlready = fDao.isAlreadyAppliedFriend(mapReverse);
+		}
+		// 결과값 전달
+		return isAlready;
 	}
 
 	// 모든 유저 정보 컬렉션

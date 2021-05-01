@@ -1,12 +1,7 @@
 package com.kh.fantimate.feed.model.service;
 
 import java.util.List;
-
-
-
-
-
-
+import java.util.Map;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -118,6 +113,9 @@ public interface FanFeedService {
    
    // 좋아요 갯수 select
    public int selectLike2(int fid);
+
+   // 이미 친구신청이 되어있는지 확인
+   public int isAlreadyAppliedFriend(String frSend, String frRecId);
 
    // 모든 유저 정보 컬렉션
   // public List<MemberCollection> selectSumList();

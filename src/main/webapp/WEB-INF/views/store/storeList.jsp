@@ -292,19 +292,24 @@
 							if(data.list[i].store.isSoldout == 'Y') {
 								div.append(soldout);
 							} else {
-								for(var j in data.wishList) {
-									if(data.wishList[j].code == data.list[i].store.pcode) {
-										if(data.wishList[j].id == "${loginUser.id}" && data.wishList[j].isWish == 'Y') {
-											div.append(artiName, pName, price, cart, noddim).trigger("create");
-										} else {
-											div.append(artiName, pName, price, cart, ddim).trigger("create");
+								if("${loginUser.classifyMem}" == 1) {
+									for(var j in data.wishList) {
+										if(data.wishList[j].code == data.list[i].store.pcode) {
+											if(data.wishList[j].id == "${loginUser.id}" && data.wishList[j].isWish == 'Y') {
+												div.append(artiName, pName, price, cart, noddim).trigger("create");
+											} else {
+												div.append(artiName, pName, price, cart, ddim).trigger("create");
+											}
+											wishFlag = true;
 										}
-										wishFlag = true;
 									}
+									if(wishFlag == false) {
+										div.append(artiName, pName, price, cart, ddim).trigger("create");
+									}
+								} else {
+									div.append(artiName, pName, "\ " + numberWithCommas(data.list[i].store.qprice)).trigger("create");
 								}
-								if(wishFlag == false) {
-									div.append(artiName, pName, price, cart, ddim).trigger("create");
-								}
+								
 							}
 							article.append(div, img, pCode).trigger("create");
 							area.append(article).trigger("create");

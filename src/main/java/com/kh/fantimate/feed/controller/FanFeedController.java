@@ -697,28 +697,35 @@ public class FanFeedController {
 	
 		String artiName = (String)request.getSession().getAttribute("artiName");
 		
-//	String frSend = ((Member)request.getSession().getAttribute("loginUser")).getId();
-	
-		
-	System.out.println("친구 신청한 유저 : " + frSend);
-	System.out.println("친구 신청 받은 유저 : " + frRecId);
-	a.setId(frRecId);
-	System.out.println("알람 받을 아이디 : " + frRecId);
-	a.setAlContent(frSend + " 님이 친구신청을 하였습니다.");
-	
-	System.out.println(a);
-	
-		int result = fService.insertFriend(f, a);
-		
-		
-		
-		  if(result > 0) { 
-			  request.getSession().setAttribute("msg", "친구신청이 완료되었습니다.");
-			  response.sendRedirect("fanFeedList?artNameEn=" + artiName);
-		  } else {
-			  request.getSession().setAttribute("msg", "친구신청에 실패하였습니다.");
-			  response.sendRedirect("fanFeedList?artNameEn=" + artiName);
-		  }  
+		System.out.println("친구 신청한 유저 : " + frSend);
+		System.out.println("친구 신청 받은 유저 : " + frRecId);
+		a.setId(frRecId);
+		System.out.println("알람 받을 아이디 : " + frRecId);
+		a.setAlContent(frSend + " 님이 친구신청을 하였습니다.");
+		if(frSend.equals(frRecId)) {
+			// 애초에 이렇게 넘어와서는 안되지만 혹시라도 넘어온다면
+			request.getSession().setAttribute("msg", "본인에게 친구신청은 불가합니다");
+			response.sendRedirect("fanFeedList?artNameEn=" + artiName);
+		} else {
+			System.out.println(a);
+			// 친구신청이 중복인지 확인하기
+			int isAlready = fService.isAlreadyAppliedFriend(frSend, frRecId);
+			if(isAlready > 0) {
+				// 친구신청이 되어있다면
+				request.getSession().setAttribute("msg", "친구신청목록이 존재합니다. 마이페이지를 확인하세요");
+				response.sendRedirect("fanFeedList?artNameEn=" + artiName);
+			} else {
+				// 친구신청이 안되어 있다면
+				int result = fService.insertFriend(f, a);
+				if(result > 0) { 
+					request.getSession().setAttribute("msg", "친구신청이 완료되었습니다.");
+					response.sendRedirect("fanFeedList?artNameEn=" + artiName);
+				} else {
+				  request.getSession().setAttribute("msg", "친구신청에 실패하였습니다.");
+				  response.sendRedirect("fanFeedList?artNameEn=" + artiName);
+				}  
+			}
+		}
 	}
 	
 // 상세 페이지 이동
