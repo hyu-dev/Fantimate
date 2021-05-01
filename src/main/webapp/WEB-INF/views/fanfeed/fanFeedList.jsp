@@ -203,16 +203,16 @@
                         </tr>
                     </table>
                     <hr width="90%">
-                    <br>
+                    <br> <!-- 이 다음부터 복사함 -->
+                        <!-- 댓글 리스트 영역 -->
                    
-                   
-                     <!-- 댓글 리스트 영역 -->
-                   <c:forEach var="r" items="${ rlist }">
-                   <c:if test="${ f.fid eq r.refId }">
                    <!-- 쪽지 관련 히든 태그 -->
-                    <input type="hidden" value="${ r.writer }" name="messRecId" id="messRecId">
+                    
                    
                     <table class="original-comment">
+                    <c:forEach var="r" items="${ rlist }">
+                   <c:if test="${ f.fid eq r.refId }">
+                   <input type="hidden" value="${ r.writer }" name="messRecId" id="messRecId">
                     <!-- <tbody>비교해서 다른부분**************** --> 
                         <colgroup>
                             <col width="5%"/>
@@ -220,6 +220,9 @@
                         </colgroup>
                         <tr class="comment-line">
                        
+                       	<!-- 일반 유저가 댓글 달 경우 닉네임,사진 ,내용 출력-->
+                       <c:choose>
+                       <c:when test="${r.classify == 1 }">
                          <c:forEach var="at" items="${ atlist }">
                      	 <c:if test="${ at.refuid eq r.writer }">
                             <td>
@@ -239,9 +242,8 @@
                                 <img class="profile-picture" src="${ contextPath }/resources/uploadFiles/${ at.attSvName }">
                             </td>
                             </c:if>
-                            </c:forEach>
-                             
-                             
+                            </c:forEach> 
+
                              <c:forEach var="sb" items="${ subList }">
                              <c:if test="${ r.writer eq sb.uid }">
                         	 
@@ -254,10 +256,10 @@
                                         <span class="comment-content">
                                             ${ r.rcontent }
                                         </span>
-                                        <span class="re-commentBtn">답글 열기</span>
+                                        <!-- <span class="re-commentBtn">답글 열기</span> -->
                                     </div>
-                                    <div class="comment-etc">...
-                                 <!-- 다른부분 아티스트jsp170번째줄 -->   	<!-- <span class="comment-etc" >···</span> -->
+                                    <div class="comment-etc">
+                                   	 <span class="comment-etc" >···</span> 
                                     	<c:if test="${ loginUser.id ne r.writer }">
                                         <div class="comment-bubble">
                                             <p class="add-comment">답글 달기</p>
@@ -274,14 +276,79 @@
                                     </div>
 
                                     </div>
-                                   
-                                   
                                    </c:if>
-                                   
+                               </c:forEach>
+                              </c:when>
+                               <c:otherwise>
+                               <c:forEach var="ap" items="${ aplist }">
+                     	 		<c:if test="${ ap.refuid eq r.writer }">
+                            <td>
+                            <c:if test="${ loginUser.id ne r.writer }">
+                                <div class="profile-bubble">
+                                    <p onclick="insertFriend('${r.writer}');">친구 신청</p>
+                                    <p onclick="insertMessage('${r.writer}');">쪽지 보내기</p>
+                                </div>
+                            </c:if>
+                             <c:if test="${ loginUser.id eq r.writer }">
+                            	<div class="profile-bubble">
+                                    <p onclick="insertFriend('${r.writer}');">친구 신청</p>
+                                    <p onclick="insertMessage('${r.writer}');">쪽지 보내기</p>
+                                </div>
+                            </c:if>     
+                               
+                                <img class="profile-picture" src="${ contextPath }/resources/uploadFiles/${ ap.attSvName }">
+                            </td>
+                            </c:if>
+                            </c:forEach> 
+
+                             <c:forEach var="ar" items="${ artist }">
+                             <c:if test="${ r.writer eq ar.artiId }">
+                        	 
+                            <td>
+                                <div class="comment-box">
+                                    <div id="artist-comment" class="comment-main comment-center nanumsquare">
+                                       <!-- 아티스트가 작성한다면 아티스트 닉네임이 보이게 설정 -->
+                                       
+                                        <span class="comment-name">${ ar.artiNickname }</span>
+                                        <span class="comment-content">
+                                            ${ r.rcontent }
+                                        </span>
+                                        <span class="re-commentBtn">답글 열기</span>
+                                    </div>
+                                    <div class="comment-etc">
+                                   	 <span class="comment-etc" >···</span> 
+                                    	<c:if test="${ loginUser.id ne r.writer }">
+                                        <div class="comment-bubble">
+                                            <p class="add-comment">답글 달기</p>
+                                            <p onclick="reportReply(${r.rid });">댓글 신고</p>
+                                        </div>
+                                        </c:if>
+                                        <c:if test="${ loginUser.id eq r.writer }">
+                                        <div class="comment-bubble">
+                                            <p class="add-comment">답글 달기</p>
+                                            <p onclick="deleteReply(${r.rid});">삭제하기</p>
+                                            
+                                        </div>
+                                        </c:if>
+                                    </div>
+
+                                    </div>
+                                   </c:if>
+                               </c:forEach>
+                              
+                              </c:otherwise> 
+                              </c:choose>
+                               <!-- 아티스트가 댓글 달 경우 닉네임,사진 ,내용 출력  -->  
                                    
                                    
                                    
                                     
+                              
+                              
+                              
+                              
+                              
+                              
                                   
                                 <!-- 댓글 좋아요 영역 -->
                                 <div class="comment-info comment-center nanumsquare">
@@ -290,7 +357,6 @@
                                     <span class="like-count">1,000</span>
                                     <span class="comment-date"><fmt:formatDate value="${ r.rcreate }" pattern="yyyy.MM.dd HH:mm"/></span>
                                 </div>
-                               </c:forEach>
                                
                                 
                                 
@@ -334,12 +400,14 @@
                      	 	</td>
                      	  </tr>   
              		<!-- </tbody> -->
-                    </table>
                  	</c:if>
                  	</c:forEach>
+                    </table>
+                   
+                 
                    
                    
-                   
+                  <!-- 여기 전까지 --> 
                    
                    
                    
@@ -351,6 +419,7 @@
                     <!-- 댓글 등록 -->
                     <form action="${ contextPath }/fanfeed/insertReply" method="post">
                     <div class="insert-replyArea">
+                     <input type="hidden" name="classify" value="${ loginUser.classifyMem }">
                      <input type="hidden" name="writer" value="${ loginUser.id }">
                      <input type="hidden" name="refId" value="${ f.fid }">
                         <div class="replyArea">

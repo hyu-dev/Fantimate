@@ -125,7 +125,7 @@ public class FanFeedController {
 		
 		// 아티스트 프로필 리스트
 		List<Attachment> aplist = fService.selectapList();
-		System.out.println("아티스트 프로필 사진 리스트 : " + aplist);
+		System.out.println("아티스트 프로필 사진 리스트  aplist: " + aplist);
 		
 		// 아티스트 개인,사진/ 유저 개인, 사진 콜렉션
 //		List<MemberCollection> sumlist = fService.selectSumList();
@@ -140,14 +140,14 @@ public class FanFeedController {
 		session.setAttribute("artiName", artNameEn); // userid로 uid값을 넘기자
 		session.setAttribute("subList", subList);
        
-		if(list != null && !list.isEmpty()) {
+		if(subList != null && !subList.isEmpty()) {
 			mv.addObject("list", list);
 			mv.addObject("rlist", rlist);
 			mv.addObject("ptlist", ptlist);
 			mv.addObject("atlist", atlist);
 			mv.addObject("artist", artist);
 			mv.addObject("lklist", lklist);
-			mv.addObject("aplist", lklist);
+			mv.addObject("aplist", aplist);
 			mv.addObject("comment", comment);
 			mv.setViewName("fanfeed/fanFeedList");
 			
