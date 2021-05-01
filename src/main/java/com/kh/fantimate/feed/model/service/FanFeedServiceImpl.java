@@ -73,8 +73,9 @@ public class FanFeedServiceImpl implements FanFeedService {
 	
 	// 댓글 작성
 	@Override
-	public int insertReply(Reply r) {
-		return fDao.insertReply(r);
+	public int insertReply(Reply r, Alarm a) {
+		 fDao.insertReply(r);
+		 return fDao.insertReplyAlarm(a);
 	}
 
 	// 댓글 조회

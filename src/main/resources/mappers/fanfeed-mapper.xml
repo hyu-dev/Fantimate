@@ -826,6 +826,8 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
     WHERE
          BID = #{fid}
 	</select>
+	
+	<!-- 친구 중복신청 막기 -->
 	<select id="isAlreadyAppliedFriend" parameterType="hashMap" resultType="_int">
 		SELECT
 		        COUNT(*)
@@ -836,4 +838,27 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		   AND
 		        U_ID_RECEIVE = #{frRecId}
 	</select>
+	
+	<!-- 댓글 작성 시 게시글 작성자에게 알람 -->
+	<insert id="ReplyAlarm">
+	INSERT
+		INTO	ALARM
+		(
+				AL_MADE_CODE
+			,	AL_CONTENT
+			,	AL_TIME
+			,	AL_STATUS
+			,	AL_CODE
+			,	ID
+		)
+		VALUES
+		(
+				SEQ_ALARM.NEXTVAL
+			,	#{alContent}
+			,	SYSDATE
+			,	DEFAULT
+			,	'3'
+			,	#{id}
+		)
+	</insert>
 </mapper>

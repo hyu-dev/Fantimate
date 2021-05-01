@@ -269,6 +269,12 @@ public class FanFeedDaoImpl implements FanFeedDao{
 		return sqlSession.selectOne("fanfeedMapper.isAlreadyAppliedFriend", map);
 	}
 
+	// 댓글 작성 시 게시글 작성자에게 알람
+	@Override
+	public int insertReplyAlarm(Alarm a) {
+		return sqlSession.insert("fanfeedMapper.ReplyAlarm", a);
+	}
+
 	// 모든 유저 컬렉션
 	/*
 	 * @Override public List<MemberCollection> selectSumList() { return

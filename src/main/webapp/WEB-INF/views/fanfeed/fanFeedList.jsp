@@ -232,12 +232,7 @@
                                     <p onclick="insertMessage('${r.writer}');">쪽지 보내기</p>
                                 </div>
                             </c:if>
-                             <c:if test="${ loginUser.id eq r.writer }">
-                            	<div class="profile-bubble">
-                                    <p onclick="insertFriend('${r.writer}');">친구 신청</p>
-                                    <p onclick="insertMessage('${r.writer}');">쪽지 보내기</p>
-                                </div>
-                            </c:if>     
+                            
                                
                                 <img class="profile-picture" src="${ contextPath }/resources/uploadFiles/${ at.attSvName }">
                             </td>
@@ -285,16 +280,11 @@
                             <td>
                             <c:if test="${ loginUser.id ne r.writer }">
                                 <div class="profile-bubble">
-                                    <p onclick="insertFriend('${r.writer}');">친구 신청</p>
-                                    <p onclick="insertMessage('${r.writer}');">쪽지 보내기</p>
+                                    <p onclick="">프로필 보기</p>
+                                    
                                 </div>
                             </c:if>
-                             <c:if test="${ loginUser.id eq r.writer }">
-                            	<div class="profile-bubble">
-                                    <p onclick="insertFriend('${r.writer}');">친구 신청</p>
-                                    <p onclick="insertMessage('${r.writer}');">쪽지 보내기</p>
-                                </div>
-                            </c:if>     
+                             
                                
                                 <img class="profile-picture" src="${ contextPath }/resources/uploadFiles/${ ap.attSvName }">
                             </td>
@@ -422,6 +412,7 @@
                      <input type="hidden" name="classify" value="${ loginUser.classifyMem }">
                      <input type="hidden" name="writer" value="${ loginUser.id }">
                      <input type="hidden" name="refId" value="${ f.fid }">
+                     <input type="hidden" name="id" value="${ f.writer }">
                         <div class="replyArea">
                             <div class="insert-reply">
                                 <textarea class="nanumsquare" name="rcontent" style="resize: none;" rows="1" placeholder="댓글을 입력하세요..."></textarea>

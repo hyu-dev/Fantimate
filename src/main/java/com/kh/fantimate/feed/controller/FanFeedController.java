@@ -467,6 +467,9 @@ public class FanFeedController {
 	public void insertReply(HttpServletRequest request,
 							HttpServletResponse response,
 							Reply r,
+							Alarm a,
+							@RequestParam(value="writer") String writer,
+			   				@RequestParam(value="id") String id,
 							HttpSession session) throws IOException {
 		
 		String artiName = (String)request.getSession().getAttribute("artiName");
@@ -474,7 +477,11 @@ public class FanFeedController {
 		System.out.println("댓글에서 아트네임 넘어오냐: " + artiName);
 		System.out.println(r);
 		
-		int result = fService.insertReply(r);
+		// 알람 내용에 댓글 작성자 들어가야하고 아이디에 게시글 작성자 들어가야댐
+		a.setId(id);
+		a.setAlContent(writer + " 님이  댓글을 작성하였습니다.");
+		
+		int result = fService.insertReply(r, a);
 		
 		if(result > 0) {
 		
