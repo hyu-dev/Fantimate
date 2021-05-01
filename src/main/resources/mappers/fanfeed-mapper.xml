@@ -32,13 +32,16 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<result property="artiname" column="ARTI_NAME_EN"/>
 	</resultMap>
 	
+	<!-- 유저 프로필 사진 조회 -->
 	<resultMap type="Attachment" id="usattResultSet">
-		<id property="attCode" column="UP_CODE"/>
-		<result property="attRoot" column="UP_ROOT"/>
-		<result property="attClName" column="UP_CL_NAME"/>
-		<result property="attSvName" column="UP_SV_NAME"/>
-		<result property="attStatus" column="UP_STATUS"/>
-		<result property="refuid" column="U_ID"/>	
+		<id property="attCode" column="S_CODE"/>
+		<result property="attRoot" column="S_ROOT"/>
+		<result property="attClName" column="S_CL_NAME"/>
+		<result property="attSvName" column="S_SV_NAME"/>
+		<result property="attStatus" column="S_STATUS"/>
+		<result property="subCode" column="SUB_CODE"/>
+		<result property="refuid" column="U_ID"/>
+		<result property="artiNameEn" column="ARTI_NAME_EN"/>	
 	</resultMap>
 	
 	<resultMap type="Reply" id="replyResultSet">
@@ -51,6 +54,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<result property="refRid" column="BRRID"/>
 		<result property="likeCount" column="BRLIKE_COUNT"/> 
 		<result property="rrcount" column="BRRPT_COUNT"/>
+		<result property="classify" column="CLASSIFY_MEM"/>
 	</resultMap>
 	<!-- 게시글 신고 조회 -->
 	<resultMap type="Report" id="ReportResultSet">
@@ -213,16 +217,19 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	<!-- 유저 프로필 사진 조회 -->
 	<select id="selectatList" resultMap="usattResultSet">
 	 SELECT DISTINCT
-						UP_CODE
-					,	UP_ROOT
-					,	UP_CL_NAME
-					,	UP_SV_NAME
-					,	UP_STATUS
-					,	U_ID
-            		
+						SUB_CODE
+					,	S_ROOT
+					,	S_CL_NAME
+					,	S_SV_NAME
+					,	S_STATUS
+					,	SUB_CODE
+            		,	U_ID
+            		,	ARTI_NAME_EN
 	FROM
-				USER_PROFILE
-   
+				SUB_PROFILE
+	JOIN 		ATT_SUBSCRIBE USING(SUB_CODE)
+    WHERE
+    			ARTI_NAME_EN = #{artiName}
 	</select>
 
 	<!-- 게시글 사진 조회 -->
@@ -252,6 +259,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 					,	ID
 					,	BRLIKE_COUNT
 					, 	BRRPT_COUNT
+					,	CLASSIFY_MEM
 		)
 		VALUES
 		(
@@ -262,7 +270,8 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 				,	#{refId}
 				,	#{writer}
 				,	DEFAULT
-				,	DEFAULT   
+				,	DEFAULT
+				,	#{classify}   
 		)
 	</insert>
 	
@@ -278,6 +287,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 				,	BRRID
 				,	BRLIKE_COUNT
 				, 	BRRPT_COUNT
+				,	CLASSIFY_MEM
 		
 	FROM
 					B_REPLY

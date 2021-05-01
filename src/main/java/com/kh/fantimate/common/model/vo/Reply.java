@@ -25,4 +25,5 @@ public class Reply {
 	private int refRid;			// 댓글 참조 번호
 	private String nickname;	// 댓글 닉네임
 	private String category;	// 카테고리
+	private int classify;	// 회원분류(일반유저인지, 아티스트인지)
 }
