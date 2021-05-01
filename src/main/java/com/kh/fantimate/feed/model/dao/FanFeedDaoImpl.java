@@ -234,7 +234,6 @@ public class FanFeedDaoImpl implements FanFeedDao{
 	// 좋아요 등록 
 	@Override
 	public int insertLike2(Like like) {
-		// TODO Auto-generated method stub
 		return sqlSession.insert("fanfeedMapper.insertLike2" ,like);
 	}
 

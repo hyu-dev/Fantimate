@@ -452,7 +452,27 @@ public class ArtistFeedController {
 			}
 		}
 	
-	
+		// 댓글 삭제
+		@RequestMapping("/deleteReply")
+		public void deleteReply(HttpServletResponse response,
+								Reply r,
+								int rid,
+								HttpServletRequest request,
+								HttpSession session) throws IOException {
+			
+			String artiName = (String)request.getSession().getAttribute("artiName");
+			
+			System.out.println(rid);
+			
+			int result = aService.deleteReply(rid);
+			
+			if(result > 0) {
+				request.getSession().setAttribute("msg", "댓글이 삭제되었습니다.");
+				response.sendRedirect("artistFeedList?artNameEn=" + artiName);
+			} else {
+				request.getSession().setAttribute("msg", "댓글삭제에 실패하였습니다.");
+			}
+		}
 	
 	
 	

@@ -137,5 +137,11 @@ public class ArtistFeedServiceImpl implements ArtistFeedService {
 	public List<Attachment> selectatList(String artNameEn) {
 		return aDao.selectatList(artNameEn);
 	}
+
+	// 댓글 삭제
+	@Override
+	public int deleteReply(int rid) {
+		return aDao.deleteReply(rid);
+	}
 	
 }

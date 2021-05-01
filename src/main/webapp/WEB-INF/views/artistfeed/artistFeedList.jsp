@@ -659,6 +659,32 @@
        		}); 
        		
        	}
-             </script>
+       </script>
+       
+ <!-- 프로필 사진 클릭 시 하위메뉴 열기 게시글 프로필 사진 누르면 왜 안열림?-->
+   <script>  
+	$('.profile-picture').click(function () {
+    	$(this).siblings(".profile-bubble").toggleClass('open-area', 500);
+	});
+   </script>
+   
+ <!-- 댓글 ...메뉴 -->
+   <script>
+	$('.comment-etc').click(function () {
+	    $(this).siblings(".comment-bubble").toggleClass('open-area', 500);
+	});
+   </script>
+   
+ <!-- 댓글 삭제 -->
+   <script>
+   function deleteReply(rid){
+	   if (confirm("정말 삭제하시겠습니까??") == true){    //확인
+	    	 //   document.form.submit();
+	    		location.href='${contextPath}/artistfeed/deleteReply?rid=' + rid;
+	    	} else {   //취소
+	    	    return;
+	    	}
+   }
+   </script>      
 </body>
 </html>

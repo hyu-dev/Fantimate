@@ -158,4 +158,10 @@ public class ArtistFeedDaoImpl implements ArtistFeedDao {
 	public List<Attachment> selectatList(String artNameEn) {
 		return sqlSession.selectList("artistfeedMapper.selectatList", artNameEn);
 	}
+
+	// 댓글 삭제
+	@Override
+	public int deleteReply(int rid) {
+		return sqlSession.delete("artistfeedMapper.deleteReply", rid);
+	}
 }
