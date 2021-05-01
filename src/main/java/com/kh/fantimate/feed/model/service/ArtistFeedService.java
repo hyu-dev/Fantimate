@@ -65,6 +65,9 @@ public interface ArtistFeedService {
 	// 유저 프로필 사진 리스트
 	public List<Attachment> selectatList(String artNameEn);
 
+	// 댓글 삭제
+	public int deleteReply(int rid);
+
 	
 	
 }

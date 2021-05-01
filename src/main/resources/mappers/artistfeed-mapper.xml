@@ -494,4 +494,12 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
     WHERE
     			ARTI_NAME_EN = #{artiName}
 	</select>
+	
+	<!-- 댓글 삭제 -->
+	<delete id="deleteReply" parameterType="_int">
+		DELETE 
+		FROM 	B_REPLY
+		WHERE 
+				BRID = #{rid}
+	</delete>
 </mapper>
