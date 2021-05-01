@@ -117,6 +117,21 @@ public interface FanFeedService {
    // 이미 친구신청이 되어있는지 확인
    public int isAlreadyAppliedFriend(String frSend, String frRecId);
 
+   // 댓글 좋아요 누른 유저 리스트
+   public List<Like> selectRLikeList();
+
+   // 댓글 좋아요 인서트
+   public int insertLike3(Like like, int rid);
+
+   // 댓글 좋아요 취소
+   public int deleteLike3(Like like, int rid);
+
+   // 댓글 좋아요 갯수 select
+   public int selectLike3(int rid);
+
+   
+
+
    // 모든 유저 정보 컬렉션
   // public List<MemberCollection> selectSumList();
    

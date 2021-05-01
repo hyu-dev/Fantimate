@@ -119,6 +119,10 @@ public class FanFeedController {
 		List<Like> lklist = fService.selectLikeList();
 		System.out.println("좋아유 누른 유저 리스트 : " + lklist);
 		
+		// 댓글 좋아요 누른 유저
+		List<Like> rlklist = fService.selectRLikeList();
+		System.out.println("댓글 좋아유 누른 유저 리스트 : " + rlklist);
+		
 		//아티스트 리스트
 		List<Artist> artist = fService.selectArtistList();
 		System.out.println("아티스트 리스트 : " + artist);
@@ -149,6 +153,7 @@ public class FanFeedController {
 			mv.addObject("lklist", lklist);
 			mv.addObject("aplist", aplist);
 			mv.addObject("comment", comment);
+			mv.addObject("rlklist", rlklist);
 			mv.setViewName("fanfeed/fanFeedList");
 			
 		} else {
@@ -842,6 +847,61 @@ public class FanFeedController {
 		return new Gson().toJson(countLike);
 		
 	}
+	
+	// 댓글 좋아요 등록 / 취소 
+		@PostMapping("/rlike")
+		public @ResponseBody Map<String, String> feedRLike(Like like,
+				 				@RequestParam(value="type")String type,
+				 				int rid,
+				 				String id){
+			
+			System.out.println("댓글번호뜨니??????" + rid);
+			like.setId(id);
+			like.setRefId(rid);
+			
+			String msg = "";
+			int result = 0;
+			int countLike = 0;
+			switch(type) {
+			case "등록" : 
+				result = fService.insertLike3(like, rid);
+				countLike = fService.selectLike3(rid);
+				msg = result > 0 ? "좋아요가 등록 되었습니다" : "좋아요 등록에 실패하였습니다";
+				break;
+			case "취소" :
+				result = fService.deleteLike3(like,rid);
+				countLike = fService.selectLike3(rid);
+				msg = result > 0 ? "좋아요가 취소되었습니다" : "좋아요 취소 실패하였습니다";
+				break;
+			
+			}
+			
+			String count = Integer.toString(countLike);
+			System.out.println("countㄴㄴㄴㄴㄴ:" + count);
+			Map<String, String> map = new HashMap<>();
+			map.put("msg", msg);
+			map.put("count", count);
+			return map;
+			
+			
+		}
+		
+		//likeCount
+		// 알람 갯수 카운트 (세션에 담기)
+		@RequestMapping(value="/likeRCount", produces="application/json; charset=utf-8")
+		public @ResponseBody String countRLike(int rid) {
+			
+			int countLike = fService.selectLike3(rid);
+			
+
+			return new Gson().toJson(countLike);
+			
+		}
+	
+	
+	
+	
+	
 	
 	
 	

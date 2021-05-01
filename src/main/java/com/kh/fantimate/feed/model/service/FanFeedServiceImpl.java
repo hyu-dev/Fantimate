@@ -246,6 +246,30 @@ public class FanFeedServiceImpl implements FanFeedService {
 		return isAlready;
 	}
 
+	// 댓글 좋아요 누른 유저 리스트
+	@Override
+	public List<Like> selectRLikeList() {
+		return fDao.selectRLikeList();
+	}
+
+	
+	@Override
+	public int insertLike3(Like like, int rid) {
+		fDao.insertLike3(like);
+		return fDao.updateLike3(rid);
+	}
+
+	@Override
+	public int deleteLike3(Like like, int rid) {
+		fDao.deleteLike3(like);
+		return fDao.updateDeleteLike3(rid);
+	}
+
+	@Override
+	public int selectLike3(int rid) {
+		return fDao.selectLike3(rid);
+	}
+
 	// 모든 유저 정보 컬렉션
 	/*
 	 * @Override public List<MemberCollection> selectSumList() { return
