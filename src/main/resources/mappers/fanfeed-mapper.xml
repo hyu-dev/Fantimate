@@ -691,11 +691,11 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	</select>
 	
 	<!-- 게시글 당 사진 갯수 조회 -->
-	<select id="selectptListCount" resultType="_int">
+	<!-- <select id="selectptListCount" resultType="_int">
 	SELECT 	COUNT(BP_CHNAME)
 	FROM 	ATT_BOARD
 	WHERE 	BID = #{refId}
-	</select>
+	</select> -->
 	
 	<!-- 좋아요 취소 -->
 	<!-- <delete id="deleteLike" parameterType="_int">

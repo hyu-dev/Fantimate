@@ -14,7 +14,16 @@
     <link rel="stylesheet" href="${ contextPath }/resources/css/feed/fanFeedList.css?aftrhss">
     <link rel="icon" type="image/png" sizes="16x16" href="${ contextPath }/resources/icon/faviconF.png">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+	<!-- 모달  -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
+	<!-- Bootstrap core CSS -->
+	
 <title>Insert title here</title>
+<style>
+a { text-decoration:none } 
+</style>
 </head>
 <body>
 	<c:if test="${ !empty msg }">
@@ -105,10 +114,11 @@
                     </tr>
                 </table>
                     <!-- 게시글 컨텐츠 영역 -->
-                    <div class="contentArea" id="detailPage" onclick="detailPage(${f.fid});">
+     
+                    
+                    <div onclick="location.href='#ex2'" rel="modal:open" style="cursor:pointer;"class="contentArea">
                         <!-- 텍스트 영역 -->
                         <div>
-                        	
                             <p class="board-text">${ f.fcontent }</p> 
                         </div>
                        
@@ -197,10 +207,7 @@
                     <br> <!-- 이 다음부터 복사함 -->
                         
                         <!-- 댓글 리스트 영역 -->
-                   
-                   
-                    
-                   
+                                     
                     <table class="original-comment">
                     <c:forEach var="r" items="${ rlist }">
                    <c:if test="${ f.fid eq r.refId }">
@@ -274,8 +281,9 @@
                             <td>
                             <c:if test="${ loginUser.id ne r.writer }">
                                 <div class="profile-bubble">
-                                    <p onclick="">프로필 보기</p>
+                                    <!-- <p onclick="">프로필 보기</p> -->
                                     
+									<p><a href="#ex1" rel="modal:open" style="color:#5C5F78">프로필 보기</a></p>
                                 </div>
                             </c:if>
                              
@@ -350,17 +358,62 @@
                                     		<span class="comment-date"><fmt:formatDate value="${ r.rcreate }" pattern="yyyy.MM.dd HH:mm"/></span>
                                 </div>
                                
+                                 <!-- 프로필 모달************************ -->
+							
+							<c:forEach var="art" items="${ artist }">
+							<c:if test="${r.writer eq art.artiId }">
+							<div id="ex1" class="modal" style="width:500px; height:300px;">
+								 <h3>아티스트 프로필</h3>
+							  <hr width="95%">
+							  <br><br>
+							 <table 
+ 							style="border-right:none; border-left:none; border-top:none; border-bottom:none;">
+							  <tr>
+							  	  <c:forEach var="ap" items="${ aplist }">
+							      <c:if test="${r.writer eq ap.refuid }">
+							      <td rowspan="3" colspan="2" width="150px">
+							      <img class="profile-picture" src="${ contextPath }/resources/uploadFiles/${ ap.attSvName }" 
+							       style="border-radius:0; width:150px; height:80px" >    
+   	      						  </td>
+							      </c:if>
+							      </c:forEach>
+							      <td colspan="2" width="100px">이름</td>
+							      <td colspan="3">${ art.artiName }</td>
+							      
+							  </tr>
+							  <tr>
+							      <td colspan="2">SNS주소</td>
+							      <td><a href="https://ko-kr.facebook.com/iu.loen" target='_blank'><img src="../resources/images/mypage/artist/facebook.png" style="width:50px; height:32px"></a></td>
+							      <td><img src="../resources/images/mypage/artist/인스타그램.png" style="width:50px; height:32px"></td>
+							      <td><img src="../resources/images/mypage/artist/twitter.png" style="width:50px; height:32px"></td>
+							  </tr>
+							  <tr>
+							      <td colspan="2">상태 메세지</td>
+							      <td colspan="3" width="">${ art.artiDailymsg }</td>
+							  </tr>
+							 </table>
+							 
+								<a href="#" rel="modal:close" style="color:black"></a>
+							</div>
+							</c:if>
+							</c:forEach>	
+  
+                                
+                                
+                                
+                                
+                                
+                                
+                                
                                 
                                 
 						
                  	</c:if>
                  	</c:forEach>
+                 	<!-- 댓글 전체 리스트 끝 -->
                     </table>
-                   
+             
                  
-                   
-                   
-                  <!-- 여기 전까지 --> 
                    
                    
                    
@@ -385,15 +438,88 @@
                         </div>
                     </div>
                     </form> 
-                    
-                    
-                     
              </div>
-             
-             
+             						
+                     
+			<!-- 상페 페이지 모달 -->           
+           	<div id="ex2" class="modal-dialog" style="max-width: 100%; width: 1300px; height: 600px; display: table;">
+  			<!-- carousel slide-->
+			<div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
+			<ol class="carousel-indicators">
+			<%-- 
+			 <c:forEach var="pt" items="${ ptlist }">
+                        <c:if test="${ f.fid eq pt.refId }">
+                        <c:set var="count" value="${ count + 1 }"/>	
+                        </c:if>
+                        </c:forEach> --%>
+			 <c:forEach begin="0" end="${ ptlistCount - 1}" step="1" var="s">
+			
+					<li data-bs-target="#carouselExampleDark" data-bs-slide-to=${ s } class="active"></li>
+					<li data-bs-target="#carouselExampleDark" data-bs-slide-to=${ s }></li>
+			</c:forEach> 
+			
+			</ol>
+			<div class="carousel-inner">
+				<!-- 슬라이드 쇼 -->
+				<c:forEach var="pt" items="${ ptlist }">
+				<c:if test="${ f.fid eq pt.refId }">
+				<div class="carousel-item active" data-bs-interval="10000">
+					<!--가로 사진-->
+					<img
+						src="${ contextPath }/resources/uploadFiles/${ pt.attSvName }"
+						class="d-block w-100" alt="이미지" width="300px" height="200px;">
+				</div>
+		
+				<div class="carousel-item" data-bs-interval="2000">
+					<img
+						src="${ contextPath }/resources/uploadFiles/${ pt.attSvName }"
+						class="d-block w-100" alt="이미지" width="300px" height="200px;">
+				</div>
+				</c:if>
+				</c:forEach>
+					
+			</div>
+			<!-- / 슬라이드 쇼 끝 -->
+    
+    		<!-- 왼쪽 오른쪽 화살표 버튼 -->
+			<a class="carousel-control-prev" href="#carouselExampleDark"
+				role="button" data-bs-slide="prev"> <span
+				class="carousel-control-prev-icon" aria-hidden="true"></span> <span
+				class="visually-hidden">Previous</span>
+			</a> <a class="carousel-control-next" href="#carouselExampleDark"
+				role="button" data-bs-slide="next"> <span
+				class="carousel-control-next-icon" aria-hidden="true"></span> <span
+				class="visually-hidden">Next</span>
+			</a>
+			<!-- / 화살표 버튼 끝 -->
+		</div>
+    
+  				<a href="#" rel="modal:close">닫기</a>
+		</div>
+			
+		<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
+		crossorigin="anonymous"></script>	
+    	<!-- 상세 페이지 모달 끝나는 부분********************************** --> 
+           
+           
+           
+           
+           
+           
+           
+           
+           
+           
+           
+           
+           
+           
+           
              
              </c:forEach>
-          <!-- fList 끝 -->
+          <!-- 게시글 전체 리스트 끝 -->
           
              <!-- 좋아요 ajax 수정************************** -->
              <script>
@@ -798,7 +924,7 @@
    </script> 
    
    <!-- 상세 페이지로 이동 -->
-   <script>
+<!--    <script>
    function detailPage(fid){
 	   // 팝업 가운데에 띄우기
        var popupWidth = 1300;
@@ -814,7 +940,7 @@
        
    //    window.open('fanFeedDetail.html','상세페이지','width=1300, height=600, left=300, top=250');
    }
-   </script>
+   </script> -->
   
   <!-- 대댓글  -->
   <script>
@@ -891,5 +1017,7 @@
 		}
 	});
   </script>
+  
+ 
 </body>
 </html>

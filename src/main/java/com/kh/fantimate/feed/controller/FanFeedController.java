@@ -107,7 +107,8 @@ public class FanFeedController {
 		List<AttachmentF> ptlist = fService.selectptList();
 		System.out.println("게시글 사진 리스트 : " + ptlist);
 		
-		
+	//	int ptlistCount = fService.selectptListCount();
+	//	System.out.println("사진 갯수 : " + ptlistCount);
 	   
 		
 		
@@ -783,8 +784,8 @@ public class FanFeedController {
 //		System.out.println("유저 프로필 사진 리스트 : " + atlist);
 		
 		// 게시글당 사진 갯수 구하기
-		int ptlistCount = fService.selectptListCount(fid);
-		System.out.println("사진 갯수 : " + ptlistCount);
+	//	int ptlistCount = fService.selectptListCount(fid);
+	//	System.out.println("사진 갯수 : " + ptlistCount);
 		
 		if(ptlist != null && !ptlist.isEmpty()) {
 			// artiName 세션에 저장
@@ -796,7 +797,7 @@ public class FanFeedController {
 		//	mv.addObject("rlist", rlist);
 			mv.addObject("ptlist", ptlist);
 		//	mv.addObject("atlist", atlist);
-			mv.addObject("ptlistCount", ptlistCount);
+		//	mv.addObject("ptlistCount", ptlistCount);
 			mv.setViewName("fanfeed/fanfeedDetail");
 			
 		} //else {

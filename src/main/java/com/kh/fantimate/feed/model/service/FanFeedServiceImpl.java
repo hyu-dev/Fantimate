@@ -183,10 +183,10 @@ public class FanFeedServiceImpl implements FanFeedService {
 	}
 
 	// 게시글 당 사진 갯수
-	@Override
-	public int selectptListCount(int refId) {
-		return fDao.selectptListCount(refId);
-	}
+//	@Override
+//	public int selectptListCount(int refId) {
+//		return fDao.selectptListCount(refId);
+//	}
 
 	// 좋아요 취소 누른 유저 삭제
 	@Override
@@ -278,6 +278,8 @@ public class FanFeedServiceImpl implements FanFeedService {
 	public User selectUser(String id) {
 		return fDao.selectUser(id);
 	}
+
+	
 
 	// 모든 유저 정보 컬렉션
 	/*
