@@ -129,10 +129,20 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<collection property="artist" resultMap="ArtistResultSet"/>
 		<collection property="artiAttach" resultMap="artiattResultSet"/>
 		<collection property="userAttach" resultMap="usattResultSet"/>
-		
-		
-		
 	</resultMap>
+	
+	<!-- 로그인 유저 정보 -->
+	<resultMap type="User" id="userResultSet">
+		<id property = "id" column="U_ID"/>
+		<result property="uaddress" column="U_ADD"/>
+		<result property="uemail" column="U_EMAIL"/>
+		<result property="ucountry" column="U_COUNTRY"/>
+		<result property="areaReg" column="AREA_REGISTER"/>
+		<result property="areaCertify" column="AREA_CERTIFY"/>
+		<result property="isMembership" column="IS_MEMBERSHIP"/>
+		<result property="uProfile" column="U_PROFILE"/>
+	</resultMap>
+	
 	
 	<!-- 게시글 등록 -->
 	<insert id="insertFeed">
@@ -944,5 +954,13 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
           B_REPLY
     WHERE
          BRID = #{rid}
+	</select>
+	
+	<!-- 일반 유저 정보 -->
+	<select id= "selectUser" resultMap="userResultSet">
+	SELECT 		U_ID
+    		,   IS_MEMBERSHIP
+    FROM 		USER_
+    WHERE 		U_ID = #{id}
 	</select>
 </mapper>

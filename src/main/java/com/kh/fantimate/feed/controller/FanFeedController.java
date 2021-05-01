@@ -44,6 +44,7 @@ import com.kh.fantimate.feed.model.vo.FeedCollection;
 import com.kh.fantimate.member.model.vo.Artist;
 import com.kh.fantimate.member.model.vo.ArtistGroup;
 import com.kh.fantimate.member.model.vo.Member;
+import com.kh.fantimate.member.model.vo.User;
 
 
 
@@ -68,10 +69,20 @@ public class FanFeedController {
 									@ModelAttribute Reply r,
 									@ModelAttribute Like lk,
 									@ModelAttribute Artist ar,
+									@ModelAttribute User u,
 									Model model,
 									@RequestParam(value="artNameEn") String artNameEn,
 									HttpServletRequest request) {
 		
+		String id = ((Member)request.getSession().getAttribute("loginUser")).getId(); 
+		System.out.println("로그인 유저  : " + id);
+		
+		User ms = fService.selectUser(id);
+		System.out.println("mm? : " + ms);
+		
+			String Membership = ms.getIsMembership();
+		
+		System.out.println("멤버십이냐? : " + Membership);
 		
 		f.setArtiName(artNameEn);
 		s.setArtiname(artNameEn);
@@ -143,7 +154,7 @@ public class FanFeedController {
 		HttpSession session = request.getSession(); // 세션을 생성해서
 		session.setAttribute("artiName", artNameEn); // userid로 uid값을 넘기자
 		session.setAttribute("subList", subList);
-       
+		session.setAttribute("Membership", Membership);
 		if(subList != null && !subList.isEmpty()) {
 			mv.addObject("list", list);
 			mv.addObject("rlist", rlist);

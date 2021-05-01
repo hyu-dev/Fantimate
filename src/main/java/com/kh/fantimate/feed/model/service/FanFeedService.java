@@ -21,6 +21,7 @@ import com.kh.fantimate.feed.model.vo.FeedCollection;
 
 import com.kh.fantimate.member.model.vo.Artist;
 import com.kh.fantimate.member.model.vo.MemberCollection;
+import com.kh.fantimate.member.model.vo.User;
 
 
 public interface FanFeedService {
@@ -128,6 +129,9 @@ public interface FanFeedService {
 
    // 댓글 좋아요 갯수 select
    public int selectLike3(int rid);
+
+   // 멤버십 여부 판단
+   public User selectUser(String id);
 
    
 

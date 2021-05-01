@@ -22,6 +22,7 @@ import com.kh.fantimate.feed.model.vo.Feed;
 import com.kh.fantimate.feed.model.vo.FeedCollection;
 import com.kh.fantimate.member.model.vo.Artist;
 import com.kh.fantimate.member.model.vo.MemberCollection;
+import com.kh.fantimate.member.model.vo.User;
 
 @Repository
 public class FanFeedDaoImpl implements FanFeedDao{
@@ -286,6 +287,7 @@ public class FanFeedDaoImpl implements FanFeedDao{
 		return sqlSession.insert("fanfeedMapper.insertLike3" ,like);
 	}
 
+	// 댓글 좋아요 등록 후 갯수 업데이트
 	@Override
 	public int updateLike3(int rid) {
 		return sqlSession.update("fanfeedMapper.updateFeedLike3",rid);
@@ -297,14 +299,22 @@ public class FanFeedDaoImpl implements FanFeedDao{
 		return sqlSession.delete("fanfeedMapper.deleteLike3",like);
 	}
 
+	// 댓글 좋아요 취소 후 갯수 업데이트
 	@Override
 	public int updateDeleteLike3(int rid) {
 		return sqlSession.update("fanfeedMapper.updateFeedLikeCancel3",rid);
 	}
 
+	// 댓글 좋아요 카운트
 	@Override
 	public int selectLike3(int rid) {
 		return sqlSession.selectOne("fanfeedMapper.selectLike3" ,rid);
+	}
+
+	// 멤버십 여부 판별
+	@Override
+	public User selectUser(String id) {
+		return sqlSession.selectOne("fanfeedMapper.selectUser", id);
 	}
 
 	// 모든 유저 컬렉션
