@@ -58,6 +58,39 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<collection property="artist" resultMap="artiinfoRresultSet"/>
 		<collection property="attachment" resultMap="artiattResultSet"/>
 	</resultMap>
+	
+	<!-- 게시글 좋아요 누른 유저 리스트 -->
+	<resultMap type="Like" id="LikeResultSet">
+		<id property="lid" column="BLID"/>
+		<result property="id" column="ID"/>
+		<result property="refId" column="BID"/>
+		<result property="lstatus" column="BL_STATUS"/>
+	</resultMap>
+
+	<resultMap type="Reply" id="replyResultSet">
+		<id property="rid" column="BRID"/>
+		<result property="rcontent" column="BRCONTENT"/>
+		<result property="rcreate" column="BRCREATE"/>
+		<result property="rstatus" column="BR_STATUS"/>
+		<result property="refId" column="BID"/>
+		<result property="writer" column="ID"/>
+		<result property="refRid" column="BRRID"/>
+		<result property="likeCount" column="BRLIKE_COUNT"/> 
+		<result property="rrcount" column="BRRPT_COUNT"/>
+		<result property="classify" column="CLASSIFY_MEM"/>
+	</resultMap>
+	
+	<!-- 유저 프로필 사진 조회 -->
+	<resultMap type="Attachment" id="usattResultSet">
+		<id property="attCode" column="S_CODE"/>
+		<result property="attRoot" column="S_ROOT"/>
+		<result property="attClName" column="S_CL_NAME"/>
+		<result property="attSvName" column="S_SV_NAME"/>
+		<result property="attStatus" column="S_STATUS"/>
+		<result property="subCode" column="SUB_CODE"/>
+		<result property="refuid" column="U_ID"/>
+		<result property="artiNameEn" column="ARTI_NAME_EN"/>	
+	</resultMap>
 
 	<!-- 게시글 등록 -->
 	<insert id="insertFeed">
@@ -298,6 +331,167 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	
 	</select>
 
+	<!-- 좋아요 누른 유저 리스트  -->
+	<select id="selectLikeList" resultMap="LikeResultSet">
+	SELECT
+				BLID
+			,	ID
+			,	BID
+			,	BL_STATUS
+	FROM
+				B_LIKE
+	WHERE
+				BL_STATUS = 'Y'
+	
+	</select>
 
+	<!-- 좋아요 누른 유저 추가 -->
+	<insert id="insertLike2">
+	INSERT
+		INTO	B_LIKE
+		(
+				BLID
+			,	ID
+			,	BID
+			,	BL_STATUS
+		)
+		VALUES
+		(
+				SEQ_B_LIKE.NEXTVAL
+			,	#{id}
+			,	#{refId}
+			,	DEFAULT
+		)	
+	</insert>
+	
+	<!-- 좋아요 누른 유저 추가될 때 BOARD 테이블 BLIKE 컬럼 업데이트 -->
+	<update id="updateFeedLike2" parameterType="_int">
+	UPDATE
+			BOARD
+	SET
+			BLIKE = BLIKE + 1
+	WHERE
+			BID = #{fid}
+	</update>
+	
+	<!-- 좋아요 취소 -->
+	<delete id="deleteLike2" parameterType="Like">
+		DELETE 
+		FROM 	B_LIKE
+		WHERE 
+				BID = #{refId}
+		AND 
+			   ID = #{id}
+	</delete>
+	
+	<!-- 좋아요 취소시 좋아요 수 업데이트 -->
+	<update id="updateFeedLikeCancel2" parameterType="_int">
+	UPDATE
+			BOARD
+	SET
+			BLIKE = BLIKE - 1
+	WHERE
+			BID = #{fid}
+	</update>
+	
+	<!-- 좋아요 갯수 select -->
+	<select id="selectLike2" resultType="_int">
+	SELECT
+          BLIKE
+    FROM
+          BOARD
+    WHERE
+         BID = #{fid}
+	</select>
 
+	<!-- 댓글 등록 -->
+	<insert id="insertReply">
+		INSERT
+		INTO B_REPLY
+		(
+						BRID
+					,	BRCONTENT
+					,	BRCREATE
+					,	BR_STATUS
+					,	BID
+					,	ID
+					,	BRLIKE_COUNT
+					, 	BRRPT_COUNT
+					,	CLASSIFY_MEM
+		)
+		VALUES
+		(
+					SEQ_B_REPLY.NEXTVAL
+				,	#{rcontent}
+				,	SYSDATE
+				,	DEFAULT
+				,	#{refId}
+				,	#{writer}
+				,	DEFAULT
+				,	DEFAULT
+				,	#{classify}   
+		)
+	</insert>
+
+	<!-- 댓글 작성 시 게시글 작성자에게 알람 -->
+	<insert id="ReplyAlarm">
+	INSERT
+		INTO	ALARM
+		(
+				AL_MADE_CODE
+			,	AL_CONTENT
+			,	AL_TIME
+			,	AL_STATUS
+			,	AL_CODE
+			,	ID
+		)
+		VALUES
+		(
+				SEQ_ALARM.NEXTVAL
+			,	#{alContent}
+			,	SYSDATE
+			,	DEFAULT
+			,	'3'
+			,	#{id}
+		)
+	</insert>
+	
+	<!-- 댓글 리스트 조회 -->
+	<select id="selectReplyList"  resultMap="replyResultSet">
+	SELECT
+					BRID
+				,	BRCONTENT
+				,	BRCREATE
+				,	BR_STATUS
+				,	BID
+				,	ID
+				,	BRRID
+				,	BRLIKE_COUNT
+				, 	BRRPT_COUNT
+				,	CLASSIFY_MEM
+		
+	FROM
+					B_REPLY
+	
+	ORDER BY
+				BRCREATE DESC				
+	</select>
+	
+	<!-- 유저 프로필 사진 조회 -->
+	<select id="selectatList" resultMap="usattResultSet">
+	 SELECT DISTINCT
+						SUB_CODE
+					,	S_ROOT
+					,	S_CL_NAME
+					,	S_SV_NAME
+					,	S_STATUS
+					,	SUB_CODE
+            		,	U_ID
+            		,	ARTI_NAME_EN
+	FROM
+				SUB_PROFILE
+	JOIN 		ATT_SUBSCRIBE USING(SUB_CODE)
+    WHERE
+    			ARTI_NAME_EN = #{artiName}
+	</select>
 </mapper>
