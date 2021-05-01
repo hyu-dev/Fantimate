@@ -141,6 +141,9 @@ public interface FanFeedDao {
 	// 친구신청이 되어있는지 확인
 	public int isAlreadyAppliedFriend(Map<String, String> map);
 
+	// 댓글 작성 시 게시글 작성자에게 알람
+	public int insertReplyAlarm(Alarm a);
+
 	// 모든 유저 컬렉션
 	//public List<MemberCollection> selectSumList();
 	

@@ -43,7 +43,7 @@ public interface FanFeedService {
    public List<AttachmentF> selectptList();
 
    // 댓글 작성
-   public int insertReply(Reply r);
+   public int insertReply(Reply r, Alarm a);
    
    // 게시글 당 댓글 리스트 조회
    public List<Reply> selectReplyList();
