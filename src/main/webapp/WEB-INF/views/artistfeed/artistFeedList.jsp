@@ -685,6 +685,141 @@
 	    	    return;
 	    	}
    }
-   </script>      
+   </script>
+   
+ <!-- 댓글 좋아요 -->
+<script>
+    function insertRLike(rid){
+   	 var data;
+   	 var rid = rid;
+   	 var img = $(".likeBtn" + rid);
+   	 if($(".likeBtn" + rid).attr('src') == "../resources/images/feed/like-icon.png"){
+   		 data = {
+   			rid : rid,
+   			id : "${loginUser.id}",
+   			type: '등록'
+   				 
+   		 }
+   	 } else if($(".likeBtn" + rid).attr('src') == "../resources/images/feed/likeblack-icon.png"){
+   		 data = {
+   				rid : rid,
+        			id : "${loginUser.id}",
+        			type: '취소'
+        				 
+        		 }
+   	 }
+   	 var url = "${pageContext.request.contextPath}/fanfeed/rlike"
+	     callAjaxWish(url, data, img, rid);
+      
+    }
+      
+    // 댓글좋아요 ajax
+    function callAjaxWish(url, data, img ,rid){
+   	 console.log(img.attr("src"));
+   	 $.ajax({
+   		 url : url,
+   		 method : "POST",
+   		 data : data,
+   		 dateType : "json",
+   		 success : function(map) {
+   			 alert(map.msg)
+   			 var src = "../resources/images/feed/"
+   			 if(map.msg == "좋아요가 등록 되었습니다"){
+   				 img.attr("src", src + "likeblack-icon.png");
+     				 document.getElementById("likeRCount"+rid).innerHTML = map.count;
+   			 } else if(map.msg == "좋아요가 취소되었습니다"){
+   				 img.attr("src", src + "like-icon.png");
+     				 document.getElementById("likeRCount"+rid).innerHTML = map.count;
+   			 }
+   			 console.log("적용후 : " , img.attr("src"))
+   			 
+   		 },
+   		 error : function(e) {
+     		console.log(e)
+     	}
+   	 });
+     	 
+   }
+      
+   
+  	function likeRCount(rid){
+  		
+		 var rid = rid;
+		
+		$.ajax({
+			url: "${contextPath}/fanfeed/likeRCount",
+			data : {rid : rid},
+			dataType : "json",
+			success : function(data){
+				console.log(data);
+				
+				document.getElementById("likeRCount"+rid).innerHTML = data;
+				
+				
+			},
+			error : function(e){
+				alert("code : " + e.status + "\n"
+						+ "message : " + e.responseText);
+			}
+			
+		}); 
+  		
+  	}
+</script>
+
+  <!-- 댓글 신고하기 창 열기  -->
+    <script>
+	function reportReply(rid){
+        // 팝업 가운데에 띄우기
+        var popupWidth = 600;
+        var popupHeight = 500;
+        var popupX = Math.ceil((window.screen.width - popupWidth)/2);
+        // 만들 팝업창 width 크기의 1/2 만큼 보정값으로 빼주었음
+        var popupY = Math.ceil((window.screen.width - popupHeight)/2);
+        // 만들 팝업창 height 크기의 1/2 만큼 보정값으로 빼주었음
+        
+        var url = "${ contextPath }/artistfeed/reportReplyView?rid=" + rid;
+        window.open(url, "신고하기", 'width=' + popupWidth  + ', height=' + popupHeight  + ', left='+ popupX + ', top='+ popupY);
+	}   
+   </script>   
+   
+  <!-- 쪽지 창 열기 --> 
+  <script>
+   function insertMessage(writer){
+	// 팝업 가운데에 띄우기
+       var popupWidth = 600;
+       var popupHeight = 400;
+       
+     //  var messRecId = $("#messRecId").val();
+       var popupX = Math.ceil((window.screen.width - popupWidth)/2);
+       // 만들 팝업창 width 크기의 1/2 만큼 보정값으로 빼주었음
+       var popupY = Math.ceil((window.screen.width - popupHeight)/2);
+       // 만들 팝업창 height 크기의 1/2 만큼 보정값으로 빼주었음
+      
+       
+    //   var messRecId = $('input[id=messRecId]').val();
+       
+       var url = "${ contextPath }/artistfeed/messageView?writer=" + writer;
+      
+    
+       window.open(url, "쪽지", 'width=' + popupWidth  + ', height=' + popupHeight  + ', left='+ popupX + ', top='+ popupY);
+	   
+   }
+   </script>
+   
+  <!-- 친구 신청 -->
+   <script>
+   function insertFriend(writer){
+	   var frRecId = writer;
+	   var frSend = "${loginUser.id}";
+	   if (confirm(frRecId + "님에게 친구신청을 하시겠습니까??") == true){    //확인
+	    	 //   document.form.submit();
+	    		location.href='${contextPath}/artistfeed/insertFriend?frRecId=' + frRecId + '&frSend=' + frSend;
+	    	} else {   //취소 
+	    	    return;
+	    	}
+   }
+   </script> 
+       
 </body>
 </html>

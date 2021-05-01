@@ -67,7 +67,7 @@ public interface FanFeedService {
    // 댓글 삭제
    public int deleteReply(int rid);
 
-   // rid로 댓글 조회
+   // rid로 댓글번호 조회
    public List<Reply> selectReply(int rid);
 
    // 댓글 신고

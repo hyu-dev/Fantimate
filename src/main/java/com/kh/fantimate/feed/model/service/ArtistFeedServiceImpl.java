@@ -1,15 +1,19 @@
 package com.kh.fantimate.feed.model.service;
 
+import java.util.HashMap;
 import java.util.List;
-
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.fantimate.common.model.vo.Alarm;
 import com.kh.fantimate.common.model.vo.Attachment;
+import com.kh.fantimate.common.model.vo.Friend;
 import com.kh.fantimate.common.model.vo.Like;
+import com.kh.fantimate.common.model.vo.Message;
 import com.kh.fantimate.common.model.vo.Reply;
+import com.kh.fantimate.common.model.vo.Report;
 import com.kh.fantimate.common.model.vo.Subscribe;
 import com.kh.fantimate.feed.model.dao.ArtistFeedDao;
 import com.kh.fantimate.feed.model.vo.AttachmentF;
@@ -143,5 +147,74 @@ public class ArtistFeedServiceImpl implements ArtistFeedService {
 	public int deleteReply(int rid) {
 		return aDao.deleteReply(rid);
 	}
+
+	// 댓글 좋아요 누른 유저 리스트
+	@Override
+	public List<Like> selectRLikeList() {
+		return aDao.selectRLikeList();
+	}
 	
+	// 댓글 좋아요 등록
+	@Override
+	public int insertLike3(Like like, int rid) {
+		aDao.insertLike3(like);
+		return aDao.updateLike3(rid);
+	}
+
+	// 댓글 좋아요 취소
+	@Override
+	public int deleteLike3(Like like, int rid) {
+		aDao.deleteLike3(like);
+		return aDao.updateDeleteLike3(rid);
+	}
+
+	// 댓글 좋아요 카운트
+	@Override
+	public int selectLike3(int rid) {
+		return aDao.selectLike3(rid);
+	}
+	
+	// rid로 댓글 번호 조회
+	@Override
+	public List<Reply> selectReply(int rid) {
+		return aDao.selectReply(rid);
+	}
+
+	// 댓글 신고
+	@Override
+	public int insertReplyReport(Report r, Alarm a) {
+		aDao.insertReplyReport(r);
+		return aDao.insertReportReplyAlarm(a);
+	}
+
+	// 쪽지 보내기
+	@Override
+	public int insertMessage(Message m) {
+		return aDao.insertMessage(m);
+	}
+
+	// 친구신청 중복검사
+	@Override
+	public int isAlreadyAppliedFriend(String frSend, String frRecId) {
+		Map<String, String> map = new HashMap<>();
+		map.put("frSend", frSend);
+		map.put("frRecId", frRecId);
+		int isAlready = aDao.isAlreadyAppliedFriend(map);
+		// 친구신청이 안되어있다면 반대로 확인
+		if(isAlready < 1) {
+			Map<String, String> mapReverse = new HashMap<>();
+			mapReverse.put("frSend", frRecId);
+			mapReverse.put("frRecId", frSend);
+			isAlready = aDao.isAlreadyAppliedFriend(mapReverse);
+		}
+		// 결과값 전달
+		return isAlready;
+	}
+
+	// 친구신청
+	@Override
+	public int insertFriend(Friend f, Alarm a) {
+		 aDao.insertFriend(f);
+		  return aDao.insertAlarm(a);
+	}
 }

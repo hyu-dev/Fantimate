@@ -54,12 +54,12 @@
                     <col width="15%"/>
                     <col width="15%"/>
                     <tr>
-                     	<!--  -->	
+                     		
                         <td>
-                            <!-- <div class="profile-bubble">
+                            <div class="profile-bubble">
                                 <p>친구 신청</p>
                                 <p onclick="insertMessage();">쪽지 보내기</p>
-                            </div> -->
+                            </div> 
                              <c:if test="${ loginUser.id ne f.writer }">
                             	<div class="profile-bubble">
                                     <p onclick="insertFriend('${f.writer}');">친구 신청</p>
@@ -477,84 +477,84 @@
        
        
         <!-- 댓글 좋아요*************  -->     
-       <script>
-             function insertRLike(rid){
-            	 var data;
-            	 var rid = rid;
-            	 var img = $(".likeBtn" + rid);
-            	 if($(".likeBtn" + rid).attr('src') == "../resources/images/feed/like-icon.png"){
-            		 data = {
-            			rid : rid,
-            			id : "${loginUser.id}",
-            			type: '등록'
-            				 
-            		 }
-            	 } else if($(".likeBtn" + rid).attr('src') == "../resources/images/feed/likeblack-icon.png"){
-            		 data = {
-            				rid : rid,
-                 			id : "${loginUser.id}",
-                 			type: '취소'
-                 				 
-                 		 }
-            	 }
-            	 var url = "${pageContext.request.contextPath}/fanfeed/rlike"
-         	     callAjaxWish(url, data, img, rid);
-             
-             }
-             
-             // 댓글좋아요 ajax
-             function callAjaxWish(url, data, img ,rid){
-            	 console.log(img.attr("src"));
-            	 $.ajax({
-            		 url : url,
-            		 method : "POST",
-            		 data : data,
-            		 dateType : "json",
-            		 success : function(map) {
-            			 alert(map.msg)
-            			 var src = "../resources/images/feed/"
-            			 if(map.msg == "좋아요가 등록 되었습니다"){
-            				 img.attr("src", src + "likeblack-icon.png");
-              				 document.getElementById("likeRCount"+rid).innerHTML = map.count;
-            			 } else if(map.msg == "좋아요가 취소되었습니다"){
-            				 img.attr("src", src + "like-icon.png");
-              				 document.getElementById("likeRCount"+rid).innerHTML = map.count;
-            			 }
-            			 console.log("적용후 : " , img.attr("src"))
-            			 
-            		 },
-            		 error : function(e) {
-     	        		console.log(e)
-     	        	}
-            	 });
-            	 
-             }
-             
-          
-         	function likeRCount(rid){
-         		
-       		 var rid = rid;
-       		
-       		$.ajax({
-       			url: "${contextPath}/fanfeed/likeRCount",
-       			data : {rid : rid},
-       			dataType : "json",
-       			success : function(data){
-       				console.log(data);
-       				
-       				document.getElementById("likeRCount"+rid).innerHTML = data;
-       				
-       				
-       			},
-       			error : function(e){
-       				alert("code : " + e.status + "\n"
-       						+ "message : " + e.responseText);
-       			}
-       			
-       		}); 
-       		
-       	}
-             </script>      
+      <script>
+            function insertRLike(rid){
+           	 var data;
+           	 var rid = rid;
+           	 var img = $(".likeBtn" + rid);
+           	 if($(".likeBtn" + rid).attr('src') == "../resources/images/feed/like-icon.png"){
+           		 data = {
+           			rid : rid,
+           			id : "${loginUser.id}",
+           			type: '등록'
+           				 
+           		 }
+           	 } else if($(".likeBtn" + rid).attr('src') == "../resources/images/feed/likeblack-icon.png"){
+           		 data = {
+           				rid : rid,
+                			id : "${loginUser.id}",
+                			type: '취소'
+                				 
+                		 }
+           	 }
+           	 var url = "${pageContext.request.contextPath}/fanfeed/rlike"
+        	     callAjaxWish(url, data, img, rid);
+            
+            }
+            
+            // 댓글좋아요 ajax
+            function callAjaxWish(url, data, img ,rid){
+           	 console.log(img.attr("src"));
+           	 $.ajax({
+           		 url : url,
+           		 method : "POST",
+           		 data : data,
+           		 dateType : "json",
+           		 success : function(map) {
+           			 alert(map.msg)
+           			 var src = "../resources/images/feed/"
+           			 if(map.msg == "좋아요가 등록 되었습니다"){
+           				 img.attr("src", src + "likeblack-icon.png");
+             				 document.getElementById("likeRCount"+rid).innerHTML = map.count;
+           			 } else if(map.msg == "좋아요가 취소되었습니다"){
+           				 img.attr("src", src + "like-icon.png");
+             				 document.getElementById("likeRCount"+rid).innerHTML = map.count;
+           			 }
+           			 console.log("적용후 : " , img.attr("src"))
+           			 
+           		 },
+           		 error : function(e) {
+    	        		console.log(e)
+    	        	}
+           	 });
+           	 
+            }
+            
+         
+        	function likeRCount(rid){
+        		
+      		 var rid = rid;
+      		
+      		$.ajax({
+      			url: "${contextPath}/fanfeed/likeRCount",
+      			data : {rid : rid},
+      			dataType : "json",
+      			success : function(data){
+      				console.log(data);
+      				
+      				document.getElementById("likeRCount"+rid).innerHTML = data;
+      				
+      				
+      			},
+      			error : function(e){
+      				alert("code : " + e.status + "\n"
+      						+ "message : " + e.responseText);
+      			}
+      			
+      		}); 
+      		
+      	}
+            </script>      
           
             
              

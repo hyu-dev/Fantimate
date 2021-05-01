@@ -92,6 +92,25 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<result property="artiNameEn" column="ARTI_NAME_EN"/>	
 	</resultMap>
 
+	<!-- 댓글 좋아요 누른 유저 리스트 -->
+	<resultMap type="Like" id="LikeResultSet2">
+		<id property="lid" column="BRLID"/>
+		<result property="id" column="ID"/>
+		<result property="refId" column="BRID"/>
+		<result property="lstatus" column="BRL_STATUS"/>
+	</resultMap>
+	
+	<!-- 댓글 신고 조회 -->
+	<resultMap type="Report" id="ReportResultSet2">
+		<id property="rptCode" column="BRRPID"/>
+		<result property="rptType" column="BRRPTYPE"/>
+		<result property="rptReason" column="BRRPCONTENT"/>
+		<result property="rptDate" column="BRRPCREATE"/>
+		<result property="isReported" column="BRRP_STATUS"/>
+		<result property="rptId" column="ID"/>
+		<result property="refId" column="BRID"/>
+	</resultMap>
+	
 	<!-- 게시글 등록 -->
 	<insert id="insertFeed">
 		INSERT
@@ -502,4 +521,228 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		WHERE 
 				BRID = #{rid}
 	</delete>
+	
+	<!-- 댓글 좋아요 누른 유저 리스트 -->
+	<select id="selectRLikeList" resultMap="LikeResultSet2">
+	SELECT
+				BRLID
+			,	ID
+			,	BRID
+			,	BRL_STATUS
+	FROM
+				B_RE_LIKE
+	WHERE
+				BRL_STATUS = 'Y'
+	
+	</select>
+	
+	<!-- 댓글 좋아요 누른 유저 추가 -->
+	<insert id="insertLike3">
+	INSERT
+		INTO	B_RE_LIKE
+		(
+				BRLID
+			,	ID
+			,	BRID
+			,	BRL_STATUS
+		)
+		VALUES
+		(
+				SEQ_B_RE_LIKE.NEXTVAL
+			,	#{id}
+			,	#{refId}
+			,	DEFAULT
+		)	
+	</insert>
+	
+	<!-- 댓글 좋아요 누른 유저 추가될 때 댓글 테이블 좋아요 갯수 업데이트 -->
+	<update id="updateFeedLike3" parameterType="_int">
+	UPDATE
+			B_REPLY
+	SET
+			BRLIKE_COUNT = BRLIKE_COUNT + 1
+	WHERE
+			BRID = #{rid}
+	</update>
+	
+	<!-- 댓글 좋아요 취소 -->
+	<delete id="deleteLike3">
+		DELETE 
+		FROM 	B_RE_LIKE
+		WHERE 
+				BRID = #{refId}
+		AND 
+			   ID = #{id}
+	</delete>
+	
+	<!-- 댓글좋아요 취소시 좋아요 수 업데이트 -->
+	<update id="updateFeedLikeCancel3" parameterType="_int">
+	UPDATE
+			B_REPLY
+	SET
+			BRLIKE_COUNT = BRLIKE_COUNT - 1
+	WHERE
+			BRID = #{rid}
+	</update>
+	
+	<!-- 댓글 좋아요 갯수 select -->
+	<select id="selectLike3" resultType="_int">
+	SELECT
+          BRLIKE_COUNT
+    FROM
+          B_REPLY
+    WHERE
+         BRID = #{rid}
+	</select>
+	
+	<!-- rid로 댓글 조회 -->
+	<select id="selectReply" parameterType="_int" resultMap="replyResultSet">
+	SELECT
+					BRID
+				,	BRCONTENT
+				,	BRCREATE
+				,	BR_STATUS
+				,	BID
+				,	ID
+				,	BRRID
+				,	BRLIKE_COUNT
+				, 	BRRPT_COUNT
+		
+	FROM
+					B_REPLY
+	WHERE
+					BRID = #{rid}
+	ORDER BY
+				BRCREATE		
+	</select>
+	
+	<!-- 댓글 신고  -->
+	<insert id="insertReplyReport">
+	INSERT
+		INTO 	B_RE_RPT
+		(
+				BRRPID
+			,	BRRPTYPE
+			,	BRRPCONTENT
+			,	BRRPCREATE
+			,	BRRP_STATUS
+			,	BRID
+			,	ID
+		)
+		VALUES
+		(
+			    SEQ_B_RE_RPT.NEXTVAL
+			,	#{rptType} 
+			,	#{rptReason}
+			,	SYSDATE
+			,	DEFAULT
+			,	#{refId}
+			,	#{rptId}   
+		)	
+	</insert>
+	
+	<!-- 댓글 신고 시 관리자에게 알람 -->	
+	<insert id="insertReportReplyAlarm">
+	INSERT
+		INTO	ALARM
+		(
+				AL_MADE_CODE
+			,	AL_CONTENT
+			,	AL_TIME
+			,	AL_STATUS
+			,	AL_CODE
+			,	ID
+		)
+		VALUES
+		(
+				SEQ_ALARM.NEXTVAL
+			,	#{alContent}
+			,	SYSDATE
+			,	DEFAULT
+			,	'6'
+			,	'admin'
+		)
+	</insert>
+	
+	<!-- 쪽지 보내기 -->
+	<insert id="insertMessage">
+	INSERT
+		INTO	MESSAGE
+		(
+			MESS_NO
+		,	MESS_CONTENT
+		,	MESS_DATE
+		,	MESS_READ
+		,	U_ID_SEND
+		,	U_ID_RECEIVE
+		,	MESS_TITLE
+		,	MESS_STATUS
+		)
+		VALUES
+		(
+			SEQ_MESSAGE.NEXTVAL
+		,	#{messContent}
+		,	SYSDATE
+		,	DEFAULT
+		,	#{messSendId}
+		,	#{messRecId}
+		,	#{messTitle}
+		,	DEFAULT
+		)
+	</insert>
+	
+	<!-- 친구 중복신청 막기 -->
+	<select id="isAlreadyAppliedFriend" parameterType="hashMap" resultType="_int">
+		SELECT
+		        COUNT(*)
+		  FROM
+		        FRIEND
+		 WHERE
+		        U_ID_SEND = #{frSend}
+		   AND
+		        U_ID_RECEIVE = #{frRecId}
+	</select>
+	
+	<!-- 친구 신청 -->
+	<insert id="insertFriend">
+	INSERT
+		INTO	FRIEND
+		(
+				FR_CODE
+			,	U_ID_SEND
+			,	U_ID_RECEIVE
+			,	FR_STATUS
+		)
+		VALUES
+		(
+				SEQ_FRIEND.NEXTVAL
+			,	#{frSend}
+			,	#{frRecId}
+			,	DEFAULT
+		)
+	</insert>
+	
+	<!-- 친구 신청 시 알람 -->
+	<insert id="insertfriendAlarm">
+	INSERT 
+		INTO	ALARM
+		(
+				AL_MADE_CODE
+			,	AL_CONTENT
+			,	AL_TIME
+			,	AL_STATUS
+			,	AL_CODE
+			,	ID
+			
+		)
+		VALUES
+		(
+				SEQ_ALARM.NEXTVAL
+			,	#{alContent}
+			,	SYSDATE
+			,	DEFAULT
+			,	'16'
+			,	#{id}
+		)
+	</insert>
 </mapper>

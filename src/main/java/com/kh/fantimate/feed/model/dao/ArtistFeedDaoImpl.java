@@ -1,6 +1,7 @@
 package com.kh.fantimate.feed.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,8 +9,11 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.fantimate.common.model.vo.Alarm;
 import com.kh.fantimate.common.model.vo.Attachment;
+import com.kh.fantimate.common.model.vo.Friend;
 import com.kh.fantimate.common.model.vo.Like;
+import com.kh.fantimate.common.model.vo.Message;
 import com.kh.fantimate.common.model.vo.Reply;
+import com.kh.fantimate.common.model.vo.Report;
 import com.kh.fantimate.common.model.vo.Subscribe;
 import com.kh.fantimate.feed.model.vo.AttachmentF;
 import com.kh.fantimate.feed.model.vo.Feed;
@@ -163,5 +167,83 @@ public class ArtistFeedDaoImpl implements ArtistFeedDao {
 	@Override
 	public int deleteReply(int rid) {
 		return sqlSession.delete("artistfeedMapper.deleteReply", rid);
+	}
+
+	// 댓글 좋아요 누른 유저 리스트
+	@Override
+	public List<Like> selectRLikeList() {
+		return sqlSession.selectList("artistfeedMapper.selectRLikeList");
+	}
+	
+	// 댓글 좋아요 등록
+	@Override
+	public int insertLike3(Like like) {
+		return sqlSession.insert("artistfeedMapper.insertLike3" ,like);
+	}
+	
+	// 댓글 좋아요 등록 후 카운트 업데이트
+	@Override
+	public int updateLike3(int rid) {
+		return sqlSession.update("artistfeedMapper.updateFeedLike3",rid);
+	}
+	
+	// 댓글 좋아요 취소
+	@Override
+	public int deleteLike3(Like like) {
+		return sqlSession.delete("artistfeedMapper.deleteLike3",like);
+	}
+	
+	// 댓글 좋아요 취소 후 카운트 업데이트
+	@Override
+	public int updateDeleteLike3(int rid) {
+		return sqlSession.update("artistfeedMapper.updateFeedLikeCancel3",rid);
+	}
+
+	// 댓글 좋아요 카운트
+	@Override
+	public int selectLike3(int rid) {
+		return sqlSession.selectOne("artistfeedMapper.selectLike3" ,rid);
+	}
+
+	// rid로 댓글번호 조회
+	@Override
+	public List<Reply> selectReply(int rid) {
+		return sqlSession.selectList("artistfeedMapper.selectReply", rid);
+	}
+
+	// 댓글 신고
+	@Override
+	public int insertReplyReport(Report r) {
+		return sqlSession.insert("artistfeedMapper.insertReplyReport", r);
+	}
+
+	// 댓글 신고 시 관리자 알람
+	@Override
+	public int insertReportReplyAlarm(Alarm a) {
+		return sqlSession.insert("artistfeedMapper.insertReportReplyAlarm", a);
+	}
+
+	// 쪽지 보내기
+	@Override
+	public int insertMessage(Message m) {
+		return sqlSession.insert("artistfeedMapper.insertMessage", m);
+	}
+
+	// 친구신청 중복검사
+	@Override
+	public int isAlreadyAppliedFriend(Map<String, String> map) {
+		return sqlSession.selectOne("artistfeedMapper.isAlreadyAppliedFriend", map);
+	}
+
+	// 친구 신청
+	@Override
+	public int insertFriend(Friend f) {
+		return sqlSession.insert("artistfeedMapper.insertFriend", f);
+	}
+
+	// 친구 신청 시 알람
+	@Override
+	public int insertAlarm(Alarm a) {
+		return sqlSession.insert("artistfeedMapper.insertfriendAlarm", a);
 	}
 }

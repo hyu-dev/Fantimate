@@ -4,8 +4,11 @@ import java.util.List;
 
 import com.kh.fantimate.common.model.vo.Alarm;
 import com.kh.fantimate.common.model.vo.Attachment;
+import com.kh.fantimate.common.model.vo.Friend;
 import com.kh.fantimate.common.model.vo.Like;
+import com.kh.fantimate.common.model.vo.Message;
 import com.kh.fantimate.common.model.vo.Reply;
+import com.kh.fantimate.common.model.vo.Report;
 import com.kh.fantimate.common.model.vo.Subscribe;
 import com.kh.fantimate.feed.model.vo.AttachmentF;
 import com.kh.fantimate.feed.model.vo.Feed;
@@ -68,6 +71,31 @@ public interface ArtistFeedService {
 	// 댓글 삭제
 	public int deleteReply(int rid);
 
+	// 댓글 좋아요 누른 유저 리스트
+	public List<Like> selectRLikeList();
+
+	// 댓글 좋아요 인서트
+	public int insertLike3(Like like, int rid);
+
+	// 댓글 좋아요 취소
+	public int deleteLike3(Like like, int rid);
+
+	// 댓글 좋아요 갯수 select
+	public int selectLike3(int rid);
+
+	// rid로 댓글 번호 조회
+	public List<Reply> selectReply(int rid);
+
+	// 댓글 신고
+	public int insertReplyReport(Report r, Alarm a);
 	
+	// 쪽지 보내기
+	public int insertMessage(Message m);
+
+	// 친구신청 중복검사
+	public int isAlreadyAppliedFriend(String frSend, String frRecId);
+
+	// 친구신청
+	public int insertFriend(Friend f, Alarm a);
 	
 }
