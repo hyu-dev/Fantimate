@@ -11,7 +11,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="${ contextPath }/resources/css/common/font.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css">
-    <link rel="stylesheet" href="${ contextPath }/resources/css/feed/fanFeedList.css?aftrs">
+    <link rel="stylesheet" href="${ contextPath }/resources/css/feed/fanFeedList.css?aftrhs">
     <link rel="icon" type="image/png" sizes="16x16" href="${ contextPath }/resources/icon/faviconF.png">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 <title>Insert title here</title>
@@ -168,14 +168,7 @@
                         	
                         	<!-- 좋아요 누른애는 검정아이콘, 안누른애는 하얀아이콘 -->
                         	
-                        <%-- 	<c:forEach var="l" items="${ lklist }">
-                        	<c:choose>
-                        	<c:when test="${f.fid eq l.refId}">
-							</c:when>
-							<c:otherwise>
-							</c:otherwise>
-							</c:choose>
-							</c:forEach> --%>
+                       
 							
 							
 							<c:set var="ddimCheck" value="0"/>
@@ -191,13 +184,11 @@
                               </c:if>
 							
 						
-							<%-- <td><img id="insertLike" src="../resources/images/feed/likeblack-icon.png" class="like-icon" onclick="insertLike(${f.fid},${f.flike});"></td> --%>
-							                           
-                            <%-- <td><img id="insertLike" src="../resources/images/feed/likeblack-icon.png" class="like-icon" onclick="insertLike(${f.fid},${f.flike});"></td> --%>
+							
                             
                          
                            
-                            <td id="likeCount${f.fid}"><!-- 카운트 ajax --></td>
+                            <td id="likeCount${f.fid}">${f.flike}<!-- 카운트 ajax --></td>
                             <td class="reply-info">댓글</td>
                             <td class="reply-count">2,300</td>
                         </tr>
@@ -274,6 +265,7 @@
                                    </c:if>
                                </c:forEach>
                               </c:when>
+                               
                                <c:otherwise>
                                <c:forEach var="ap" items="${ aplist }">
                      	 		<c:if test="${ ap.refuid eq r.writer }">
@@ -328,13 +320,13 @@
                               
                               </c:otherwise> 
                               </c:choose>
-                               <!-- 아티스트가 댓글 달 경우 닉네임,사진 ,내용 출력  -->  
+                               
                                    
                                    
                                    
                                     
                               
-                              
+                          
                               
                               
                               
@@ -342,54 +334,23 @@
                                   
                                 <!-- 댓글 좋아요 영역 -->
                                 <div class="comment-info comment-center nanumsquare">
-                                
-                                    <img class="likeBtn" src="../resources/images/feed/like-icon.png">
-                                    <span class="like-count">1,000</span>
-                                    <span class="comment-date"><fmt:formatDate value="${ r.rcreate }" pattern="yyyy.MM.dd HH:mm"/></span>
+                                <c:set var="check" value="0"/>
+                                	<c:forEach var="rl" items="${ rlklist }">
+                                		<c:if test="${ loginUser.id eq rl.id && r.rid eq rl.refId }">
+                                    		<img id="cancelRLike" class="likeBtn${ r.rid }" src="../resources/images/feed/likeblack-icon.png" onclick="insertRLike(${r.rid})">
+											<c:set var="check" value="1"/>
+										</c:if>
+									</c:forEach>
+										<c:if test="${ check eq 0 }">
+											<img id="insertRLike" class="likeBtn${ r.rid }" src="../resources/images/feed/like-icon.png" onclick="insertRLike(${r.rid})">
+										</c:if>                                  
+                                	    	<span id="likeRCount${r.rid}"> ${ r.likeCount } </span>
+                                    		<span class="comment-date"><fmt:formatDate value="${ r.rcreate }" pattern="yyyy.MM.dd HH:mm"/></span>
                                 </div>
                                
                                 
                                 
-								<!-- </tbody> -->
-                                <!-- 대댓글 -->
-                               <%--  <table class="re-comment">
-                                    <colgroup>
-                                        <col width="5%"/>
-                                        <col width="95%"/>
-                                    </colgroup>
-                                    <tr class="comment-line">
-                                        <td>
-                                            <div class="re-profile-bubble">
-                                                <p>친구 신청</p>
-                                                <p>쪽지 보내기</p>
-                                            </div>
-                                            <img class="re-profile-picture" src="">
-                                        </td>
-                                        <td>
-                                            <div class="comment-box">
-                                                <div class="comment-main comment-center nanumsquare">
-                                                    <span class="comment-name">뷔바라기</span>
-                                                    <span class="comment-content">
-                                                        당연하죠. 완전 꿀잼ㅠㅠㅠㅠㅠ
-                                                    </span>
-                                                </div>
-                                                <div class="re-comment-etc">···
-                                                    <div class="re-comment-bubble">
-                                                        <p>댓글 신고</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="re-comment-info comment-center nanumsquare">
-                                                <img class="likeBtn" src="../resources/images/feed/like-icon.png">
-                                                <span class="like-count">10</span><span class="comment-date">2021.03.08</span>
-                                            </div>
-                                        </td>
-                                    </tr>
-                             
-                                </table> --%>
-                     	 	</td>
-                     	  </tr>   
-             		<!-- </tbody> -->
+						
                  	</c:if>
                  	</c:forEach>
                     </table>
@@ -424,12 +385,7 @@
                     </form> 
                     
                     
-                     <script>
-                            // 좋아요 카운트 
-                         	$(function(){
-                         		likeCount(${f.fid});
-                         	});
-                     </script>
+                     
              </div>
              
              
@@ -459,12 +415,12 @@
                  		 }
             	 }
             	 var url = "${pageContext.request.contextPath}/fanfeed/like"
-         	     callAjaxWish(url, data, img, fid);
+         	     callAjaxWishx(url, data, img, fid);
              
              }
              
              // 좋아요 ajax
-             function callAjaxWish(url, data, img ,fid){
+             function callAjaxWishx(url, data, img ,fid){
             	 console.log(img.attr("src"));
             	 $.ajax({
             		 url : url,
@@ -515,10 +471,89 @@
        		}); 
        		
        	}
-      
-             
              </script>
+       
+       
+        <!-- 댓글 좋아요*************  -->     
+       <script>
+             function insertRLike(rid){
+            	 var data;
+            	 var rid = rid;
+            	 var img = $(".likeBtn" + rid);
+            	 if($(".likeBtn" + rid).attr('src') == "../resources/images/feed/like-icon.png"){
+            		 data = {
+            			rid : rid,
+            			id : "${loginUser.id}",
+            			type: '등록'
+            				 
+            		 }
+            	 } else if($(".likeBtn" + rid).attr('src') == "../resources/images/feed/likeblack-icon.png"){
+            		 data = {
+            				rid : rid,
+                 			id : "${loginUser.id}",
+                 			type: '취소'
+                 				 
+                 		 }
+            	 }
+            	 var url = "${pageContext.request.contextPath}/fanfeed/rlike"
+         	     callAjaxWish(url, data, img, rid);
              
+             }
+             
+             // 댓글좋아요 ajax
+             function callAjaxWish(url, data, img ,rid){
+            	 console.log(img.attr("src"));
+            	 $.ajax({
+            		 url : url,
+            		 method : "POST",
+            		 data : data,
+            		 dateType : "json",
+            		 success : function(map) {
+            			 alert(map.msg)
+            			 var src = "../resources/images/feed/"
+            			 if(map.msg == "좋아요가 등록 되었습니다"){
+            				 img.attr("src", src + "likeblack-icon.png");
+              				 document.getElementById("likeRCount"+rid).innerHTML = map.count;
+            			 } else if(map.msg == "좋아요가 취소되었습니다"){
+            				 img.attr("src", src + "like-icon.png");
+              				 document.getElementById("likeRCount"+rid).innerHTML = map.count;
+            			 }
+            			 console.log("적용후 : " , img.attr("src"))
+            			 
+            		 },
+            		 error : function(e) {
+     	        		console.log(e)
+     	        	}
+            	 });
+            	 
+             }
+             
+          
+         	function likeRCount(rid){
+         		
+       		 var rid = rid;
+       		
+       		$.ajax({
+       			url: "${contextPath}/fanfeed/likeRCount",
+       			data : {rid : rid},
+       			dataType : "json",
+       			success : function(data){
+       				console.log(data);
+       				
+       				document.getElementById("likeRCount"+rid).innerHTML = data;
+       				
+       				
+       			},
+       			error : function(e){
+       				alert("code : " + e.status + "\n"
+       						+ "message : " + e.responseText);
+       			}
+       			
+       		}); 
+       		
+       	}
+             </script>      
+          
             
              
              
@@ -743,73 +778,7 @@
 	}   
    </script>
    
-   <!-- 좋아요 클릭시  누른 유저 추가 -->
- <!--   <script>
-   function insertLike(fid,flike){
-	   var id = "${ loginUser.id }";	 // 좋아요 누른 유저 아이디
-	   var refId = fid;					 // 좋아요 누른 게시글 번호 
-	   var flike = flike;		 		 // 좋아요 갯수
-	   var artNameEn = "${ artiName }";
-	   $.ajax({
-		  	url : "${ contextPath }/fanfeed/insertLike?refId=" + refId + '&flike=' + flike,
-			data : { id : id },
-			type : "post",
-			dataType : "json",
-			success : function(data){
-				console.log(data);	// (화면)좋아요 갯수 증가하면서 좋아요아이콘 검정색으로 바꾸기
-				alert("좋아요 인서트 성공");
-				 $("#insertLike").attr('src',"${ contextPath }/resources/images/feed/likeblack-icon.png");
-				
-					
-				
-				
-				//	 var change = document.getElementById("insertLike");
-			//	 document.querySelector(change).setAttribute("src", "https://placeimg.com/200/200/" + i);
-				//$('#insertLike').attr('src','../resources/images/feed/likeblack-icon.png')
-//				url : "${ contextPath }/fanfeed/fanFeedList?artNameEn=" + artNameEn;
-			//	document.getElementById("insertLike").src = "${ contextPath }/resources/images/feed/likeblack-icon.png";
-//				if(document.getElementById("insertLike").getAttribute('src') == "${ contextPath }/resources/images/feed/like-icon.png") {
-//	                document.getElementById("insertLike").src = "${ contextPath }/resources/images/feed/likeblack-icon.png";
-	               
-//	            } else {
-//	                document.getElementById("insertLike").src = "${ contextPath }/resources/images/feed/like-icon.png";
-//	            }
-//			}
-		 }
-	  });
-   }
-   </script> -->
-   
-   <!-- 좋아요 취소 시 누른 유저 삭제 -->
-  <!--  <script>
-   function	cancelLike(fid,flike){
-	   var id = "${ loginUser.id }";	 // 좋아요 취소한 유저 아이디
-	   var refId = fid;					 // 좋아요 취소한 게시글 번호 
-	   var flike = flike;		 		 // 좋아요 갯수
-	   $.ajax({
-		  	url : "${ contextPath }/fanfeed/cancelLike?refId=" + refId + '&flike=' + flike,
-			data : { id : id },
-			type : "post",
-			dataType : "json",
-			success : function(data){
-				console.log(data);	// (화면)좋아요 갯수 증가하면서 좋아요아이콘 검정색으로 바꾸기, db b_like테이블에 인서트 , BOARD테이블 B_LIKE 컬럼 +1 업데이트 
-				alert("좋아요 취소 성공");
-				
-				$("#cancelLike").attr('src',"${ contextPath }/resources/images/feed/like-icon.png");
-				
-				//				document.getElementById("cancelLike").src = "${ contextPath }/resources/images/feed/like-icon.png";
-//				if(document.getElementById("insertLike").getAttribute('src') == "${ contextPath }/resources/images/feed/like-icon.png") {
-//	                document.getElementById("insertLike").src = "${ contextPath }/resources/images/feed/likeblack-icon.png";
-	               
-//	            } else {
-//	                document.getElementById("insertLike").src = "${ contextPath }/resources/images/feed/like-icon.png";
-//	            }
-				
-			}
-	  });
-   }
-   </script>
-    -->
+  
    
    
    <!-- 친구 신청 -->

@@ -275,6 +275,39 @@ public class FanFeedDaoImpl implements FanFeedDao{
 		return sqlSession.insert("fanfeedMapper.ReplyAlarm", a);
 	}
 
+	// 댓글 좋아요 누른 유저 리스트
+	@Override
+	public List<Like> selectRLikeList() {
+		return sqlSession.selectList("fanfeedMapper.selectRLikeList");
+	}
+
+	// 댓글 좋아요 등록
+	@Override
+	public int insertLike3(Like like) {
+		return sqlSession.insert("fanfeedMapper.insertLike3" ,like);
+	}
+
+	@Override
+	public int updateLike3(int rid) {
+		return sqlSession.update("fanfeedMapper.updateFeedLike3",rid);
+	}
+
+	// 댓글 좋아요 취소
+	@Override
+	public int deleteLike3(Like like) {
+		return sqlSession.delete("fanfeedMapper.deleteLike3",like);
+	}
+
+	@Override
+	public int updateDeleteLike3(int rid) {
+		return sqlSession.update("fanfeedMapper.updateFeedLikeCancel3",rid);
+	}
+
+	@Override
+	public int selectLike3(int rid) {
+		return sqlSession.selectOne("fanfeedMapper.selectLike3" ,rid);
+	}
+
 	// 모든 유저 컬렉션
 	/*
 	 * @Override public List<MemberCollection> selectSumList() { return

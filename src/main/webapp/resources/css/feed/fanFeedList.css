@@ -505,6 +505,13 @@ html, body {
     cursor: pointer;
 }
 
+#cancelRLike, #insertRLike{
+	 width : 20px;
+    height : 20px;
+    margin-left: 25px;
+    cursor: pointer;
+}
+
 /* 댓글 텍스트 */
 .reply-info {
     text-align: right;
