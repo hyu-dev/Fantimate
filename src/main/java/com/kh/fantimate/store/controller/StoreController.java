@@ -343,7 +343,7 @@ public class StoreController {
 		int result = sService.insertStore(sc, attList);
 		
 		if(result > 0) {
-			response.sendRedirect("storeList");
+			response.sendRedirect("../mypage/agency/store?artiName=" + storeCate.getArtiNameEn());
 		} else {
 			System.out.println("등록안됨");
 		}

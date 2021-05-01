@@ -1,6 +1,7 @@
 package com.kh.fantimate.feed.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -260,6 +261,12 @@ public class FanFeedDaoImpl implements FanFeedDao{
 	public int selectLike2(int fid) {
 		
 		return sqlSession.selectOne("fanfeedMapper.selectLike2" ,fid);
+	}
+
+	// 이미 친구신청이 되어있는지 확인
+	@Override
+	public int isAlreadyAppliedFriend(Map<String, String> map) {
+		return sqlSession.selectOne("fanfeedMapper.isAlreadyAppliedFriend", map);
 	}
 
 	// 모든 유저 컬렉션

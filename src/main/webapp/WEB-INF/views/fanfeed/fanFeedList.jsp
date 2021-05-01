@@ -321,7 +321,6 @@
                                                     <div class="re-comment-bubble">
                                                         <p>댓글 신고</div>
                                                     </div>
-
                                                 </div>
                                             </div>
                                             <div class="re-comment-info comment-center nanumsquare">
@@ -368,14 +367,9 @@
                      <script>
                             // 좋아요 카운트 
                          	$(function(){
-                         		likeCount((${f.fid}));
+                         		likeCount(${f.fid});
                          	});
-                            
-                      
                      </script>
-                        
-               
-
              </div>
              
              
@@ -570,15 +564,12 @@
         // 팝업 가운데에 띄우기
         var popupWidth = 600;
         var popupHeight = 500;
-
         var popupX = Math.ceil((window.screen.width - popupWidth)/2);
         // 만들 팝업창 width 크기의 1/2 만큼 보정값으로 빼주었음
-
         var popupY = Math.ceil((window.screen.width - popupHeight)/2);
         // 만들 팝업창 height 크기의 1/2 만큼 보정값으로 빼주었음
         
         var url = "${ contextPath }/fanfeed/reportView?fid=" + fid;
-
         window.open(url, "신고하기", 'width=' + popupWidth  + ', height=' + popupHeight  + ', left='+ popupX + ', top='+ popupY);
     }
     </script>
@@ -600,10 +591,8 @@
          // 팝업 가운데에 띄우기
          var popupWidth = 1200;
          var popupHeight = 500;
-
          var popupX = Math.ceil((window.screen.width - popupWidth)/2);
          // 만들 팝업창 width 크기의 1/2 만큼 보정값으로 빼주었음
-
          var popupY = Math.ceil((window.screen.width - popupHeight)/2);
          // 만들 팝업창 height 크기의 1/2 만큼 보정값으로 빼주었음
         
@@ -650,10 +639,8 @@
        var popupHeight = 400;
        
      //  var messRecId = $("#messRecId").val();
-
        var popupX = Math.ceil((window.screen.width - popupWidth)/2);
        // 만들 팝업창 width 크기의 1/2 만큼 보정값으로 빼주었음
-
        var popupY = Math.ceil((window.screen.width - popupHeight)/2);
        // 만들 팝업창 height 크기의 1/2 만큼 보정값으로 빼주었음
       
@@ -686,15 +673,12 @@
 	        // 팝업 가운데에 띄우기
 	        var popupWidth = 600;
 	        var popupHeight = 500;
-
 	        var popupX = Math.ceil((window.screen.width - popupWidth)/2);
 	        // 만들 팝업창 width 크기의 1/2 만큼 보정값으로 빼주었음
-
 	        var popupY = Math.ceil((window.screen.width - popupHeight)/2);
 	        // 만들 팝업창 height 크기의 1/2 만큼 보정값으로 빼주었음
 	        
 	        var url = "${ contextPath }/fanfeed/reportReplyView?rid=" + rid;
-
 	        window.open(url, "신고하기", 'width=' + popupWidth  + ', height=' + popupHeight  + ', left='+ popupX + ', top='+ popupY);
 	}   
    </script>
@@ -752,7 +736,6 @@
 				alert("좋아요 취소 성공");
 				
 				$("#cancelLike").attr('src',"${ contextPath }/resources/images/feed/like-icon.png");
-
 				
 				//				document.getElementById("cancelLike").src = "${ contextPath }/resources/images/feed/like-icon.png";
 //				if(document.getElementById("insertLike").getAttribute('src') == "${ contextPath }/resources/images/feed/like-icon.png") {
@@ -789,15 +772,12 @@
 	   // 팝업 가운데에 띄우기
        var popupWidth = 1300;
        var popupHeight = 600;
-
        var popupX = 300;
        // 만들 팝업창 width 크기의 1/2 만큼 보정값으로 빼주었음
-
        var popupY = 250;
        // 만들 팝업창 height 크기의 1/2 만큼 보정값으로 빼주었음
 	   
 	   var url = "${ contextPath }/fanfeed/detailView?fid=" + fid;
-
        window.open(url, "상세페이지", 'width=' + popupWidth  + ', height=' + popupHeight  + ', left='+ popupX + ', top='+ popupY);
 	 
        
@@ -807,14 +787,10 @@
   
   <!-- 대댓글  -->
   <script>
-
-
   $('.re-comment-etc').click(function () {
       $(this).siblings(".re-comment-bubble").toggleClass('open-area', 500);
   });
-
   $(".re-commentBtn").click(function () {
-
       if($(this).text() == "답글 열기") {
           $(this).text("답글 닫기");
       } else if($(this).text() == "답글 닫기") {
@@ -823,15 +799,12 @@
       
       $(this).parent().parent().siblings(".re-comment").toggleClass('open-area', 500);
   });
-
   $(".add-comment").click(function () {
       $(this).parent().parent().siblings(".comment-toggle").toggleClass('open-area', 500);
   });
-
   $(".re-send-btn").click(function () {
       $(this).parent().parent(".comment-toggle").toggleClass('open-area', 500);
   });
-
   $(document).ready(function() {
       for(var i = 1; i <= $(".comment-line").length; i++) {
           if($(".comment-line:eq(" + i + ")").children().children(".re-comment").text()) {
