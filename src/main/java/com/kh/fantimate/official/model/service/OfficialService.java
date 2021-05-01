@@ -59,6 +59,9 @@ public interface OfficialService {
 	// 새 댓글 입력
 	public List<ReplyCollection> insertReply(Reply r, String artiName);
 	
+	// 해당 아티스트에 적용된 닉네임 가져오기
+	public String selectNickName(Map<String, String> map);
+	
 	// 댓글 삭제
 	public List<ReplyCollection> deleteReply(Reply r, String artiName);
 
@@ -91,6 +94,4 @@ public interface OfficialService {
 	
 	// 스케줄 삭제
 	public int deleteSchedule(Date scheDate);
-
-
 }

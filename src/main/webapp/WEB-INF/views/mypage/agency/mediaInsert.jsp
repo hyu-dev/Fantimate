@@ -7,11 +7,13 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link rel="stylesheet" href="${ contextPath }/resources/css/mypage/agency/mediaInsert.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 </head>
 <body>
 	<section class="media-form-container pop-up">
 		<div class="black-back"></div>
-        <form id="mediaForm" class="media-form pop-up-form" action="${ contextPath }/mypage/insertMedia" method="POST" enctype="multipart/form-data">
+        <form id="mediaForm" class="media-form pop-up-form" onsubmit="return check();"
+        action="${ contextPath }/mypage/insertMedia" method="POST" enctype="multipart/form-data">
         	<span class="pop-up-text nanumsquare">미디어 등록</span>
         	<br><br>
         	<div class="center">
@@ -32,8 +34,8 @@
 	                	<td>
 	                		<select id="insertMediaCategory" class="category-box nanumsquare" name="cateName">
                                 <option value="">카테고리 선택</option>
-                                <c:forEach var="mc" items="${ media }">
-                                <option value="${ mc.category.cateName }">${ mc.category.cateName }</option>
+                                <c:forEach var="cate" items="${ cate }">
+                                <option value="${ cate.cateName }">${ cate.cateName }</option>
                                 </c:forEach>
                             </select>
 	                	</td>
@@ -41,7 +43,7 @@
 	                <tr class="nanumsquare">
 	                	<td>카테고리 추가&nbsp;&nbsp;</td>
 	                	<td>
-	                		<input type="text" name="addCate">
+	                		<input id="addCate" type="text" name="addCate">
 	                	</td>
 	                </tr>
 	                <tr class="nanumsquare">
@@ -53,7 +55,7 @@
 	                <tr class="nanumsquare">
 	                	<td>가격&nbsp;&nbsp;</td>
 	                	<td>
-	                		<input type="number" name="mediaPay" placeholder="0">
+	                		<input type="number" name="mediaPay" value=0>
 	                	</td>
 	                </tr>
 	                <tr class="nanumsquare">
@@ -75,8 +77,8 @@
 	                <tr class="nanumsquare">
 	                	<td>세부 설명&nbsp;&nbsp;</td>
 	                	<td>
-	                		<textarea onkeyup="chkword(this, 1000)" name="mediaCtt" class="media-text" style="resize:none;"></textarea>
-                            <div class="limit-text">0 / 1000</div>
+	                		<textarea name="mediaCtt" class="media-text" style="resize:none;"></textarea>
+                            <span class="count-num">/1000</span><span class="text-count count-num">0</span>
 	                	</td>
 	                </tr>
 	            </table>
@@ -90,35 +92,51 @@
     
     <script>
  	// 글자수 제한
-	 function chkword(obj, maxlength) {
-	     let str = obj.value; // 이벤트가 일어난 컨트롤의 value 값
-	     let str_length = str.length; // 전체길이
-	     // 변수초기화     
-	     let max_length = maxlength; // 제한할 글자수 크기
-	     let i = 0; // for문에 사용     
-	     let ko_byte = 0; // 한글일경우는 2 그밗에는 1을 더함     
-	     let li_len = 0; // substring하기 위해서 사용     
-	     let one_char = ""; // 한글자씩 검사한다 
-	     let str2 = ""; // 글자수를 초과하면 제한할수 글자전까지만 보여준다.
-	     for (i = 0; i < str_length; i++) {
-	         // 한글자추출 
-	         one_char = str.charAt(i);             
-	         ko_byte++;
-	         $('.limit-text').text(ko_byte + " / 1000");
-	     }           
-	     // 전체 크기가 max_length를 넘지않으면         
-	     if (ko_byte <= max_length) {             
-	         li_len = i + 1;         
-	     }            
-	     // 전체길이를 초과하면     
-	     if (ko_byte > max_length) {         
-	         alert(max_length + " 글자 이상 입력할 수 없습니다. \n 초과된 내용은 자동으로 삭제 됩니다. ");         
-	         str2 = str.substr(0, max_length);         
-	         obj.value = str2;     
-	         $('.limit-text').text("1000 / 1000");
-	     }     
-	     obj.focus(); 
-	 }  
+	$(document).ready(function() {
+	    $(".media-text").keyup(function() {
+	        var inputLength = $(this).val().length;
+	        $(".text-count").html(inputLength);
+	        var remain = 1000 - inputLength;
+	
+	        if(remain >= 0) {
+	            $(".text-count").css("color", "#ACACAC");
+	        } else {
+	            $(".text-count").css("color", "red");
+	        }
+	    });
+	});
+ 	
+ 	// 폼 등록에 관한 유효성 검사
+ 	function check() {
+ 		if($("#insertMediaCategory").val() == "" && $("input[name=addCate]").val() == "") {
+ 			alert("카테고리를 등록해주세요.");
+ 			return false;
+ 		} else if($("#insertMediaCategory").val() == $("input[name=addCate]").val()) {
+ 			alert("존재하는 카테고리입니다.");
+ 			return false;
+ 		}
+ 		
+ 		if($("input[name=mediaTtl]").val() == "") {
+ 			alert("제목을 입력해주세요.");
+ 			$("input[name=mediaTtl]").focus();
+ 			return false;
+ 		}
+ 		
+ 		if($("input[name=picName]").val() == "") {
+ 			alert("썸네일을 등록해주세요.");
+ 			return false;
+ 		}
+ 		
+ 		if($("input[name=vidName]").val() == "") {
+ 			alert("첨부 영상을 등록해주세요.");
+ 			return false;
+ 		}
+ 		
+ 		if($(".media-text").val() == "") {
+ 			alert("세부 설명을 입력해주세요.");
+ 			return false;
+ 		}
+ 	}
     </script>
 </body>
 </html>

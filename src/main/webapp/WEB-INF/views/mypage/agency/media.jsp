@@ -50,6 +50,7 @@
         <div class="official-list-container">
             <p class="list-title nanumsquare">My Official List</p>
             <hr class="list-line">
+            <c:set var="artistName" value="${ artiName }" scope="session"/>
             <table class="official-list nanumsquare">
                 <tbody>
                     <colgroup>
@@ -63,8 +64,8 @@
                         <td>
                             <select class="category-box nanumsquare" name="category">
                                 <option value="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;카테고리</option>
-                                <c:forEach var="mc" items="${ media }">
-                                <option value="${ mc.category.cateName }">${ mc.category.cateName }</option>
+                                <c:forEach var="cate" items="${ cate }">
+                                <option value="${ cate.cateName }">${ cate.cateName }</option>
                                 </c:forEach>
                             </select>
                         </td>
@@ -85,11 +86,12 @@
                         </colgroup>
                         <c:set var="mcount" value="0"/>
                         <c:forEach var="m" items="${ media }">
+                        <c:set var="mcount" value="${ mcount + 1 }"/>
                         <tr>
-                            <td>${ mcount + 1 }</td>
+                            <td>${ mcount }</td>
                             <td>${ m.category.cateName }</td>
                             <td>${ m.official.mediaTtl }</td>
-                            <td><button type="button" class="official-link-Btn">이동하기</button></td>
+                            <td><button type="button" class="official-link-Btn" onclick="mediaLink('${ m.official.mediaNum }');">이동하기</button></td>
                         </tr>
                         </c:forEach>
                     </tbody>
@@ -106,6 +108,11 @@
 	
 	<!-- 본문 끝 -->
 	<script>
+	// 이동하기 버튼 클릭할 때
+	function mediaLink(mediaNum) {
+		location.href = "${ contextPath }/official/media/detail?mediaNum=" + mediaNum;
+	}
+	
 	// 미디어 +버튼 클릭할 때
 	$(".official-plus").click(function() {
 		$(".media-form-container").css("display", "block");

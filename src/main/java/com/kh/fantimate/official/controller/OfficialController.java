@@ -12,16 +12,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
 import com.kh.fantimate.common.model.vo.BookMark;
 import com.kh.fantimate.common.model.vo.Reply;
 import com.kh.fantimate.common.model.vo.ReplyCollection;
+import com.kh.fantimate.member.model.vo.Admin;
+import com.kh.fantimate.member.model.vo.Agency;
+import com.kh.fantimate.member.model.vo.ArtistCollection;
 import com.kh.fantimate.member.model.vo.Member;
 import com.kh.fantimate.member.model.vo.User;
 import com.kh.fantimate.member.model.vo.UserCollection;
@@ -134,7 +137,7 @@ public class OfficialController {
 	// 오피셜 리스트 페이지 출력
 	@GetMapping("/media/list")
 	public ModelAndView selectMediaList(String category, ModelAndView mv, HttpServletRequest request) {
-		String artiName = ((String)request.getSession().getAttribute("artiName"));;
+		String artiName = ((String)request.getSession().getAttribute("artiName"));
 		
 		System.out.println("카테고리명 : " + category);
 		
@@ -168,10 +171,18 @@ public class OfficialController {
 	
 	// 오피셜 상세페이지 출력
 	@GetMapping("/media/detail")
-	public ModelAndView selectMedia(int mediaNum, ModelAndView mv, HttpServletRequest request) {
-		String artiName = ((String)request.getSession().getAttribute("artiName"));
+	public ModelAndView selectMedia(int mediaNum, HttpSession session, ModelAndView mv, 
+									HttpServletRequest request) {
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		String artiName = (String)request.getSession().getAttribute("artiName");
+		String artistName = (String)request.getSession().getAttribute("artistName");
 		
-		System.out.println("미디어 번호 : " + mediaNum);
+		// 소속사 마이페이지를 통해 들어온 경우
+		if(loginUser.getClassifyMem() == 3) {
+			if(artistName != "") {
+				artiName = artistName;
+			}
+		}
 		
 		Map<Object, Object> map = new HashMap<>();
 		map.put("mediaNum", mediaNum);
@@ -180,7 +191,6 @@ public class OfficialController {
 		// 클릭한 미디어 호출
 		MediaCollection media = oService.selectMedia(map);
 		System.out.println("클릭한 미디어 호출 : " + media);
-		Member loginUser = (Member)request.getSession().getAttribute("loginUser");
 		
 		if(media != null) {
 			mv.addObject("media", media);
@@ -217,21 +227,43 @@ public class OfficialController {
 	// 댓글 등록하기
 	@PostMapping(value="/insertReply", produces="application/json; charset=utf-8")
 	public @ResponseBody String insertReply(Reply r, HttpSession session, Model model, HttpServletRequest request) {
-		String artiName = ((String)request.getSession().getAttribute("artiName"));
 		Member loginUser = (Member)session.getAttribute("loginUser");
-		String writer = loginUser.getId();
-		r.setWriter(writer);
-		System.out.println("전송된 댓글 데이터 : " + r);
+		String artiName = (String)request.getSession().getAttribute("artiName");
 		
-		List<ReplyCollection> comment = oService.insertReply(r, artiName);
-		
-		if(comment != null) {
-			model.addAttribute("comment", comment);
-		} else {
-			System.out.println("댓글없음");
+		// 닉네임 설정
+		if(loginUser.getClassifyMem() == 1) {
+			List<UserCollection> user = (ArrayList<UserCollection>)request.getSession().getAttribute("user");
+			System.out.println(user);
+			
+			Map<String, String> map = new HashMap<>();
+			map.put("artiName", artiName);
+			map.put("id", loginUser.getId());
+			
+			// 해당 아티스트에 적용된 닉네임 가져오기
+			String nickName = oService.selectNickName(map);
+			System.out.println("닉네임 : " + nickName);
+			r.setNickname(nickName);
+			
+		} else if(loginUser.getClassifyMem() == 2) {
+			ArtistCollection artist = (ArtistCollection)request.getSession().getAttribute("artist");
+			r.setNickname(artist.getArtist().getArtiNickname());
 		}
 		
-		return "abc";
+		r.setWriter(loginUser.getId());
+		System.out.println("아티스트 명 : " + artiName);
+		System.out.println("전송된 댓글 데이터 : " + r);
+		
+		// 댓글 등록하고 다시 가져오기
+		List<ReplyCollection> reply = (List<ReplyCollection>)oService.insertReply(r, artiName);
+		
+		if(reply != null) {
+			System.out.println("댓글 등록 성공");
+		} else {
+			System.out.println("댓글 등록 실패");
+		}
+		
+		// 댓글
+		return new Gson().toJson(reply);
 	}
 	
 	// 댓글 삭제하기

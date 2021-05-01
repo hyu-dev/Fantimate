@@ -111,6 +111,12 @@ public class OfficialDaoImpl implements OfficialDao{
 		return sqlSession.insert("officialMapper.insertReply", r);
 	}
 
+	// 해당 아티스트에 적용된 닉네임 가져오기
+	@Override
+	public String selectNickName(Map<String, String> map) {
+		return sqlSession.selectOne("officialMapper.selectNickName", map);
+	}
+
 	// 댓글 삭제
 	@Override
 	public int deleteReply(int rid) {
@@ -176,4 +182,5 @@ public class OfficialDaoImpl implements OfficialDao{
 	public int deleteSchedule(Date scheDate) {
 		return sqlSession.delete("officialMapper.deleteSchedule", scheDate);
 	}
+
 }

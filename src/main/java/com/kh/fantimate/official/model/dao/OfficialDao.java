@@ -60,6 +60,9 @@ public interface OfficialDao {
 
 	// 새 댓글 입력
 	int insertReply(Reply r);
+	
+	// 해당 아티스트에 적용된 닉네임 가져오기
+	String selectNickName(Map<String, String> map);
 
 	// 댓글 삭제
 	int deleteReply(int rid);
@@ -93,4 +96,5 @@ public interface OfficialDao {
 
 	// 스케줄 삭제
 	int deleteSchedule(Date scheDate);
+
 }

@@ -287,6 +287,12 @@ public class MypageDaoImpl implements MypageDao{
 		return sqlSession.selectList("mypage2Mapper.selectMediaAdminList", artiName);
 	}
 
+	// 카테고리 중복 등록을 막기 위해 확인
+	@Override
+	public List<MediaCategory> selectCategory(String artiName) {
+		return sqlSession.selectList("mypage2Mapper.selectCategory", artiName);
+	}	
+	
 	// 카테고리 등록
 	@Override
 	public int insertMediaCategory(MediaCategory mc) {
@@ -304,4 +310,5 @@ public class MypageDaoImpl implements MypageDao{
 	public int insertMediaFile(MediaFile att) {
 		return sqlSession.insert("mypage2Mapper.insertMediaFile", att);
 	}
+
 }

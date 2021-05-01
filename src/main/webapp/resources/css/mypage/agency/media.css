@@ -67,6 +67,7 @@
     height: 30px;
     background: #F4D4D4;
     font-size: 15px;
+    cursor: pointer;
 }
 
 .search-area {

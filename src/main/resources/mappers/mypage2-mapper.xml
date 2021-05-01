@@ -1102,6 +1102,17 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	       MEDIA_DATE DESC
 	</select>
 	
+	<!-- 카테고리 중복 등록을 막기 위해 확인-->
+	<select id="selectCategory" parameterType="string" resultMap="mediaCategory">
+	SELECT 
+	       CATE_CODE, CATE_NAME
+	  FROM 
+	  	   M_CATEGORY
+	 WHERE 
+	       ARTI_NAME_EN = #{artiName}
+	</select>
+	
+	<!-- 미디어 카테고리 등록 -->
 	<insert id="insertMediaCategory" parameterType="Category">
 	INSERT
       INTO M_CATEGORY
@@ -1113,6 +1124,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
           )
 	</insert>
 	
+	<!-- 미디어 등록 -->
 	<insert id="insertOfficial" parameterType="Official">
 	INSERT
       INTO MEDIA(
@@ -1134,12 +1146,13 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
         , SYSDATE
         , 'Y'
         , #{isPay}
-        , SEQ_M_CATEGORY.CURRVAL
+        , #{cateCode}
         , #{mediaPay}
         , DEFAULT
           )	
 	</insert>
 	
+	<!-- 미디어 파일 등록 -->
 	<insert id="insertMediaFile" parameterType="MediaFile">
 	INSERT
       INTO MD_FILE(

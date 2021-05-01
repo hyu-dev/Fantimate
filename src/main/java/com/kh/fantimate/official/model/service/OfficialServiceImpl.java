@@ -115,6 +115,12 @@ public class OfficialServiceImpl implements OfficialService{
 		
 		return oDao.selectReplyList(map);
 	}
+	
+	// 해당 아티스트에 적용된 닉네임 가져오기
+	@Override
+	public String selectNickName(Map<String, String> map) {
+		return oDao.selectNickName(map);
+	}
 
 	// 댓글 삭제
 	@Override

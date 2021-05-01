@@ -73,6 +73,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<result property="writer" column="ID"/>
 		<result property="refRid" column="RE_CMT_NUM"/>
 		<result property="likeCount" column="LIKE_COUNT"/>
+		<result property="nickname" column="NICKNAME"/>
 	</resultMap>
 	<!-- 구독한 유저 정보 -->
 	<resultMap type="Subscribe" id="subscribe">
@@ -115,7 +116,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	</resultMap>
 	<!-- 댓글 컬렉션 -->
 	<resultMap type="ReplyCollection" id="replyCollResultSet">
-		<collection property="reply" resultMap="replyResultSet"/>
+		<collection property="mediaReply" resultMap="replyResultSet"/>
 		<collection property="subscribe" resultMap="subscribe"/>
 		<collection property="artist" resultMap="artistResultSet"/>
 		<collection property="artiAttach" resultMap="artiAttachResultSet"/>
@@ -377,34 +378,21 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	<!-- 클릭한 미디어 호출 -->
 	<select id="selectMedia" parameterType="hashMap" resultMap="mediaCollResultSet">
 	SELECT 
-	       MEDIA_NUM
+           MEDIA_NUM
 	     , MEDIA_TTL
 	     , MEDIA_CTT
 	     , MEDIA_DATE
-	     , MEDIA_STATUS
-	     , IS_PAY
-	     , MEDIA_PAY
 	     , MEDIA_COUNT
-         , CATE_CODE
          , CATE_NAME
          , ARTI_NAME_EN
-         , ATT_CODE
-	     , ATT_ROOT
-	     , VID_CL_NAME
 	     , VID_SV_NAME
-	     , ATT_STATUS
-	     , PIC_CL_NAME
 		 , PIC_SV_NAME
-	     , COUNT
-		 , COUNT_DATE
 	  FROM 
 	       MEDIA
- LEFT JOIN
+      JOIN
            M_CATEGORY USING(CATE_CODE)
- LEFT JOIN
+      JOIN
 	       MD_FILE USING(MEDIA_NUM)
- LEFT JOIN
-	  	   MD_COUNT USING(MEDIA_NUM)
 	 WHERE
 	 	   MEDIA_NUM = #{mediaNum}
 	   AND
@@ -432,6 +420,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	    )
 	</insert>
 	
+	<!-- 조회수 업데이트 -->
 	<update id="updateMediaCount" parameterType="_int">
 	UPDATE 
 		   MEDIA
@@ -471,13 +460,15 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
          , CMT_CTT
          , CMT_DATE
          , RPT_COUNT
-         , CMT_STATUS
          , A.ID
          , RE_CMT_NUM
-         , MEDIA_NUM
          , LIKE_COUNT
-         , B.NICKNAME
-         , C.U_NICKNAME
+         , A.NICKNAME
+         , FACEBOOK
+         , INSTAGRAM
+         , TWITTER
+         , DAILY_MSG
+         , C.U_ID
          , D.UP_SV_NAME
          , E.ATT_SV_NAME
 	  FROM
@@ -494,7 +485,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	       MEDIA_NUM = #{mediaNum}
 	   AND
           (
-           B.ARTI_NAME_EN = #{artiName} 
+           B.ARTI_NAME_EN = #{artiName}
         OR
            C.ARTI_NAME_EN = #{artiName}
           )
@@ -524,6 +515,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
          , RE_CMT_NUM
          , MEDIA_NUM
          , LIKE_COUNT
+         , NICKNAME
 	       )
 	VALUES
 	      (
@@ -533,11 +525,24 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	     , DEFAULT
 	     , DEFAULT
 	     , #{writer}
-	     , NULL
+	     , #{refRid}
 	     , #{refId}
-	     , 0
+	     , DEFAULT
+	     , #{nickname}
 	       )	
 	</insert>
+	
+	<!-- 해당 아티스트에 적용된 닉네임 가져오기 -->
+	<select id="selectNickName" parameterType="hashMap" resultType="string">
+    SELECT 
+	       U_NICKNAME
+	  FROM 
+	       ATT_SUBSCRIBE
+	 WHERE
+	       ARTI_NAME_EN = #{artiName}
+	   AND
+	       U_ID = #{id}
+	</select>
 	
 	<!-- 댓글 삭제 -->
 	<update id="deleteReply" parameterType="_int">
