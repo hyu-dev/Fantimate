@@ -695,7 +695,7 @@ html, body {
     border: 2px solid black;
     border-radius: 0 10px 10px 10px;
     width: 100px;
-    height: 90px;
+    height: auto;
     background: white;
     text-align: center;
     font-family: "Wemakeprice-regular";

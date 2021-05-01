@@ -5,7 +5,9 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,9 +21,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.google.gson.Gson;
 import com.kh.fantimate.common.model.vo.Alarm;
 import com.kh.fantimate.common.model.vo.Attachment;
 import com.kh.fantimate.common.model.vo.Like;
@@ -92,18 +97,33 @@ public class ArtistFeedController {
 		List<ArtistCollection> aclist = aService.selectacList(artNameEn);
 		System.out.println("그룹별 아티스트 멤버 정보 + 사진 조회 : " + aclist);
 		
+		// 7.한 게시글에서 좋아요 누른 유저
+		List<Like> lklist = aService.selectLikeList();
+		System.out.println("좋아유 누른 유저 리스트 : " + lklist);
+		
+		// 8. 댓글 리스트
+		List<Reply> rlist = aService.selectReplyList();
+		System.out.println("댓글 리스트 : " + rlist);
+		
+		// 9. 유저 프로필 사진 리스트
+		List<Attachment> atlist = aService.selectatList(artNameEn);
+		System.out.println("유저 프로필 사진 리스트 : " + atlist);
+		
 		// artiName 세션에 저장
 		HttpSession session = request.getSession(); // 세션을 생성해서
 		session.setAttribute("artiName", artNameEn); // userid로 uid값을 넘기자
 	//	session.setAttribute("subList", subList);
 		
-		if(list != null && !list.isEmpty()) {
+		if(gmlist != null && !gmlist.isEmpty()) {
 			mv.addObject("list", list);
 			mv.addObject("aplist", aplist);
 			mv.addObject("alist", alist);
 			mv.addObject("fplist", fplist);
 			mv.addObject("gmlist", gmlist);
 			mv.addObject("aclist", aclist);
+			mv.addObject("lklist", lklist);
+			mv.addObject("rlist", rlist);
+			mv.addObject("atlist", atlist);
 			mv.setViewName("artistfeed/artistFeedList");
 		} else {
 			mv.addObject("msg", "조회된 리스트가 없습니다.");
@@ -116,10 +136,12 @@ public class ArtistFeedController {
 	
 	// 게시글 작성
 	@PostMapping("/insert")
-	public void insertFeed(HttpServletResponse response,
+	public String insertFeed(HttpServletResponse response,
 							Feed f,
 							Alarm a,
 							String writer,
+							Model model,
+							RedirectAttributes rd,
 							@RequestParam(value="uploadFile1") MultipartFile one,
 							@RequestParam(value="uploadFile2") MultipartFile two,
 							@RequestParam(value="uploadFile3") MultipartFile three,
@@ -203,11 +225,13 @@ public class ArtistFeedController {
 				int result = aService.insertFeed(f, attList, sblist);
 			
 				if(result > 0) {
-					request.getSession().setAttribute("msg", "게시글이 등록되었습니다.");
-					response.sendRedirect("artistFeedList?artNameEn=" + artiName);
+					rd.addFlashAttribute("msg", "게시글이 등록되었습니다.");
+					return "redirect:/artistfeed/artistFeedList?artNameEn=" + artiName;
 				} else {
-					System.out.println("게시글 등록에 실패하였습니다");
+					rd.addFlashAttribute("msg", "게시글 등록에 실패하였습니다.");
+					return "redirect:/artistfeed/artistFeedList?artNameEn=" + artiName;
 				}
+				
 		
 	
 		
@@ -347,9 +371,86 @@ public class ArtistFeedController {
 		return mv;
 	}
 	
+	// 좋아요 등록 / 취소 
+		@PostMapping("/like")
+		public @ResponseBody Map<String, String> feedLike(Like like,
+				 				@RequestParam(value="type")String type,
+				 				int fid,
+				 				String id){
+			
+			System.out.println("피드번호뜨니??????" + fid);
+			like.setId(id);
+			like.setRefId(fid);
+			
+			String msg = "";
+			int result = 0;
+			int countLike = 0;
+			switch(type) {
+			case "등록" : 
+				result = aService.insertLike2(like, fid);
+				countLike = aService.selectLike2(fid);
+				msg = result > 0 ? "좋아요가 등록 되었습니다" : "좋아요 등록에 실패하였습니다";
+				break;
+			case "취소" :
+				result = aService.deleteLike2(like,fid);
+				countLike = aService.selectLike2(fid);
+				msg = result > 0 ? "좋아요가 취소되었습니다" : "좋아요 취소 실패하였습니다";
+				break;
+			
+			}
+			
+			String count = Integer.toString(countLike);
+			System.out.println("countㄴㄴㄴㄴㄴ:" + count);
+			Map<String, String> map = new HashMap<>();
+			map.put("msg", msg);
+			map.put("count", count);
+			return map;
+			
+			
+		}
+		
+		//likeCount
+		// 알람 갯수 카운트 (세션에 담기)
+		@RequestMapping(value="/likeCount", produces="application/json; charset=utf-8")
+		public @ResponseBody String countLike(int fid) {
+			
+			int countLike = aService.selectLike2(fid);
+			
+
+			return new Gson().toJson(countLike);
+			
+		}
 	
-	
-	
+		// 댓글 작성
+		@PostMapping("/insertReply")
+		public void insertReply(HttpServletRequest request,
+								HttpServletResponse response,
+								Reply r,
+								Alarm a,
+								@RequestParam(value="writer") String writer,
+				   				@RequestParam(value="id") String id,
+								HttpSession session) throws IOException {
+			
+			String artiName = (String)request.getSession().getAttribute("artiName");
+			
+			System.out.println("댓글에서 아트네임 넘어오냐: " + artiName);
+			System.out.println(r);
+			
+			// 알람 내용에 댓글 작성자 들어가야하고 아이디에 게시글 작성자 들어가야댐
+			a.setId(id);
+			a.setAlContent(writer + " 님이  댓글을 작성하였습니다.");
+			
+			int result = aService.insertReply(r, a);
+			
+			if(result > 0) {
+			
+				request.getSession().setAttribute("msg", "댓글이 등록되었습니다.");
+				response.sendRedirect("artistFeedList?artNameEn=" + artiName);
+			
+			} else {
+				System.out.println("댓글 등록에 실패하였습니다");
+			}
+		}
 	
 	
 	

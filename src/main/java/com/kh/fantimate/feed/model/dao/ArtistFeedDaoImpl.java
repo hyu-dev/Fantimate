@@ -8,6 +8,8 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.fantimate.common.model.vo.Alarm;
 import com.kh.fantimate.common.model.vo.Attachment;
+import com.kh.fantimate.common.model.vo.Like;
+import com.kh.fantimate.common.model.vo.Reply;
 import com.kh.fantimate.common.model.vo.Subscribe;
 import com.kh.fantimate.feed.model.vo.AttachmentF;
 import com.kh.fantimate.feed.model.vo.Feed;
@@ -90,5 +92,70 @@ public class ArtistFeedDaoImpl implements ArtistFeedDao {
 	@Override
 	public List<Feed> selectMember(String writer) {
 		return sqlSession.selectList("artistfeedMapper.selectMember", writer);
+	}
+
+	// 좋아요 누른 유저 리스트
+	@Override
+	public List<Like> selectLikeList() {
+		return sqlSession.selectList("artistfeedMapper.selectLikeList");
+	}
+	
+	// 좋아요 등록 
+	@Override
+	public int insertLike2(Like like) {
+			
+		return sqlSession.insert("artistfeedMapper.insertLike2" ,like);
+	}
+
+	// 좋아요 등록 시 좋아요 개수 업데이트
+	@Override
+	public int updateLike2(int fid) {
+			
+		return sqlSession.update("artistfeedMapper.updateFeedLike2",fid);
+	}
+
+	// 좋아요 취소 
+	@Override
+	public int deleteLike2(Like like) {
+			
+		return sqlSession.delete("artistfeedMapper.deleteLike2",like);
+	}
+	
+	// 좋아요 취소 시 좋아요 개수 업데이트
+	@Override
+	public int updateDeleteLike2(int fid) {
+	
+		return sqlSession.update("artistfeedMapper.updateFeedLikeCancel2",fid);
+	}
+
+	// 좋아요 개수 카운트
+	@Override
+	public int selectLike2(int fid) {
+			
+		return sqlSession.selectOne("artistfeedMapper.selectLike2" ,fid);
+	}
+
+	// 댓글 등록
+	@Override
+	public int insertReply(Reply r) {
+		return sqlSession.insert("artistfeedMapper.insertReply", r);
+	}
+
+	// 댓글 작성 시 게시글 작성자에게 알람
+	@Override
+	public int insertReplyAlarm(Alarm a) {
+		return sqlSession.insert("artistfeedMapper.ReplyAlarm", a);
+	}
+
+	// 댓글 리스트
+	@Override
+	public List<Reply> selectReplyList() {
+		return sqlSession.selectList("artistfeedMapper.selectReplyList");
+	}
+
+	// 유저 프로필 사진 리스트
+	@Override
+	public List<Attachment> selectatList(String artNameEn) {
+		return sqlSession.selectList("artistfeedMapper.selectatList", artNameEn);
 	}
 }

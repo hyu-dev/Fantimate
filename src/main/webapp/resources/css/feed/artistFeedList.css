@@ -515,7 +515,7 @@ html, body {
 
 /* 팬피드랑 다른곳 체크**********/
 .imgArea {
-	display : flex;
+	width: 100%;
 	justify-content : center;
 }
 
@@ -528,12 +528,18 @@ html, body {
 
 
 /* 좋아요 아이콘 */
-.like-icon {
-    width : 30px;
+#cancelLike, #insertLike{
+	 width : 30px;
     height : 30px;
     margin-left: 85px;
     cursor: pointer;
-    
+}
+
+#cancelRLike, #insertRLike{
+	 width : 20px;
+    height : 20px;
+    margin-left: 25px;
+    cursor: pointer;
 }
 
 /* 댓글 텍스트 */
@@ -544,9 +550,6 @@ html, body {
 /* 댓글 카운트 */
 
 /************** 댓글 리스트 영역 ******************/
-.media-lower {
-    height: 100%;
-}
 
 .comment-toggle {
     display: none;
@@ -721,7 +724,7 @@ html, body {
     border: 2px solid black;
     border-radius: 0 10px 10px 10px;
     width: 100px;
-    height: 90px;
+    height: auto;
     background: white;
     text-align: center;
     font-family: "Wemakeprice-regular";
@@ -832,17 +835,6 @@ html, body {
     overflow: hidden;
 }
 
-
-
-
-
-
-
-
-
-
-/* 오른쪽 */
-
 /* 토글 스위치 */
 .toggle-area {
     width: auto;
@@ -938,3 +930,43 @@ html, body {
     left: 12px;
     color: white;
   }
+  
+  /* 게시글 사진 개수당 다르게 세팅*/
+.photo-area {
+    /* border: 1px solid red; */
+    width: 100%;
+    height: auto;
+    display: grid;
+    /* flex-wrap : wrap;
+    display: grid; */ 
+    grid-template-columns: 50% 50%;
+    grid-template-rows: 50% 50%;
+    margin: auto;
+    margin-bottom: 30px;
+}
+
+.pic-size1 {
+   grid-row-start: 1;
+    grid-row-end: 3;
+    grid-column-start: 1;
+    grid-column-end: 3;
+    height: 450px !important;
+   border-radius: 10px;
+}
+
+.pic-size2 {
+   grid-row-start: 1;
+    grid-row-end: 3;
+    height: 450px !important;
+}
+
+.pic-size3 {
+   grid-row-start: 1;
+    grid-row-end: 3;
+    height: 450px !important;
+}
+
+.photo-area img {
+    width: 100%;
+    height: 225px;
+}

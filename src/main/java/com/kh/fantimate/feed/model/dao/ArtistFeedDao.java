@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.kh.fantimate.common.model.vo.Alarm;
 import com.kh.fantimate.common.model.vo.Attachment;
+import com.kh.fantimate.common.model.vo.Like;
+import com.kh.fantimate.common.model.vo.Reply;
 import com.kh.fantimate.common.model.vo.Subscribe;
 import com.kh.fantimate.feed.model.vo.AttachmentF;
 import com.kh.fantimate.feed.model.vo.Feed;
@@ -48,6 +50,34 @@ public interface ArtistFeedDao {
 	// 멤버별 게시글 조회
 	public List<Feed> selectMember(String writer);
 
+	// 좋아요 누른 유저 리스트
+	public List<Like> selectLikeList();
+
+	// 좋아요 인서트 
+	public int insertLike2(Like like);
+
+	// 보드 테이블 좋아요 업데이트 
+	public int updateLike2(int fid);
+		
+	// 좋아요 취소 
+	public int deleteLike2(Like like);
+
+	// 좋아요 취소 후 보드 업데이트 
+	public int updateDeleteLike2(int fid);
+
+	// 좋아요 갯수 select
+	public int selectLike2(int fid);
 	
+	// 댓글 작성
+	public int insertReply(Reply r);
+
+	// 댓글 작성 시 게시글 작성자에게 알람
+	public int insertReplyAlarm(Alarm a);
+
+	// 댓글 리스트
+	public List<Reply> selectReplyList();
+
+	// 유저 프로필 사진 리스트
+	public List<Attachment> selectatList(String artNameEn);
 
 }

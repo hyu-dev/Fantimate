@@ -11,7 +11,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="${ contextPath }/resources/css/common/font.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css">
-    <link rel="stylesheet" href="${ contextPath }/resources/css/feed/fanFeedList.css?aftrhs">
+    <link rel="stylesheet" href="${ contextPath }/resources/css/feed/fanFeedList.css?aftrhss">
     <link rel="icon" type="image/png" sizes="16x16" href="${ contextPath }/resources/icon/faviconF.png">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 <title>Insert title here</title>
@@ -195,14 +195,16 @@
                     </table>
                     <hr width="90%">
                     <br> <!-- 이 다음부터 복사함 -->
+                        
                         <!-- 댓글 리스트 영역 -->
                    
-                   <!-- 쪽지 관련 히든 태그 -->
+                   
                     
                    
                     <table class="original-comment">
                     <c:forEach var="r" items="${ rlist }">
                    <c:if test="${ f.fid eq r.refId }">
+                    <!-- 쪽지 관련 히든 태그 -->
                    <input type="hidden" value="${ r.writer }" name="messRecId" id="messRecId">
                     <!-- <tbody>비교해서 다른부분**************** --> 
                         <colgroup>
@@ -242,19 +244,19 @@
                                         <span class="comment-content">
                                             ${ r.rcontent }
                                         </span>
-                                        <!-- <span class="re-commentBtn">답글 열기</span> -->
+                                          
                                     </div>
                                     <div class="comment-etc">
                                    	 <span class="comment-etc" >···</span> 
                                     	<c:if test="${ loginUser.id ne r.writer }">
                                         <div class="comment-bubble">
-                                            <p class="add-comment">답글 달기</p>
+                                              
                                             <p onclick="reportReply(${r.rid });">댓글 신고</p>
                                         </div>
                                         </c:if>
                                         <c:if test="${ loginUser.id eq r.writer }">
                                         <div class="comment-bubble">
-                                            <p class="add-comment">답글 달기</p>
+                                            
                                             <p onclick="deleteReply(${r.rid});">삭제하기</p>
                                             
                                         </div>
@@ -295,19 +297,19 @@
                                         <span class="comment-content">
                                             ${ r.rcontent }
                                         </span>
-                                        <span class="re-commentBtn">답글 열기</span>
+                                        
                                     </div>
                                     <div class="comment-etc">
                                    	 <span class="comment-etc" >···</span> 
                                     	<c:if test="${ loginUser.id ne r.writer }">
                                         <div class="comment-bubble">
-                                            <p class="add-comment">답글 달기</p>
+                                            
                                             <p onclick="reportReply(${r.rid });">댓글 신고</p>
                                         </div>
                                         </c:if>
                                         <c:if test="${ loginUser.id eq r.writer }">
                                         <div class="comment-bubble">
-                                            <p class="add-comment">답글 달기</p>
+                                            
                                             <p onclick="deleteReply(${r.rid});">삭제하기</p>
                                             
                                         </div>
