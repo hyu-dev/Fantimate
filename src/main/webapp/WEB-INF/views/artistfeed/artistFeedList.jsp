@@ -55,7 +55,7 @@
                 
                     <tr>
                     <c:forEach var="ac" items="${ aclist }">
-                    <input type="text" name="writer" value="${ ac.artist.artiId }">
+                   
                     <td><img src="${ contextPath }/resources/uploadFiles/${ ac.attachment.attSvName }" class="profile-picture" onclick="selectmemberfeed('${ac.artist.artiId}');"></td>
                     </c:forEach>
                     

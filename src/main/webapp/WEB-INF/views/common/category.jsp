@@ -25,7 +25,8 @@
         <div class="category">
         	
             <a href="${ contextPath }/fanfeed/fanFeedList?artNameEn=${artiName}">FAN</a> 
-            <a onclick="checkMembership('${loginUser.id}');">ARTIST</a> 
+           <%--  <a onclick="checkMembership('${loginUser.id}');">ARTIST</a>  --%>
+            <a href="${ contextPath }/artistfeed/artistFeedList?artNameEn=${artiName}">ARTIST</a>
             <a class="official-url" href="${ contextPath }/official/media/main">OFFICIAL</a>
             <a href="${ contextPath }/store/storeList">STORE</a>
         </div>
@@ -175,7 +176,7 @@
      </script>
      
      <!-- 아티스트 피드 이동 시 멤버십 판별 -->
-     <script>
+    <!--  <script>
      // 아티스트 피드 클릭 시 멤버십 여부 판별 -> N = "멤버십 회원만 가능한 서비스입니다.멤버십 가입을 하시려면 확인을 눌러주세요" -> 확인 ->pay/plan
      //																					   -> 취소 -> fanfeedList
      //							 -> Y = href="${ contextPath }/artistfeed/artistFeedList?artNameEn=${artiName}"
@@ -201,16 +202,8 @@
     		
     	
      }
-     </script>
-     <%-- function insertFriend(writer){
-	   var frRecId = writer;
-	   var frSend = "${loginUser.id}";
-	   if (confirm(frRecId + "님에게 친구신청을 하시겠습니까??") == true){    //확인
-	    	 //   document.form.submit();
-	    		location.href='${contextPath}/artistfeed/insertFriend?frRecId=' + frRecId + '&frSend=' + frSend;
-	    	} else {   //취소 
-	    	    return;
-	    	} --%>
+     </script> -->
+     
    
      
 </body>

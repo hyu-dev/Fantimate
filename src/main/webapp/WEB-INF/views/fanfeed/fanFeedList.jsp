@@ -19,10 +19,39 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
 	<!-- Bootstrap core CSS -->
-	
+		
+
 <title>Insert title here</title>
 <style>
-a { text-decoration:none } 
+/* 모달 */
+a { text-decoration:none }
+
+#ex2 {
+    display: none;
+    vertical-align: middle;
+    position: relative;
+    z-index: 2;
+    max-width: 1000px;
+    box-sizing: border-box;
+    width: 100%;
+    background: #2c2828;
+    padding: 15px 30px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    -o-border-radius: 8px;
+    -ms-border-radius: 8px;
+    border-radius: 8px;
+    -webkit-box-shadow: 0 0 10px #000;
+    -moz-box-shadow: 0 0 10px #000;
+    -o-box-shadow: 0 0 10px #000;
+    -ms-box-shadow: 0 0 10px #000;
+    box-shadow: 0 0 10px #000;
+    text-align: left;
+    max-height: 510px;
+    height: 100%;
+} 
+
+
 </style>
 </head>
 <body>
@@ -115,13 +144,13 @@ a { text-decoration:none }
                 </table>
                     <!-- 게시글 컨텐츠 영역 -->
      
-                    
-                    <div onclick="location.href='#ex2'" rel="modal:open" style="cursor:pointer;"class="contentArea">
+      				  <p><a href="#ex2" rel="modal:open">상세보기</a></p>
+                    <div class="contentArea">
                         <!-- 텍스트 영역 -->
                         <div>
                             <p class="board-text">${ f.fcontent }</p> 
                         </div>
-                       
+                      
                         <!-- 이미지 영역 -->
                         <!-- 게시글 bid와 사진이 참조하고 있는 bid가 같고, 사진 리스트가 있다면 반복문돌려서 이미지 갯수만큼 불러오기 -->
                         <div class="photo-area">
@@ -433,7 +462,7 @@ a { text-decoration:none }
                             <div class="insert-reply">
                                 <textarea class="nanumsquare" name="rcontent" style="resize: none;" rows="1" placeholder="댓글을 입력하세요..."></textarea>
                             </div>&nbsp;&nbsp;&nbsp;
-                            <button type="submit" class="insert-replyBtn"><img id="addReply" src="../resources/icon/send.png" onclick="insertReply();"></button>
+                            <button type="submit" class="insert-replyBtn" style=""><img id="addReply" src="../resources/icon/send.png" onclick="insertReply();"></button>
                             <!-- <img class="insert-replyBtn" id="addReply" src="../resources/icon/send.png" onclick="insertReply();"> -->
                         </div>
                     </div>
@@ -441,47 +470,43 @@ a { text-decoration:none }
              </div>
              						
                      
-			<!-- 상페 페이지 모달 -->           
-           	<div id="ex2" class="modal-dialog" style="max-width: 100%; width: 1300px; height: 600px; display: table;">
-  			<!-- carousel slide-->
-			<div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
+			 <!-- 상페 페이지 모달 -->           
+			<div id="ex2" class="modal">
+			<%--	<div id="carouselExampleDark" class="carousel carousel-dark slide"
+			data-bs-ride="carousel">
 			<ol class="carousel-indicators">
-			<%-- 
-			 <c:forEach var="pt" items="${ ptlist }">
-                        <c:if test="${ f.fid eq pt.refId }">
-                        <c:set var="count" value="${ count + 1 }"/>	
-                        </c:if>
-                        </c:forEach> --%>
-			 <c:forEach begin="0" end="${ ptlistCount - 1}" step="1" var="s">
-			
-					<li data-bs-target="#carouselExampleDark" data-bs-slide-to=${ s } class="active"></li>
-					<li data-bs-target="#carouselExampleDark" data-bs-slide-to=${ s }></li>
-			</c:forEach> 
-			
+			<% for(int s = 0; s < ptlist.size(); s++) { %>
+				<% if(photo.get(s).getShItype().equals("T")) { %>
+					<li data-bs-target="#carouselExampleDark" data-bs-slide-to="<%= s%>" class="active"></li>
+				<% } %>	
+			<% } %>
+			<% for(int s = 0; s < photo.size(); s++) { %>
+				<li data-bs-target="#carouselExampleDark" data-bs-slide-to="<%= s%>" ></li>
+			<% } %>
 			</ol>
 			<div class="carousel-inner">
 				<!-- 슬라이드 쇼 -->
-				<c:forEach var="pt" items="${ ptlist }">
-				<c:if test="${ f.fid eq pt.refId }">
+				<% for(int s = 0; s < photo.size(); s++) { %>
+					<% if(photo.get(s).getShItype().equals("T")) { %>
 				<div class="carousel-item active" data-bs-interval="10000">
 					<!--가로 사진-->
 					<img
-						src="${ contextPath }/resources/uploadFiles/${ pt.attSvName }"
-						class="d-block w-100" alt="이미지" width="300px" height="200px;">
+						src="<%= request.getContextPath()%><%= photo.get(s).getShIpath() %><%= photo.get(s).getShChName() %>"
+						class="d-block w-100" alt="...">
 				</div>
-		
+				<% } %>	
+					<% } %>	
+				<% for(int s = 0; s < photo.size(); s++) { %>
 				<div class="carousel-item" data-bs-interval="2000">
 					<img
-						src="${ contextPath }/resources/uploadFiles/${ pt.attSvName }"
-						class="d-block w-100" alt="이미지" width="300px" height="200px;">
+						src="<%= request.getContextPath()%><%= photo.get(s).getShIpath() %><%= photo.get(s).getShChName() %>"
+						class="d-block w-100" alt="...">
 				</div>
-				</c:if>
-				</c:forEach>
-					
+				<% } %>	
 			</div>
 			<!-- / 슬라이드 쇼 끝 -->
-    
-    		<!-- 왼쪽 오른쪽 화살표 버튼 -->
+
+			<!-- 왼쪽 오른쪽 화살표 버튼 -->
 			<a class="carousel-control-prev" href="#carouselExampleDark"
 				role="button" data-bs-slide="prev"> <span
 				class="carousel-control-prev-icon" aria-hidden="true"></span> <span
@@ -493,14 +518,12 @@ a { text-decoration:none }
 			</a>
 			<!-- / 화살표 버튼 끝 -->
 		</div>
-    
-  				<a href="#" rel="modal:close">닫기</a>
-		</div>
+			</div>  --%>
 			
-		<script
-		src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
-		integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
-		crossorigin="anonymous"></script>	
+			<a href="#" rel="modal:close"></a> 
+	<!-- ??? -->		</div>
+		
+		
     	<!-- 상세 페이지 모달 끝나는 부분********************************** --> 
            
            
