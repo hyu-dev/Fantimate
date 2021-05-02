@@ -61,6 +61,9 @@ public interface OfficialDao {
 	// 새 댓글 입력
 	int insertReply(Reply r);
 	
+	// 대댓글 입력
+	int insertRecomment(Reply r);
+	
 	// 해당 아티스트에 적용된 닉네임 가져오기
 	String selectNickName(Map<String, String> map);
 

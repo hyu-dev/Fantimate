@@ -111,6 +111,11 @@ public class OfficialDaoImpl implements OfficialDao{
 		return sqlSession.insert("officialMapper.insertReply", r);
 	}
 
+	// 대댓글 입력
+	@Override
+	public int insertRecomment(Reply r) {
+		return sqlSession.insert("officialMapper.insertRecomment", r);
+	}
 	// 해당 아티스트에 적용된 닉네임 가져오기
 	@Override
 	public String selectNickName(Map<String, String> map) {
@@ -132,7 +137,7 @@ public class OfficialDaoImpl implements OfficialDao{
 	// 좋아요 -1
 	@Override
 	public int deleteLike(Map<Object, Object> map) {
-		return sqlSession.delete("officialMapper.deleteLike", map);
+		return sqlSession.update("officialMapper.deleteLike", map);
 	}
 
 	// 댓글 신고
@@ -182,5 +187,4 @@ public class OfficialDaoImpl implements OfficialDao{
 	public int deleteSchedule(Date scheDate) {
 		return sqlSession.delete("officialMapper.deleteSchedule", scheDate);
 	}
-
 }

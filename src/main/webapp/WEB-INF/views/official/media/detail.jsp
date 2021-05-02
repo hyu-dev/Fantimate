@@ -102,18 +102,18 @@
 	                                            </c:when>
 	                                            <c:when test="${ loginUser.id eq c.mediaReply.writer }">
 	                                            <p class="add-comment">답글 달기</p>
-	                                            <p class="delete-comment" onclick="deleteComment(${ c.mediaReply.rid })">댓글 삭제</p>
+	                                            <p class="delete-comment" onclick="deleteComment(this, ${ c.mediaReply.rid })">댓글 삭제</p>
 	                                            </c:when>
 	                                            </c:choose>
 	                                        </div>
 	                                    </div>
 	                                </div>
 	                                <div class="comment-info comment-center nanumsquare">
-	                                    <c:if test="${ like eq null }">
-                                        <img class="likeBtn" src="${ contextPath }/resources/images/official/like.svg">
+	                                    <c:if test="${ c.mediaLike.lstatus eq 'N' || c.mediaLike.lstatus eq null }">
+                                        <img class="likeBtn" src="${ contextPath }/resources/images/official/like.svg" onclick="checkLike(this, ${ c.mediaReply.rid })">
                                         </c:if>
-                                        <c:if test="${ like ne null }">
-                                        <img class="likeBtn" src="${ contextPath }/resources/images/official/like-black.svg">
+                                        <c:if test="${ c.mediaLike.lstatus eq 'Y' }">
+                                        <img class="likeBtn" src="${ contextPath }/resources/images/official/like-black.svg" onclick="checkLike(this, ${ c.mediaReply.rid })">
                                         </c:if>
 	                                    <span class="like-count">${ c.mediaReply.likeCount }</span><span class="comment-date">${ c.mediaReply.rcreate }</span>
 	                                </div>
@@ -161,11 +161,11 @@
 		                                                </div>
 		                                            </div>
 		                                            <div class="re-comment-info comment-center nanumsquare">
-		                                            	<c:if test="${ like eq null }">
-		                                                <img class="likeBtn" src="${ contextPath }/resources/images/official/like.svg">
+		                                            	<c:if test="${ r.mediaLike.lstatus eq 'N' || r.mediaLike.lstatus eq null }">
+		                                                <img class="likeBtn" src="${ contextPath }/resources/images/official/like.svg" onclick="checkLike(this, ${ r.mediaReply.rid })">
 		                                                </c:if>
-		                                                <c:if test="${ like ne null }">
-		                                                <img class="likeBtn" src="${ contextPath }/resources/images/official/like-black.svg">
+		                                                <c:if test="${ r.mediaLike.lstatus eq 'Y' }">
+		                                                <img class="likeBtn" src="${ contextPath }/resources/images/official/like-black.svg" onclick="checkLike(this, ${ c.mediaReply.rid })">
 		                                                </c:if>
 		                                                <span class="like-count">${ r.mediaReply.likeCount }</span><span class="comment-date">${ r.mediaReply.rcreate }</span>
 		                                            </div>
@@ -205,11 +205,11 @@
 		                                                </div>
 		                                            </div>
 		                                            <div class="re-comment-info comment-center nanumsquare">
-		                                            	<c:if test="${ like eq null }">
-		                                                <img class="likeBtn" src="${ contextPath }/resources/images/official/like.svg">
+		                                            	<c:if test="${ r.mediaLike.lstatus eq 'N' || r.mediaLike.lstatus eq null }">
+		                                                <img class="likeBtn" src="${ contextPath }/resources/images/official/like.svg" onclick="checkLike(this, ${ r.mediaReply.rid })">
 		                                                </c:if>
-		                                                <c:if test="${ like ne null }">
-		                                                <img class="likeBtn" src="${ contextPath }/resources/images/official/like-black.svg">
+		                                                <c:if test="${ r.mediaLike.lstatus eq 'Y' }">
+		                                                <img class="likeBtn" src="${ contextPath }/resources/images/official/like-black.svg" onclick="checkLike(this, ${ r.mediaReply.rid })">
 		                                                </c:if>
 		                                                <span class="like-count">10</span><span class="comment-date">${ r.mediaReply.rcreate }</span>
 		                                            </div>
@@ -267,11 +267,11 @@
 	                                    </div>
 	                                </div>
 	                                <div class="comment-info comment-center nanumsquare">
-	                                    <c:if test="${ like eq null }">
-                                        <img class="likeBtn" src="${ contextPath }/resources/images/official/like.svg">
+	                                    <c:if test="${ c.mediaLike.lstatus eq 'N' || c.mediaLike.lstatus eq null }">
+                                        <img class="likeBtn" src="${ contextPath }/resources/images/official/like.svg" onclick="checkLike(this, ${ c.mediaReply.rid })">
                                         </c:if>
-                                        <c:if test="${ like ne null }">
-                                        <img class="likeBtn" src="${ contextPath }/resources/images/official/like-black.svg">
+                                        <c:if test="${ c.mediaLike.lstatus eq 'Y' }">
+                                        <img class="likeBtn" src="${ contextPath }/resources/images/official/like-black.svg" onclick="checkLike(this, ${ c.mediaReply.rid })">
                                         </c:if>
 	                                    <span class="like-count">${ c.mediaReply.likeCount }</span><span class="comment-date">${ c.mediaReply.rcreate }</span>
 	                                </div>
@@ -319,11 +319,11 @@
 		                                                </div>
 		                                            </div>
 		                                            <div class="re-comment-info comment-center nanumsquare">
-		                                                <c:if test="${ like eq null }">
-		                                                <img class="likeBtn" src="${ contextPath }/resources/images/official/like.svg">
+		                                                <c:if test="${ r.mediaLike.lstatus eq 'N' || r.mediaLike.lstatus eq null }">
+		                                                <img class="likeBtn" src="${ contextPath }/resources/images/official/like.svg" onclick="checkLike(this, ${ r.mediaReply.rid })">
 		                                                </c:if>
-		                                                <c:if test="${ like ne null }">
-		                                                <img class="likeBtn" src="${ contextPath }/resources/images/official/like-black.svg">
+		                                                <c:if test="${ r.mediaLike.lstatus eq 'Y' }">
+		                                                <img class="likeBtn" src="${ contextPath }/resources/images/official/like-black.svg" onclick="checkLike(this, ${ r.mediaReply.rid })">
 		                                                </c:if>
 		                                                <span class="like-count">${ r.mediaReply.likeCount }</span><span class="comment-date">${ r.mediaReply.rcreate }</span>
 		                                            </div>
@@ -343,9 +343,9 @@
 		                                        </td>
 		                                        <td>
 		                                            <div class="comment-box">
-		                                                <div class="comment-main comment-center nanumsquare">
+		                                                <div class="re-user-comment comment-main comment-center nanumsquare">
 		                                                    <div>
-		                                                        <span class="comment-name">${ r.meidaReply.nickname }</span>
+		                                                        <span class="comment-name">${ r.mediaReply.nickname }</span>
 		                                                        <div class="comment-content">${ r.mediaReply.rcontent }</div>
 		                                                    </div>
 		                                                </div>
@@ -363,11 +363,11 @@
 		                                                </div>
 		                                            </div>
 		                                            <div class="re-comment-info comment-center nanumsquare">
-		                                                <c:if test="${ like eq null }">
-		                                                <img class="likeBtn" src="${ contextPath }/resources/images/official/like.svg">
+		                                                <c:if test="${ r.mediaLike.lstatus eq 'N' || r.mediaLike.lstatus eq null }">
+		                                                <img class="likeBtn" src="${ contextPath }/resources/images/official/like.svg" onclick="checkLike(this, ${ r.mediaReply.rid })">
 		                                                </c:if>
-		                                                <c:if test="${ like ne null }">
-		                                                <img class="likeBtn" src="${ contextPath }/resources/images/official/like-black.svg">
+		                                                <c:if test="${ r.mediaLike.lstatus eq 'Y' }">
+		                                                <img class="likeBtn" src="${ contextPath }/resources/images/official/like-black.svg" onclick="checkLike(this, ${ r.mediaReply.rid })">
 		                                                </c:if>
 		                                                <span class="like-count">${ r.mediaReply.likeCount }</span><span class="comment-date">${ r.mediaReply.rcreate }</span>
 		                                            </div>
@@ -399,8 +399,48 @@
             }
         });
         
-        // 좋아요 클릭 여부 확인하기
-        $("")
+        function checkLike(e, rid) {
+        	if($(e).attr("src") == "${ contextPath }/resources/images/official/like.svg") {
+				$(e).attr("src","${ contextPath }/resources/images/official/like-black.svg");
+				
+				// 좋아요 추가하기
+		        function insertLike(e, rid) {
+		        	
+		        	$.ajax({
+		    			url : "${ contextPath }/official/insertLike",
+		    			dataType : "json",
+		    			data : { rid : rid },
+		    			type : "post",
+		    			success : function(data) {
+		    				console.log(data.msg);
+		    			},
+		    			error : function(e) {
+		    				alert(e);
+		    			}
+		    		});
+		        }
+            } else {
+            	$(e).attr("src","${ contextPath }/resources/images/official/like.svg");
+            	
+            	 // 좋아요 삭제하기
+                function deleteLike(e, rid) {
+                	$(e).attr("src", "${ contextPath }/resources/images/official/like.svg");
+                	
+                	$.ajax({
+            			url : "${ contextPath }/official/deleteLike",
+            			dataType : "json",
+            			data : { rid : rid },
+            			type : "post",
+            			success : function(data) {
+            				console.log(data.msg);
+            			},
+            			error : function(e) {
+            				alert(e);
+            			}
+            		});
+                }
+            }
+        }
         
         // 댓글, 대댓글 작성칸 클릭하면 내용 지우기
         function clearText(e) {
@@ -415,321 +455,19 @@
         	console.log(rcontent);
         	console.log(refId);
         	
-    		$.ajax({
+        	$.ajax({
     			url : "${ contextPath }/official/insertReply",
+    			dataType : "json",
     			data : { rcontent : rcontent, refId : refId },
     			type : "post",
-    			dataType : "json",
     			success : function(data) {
-    				console.log(data);	// 해당 게시글에 작성된 댓글 리스트 받아오기
-    				
-    				// -> <tbody> 안에 data의 댓글 리스트를 형식에 맞게 세팅
-    				table = $(".original-comment");
-    				retable = $(".re-comment");
-    				table.html("");
-
-    				for(var i in data){
-    					var colgroup = $("<colgroup>");
-    					var col1 = $("<col width='5%'/>");
-                        var col2 = $("<col width='95%'/>");
-    					var tr1 = $("<tr class='comment-line'>");
-    					var td1 = $("<td>");
-    					var div1 = $("<div class='profile-bubble'>");
-    					var artiBubble = $("<p>프로필 보기</p><p>피드로 이동</p>");
-    					var friendBubble = $("<p>피드로 이동</p><p>쪽지 보내기</p>");
-    					var noneFriendBubble = $("<p>친구 신청</p><p>쪽지 보내기</p>");
-    					var userPic = $("<img class='profile-picture' src='/fantimate/resources/uploadFiles/" + data[i].userAttach.attSvName + "'>");
-    					var artiPic = $("<img class='profile-picture' src='/fantimate/resources/uploadFiles/" + data[i].artiAttach.attSvName + "'>");
-    					var td2 = $("<td>");
-    					var div2 = $("<div class='comment-box'>");
-    					var artiComment = $("<div class='artist-comment comment-main comment-center nanumsquare'>");
-    					var userComment = $("<div class='user-comment comment-main comment-center nanumsquare'>");
-    					var div = $("<div>");
-    					var commentName = $("<span class='comment-name'>" + data[i].mediaReply.nickname);
-    					var commentContent = $("<div class='comment-content'>" + data[i].mediaReply.rcontent);
-    					var openRmd = $("<span class='re-commentBtn'>답글 열기</span>");
-    					var commetEtc = $("<div class='comment-etc'>···");
-    					var cmtBubble = $("<div class='comment-bubble'>");
-    					var addCmt = $("<p class='add-comment'>답글 달기</p>");
-    					var rptCmt = $("<p>댓글 신고</p>");
-    					var delCmt = $("<p class='delete-comment' onclick='deleteComment(" + data[i].mediaReply.refRid + ")'>댓글 삭제</p>");
-    					var div3 = $("<div class='comment-info comment-center nanumsquare'>");
-    					var unlikeBtn = $("<img class='likeBtn' src='/fantimate/resources/images/official/like.svg'>");
-    					var likeBtn = $("<img class='likeBtn' src='/fantimate/resources/images/official/like-black.svg'>");
-    					var likeCount = $("<span class='like-count'>").text(data[i].mediaReply.likeCount);
-    					var cmtDate = $("<span class='comment-date'>").text(data[i].mediaReply.rcreate);
-    					var div4 = $("<div class='comment-toggle'>");
-    					var recomment = $("<div class='re-comment-container'>");
-    					var commentArea = $("<div class='comment-area'>");
-    					var textArea = $("<input type='text' class='comment nanumsquare' value='댓글을 입력하세요.' onclick='clearText(this);'>");
-    					var reSendBtn = $("<img class='re-send-btn' src='/fantimate/resources/images/official/send.svg' onclick='insertRecomment(this, ${ c.mediaReply.rid })'>");
-    					
-    					colgroup.append(col1, col2);
-    					table.append(colgroup);
-    					
-    					if(data[i].mediaReply.refRid == null) {
-    						// --------- 아티스트 댓글 영역 -----------------
-    						if(data[i].artiAttach.attSvName != null) {
-    							
-    							if(id != data[i].mediaReply.writer) {
-    								div1.append(artiBubble);
-    							}
-    							
-    							td1.append(div1, artiPic);
-								
-								div.append(commentName, commentContent);
-								artiComment.append(div);
-								commentEtc.append(cmtBubble);
-								div2.append(artiComment, commentEtc);
-								
-								if(id != data[i].mediaReply.writer) {
-									cmtBubble.append(addCmt);
-								} else {
-									cmtBubble.append(addCmt, delCmt);
-								}
-								
-								if(like != null) {
-									div3.append(likeBtn);
-								} else {
-									div3.append(unlikeBtn);
-								}
-								
-								div3.append(likeCount, cmtDate);
-								
-								commentArea.append(textArea, reSendBtn);
-								recomment.append(commentArea);
-								div4.append(recomment);
-								
-								// ------------ 대댓글 영역 ------------------
-								
-								retable.append(colgroup);
-								
-								for(var j in data) {
-									var tr2 = $("<tr class='comment-line'>");
-			    					var td3 = $("<td>");
-			    					var rediv1 = $("<div class='re-profile-bubble'>");
-			    					var reUserPic = $("<img class='re-profile-picture' src='/fantimate/resources/uploadFiles/" + data[j].userAttach.attSvName + "'>");
-			    					var reArtiPic = $("<img class='re-profile-picture' src='/fantimate/resources/uploadFiles/" + data[j].artiAttach.attSvName + "'>");
-			    					var td4 = $("<td>");
-			    					var div5 = $("<div class='comment-box'>");
-			    					var reArtiComment = $("<div class='artist-comment comment-main comment-center nanumsquare'>");
-			    					var reUserComment = $("<div class='user-comment comment-main comment-center nanumsquare'>");
-			    					var div6 = $("<div>");
-			    					var reCommentName = $("<span class='comment-name'>" + data[j].mediaReply.nickname);
-			    					var reCommentContent = $("<div class='comment-content'>" + data[j].mediaReply.rcontent);
-			    					var recommentEtc = $("<div class='re-comment-etc'>···");
-			    					var reCmtBubble = $("<div class='re-comment-bubble'>");
-			    					var reDelCmt = $("<p class='delete-comment' onclick='deleteComment(" + data[j].mediaReply.refRid + ")'>댓글 삭제</p>");
-			    					var div7 = $("<div class='re-comment-info comment-center nanumsquare'>");
-			    					var reLikeCount = $("<span class='like-count'>").text(data[j].mediaReply.likeCount);
-			    					var reCmtDate = $("<span class='comment-date'>".text(data[j].mediaReply.rcreate));
-			    					// -----------------------------------------------------------------------------------------------
-									
-									if(data[j].mediaReply.refRid != null && data[j].mediaReply.refRid == data[i].mediaReply.rid) {
-										// ------------- 아티스트 대댓글 --------------------
-										if(r.artiAttach.attSvName != null) {
-											
-											if(id != data[j].mediaReply.writer) {
-												rediv1.append(artiBubble);
-											}
-											
-											td3.append(rediv1, reArtiPic);
-											
-											div6.append(reCommentName, reCommentContent);
-											reArtiComment(div6);
-											
-											if(id == data[j].mediaReply.writer) {
-												reCmtBubble.append(reDelCmt);
-												recommentEtc.append(reCmtBubble);
-											}
-											
-											if(like != null) {
-												div7.append(likeBtn);
-											} else {
-												div7.append(unlikeBtn);
-											}
-											
-											div7.append(reLikeCount, reCmtDate);
-											
-											div5.append(reArtiComment, recommentEtc);
-											td4.append(div5, div7);
-											
-											tr2.append(td3, td4);
-											retable.append(tr2);
-											
-										// ---------- 일반유저 대댓글 ----------------------
-										} else {
-											if(id != data[j].mediaReply.writer) {
-												rediv1.append(friendBubble);
-											}
-											
-											td3.append(rediv1, reUserPic);
-											
-											div6.append(reCommentName, reCommentContent);
-											reUserComment(div6);
-											
-											if(id == data[j].mediaReply.writer) {
-												reCmtBubble.append(reDelCmt);
-												recommentEtc.append(reCmtBubble);
-											} else {
-												reCmtBubble.append(rptCmt);
-												recommentEtc.append(reCmtBubble);
-											}
-											
-											if(like != null) {
-												div7.append(likeBtn);
-											} else {
-												div7.append(unlikeBtn);
-											}
-											
-											div7.append(reLikeCount, reCmtDate);
-											
-											div5.append(reArtiComment, recommentEtc);
-											td4.append(div5, div7);
-											
-											tr2.append(td3, td4);
-											retable.append(tr2);
-										}
-									}
-								}
-								
-								
-								td2.append(div2, div3, div4, retable);
-    							tr1.append(td1, td2);
-    							table.append(tr1);
-    							
-    						} else {
-    							// --------- 일반유저 댓글 영역 -----------------
-        						if(id != data[i].mediaReply.writer) {
-        								div1.append(friendBubble);
-       							}
-       							
-       							td1.append(div1, userPic);
-   								
-   								div.append(commentName, commentContent);
-   								artiComment.append(div);
-   								commentEtc.append(cmtBubble);
-   								div2.append(userComment, commentEtc);
-   								
-   								if(id != data[i].mediaReply.writer) {
-   									cmtBubble.append(addCmt);
-   								} else {
-   									cmtBubble.append(addCmt, delCmt);
-   								}
-   								
-   								if(like != null) {
-   									div3.append(likeBtn);
-   								} else {
-   									div3.append(unlikeBtn);
-   								}
-   								
-   								div3.append(likeCount, cmtDate);
-   								
-   								commentArea.append(textArea, reSendBtn);
-   								recomment.append(commentArea);
-   								div4.append(recomment);
-   								
-   							// ------------ 대댓글 영역 ------------------
-								
-								retable.append(colgroup);
-								
-								for(var j in data) {
-									var tr2 = $("<tr class='comment-line'>");
-			    					var td3 = $("<td>");
-			    					var rediv1 = $("<div class='re-profile-bubble'>");
-			    					var reUserPic = $("<img class='re-profile-picture' src='/fantimate/resources/uploadFiles/" + data[j].userAttach.attSvName + "'>");
-			    					var reArtiPic = $("<img class='re-profile-picture' src='/fantimate/resources/uploadFiles/" + data[j].artiAttach.attSvName + "'>");
-			    					var td4 = $("<td>");
-			    					var div5 = $("<div class='comment-box'>");
-			    					var reArtiComment = $("<div class='artist-comment comment-main comment-center nanumsquare'>");
-			    					var reUserComment = $("<div class='user-comment comment-main comment-center nanumsquare'>");
-			    					var div6 = $("<div>");
-			    					var reCommentName = $("<span class='comment-name'>" + data[j].mediaReply.nickname);
-			    					var reCommentContent = $("<div class='comment-content'>" + data[j].mediaReply.rcontent);
-			    					var recommentEtc = $("<div class='re-comment-etc'>···");
-			    					var reCmtBubble = $("<div class='re-comment-bubble'>");
-			    					var reDelCmt = $("<p class='delete-comment' onclick='deleteComment(" + data[j].mediaReply.refRid + ")'>댓글 삭제</p>");
-			    					var div7 = $("<div class='re-comment-info comment-center nanumsquare'>");
-			    					var reLikeCount = $("<span class='like-count'>").text(data[j].mediaReply.likeCount);
-			    					var reCmtDate = $("<span class='comment-date'>".text(data[j].mediaReply.rcreate));
-			    					// -----------------------------------------------------------------------------------------------
-									
-									if(data[j].mediaReply.refRid != null && data[j].mediaReply.refRid == data[i].mediaReply.rid) {
-										// ------------- 아티스트 대댓글 --------------------
-										if(id != data[j].mediaReply.writer) {
-											rediv1.append(artiBubble);
-										}
-										
-										td3.append(rediv1, reArtiPic);
-										
-										div6.append(reCommentName, reCommentContent);
-										reArtiComment(div6);
-										
-										if(id == data[j].mediaReply.writer) {
-											reCmtBubble.append(reDelCmt);
-											recommentEtc.append(reCmtBubble);
-										}
-										
-										if(like != null) {
-											div7.append(likeBtn);
-										} else {
-											div7.append(unlikeBtn);
-										}
-										
-										div7.append(reLikeCount, reCmtDate);
-										
-										div5.append(reArtiComment, recommentEtc);
-										td4.append(div5, div7);
-										
-										tr2.append(td3, td4);
-										retable.append(tr2);
-										
-									// ---------- 일반유저 대댓글 ----------------------
-									} else {
-										if(id != data[j].mediaReply.writer) {
-											rediv1.append(friendBubble);
-										}
-										
-										td3.append(rediv1, reUserPic);
-										
-										div6.append(reCommentName, reCommentContent);
-										reUserComment(div6);
-										
-										if(id == data[j].mediaReply.writer) {
-											reCmtBubble.append(reDelCmt);
-											recommentEtc.append(reCmtBubble);
-										} else {
-											reCmtBubble.append(rptCmt);
-											recommentEtc.append(reCmtBubble);
-										}
-										
-										if(like != null) {
-											div7.append(likeBtn);
-										} else {
-											div7.append(unlikeBtn);
-										}
-										
-										div7.append(reLikeCount, reCmtDate);
-										
-										div5.append(reArtiComment, recommentEtc);
-										td4.append(div5, div7);
-										
-										tr2.append(td3, td4);
-										retable.append(tr2);
-									}
-								}
-								
-								td2.append(div2, div3, div4, retable);
-    							tr1.append(td1, td2);
-    							table.append(tr1);
-    						}
-    					}
-    				}
-    				
-    				// -> 댓글 작성 <textarea> 비워주기
-    				$(".comment").val("");
-    			} 
-	        });
+    				alert(data.msg);
+    				location.href="${contextPath}/official/media/detail?mediaNum=" + refId;
+    			},
+    			error : function(e) {
+    				alert(e);
+    			}
+    		});
         });
         
         // 대댓글 입력
@@ -742,334 +480,37 @@
         	console.log(refRid);
         	
     		$.ajax({
-    			url : "${ contextPath }/official/insertReply",
+    			url : "${ contextPath }/official/insertRecomment",
+    			dataType : "json",
     			data : { rcontent : rcontent, refId : refId, refRid : refRid },
     			type : "post",
-    			dataType : "json",
     			success : function(data) {
-    				console.log(data);	// 해당 게시글에 작성된 댓글 리스트 받아오기
-    				
-    				// -> <tbody> 안에 data의 댓글 리스트를 형식에 맞게 세팅
-    				table = $(".original-comment");
-    				retable = $(".re-comment");
-    				table.html("");
-
-    				for(var i in data){
-    					var colgroup = $("<colgroup>");
-    					var col1 = $("<col width='5%'/>");
-                        var col2 = $("<col width='95%'/>");
-    					var tr1 = $("<tr class='comment-line'>");
-    					var td1 = $("<td>");
-    					var div1 = $("<div class='profile-bubble'>");
-    					var artiBubble = $("<p>프로필 보기</p><p>피드로 이동</p>");
-    					var friendBubble = $("<p>피드로 이동</p><p>쪽지 보내기</p>");
-    					var noneFriendBubble = $("<p>친구 신청</p><p>쪽지 보내기</p>");
-    					var userPic = $("<img class='profile-picture' src='/fantimate/resources/uploadFiles/" + data[i].userAttach.attSvName + "'>");
-    					var artiPic = $("<img class='profile-picture' src='/fantimate/resources/uploadFiles/" + data[i].artiAttach.attSvName + "'>");
-    					var td2 = $("<td>");
-    					var div2 = $("<div class='comment-box'>");
-    					var artiComment = $("<div class='artist-comment comment-main comment-center nanumsquare'>");
-    					var userComment = $("<div class='user-comment comment-main comment-center nanumsquare'>");
-    					var div = $("<div>");
-    					var commentName = $("<span class='comment-name'>" + data[i].mediaReply.nickname);
-    					var commentContent = $("<div class='comment-content'>" + data[i].mediaReply.rcontent);
-    					var openRmd = $("<span class='re-commentBtn'>답글 열기</span>");
-    					var commetEtc = $("<div class='comment-etc'>···");
-    					var cmtBubble = $("<div class='comment-bubble'>");
-    					var addCmt = $("<p class='add-comment'>답글 달기</p>");
-    					var rptCmt = $("<p>댓글 신고</p>");
-    					var delCmt = $("<p class='delete-comment' onclick='deleteComment(" + data[i].mediaReply.refRid + ")'>댓글 삭제</p>");
-    					var div3 = $("<div class='comment-info comment-center nanumsquare'>");
-    					var unlikeBtn = $("<img class='likeBtn' src='/fantimate/resources/images/official/like.svg'>");
-    					var likeBtn = $("<img class='likeBtn' src='/fantimate/resources/images/official/like-black.svg'>");
-    					var likeCount = $("<span class='like-count'>").text(data[i].mediaReply.likeCount);
-    					var cmtDate = $("<span class='comment-date'>").text(data[i].mediaReply.rcreate);
-    					var div4 = $("<div class='comment-toggle'>");
-    					var recomment = $("<div class='re-comment-container'>");
-    					var commentArea = $("<div class='comment-area'>");
-    					var textArea = $("<input type='text' class='comment nanumsquare' value='댓글을 입력하세요.' onclick='clearText(this);'>");
-    					var reSendBtn = $("<img class='re-send-btn' src='/fantimate/resources/images/official/send.svg' onclick='insertRecomment(this, ${ c.mediaReply.rid })'>");
-    					
-    					colgroup.append(col1, col2);
-    					table.append(colgroup);
-    					
-    					if(data[i].mediaReply.refRid == null) {
-    						// --------- 아티스트 댓글 영역 -----------------
-    						if(data[i].artiAttach.attSvName != null) {
-    							
-    							if(id != data[i].mediaReply.writer) {
-    								div1.append(artiBubble);
-    							}
-    							
-    							td1.append(div1, artiPic);
-								
-								div.append(commentName, commentContent);
-								artiComment.append(div);
-								commentEtc.append(cmtBubble);
-								div2.append(artiComment, commentEtc);
-								
-								if(id != data[i].mediaReply.writer) {
-									cmtBubble.append(addCmt);
-								} else {
-									cmtBubble.append(addCmt, delCmt);
-								}
-								
-								if(like != null) {
-									div3.append(likeBtn);
-								} else {
-									div3.append(unlikeBtn);
-								}
-								
-								div3.append(likeCount, cmtDate);
-								
-								commentArea.append(textArea, reSendBtn);
-								recomment.append(commentArea);
-								div4.append(recomment);
-								
-								// ------------ 대댓글 영역 ------------------
-								
-								retable.append(colgroup);
-								
-								for(var j in data) {
-									var tr2 = $("<tr class='comment-line'>");
-			    					var td3 = $("<td>");
-			    					var rediv1 = $("<div class='re-profile-bubble'>");
-			    					var reUserPic = $("<img class='re-profile-picture' src='/fantimate/resources/uploadFiles/" + data[j].userAttach.attSvName + "'>");
-			    					var reArtiPic = $("<img class='re-profile-picture' src='/fantimate/resources/uploadFiles/" + data[j].artiAttach.attSvName + "'>");
-			    					var td4 = $("<td>");
-			    					var div5 = $("<div class='comment-box'>");
-			    					var reArtiComment = $("<div class='artist-comment comment-main comment-center nanumsquare'>");
-			    					var reUserComment = $("<div class='user-comment comment-main comment-center nanumsquare'>");
-			    					var div6 = $("<div>");
-			    					var reCommentName = $("<span class='comment-name'>" + data[j].mediaReply.nickname);
-			    					var reCommentContent = $("<div class='comment-content'>" + data[j].mediaReply.rcontent);
-			    					var recommentEtc = $("<div class='re-comment-etc'>···");
-			    					var reCmtBubble = $("<div class='re-comment-bubble'>");
-			    					var reDelCmt = $("<p class='delete-comment' onclick='deleteComment(" + data[j].mediaReply.refRid + ")'>댓글 삭제</p>");
-			    					var div7 = $("<div class='re-comment-info comment-center nanumsquare'>");
-			    					var reLikeCount = $("<span class='like-count'>").text(data[j].mediaReply.likeCount);
-			    					var reCmtDate = $("<span class='comment-date'>".text(data[j].mediaReply.rcreate));
-			    					// -----------------------------------------------------------------------------------------------
-									
-									if(data[j].mediaReply.refRid != null && data[j].mediaReply.refRid == data[i].mediaReply.rid) {
-										// ------------- 아티스트 대댓글 --------------------
-										if(r.artiAttach.attSvName != null) {
-											
-											if(id != data[j].mediaReply.writer) {
-												rediv1.append(artiBubble);
-											}
-											
-											td3.append(rediv1, reArtiPic);
-											
-											div6.append(reCommentName, reCommentContent);
-											reArtiComment(div6);
-											
-											if(id == data[j].mediaReply.writer) {
-												reCmtBubble.append(reDelCmt);
-												recommentEtc.append(reCmtBubble);
-											}
-											
-											if(like != null) {
-												div7.append(likeBtn);
-											} else {
-												div7.append(unlikeBtn);
-											}
-											
-											div7.append(reLikeCount, reCmtDate);
-											
-											div5.append(reArtiComment, recommentEtc);
-											td4.append(div5, div7);
-											
-											tr2.append(td3, td4);
-											retable.append(tr2);
-											
-										// ---------- 일반유저 대댓글 ----------------------
-										} else {
-											if(id != data[j].mediaReply.writer) {
-												rediv1.append(friendBubble);
-											}
-											
-											td3.append(rediv1, reUserPic);
-											
-											div6.append(reCommentName, reCommentContent);
-											reUserComment(div6);
-											
-											if(id == data[j].mediaReply.writer) {
-												reCmtBubble.append(reDelCmt);
-												recommentEtc.append(reCmtBubble);
-											} else {
-												reCmtBubble.append(rptCmt);
-												recommentEtc.append(reCmtBubble);
-											}
-											
-											if(like != null) {
-												div7.append(likeBtn);
-											} else {
-												div7.append(unlikeBtn);
-											}
-											
-											div7.append(reLikeCount, reCmtDate);
-											
-											div5.append(reArtiComment, recommentEtc);
-											td4.append(div5, div7);
-											
-											tr2.append(td3, td4);
-											retable.append(tr2);
-										}
-									}
-								}
-								
-								
-								td2.append(div2, div3, div4, retable);
-    							tr1.append(td1, td2);
-    							table.append(tr1);
-    							
-    						} else {
-    							// --------- 일반유저 댓글 영역 -----------------
-        						if(id != data[i].mediaReply.writer) {
-        								div1.append(friendBubble);
-       							}
-       							
-       							td1.append(div1, userPic);
-   								
-   								div.append(commentName, commentContent);
-   								artiComment.append(div);
-   								commentEtc.append(cmtBubble);
-   								div2.append(userComment, commentEtc);
-   								
-   								if(id != data[i].mediaReply.writer) {
-   									cmtBubble.append(addCmt);
-   								} else {
-   									cmtBubble.append(addCmt, delCmt);
-   								}
-   								
-   								if(like != null) {
-   									div3.append(likeBtn);
-   								} else {
-   									div3.append(unlikeBtn);
-   								}
-   								
-   								div3.append(likeCount, cmtDate);
-   								
-   								commentArea.append(textArea, reSendBtn);
-   								recomment.append(commentArea);
-   								div4.append(recomment);
-   								
-   							// ------------ 대댓글 영역 ------------------
-								
-								retable.append(colgroup);
-								
-								for(var j in data) {
-									var tr2 = $("<tr class='comment-line'>");
-			    					var td3 = $("<td>");
-			    					var rediv1 = $("<div class='re-profile-bubble'>");
-			    					var reUserPic = $("<img class='re-profile-picture' src='/fantimate/resources/uploadFiles/" + data[j].userAttach.attSvName + "'>");
-			    					var reArtiPic = $("<img class='re-profile-picture' src='/fantimate/resources/uploadFiles/" + data[j].artiAttach.attSvName + "'>");
-			    					var td4 = $("<td>");
-			    					var div5 = $("<div class='comment-box'>");
-			    					var reArtiComment = $("<div class='artist-comment comment-main comment-center nanumsquare'>");
-			    					var reUserComment = $("<div class='user-comment comment-main comment-center nanumsquare'>");
-			    					var div6 = $("<div>");
-			    					var reCommentName = $("<span class='comment-name'>" + data[j].mediaReply.nickname);
-			    					var reCommentContent = $("<div class='comment-content'>" + data[j].mediaReply.rcontent);
-			    					var recommentEtc = $("<div class='re-comment-etc'>···");
-			    					var reCmtBubble = $("<div class='re-comment-bubble'>");
-			    					var reDelCmt = $("<p class='delete-comment' onclick='deleteComment(" + data[j].mediaReply.refRid + ")'>댓글 삭제</p>");
-			    					var div7 = $("<div class='re-comment-info comment-center nanumsquare'>");
-			    					var reLikeCount = $("<span class='like-count'>").text(data[j].mediaReply.likeCount);
-			    					var reCmtDate = $("<span class='comment-date'>".text(data[j].mediaReply.rcreate));
-			    					// -----------------------------------------------------------------------------------------------
-									
-									if(data[j].mediaReply.refRid != null && data[j].mediaReply.refRid == data[i].mediaReply.rid) {
-										// ------------- 아티스트 대댓글 --------------------
-										if(id != data[j].mediaReply.writer) {
-											rediv1.append(artiBubble);
-										}
-										
-										td3.append(rediv1, reArtiPic);
-										
-										div6.append(reCommentName, reCommentContent);
-										reArtiComment(div6);
-										
-										if(id == data[j].mediaReply.writer) {
-											reCmtBubble.append(reDelCmt);
-											recommentEtc.append(reCmtBubble);
-										}
-										
-										if(like != null) {
-											div7.append(likeBtn);
-										} else {
-											div7.append(unlikeBtn);
-										}
-										
-										div7.append(reLikeCount, reCmtDate);
-										
-										div5.append(reArtiComment, recommentEtc);
-										td4.append(div5, div7);
-										
-										tr2.append(td3, td4);
-										retable.append(tr2);
-										
-									// ---------- 일반유저 대댓글 ----------------------
-									} else {
-										if(id != data[j].mediaReply.writer) {
-											rediv1.append(friendBubble);
-										}
-										
-										td3.append(rediv1, reUserPic);
-										
-										div6.append(reCommentName, reCommentContent);
-										reUserComment(div6);
-										
-										if(id == data[j].mediaReply.writer) {
-											reCmtBubble.append(reDelCmt);
-											recommentEtc.append(reCmtBubble);
-										} else {
-											reCmtBubble.append(rptCmt);
-											recommentEtc.append(reCmtBubble);
-										}
-										
-										if(like != null) {
-											div7.append(likeBtn);
-										} else {
-											div7.append(unlikeBtn);
-										}
-										
-										div7.append(reLikeCount, reCmtDate);
-										
-										div5.append(reArtiComment, recommentEtc);
-										td4.append(div5, div7);
-										
-										tr2.append(td3, td4);
-										retable.append(tr2);
-									}
-								}
-								
-								td2.append(div2, div3, div4, retable);
-    							tr1.append(td1, td2);
-    							table.append(tr1);
-    						}
-    					}
-    				}
-    				
-    				// -> 댓글 작성 <textarea> 비워주기
-    				$(".comment").val("");
-    			} 
-	        });
+    				alert(data.msg);
+    				location.href="${contextPath}/official/media/detail?mediaNum=" + refId;
+    			},
+    			error : function(e) {
+    				alert(e);
+    			}
+    		});	
         }
         
         // 댓글 삭제하기
-        function deleteComment(rid) {
+        function deleteComment(e, rid) {
+        	$(e).parent().parent().parent().parent().parent(".comment-line").css("display", "none");
+        	
         	if(confirm("댓글을 삭제하시겠습니까?")) {
         		var refId = ${ media.official.mediaNum }
         		$.ajax({
         			url : "${ contextPath }/official/deleteReply",
-        			data : { rid : rid, refId : refId },
+        			data : { rid : rid },
         			type : "post",
         			dataType : "json",
         			success : function(data) {
-        				console.log(data);	// 해당 게시글에 작성된 댓글 리스트 받아오기
-        			} 
+        				alert(data.msg);
+        			},
+        			error : function(e) {
+        				alert(e);
+        			}
         		});
         	}
         }
@@ -1113,6 +554,7 @@
         });
 
         // 대댓글 작성란에서 보내기 버튼을 클릭했을 때 작성란 숨기기
+        /*
 		$(".re-send-btn").click(function () {
 		
 		    if($(this).parent().parent().siblings(".re-comment").css("display", "none")) {		
@@ -1129,7 +571,7 @@
 		
 		        $(this).parent().parent(".comment-toggle").toggleClass('open-area', 500);
 		    }
-		});
+		});*/
 
         // 대댓글이 있을 시에만 보여주기
         $(document).ready(function() {

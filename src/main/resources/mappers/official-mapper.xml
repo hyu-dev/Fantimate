@@ -114,6 +114,13 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<result property="attStatus" column="ATT_STATUS"/>
 		<result property="id" column="ARTI_ID"/>
 	</resultMap>
+	<!-- 미디어 댓글 좋아요 -->
+	<resultMap type="Like" id="mediaLikeResultSet">
+		<id property="lid" column="LIKE_ID"/>
+		<result property="id" column="ID"/>
+		<result property="refId" column="CMT_NUM"/>
+		<result property="lstatus" column="IS_LIKED"/>
+	</resultMap>
 	<!-- 댓글 컬렉션 -->
 	<resultMap type="ReplyCollection" id="replyCollResultSet">
 		<collection property="mediaReply" resultMap="replyResultSet"/>
@@ -121,6 +128,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<collection property="artist" resultMap="artistResultSet"/>
 		<collection property="artiAttach" resultMap="artiAttachResultSet"/>
 		<collection property="userAttach" resultMap="userAttachResultSet"/>
+		<collection property="mediaLike" resultMap="mediaLikeResultSet"/>
 	</resultMap>
 
 	<!-- 미디어 개수 조회하기 -->
@@ -154,7 +162,6 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	     , MEDIA_TTL
 	     , MEDIA_CTT
 	     , MEDIA_DATE
-	     , MEDIA_STATUS
 	     , IS_PAY
 	     , MEDIA_PAY
 	     , MEDIA_COUNT
@@ -162,11 +169,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
          , CATE_NAME
          , ARTI_NAME_EN
 	     , ATT_CODE
-	     , ATT_ROOT
-	     , VID_CL_NAME
 	     , VID_SV_NAME
-	     , ATT_STATUS
-	     , PIC_CL_NAME
 		 , PIC_SV_NAME
 	  FROM 
 	       MEDIA
@@ -195,7 +198,6 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 			     , MEDIA_TTL
 			     , MEDIA_CTT
 			     , MEDIA_DATE
-			     , MEDIA_STATUS
 			     , IS_PAY
 			     , MEDIA_PAY
 			     , MEDIA_COUNT
@@ -203,11 +205,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		         , CATE_NAME
 		         , ARTI_NAME_EN
 			     , ATT_CODE
-			     , ATT_ROOT
-			     , VID_CL_NAME
 			     , VID_SV_NAME
-			     , ATT_STATUS
-			     , PIC_CL_NAME
 				 , PIC_SV_NAME
 			  FROM 
 			       MEDIA
@@ -284,7 +282,6 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	     , MEDIA_TTL
 	     , MEDIA_CTT
 	     , MEDIA_DATE
-	     , MEDIA_STATUS
 	     , IS_PAY
 	     , MEDIA_PAY
 	     , MEDIA_COUNT
@@ -292,11 +289,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
          , CATE_NAME
          , ARTI_NAME_EN
 	     , ATT_CODE
-	     , ATT_ROOT
-	     , VID_CL_NAME
 	     , VID_SV_NAME
-	     , ATT_STATUS
-	     , PIC_CL_NAME
 		 , PIC_SV_NAME
 	  FROM 
 	       MEDIA
@@ -329,7 +322,6 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	     , MEDIA_TTL
 	     , MEDIA_CTT
 	     , MEDIA_DATE
-	     , MEDIA_STATUS
 	     , IS_PAY
 	     , MEDIA_PAY
 	     , MEDIA_COUNT
@@ -337,11 +329,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
          , CATE_NAME
          , ARTI_NAME_EN	     
          , ATT_CODE
-	     , ATT_ROOT
-	     , VID_CL_NAME
 	     , VID_SV_NAME
-	     , ATT_STATUS
-	     , PIC_CL_NAME
 		 , PIC_SV_NAME
 	  FROM 
 	       MEDIA
@@ -456,7 +444,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	<!-- 댓글 리스트 호출 -->
 	<select id="selectReplyList" parameterType="hashMap" resultMap="replyCollResultSet">
 	SELECT
-           CMT_NUM
+           A.CMT_NUM
          , CMT_CTT
          , CMT_DATE
          , RPT_COUNT
@@ -464,6 +452,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
          , RE_CMT_NUM
          , LIKE_COUNT
          , A.NICKNAME
+         , B.ARTI_ID
          , FACEBOOK
          , INSTAGRAM
          , TWITTER
@@ -471,6 +460,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
          , C.U_ID
          , D.UP_SV_NAME
          , E.ATT_SV_NAME
+         , IS_LIKED
 	  FROM
 	       MD_CMT A
  LEFT JOIN
@@ -481,6 +471,8 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
            USER_PROFILE D ON(A.ID = D.U_ID)
  LEFT JOIN
            ART_PIC E ON(A.ID = E.ARTI_ID)
+ LEFT JOIN
+           MD_CMT_LIKE F ON(A.CMT_NUM = F.CMT_NUM)
 	 WHERE
 	       MEDIA_NUM = #{mediaNum}
 	   AND
@@ -503,6 +495,37 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	
 	<!-- 새 댓글 입력 -->
 	<insert id="insertReply" parameterType="Reply">
+    INSERT
+	  INTO MD_CMT
+	      (
+	       CMT_NUM
+         , CMT_CTT
+         , CMT_DATE
+         , RPT_COUNT
+         , CMT_STATUS
+         , ID
+         , RE_CMT_NUM
+         , MEDIA_NUM
+         , LIKE_COUNT
+         , NICKNAME
+	       )
+	VALUES
+	      (
+	       SEQ_MD_CMT.NEXTVAL
+	     , #{rcontent}
+	     , SYSDATE
+	     , DEFAULT
+	     , DEFAULT
+	     , #{writer}
+	     , NULL
+	     , #{refId}
+	     , DEFAULT
+	     , #{nickname}
+	       )	
+	</insert>
+	
+	<!-- 대댓글 입력 -->
+	<insert id="insertRecomment" parameterType="Reply">
     INSERT
 	  INTO MD_CMT
 	      (
@@ -551,6 +574,47 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	   SET
 	       CMT_STATUS = 'N'
      WHERE
+           CMT_NUM = #{rid}
+	</update>
+	
+	<!-- 좋아요 추가 -->
+	<insert id="insertLike" parameterType="hashMap">
+	MERGE INTO 
+		  MD_CMT_LIKE A
+    USING 
+    	  DUAL
+       ON (A.ID = #{artiName} and A.CMT_NUM = #{mediaNum})
+     WHEN 
+          MATCHED THEN
+          UPDATE 
+          SET A.IS_LIKED = 'Y'
+     WHEN 
+          NOT MATCHED THEN
+          INSERT
+    	(
+    	 A.LIKE_ID
+	   , A.IS_LIKED
+	   , A.ID
+	   , A.CMT_NUM
+    	)
+    VALUES
+    	(
+    	 SEQ_MD_CMT_LIKE.NEXTVAL
+	   , 'Y'
+	   , #{id}
+	   , #{rid}
+    	)
+	</insert>
+	
+	<!-- 좋아요 삭제 -->
+	<update id="deleteLike" parameterType="hashMap">
+	UPDATE 
+		   MD_CMT_LIKE
+	   SET
+	       IS_LIKED = 'N'
+     WHERE
+           ID = #{id}
+       AND
            CMT_NUM = #{rid}
 	</update>
 </mapper>

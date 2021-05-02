@@ -226,7 +226,7 @@ public class OfficialController {
 	
 	// 댓글 등록하기
 	@PostMapping(value="/insertReply", produces="application/json; charset=utf-8")
-	public @ResponseBody String insertReply(Reply r, HttpSession session, Model model, HttpServletRequest request) {
+	public @ResponseBody Map<String, String> insertReply(Reply r, HttpSession session, Model model, HttpServletRequest request) {
 		Member loginUser = (Member)session.getAttribute("loginUser");
 		String artiName = (String)request.getSession().getAttribute("artiName");
 		
@@ -253,35 +253,164 @@ public class OfficialController {
 		System.out.println("아티스트 명 : " + artiName);
 		System.out.println("전송된 댓글 데이터 : " + r);
 		
-		// 댓글 등록하고 다시 가져오기
-		List<ReplyCollection> reply = (List<ReplyCollection>)oService.insertReply(r, artiName);
+		// 댓글 등록하기
+		int result = oService.insertReply(r);
+		boolean flag = true;
 		
-		if(reply != null) {
+		if(result > 0) {
 			System.out.println("댓글 등록 성공");
+			
 		} else {
 			System.out.println("댓글 등록 실패");
+			flag = false;
 		}
 		
-		// 댓글
-		return new Gson().toJson(reply);
+		String msg = "";
+		if(flag) 
+			msg = "댓글이 등록되었습니다."; 
+		else 
+			msg = "댓글 등록에 실패하였습니다";
+		
+		Map<String, String> map = new HashMap<>();
+		map.put("msg", msg);
+		return map;
+	}
+	
+	// 대댓글 등록하기
+	@PostMapping(value="/insertRecomment", produces="application/json; charset=utf-8")
+	public @ResponseBody Map<String, String> insertRecomment(Reply r, HttpSession session, Model model, HttpServletRequest request) {
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		String artiName = (String)request.getSession().getAttribute("artiName");
+		
+		// 닉네임 설정
+		if(loginUser.getClassifyMem() == 1) {
+			List<UserCollection> user = (ArrayList<UserCollection>)request.getSession().getAttribute("user");
+			System.out.println(user);
+			
+			Map<String, String> map = new HashMap<>();
+			map.put("artiName", artiName);
+			map.put("id", loginUser.getId());
+			
+			// 해당 아티스트에 적용된 닉네임 가져오기
+			String nickName = oService.selectNickName(map);
+			System.out.println("닉네임 : " + nickName);
+			r.setNickname(nickName);
+			
+		} else if(loginUser.getClassifyMem() == 2) {
+			ArtistCollection artist = (ArtistCollection)request.getSession().getAttribute("artist");
+			r.setNickname(artist.getArtist().getArtiNickname());
+		}
+		
+		r.setWriter(loginUser.getId());
+		System.out.println("아티스트 명 : " + artiName);
+		System.out.println("전송된 댓글 데이터 : " + r);
+		
+		// 대댓글 등록하기
+		int result = oService.insertRecomment(r);
+		boolean flag = true;
+		
+		if(result > 0) {
+			System.out.println("대댓글 등록 성공");
+			
+		} else {
+			System.out.println("대댓글 등록 실패");
+			flag = false;
+		}
+		
+		String msg = "";
+		if(flag) 
+			msg = "댓글이 등록되었습니다."; 
+		else 
+			msg = "댓글 등록에 실패하였습니다";
+		
+		Map<String, String> map = new HashMap<>();
+		map.put("msg", msg);
+		return map;
 	}
 	
 	// 댓글 삭제하기
 	@PostMapping(value="/deleteReply", produces="application/json; charset=utf-8")
-	public @ResponseBody String deleteReply(Reply r, HttpSession session, Model model, HttpServletRequest request) {
-		String artiName = ((String)request.getSession().getAttribute("artiName"));
+	public @ResponseBody Map<String, String> deleteReply(int rid, HttpSession session, Model model, HttpServletRequest request) {
 		
-		System.out.println("전송된 댓글 : " + r);
+		int result = oService.deleteReply(rid);
+		boolean flag = true;
 		
-		List<ReplyCollection> comment = oService.deleteReply(r, artiName);
-		
-		if(comment != null) {
-			model.addAttribute("comment", comment);
+		if(result > 0) {
+			System.out.println("댓글 삭제 성공");
 		} else {
-			System.out.println("댓글없음");
+			System.out.println("댓글 삭제 실패");
+			flag = false;
 		}
 		
-		return "abc";
+		String msg = "";
+		if(flag) 
+			msg = "댓글이 삭제었습니다."; 
+		else 
+			msg = "댓글 삭제에 실패하였습니다";
+		
+		Map<String, String> map = new HashMap<>();
+		map.put("msg", msg);
+		return map;
+	}
+	
+	// 좋아요 추가하기
+	@PostMapping(value="/insertLike", produces="application/json; charset=utf-8")
+	public @ResponseBody Map<String, String> insertLike(int rid, HttpSession session, Model model, HttpServletRequest request) {
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		
+		Map<Object, Object> map = new HashMap<>();
+		map.put("id", loginUser.getId());
+		map.put("rid", rid);
+		
+		int result = oService.insertLike(map);
+		boolean flag = true;
+		
+		if(result > 0) {
+			System.out.println("좋아요 추가 성공");
+		} else {
+			System.out.println("좋아요 추가 실패");
+			flag = false;
+		}
+		
+		String msg = "";
+		if(flag) 
+			msg = "좋아요 추가 성공"; 
+		else 
+			msg = "좋아요 추가 실패";
+		
+		Map<String, String> map2 = new HashMap<>();
+		map.put("msg", msg);
+		return map2;
+	}
+	
+	// 좋아요 삭제하기
+	@PostMapping(value="/deleteLike", produces="application/json; charset=utf-8")
+	public @ResponseBody Map<String, String> deleteLike(int rid, HttpSession session, Model model, HttpServletRequest request) {
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		
+		Map<Object, Object> map = new HashMap<>();
+		map.put("id", loginUser.getId());
+		map.put("rid", rid);
+		
+		int result = oService.deleteLike(map);
+		boolean flag = true;
+		
+		if(result > 0) {
+			System.out.println("좋아요 삭제 성공");
+		} else {
+			System.out.println("좋아요 삭제 실패");
+			flag = false;
+		}
+		
+		String msg = "";
+		if(flag) 
+			msg = "좋아요 삭제 성공"; 
+		else 
+			msg = "좋아요 삭제 실패";
+		
+		Map<String, String> map2 = new HashMap<>();
+		map.put("msg", msg);
+		return map2;
 	}
 	/*
 	// 파라미터를 넘겨줘야 하므로 수정 예정
