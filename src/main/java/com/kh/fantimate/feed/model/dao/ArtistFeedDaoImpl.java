@@ -246,4 +246,9 @@ public class ArtistFeedDaoImpl implements ArtistFeedDao {
 	public int insertAlarm(Alarm a) {
 		return sqlSession.insert("artistfeedMapper.insertfriendAlarm", a);
 	}
+
+	@Override
+	public List<Artist> selectaList(String artiId) {
+		return sqlSession.selectList("artistfeedMapper.selectLoginArtist", artiId);
+	}
 }

@@ -74,15 +74,23 @@ public class FanFeedController {
 									@RequestParam(value="artNameEn") String artNameEn,
 									HttpServletRequest request) {
 		
-//		String id = ((Member)request.getSession().getAttribute("loginUser")).getId(); 
-//		System.out.println("로그인 유저  : " + id);
+		String id = ((Member)request.getSession().getAttribute("loginUser")).getId(); 
+		System.out.println("로그인 유저  : " + id);
 		
-//		User ms = fService.selectUser(id);
-//		System.out.println("mm? : " + ms);
+	
+		
+		u.setIsMembership(id);
+		// 로그인 유저의 멤버십여부
+
+		User ms = fService.selectUser(id);
+		System.out.println("멤버십이니?? : " + ms);
+		
+		String Membership = ms.getIsMembership();
+		
 	
 //		String Membership = ms.getIsMembership();
 		
-//		System.out.println("멤버십이냐? : " + Membership);
+		System.out.println("멤버십이냐? : " + Membership);
 		
 		f.setArtiName(artNameEn);
 		s.setArtiname(artNameEn);
@@ -155,7 +163,13 @@ public class FanFeedController {
 		HttpSession session = request.getSession(); // 세션을 생성해서
 		session.setAttribute("artiName", artNameEn); // userid로 uid값을 넘기자
 		session.setAttribute("subList", subList);
-	//	session.setAttribute("Membership", Membership);
+		session.setAttribute("subList", subList);
+		
+		// 아티스트가 로그인하면 세션에 저장하지마라
+		
+		session.setAttribute("Membership", Membership);
+		
+		
 		if(subList != null && !subList.isEmpty()) {
 			mv.addObject("list", list);
 			mv.addObject("rlist", rlist);

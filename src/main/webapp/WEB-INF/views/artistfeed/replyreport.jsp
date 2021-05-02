@@ -25,7 +25,7 @@
 			 <c:when test="${ msg eq 'success'}">
 			 	<script>
 				    alert("신고내역이 접수되었습니다.");
-					opener.location.href="${ contextPath }";
+				    opener.location.href="${ contextPath }/artistfeed/artistFeedList?artNameEn=${artiName}";
 					window.close();
 			    </script>
 			 </c:when>

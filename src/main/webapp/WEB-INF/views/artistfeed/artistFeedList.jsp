@@ -47,6 +47,8 @@
            
             <div class="momentArea">
                 <p class="moment-introArea">모먼트</p>
+               
+               
                 <button class="selectAll" name="artNameEn" onclick="feedAll('${ artiName }')" >모두보기</button>
             </div>
 
@@ -70,16 +72,17 @@
             </div>
            </div>
             
+            
              <!-- 로그인 유저가 아티스트면서 들어간 피드가 자신의 피드일때 포스트 작성 보이게 하기 -->
-         <c:forEach var="ac" items="${ aclist }">     
-      <c:if test="${ loginUser.classifyMem == 2 && artiName eq ac.artist.artiNameEn }">
+          <c:forEach var="one" items="${ onelist }">     
+      <c:if test="${ loginUser.classifyMem == 2 && one.artiNameEn eq artiName }"><!-- 두번째 조건?? -->
           <jsp:include page="../artistfeed/artistfeedinsert.jsp"/>
 	  </c:if>	
 		</c:forEach>
 			<c:forEach var="f" items="${ list }">
              <!-- 게시글 리스트 영역 -->
              <div class="boardArea">
-
+			
                 <!-- 게시글 헤더 영역 -->
                 <table class="board-top">
                     <col width="13%"/>

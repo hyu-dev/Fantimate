@@ -9,6 +9,8 @@
 <title>Insert title here</title>
 </head>
 <body>
+				<c:forEach var="ap" items="${ aplist }">
+                     <c:if test="${ loginUser.id eq ap.refuid }">
 <div class="post-outer">
                 <div class="introArea">
                     <p class="post-intro">포스트 쓰기</p>    
@@ -18,8 +20,7 @@
                 <!-- 포스트 작성 -->
                 <form action="${ contextPath }/artistfeed/insert" method="post" enctype="multipart/form-data">
                 
-                    <c:forEach var="ap" items="${ aplist }">
-                     <c:if test="${ loginUser.id eq ap.refuid }">
+                    
                     <div class="postArea">
                     <input type="hidden" name="writer" value="${ loginUser.id }">
                     <input type="hidden" name="artiName" value="${ param.artNameEn }"> 
@@ -71,10 +72,10 @@
                     <button type="submit" class="post-insert-btn">등록하기</button>
                     </div>
                     <br>
-                    </c:if>
-                    </c:forEach>
                 </form>
                  
              </div>
+                    </c:if>
+                    </c:forEach>
 </body>
 </html>
