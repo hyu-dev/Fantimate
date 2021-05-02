@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="contextPath" value="${ pageContext.servletContext.contextPath }" scope="application" />
 <!DOCTYPE html>
 <html>
@@ -21,7 +22,10 @@
 
         <!-- 중간 -->
         <section class="main-contents">
-        
+   			<c:set var="count" value="0"/>
+           	<c:forEach var="sc" items="${ slide }">
+           	<c:set var="count" value="${ count + 1 }"/>
+           	</c:forEach>
         	<!-- 슬라이드 -->
             <div class="new-title">NEW</div>
             <div class="slide-box">
@@ -43,7 +47,6 @@
                     </c:forEach>
                 </ul>
             </div>
-
 			<!-- 본문 -->
 			<c:forEach var="cate" items="${ category }">
             <div class="category-container">
@@ -70,7 +73,7 @@
                         <img src="${ contextPath }/resources/uploadFiles/${ m.mediaFile.picSvName }"
                          	 onclick="selectMedia(${ m.official.mediaNum }, '${ m.official.isPay }', ${ m.official.mediaPay })">
                         <div class="media-title nanumsquare">${ m.official.mediaTtl }</div>
-                        <div class="media-date nanumsquare">${ m.official.mediaDate }</div>
+                        <div class="media-date nanumsquare"><fmt:formatDate value="${ m.official.mediaDate }" pattern="yyyy.MM.dd"/></div>
                     </div>
                     </c:if>
                     </c:forEach>
@@ -79,11 +82,23 @@
             </c:forEach>
         </section>
         
-        <script type="text/javascript">        
+        <script type="text/javascript">
+        // 슬라이드 표현
+        $(document).ready(function() {
+        	var count = ${ count };
+        	
+        	console.log(count);
+        	
+        	if(count < 4) {
+        		$(".new-title").css("display", "none");
+        		$(".slide-box").css("display", "none");
+        	}
+        });
+        
         /* 미디어 클릭 시 */
         function selectMedia(mediaNum, isPay, mediaPay) {
         	var loginUser = ${ loginUser.classifyMem }
-        	var membership = "${ userColl.user.isMembership }"
+        	var membership = "${ userColl.user.isMembership }";
         	console.log("로그인유저 번호 : " + loginUser);
         	console.log("멤버십 : " + membership);
         	

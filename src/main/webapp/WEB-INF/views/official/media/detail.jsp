@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="contextPath" value="${ pageContext.servletContext.contextPath }" scope="application" />
 <!DOCTYPE html>
 <html>
@@ -9,6 +10,39 @@
 <title>Insert title here</title>
 <link rel="stylesheet" href="${ contextPath }/resources/css/official/mediaDetail.css">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<!-- 모달  -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
+<style>
+/* 모달 */
+a { text-decoration:none }
+
+#ex2 {
+    display: none;
+    vertical-align: middle;
+    position: relative;
+    z-index: 2;
+    max-width: 1000px;
+    box-sizing: border-box;
+    width: 100%;
+    background: #2c2828;
+    padding: 15px 30px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    -o-border-radius: 8px;
+    -ms-border-radius: 8px;
+    border-radius: 8px;
+    -webkit-box-shadow: 0 0 10px #000;
+    -moz-box-shadow: 0 0 10px #000;
+    -o-box-shadow: 0 0 10px #000;
+    -ms-box-shadow: 0 0 10px #000;
+    box-shadow: 0 0 10px #000;
+    text-align: left;
+    max-height: 510px;
+    height: 100%;
+} 
+</style>
 </head>
 <body>
 	<!-- 네비바 인클루드 -->
@@ -51,7 +85,6 @@
                         </div>
                     </div>
                 </div>
-                <div class="media-lower">
                     <div class="comment-container">
                         <div class="comment-area">
                             <input type="text" class="comment nanumsquare" value="댓글을 입력하세요." onclick="clearText(this);">
@@ -71,8 +104,8 @@
 	                            <td>
 	                            	<c:if test="${ loginUser.id ne c.mediaReply.writer }">
 	                                <div class="profile-bubble">
-	                                    <p>프로필 보기</p>
-	                                    <p>피드로 이동</p>
+	                                    <p><a href="#ex1" rel="modal:open" style="color:#5C5F78">프로필 보기</a></p>
+	                                    <p onclick="artistFeed(${ c.artist.artiId });">피드로 이동</p>
 	                                </div>
 	                                </c:if>
 	                                <img class="profile-picture" src="${ contextPath }/resources/uploadFiles/${ c.artiAttach.attSvName }">
@@ -102,7 +135,7 @@
 	                                            </c:when>
 	                                            <c:when test="${ loginUser.id eq c.mediaReply.writer }">
 	                                            <p class="add-comment">답글 달기</p>
-	                                            <p class="delete-comment" onclick="deleteComment(this, ${ c.mediaReply.rid })">댓글 삭제</p>
+	                                            <p class="delete-comment" onclick="deleteComment(this, ${ c.mediaReply.rid });">댓글 삭제</p>
 	                                            </c:when>
 	                                            </c:choose>
 	                                        </div>
@@ -110,19 +143,21 @@
 	                                </div>
 	                                <div class="comment-info comment-center nanumsquare">
 	                                    <c:if test="${ c.mediaLike.lstatus eq 'N' || c.mediaLike.lstatus eq null }">
-                                        <img class="likeBtn" src="${ contextPath }/resources/images/official/like.svg" onclick="checkLike(this, ${ c.mediaReply.rid })">
+                                        <img class="likeBtn" src="${ contextPath }/resources/images/official/like.svg" onclick="checkLike(this, ${ c.mediaReply.rid });">
                                         </c:if>
                                         <c:if test="${ c.mediaLike.lstatus eq 'Y' }">
-                                        <img class="likeBtn" src="${ contextPath }/resources/images/official/like-black.svg" onclick="checkLike(this, ${ c.mediaReply.rid })">
+                                        <img class="likeBtn" src="${ contextPath }/resources/images/official/like-black.svg" onclick="checkLike(this, ${ c.mediaReply.rid });">
                                         </c:if>
-	                                    <span class="like-count">${ c.mediaReply.likeCount }</span><span class="comment-date">${ c.mediaReply.rcreate }</span>
+	                                    <span class="like-count">${ c.mediaReply.likeCount }</span>
+	                                    <span class="comment-date"><fmt:formatDate value="${ c.mediaReply.rcreate }" pattern="yyyy.MM.dd HH:mm"/></span>
 	                                </div>
 	                                <div class="comment-toggle">
 	                                    <div class="re-comment-container">
 	                                        <div class="comment-area">
 	                                            <input type="text" class="comment nanumsquare" value="댓글을 입력하세요." onclick="clearText(this);">
 	                                        </div>&nbsp;&nbsp;&nbsp;
-	                                        <img class="re-send-btn" src="${ contextPath }/resources/images/official/send.svg" onclick="insertRecomment(this, ${ c.mediaReply.rid })">
+	                                        <img class="re-send-btn" src="${ contextPath }/resources/images/official/send.svg" onclick="insertRecomment(this, 
+	                                        															${ c.mediaReply.rid }, ${ c.mediaReply.classify });">
 	                                    </div>
 	                                </div>
 	                                <table class="re-comment">
@@ -138,8 +173,8 @@
 		                                        <td>
 					                            	<c:if test="${ loginUser.id ne r.mediaReply.writer }">
 					                                <div class="re-profile-bubble">
-					                                    <p>프로필 보기</p>
-					                                    <p>피드로 이동</p>
+					                                    <p><a href="#ex1" rel="modal:open" style="color:#5C5F78">프로필 보기</a></p>
+					                                    <p onclick="artistFeed(${ r.artist.artiId });">피드로 이동</p>
 					                                </div>
 					                                </c:if>
 		                                            <img class="re-profile-picture" src="${ contextPath }/resources/uploadFiles/${ r.artiAttach.attSvName }">
@@ -155,19 +190,20 @@
 		                                                <div class="re-comment-etc">···
 					                                        <c:if test="${ loginUser.id eq r.mediaReply.writer }">
 		                                                    <div class="re-comment-bubble">
-					                                            <p class="delete-comment" onclick="deleteComment(${ r.mediaReply.rid })">댓글 삭제</p>
+					                                            <p class="delete-comment" onclick="deleteComment(this, ${ r.mediaReply.rid });">댓글 삭제</p>
 		                                                    </div>
 					                                        </c:if>
 		                                                </div>
 		                                            </div>
 		                                            <div class="re-comment-info comment-center nanumsquare">
 		                                            	<c:if test="${ r.mediaLike.lstatus eq 'N' || r.mediaLike.lstatus eq null }">
-		                                                <img class="likeBtn" src="${ contextPath }/resources/images/official/like.svg" onclick="checkLike(this, ${ r.mediaReply.rid })">
+		                                                <img class="likeBtn" src="${ contextPath }/resources/images/official/like.svg" onclick="checkLike(this, ${ r.mediaReply.rid });">
 		                                                </c:if>
 		                                                <c:if test="${ r.mediaLike.lstatus eq 'Y' }">
-		                                                <img class="likeBtn" src="${ contextPath }/resources/images/official/like-black.svg" onclick="checkLike(this, ${ c.mediaReply.rid })">
+		                                                <img class="likeBtn" src="${ contextPath }/resources/images/official/like-black.svg" onclick="checkLike(this, ${ c.mediaReply.rid });">
 		                                                </c:if>
-		                                                <span class="like-count">${ r.mediaReply.likeCount }</span><span class="comment-date">${ r.mediaReply.rcreate }</span>
+		                                                <span class="like-count">${ r.mediaReply.likeCount }</span>
+		                                                <span class="comment-date"><fmt:formatDate value="${ r.mediaReply.rcreate }" pattern="yyyy.MM.dd HH:mm"/></span>
 		                                            </div>
 		                                        </td>
 		                                    </tr>
@@ -176,10 +212,29 @@
 		                                    <tr class="comment-line">
 		                                        <td>
 					                            	<c:if test="${ loginUser.id ne r.mediaReply.writer }">
-					                                <div class="re-profile-bubble">
-					                                    <p>프로필 보기</p>
-					                                    <p>쪽지 보내기</p>
-					                                </div>
+					                            		<c:choose>
+					                            		<c:when test="${ (loginUser.id eq r.friend.frSend && r.mediaReply.writer eq r.friend.frRecId) || (loginUser.id eq r.friend.frRecId && r.mediaReply.writer eq r.friend.frSend) }">
+			                            					   <c:choose>
+			                            					   <c:when test="${ r.friend.frStatus eq 1 || r.friend.frStatus eq 3 }">
+			                            					   	<div class="re-profile-bubble">
+								                                    <p>쪽지 보내기</p>
+								                                </div>
+			                            					   </c:when>
+			                            					   <c:when test="${ r.friend.frStatus eq 2 }">
+			                            					   	<div class="re-profile-bubble">
+								                                    <p>친구 피드로 이동</p>
+								                                    <p>쪽지 보내기</p>
+								                                </div>
+			                            					   </c:when>
+			                            					   </c:choose>
+					                            		</c:when>
+					                            		<c:when test="${ r.friend.frStatus eq '' }">
+					                            		<div class="re-profile-bubble">
+						                                    <p>친구 신청</p>
+						                                    <p>쪽지 보내기</p>
+						                                </div>
+					                            		</c:when>
+					                            		</c:choose>
 					                                </c:if>
 		                                            <img class="re-profile-picture" src="${ contextPath }/resources/uploadFiles/${ r.userAttach.attSvName }">
 		                                        </td>
@@ -198,7 +253,7 @@
 					                                            <p>댓글 신고</p>
 					                                            </c:when>
 					                                            <c:when test="${ loginUser.id eq r.mediaReply.writer }">
-					                                            <p class="delete-comment" onclick="deleteComment(${ r.mediaReply.rid })">댓글 삭제</p>
+					                                            <p class="delete-comment" onclick="deleteComment(this, ${ r.mediaReply.rid });">댓글 삭제</p>
 					                                            </c:when>
 					                                            </c:choose>
 		                                                    </div>
@@ -206,12 +261,13 @@
 		                                            </div>
 		                                            <div class="re-comment-info comment-center nanumsquare">
 		                                            	<c:if test="${ r.mediaLike.lstatus eq 'N' || r.mediaLike.lstatus eq null }">
-		                                                <img class="likeBtn" src="${ contextPath }/resources/images/official/like.svg" onclick="checkLike(this, ${ r.mediaReply.rid })">
+		                                                <img class="likeBtn" src="${ contextPath }/resources/images/official/like.svg" onclick="checkLike(this, ${ r.mediaReply.rid });">
 		                                                </c:if>
 		                                                <c:if test="${ r.mediaLike.lstatus eq 'Y' }">
-		                                                <img class="likeBtn" src="${ contextPath }/resources/images/official/like-black.svg" onclick="checkLike(this, ${ r.mediaReply.rid })">
+		                                                <img class="likeBtn" src="${ contextPath }/resources/images/official/like-black.svg" onclick="checkLike(this, ${ r.mediaReply.rid });">
 		                                                </c:if>
-		                                                <span class="like-count">10</span><span class="comment-date">${ r.mediaReply.rcreate }</span>
+		                                                <span class="like-count">10</span>
+		                                                <span class="comment-date"><fmt:formatDate value="${ r.mediaReply.rcreate }" pattern="yyyy.MM.dd HH:mm"/></span>
 		                                            </div>
 		                                        </td>
 		                                    </tr>
@@ -227,10 +283,30 @@
 	                          <tr class="comment-line">
 	                            <td>
 	                                <c:if test="${ loginUser.id ne c.mediaReply.writer }">
-	                                <div class="profile-bubble">
-	                                    <p>피드로 이동</p>
+	                                <c:choose>
+                            		<c:when test="${ (loginUser.id eq c.friend.frSend && r.mediaReply.writer eq c.friend.frRecId)
+                           					   || (loginUser.id eq c.friend.frRecId && r.mediaReply.writer eq c.friend.frSend) }">
+                           					   <c:choose>
+                           					   <c:when test="${ c.friend.frStatus eq 1 || c.friend.frStatus eq 3 }">
+                           					   	<div class="re-profile-bubble">
+				                                    <p>쪽지 보내기</p>
+				                                </div>
+                           					   </c:when>
+                           					   <c:when test="${ c.friend.frStatus eq 2 }">
+                           					   	<div class="re-profile-bubble">
+				                                    <p>친구 피드로 이동</p>
+				                                    <p>쪽지 보내기</p>
+				                                </div>
+                           					   </c:when>
+                           					   </c:choose>
+                            		</c:when>
+                            		<c:when test="${ r.friend.frStatus eq '' }">
+                            		<div class="re-profile-bubble">
+	                                    <p>친구 신청</p>
 	                                    <p>쪽지 보내기</p>
 	                                </div>
+                            		</c:when>
+                            		</c:choose>
 	                                </c:if>
 	                                <img class="profile-picture" src="${ contextPath }/resources/uploadFiles/${ c.userAttach.attSvName }">
 	                            </td>
@@ -260,7 +336,7 @@
 	                                            </c:when>
 	                                            <c:when test="${ loginUser.id eq c.mediaReply.writer }">
 	                                            <p class="add-comment">답글 달기</p>
-	                                            <p class="delete-comment" onclick="deleteComment(${ c.mediaReply.rid })">댓글 삭제</p>
+	                                            <p class="delete-comment" onclick="deleteComment(this, ${ c.mediaReply.rid });">댓글 삭제</p>
 	                                            </c:when>
 	                                            </c:choose>
 	                                        </div>
@@ -268,19 +344,21 @@
 	                                </div>
 	                                <div class="comment-info comment-center nanumsquare">
 	                                    <c:if test="${ c.mediaLike.lstatus eq 'N' || c.mediaLike.lstatus eq null }">
-                                        <img class="likeBtn" src="${ contextPath }/resources/images/official/like.svg" onclick="checkLike(this, ${ c.mediaReply.rid })">
+                                        <img class="likeBtn" src="${ contextPath }/resources/images/official/like.svg" onclick="checkLike(this, ${ c.mediaReply.rid });">
                                         </c:if>
                                         <c:if test="${ c.mediaLike.lstatus eq 'Y' }">
-                                        <img class="likeBtn" src="${ contextPath }/resources/images/official/like-black.svg" onclick="checkLike(this, ${ c.mediaReply.rid })">
+                                        <img class="likeBtn" src="${ contextPath }/resources/images/official/like-black.svg" onclick="checkLike(this, ${ c.mediaReply.rid });">
                                         </c:if>
-	                                    <span class="like-count">${ c.mediaReply.likeCount }</span><span class="comment-date">${ c.mediaReply.rcreate }</span>
+	                                    <span class="like-count">${ c.mediaReply.likeCount }</span>
+	                                    <span class="comment-date"><fmt:formatDate value="${ c.mediaReply.rcreate }" pattern="yyyy.MM.dd HH:mm"/></span>
 	                                </div>
 	                                <div class="comment-toggle">
 	                                    <div class="re-comment-container">
 	                                        <div class="comment-area">
 	                                            <input type="text" class="comment nanumsquare" value="댓글을 입력하세요." onclick="clearText(this);">
 	                                        </div>&nbsp;&nbsp;&nbsp;
-	                                        <img class="re-send-btn" src="${ contextPath }/resources/images/official/send.svg" onclick="insertRecomment(this, ${ c.mediaReply.rid })">
+	                                        <img class="re-send-btn" src="${ contextPath }/resources/images/official/send.svg" onclick="insertRecomment(this,
+	                                         															${ c.mediaReply.rid }, ${ c.mediaReply.classify });">
 	                                    </div>
 	                                </div>
 	                                <table class="re-comment">
@@ -296,8 +374,8 @@
 		                                        <td>
 					                            	<c:if test="${ loginUser.id ne r.mediaReply.writer }">
 					                                <div class="re-profile-bubble">
-					                                    <p>프로필 보기</p>
-					                                    <p>피드로 이동</p>
+					                                    <p><a href="#ex1" rel="modal:open" style="color:#5C5F78">프로필 보기</a></p>
+					                                    <p onclick="artistFeed(${ r.artist.artiId });">피드로 이동</p>
 					                                </div>
 					                                </c:if>
 		                                            <img class="re-profile-picture" src="${ contextPath }/resources/uploadFiles/${ r.artiAttach.attSvName }">
@@ -313,19 +391,20 @@
 		                                                <div class="re-comment-etc">···
 		                                                    <div class="re-comment-bubble">
 					                                            <c:if test="${ loginUser.id eq r.mediaReply.writer }">
-					                                            <p class="delete-comment" onclick="deleteComment(${ r.mediaReply.rid })">댓글 삭제</p>
+					                                            <p class="delete-comment" onclick="deleteComment(this, ${ r.mediaReply.rid });">댓글 삭제</p>
 					                                            </c:if>
 		                                                    </div>
 		                                                </div>
 		                                            </div>
 		                                            <div class="re-comment-info comment-center nanumsquare">
 		                                                <c:if test="${ r.mediaLike.lstatus eq 'N' || r.mediaLike.lstatus eq null }">
-		                                                <img class="likeBtn" src="${ contextPath }/resources/images/official/like.svg" onclick="checkLike(this, ${ r.mediaReply.rid })">
+		                                                <img class="likeBtn" src="${ contextPath }/resources/images/official/like.svg" onclick="checkLike(this, ${ r.mediaReply.rid });">
 		                                                </c:if>
 		                                                <c:if test="${ r.mediaLike.lstatus eq 'Y' }">
-		                                                <img class="likeBtn" src="${ contextPath }/resources/images/official/like-black.svg" onclick="checkLike(this, ${ r.mediaReply.rid })">
+		                                                <img class="likeBtn" src="${ contextPath }/resources/images/official/like-black.svg" onclick="checkLike(this, ${ r.mediaReply.rid });">
 		                                                </c:if>
-		                                                <span class="like-count">${ r.mediaReply.likeCount }</span><span class="comment-date">${ r.mediaReply.rcreate }</span>
+		                                                <span class="like-count">${ r.mediaReply.likeCount }</span>
+		                                                <span class="comment-date">${ r.mediaReply.rcreate }</span>
 		                                            </div>
 		                                        </td>
 		                                    </tr>
@@ -334,10 +413,30 @@
 		                                      <tr class="comment-line">
 		                                        <td>
 					                                <c:if test="${ loginUser.id ne r.mediaReply.writer }">
-					                                <div class="re-profile-bubble">
-					                                    <p>피드로 이동</p>
+					                                <c:choose>
+				                            		<c:when test="${ (loginUser.id eq c.friend.frSend && r.mediaReply.writer eq c.friend.frRecId)
+		                            					   || (loginUser.id eq c.friend.frRecId && r.mediaReply.writer eq c.friend.frSend) }">
+		                            					   <c:choose>
+		                            					   <c:when test="${ c.friend.frStatus eq 1 || c.friend.frStatus eq 3 }">
+		                            					   	<div class="re-profile-bubble">
+							                                    <p>쪽지 보내기</p>
+							                                </div>
+		                            					   </c:when>
+		                            					   <c:when test="${ c.friend.frStatus eq 2 }">
+		                            					   	<div class="re-profile-bubble">
+							                                    <p>친구 피드로 이동</p>
+							                                    <p>쪽지 보내기</p>
+							                                </div>
+		                            					   </c:when>
+		                            					   </c:choose>
+								                    </c:when>
+				                            		<c:when test="${ r.friend.frStatus eq '' }">
+				                            		<div class="re-profile-bubble">
+					                                    <p>친구 신청</p>
 					                                    <p>쪽지 보내기</p>
 					                                </div>
+				                            		</c:when>
+				                            		</c:choose>
 					                                </c:if>
 		                                            <img class="re-profile-picture" src="${ contextPath }/resources/uploadFiles/${ r.userAttach.attSvName }">
 		                                        </td>
@@ -356,7 +455,7 @@
 					                                            <p>댓글 신고</p>
 					                                            </c:when>
 					                                            <c:when test="${ loginUser.id eq r.mediaReply.writer }">
-					                                            <p class="delete-comment" onclick="deleteComment(${ r.mediaReply.rid })">댓글 삭제</p>
+					                                            <p class="delete-comment" onclick="deleteComment(this, ${ r.mediaReply.rid });">댓글 삭제</p>
 					                                            </c:when>
 					                                            </c:choose>
 		                                                    </div>
@@ -364,12 +463,13 @@
 		                                            </div>
 		                                            <div class="re-comment-info comment-center nanumsquare">
 		                                                <c:if test="${ r.mediaLike.lstatus eq 'N' || r.mediaLike.lstatus eq null }">
-		                                                <img class="likeBtn" src="${ contextPath }/resources/images/official/like.svg" onclick="checkLike(this, ${ r.mediaReply.rid })">
+		                                                <img class="likeBtn" src="${ contextPath }/resources/images/official/like.svg" onclick="checkLike(this, ${ r.mediaReply.rid });">
 		                                                </c:if>
 		                                                <c:if test="${ r.mediaLike.lstatus eq 'Y' }">
-		                                                <img class="likeBtn" src="${ contextPath }/resources/images/official/like-black.svg" onclick="checkLike(this, ${ r.mediaReply.rid })">
+		                                                <img class="likeBtn" src="${ contextPath }/resources/images/official/like-black.svg" onclick="checkLike(this, ${ r.mediaReply.rid });">
 		                                                </c:if>
-		                                                <span class="like-count">${ r.mediaReply.likeCount }</span><span class="comment-date">${ r.mediaReply.rcreate }</span>
+		                                                <span class="like-count">${ r.mediaReply.likeCount }</span>
+		                                                <span class="comment-date">${ r.mediaReply.rcreate }</span>
 		                                            </div>
 		                                        </td>
 		                                    </tr>
@@ -386,60 +486,136 @@
                         </c:forEach>
                     </table>
                 </div>
-            </div>
         </section>
+        
+       <!-- 프로필 모달창 -->
+	  <div id="ex1" class="modal" style="width:500px; height:300px;">
+		 <h3>아티스트 프로필</h3>
+	  <hr width="95%">
+	  <br><br>
+	 <table 
+		style="border-right:none; border-left:none; border-top:none; border-bottom:none;">
+	  <tr>
+	      <td rowspan="3" colspan="2" width="150px">
+	      <img class="prof-picture" src="${ contextPath }/resources/uploadFiles/${ r.artiAttach.attSvName }" 
+	       style="border-radius:0; width:150px; height:80px" >    
+    		  </td>
+	      <td colspan="2" width="100px">이름</td>
+	      <td colspan="3">${ r.artist.artiName }</td>
+	      
+	  </tr>
+	  <tr>
+	      <td colspan="2">SNS주소</td>
+	      <td><a href="https://ko-kr.facebook.com/iu.loen" target='_blank'><img src="${ contextPath }/resources/images/mypage/artist/facebook.png" style="width:50px; height:32px"></a></td>
+	      <td><img src="${ contextPath }/resources/images/mypage/artist/인스타그램.png" style="width:50px; height:32px"></td>
+	      <td><img src="${ contextPath }/resources/images/mypage/artist/twitter.png" style="width:50px; height:32px"></td>
+	  </tr>
+	  <tr>
+	      <td colspan="2">상태 메세지</td>
+	      <td colspan="3" width="">${ r.artist.artiDailymsg }</td>
+	  </tr>
+	 </table>
+	 
+		<a href="#" rel="modal:close" style="color:black"></a>
+	</div>
+	<!-- 모달 끝 -->
         
         <script>
         // 북마크 클릭 여부 확인하기
         $("#bookMark").click(function() {
+        	var mediaNum = ${ media.official.mediaNum };
+        	
             if(document.getElementById("bookMark").getAttribute('src') == "${ contextPath }/resources/images/official/bookmark.svg") {
                 document.getElementById("bookMark").src = "${ contextPath }/resources/images/official/bookmark-black.svg";
+                
+                return insertBookmark(mediaNum);
             } else {
                 document.getElementById("bookMark").src = "${ contextPath }/resources/images/official/bookmark.svg";
+                
+                return deleteBookmark(mediaNum);
             }
         });
         
+     	// 북마크 추가하기
+        function insertBookmark(mediaNum) {
+			console.log(mediaNum);
+        	
+        	$.ajax({
+    			url : "${ contextPath }/official/insertBookmark",
+    			dataType : "json",
+    			data : { mediaNum : mediaNum },
+    			type : "post",
+    			success : function(data) {
+    				console.log(data.msg);
+    			},
+    			error : function(e) {
+    				alert(e);
+    			}
+    		});
+        }
+     	
+     	// 북마크 삭제하기
+        function deleteBookmark(mediaNum) {
+        	$.ajax({
+    			url : "${ contextPath }/official/deleteBookmark",
+    			dataType : "json",
+    			data : { mediaNum : mediaNum },
+    			type : "post",
+    			success : function(data) {
+    				console.log(data.msg);
+    			},
+    			error : function(e) {
+    				alert(e);
+    			}
+    		});
+        }
+        
+        // 좋아요 여부 확인하기
         function checkLike(e, rid) {
         	if($(e).attr("src") == "${ contextPath }/resources/images/official/like.svg") {
 				$(e).attr("src","${ contextPath }/resources/images/official/like-black.svg");
 				
-				// 좋아요 추가하기
-		        function insertLike(e, rid) {
-		        	
-		        	$.ajax({
-		    			url : "${ contextPath }/official/insertLike",
-		    			dataType : "json",
-		    			data : { rid : rid },
-		    			type : "post",
-		    			success : function(data) {
-		    				console.log(data.msg);
-		    			},
-		    			error : function(e) {
-		    				alert(e);
-		    			}
-		    		});
-		        }
+				return insertLike(rid);
+				
             } else {
             	$(e).attr("src","${ contextPath }/resources/images/official/like.svg");
             	
-            	 // 좋아요 삭제하기
-                function deleteLike(e, rid) {
-                	$(e).attr("src", "${ contextPath }/resources/images/official/like.svg");
-                	
-                	$.ajax({
-            			url : "${ contextPath }/official/deleteLike",
-            			dataType : "json",
-            			data : { rid : rid },
-            			type : "post",
-            			success : function(data) {
-            				console.log(data.msg);
-            			},
-            			error : function(e) {
-            				alert(e);
-            			}
-            		});
-                }
+            	return deleteLike(rid);
             }
+        }
+        
+     	// 좋아요 추가하기
+        function insertLike(rid) {
+			console.log(rid);
+        	
+        	$.ajax({
+    			url : "${ contextPath }/official/insertLike",
+    			dataType : "json",
+    			data : { rid : rid },
+    			type : "post",
+    			success : function(data) {
+    				console.log(data.msg);
+    			},
+    			error : function(e) {
+    				alert(e);
+    			}
+    		});
+        }
+     	
+     	// 좋아요 삭제하기
+        function deleteLike(rid) {
+        	$.ajax({
+    			url : "${ contextPath }/official/deleteLike",
+    			dataType : "json",
+    			data : { rid : rid },
+    			type : "post",
+    			success : function(data) {
+    				console.log(data.msg);
+    			},
+    			error : function(e) {
+    				alert(e);
+    			}
+    		});
         }
         
         // 댓글, 대댓글 작성칸 클릭하면 내용 지우기
@@ -451,10 +627,12 @@
         $(".send-btn").click(function() {
         	var rcontent = $(".comment").val();
         	var id = "${ loginUser.id }";
+        	var classifyMem = "${ loginUser.classifyMem }";
         	var refId = ${ media.official.mediaNum }
         	console.log(rcontent);
         	console.log(refId);
         	
+        	// 댓글 입력
         	$.ajax({
     			url : "${ contextPath }/official/insertReply",
     			dataType : "json",
@@ -468,17 +646,37 @@
     				alert(e);
     			}
     		});
+        	
+        	// 아티스트 알림
+        	if(classifyMem == 2) {
+        		console.log("아티스트 유저 알림");
+        		
+        		$.ajax({
+        			url : "${ contextPath }/official/insertArtistReplyAlarm",
+        			dataType : "json",
+        			data : { refId : refId },
+        			type : "post",
+        			success : function(data) {
+        				alert(data.msg);
+        			},
+        			error : function(e) {
+        				alert(e);
+        			}
+        		});
+        	}
         });
         
         // 대댓글 입력
-        function insertRecomment(e, refRid) {
+        function insertRecomment(e, refRid, classify) {
         	var rcontent = $(e).siblings().children(".comment").val();
         	var id = "${ loginUser.id }";
-        	var refId = ${ media.official.mediaNum }
+        	var classifyMem = ${ loginUser.classifyMem };
+        	var refId = ${ media.official.mediaNum };
         	console.log(rcontent);
         	console.log(refId);
         	console.log(refRid);
         	
+        	// 대댓글 입력
     		$.ajax({
     			url : "${ contextPath }/official/insertRecomment",
     			dataType : "json",
@@ -491,20 +689,55 @@
     			error : function(e) {
     				alert(e);
     			}
-    		});	
+    		});
+    		
+        	// 일반 유저 알림
+    		if(classify == 1 && classifyMem == 1 ) {
+    			console.log("일반 유저 알림");
+    			
+    			$.ajax({
+    				url : "${ contextPath }/official/insertUserReplyAlarm",
+        			dataType : "json",
+        			data : { refId : refId },
+        			type : "post",
+        			success : function(data) {
+        				console.log(data);
+        			},
+        			error : function(e) {
+        				console.log(e);
+        			}
+        		});
+    			
+    		// 아티스트 유저 알림
+    		} else if(classify == 1 && classifyMem == 2 ) {
+    			console.log("아티스트 유저 알림");
+    			
+    			$.ajax({
+        			url : "${ contextPath }/official/insertArtistReplyAlarm",
+        			dataType : "json",
+        			data : { refId : refId },
+        			type : "post",
+        			success : function(data) {
+        				console.log(data);
+        			},
+        			error : function(e) {
+        				console.log(e);
+        			}
+        		});
+    		}
         }
         
         // 댓글 삭제하기
         function deleteComment(e, rid) {
         	$(e).parent().parent().parent().parent().parent(".comment-line").css("display", "none");
+        	$(e).parent().parent().siblings().children("re-commentBtn").css("display", "none");
         	
         	if(confirm("댓글을 삭제하시겠습니까?")) {
-        		var refId = ${ media.official.mediaNum }
         		$.ajax({
         			url : "${ contextPath }/official/deleteReply",
+        			dataType : "json",
         			data : { rid : rid },
         			type : "post",
-        			dataType : "json",
         			success : function(data) {
         				alert(data.msg);
         			},
@@ -581,6 +814,11 @@
                 }
             }
         });
+		
+		// 아티스트 피드로 이동
+		function artistFeed(writer) {
+			location.href="${contextPath}/artistfeed/selectMember?writer=" + writer;
+		}
         </script>
         
         <!-- 오른쪽 -->

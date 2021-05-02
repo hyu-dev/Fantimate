@@ -74,6 +74,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<result property="refRid" column="RE_CMT_NUM"/>
 		<result property="likeCount" column="LIKE_COUNT"/>
 		<result property="nickname" column="NICKNAME"/>
+		<result property="classify" column="CLASSIFY_MEM"/>
 	</resultMap>
 	<!-- 구독한 유저 정보 -->
 	<resultMap type="Subscribe" id="subscribe">
@@ -121,6 +122,13 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<result property="refId" column="CMT_NUM"/>
 		<result property="lstatus" column="IS_LIKED"/>
 	</resultMap>
+	<!-- 친구 신청 -->
+	<resultMap type="Friend" id="friendResultSet">
+		<id property="frCode" column="FR_CODE"/>
+		<result property="frSend" column="U_ID_SEND"/>
+		<result property="frRecId" column="U_ID_RECEIVE"/>
+		<result property="frStatus" column="FR_STATUS"/>
+	</resultMap>
 	<!-- 댓글 컬렉션 -->
 	<resultMap type="ReplyCollection" id="replyCollResultSet">
 		<collection property="mediaReply" resultMap="replyResultSet"/>
@@ -129,6 +137,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<collection property="artiAttach" resultMap="artiAttachResultSet"/>
 		<collection property="userAttach" resultMap="userAttachResultSet"/>
 		<collection property="mediaLike" resultMap="mediaLikeResultSet"/>
+		<collection property="friend" resultMap="friendResultSet"/>
 	</resultMap>
 
 	<!-- 미디어 개수 조회하기 -->
@@ -422,9 +431,6 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	<select id="selectBookMark" parameterType="_int" resultMap="bookMarkResultSet">
 	SELECT
 	       BM_STATUS
-	     , BM_DATE
-	     , ID
-	     , MEDIA_NUM
 	  FROM
 	       MD_BMARK
 	 WHERE
@@ -452,7 +458,9 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
          , RE_CMT_NUM
          , LIKE_COUNT
          , A.NICKNAME
+         , CLASSIFY_MEM
          , B.ARTI_ID
+         , ARTI_ONE_NAME
          , FACEBOOK
          , INSTAGRAM
          , TWITTER
@@ -461,6 +469,9 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
          , D.UP_SV_NAME
          , E.ATT_SV_NAME
          , IS_LIKED
+         , U_ID_SEND
+         , U_ID_RECEIVE
+         , FR_STATUS
 	  FROM
 	       MD_CMT A
  LEFT JOIN
@@ -473,6 +484,8 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
            ART_PIC E ON(A.ID = E.ARTI_ID)
  LEFT JOIN
            MD_CMT_LIKE F ON(A.CMT_NUM = F.CMT_NUM)
+ LEFT JOIN
+           FRIEND G ON(A.ID = G.U_ID_SEND OR A.ID = U_ID_RECEIVE)
 	 WHERE
 	       MEDIA_NUM = #{mediaNum}
 	   AND
@@ -508,6 +521,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
          , MEDIA_NUM
          , LIKE_COUNT
          , NICKNAME
+         , CLASSIFY_MEM
 	       )
 	VALUES
 	      (
@@ -521,6 +535,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	     , #{refId}
 	     , DEFAULT
 	     , #{nickname}
+	     , #{classify}
 	       )	
 	</insert>
 	
@@ -539,6 +554,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
          , MEDIA_NUM
          , LIKE_COUNT
          , NICKNAME
+         , CLASSIFY_MEM
 	       )
 	VALUES
 	      (
@@ -552,6 +568,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	     , #{refId}
 	     , DEFAULT
 	     , #{nickname}
+	     , #{classify}
 	       )	
 	</insert>
 	
@@ -578,12 +595,12 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	</update>
 	
 	<!-- 좋아요 추가 -->
-	<insert id="insertLike" parameterType="hashMap">
+	<update id="insertLike" parameterType="hashMap">
 	MERGE INTO 
 		  MD_CMT_LIKE A
     USING 
     	  DUAL
-       ON (A.ID = #{artiName} and A.CMT_NUM = #{mediaNum})
+       ON (A.ID = #{id} and A.CMT_NUM = #{rid})
      WHEN 
           MATCHED THEN
           UPDATE 
@@ -604,7 +621,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	   , #{id}
 	   , #{rid}
     	)
-	</insert>
+	</update>
 	
 	<!-- 좋아요 삭제 -->
 	<update id="deleteLike" parameterType="hashMap">
@@ -617,4 +634,95 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
        AND
            CMT_NUM = #{rid}
 	</update>
+	
+	<!-- 북마크 추가 -->
+	<update id="insertBookmark" parameterType="hashMap">
+	MERGE INTO 
+		  MD_BMARK A
+    USING 
+    	  DUAL
+       ON (A.ID = #{id} and A.MEDIA_NUM = #{mediaNum})
+     WHEN 
+          MATCHED THEN
+          UPDATE 
+          SET A.BM_STATUS = 'Y'
+     WHEN 
+          NOT MATCHED THEN
+          INSERT
+    	(
+    	 A.BM_STATUS
+	   , A.BM_DATE
+	   , A.ID
+	   , A.MEDIA_NUM
+    	)
+    VALUES
+    	(
+    	 SEQ_MD_BMARK.NEXTVAL
+	   , SYSDATE
+	   , #{id}
+	   , #{mediaNum}
+    	)
+	</update>
+	
+	<!-- 북마크 삭제 -->
+	<update id="deleteBookmark" parameterType="hashMap">
+	UPDATE 
+		   MD_BMARK
+	   SET
+	       BM_STATUS = 'N'
+     WHERE
+           ID = #{id}
+       AND
+           MEDIA_NUM = #{mediaNum}
+	</update>
+	
+	<!-- 유저 댓글 알림  -->
+	<insert id="insertUserReplyAlarm" parameterType="hashMap">
+    INSERT
+	  INTO ALARM
+	      (
+	       AL_MADE_CODE
+		 , AL_CONTENT
+		 , AL_TIME
+		 , AL_STATUS
+		 , AL_CODE
+		 , ID
+		 , REF_ID
+	       )
+	VALUES
+	      (
+	       SEQ_ALARM.NEXTVAL
+	     , #{id} || '님이 댓글을 달았습니다.'
+	     , SYSDATE
+	     , DEFAULT
+	     , 10
+	     , #{id}
+	     , #{refId}
+	       )	
+	</insert>
+	
+	<!-- 아티스트 댓글 알림 -->
+	<insert id="insertArtistReplyAlarm" parameterType="hashMap">
+    INSERT
+	  INTO ALARM
+	      (
+	       AL_MADE_CODE
+		 , AL_CONTENT
+		 , AL_TIME
+		 , AL_STATUS
+		 , AL_CODE
+		 , ID
+		 , REF_ID
+	       )
+	VALUES
+	      (
+	       SEQ_ALARM.NEXTVAL
+	     , #{id} || '(아티스트)님이 댓글을 달았습니다.'
+	     , SYSDATE
+	     , DEFAULT
+	     , 8
+	     , #{id}
+	     , #{refId}
+	       )	
+	</insert>
 </mapper>

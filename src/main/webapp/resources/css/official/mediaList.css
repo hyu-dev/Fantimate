@@ -82,6 +82,7 @@ html, body {
     border-radius: 5px;
     cursor: pointer;
     position: relative;
+    object-fit: cover;
 }
 
 .media-pay-sign {

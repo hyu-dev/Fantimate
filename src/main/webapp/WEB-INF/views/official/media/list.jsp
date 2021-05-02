@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="contextPath" value="${ pageContext.servletContext.contextPath }" scope="application" />
 <!DOCTYPE html>
 <html>
@@ -36,7 +37,7 @@
                         <img src="${ contextPath }/resources/uploadFiles/${ m.mediaFile.picSvName }"  
                         	 onclick="selectMedia(${ m.official.mediaNum }, '${ m.official.isPay }', ${ m.official.mediaPay })">
                         <div class="media-title nanumsquare">${ m.official.mediaTtl }</div>
-                        <div class="media-date nanumsquare">${ m.official.mediaDate }</div>
+                        <div class="media-date nanumsquare"><fmt:formatDate value="${ m.official.mediaDate }" pattern="yyyy.MM.dd"/></div>
                     </div>
                     </c:forEach>
                 </div>
@@ -49,7 +50,7 @@
         function selectMedia(mediaNum, isPay, mediaPay) {
         	console.log(mediaNum)
         	var loginUser = ${ loginUser.classifyMem }
-        	var membership = "${ userColl.user.isMembership }"
+        	var membership = "${ userColl.user.isMembership }";
         	
         	/* 미디어가 유료일 때 */
         	if(isPay == "Y") {

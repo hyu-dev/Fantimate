@@ -127,11 +127,23 @@ public class OfficialDaoImpl implements OfficialDao{
 	public int deleteReply(int rid) {
 		return sqlSession.update("officialMapper.deleteReply", rid);
 	}
+	
+	// 북마크 추가
+	@Override
+	public int insertBookmark(Map<Object, Object> map) {
+		return sqlSession.update("officialMapper.insertBookmark", map);
+	}
+
+	// 북마크 삭제
+	@Override
+	public int deleteBookmark(Map<Object, Object> map) {
+		return sqlSession.update("officialMapper.deleteBookmark", map);
+	}
 
 	// 좋아요 +1
 	@Override
 	public int insertLike(Map<Object, Object> map) {
-		return sqlSession.insert("officialMapper.insertLike", map);
+		return sqlSession.update("officialMapper.insertLike", map);
 	}
 
 	// 좋아요 -1

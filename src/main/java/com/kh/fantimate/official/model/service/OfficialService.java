@@ -66,7 +66,13 @@ public interface OfficialService {
 	public String selectNickName(Map<String, String> map);
 	
 	// 댓글 삭제
-	public int deleteReply(int rid);
+	public int deleteReply(Map<Object, Object> map);
+	
+	// 북마크 추가
+	public int insertBookmark(Map<Object, Object> map);
+
+	// 북마크 삭제
+	public int deleteBookmark(Map<Object, Object> map);
 
 	// 좋아요 +1
 	public int insertLike(Map<Object, Object> map);
@@ -97,6 +103,4 @@ public interface OfficialService {
 	
 	// 스케줄 삭제
 	public int deleteSchedule(Date scheDate);
-
-	
 }

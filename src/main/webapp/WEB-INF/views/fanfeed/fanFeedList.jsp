@@ -427,7 +427,7 @@ a { text-decoration:none }
 							</c:if>
 							</c:forEach>	
   
-                                
+                    <!-- 프로필 모달끝 -->            
                                 
                                 
                                 
