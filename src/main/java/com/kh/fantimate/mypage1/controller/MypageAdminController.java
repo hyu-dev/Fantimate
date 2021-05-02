@@ -226,14 +226,12 @@ public class MypageAdminController {
 			if(rptDate > 0) {
 			// 유저정보 업데이트
 				
-/*
 			report.setReportDate(rptDate*24);
 			int result1 = mService.updateUserReport(report);
 			
 				if(rptDate > 0 && result1 >0) {
 					System.out.println("회원제재 로직 성공");
 				}
-*/
 			// 해당 게시글 비활성화 처리	
 //				rptTable
 				//RPT_FREPLY가 아니라면(status가 없음)
