@@ -46,7 +46,7 @@
     margin: auto;
     /* justify-content: center; */
     /* margin-bottom: 40px; */
-    justify-content: space-between;
+    justify-content: flex-start;
 }
 
 /* 타이틀 호버 */
@@ -177,6 +177,7 @@
 
 .artistList-move img, .artistList-move2 img{
     max-width: 100%;
+    object-fit: cover;
 }
 
 .artistList-move span.artist-name , .artistList-move2 span.artist-name{
