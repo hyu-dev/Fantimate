@@ -74,13 +74,13 @@ public class FanFeedController {
 									@RequestParam(value="artNameEn") String artNameEn,
 									HttpServletRequest request) {
 		
-	//	String id = ((Member)request.getSession().getAttribute("loginUser")).getId(); 
-	//	System.out.println("로그인 유저  : " + id);
+//		String id = ((Member)request.getSession().getAttribute("loginUser")).getId(); 
+//		System.out.println("로그인 유저  : " + id);
 		
-	//	User ms = fService.selectUser(id);
-	//	System.out.println("mm? : " + ms);
-	//
-	//		String Membership = ms.getIsMembership();
+//		User ms = fService.selectUser(id);
+//		System.out.println("mm? : " + ms);
+	
+//		String Membership = ms.getIsMembership();
 		
 //		System.out.println("멤버십이냐? : " + Membership);
 		
