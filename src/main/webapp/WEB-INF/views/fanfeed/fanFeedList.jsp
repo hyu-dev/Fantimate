@@ -14,7 +14,45 @@
     <link rel="stylesheet" href="${ contextPath }/resources/css/feed/fanFeedList.css?aftrhss">
     <link rel="icon" type="image/png" sizes="16x16" href="${ contextPath }/resources/icon/faviconF.png">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+	<!-- 모달  -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
+	<!-- Bootstrap core CSS -->
+		
+
 <title>Insert title here</title>
+<style>
+/* 모달 */
+a { text-decoration:none }
+
+#ex2 {
+    display: none;
+    vertical-align: middle;
+    position: relative;
+    z-index: 2;
+    max-width: 1000px;
+    box-sizing: border-box;
+    width: 100%;
+    background: #2c2828;
+    padding: 15px 30px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    -o-border-radius: 8px;
+    -ms-border-radius: 8px;
+    border-radius: 8px;
+    -webkit-box-shadow: 0 0 10px #000;
+    -moz-box-shadow: 0 0 10px #000;
+    -o-box-shadow: 0 0 10px #000;
+    -ms-box-shadow: 0 0 10px #000;
+    box-shadow: 0 0 10px #000;
+    text-align: left;
+    max-height: 510px;
+    height: 100%;
+} 
+
+
+</style>
 </head>
 <body>
 	<c:if test="${ !empty msg }">
@@ -105,13 +143,14 @@
                     </tr>
                 </table>
                     <!-- 게시글 컨텐츠 영역 -->
-                    <div class="contentArea" id="detailPage" onclick="detailPage(${f.fid});">
+     
+      				  <p><a href="#ex2" rel="modal:open">상세보기</a></p>
+                    <div class="contentArea">
                         <!-- 텍스트 영역 -->
                         <div>
-                        	
                             <p class="board-text">${ f.fcontent }</p> 
                         </div>
-                       
+                      
                         <!-- 이미지 영역 -->
                         <!-- 게시글 bid와 사진이 참조하고 있는 bid가 같고, 사진 리스트가 있다면 반복문돌려서 이미지 갯수만큼 불러오기 -->
                         <div class="photo-area">
@@ -197,10 +236,7 @@
                     <br> <!-- 이 다음부터 복사함 -->
                         
                         <!-- 댓글 리스트 영역 -->
-                   
-                   
-                    
-                   
+                                     
                     <table class="original-comment">
                     <c:forEach var="r" items="${ rlist }">
                    <c:if test="${ f.fid eq r.refId }">
@@ -274,8 +310,9 @@
                             <td>
                             <c:if test="${ loginUser.id ne r.writer }">
                                 <div class="profile-bubble">
-                                    <p onclick="">프로필 보기</p>
+                                    <!-- <p onclick="">프로필 보기</p> -->
                                     
+									<p><a href="#ex1" rel="modal:open" style="color:#5C5F78">프로필 보기</a></p>
                                 </div>
                             </c:if>
                              
@@ -350,17 +387,62 @@
                                     		<span class="comment-date"><fmt:formatDate value="${ r.rcreate }" pattern="yyyy.MM.dd HH:mm"/></span>
                                 </div>
                                
+                                 <!-- 프로필 모달************************ -->
+							
+							<c:forEach var="art" items="${ artist }">
+							<c:if test="${r.writer eq art.artiId }">
+							<div id="ex1" class="modal" style="width:500px; height:300px;">
+								 <h3>아티스트 프로필</h3>
+							  <hr width="95%">
+							  <br><br>
+							 <table 
+ 							style="border-right:none; border-left:none; border-top:none; border-bottom:none;">
+							  <tr>
+							  	  <c:forEach var="ap" items="${ aplist }">
+							      <c:if test="${r.writer eq ap.refuid }">
+							      <td rowspan="3" colspan="2" width="150px">
+							      <img class="profile-picture" src="${ contextPath }/resources/uploadFiles/${ ap.attSvName }" 
+							       style="border-radius:0; width:150px; height:80px" >    
+   	      						  </td>
+							      </c:if>
+							      </c:forEach>
+							      <td colspan="2" width="100px">이름</td>
+							      <td colspan="3">${ art.artiName }</td>
+							      
+							  </tr>
+							  <tr>
+							      <td colspan="2">SNS주소</td>
+							      <td><a href="https://ko-kr.facebook.com/iu.loen" target='_blank'><img src="../resources/images/mypage/artist/facebook.png" style="width:50px; height:32px"></a></td>
+							      <td><img src="../resources/images/mypage/artist/인스타그램.png" style="width:50px; height:32px"></td>
+							      <td><img src="../resources/images/mypage/artist/twitter.png" style="width:50px; height:32px"></td>
+							  </tr>
+							  <tr>
+							      <td colspan="2">상태 메세지</td>
+							      <td colspan="3" width="">${ art.artiDailymsg }</td>
+							  </tr>
+							 </table>
+							 
+								<a href="#" rel="modal:close" style="color:black"></a>
+							</div>
+							</c:if>
+							</c:forEach>	
+  
+                                
+                                
+                                
+                                
+                                
+                                
+                                
                                 
                                 
 						
                  	</c:if>
                  	</c:forEach>
+                 	<!-- 댓글 전체 리스트 끝 -->
                     </table>
-                   
+             
                  
-                   
-                   
-                  <!-- 여기 전까지 --> 
                    
                    
                    
@@ -380,20 +462,87 @@
                             <div class="insert-reply">
                                 <textarea class="nanumsquare" name="rcontent" style="resize: none;" rows="1" placeholder="댓글을 입력하세요..."></textarea>
                             </div>&nbsp;&nbsp;&nbsp;
-                            <button type="submit" class="insert-replyBtn"><img id="addReply" src="../resources/icon/send.png" onclick="insertReply();"></button>
+                            <button type="submit" class="insert-replyBtn" style=""><img id="addReply" src="../resources/icon/send.png" onclick="insertReply();"></button>
                             <!-- <img class="insert-replyBtn" id="addReply" src="../resources/icon/send.png" onclick="insertReply();"> -->
                         </div>
                     </div>
                     </form> 
-                    
-                    
-                     
              </div>
-             
-             
+             						
+                     
+			 <!-- 상페 페이지 모달 -->           
+			<div id="ex2" class="modal">
+			<%--	<div id="carouselExampleDark" class="carousel carousel-dark slide"
+			data-bs-ride="carousel">
+			<ol class="carousel-indicators">
+			<% for(int s = 0; s < ptlist.size(); s++) { %>
+				<% if(photo.get(s).getShItype().equals("T")) { %>
+					<li data-bs-target="#carouselExampleDark" data-bs-slide-to="<%= s%>" class="active"></li>
+				<% } %>	
+			<% } %>
+			<% for(int s = 0; s < photo.size(); s++) { %>
+				<li data-bs-target="#carouselExampleDark" data-bs-slide-to="<%= s%>" ></li>
+			<% } %>
+			</ol>
+			<div class="carousel-inner">
+				<!-- 슬라이드 쇼 -->
+				<% for(int s = 0; s < photo.size(); s++) { %>
+					<% if(photo.get(s).getShItype().equals("T")) { %>
+				<div class="carousel-item active" data-bs-interval="10000">
+					<!--가로 사진-->
+					<img
+						src="<%= request.getContextPath()%><%= photo.get(s).getShIpath() %><%= photo.get(s).getShChName() %>"
+						class="d-block w-100" alt="...">
+				</div>
+				<% } %>	
+					<% } %>	
+				<% for(int s = 0; s < photo.size(); s++) { %>
+				<div class="carousel-item" data-bs-interval="2000">
+					<img
+						src="<%= request.getContextPath()%><%= photo.get(s).getShIpath() %><%= photo.get(s).getShChName() %>"
+						class="d-block w-100" alt="...">
+				</div>
+				<% } %>	
+			</div>
+			<!-- / 슬라이드 쇼 끝 -->
+
+			<!-- 왼쪽 오른쪽 화살표 버튼 -->
+			<a class="carousel-control-prev" href="#carouselExampleDark"
+				role="button" data-bs-slide="prev"> <span
+				class="carousel-control-prev-icon" aria-hidden="true"></span> <span
+				class="visually-hidden">Previous</span>
+			</a> <a class="carousel-control-next" href="#carouselExampleDark"
+				role="button" data-bs-slide="next"> <span
+				class="carousel-control-next-icon" aria-hidden="true"></span> <span
+				class="visually-hidden">Next</span>
+			</a>
+			<!-- / 화살표 버튼 끝 -->
+		</div>
+			</div>  --%>
+			
+			<a href="#" rel="modal:close"></a> 
+	<!-- ??? -->		</div>
+		
+		
+    	<!-- 상세 페이지 모달 끝나는 부분********************************** --> 
+           
+           
+           
+           
+           
+           
+           
+           
+           
+           
+           
+           
+           
+           
+           
              
              </c:forEach>
-          <!-- fList 끝 -->
+          <!-- 게시글 전체 리스트 끝 -->
           
              <!-- 좋아요 ajax 수정************************** -->
              <script>
@@ -798,7 +947,7 @@
    </script> 
    
    <!-- 상세 페이지로 이동 -->
-   <script>
+<!--    <script>
    function detailPage(fid){
 	   // 팝업 가운데에 띄우기
        var popupWidth = 1300;
@@ -814,7 +963,7 @@
        
    //    window.open('fanFeedDetail.html','상세페이지','width=1300, height=600, left=300, top=250');
    }
-   </script>
+   </script> -->
   
   <!-- 대댓글  -->
   <script>
@@ -891,5 +1040,7 @@
 		}
 	});
   </script>
+  
+ 
 </body>
 </html>

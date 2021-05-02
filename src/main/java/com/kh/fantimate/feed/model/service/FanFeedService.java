@@ -21,6 +21,7 @@ import com.kh.fantimate.feed.model.vo.FeedCollection;
 
 import com.kh.fantimate.member.model.vo.Artist;
 import com.kh.fantimate.member.model.vo.MemberCollection;
+import com.kh.fantimate.member.model.vo.User;
 
 
 public interface FanFeedService {
@@ -93,7 +94,7 @@ public interface FanFeedService {
    public List<Artist> selectArtistList();
 
    // 게시글당 사진 갯수
-   public int selectptListCount(int refId);
+ //  public int selectptListCount();
 
    // 게시글 좋아요 취소누른 유저 삭제 
    public int cancelLike(int refId, Feed f);
@@ -128,6 +129,9 @@ public interface FanFeedService {
 
    // 댓글 좋아요 갯수 select
    public int selectLike3(int rid);
+
+   // 멤버십 여부 판단
+   public User selectUser(String id);
 
    
 

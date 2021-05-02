@@ -22,6 +22,7 @@ import com.kh.fantimate.feed.model.vo.AttachmentF;
 import com.kh.fantimate.feed.model.vo.Feed;
 import com.kh.fantimate.feed.model.vo.FeedCollection;
 import com.kh.fantimate.member.model.vo.Artist;
+import com.kh.fantimate.member.model.vo.User;
 
 @Service
 public class FanFeedServiceImpl implements FanFeedService {
@@ -182,10 +183,10 @@ public class FanFeedServiceImpl implements FanFeedService {
 	}
 
 	// 게시글 당 사진 갯수
-	@Override
-	public int selectptListCount(int refId) {
-		return fDao.selectptListCount(refId);
-	}
+//	@Override
+//	public int selectptListCount(int refId) {
+//		return fDao.selectptListCount(refId);
+//	}
 
 	// 좋아요 취소 누른 유저 삭제
 	@Override
@@ -252,23 +253,33 @@ public class FanFeedServiceImpl implements FanFeedService {
 		return fDao.selectRLikeList();
 	}
 
-	
+	// 댓글 좋아요 등록
 	@Override
 	public int insertLike3(Like like, int rid) {
 		fDao.insertLike3(like);
 		return fDao.updateLike3(rid);
 	}
 
+	// 댓글 좋아요 취소
 	@Override
 	public int deleteLike3(Like like, int rid) {
 		fDao.deleteLike3(like);
 		return fDao.updateDeleteLike3(rid);
 	}
 
+	// 댓글 좋아요 카운트
 	@Override
 	public int selectLike3(int rid) {
 		return fDao.selectLike3(rid);
 	}
+
+	// 멤버십 여부 판별
+	@Override
+	public User selectUser(String id) {
+		return fDao.selectUser(id);
+	}
+
+	
 
 	// 모든 유저 정보 컬렉션
 	/*
