@@ -202,7 +202,21 @@ html, body {
     margin-bottom: 20px;
 }
 
-#join-input-id, #inputAddress{
+#inputAddress{
+	width: 350px;
+    height: 60px;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 43px;
+    color: black;
+    border: 1px solid #ACACAC;
+    outline: none;
+    padding-left: 10px;
+    margin-left: 54px;
+}
+
+#join-input-id{
     width: 350px;
     height: 60px;
     font-size: 20px;
@@ -210,11 +224,17 @@ html, body {
     font-weight: normal;
     line-height: 43px;
     color: black;
-    margin: 10px;
     border: 1px solid #ACACAC;
     outline: none;
     padding-left: 10px;
-    margin-left: 54px;
+}
+
+.join-id{
+	width: 460px;
+    height: auto;
+    box-sizing: border-box;
+    margin: 0 0 0 54px;
+    position: relative;
 }
 
 #idCheckBtn, #addressCheckBtn{
@@ -443,9 +463,9 @@ body::-webkit-scrollbar-track ,.check-content::-webkit-scrollbar-track {
     margin-top: 0;
     align-self: flex-end;
 }
-.id-valid {
+/* .id-valid {
 	margin-left: 54px;
-}
+} */
 
 .valid { color: #FC9C9C; }
 
