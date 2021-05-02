@@ -114,4 +114,10 @@ public interface Mypage1Dao {
 	public List<AttachmentF> selectptList();
 
 	public List<ReplyCollection> selectReplyAllList();
+
+	int updateUserReport2(Report report);
+
+	public int updateUserDelete(String userid);
+
+	public int updateTableStatus(ReportAdmin report);
 }

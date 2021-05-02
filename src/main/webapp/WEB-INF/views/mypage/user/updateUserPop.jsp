@@ -54,8 +54,8 @@
 		                <div id="mypageUserUpdateRight">
 		                    <input type="text" name="name" value="${ loginUser.name }" readonly>
 		                    <input type="text" name="id" value="${ loginUser.id }" readonly>
-		                    <input type="password" name="pwd" placeholder="8~20자 영문, 숫자, 특수문자 포함하여 작성하세요">
-		                    <input type="password" name="pwd2" placeholder="8~20자 영문, 숫자, 특수문자 포함하여 작성하세요">
+		                    <input type="password" name="pwd" placeholder="5~20자 영문, 숫자, 특수문자 포함하여 작성하세요">
+		                    <input type="password" name="pwd2" placeholder="5~20자 영문, 숫자, 특수문자 포함하여 작성하세요">
 		                    <input type="email" name="uemail" value="${ user.get(0).user.uemail }">
 <%-- 		                    <input type="text" name="phone" value="${ user.phone }"> --%>
 		                </div>
@@ -93,8 +93,8 @@ inputImage.addEventListener("change", e => {
 
 // 유효성 검사
 		function joinValidate(){
-			if(!(/^(?=.*[a-zA-Z])(?=.*\d)(?=.*\W).{8,20}$/.test($("input[name=pwd]").val()))){
-				alert('비밀번호는 영어,숫자,특수문자를 포함한 8자리~20자리로 설정해 주세요.');
+			if(!(/^(?=.*[a-zA-Z])(?=.*\d).{5,20}$/.test($("input[name=pwd]").val()))){
+				alert('비밀번호는 영어 대소문자,숫자를 포함한 5자리~20자리로 설정해 주세요.');
 				$("input[name=pwd]").select();
 				return false;
 			}

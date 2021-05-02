@@ -31,10 +31,17 @@
             <div id="mypageUserProfileImgDivRightRight">
                 <button class="mypage-btn-pink-14" id="userProfileUpdate">수정하기</button>
                 <h4 class="font-16">&nbsp;</h4>
-                <button class="mypage-btn-blueblack-14" id="userWithdrawal">탈퇴하기</button>
+                <button class="mypage-btn-blueblack-14" id="userWithdrawal" onclick="deleteUser('${ user.get(0).user.id }')">탈퇴하기</button>
             </div>
         </div>
 	</c:if>
 	<script src="${ contextPath }/resources/css/mypage/jw.js"></script>        
+	<script>
+		function deleteUser(userid){
+			if(confirm("정말 탈퇴하시겠습니까?")){
+			location.href='${contextPath}/mypage/user/update/delete?userid=' + userid;
+			}
+	}
+	</script>
 </body>
 </html>
