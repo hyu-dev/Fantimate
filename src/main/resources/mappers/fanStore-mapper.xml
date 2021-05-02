@@ -305,10 +305,9 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	</select>
 	<select id="selectHashListBySearch" parameterType="hashMap" resultMap="hashResultSet">
 		SELECT
-				TAG_CODE
+				DISTINCT(TAG_CODE)
 			  , TAG_NAME
 			  , SEARCH_COUNT
-              , F_CODE
 		  FROM
 		  		TAG
           JOIN
