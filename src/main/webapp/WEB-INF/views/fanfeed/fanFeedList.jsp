@@ -458,6 +458,7 @@ a { text-decoration:none }
                      <input type="hidden" name="writer" value="${ loginUser.id }">
                      <input type="hidden" name="refId" value="${ f.fid }">
                      <input type="hidden" name="id" value="${ f.writer }">
+                     
                         <div class="replyArea">
                             <div class="insert-reply">
                                 <textarea class="nanumsquare" name="rcontent" style="resize: none;" rows="1" placeholder="댓글을 입력하세요..."></textarea>

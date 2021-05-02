@@ -485,17 +485,21 @@ public class FanFeedController {
 							HttpServletResponse response,
 							Reply r,
 							Alarm a,
+							@RequestParam(value="refId") int refId,
 							@RequestParam(value="writer") String writer,
 			   				@RequestParam(value="id") String id,
+			   				@RequestParam(value="classify") int classify,
 							HttpSession session) throws IOException {
 		
 		String artiName = (String)request.getSession().getAttribute("artiName");
 		
 		System.out.println("댓글에서 아트네임 넘어오냐: " + artiName);
 		System.out.println(r);
-		
+		System.out.println("참조 번호 : " + refId);
+		System.out.println("회원 구분 : " + classify);
 		// 알람 내용에 댓글 작성자 들어가야하고 아이디에 게시글 작성자 들어가야댐
 		a.setId(id);
+		a.setRef_id(refId);
 		a.setAlContent(writer + " 님이  댓글을 작성하였습니다.");
 		
 		int result = fService.insertReply(r, a);
