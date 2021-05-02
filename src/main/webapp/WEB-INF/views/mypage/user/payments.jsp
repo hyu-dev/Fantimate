@@ -60,15 +60,16 @@
                     		<c:choose>
                     			<c:when test="${ p.cart.pcode eq 0 }">
                     				<td><!-- 미디어일때 -->
-                    					<img class="new-media-img" src="${ contextPath }/resources/images/official/${ p.mdatt.attSvName }" alt="이미지">
+                    					<img class="new-media-img" src="${ contextPath }/resources/uploadFiles/${ p.mdatt.attSvName }" alt="이미지">
 <%--                     				${ p.mdatt.attSvName } --%>
                     				</td>
                     				<td>${ p.media.mediaTtl }</td>
                     			</c:when>
-                    			<c:when test="${ p.cart.pcode ne 0 }">
+<%--                     			<c:when test="${ p.cart.pcode ne 0 }"> --%>
+                    			<c:when test="${ p.att.attSvName ne null }">
 		                    		<!-- 상품사진 -->
 		                    		<td>
-                    					<img src="${ contextPath }/resources/uploadFiles/${ p.mdatt.attSvName }" alt="이미지">
+                    					<img src="${ contextPath }/resources/uploadFiles/${ p.att.attSvName }" alt="이미지">
 <%-- 		                    		${ p.att.attSvName } --%>
 		                    		</td>
 		                    		<td>${ p.store.pname }</td><!-- 주문상품정보 -->
