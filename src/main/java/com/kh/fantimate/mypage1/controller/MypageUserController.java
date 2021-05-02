@@ -541,62 +541,62 @@ public class MypageUserController {
 			return mv;
 		}
 		
-//		@GetMapping("/bookmarks")
-//		public ModelAndView userMybookmarks(ModelAndView mv) {
-//			
-//			mv.setViewName("mypage/user/bookmarks");
-//			
-//			return mv;
-//		}
-		// 마이페이지 아티스트 북마크 페이지 & 북마크에 뿌려질 피드 전체 리스트 출력
 		@GetMapping("/bookmarks")
-		public ModelAndView userMybookmarks(ModelAndView mv, HttpServletRequest request) {
-			UserCollection userCol = (UserCollection)request.getSession().getAttribute("user");
+		public ModelAndView userMybookmarks(ModelAndView mv) {
 			
-			// 아티스트 아이디
-			String id = userCol.getUser().getId();
-			// 아티스트명(그룹)
-			String artiName = arti.getArtist().getArtiNameEn();
-			
-			Map<String, String> map = new HashMap<>();
-			map.put("id", id);
-			map.put("artiName", artiName); 
-			
-			// 북마크(피드/미디어) 리스트 가져오기
-			List<FeedCollection> feed = mService.selectBookmarkList(map);
-			System.out.println("북마크 피드 : " + feed);
-			List<MediaCollection> media = mService.selectMediaList(id);
-			System.out.println("북마크 미디어 : " + media);
-			// 북마크(피드) 이미지 가져오기
-			List<FeedCollection> attachment = mService.selectBookmarkImage(map);
-			System.out.println("북마크 : " + attachment);
-			// 북마크(피드/미디어) 댓글 리스트 호출
-			List<ReplyCollection> feedCmt = mService.selectBookmarkReplyList(map);
-			System.out.println("북마크 피드 댓글 : " + feedCmt);
-			List<ReplyCollection> mediaCmt = mService.selectMediaReplyList(map);
-			System.out.println("북마크 미디어 댓글 : " + mediaCmt);
-			System.out.println("----");
-			
-			if(arti != null) {
-				// 해당 아티스트 정보
-				mv.addObject("arti", arti);
-				mv.setViewName("mypage/artist/bookmark");
-			}
-			
-			if(feed != null) {
-				// 피드 리스트, 피드 이미지
-				mv.addObject("feed", feed);
-				mv.addObject("attachment", attachment);
-				mv.addObject("feedCmt", feedCmt);
-			}
-			
-			if(media != null) {
-				mv.addObject("media", media);
-				mv.addObject("mediaCmt", mediaCmt);
-			}
+			mv.setViewName("mypage/user/bookmarks");
 			
 			return mv;
 		}
+		// 마이페이지 아티스트 북마크 페이지 & 북마크에 뿌려질 피드 전체 리스트 출력
+//		@GetMapping("/bookmarks")
+//		public ModelAndView userMybookmarks(ModelAndView mv, HttpServletRequest request) {
+//			UserCollection userCol = (UserCollection)request.getSession().getAttribute("user");
+//			
+//			// 아티스트 아이디
+//			String id = userCol.getUser().getId();
+//			// 아티스트명(그룹)
+//			String artiName = arti.getArtist().getArtiNameEn();
+//			
+//			Map<String, String> map = new HashMap<>();
+//			map.put("id", id);
+//			map.put("artiName", artiName); 
+//			
+//			// 북마크(피드/미디어) 리스트 가져오기
+//			List<FeedCollection> feed = mService.selectBookmarkList(map);
+//			System.out.println("북마크 피드 : " + feed);
+//			List<MediaCollection> media = mService.selectMediaList(id);
+//			System.out.println("북마크 미디어 : " + media);
+//			// 북마크(피드) 이미지 가져오기
+//			List<FeedCollection> attachment = mService.selectBookmarkImage(map);
+//			System.out.println("북마크 : " + attachment);
+//			// 북마크(피드/미디어) 댓글 리스트 호출
+//			List<ReplyCollection> feedCmt = mService.selectBookmarkReplyList(map);
+//			System.out.println("북마크 피드 댓글 : " + feedCmt);
+//			List<ReplyCollection> mediaCmt = mService.selectMediaReplyList(map);
+//			System.out.println("북마크 미디어 댓글 : " + mediaCmt);
+//			System.out.println("----");
+//			
+//			if(arti != null) {
+//				// 해당 아티스트 정보
+//				mv.addObject("arti", arti);
+//				mv.setViewName("mypage/artist/bookmark");
+//			}
+//			
+//			if(feed != null) {
+//				// 피드 리스트, 피드 이미지
+//				mv.addObject("feed", feed);
+//				mv.addObject("attachment", attachment);
+//				mv.addObject("feedCmt", feedCmt);
+//			}
+//			
+//			if(media != null) {
+//				mv.addObject("media", media);
+//				mv.addObject("mediaCmt", mediaCmt);
+//			}
+//			
+//			return mv;
+//		}
 		
 		@GetMapping("/fanStore")
 		public ModelAndView userMyfanstore(ModelAndView mv) {
