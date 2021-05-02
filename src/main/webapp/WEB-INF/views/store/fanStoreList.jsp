@@ -397,7 +397,6 @@
 	        				$(".area p").text("전체");
 	        				$(".toggle-switch input").prop("checked", false)
 	        				flag = true;
-	        				console.log("왜 안바껴")
 	        			}
 	        		} else {
 	        			var area = $(".store-product").html("");
@@ -466,6 +465,7 @@
 	        	data : data,
 				dateType : "json",
 	        	success : function(list) {
+	        		console.log(list);
 	        		var searchResult = $(".fstore-search-result");
 	        		searchResult.html("");
 	        		if(list.length < 1) {

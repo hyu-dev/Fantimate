@@ -160,8 +160,8 @@
 	                </c:forEach>
 	            </c:when>
 	            <c:otherwise>
-	                <label for="mainPhoto" class="main-photo">대표사진첨부</label>
-	                <input id="mainPhoto" name="mainPhoto" class="photo" type="file" style="display: none;">
+	                <label for="mainPhoto1" class="main-photo">대표사진첨부</label>
+	                <input id="mainPhoto1" name="mainPhoto" class="photo" type="file" style="display: none;">
 	                <label class="add-photo click-btn">+</label>
 	            </c:otherwise>
 	            </c:choose>
@@ -207,7 +207,7 @@
 		         }
 		
 		         let reader = new FileReader();
-		         if(id == 'mainPhoto') {
+		         if(id == 'mainPhoto' || id == 'mainPhoto1') {
 		             // 대표사진을 변경한 경우
 		             reader.onload = function(e) {
 		                 label.html('');
@@ -452,8 +452,8 @@
 				 alert("카테고리를 선택하세요")
 			 } else if($(".guide-text").val() == '') {
 				 alert("상품소개글을 등록하세요")
-			 } else if($("#mainPhoto").attr("src") == '') {
-	        	 alert('대표사진을 등록하세요')
+			 } else if($("#mainPhoto1").val() == '') {
+				 alert('대표사진을 등록하세요')
 			 } else if($(".tagArea li").length == 0) {
 				 alert('최소 1개의 태그를 등록하세요') 
 			 } else {
@@ -461,16 +461,28 @@
 				 $(".main-template").attr("action", url);
 				 $(".input-data:nth-of-type(5)").attr("disabled", false);
 				 $(".main-template").submit();
-			 }
+			 } 
 		 });
 		 
 		 // 수정하기 버튼을 클릭했을 때
 		 $(".update-btn").click(function() {
-			 console.log($(""))			 
-			 var url = "${contextPath}/fanStore/update";
-			 $(".main-template").attr("action", url);
-			 $(".input-data:nth-of-type(5)").attr("disabled", false);
-			 $(".main-template").submit(); 
+			 if($(".input-data").val() == '') {
+				 alert("필수항목을 입력하세요")
+			 } else if($("#contactCategory").val() == '연락방식 선택' || $("#transferCategory").val() == '거래방식 선택') {
+				 alert("카테고리를 선택하세요")
+			 } else if($(".guide-text").val() == '') {
+				 alert("상품소개글을 등록하세요")
+			 } else if($("#mainPhoto").val() == '') {
+				 alert('대표사진을 등록하세요')
+			 } else if($(".tagArea li").length == 0) {
+				 alert('최소 1개의 태그를 등록하세요') 
+			 } else {
+				 var url = "${contextPath}/fanStore/update";
+				 $(".main-template").attr("action", url);
+				 $(".input-data:nth-of-type(5)").attr("disabled", false);
+				 $(".main-template").submit(); 
+			 } 
+			 
 		 });
     </script>
 </body>
