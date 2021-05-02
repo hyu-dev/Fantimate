@@ -69,6 +69,12 @@ public interface OfficialDao {
 
 	// 댓글 삭제
 	int deleteReply(int rid);
+	
+	// 북마크 추가
+	int insertBookmark(Map<Object, Object> map);
+
+	// 북마크 삭제
+	int deleteBookmark(Map<Object, Object> map);
 
 	// 좋아요 +1
 	int insertLike(Map<Object, Object> map);
@@ -99,5 +105,4 @@ public interface OfficialDao {
 
 	// 스케줄 삭제
 	int deleteSchedule(Date scheDate);
-
 }

@@ -18,4 +18,5 @@ public class ReplyCollection {
 	private Official official;
 	private Like feedLike;
 	private Like mediaLike;
+	private Friend friend;
 }

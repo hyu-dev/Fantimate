@@ -1,6 +1,9 @@
 package com.kh.fantimate.official.controller;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -201,6 +204,10 @@ public class OfficialController {
 			int count = oService.insertHitCount(mediaNum);
 			// 북마크 여부 확인
 			BookMark bmark = oService.selectBookMark(mediaNum);
+			
+			if(bmark != null && bmark.getBmstatus().equals("Y")) {
+				mv.addObject("bmark", bmark);
+			}
 			// 댓글 개수 조회하기
 			int rcount = oService.countReply(mediaNum);
 			// 댓글 리스트 호출
@@ -216,7 +223,6 @@ public class OfficialController {
 				System.out.println("조회수 추가 실패");
 			}
 			
-			mv.addObject("bmark", bmark);
 			mv.addObject("comment", comment);
 			mv.addObject("rcount", rcount);
  		} 
@@ -226,9 +232,12 @@ public class OfficialController {
 	
 	// 댓글 등록하기
 	@PostMapping(value="/insertReply", produces="application/json; charset=utf-8")
-	public @ResponseBody Map<String, String> insertReply(Reply r, HttpSession session, Model model, HttpServletRequest request) {
+	public @ResponseBody Map<String, String> insertReply(Reply r, HttpSession session, HttpServletRequest request) {
 		Member loginUser = (Member)session.getAttribute("loginUser");
 		String artiName = (String)request.getSession().getAttribute("artiName");
+		
+		// 회원 구분
+		r.setClassify(loginUser.getClassifyMem());
 		
 		// 닉네임 설정
 		if(loginUser.getClassifyMem() == 1) {
@@ -278,9 +287,12 @@ public class OfficialController {
 	
 	// 대댓글 등록하기
 	@PostMapping(value="/insertRecomment", produces="application/json; charset=utf-8")
-	public @ResponseBody Map<String, String> insertRecomment(Reply r, HttpSession session, Model model, HttpServletRequest request) {
+	public @ResponseBody Map<String, String> insertRecomment(Reply r, HttpSession session, HttpServletRequest request) {
 		Member loginUser = (Member)session.getAttribute("loginUser");
 		String artiName = (String)request.getSession().getAttribute("artiName");
+		
+		// 회원 구분
+		r.setClassify(loginUser.getClassifyMem());
 		
 		// 닉네임 설정
 		if(loginUser.getClassifyMem() == 1) {
@@ -330,9 +342,14 @@ public class OfficialController {
 	
 	// 댓글 삭제하기
 	@PostMapping(value="/deleteReply", produces="application/json; charset=utf-8")
-	public @ResponseBody Map<String, String> deleteReply(int rid, HttpSession session, Model model, HttpServletRequest request) {
+	public @ResponseBody Map<String, String> deleteReply(int rid, HttpSession session) {
+		Member loginUser = (Member)session.getAttribute("loginUser");
 		
-		int result = oService.deleteReply(rid);
+		Map<Object, Object> map = new HashMap<>();
+		map.put("id", loginUser.getId());
+		map.put("rid", rid);
+		
+		int result = oService.deleteReply(map);
 		boolean flag = true;
 		
 		if(result > 0) {
@@ -344,18 +361,78 @@ public class OfficialController {
 		
 		String msg = "";
 		if(flag) 
-			msg = "댓글이 삭제었습니다."; 
+			msg = "댓글이 삭제되었습니다."; 
 		else 
 			msg = "댓글 삭제에 실패하였습니다";
 		
-		Map<String, String> map = new HashMap<>();
+		Map<String, String> map2 = new HashMap<>();
 		map.put("msg", msg);
-		return map;
+		return map2;
+	}
+	
+	// 북마크 추가하기
+	@PostMapping(value="/insertBookmark", produces="application/json; charset=utf-8")
+	public @ResponseBody Map<String, String> insertBookmark(int mediaNum, HttpSession session) {
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		
+		Map<Object, Object> map = new HashMap<>();
+		map.put("id", loginUser.getId());
+		map.put("mediaNum", mediaNum);
+		
+		int result = oService.insertBookmark(map);
+		boolean flag = true;
+		
+		if(result > 0) {
+			System.out.println("좋아요 추가 성공");
+		} else {
+			System.out.println("좋아요 추가 실패");
+			flag = false;
+		}
+		
+		String msg = "";
+		if(flag) 
+			msg = "좋아요 추가 성공"; 
+		else 
+			msg = "좋아요 추가 실패";
+		
+		Map<String, String> map2 = new HashMap<>();
+		map.put("msg", msg);
+		return map2;
+	}
+	
+	// 북마크 삭제하기
+	@PostMapping(value="/deleteBookmark", produces="application/json; charset=utf-8")
+	public @ResponseBody Map<String, String> deleteBookmark(int mediaNum, HttpSession session) {
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		
+		Map<Object, Object> map = new HashMap<>();
+		map.put("id", loginUser.getId());
+		map.put("mediaNum", mediaNum);
+		
+		int result = oService.deleteBookmark(map);
+		boolean flag = true;
+		
+		if(result > 0) {
+			System.out.println("좋아요 삭제 성공");
+		} else {
+			System.out.println("좋아요 삭제 실패");
+			flag = false;
+		}
+		
+		String msg = "";
+		if(flag) 
+			msg = "좋아요 삭제 성공"; 
+		else 
+			msg = "좋아요 삭제 실패";
+		
+		Map<String, String> map2 = new HashMap<>();
+		map.put("msg", msg);
+		return map2;
 	}
 	
 	// 좋아요 추가하기
 	@PostMapping(value="/insertLike", produces="application/json; charset=utf-8")
-	public @ResponseBody Map<String, String> insertLike(int rid, HttpSession session, Model model, HttpServletRequest request) {
+	public @ResponseBody Map<String, String> insertLike(int rid, HttpSession session) {
 		Member loginUser = (Member)session.getAttribute("loginUser");
 		
 		Map<Object, Object> map = new HashMap<>();
@@ -385,7 +462,7 @@ public class OfficialController {
 	
 	// 좋아요 삭제하기
 	@PostMapping(value="/deleteLike", produces="application/json; charset=utf-8")
-	public @ResponseBody Map<String, String> deleteLike(int rid, HttpSession session, Model model, HttpServletRequest request) {
+	public @ResponseBody Map<String, String> deleteLike(int rid, HttpSession session) {
 		Member loginUser = (Member)session.getAttribute("loginUser");
 		
 		Map<Object, Object> map = new HashMap<>();
@@ -407,6 +484,66 @@ public class OfficialController {
 			msg = "좋아요 삭제 성공"; 
 		else 
 			msg = "좋아요 삭제 실패";
+		
+		Map<String, String> map2 = new HashMap<>();
+		map.put("msg", msg);
+		return map2;
+	}
+	
+	// 일반 유저 알림
+	@PostMapping(value="/insertUserReplyAlarm", produces="application/json; charset=utf-8")
+	public @ResponseBody Map<String, String> insertUserReplyAlarm(int refId, HttpSession session) {
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		
+		Map<Object, Object> map = new HashMap<>();
+		map.put("id", loginUser.getId());
+		map.put("refId", refId);
+		
+		int result = oService.insertUserReplyAlarm(map);
+		boolean flag = true;
+		
+		if(result > 0) {
+			System.out.println("유저 댓글 알림 성공");
+		} else {
+			System.out.println("유저 댓글 알림 실패");
+			flag = false;
+		}
+		
+		String msg = "";
+		if(flag) 
+			msg = "유저 댓글 알림 성공"; 
+		else 
+			msg = "유저 댓글 알림 실패";
+		
+		Map<String, String> map2 = new HashMap<>();
+		map.put("msg", msg);
+		return map2;
+	}
+	
+	// 아티스트 유저 알림
+	@PostMapping(value="/insertArtistReplyAlarm", produces="application/json; charset=utf-8")
+	public @ResponseBody Map<String, String> insertArtistReplyAlarm(int refId, HttpSession session) {
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		
+		Map<Object, Object> map = new HashMap<>();
+		map.put("id", loginUser.getId());
+		map.put("refId", refId);
+		
+		int result = oService.insertArtistReplyAlarm(map);
+		boolean flag = true;
+		
+		if(result > 0) {
+			System.out.println("아티스트 댓글 알림 실패");
+		} else {
+			System.out.println("아티스트 댓글 알림 실패");
+			flag = false;
+		}
+		
+		String msg = "";
+		if(flag) 
+			msg = "아티스트 댓글 알림 실패"; 
+		else 
+			msg = "아티스트 댓글 알림 실패";
 		
 		Map<String, String> map2 = new HashMap<>();
 		map.put("msg", msg);

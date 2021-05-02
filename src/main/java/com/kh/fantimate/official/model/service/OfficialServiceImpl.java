@@ -135,8 +135,21 @@ public class OfficialServiceImpl implements OfficialService{
 
 	// 댓글 삭제
 	@Override
-	public int deleteReply(int rid) {
-		return oDao.deleteReply(rid);
+	public int deleteReply(Map<Object, Object> map) {
+		oDao.deleteLike(map);
+		return oDao.deleteReply((int) map.get("rid"));
+	}
+	
+	// 북마크 추가
+	@Override
+	public int insertBookmark(Map<Object, Object> map) {
+		return oDao.insertBookmark(map);
+	}
+
+	// 북마크 삭제
+	@Override
+	public int deleteBookmark(Map<Object, Object> map) {
+		return oDao.deleteBookmark(map);
 	}
 
 	// 좋아요 +1
@@ -198,5 +211,4 @@ public class OfficialServiceImpl implements OfficialService{
 	public int deleteSchedule(Date scheDate) {
 		return oDao.deleteSchedule(scheDate);
 	}
-
 }
