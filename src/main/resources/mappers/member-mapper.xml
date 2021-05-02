@@ -336,11 +336,12 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	     C.NAME = #{fullName}
 	</select>
 	
-	<select id="findUserPwd" parameterType="Member" resultMap="commonResultSet">
+	<select id="findUserPwd" resultMap="findIdCollResultSet">
 	SELECT 
-		  PWD, NAME
+		  PWD, NAME, U_EMAIL
 	FROM
 		  COMMON
+    JOIN USER_ ON (ID = U_ID)
 	WHERE
 		  ID= #{id}
 	</select>

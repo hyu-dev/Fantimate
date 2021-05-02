@@ -7,12 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.fantimate.common.model.vo.Attachment;
-import com.kh.fantimate.main.model.vo.FavoriteArtist;
 import com.kh.fantimate.main.model.vo.SubscribeArtist;
 import com.kh.fantimate.member.model.dao.MemberDao;
 import com.kh.fantimate.member.model.vo.Admin;
 import com.kh.fantimate.member.model.vo.Agency;
-import com.kh.fantimate.member.model.vo.Artist;
 import com.kh.fantimate.member.model.vo.ArtistCollection;
 import com.kh.fantimate.member.model.vo.ArtistGroup;
 import com.kh.fantimate.member.model.vo.FindIdCollection;
@@ -96,7 +94,7 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	@Override
-	public Member findUserPwd(String id) {
+	public FindIdCollection findUserPwd(String id) {
 		
 		return mDao.findUserPwd(id);
 	}
