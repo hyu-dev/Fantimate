@@ -325,12 +325,13 @@
 				<script type="text/javascript">
 				
 				(function(){
-				var email = $("#userEmail").val();
+				//var email = $("#uEmail").val();
+				//console.log("이메일 주소 ㅠㅠ:" + email);
 				
 				emailjs.send("Fantimate","template_47tfn1f",{
-					name: '${userInfo.name}',
-					pwd:  '${userInfo.pwd}',
-					email: 'email'
+					name: '${userInfo.mem.name}',
+					pwd:  '${userInfo.mem.pwd}',
+					email: '${userInfo.us.uemail}'
 					});
 				
 				})();

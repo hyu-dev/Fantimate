@@ -42,7 +42,7 @@ public interface MemberDao {
 
 	public FindIdCollection findUserId(Map<String, String> map);
 
-	public Member findUserPwd(String id);
+	public FindIdCollection findUserPwd(String id);
 
 	public List<SubscribeArtist> selectSubA(String id);
 

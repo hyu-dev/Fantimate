@@ -552,7 +552,7 @@
          }
          
          function goToMedia(mediaNum){
-     		location.href='${contextPath}/official/detail?mediaNum=' + mediaNum;
+     		location.href='${contextPath}/official/media/detail?mediaNum=' + mediaNum;
         	 
          }
          

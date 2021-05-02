@@ -56,7 +56,7 @@ public interface MemberService {
 	public FindIdCollection findUserId(Map<String, String> map);
 
 	// 9. 비밀번호 찾기 
-	public Member findUserPwd(String id);
+	public FindIdCollection findUserPwd(String id);
 
 	// 10. 로그인유저의 구독 정보 
 	public List<SubscribeArtist> selectSubA(String id);

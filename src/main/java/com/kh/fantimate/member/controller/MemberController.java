@@ -256,7 +256,8 @@ public class MemberController {
 	public String findPwd(String id,Model model) {
 		System.out.println("아이디 넘어오냥:" + id);
 		
-		Member userInfo = mService.findUserPwd(id);
+		FindIdCollection userInfo = mService.findUserPwd(id);
+		System.out.println("dddd 넘어오냥:" + userInfo);
 		
 		if(userInfo != null) {
 			model.addAttribute("passMsg", "success");

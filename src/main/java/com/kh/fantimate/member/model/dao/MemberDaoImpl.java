@@ -87,7 +87,7 @@ public class MemberDaoImpl implements MemberDao{
 	}
 
 	@Override
-	public Member findUserPwd(String id) {
+	public FindIdCollection findUserPwd(String id) {
 		
 		return sqlSession.selectOne("memberMapper.findUserPwd",id);
 	}
