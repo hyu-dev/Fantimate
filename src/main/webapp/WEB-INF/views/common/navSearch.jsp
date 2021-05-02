@@ -309,7 +309,7 @@
 						// 신고 디테일
 						alarmList.append("<div class='divSec'><li class='alarm-content' onclick='reportDetail()'>"+ data[i].alContent +"<p class='alarm-time'></p></li><img src='${ contextPath }/resources/icon/trash.png' alt='' onclick='trash(" + data[i].alCode + ")' class='trash-btn'></div>");
 						alarmList.append("<hr>");
-					} else if(data[i].refAlCode == 10 || data.alist[i].refAlCode == 8){
+					} else if(data[i].refAlCode == 10 || data[i].refAlCode == 8){
 						// 오피셜 디테일
 						alarmList.append("<div class='divSec'><li class='alarm-content' onclick='mediaDetail(" + data[i].ref_id + ")'>"+ data[i].alContent +"<p class='alarm-time'></p></li><img src='${ contextPath }/resources/icon/trash.png' alt='' onclick='trash(" + data[i].alCode + ")' class='trash-btn'></div>");
 						alarmList.append("<hr>");
