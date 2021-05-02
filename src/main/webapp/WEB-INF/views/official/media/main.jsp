@@ -84,6 +84,8 @@
         function selectMedia(mediaNum, isPay, mediaPay) {
         	var loginUser = ${ loginUser.classifyMem }
         	var membership = "${ userColl.user.isMembership }"
+        	console.log("로그인유저 번호 : " + loginUser);
+        	console.log("멤버십 : " + membership);
         	
         	/* 미디어가 유료일 때 */
         	if(isPay == "Y") {
