@@ -5,7 +5,9 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,13 +21,19 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.google.gson.Gson;
 import com.kh.fantimate.common.model.vo.Alarm;
 import com.kh.fantimate.common.model.vo.Attachment;
+import com.kh.fantimate.common.model.vo.Friend;
 import com.kh.fantimate.common.model.vo.Like;
+import com.kh.fantimate.common.model.vo.Message;
 import com.kh.fantimate.common.model.vo.Reply;
+import com.kh.fantimate.common.model.vo.Report;
 import com.kh.fantimate.common.model.vo.Subscribe;
 import com.kh.fantimate.feed.model.service.ArtistFeedService;
 import com.kh.fantimate.feed.model.vo.AttachmentF;
@@ -92,18 +100,38 @@ public class ArtistFeedController {
 		List<ArtistCollection> aclist = aService.selectacList(artNameEn);
 		System.out.println("그룹별 아티스트 멤버 정보 + 사진 조회 : " + aclist);
 		
+		// 7.한 게시글에서 좋아요 누른 유저
+		List<Like> lklist = aService.selectLikeList();
+		System.out.println("좋아유 누른 유저 리스트 : " + lklist);
+		
+		// 8. 댓글 리스트
+		List<Reply> rlist = aService.selectReplyList();
+		System.out.println("댓글 리스트 : " + rlist);
+		
+		// 9. 유저 프로필 사진 리스트
+		List<Attachment> atlist = aService.selectatList(artNameEn);
+		System.out.println("유저 프로필 사진 리스트 : " + atlist);
+		
+		// 10. 댓글 좋아요 누른 유저
+		List<Like> rlklist = aService.selectRLikeList();
+		System.out.println("댓글 좋아유 누른 유저 리스트 : " + rlklist);
+		
 		// artiName 세션에 저장
 		HttpSession session = request.getSession(); // 세션을 생성해서
 		session.setAttribute("artiName", artNameEn); // userid로 uid값을 넘기자
 	//	session.setAttribute("subList", subList);
 		
-		if(list != null && !list.isEmpty()) {
+		if(gmlist != null && !gmlist.isEmpty()) {
 			mv.addObject("list", list);
 			mv.addObject("aplist", aplist);
 			mv.addObject("alist", alist);
 			mv.addObject("fplist", fplist);
 			mv.addObject("gmlist", gmlist);
 			mv.addObject("aclist", aclist);
+			mv.addObject("lklist", lklist);
+			mv.addObject("rlist", rlist);
+			mv.addObject("atlist", atlist);
+			mv.addObject("rlklist", rlklist);
 			mv.setViewName("artistfeed/artistFeedList");
 		} else {
 			mv.addObject("msg", "조회된 리스트가 없습니다.");
@@ -116,10 +144,12 @@ public class ArtistFeedController {
 	
 	// 게시글 작성
 	@PostMapping("/insert")
-	public void insertFeed(HttpServletResponse response,
+	public String insertFeed(HttpServletResponse response,
 							Feed f,
 							Alarm a,
 							String writer,
+							Model model,
+							RedirectAttributes rd,
 							@RequestParam(value="uploadFile1") MultipartFile one,
 							@RequestParam(value="uploadFile2") MultipartFile two,
 							@RequestParam(value="uploadFile3") MultipartFile three,
@@ -203,11 +233,13 @@ public class ArtistFeedController {
 				int result = aService.insertFeed(f, attList, sblist);
 			
 				if(result > 0) {
-					request.getSession().setAttribute("msg", "게시글이 등록되었습니다.");
-					response.sendRedirect("artistFeedList?artNameEn=" + artiName);
+					rd.addFlashAttribute("msg", "게시글이 등록되었습니다.");
+					return "redirect:/artistfeed/artistFeedList?artNameEn=" + artiName;
 				} else {
-					System.out.println("게시글 등록에 실패하였습니다");
+					rd.addFlashAttribute("msg", "게시글 등록에 실패하였습니다.");
+					return "redirect:/artistfeed/artistFeedList?artNameEn=" + artiName;
 				}
+				
 		
 	
 		
@@ -347,19 +379,293 @@ public class ArtistFeedController {
 		return mv;
 	}
 	
+	// 좋아요 등록 / 취소 
+	@PostMapping("/like")
+	public @ResponseBody Map<String, String> feedLike(Like like,
+			 				@RequestParam(value="type")String type,
+		 				int fid,
+		 				String id){
 	
+	System.out.println("피드번호뜨니??????" + fid);
+	like.setId(id);
+	like.setRefId(fid);
 	
+	String msg = "";
+	int result = 0;
+	int countLike = 0;
+	switch(type) {
+	case "등록" : 
+		result = aService.insertLike2(like, fid);
+		countLike = aService.selectLike2(fid);
+		msg = result > 0 ? "좋아요가 등록 되었습니다" : "좋아요 등록에 실패하였습니다";
+		break;
+	case "취소" :
+		result = aService.deleteLike2(like,fid);
+		countLike = aService.selectLike2(fid);
+		msg = result > 0 ? "좋아요가 취소되었습니다" : "좋아요 취소 실패하였습니다";
+		break;
 	
+	}
 	
+	String count = Integer.toString(countLike);
+	System.out.println("countㄴㄴㄴㄴㄴ:" + count);
+	Map<String, String> map = new HashMap<>();
+	map.put("msg", msg);
+	map.put("count", count);
+		return map;
+		
+		
+	}
 	
+	//likeCount
+	// 알람 갯수 카운트 (세션에 담기)
+	@RequestMapping(value="/likeCount", produces="application/json; charset=utf-8")
+	public @ResponseBody String countLike(int fid) {
+		
+		int countLike = aService.selectLike2(fid);
+		
 	
+		return new Gson().toJson(countLike);
+		
+	}
 	
+	// 댓글 작성
+	@PostMapping("/insertReply")
+	public void insertReply(HttpServletRequest request,
+							HttpServletResponse response,
+							Reply r,
+							Alarm a,
+							@RequestParam(value="writer") String writer,
+		   				@RequestParam(value="id") String id,
+						HttpSession session) throws IOException {
 	
+	String artiName = (String)request.getSession().getAttribute("artiName");
 	
+	System.out.println("댓글에서 아트네임 넘어오냐: " + artiName);
+	System.out.println(r);
 	
+	// 알람 내용에 댓글 작성자 들어가야하고 아이디에 게시글 작성자 들어가야댐
+	a.setId(id);
+	a.setAlContent(writer + " 님이  댓글을 작성하였습니다.");
 	
+	int result = aService.insertReply(r, a);
 	
+	if(result > 0) {
 	
+		request.getSession().setAttribute("msg", "댓글이 등록되었습니다.");
+		response.sendRedirect("artistFeedList?artNameEn=" + artiName);
+	
+	} else {
+		System.out.println("댓글 등록에 실패하였습니다");
+		}
+	}
+	
+	// 댓글 삭제
+	@RequestMapping("/deleteReply")
+	public void deleteReply(HttpServletResponse response,
+							Reply r,
+							int rid,
+							HttpServletRequest request,
+							HttpSession session) throws IOException {
+		
+		String artiName = (String)request.getSession().getAttribute("artiName");
+	
+	System.out.println(rid);
+	
+	int result = aService.deleteReply(rid);
+	
+	if(result > 0) {
+		request.getSession().setAttribute("msg", "댓글이 삭제되었습니다.");
+		response.sendRedirect("artistFeedList?artNameEn=" + artiName);
+	} else {
+		request.getSession().setAttribute("msg", "댓글삭제에 실패하였습니다.");
+		}
+	}
+	
+	// 댓글 좋아요 등록 / 취소 
+		@PostMapping("/rlike")
+		public @ResponseBody Map<String, String> feedRLike(Like like,
+				 				@RequestParam(value="type")String type,
+				 				int rid,
+				 				String id){
+			
+			System.out.println("댓글번호뜨니??????" + rid);
+			like.setId(id);
+			like.setRefId(rid);
+			
+			String msg = "";
+			int result = 0;
+			int countLike = 0;
+			switch(type) {
+			case "등록" : 
+				result = aService.insertLike3(like, rid);
+				countLike = aService.selectLike3(rid);
+				msg = result > 0 ? "좋아요가 등록 되었습니다" : "좋아요 등록에 실패하였습니다";
+				break;
+			case "취소" :
+				result = aService.deleteLike3(like,rid);
+				countLike = aService.selectLike3(rid);
+				msg = result > 0 ? "좋아요가 취소되었습니다" : "좋아요 취소 실패하였습니다";
+				break;
+			
+			}
+			
+			String count = Integer.toString(countLike);
+			System.out.println("countㄴㄴㄴㄴㄴ:" + count);
+			Map<String, String> map = new HashMap<>();
+			map.put("msg", msg);
+			map.put("count", count);
+			return map;
+			
+			
+		}
+		
+		//likeCount
+		// 알람 갯수 카운트 (세션에 담기)
+		@RequestMapping(value="/likeRCount", produces="application/json; charset=utf-8")
+		public @ResponseBody String countRLike(int rid) {
+			
+			int countLike = aService.selectLike3(rid);
+			
+	
+			return new Gson().toJson(countLike);
+			
+		}
+	
+		// 댓글 신고 팝업창 열기
+		@RequestMapping("/reportReplyView")
+		public String reportReplyView(Model model,
+								HttpServletResponse response,
+								int rid,
+								HttpServletRequest request) {
+			
+			System.out.println("신고할 댓글 번호 : " + rid);
+			
+			List<Reply> r = aService.selectReply(rid);
+			
+			return "artistfeed/replyreport";
+		}
+	
+	// 댓글 신고
+	@RequestMapping("/reportReply")
+	public String reportReply(HttpServletResponse response,
+			   				Report r,
+			   				Reply rp,
+			   				Alarm a,
+			   				HttpServletRequest request,
+			   				@RequestParam(value="rptType") String rptType,
+			   				@RequestParam(value="rptReason") String rptReason,
+			   				@RequestParam(value="rptId") String rptId,
+			   				@RequestParam(value="refId") int refId,
+			   				Model model,
+			   				HttpSession session) {
+		System.out.println(rptType);
+		System.out.println(rptReason);
+		System.out.println(rptId);
+		System.out.println(refId);
+		
+		System.out.println("알람 받을 아이디 : " + "admin");
+		a.setRef_id(refId);
+		a.setAlContent(rptId + " 님이 " + refId + "번 게시글을 신고하였습니다.");
+		System.out.println(a);
+		
+		int result = aService.insertReplyReport(r, a);
+		
+		if(result > 0) {
+			model.addAttribute("msg", "success");
+			return "artistfeed/replyreport";
+			
+		} else {
+			model.addAttribute("msg", "fail");
+			return "artistfeed/replyreport";
+		}	
+	}
+	
+	// 쪽지 창 열기
+	@RequestMapping("/messageView")
+	
+	public String messageView(Model model,
+							  HttpServletResponse response,
+							  String writer,
+							  HttpServletRequest request,
+							  HttpSession session) {
+		
+		System.out.println("받는이 : " + writer);
+		
+		return "artistfeed/amessage";
+		
+	}
+	
+	// 쪽지 보내기
+	@RequestMapping("/message")
+	public String insertMessage(HttpServletResponse response,
+							  HttpServletRequest request,
+							  Model model,
+							  Message m,
+							  @RequestParam(value="messRecId") String messRecId,
+				   			  @RequestParam(value="messTitle") String messTitle,
+				   			  @RequestParam(value="messContent") String messContent,
+				   			  @RequestParam(value="messSendId") String messSendId) {
+		
+		System.out.println("받는이 : " + messRecId);
+		System.out.println("제목 : " + messTitle);
+		System.out.println("내용 : " + messContent);
+		System.out.println("보내는 사람 : " + messSendId);
+		
+		int result = aService.insertMessage(m);
+		
+		if(result > 0) {
+			model.addAttribute("msg", "success");
+			return "artistfeed/amessage";
+		} else {
+			model.addAttribute("msg", "fail");
+			return "artistfeed/amessage";
+		}
+		
+	}
+	
+	// 친구 신청
+	@RequestMapping("/insertFriend")
+	public void insertFriend(HttpServletResponse response,
+							Friend f,
+							String frRecId,
+							String frSend,
+							Alarm a,
+							HttpServletRequest request,
+							HttpSession session) throws IOException { 
+	
+		String artiName = (String)request.getSession().getAttribute("artiName");
+		
+		System.out.println("친구 신청한 유저 : " + frSend);
+		System.out.println("친구 신청 받은 유저 : " + frRecId);
+		a.setId(frRecId);
+		System.out.println("알람 받을 아이디 : " + frRecId);
+		a.setAlContent(frSend + " 님이 친구신청을 하였습니다.");
+		if(frSend.equals(frRecId)) {
+			// 애초에 이렇게 넘어와서는 안되지만 혹시라도 넘어온다면
+			request.getSession().setAttribute("msg", "본인에게 친구신청은 불가합니다");
+			response.sendRedirect("artistFeedList?artNameEn=" + artiName);
+		} else {
+			System.out.println(a);
+			// 친구신청이 중복인지 확인하기
+			int isAlready = aService.isAlreadyAppliedFriend(frSend, frRecId);
+			if(isAlready > 0) {
+				// 친구신청이 되어있다면
+				request.getSession().setAttribute("msg", "친구신청목록이 존재합니다. 마이페이지를 확인하세요");
+				response.sendRedirect("artistFeedList?artNameEn=" + artiName);
+			} else {
+				// 친구신청이 안되어 있다면
+				int result = aService.insertFriend(f, a);
+				if(result > 0) { 
+					request.getSession().setAttribute("msg", "친구신청이 완료되었습니다.");
+					response.sendRedirect("artistFeedList?artNameEn=" + artiName);
+				} else {
+				  request.getSession().setAttribute("msg", "친구신청에 실패하였습니다.");
+				  response.sendRedirect("artistFeedList?artNameEn=" + artiName);
+				}  
+			}
+		}
+	}
 	
 	
 	

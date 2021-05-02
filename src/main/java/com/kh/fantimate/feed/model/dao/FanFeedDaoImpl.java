@@ -22,6 +22,7 @@ import com.kh.fantimate.feed.model.vo.Feed;
 import com.kh.fantimate.feed.model.vo.FeedCollection;
 import com.kh.fantimate.member.model.vo.Artist;
 import com.kh.fantimate.member.model.vo.MemberCollection;
+import com.kh.fantimate.member.model.vo.User;
 
 @Repository
 public class FanFeedDaoImpl implements FanFeedDao{
@@ -234,7 +235,6 @@ public class FanFeedDaoImpl implements FanFeedDao{
 	// 좋아요 등록 
 	@Override
 	public int insertLike2(Like like) {
-		// TODO Auto-generated method stub
 		return sqlSession.insert("fanfeedMapper.insertLike2" ,like);
 	}
 
@@ -267,6 +267,54 @@ public class FanFeedDaoImpl implements FanFeedDao{
 	@Override
 	public int isAlreadyAppliedFriend(Map<String, String> map) {
 		return sqlSession.selectOne("fanfeedMapper.isAlreadyAppliedFriend", map);
+	}
+
+	// 댓글 작성 시 게시글 작성자에게 알람
+	@Override
+	public int insertReplyAlarm(Alarm a) {
+		return sqlSession.insert("fanfeedMapper.ReplyAlarm", a);
+	}
+
+	// 댓글 좋아요 누른 유저 리스트
+	@Override
+	public List<Like> selectRLikeList() {
+		return sqlSession.selectList("fanfeedMapper.selectRLikeList");
+	}
+
+	// 댓글 좋아요 등록
+	@Override
+	public int insertLike3(Like like) {
+		return sqlSession.insert("fanfeedMapper.insertLike3" ,like);
+	}
+
+	// 댓글 좋아요 등록 후 갯수 업데이트
+	@Override
+	public int updateLike3(int rid) {
+		return sqlSession.update("fanfeedMapper.updateFeedLike3",rid);
+	}
+
+	// 댓글 좋아요 취소
+	@Override
+	public int deleteLike3(Like like) {
+		return sqlSession.delete("fanfeedMapper.deleteLike3",like);
+	}
+
+	// 댓글 좋아요 취소 후 갯수 업데이트
+	@Override
+	public int updateDeleteLike3(int rid) {
+		return sqlSession.update("fanfeedMapper.updateFeedLikeCancel3",rid);
+	}
+
+	// 댓글 좋아요 카운트
+	@Override
+	public int selectLike3(int rid) {
+		return sqlSession.selectOne("fanfeedMapper.selectLike3" ,rid);
+	}
+
+	// 멤버십 여부 판별
+	@Override
+	public User selectUser(String id) {
+		return sqlSession.selectOne("fanfeedMapper.selectUser", id);
 	}
 
 	// 모든 유저 컬렉션

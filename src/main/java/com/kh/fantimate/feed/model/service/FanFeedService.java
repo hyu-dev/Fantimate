@@ -21,6 +21,7 @@ import com.kh.fantimate.feed.model.vo.FeedCollection;
 
 import com.kh.fantimate.member.model.vo.Artist;
 import com.kh.fantimate.member.model.vo.MemberCollection;
+import com.kh.fantimate.member.model.vo.User;
 
 
 public interface FanFeedService {
@@ -43,7 +44,7 @@ public interface FanFeedService {
    public List<AttachmentF> selectptList();
 
    // 댓글 작성
-   public int insertReply(Reply r);
+   public int insertReply(Reply r, Alarm a);
    
    // 게시글 당 댓글 리스트 조회
    public List<Reply> selectReplyList();
@@ -67,7 +68,7 @@ public interface FanFeedService {
    // 댓글 삭제
    public int deleteReply(int rid);
 
-   // rid로 댓글 조회
+   // rid로 댓글번호 조회
    public List<Reply> selectReply(int rid);
 
    // 댓글 신고
@@ -93,7 +94,7 @@ public interface FanFeedService {
    public List<Artist> selectArtistList();
 
    // 게시글당 사진 갯수
-   public int selectptListCount(int refId);
+ //  public int selectptListCount();
 
    // 게시글 좋아요 취소누른 유저 삭제 
    public int cancelLike(int refId, Feed f);
@@ -116,6 +117,24 @@ public interface FanFeedService {
 
    // 이미 친구신청이 되어있는지 확인
    public int isAlreadyAppliedFriend(String frSend, String frRecId);
+
+   // 댓글 좋아요 누른 유저 리스트
+   public List<Like> selectRLikeList();
+
+   // 댓글 좋아요 인서트
+   public int insertLike3(Like like, int rid);
+
+   // 댓글 좋아요 취소
+   public int deleteLike3(Like like, int rid);
+
+   // 댓글 좋아요 갯수 select
+   public int selectLike3(int rid);
+
+   // 멤버십 여부 판단
+   public User selectUser(String id);
+
+   
+
 
    // 모든 유저 정보 컬렉션
   // public List<MemberCollection> selectSumList();

@@ -19,6 +19,7 @@ import com.kh.fantimate.feed.model.vo.Feed;
 import com.kh.fantimate.feed.model.vo.FeedCollection;
 import com.kh.fantimate.member.model.vo.Artist;
 import com.kh.fantimate.member.model.vo.MemberCollection;
+import com.kh.fantimate.member.model.vo.User;
 
 public interface FanFeedDao {
 
@@ -140,6 +141,30 @@ public interface FanFeedDao {
 
 	// 친구신청이 되어있는지 확인
 	public int isAlreadyAppliedFriend(Map<String, String> map);
+
+	// 댓글 작성 시 게시글 작성자에게 알람
+	public int insertReplyAlarm(Alarm a);
+
+	// 댓글 좋아요 누른 유저 리스트
+	public List<Like> selectRLikeList();
+
+	// 댓글 좋아요 인서트
+	public int insertLike3(Like like);
+
+	// 댓글 테이블 좋아요 업데이트
+	public int updateLike3(int rid);
+
+	// 댓글 좋아요 취소
+	public int deleteLike3(Like like);
+
+	// 댓글 좋아요 취소 후 댓글 테이블 업데이트
+	public int updateDeleteLike3(int rid);
+
+	// 댓글 좋아요 갯수 select
+	public int selectLike3(int rid);
+
+	// 멤버십 여부 판별
+	public User selectUser(String id);
 
 	// 모든 유저 컬렉션
 	//public List<MemberCollection> selectSumList();

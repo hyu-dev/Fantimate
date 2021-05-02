@@ -11,10 +11,48 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="${ contextPath }/resources/css/common/font.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css">
-    <link rel="stylesheet" href="${ contextPath }/resources/css/feed/fanFeedList.css?aftrs">
+    <link rel="stylesheet" href="${ contextPath }/resources/css/feed/fanFeedList.css?aftrhss">
     <link rel="icon" type="image/png" sizes="16x16" href="${ contextPath }/resources/icon/faviconF.png">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+	<!-- 모달  -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
+	<!-- Bootstrap core CSS -->
+		
+
 <title>Insert title here</title>
+<style>
+/* 모달 */
+a { text-decoration:none }
+
+#ex2 {
+    display: none;
+    vertical-align: middle;
+    position: relative;
+    z-index: 2;
+    max-width: 1000px;
+    box-sizing: border-box;
+    width: 100%;
+    background: #2c2828;
+    padding: 15px 30px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    -o-border-radius: 8px;
+    -ms-border-radius: 8px;
+    border-radius: 8px;
+    -webkit-box-shadow: 0 0 10px #000;
+    -moz-box-shadow: 0 0 10px #000;
+    -o-box-shadow: 0 0 10px #000;
+    -ms-box-shadow: 0 0 10px #000;
+    box-shadow: 0 0 10px #000;
+    text-align: left;
+    max-height: 510px;
+    height: 100%;
+} 
+
+
+</style>
 </head>
 <body>
 	<c:if test="${ !empty msg }">
@@ -54,12 +92,12 @@
                     <col width="15%"/>
                     <col width="15%"/>
                     <tr>
-                     	<!--  -->	
+                     		
                         <td>
-                            <!-- <div class="profile-bubble">
+                            <div class="profile-bubble">
                                 <p>친구 신청</p>
                                 <p onclick="insertMessage();">쪽지 보내기</p>
-                            </div> -->
+                            </div> 
                              <c:if test="${ loginUser.id ne f.writer }">
                             	<div class="profile-bubble">
                                     <p onclick="insertFriend('${f.writer}');">친구 신청</p>
@@ -105,13 +143,14 @@
                     </tr>
                 </table>
                     <!-- 게시글 컨텐츠 영역 -->
-                    <div class="contentArea" id="detailPage" onclick="detailPage(${f.fid});">
+     
+      				  <p><a href="#ex2" rel="modal:open">상세보기</a></p>
+                    <div class="contentArea">
                         <!-- 텍스트 영역 -->
                         <div>
-                        	
                             <p class="board-text">${ f.fcontent }</p> 
                         </div>
-                       
+                      
                         <!-- 이미지 영역 -->
                         <!-- 게시글 bid와 사진이 참조하고 있는 bid가 같고, 사진 리스트가 있다면 반복문돌려서 이미지 갯수만큼 불러오기 -->
                         <div class="photo-area">
@@ -168,14 +207,7 @@
                         	
                         	<!-- 좋아요 누른애는 검정아이콘, 안누른애는 하얀아이콘 -->
                         	
-                        <%-- 	<c:forEach var="l" items="${ lklist }">
-                        	<c:choose>
-                        	<c:when test="${f.fid eq l.refId}">
-							</c:when>
-							<c:otherwise>
-							</c:otherwise>
-							</c:choose>
-							</c:forEach> --%>
+                       
 							
 							
 							<c:set var="ddimCheck" value="0"/>
@@ -191,27 +223,24 @@
                               </c:if>
 							
 						
-							<%-- <td><img id="insertLike" src="../resources/images/feed/likeblack-icon.png" class="like-icon" onclick="insertLike(${f.fid},${f.flike});"></td> --%>
-							                           
-                            <%-- <td><img id="insertLike" src="../resources/images/feed/likeblack-icon.png" class="like-icon" onclick="insertLike(${f.fid},${f.flike});"></td> --%>
+							
                             
                          
                            
-                            <td id="likeCount${f.fid}"><!-- 카운트 ajax --></td>
+                            <td id="likeCount${f.fid}">${f.flike}<!-- 카운트 ajax --></td>
                             <td class="reply-info">댓글</td>
                             <td class="reply-count">2,300</td>
                         </tr>
                     </table>
                     <hr width="90%">
                     <br> <!-- 이 다음부터 복사함 -->
+                        
                         <!-- 댓글 리스트 영역 -->
-                   
-                   <!-- 쪽지 관련 히든 태그 -->
-                    
-                   
+                                     
                     <table class="original-comment">
                     <c:forEach var="r" items="${ rlist }">
                    <c:if test="${ f.fid eq r.refId }">
+                    <!-- 쪽지 관련 히든 태그 -->
                    <input type="hidden" value="${ r.writer }" name="messRecId" id="messRecId">
                     <!-- <tbody>비교해서 다른부분**************** --> 
                         <colgroup>
@@ -232,12 +261,7 @@
                                     <p onclick="insertMessage('${r.writer}');">쪽지 보내기</p>
                                 </div>
                             </c:if>
-                             <c:if test="${ loginUser.id eq r.writer }">
-                            	<div class="profile-bubble">
-                                    <p onclick="insertFriend('${r.writer}');">친구 신청</p>
-                                    <p onclick="insertMessage('${r.writer}');">쪽지 보내기</p>
-                                </div>
-                            </c:if>     
+                            
                                
                                 <img class="profile-picture" src="${ contextPath }/resources/uploadFiles/${ at.attSvName }">
                             </td>
@@ -256,19 +280,19 @@
                                         <span class="comment-content">
                                             ${ r.rcontent }
                                         </span>
-                                        <!-- <span class="re-commentBtn">답글 열기</span> -->
+                                          
                                     </div>
                                     <div class="comment-etc">
                                    	 <span class="comment-etc" >···</span> 
                                     	<c:if test="${ loginUser.id ne r.writer }">
                                         <div class="comment-bubble">
-                                            <p class="add-comment">답글 달기</p>
+                                              
                                             <p onclick="reportReply(${r.rid });">댓글 신고</p>
                                         </div>
                                         </c:if>
                                         <c:if test="${ loginUser.id eq r.writer }">
                                         <div class="comment-bubble">
-                                            <p class="add-comment">답글 달기</p>
+                                            
                                             <p onclick="deleteReply(${r.rid});">삭제하기</p>
                                             
                                         </div>
@@ -279,22 +303,19 @@
                                    </c:if>
                                </c:forEach>
                               </c:when>
+                               
                                <c:otherwise>
                                <c:forEach var="ap" items="${ aplist }">
                      	 		<c:if test="${ ap.refuid eq r.writer }">
                             <td>
                             <c:if test="${ loginUser.id ne r.writer }">
                                 <div class="profile-bubble">
-                                    <p onclick="insertFriend('${r.writer}');">친구 신청</p>
-                                    <p onclick="insertMessage('${r.writer}');">쪽지 보내기</p>
+                                    <!-- <p onclick="">프로필 보기</p> -->
+                                    
+									<p><a href="#ex1" rel="modal:open" style="color:#5C5F78">프로필 보기</a></p>
                                 </div>
                             </c:if>
-                             <c:if test="${ loginUser.id eq r.writer }">
-                            	<div class="profile-bubble">
-                                    <p onclick="insertFriend('${r.writer}');">친구 신청</p>
-                                    <p onclick="insertMessage('${r.writer}');">쪽지 보내기</p>
-                                </div>
-                            </c:if>     
+                             
                                
                                 <img class="profile-picture" src="${ contextPath }/resources/uploadFiles/${ ap.attSvName }">
                             </td>
@@ -313,19 +334,19 @@
                                         <span class="comment-content">
                                             ${ r.rcontent }
                                         </span>
-                                        <span class="re-commentBtn">답글 열기</span>
+                                        
                                     </div>
                                     <div class="comment-etc">
                                    	 <span class="comment-etc" >···</span> 
                                     	<c:if test="${ loginUser.id ne r.writer }">
                                         <div class="comment-bubble">
-                                            <p class="add-comment">답글 달기</p>
+                                            
                                             <p onclick="reportReply(${r.rid });">댓글 신고</p>
                                         </div>
                                         </c:if>
                                         <c:if test="${ loginUser.id eq r.writer }">
                                         <div class="comment-bubble">
-                                            <p class="add-comment">답글 달기</p>
+                                            
                                             <p onclick="deleteReply(${r.rid});">삭제하기</p>
                                             
                                         </div>
@@ -338,13 +359,13 @@
                               
                               </c:otherwise> 
                               </c:choose>
-                               <!-- 아티스트가 댓글 달 경우 닉네임,사진 ,내용 출력  -->  
+                               
                                    
                                    
                                    
                                     
                               
-                              
+                          
                               
                               
                               
@@ -352,62 +373,76 @@
                                   
                                 <!-- 댓글 좋아요 영역 -->
                                 <div class="comment-info comment-center nanumsquare">
-                                
-                                    <img class="likeBtn" src="../resources/images/feed/like-icon.png">
-                                    <span class="like-count">1,000</span>
-                                    <span class="comment-date"><fmt:formatDate value="${ r.rcreate }" pattern="yyyy.MM.dd HH:mm"/></span>
+                                <c:set var="check" value="0"/>
+                                	<c:forEach var="rl" items="${ rlklist }">
+                                		<c:if test="${ loginUser.id eq rl.id && r.rid eq rl.refId }">
+                                    		<img id="cancelRLike" class="likeBtn${ r.rid }" src="../resources/images/feed/likeblack-icon.png" onclick="insertRLike(${r.rid})">
+											<c:set var="check" value="1"/>
+										</c:if>
+									</c:forEach>
+										<c:if test="${ check eq 0 }">
+											<img id="insertRLike" class="likeBtn${ r.rid }" src="../resources/images/feed/like-icon.png" onclick="insertRLike(${r.rid})">
+										</c:if>                                  
+                                	    	<span id="likeRCount${r.rid}"> ${ r.likeCount } </span>
+                                    		<span class="comment-date"><fmt:formatDate value="${ r.rcreate }" pattern="yyyy.MM.dd HH:mm"/></span>
                                 </div>
                                
+                                 <!-- 프로필 모달************************ -->
+							
+							<c:forEach var="art" items="${ artist }">
+							<c:if test="${r.writer eq art.artiId }">
+							<div id="ex1" class="modal" style="width:500px; height:300px;">
+								 <h3>아티스트 프로필</h3>
+							  <hr width="95%">
+							  <br><br>
+							 <table 
+ 							style="border-right:none; border-left:none; border-top:none; border-bottom:none;">
+							  <tr>
+							  	  <c:forEach var="ap" items="${ aplist }">
+							      <c:if test="${r.writer eq ap.refuid }">
+							      <td rowspan="3" colspan="2" width="150px">
+							      <img class="profile-picture" src="${ contextPath }/resources/uploadFiles/${ ap.attSvName }" 
+							       style="border-radius:0; width:150px; height:80px" >    
+   	      						  </td>
+							      </c:if>
+							      </c:forEach>
+							      <td colspan="2" width="100px">이름</td>
+							      <td colspan="3">${ art.artiName }</td>
+							      
+							  </tr>
+							  <tr>
+							      <td colspan="2">SNS주소</td>
+							      <td><a href="https://ko-kr.facebook.com/iu.loen" target='_blank'><img src="../resources/images/mypage/artist/facebook.png" style="width:50px; height:32px"></a></td>
+							      <td><img src="../resources/images/mypage/artist/인스타그램.png" style="width:50px; height:32px"></td>
+							      <td><img src="../resources/images/mypage/artist/twitter.png" style="width:50px; height:32px"></td>
+							  </tr>
+							  <tr>
+							      <td colspan="2">상태 메세지</td>
+							      <td colspan="3" width="">${ art.artiDailymsg }</td>
+							  </tr>
+							 </table>
+							 
+								<a href="#" rel="modal:close" style="color:black"></a>
+							</div>
+							</c:if>
+							</c:forEach>	
+  
                                 
                                 
-								<!-- </tbody> -->
-                                <!-- 대댓글 -->
-                               <%--  <table class="re-comment">
-                                    <colgroup>
-                                        <col width="5%"/>
-                                        <col width="95%"/>
-                                    </colgroup>
-                                    <tr class="comment-line">
-                                        <td>
-                                            <div class="re-profile-bubble">
-                                                <p>친구 신청</p>
-                                                <p>쪽지 보내기</p>
-                                            </div>
-                                            <img class="re-profile-picture" src="">
-                                        </td>
-                                        <td>
-                                            <div class="comment-box">
-                                                <div class="comment-main comment-center nanumsquare">
-                                                    <span class="comment-name">뷔바라기</span>
-                                                    <span class="comment-content">
-                                                        당연하죠. 완전 꿀잼ㅠㅠㅠㅠㅠ
-                                                    </span>
-                                                </div>
-                                                <div class="re-comment-etc">···
-                                                    <div class="re-comment-bubble">
-                                                        <p>댓글 신고</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="re-comment-info comment-center nanumsquare">
-                                                <img class="likeBtn" src="../resources/images/feed/like-icon.png">
-                                                <span class="like-count">10</span><span class="comment-date">2021.03.08</span>
-                                            </div>
-                                        </td>
-                                    </tr>
-                             
-                                </table> --%>
-                     	 	</td>
-                     	  </tr>   
-             		<!-- </tbody> -->
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+						
                  	</c:if>
                  	</c:forEach>
+                 	<!-- 댓글 전체 리스트 끝 -->
                     </table>
-                   
+             
                  
-                   
-                   
-                  <!-- 여기 전까지 --> 
                    
                    
                    
@@ -422,29 +457,92 @@
                      <input type="hidden" name="classify" value="${ loginUser.classifyMem }">
                      <input type="hidden" name="writer" value="${ loginUser.id }">
                      <input type="hidden" name="refId" value="${ f.fid }">
+                     <input type="hidden" name="id" value="${ f.writer }">
                         <div class="replyArea">
                             <div class="insert-reply">
                                 <textarea class="nanumsquare" name="rcontent" style="resize: none;" rows="1" placeholder="댓글을 입력하세요..."></textarea>
                             </div>&nbsp;&nbsp;&nbsp;
-                            <button type="submit" class="insert-replyBtn"><img id="addReply" src="../resources/icon/send.png" onclick="insertReply();"></button>
+                            <button type="submit" class="insert-replyBtn" style=""><img id="addReply" src="../resources/icon/send.png" onclick="insertReply();"></button>
                             <!-- <img class="insert-replyBtn" id="addReply" src="../resources/icon/send.png" onclick="insertReply();"> -->
                         </div>
                     </div>
                     </form> 
-                    
-                    
-                     <script>
-                            // 좋아요 카운트 
-                         	$(function(){
-                         		likeCount(${f.fid});
-                         	});
-                     </script>
              </div>
-             
-             
+             						
+                     
+			 <!-- 상페 페이지 모달 -->           
+			<div id="ex2" class="modal">
+			<%--	<div id="carouselExampleDark" class="carousel carousel-dark slide"
+			data-bs-ride="carousel">
+			<ol class="carousel-indicators">
+			<% for(int s = 0; s < ptlist.size(); s++) { %>
+				<% if(photo.get(s).getShItype().equals("T")) { %>
+					<li data-bs-target="#carouselExampleDark" data-bs-slide-to="<%= s%>" class="active"></li>
+				<% } %>	
+			<% } %>
+			<% for(int s = 0; s < photo.size(); s++) { %>
+				<li data-bs-target="#carouselExampleDark" data-bs-slide-to="<%= s%>" ></li>
+			<% } %>
+			</ol>
+			<div class="carousel-inner">
+				<!-- 슬라이드 쇼 -->
+				<% for(int s = 0; s < photo.size(); s++) { %>
+					<% if(photo.get(s).getShItype().equals("T")) { %>
+				<div class="carousel-item active" data-bs-interval="10000">
+					<!--가로 사진-->
+					<img
+						src="<%= request.getContextPath()%><%= photo.get(s).getShIpath() %><%= photo.get(s).getShChName() %>"
+						class="d-block w-100" alt="...">
+				</div>
+				<% } %>	
+					<% } %>	
+				<% for(int s = 0; s < photo.size(); s++) { %>
+				<div class="carousel-item" data-bs-interval="2000">
+					<img
+						src="<%= request.getContextPath()%><%= photo.get(s).getShIpath() %><%= photo.get(s).getShChName() %>"
+						class="d-block w-100" alt="...">
+				</div>
+				<% } %>	
+			</div>
+			<!-- / 슬라이드 쇼 끝 -->
+
+			<!-- 왼쪽 오른쪽 화살표 버튼 -->
+			<a class="carousel-control-prev" href="#carouselExampleDark"
+				role="button" data-bs-slide="prev"> <span
+				class="carousel-control-prev-icon" aria-hidden="true"></span> <span
+				class="visually-hidden">Previous</span>
+			</a> <a class="carousel-control-next" href="#carouselExampleDark"
+				role="button" data-bs-slide="next"> <span
+				class="carousel-control-next-icon" aria-hidden="true"></span> <span
+				class="visually-hidden">Next</span>
+			</a>
+			<!-- / 화살표 버튼 끝 -->
+		</div>
+			</div>  --%>
+			
+			<a href="#" rel="modal:close"></a> 
+	<!-- ??? -->		</div>
+		
+		
+    	<!-- 상세 페이지 모달 끝나는 부분********************************** --> 
+           
+           
+           
+           
+           
+           
+           
+           
+           
+           
+           
+           
+           
+           
+           
              
              </c:forEach>
-          <!-- fList 끝 -->
+          <!-- 게시글 전체 리스트 끝 -->
           
              <!-- 좋아요 ajax 수정************************** -->
              <script>
@@ -468,12 +566,12 @@
                  		 }
             	 }
             	 var url = "${pageContext.request.contextPath}/fanfeed/like"
-         	     callAjaxWish(url, data, img, fid);
+         	     callAjaxWishx(url, data, img, fid);
              
              }
              
              // 좋아요 ajax
-             function callAjaxWish(url, data, img ,fid){
+             function callAjaxWishx(url, data, img ,fid){
             	 console.log(img.attr("src"));
             	 $.ajax({
             		 url : url,
@@ -524,10 +622,89 @@
        		}); 
        		
        	}
-      
-             
              </script>
-             
+       
+       
+        <!-- 댓글 좋아요*************  -->     
+      <script>
+            function insertRLike(rid){
+           	 var data;
+           	 var rid = rid;
+           	 var img = $(".likeBtn" + rid);
+           	 if($(".likeBtn" + rid).attr('src') == "../resources/images/feed/like-icon.png"){
+           		 data = {
+           			rid : rid,
+           			id : "${loginUser.id}",
+           			type: '등록'
+           				 
+           		 }
+           	 } else if($(".likeBtn" + rid).attr('src') == "../resources/images/feed/likeblack-icon.png"){
+           		 data = {
+           				rid : rid,
+                			id : "${loginUser.id}",
+                			type: '취소'
+                				 
+                		 }
+           	 }
+           	 var url = "${pageContext.request.contextPath}/fanfeed/rlike"
+        	     callAjaxWish(url, data, img, rid);
+            
+            }
+            
+            // 댓글좋아요 ajax
+            function callAjaxWish(url, data, img ,rid){
+           	 console.log(img.attr("src"));
+           	 $.ajax({
+           		 url : url,
+           		 method : "POST",
+           		 data : data,
+           		 dateType : "json",
+           		 success : function(map) {
+           			 alert(map.msg)
+           			 var src = "../resources/images/feed/"
+           			 if(map.msg == "좋아요가 등록 되었습니다"){
+           				 img.attr("src", src + "likeblack-icon.png");
+             				 document.getElementById("likeRCount"+rid).innerHTML = map.count;
+           			 } else if(map.msg == "좋아요가 취소되었습니다"){
+           				 img.attr("src", src + "like-icon.png");
+             				 document.getElementById("likeRCount"+rid).innerHTML = map.count;
+           			 }
+           			 console.log("적용후 : " , img.attr("src"))
+           			 
+           		 },
+           		 error : function(e) {
+    	        		console.log(e)
+    	        	}
+           	 });
+           	 
+            }
+            
+         
+        	function likeRCount(rid){
+        		
+      		 var rid = rid;
+      		
+      		$.ajax({
+      			url: "${contextPath}/fanfeed/likeRCount",
+      			data : {rid : rid},
+      			dataType : "json",
+      			success : function(data){
+      				console.log(data);
+      				
+      				document.getElementById("likeRCount"+rid).innerHTML = data;
+      				
+      				
+      			},
+      			error : function(e){
+      				alert("code : " + e.status + "\n"
+      						+ "message : " + e.responseText);
+      			}
+      			
+      		}); 
+      		
+      	}
+            </script>      
+          
             
              
              
@@ -752,73 +929,7 @@
 	}   
    </script>
    
-   <!-- 좋아요 클릭시  누른 유저 추가 -->
- <!--   <script>
-   function insertLike(fid,flike){
-	   var id = "${ loginUser.id }";	 // 좋아요 누른 유저 아이디
-	   var refId = fid;					 // 좋아요 누른 게시글 번호 
-	   var flike = flike;		 		 // 좋아요 갯수
-	   var artNameEn = "${ artiName }";
-	   $.ajax({
-		  	url : "${ contextPath }/fanfeed/insertLike?refId=" + refId + '&flike=' + flike,
-			data : { id : id },
-			type : "post",
-			dataType : "json",
-			success : function(data){
-				console.log(data);	// (화면)좋아요 갯수 증가하면서 좋아요아이콘 검정색으로 바꾸기
-				alert("좋아요 인서트 성공");
-				 $("#insertLike").attr('src',"${ contextPath }/resources/images/feed/likeblack-icon.png");
-				
-					
-				
-				
-				//	 var change = document.getElementById("insertLike");
-			//	 document.querySelector(change).setAttribute("src", "https://placeimg.com/200/200/" + i);
-				//$('#insertLike').attr('src','../resources/images/feed/likeblack-icon.png')
-//				url : "${ contextPath }/fanfeed/fanFeedList?artNameEn=" + artNameEn;
-			//	document.getElementById("insertLike").src = "${ contextPath }/resources/images/feed/likeblack-icon.png";
-//				if(document.getElementById("insertLike").getAttribute('src') == "${ contextPath }/resources/images/feed/like-icon.png") {
-//	                document.getElementById("insertLike").src = "${ contextPath }/resources/images/feed/likeblack-icon.png";
-	               
-//	            } else {
-//	                document.getElementById("insertLike").src = "${ contextPath }/resources/images/feed/like-icon.png";
-//	            }
-//			}
-		 }
-	  });
-   }
-   </script> -->
-   
-   <!-- 좋아요 취소 시 누른 유저 삭제 -->
-  <!--  <script>
-   function	cancelLike(fid,flike){
-	   var id = "${ loginUser.id }";	 // 좋아요 취소한 유저 아이디
-	   var refId = fid;					 // 좋아요 취소한 게시글 번호 
-	   var flike = flike;		 		 // 좋아요 갯수
-	   $.ajax({
-		  	url : "${ contextPath }/fanfeed/cancelLike?refId=" + refId + '&flike=' + flike,
-			data : { id : id },
-			type : "post",
-			dataType : "json",
-			success : function(data){
-				console.log(data);	// (화면)좋아요 갯수 증가하면서 좋아요아이콘 검정색으로 바꾸기, db b_like테이블에 인서트 , BOARD테이블 B_LIKE 컬럼 +1 업데이트 
-				alert("좋아요 취소 성공");
-				
-				$("#cancelLike").attr('src',"${ contextPath }/resources/images/feed/like-icon.png");
-				
-				//				document.getElementById("cancelLike").src = "${ contextPath }/resources/images/feed/like-icon.png";
-//				if(document.getElementById("insertLike").getAttribute('src') == "${ contextPath }/resources/images/feed/like-icon.png") {
-//	                document.getElementById("insertLike").src = "${ contextPath }/resources/images/feed/likeblack-icon.png";
-	               
-//	            } else {
-//	                document.getElementById("insertLike").src = "${ contextPath }/resources/images/feed/like-icon.png";
-//	            }
-				
-			}
-	  });
-   }
-   </script>
-    -->
+  
    
    
    <!-- 친구 신청 -->
@@ -836,7 +947,7 @@
    </script> 
    
    <!-- 상세 페이지로 이동 -->
-   <script>
+<!--    <script>
    function detailPage(fid){
 	   // 팝업 가운데에 띄우기
        var popupWidth = 1300;
@@ -852,7 +963,7 @@
        
    //    window.open('fanFeedDetail.html','상세페이지','width=1300, height=600, left=300, top=250');
    }
-   </script>
+   </script> -->
   
   <!-- 대댓글  -->
   <script>
@@ -929,5 +1040,7 @@
 		}
 	});
   </script>
+  
+ 
 </body>
 </html>

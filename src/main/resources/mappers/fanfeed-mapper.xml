@@ -77,12 +77,22 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<result property="refId" column="BRID"/>
 	</resultMap>
 	
+	<!-- 게시글 좋아요 누른 유저 리스트 -->
 	<resultMap type="Like" id="LikeResultSet">
 		<id property="lid" column="BLID"/>
 		<result property="id" column="ID"/>
 		<result property="refId" column="BID"/>
 		<result property="lstatus" column="BL_STATUS"/>
 	</resultMap>
+	
+	<!-- 댓글 좋아요 누른 유저 리스트 -->
+	<resultMap type="Like" id="LikeResultSet2">
+		<id property="lid" column="BRLID"/>
+		<result property="id" column="ID"/>
+		<result property="refId" column="BRID"/>
+		<result property="lstatus" column="BRL_STATUS"/>
+	</resultMap>
+	
 	
 	<resultMap type="Artist" id="ArtistResultSet">
 		<id property="artiId" column="ARTI_ID"/>
@@ -119,10 +129,20 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<collection property="artist" resultMap="ArtistResultSet"/>
 		<collection property="artiAttach" resultMap="artiattResultSet"/>
 		<collection property="userAttach" resultMap="usattResultSet"/>
-		
-		
-		
 	</resultMap>
+	
+	<!-- 로그인 유저 정보 -->
+	<resultMap type="User" id="userResultSet">
+		<id property = "id" column="U_ID"/>
+		<result property="uaddress" column="U_ADD"/>
+		<result property="uemail" column="U_EMAIL"/>
+		<result property="ucountry" column="U_COUNTRY"/>
+		<result property="areaReg" column="AREA_REGISTER"/>
+		<result property="areaCertify" column="AREA_CERTIFY"/>
+		<result property="isMembership" column="IS_MEMBERSHIP"/>
+		<result property="uProfile" column="U_PROFILE"/>
+	</resultMap>
+	
 	
 	<!-- 게시글 등록 -->
 	<insert id="insertFeed">
@@ -550,6 +570,21 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	
 	</select>
 	
+	<!-- 댓글 좋아요 누른 유저 리스트 -->
+	<select id="selectRLikeList" resultMap="LikeResultSet2">
+	SELECT
+				BRLID
+			,	ID
+			,	BRID
+			,	BRL_STATUS
+	FROM
+				B_RE_LIKE
+	WHERE
+				BRL_STATUS = 'Y'
+	
+	</select>
+	
+	
 	<!-- fid로 게시글 정보 조회 -->
 	<select id="selectFeedInfo" parameterType="_int" resultMap="fanfeedResultSet">
 	SELECT
@@ -656,11 +691,11 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	</select>
 	
 	<!-- 게시글 당 사진 갯수 조회 -->
-	<select id="selectptListCount" resultType="_int">
+	<!-- <select id="selectptListCount" resultType="_int">
 	SELECT 	COUNT(BP_CHNAME)
 	FROM 	ATT_BOARD
 	WHERE 	BID = #{refId}
-	</select>
+	</select> -->
 	
 	<!-- 좋아요 취소 -->
 	<!-- <delete id="deleteLike" parameterType="_int">
@@ -769,7 +804,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	<!-- 좋아요 수정 ***************************** -->	
 	
 	<!-- 좋아요 누른 유저 추가 -->
-	<insert id="insertLike2" parameterType="Like">
+	<insert id="insertLike2">
 	INSERT
 		INTO	B_LIKE
 		(
@@ -826,6 +861,8 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
     WHERE
          BID = #{fid}
 	</select>
+	
+	<!-- 친구 중복신청 막기 -->
 	<select id="isAlreadyAppliedFriend" parameterType="hashMap" resultType="_int">
 		SELECT
 		        COUNT(*)
@@ -835,5 +872,95 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		        U_ID_SEND = #{frSend}
 		   AND
 		        U_ID_RECEIVE = #{frRecId}
+	</select>
+	
+	<!-- 댓글 작성 시 게시글 작성자에게 알람 -->
+	<insert id="ReplyAlarm">
+	INSERT
+		INTO	ALARM
+		(
+				AL_MADE_CODE
+			,	AL_CONTENT
+			,	AL_TIME
+			,	AL_STATUS
+			,	AL_CODE
+			,	ID
+		)
+		VALUES
+		(
+				SEQ_ALARM.NEXTVAL
+			,	#{alContent}
+			,	SYSDATE
+			,	DEFAULT
+			,	'3'
+			,	#{id}
+		)
+	</insert>
+	
+	<!-- 댓글 좋아요 누른 유저 추가 -->
+	<insert id="insertLike3">
+	INSERT
+		INTO	B_RE_LIKE
+		(
+				BRLID
+			,	ID
+			,	BRID
+			,	BRL_STATUS
+		)
+		VALUES
+		(
+				SEQ_B_RE_LIKE.NEXTVAL
+			,	#{id}
+			,	#{refId}
+			,	DEFAULT
+		)	
+	</insert>
+	
+	<!-- 댓글 좋아요 누른 유저 추가될 때 댓글 테이블 좋아요 갯수 업데이트 -->
+	<update id="updateFeedLike3" parameterType="_int">
+	UPDATE
+			B_REPLY
+	SET
+			BRLIKE_COUNT = BRLIKE_COUNT + 1
+	WHERE
+			BRID = #{rid}
+	</update>
+	
+	<!-- 댓글 좋아요 취소 -->
+	<delete id="deleteLike3">
+		DELETE 
+		FROM 	B_RE_LIKE
+		WHERE 
+				BRID = #{refId}
+		AND 
+			   ID = #{id}
+	</delete>
+	
+	<!-- 댓글좋아요 취소시 좋아요 수 업데이트 -->
+	<update id="updateFeedLikeCancel3" parameterType="_int">
+	UPDATE
+			B_REPLY
+	SET
+			BRLIKE_COUNT = BRLIKE_COUNT - 1
+	WHERE
+			BRID = #{rid}
+	</update>
+	
+	<!-- 댓글 좋아요 갯수 select -->
+	<select id="selectLike3" resultType="_int">
+	SELECT
+          BRLIKE_COUNT
+    FROM
+          B_REPLY
+    WHERE
+         BRID = #{rid}
+	</select>
+	
+	<!-- 일반 유저 정보 -->
+	<select id= "selectUser" resultMap="userResultSet">
+	SELECT 		U_ID
+    		,   IS_MEMBERSHIP
+    FROM 		USER_
+    WHERE 		U_ID = #{id}
 	</select>
 </mapper>

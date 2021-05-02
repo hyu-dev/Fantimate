@@ -44,6 +44,7 @@ import com.kh.fantimate.feed.model.vo.FeedCollection;
 import com.kh.fantimate.member.model.vo.Artist;
 import com.kh.fantimate.member.model.vo.ArtistGroup;
 import com.kh.fantimate.member.model.vo.Member;
+import com.kh.fantimate.member.model.vo.User;
 
 
 
@@ -68,10 +69,20 @@ public class FanFeedController {
 									@ModelAttribute Reply r,
 									@ModelAttribute Like lk,
 									@ModelAttribute Artist ar,
+									@ModelAttribute User u,
 									Model model,
 									@RequestParam(value="artNameEn") String artNameEn,
 									HttpServletRequest request) {
 		
+	//	String id = ((Member)request.getSession().getAttribute("loginUser")).getId(); 
+	//	System.out.println("로그인 유저  : " + id);
+		
+	//	User ms = fService.selectUser(id);
+	//	System.out.println("mm? : " + ms);
+	//
+	//		String Membership = ms.getIsMembership();
+		
+//		System.out.println("멤버십이냐? : " + Membership);
 		
 		f.setArtiName(artNameEn);
 		s.setArtiname(artNameEn);
@@ -96,7 +107,8 @@ public class FanFeedController {
 		List<AttachmentF> ptlist = fService.selectptList();
 		System.out.println("게시글 사진 리스트 : " + ptlist);
 		
-		
+	//	int ptlistCount = fService.selectptListCount();
+	//	System.out.println("사진 갯수 : " + ptlistCount);
 	   
 		
 		
@@ -119,6 +131,10 @@ public class FanFeedController {
 		List<Like> lklist = fService.selectLikeList();
 		System.out.println("좋아유 누른 유저 리스트 : " + lklist);
 		
+		// 댓글 좋아요 누른 유저
+		List<Like> rlklist = fService.selectRLikeList();
+		System.out.println("댓글 좋아유 누른 유저 리스트 : " + rlklist);
+		
 		//아티스트 리스트
 		List<Artist> artist = fService.selectArtistList();
 		System.out.println("아티스트 리스트 : " + artist);
@@ -139,7 +155,7 @@ public class FanFeedController {
 		HttpSession session = request.getSession(); // 세션을 생성해서
 		session.setAttribute("artiName", artNameEn); // userid로 uid값을 넘기자
 		session.setAttribute("subList", subList);
-       
+	//	session.setAttribute("Membership", Membership);
 		if(subList != null && !subList.isEmpty()) {
 			mv.addObject("list", list);
 			mv.addObject("rlist", rlist);
@@ -149,6 +165,7 @@ public class FanFeedController {
 			mv.addObject("lklist", lklist);
 			mv.addObject("aplist", aplist);
 			mv.addObject("comment", comment);
+			mv.addObject("rlklist", rlklist);
 			mv.setViewName("fanfeed/fanFeedList");
 			
 		} else {
@@ -467,6 +484,9 @@ public class FanFeedController {
 	public void insertReply(HttpServletRequest request,
 							HttpServletResponse response,
 							Reply r,
+							Alarm a,
+							@RequestParam(value="writer") String writer,
+			   				@RequestParam(value="id") String id,
 							HttpSession session) throws IOException {
 		
 		String artiName = (String)request.getSession().getAttribute("artiName");
@@ -474,7 +494,11 @@ public class FanFeedController {
 		System.out.println("댓글에서 아트네임 넘어오냐: " + artiName);
 		System.out.println(r);
 		
-		int result = fService.insertReply(r);
+		// 알람 내용에 댓글 작성자 들어가야하고 아이디에 게시글 작성자 들어가야댐
+		a.setId(id);
+		a.setAlContent(writer + " 님이  댓글을 작성하였습니다.");
+		
+		int result = fService.insertReply(r, a);
 		
 		if(result > 0) {
 		
@@ -760,8 +784,8 @@ public class FanFeedController {
 //		System.out.println("유저 프로필 사진 리스트 : " + atlist);
 		
 		// 게시글당 사진 갯수 구하기
-		int ptlistCount = fService.selectptListCount(fid);
-		System.out.println("사진 갯수 : " + ptlistCount);
+	//	int ptlistCount = fService.selectptListCount(fid);
+	//	System.out.println("사진 갯수 : " + ptlistCount);
 		
 		if(ptlist != null && !ptlist.isEmpty()) {
 			// artiName 세션에 저장
@@ -773,7 +797,7 @@ public class FanFeedController {
 		//	mv.addObject("rlist", rlist);
 			mv.addObject("ptlist", ptlist);
 		//	mv.addObject("atlist", atlist);
-			mv.addObject("ptlistCount", ptlistCount);
+		//	mv.addObject("ptlistCount", ptlistCount);
 			mv.setViewName("fanfeed/fanfeedDetail");
 			
 		} //else {
@@ -835,6 +859,61 @@ public class FanFeedController {
 		return new Gson().toJson(countLike);
 		
 	}
+	
+	// 댓글 좋아요 등록 / 취소 
+		@PostMapping("/rlike")
+		public @ResponseBody Map<String, String> feedRLike(Like like,
+				 				@RequestParam(value="type")String type,
+				 				int rid,
+				 				String id){
+			
+			System.out.println("댓글번호뜨니??????" + rid);
+			like.setId(id);
+			like.setRefId(rid);
+			
+			String msg = "";
+			int result = 0;
+			int countLike = 0;
+			switch(type) {
+			case "등록" : 
+				result = fService.insertLike3(like, rid);
+				countLike = fService.selectLike3(rid);
+				msg = result > 0 ? "좋아요가 등록 되었습니다" : "좋아요 등록에 실패하였습니다";
+				break;
+			case "취소" :
+				result = fService.deleteLike3(like,rid);
+				countLike = fService.selectLike3(rid);
+				msg = result > 0 ? "좋아요가 취소되었습니다" : "좋아요 취소 실패하였습니다";
+				break;
+			
+			}
+			
+			String count = Integer.toString(countLike);
+			System.out.println("countㄴㄴㄴㄴㄴ:" + count);
+			Map<String, String> map = new HashMap<>();
+			map.put("msg", msg);
+			map.put("count", count);
+			return map;
+			
+			
+		}
+		
+		//likeCount
+		// 알람 갯수 카운트 (세션에 담기)
+		@RequestMapping(value="/likeRCount", produces="application/json; charset=utf-8")
+		public @ResponseBody String countRLike(int rid) {
+			
+			int countLike = fService.selectLike3(rid);
+			
+
+			return new Gson().toJson(countLike);
+			
+		}
+	
+	
+	
+	
+	
 	
 	
 	
