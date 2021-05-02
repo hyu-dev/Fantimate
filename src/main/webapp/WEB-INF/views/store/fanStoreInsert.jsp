@@ -472,8 +472,6 @@
 				 alert("카테고리를 선택하세요")
 			 } else if($(".guide-text").val() == '') {
 				 alert("상품소개글을 등록하세요")
-			 } else if($("#mainPhoto").val() == '') {
-				 alert('대표사진을 등록하세요')
 			 } else if($(".tagArea li").length == 0) {
 				 alert('최소 1개의 태그를 등록하세요') 
 			 } else {
