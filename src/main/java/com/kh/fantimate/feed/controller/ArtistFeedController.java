@@ -75,6 +75,9 @@ public class ArtistFeedController {
 		
 		System.out.println("어떤 아티스트 피드인가? : " + artNameEn);
 	
+		String artiId = ((Member)request.getSession().getAttribute("loginUser")).getId();
+		System.out.println("로그인한 유저 아티스트 아이디 : " + artiId);
+		
 		// 게시글 불러올 때 필요한 리스트
 		// 1. 게시글 리스트
 		List<Feed> list = aService.selectFeedList(artNameEn);
@@ -87,6 +90,10 @@ public class ArtistFeedController {
 		// 3. 아티스트 정보 불러오기
 		List<Artist> alist = aService.selectaList();
 		System.out.println("아티스트 정보 조회 : " + alist);
+		
+		// 로그인한 아티스트 정보 불러오기
+		List<Artist> onelist = aService.selectaList(artiId);
+		System.out.println("로그인한 아티스트 정보 조회 : " + onelist);
 		
 		// 4. 게시글 사진 불러오기
 		List<AttachmentF> fplist = aService.selectfpList();
@@ -131,7 +138,8 @@ public class ArtistFeedController {
 			mv.addObject("lklist", lklist);
 			mv.addObject("rlist", rlist);
 			mv.addObject("atlist", atlist);
-			mv.addObject("rlklist", rlklist);
+			mv.addObject("onelist", onelist);
+			
 			mv.setViewName("artistfeed/artistFeedList");
 		} else {
 			mv.addObject("msg", "조회된 리스트가 없습니다.");

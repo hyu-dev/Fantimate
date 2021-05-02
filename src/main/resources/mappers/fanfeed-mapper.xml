@@ -959,9 +959,9 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	</select>
 	
 	<!-- 일반 유저 정보 -->
-	<select id= "selectUser" resultMap="userResultSet">
-	SELECT 		U_ID
-    		,   IS_MEMBERSHIP
+	<select id= "selectUser" parameterType="string" resultMap="userResultSet">
+	SELECT 		
+    		    IS_MEMBERSHIP
     FROM 		USER_
     WHERE 		U_ID = #{id}
 	</select>

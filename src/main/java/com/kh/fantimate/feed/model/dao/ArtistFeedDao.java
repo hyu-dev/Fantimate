@@ -125,4 +125,7 @@ public interface ArtistFeedDao {
 
 	// 친구 신청 시 알람
 	public int insertAlarm(Alarm a);
+
+	// 로그인한 아티스트 정보 조회
+	public List<Artist> selectaList(String artiId);
 }
