@@ -885,6 +885,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 			,	AL_STATUS
 			,	AL_CODE
 			,	ID
+			,	REF_ID
 		)
 		VALUES
 		(
@@ -894,6 +895,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 			,	DEFAULT
 			,	'3'
 			,	#{id}
+			,	#{ref_id}
 		)
 	</insert>
 	
