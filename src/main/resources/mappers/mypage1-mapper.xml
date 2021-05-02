@@ -1487,6 +1487,26 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
            SET
                STATUS = 'N' 
 	</update>
+<!-- N으로 바꾸기 -->	
+	<update id="updateUserDelete" parameterType="string">
+		UPDATE
+                (
+                SELECT
+                        STATUS
+                        
+                      , U_SUSPEND_START
+                      , U_SUSPEND_END
+                  FROM
+                        COMMON
+                  JOIN
+                        USER_
+                    ON  ID = U_ID
+                 WHERE
+                        ID = #{userid}
+                )
+           SET
+               STATUS = 'N' 
+	</update>
 	<update id="updateUserReportDate" parameterType="ReportAdmin">
 		 UPDATE
                 (
@@ -1810,4 +1830,69 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	           BRCREATE DESC
 </select>
 <!-- 여기까지테스트 -->
+<update id="updateTableStatus" parameterType="ReportAdmin">
+UPDATE
+        (
+        <choose>
+	        <when test="isReported == 'RPT_FSTORE'">
+		        SELECT
+		                F_CODE
+		              , IS_ACTIVE
+		        FROM
+		            	F_STORE
+		        WHERE 	F_CODE = ${refId}
+		        )
+            SET
+    			IS_ACTIVE = 'N'
+	        </when>
+	        
+	        
+<!-- 	        <when test="isReported == 'RPT_FREPLY'"> -->
+<!-- 		        SELECT -->
+<!-- 		                FR_CODE -->
+<!-- 		              , IS_ACTIVE -->
+<!-- 		        FROM -->
+<!-- 		            F_REPLY -->
+<!-- 		        WHERE F_CODE = #{refid} -->
+<!-- 		        ) -->
+<!--             SET -->
+<!--     			IS_ACTIVE = 'N' -->
+<!-- 	        </when> -->
+	        
+	        
+	        <when test="isReported == 'MD_CMT_RPT'">
+		        SELECT
+		                CMT_NUM
+		              , CMT_STATUS
+		        FROM
+		            	MD_CMT
+		        WHERE 	CMT_NUM = ${refId}
+		        )
+            SET
+    			CMT_STATUS = 'N'
+	        </when>
+	        <when test="isReported == 'B_RPT'">
+		        SELECT
+		                BID
+		              , BSTATUS
+		        FROM
+		           	 	BOARD
+		        WHERE 	BID = ${refId}
+		        )
+            SET
+    			BSTATUS = 'N'
+	        </when>
+	        <when test="isReported == 'B_RE_RPT'">
+		        SELECT
+		                BRID
+		              , BR_STATUS
+		        FROM
+		            	B_REPLY
+		        WHERE 	BRID = ${refId}
+		        )
+            SET
+    			BR_STATUS = 'N'
+	        </when>
+        </choose>
+</update>
 </mapper>

@@ -261,6 +261,13 @@ public class Mypage1DaoImpl implements Mypage1Dao{
 			return -1;
 				
 	}
+	@Override
+	public int updateUserReport2(Report report) {
+		int statusN = sqlSession.update("mypage1Mapper.updateUserReportN", report);
+		System.out.println("statusN : " + statusN);
+			return statusN;
+		
+	}
 
 	// 어드민 결제내역
 	@Override
@@ -346,6 +353,16 @@ public class Mypage1DaoImpl implements Mypage1Dao{
 	@Override
 	public List<ReplyCollection> selectReplyAllList() {
 		return sqlSession.selectList("mypage1Mapper.selectReplyAllList");
+	}
+
+	@Override
+	public int updateUserDelete(String userid) {
+		return sqlSession.update("mypage1Mapper.updateUserDelete", userid);
+	}
+
+	@Override
+	public int updateTableStatus(ReportAdmin report) {
+		return sqlSession.update("mypage1Mapper.updateTableStatus", report);
 	}
 
 

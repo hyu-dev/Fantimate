@@ -138,6 +138,10 @@ public interface Mypage1Service {
 
 	public List<ReplyCollection> selectReplyAllList();
 
+	public int updateUserDelete(String userid);
+
+	public int updateTableStatus(ReportAdmin report);
+
 	
 	
 }

@@ -271,6 +271,15 @@ public class Mypage1ServiceImpl implements Mypage1Service{
 		return mDao.selectReplyAllList();
 	}
 
+	@Override
+	public int updateUserDelete(String userid) {
+		return mDao.updateUserDelete(userid);
+	}
+
+	@Override
+	public int updateTableStatus(ReportAdmin report) {
+		return mDao.updateTableStatus(report);
+	}
 
 
 }

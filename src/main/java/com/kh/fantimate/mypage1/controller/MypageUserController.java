@@ -2,8 +2,7 @@ package com.kh.fantimate.mypage1.controller;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,6 +18,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -33,8 +33,9 @@ import com.kh.fantimate.feed.model.service.FanFeedService;
 import com.kh.fantimate.feed.model.vo.AttachmentF;
 import com.kh.fantimate.feed.model.vo.Feed;
 import com.kh.fantimate.feed.model.vo.FeedCollection;
+import com.kh.fantimate.main.model.vo.SubscribeArtist;
+import com.kh.fantimate.member.model.service.MemberService;
 import com.kh.fantimate.member.model.vo.Artist;
-import com.kh.fantimate.member.model.vo.ArtistCollection;
 import com.kh.fantimate.member.model.vo.ArtistGroup;
 import com.kh.fantimate.member.model.vo.Member;
 import com.kh.fantimate.member.model.vo.User;
@@ -59,6 +60,8 @@ public class MypageUserController {
 	@Autowired
 	private FanFeedService fService;
 		
+	@Autowired
+	private MemberService memberService;
 		// 회원정보 수정
 		@PostMapping("/update")
 		public String userUpdate(
@@ -175,6 +178,18 @@ public class MypageUserController {
 					}
 				}
 			}
+//			List<UserCollection> updateUserAtt = (ArrayList<UserCollection>)memberService.loginUser(paramId);
+//			session.setAttribute(name, value);
+			String id = paramId;
+			List<UserCollection> userAttUpdate = (ArrayList<UserCollection>)memberService.loginUser(id);
+			// 회원의 구독 정보 (세션에 담기) --> 널 && 유저 1일 경우 슬라이드 안 보이게 
+			List<SubscribeArtist> subArtist = (ArrayList<SubscribeArtist>)memberService.selectSubA(id);
+			System.out.println("회원 구독 정보오오:" + subArtist);
+			session.setAttribute("subArtist", subArtist);
+			System.out.println("유저 정보 : " + userAttUpdate);
+			session.setAttribute("user", userAttUpdate);
+			
+			
 			return "redirect:/mypage/user/payments";
 		}
 ////////////////////////////////////////////////////////////////////////////////////////////	
@@ -590,6 +605,18 @@ public class MypageUserController {
 			
 			return mv;
 		}
+		
+		@GetMapping("/update/delete")
+		public String updateUserDelete(@RequestParam(value="userid", required=true) String userid,
+				HttpSession session) {
+			System.out.println("userid : " + userid);
+			int result = mService.updateUserDelete(userid);
+			System.out.println("회원 탈퇴 결과 : " + result);
+			session.invalidate();
+			
+			return "redirect:/main";
+		}
+		
 		
 		@GetMapping("/payments")
 		public ModelAndView userMypayments(ModelAndView mv,
