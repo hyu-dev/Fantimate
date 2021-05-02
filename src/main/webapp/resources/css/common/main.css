@@ -19,16 +19,14 @@
 
 } */
 
-#mainPage-wholeList{
-	/* margin-top: 108px;
-	height:600px; */
-	display: flex;
+#mainPage-wholeList {
+    display: flex;
     /* margin-top: 108px; */
     height: 1300px;
     max-width: 1200px;
     min-width: 1200px;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: start;
     box-sizing: border-box;
     margin: auto;
     padding-top: 108px;
