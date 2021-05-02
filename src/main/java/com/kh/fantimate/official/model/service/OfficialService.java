@@ -57,10 +57,16 @@ public interface OfficialService {
 	public List<ReplyCollection> selectReplyList(Map<Object, Object> map);
 	
 	// 새 댓글 입력
-	public List<ReplyCollection> insertReply(Reply r, String artiName);
+	public int insertReply(Reply r);
+	
+	// 대댓글 입력
+	public int insertRecomment(Reply r);
+	
+	// 해당 아티스트에 적용된 닉네임 가져오기
+	public String selectNickName(Map<String, String> map);
 	
 	// 댓글 삭제
-	public List<ReplyCollection> deleteReply(Reply r, String artiName);
+	public int deleteReply(int rid);
 
 	// 좋아요 +1
 	public int insertLike(Map<Object, Object> map);
@@ -92,5 +98,5 @@ public interface OfficialService {
 	// 스케줄 삭제
 	public int deleteSchedule(Date scheDate);
 
-
+	
 }

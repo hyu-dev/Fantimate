@@ -285,4 +285,9 @@ public class MypageServiceImpl implements MypageService{
 		return mDao.insertMediaFile(att);
 	}
 
+	// 카테고리 중복 등록을 막기 위해 확인
+	@Override
+	public List<MediaCategory> selectCategory(String artiName) {
+		return mDao.selectCategory(artiName);
+	}
 }

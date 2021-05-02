@@ -150,6 +150,9 @@ public interface MypageDao {
 
 	// 미디어 리스트 가져오기
 	List<MediaCollection> selectMediaAdminList(String artiName);
+	
+	// 카테고리 중복 등록을 막기 위해 확인
+	List<MediaCategory> selectCategory(String artiName);
 
 	// 카테고리 등록
 	int insertMediaCategory(MediaCategory mc);

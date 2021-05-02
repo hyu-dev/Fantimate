@@ -20,7 +20,7 @@ public class Official {
 	private Date mediaDate;     	// 등록일
 	private String mediaStatus;   	// 활성화 여부
 	private String isPay;			// 유료상품 여부
-	private String cateCode;		// 카테고리 코드
+	private int cateCode;			// 카테고리 코드
 	private int mediaPay;			// 상품 가격
 	private int mediaCount;         // 조회수
 }

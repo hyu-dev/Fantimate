@@ -36,6 +36,7 @@ import com.kh.fantimate.member.model.vo.ArtistCollection;
 import com.kh.fantimate.member.model.vo.ArtistGroup;
 import com.kh.fantimate.member.model.vo.Member;
 import com.kh.fantimate.mypage2.model.service.MypageService;
+import com.kh.fantimate.official.model.service.OfficialService;
 import com.kh.fantimate.official.model.vo.MediaCategory;
 import com.kh.fantimate.official.model.vo.MediaCollection;
 import com.kh.fantimate.official.model.vo.MediaFile;
@@ -672,9 +673,12 @@ public class MypageController {
 		
 		// 소속 아티스트 목록 전체 불러오기(관리 페이지로 넘어가기 위해)
 		List<ArtistGroup> artist = mService.selectArtistList(agency.getAgId());
+		// 카테고리 목록 불러오기
+		List<MediaCategory> cate = mService.selectCategory(artiName);
 		
 		mv.addObject("artist", artist);
 		mv.addObject("agency", agency);
+		mv.addObject("cate", cate);
 		mv.addObject("artiName", artiName);
 		
 		if(category == "" && search == "") {
@@ -721,12 +725,63 @@ public class MypageController {
 										  @RequestParam(value="vidName") MultipartFile vidName) {
 		Agency agency = (Agency)request.getSession().getAttribute("agency");
 		
-		System.out.println(picName.getOriginalFilename());
-		System.out.println(vidName.getOriginalFilename());
+		// System.out.println(picName.getOriginalFilename());
+		// System.out.println(vidName.getOriginalFilename());
 		
-		// 카테고리 대문자로 변환
-		String originName = mc.getCateName().toUpperCase();
-		mc.setCateName(originName);
+		// 카테고리 추가가 있을 경우
+		if(addCate != "") {
+			// 카테고리 중복 등록을 막기 위해 확인
+			int cateCheck = 0;
+			List<MediaCategory> cate = mService.selectCategory(mc.getArtiNameEn());
+			
+			for(int i=0; i < cate.size(); i++) {
+				if(addCate.equals(cate.get(i).getCateName())) {
+					cateCheck++;
+				}
+			}
+			
+			// 중복이 없을 경우
+			if(cateCheck == 0) {
+				// 카테고리 대문자로 변환
+				mc.setCateName(addCate.toUpperCase());
+				// 카테고리 등록
+				int result1 = mService.insertMediaCategory(mc);
+				
+				if(result1 > 0) {
+					System.out.println("카테고리 등록 성공");
+				} else {
+					System.out.println("카테고리 등록 실패");
+				}
+			}
+		}
+		
+		// 유료 상품 유무 확인
+		int price = o.getMediaPay();
+		if(price != 0 ) {
+			o.setIsPay("Y");
+		} else {
+			o.setIsPay("N");
+		}
+		
+		// 카테고리 번호 연결
+		int cateCode = 0;
+		List<MediaCategory> cate = mService.selectCategory(mc.getArtiNameEn());
+		
+		for(int i=0; i < cate.size(); i++) {
+			if(addCate.equals(cate.get(i).getCateName())) {
+				cateCode = cate.get(i).getCateCode();
+			}
+		}
+		
+		o.setCateCode(cateCode);
+		
+		int result2 = mService.insertOfficial(o);
+		
+		if(result2 > 0) {
+			System.out.println("미디어 등록 성공");
+		} else {
+			System.out.println("미디어 등록 실패");
+		}
 		
 		att = new MediaFile();
 		
@@ -752,35 +807,6 @@ public class MypageController {
 			}
 		}
 		
-		if(!addCate.equals("")) {
-			mc.setCateName(addCate);
-		}
-		
-		// 카테고리 등록
-		int result1 = mService.insertMediaCategory(mc);
-		
-		if(result1 > 0) {
-			System.out.println("카테고리 등록 성공");
-		} else {
-			System.out.println("카테고리 등록 실패");
-		}
-		
-		// 오피셜 등록
-		int price = o.getMediaPay();
-		if(price != 0 ) {
-			o.setIsPay("Y");
-		} else {
-			o.setIsPay("N");
-		}
-		
-		int result2 = mService.insertOfficial(o);
-		
-		if(result2 > 0) {
-			System.out.println("미디어 등록 성공");
-		} else {
-			System.out.println("미디어 등록 실패");
-		}
-		
 		// 미디어 파일 등록
 		int result3 = mService.insertMediaFile(att);
 		
@@ -796,6 +822,7 @@ public class MypageController {
 		List<MediaCollection> media = mService.selectMediaAdminList(mc.getArtiNameEn());
 		
 		mv.addObject("media", media);
+		mv.addObject("cate", cate);
 		mv.addObject("artiName", mc.getArtiNameEn());
 		mv.addObject("artist", artist);
 		mv.addObject("agency", agency);

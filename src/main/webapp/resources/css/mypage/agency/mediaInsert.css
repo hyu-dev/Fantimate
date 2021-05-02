@@ -14,7 +14,7 @@
 }
 
 #mediaForm {
-    height: 720px;
+    height: 780px;
     width: 600px;
     background: #FBF6F6;
     padding: 20px 30px 20px 30px;
@@ -62,13 +62,9 @@
 	outline: none;
 }
 
-.arti-name-span, .limit-text {
+.arti-name-span, .count-num {
 	font-weight: 500;
     font-size: 18px;
-}
-
-.limit-text {
-	float: right;
 }
 
 .media-text {
@@ -76,6 +72,10 @@
 	height: 80px;
 	border: 1px solid #ACACAC;
 	outline: none;
+}
+
+.count-num {
+	float: right;
 }
 
 .upload-label {

@@ -105,6 +105,7 @@ public class OfficialServiceImpl implements OfficialService{
 	}
 
 	// 새 댓글 입력
+	/*
 	@Override
 	public List<ReplyCollection> insertReply(Reply r, String artiName) {
 		oDao.insertReply(r);
@@ -114,18 +115,28 @@ public class OfficialServiceImpl implements OfficialService{
 		map.put("artiName", artiName);
 		
 		return oDao.selectReplyList(map);
+	}*/
+	@Override
+	public int insertReply(Reply r) {
+		return oDao.insertReply(r);
+	}
+	
+	// 대댓글 입력
+	@Override
+	public int insertRecomment(Reply r) {
+		return oDao.insertRecomment(r);
+	}
+	
+	// 해당 아티스트에 적용된 닉네임 가져오기
+	@Override
+	public String selectNickName(Map<String, String> map) {
+		return oDao.selectNickName(map);
 	}
 
 	// 댓글 삭제
 	@Override
-	public List<ReplyCollection> deleteReply(Reply r, String artiName) {
-		oDao.deleteReply(r.getRid());
-		
-		Map<Object, Object> map = new HashMap<>();
-		map.put("mediaNum", r.getRefId());
-		map.put("artiName", artiName);
-		
-		return oDao.selectReplyList(map);
+	public int deleteReply(int rid) {
+		return oDao.deleteReply(rid);
 	}
 
 	// 좋아요 +1
@@ -187,4 +198,5 @@ public class OfficialServiceImpl implements OfficialService{
 	public int deleteSchedule(Date scheDate) {
 		return oDao.deleteSchedule(scheDate);
 	}
+
 }
