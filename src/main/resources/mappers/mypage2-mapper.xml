@@ -609,7 +609,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
          , RE_CMT_NUM
          , LIKE_COUNT
          , ARTI_ONE_NAME
-         , NICKNAME
+         , B.NICKNAME
          , FACEBOOK
          , INSTAGRAM
          , TWITTER
