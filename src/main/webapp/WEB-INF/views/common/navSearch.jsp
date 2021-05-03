@@ -103,7 +103,7 @@
 	
 	<header class="main-header">
         <nav class="main-nav">
-            <p class="main-logo" onclick="location.href='${contextPath}'">FANTIMATE</p>
+            <p class="main-logo" onclick="location.href='${contextPath}/member/sub'">FANTIMATE</p>
             <c:choose>
 	            <c:when test="${ !empty sessionScope.loginUser}">
 		            <div class="main-menu">

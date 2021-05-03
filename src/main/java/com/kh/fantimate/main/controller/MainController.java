@@ -61,12 +61,16 @@ public class MainController {
 		String user = loginUser.getId();
 		
 		List<MainCollection> list = (ArrayList<MainCollection>)mpService.selectArtistFavList(user);
-		
+
+
 		//System.out.println("list 출력 : " + list);
 		
 		return new Gson().toJson(list);
 		
 	}
+	
+	
+	
 	
 	// 관심아티스트 제외한 아티스트 리스트 불러오기 (메인페이지 뿌려주기)
 	@RequestMapping(value="/artistList", produces="application/json; charset=utf-8")
