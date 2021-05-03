@@ -413,9 +413,10 @@ a { text-decoration:none }
 							  </tr>
 							  <tr>
 							      <td colspan="2">SNS주소</td>
-							      <td><a href="https://ko-kr.facebook.com/iu.loen" target='_blank'><img src="../resources/images/mypage/artist/facebook.png" style="width:50px; height:32px"></a></td>
-							      <td><img src="../resources/images/mypage/artist/인스타그램.png" style="width:50px; height:32px"></td>
-							      <td><img src="../resources/images/mypage/artist/twitter.png" style="width:50px; height:32px"></td>
+							      <td><a href="${art.artiFacebook}" target='_blank'><img src="../resources/images/mypage/artist/facebook.png" style="width:50px; height:32px"></a></td>
+							      
+							      <td><a href="${art.artiInsta}" target='_blank'><img src="../resources/images/mypage/artist/인스타그램.png" style="width:50px; height:32px"></a></td>
+							      <td><a href="${art.artiTwitter}" target='_blank'><img src="../resources/images/mypage/artist/twitter.png" style="width:50px; height:32px"></a></td>
 							  </tr>
 							  <tr>
 							      <td colspan="2">상태 메세지</td>
