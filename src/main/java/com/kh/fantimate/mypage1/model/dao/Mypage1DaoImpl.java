@@ -365,6 +365,16 @@ public class Mypage1DaoImpl implements Mypage1Dao{
 		return sqlSession.update("mypage1Mapper.updateTableStatus", report);
 	}
 
+	@Override
+	public int deleteUserRDate(String parameterUserId) {
+		return sqlSession.update("mypage1Mapper.deleteUserRDate", parameterUserId);
+	}
+
+	@Override
+	public int updateUserStatusY(String parameterUserId) {
+		return sqlSession.update("mypage1Mapper.updateUserStatusY", parameterUserId);
+	}
+
 
 	
 	

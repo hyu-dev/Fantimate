@@ -142,6 +142,10 @@ public interface Mypage1Service {
 
 	public int updateTableStatus(ReportAdmin report);
 
+	public int deleteUserRDate(String parameterUserId);
+
+	public int updateUserStatusY(String parameterUserId);
+
 	
 	
 }
