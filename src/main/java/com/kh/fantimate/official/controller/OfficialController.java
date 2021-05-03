@@ -190,6 +190,8 @@ public class OfficialController {
 			}
 		}
 		
+		System.out.println("미디어넘" + mediaNum);
+		
 		Map<Object, Object> map = new HashMap<>();
 		map.put("mediaNum", mediaNum);
 		map.put("artiName", artiName);
@@ -238,7 +240,7 @@ public class OfficialController {
 			List<Friend> friend = oService.selectFriend(loginUser.getId());
 			
 			// System.out.println("댓글 리스트 : " + comment);
-			// System.out.println("댓글 개수 : " + rcount);
+			System.out.println("댓글 개수 : " + rcount);
 			// System.out.println("북마크 여부 : " + bmark);
 			
 			if(count > 0) {
@@ -521,7 +523,7 @@ public class OfficialController {
 	
 	// 일반 유저 알림
 	@PostMapping(value="/insertUserReplyAlarm", produces="application/json; charset=utf-8")
-	public @ResponseBody Map<String, String> insertUserReplyAlarm(int refId, HttpSession session) {
+	public @ResponseBody void insertUserReplyAlarm(int refId, HttpSession session) {
 		Member loginUser = (Member)session.getAttribute("loginUser");
 		
 		Map<Object, Object> map = new HashMap<>();
@@ -529,29 +531,17 @@ public class OfficialController {
 		map.put("refId", refId);
 		
 		int result = oService.insertUserReplyAlarm(map);
-		boolean flag = true;
 		
 		if(result > 0) {
 			System.out.println("유저 댓글 알림 성공");
 		} else {
 			System.out.println("유저 댓글 알림 실패");
-			flag = false;
 		}
-		
-		String msg = "";
-		if(flag) 
-			msg = "유저 댓글 알림 성공"; 
-		else 
-			msg = "유저 댓글 알림 실패";
-		
-		Map<String, String> map2 = new HashMap<>();
-		map2.put("msg", msg);
-		return map2;
 	}
 	
 	// 아티스트 유저 알림
 	@PostMapping(value="/insertArtistReplyAlarm", produces="application/json; charset=utf-8")
-	public @ResponseBody Map<String, String> insertArtistReplyAlarm(int refId, HttpSession session) {
+	public @ResponseBody void insertArtistReplyAlarm(int refId, HttpSession session) {
 		Member loginUser = (Member)session.getAttribute("loginUser");
 		
 		Map<Object, Object> map = new HashMap<>();
@@ -559,24 +549,12 @@ public class OfficialController {
 		map.put("refId", refId);
 		
 		int result = oService.insertArtistReplyAlarm(map);
-		boolean flag = true;
 		
 		if(result > 0) {
-			System.out.println("아티스트 댓글 알림 실패");
+			System.out.println("아티스트 댓글 알림 성공");
 		} else {
 			System.out.println("아티스트 댓글 알림 실패");
-			flag = false;
 		}
-		
-		String msg = "";
-		if(flag) 
-			msg = "아티스트 댓글 알림 실패"; 
-		else 
-			msg = "아티스트 댓글 알림 실패";
-		
-		Map<String, String> map2 = new HashMap<>();
-		map2.put("msg", msg);
-		return map2;
 	}
 	/*
 	// 파라미터를 넘겨줘야 하므로 수정 예정
