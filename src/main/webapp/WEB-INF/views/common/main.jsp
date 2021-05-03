@@ -724,7 +724,7 @@
          					var video1 = $("<video src='${ contextPath }/resources/uploadFiles/"+ data[i].mf.vidSvName+"' controls='controls' poster='${ contextPath }/resources/uploadFiles/"+ data[i].mf.picSvName+"' class='chart-pic'></video>");
          					var div1 = $("<div class='chart-info-section'>");
          					var title1=$("<div class='profile-info'><p class='chart-rank'>"+"#2"+"</p><p class='profile-name'>"+data[i].of.mediaTtl+"</p></div>");
-         					var hit1=$("<div class='play-info'><img src='${ contextPath }/resources/images/main/play.svg' alt='' class='play-img'><p class='like-count'>"+data[i].hc.count+"</p></div>");
+         					var hit1=$("<div class='play-info'><img src='${ contextPath }/resources/images/main/play.svg' alt='' class='play-img'><p class='like-count'>"+data[i].of.mediaCount+"</p></div>");
          					
          					div1.append(title1,hit1);
          					mediaInfo1.append(video1,div1);
@@ -735,7 +735,7 @@
          					var video2 = $("<video src='${ contextPath }/resources/uploadFiles/"+ data[i].mf.vidSvName+"' controls='controls' poster='${ contextPath }/resources/uploadFiles/"+ data[i].mf.picSvName+"' id='numberOneChart'></video>");
          					var div2 = $("<div class='rank1-info-section'>");
          					var title2=$("<div class='profile-info'><p class='chart-rank'>"+"#1"+"</p><p class='profile-name'>"+data[i].of.mediaTtl+"</p></div>");
-         					var hit2=$("<div class='play-info'><img src='${ contextPath }/resources/images/main/play.svg' alt='' class='play-img'><p class='like-count'>"+data[i].hc.count+"</p></div>");
+         					var hit2=$("<div class='play-info'><img src='${ contextPath }/resources/images/main/play.svg' alt='' class='play-img'><p class='like-count'>"+data[i].of.mediaCount+"</p></div>");
          					
          					div2.append(title2,hit2);
          					mediaInfo2.append(video2,div2);
@@ -746,7 +746,7 @@
          					var video3 = $("<video src='${ contextPath }/resources/uploadFiles/"+ data[i].mf.vidSvName+"' controls='controls' poster='${ contextPath }/resources/uploadFiles/"+ data[i].mf.picSvName+"' class='chart-pic'></video>");
          					var div3 = $("<div class='chart-info-section'>");
          					var title3=$("<div class='profile-info'><p class='chart-rank'>"+"#3"+"</p><p class='profile-name'>"+data[i].of.mediaTtl+"</p></div>");
-         					var hit3=$("<div class='play-info'><img src='${ contextPath }/resources/images/main/play.svg' alt='' class='play-img'><p class='like-count'>"+data[i].hc.count+"</p></div>");
+         					var hit3=$("<div class='play-info'><img src='${ contextPath }/resources/images/main/play.svg' alt='' class='play-img'><p class='like-count'>"+data[i].of.mediaCount+"</p></div>");
          					
          					div3.append(title3,hit3);
          					mediaInfo3.append(video3,div3);
