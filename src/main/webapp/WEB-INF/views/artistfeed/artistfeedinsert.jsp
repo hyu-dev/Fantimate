@@ -28,7 +28,7 @@
                    	<!-- 로그인한 유저의 프로필 불러오기 -->
                     <img src="${ contextPath }/resources/uploadFiles/${ ap.attSvName }" class="post-icon" alt="이s미지">
                      
-                    <textarea class="textArea" placeholder="FANTIMATE에 남겨보세요" name="fcontent" required></textarea>
+                    <textarea class="textArea" placeholder="FANTIMATE에 남겨보세요" name="fcontent" style="outline:none;" required></textarea>
                     <img src="../resources/icon/photo-icon.png" class="photo-icon">
                     </div>
                    
