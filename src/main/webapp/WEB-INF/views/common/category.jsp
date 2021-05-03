@@ -27,11 +27,15 @@
             <a href="${ contextPath }/fanfeed/fanFeedList?artNameEn=${artiName}">FAN</a> 
              <%-- <a onclick="checkMembership('${loginUser.id}');">ARTIST</a> --%>
              
-             <c:if test="${ loginUser.classifyMem == 2 }">   
+             <%-- <a href="${ contextPath }/artistfeed/artistFeedList?artNameEn=${artiName}">ARTIST</a> --%>
+             
+              <c:if test="${ loginUser.classifyMem == 2 }">   
             <a href="${ contextPath }/artistfeed/artistFeedList?artNameEn=${artiName}">ARTIST</a>
              </c:if>
              <c:choose>
              <c:when test="${ loginUser.classifyMem == 1  && Membership eq 'Y'}">
+            
+           
              <a href="${ contextPath }/artistfeed/artistFeedList?artNameEn=${artiName}">ARTIST</a>
              </c:when>
              <c:otherwise>
