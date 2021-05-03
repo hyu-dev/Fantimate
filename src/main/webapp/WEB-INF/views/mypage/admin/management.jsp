@@ -48,7 +48,7 @@
 
                 <tbody>
                 	<c:forEach var="m" items="${ list }">
-                	<tr>
+                	<tr onclick="updateUser('${ m.common.id }','${ m.common.status }','${ m.common.classifyMem }')">
                 		<td>
 	                		<c:if test="${ m.common.status eq 'Y' }">
 	                			활동중
@@ -71,12 +71,13 @@
                 		<td>${ m.common.name }</td>		<!-- 연락처/이름? -->
                 		<c:set var="date" value="<%= new Date() %>"/>
                 		<td><fmt:formatDate type="date" value="${ m.common.signupDate }"/></td>		<!-- 가입일 -->
+                		<!-- 활동정지일 -->
                 		<td>
 							<c:if test="${ not empty m.user.ususpendEnd }">
 								<c:set var="date" value="<%= new Date() %>"/>
 								<fmt:formatDate type="date" value="${ m.user.ususpendEnd }"/>
 							</c:if>
-                		</td>		<!-- 활동정지일 -->
+                		</td>		
                 	</tr>
                 	</c:forEach>
 <!--                     <tr> -->
@@ -159,7 +160,6 @@
 <!--                         <td>2021.03.14</td> -->
 <!--                         <td>2021.03.14</td> -->
 <!--                     </tr> -->
-
                 </tbody>
             </table>
             
@@ -204,6 +204,38 @@
             </div>
         </article>
     </section>
+    <script>
+    	function updateUser(userid, status, memType){
+    		if(memType == 1){
+	    		// 활동중인 회원 정지하기
+	    		if(status == "Y"){
+	    			if(confirm("회원을 정지하시겠습니까?")){
+	    				var userInput = prompt("정지할 일수를 입력하세요.");
+	    				if(userInput != null){
+	    				location.href='${contextPath}/mypage/admin/management/update?userid=' + userid + '&page=${ pi.currentPage }&status=' + "N&reportDate=" + userInput;
+	    				}else if(userInput == null){
+	    					alert("공백은 입력할 수 없습니다.");
+	    				}else{
+	    					alert("정지를 취소하였습니다.");
+	    				}
+	    			}else{
+	    					alert("정지를 취소하였습니다.");
+	    			}
+	    		// 정지중인회원 정지 풀기
+	    		}else if(status == "N"){
+					if(confirm("정지를 푸시겠습니까?")){
+	    				location.href='${contextPath}/mypage/admin/management/update?userid=' + userid + '&page=${ pi.currentPage }&status=' + "Y";
+	    			}else{
+	    				alert("취소하였습니다.")
+	    			}
+	    			
+	    		}else{
+	    			alert("뭐여이건 콘솔확인");
+	    			console.log(status);
+	    		}
+    		}
+    	}
+    </script>
     </c:if>
         <c:if test="${ loginUser.classifyMem != '4' }">
     	<jsp:include page="errorpage.jsp"></jsp:include>

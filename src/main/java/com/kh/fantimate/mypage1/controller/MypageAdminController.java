@@ -226,9 +226,9 @@ public class MypageAdminController {
 			if(rptDate > 0) {
 			// 유저정보 업데이트
 				
-			report.setReportDate(rptDate*24);
-			System.out.println("신고전 report : " + report);
-			int result1 = mService.updateUserReport(report);
+				report.setReportDate(rptDate*24);
+				System.out.println("신고전 report : " + report);
+				int result1 = mService.updateUserReport(report);
 			
 				if(rptDate > 0 && result1 >0) {
 					System.out.println("회원제재 로직 성공");
@@ -266,6 +266,48 @@ public class MypageAdminController {
 			}
 			return mv;
 		}
+		// 회원 관리(정지,안정지)
+		@GetMapping("/management/update")
+		public String memberManagement(@RequestParam(value="page", required=false, defaultValue="1") int currentPage,
+				@RequestParam(value="userid", required=true) String parameterUserId,
+				@RequestParam(value="status", required=true) String status,
+				@RequestParam(value="reportDate", required=false, defaultValue="") String reportDate,
+				HttpSession session) {
+			
+			// parameterUserId라는 userid 받아서 정지 or 정지해제하기
+			System.out.println("id,status, reportDate : " + parameterUserId);
+			System.out.println(status);
+			System.out.println(reportDate);
+			
+			// 정지해제하기
+			if(reportDate.equals("")) {
+				int updateDate = mService.deleteUserRDate(parameterUserId);
+				int updateY = mService.updateUserStatusY(parameterUserId);
+				System.out.println("유저 제재 결과1 : " + updateDate);
+				System.out.println("유저 제재 결과2 : " + updateY);
+			// 정지 하기
+			}else {
+				int rptDate = Integer.parseInt(reportDate);
+				ReportAdmin report = new ReportAdmin();
+				report.setId(parameterUserId);
+				int result = mService.updateUserReport(report);
+				System.out.println("정지 result : " + result);
+				
+				
+				report.setReportDate(rptDate*24);
+				System.out.println("신고전 report : " + report);
+				int result1 = mService.updateUserReport(report);
+				System.out.println("정지 result1 : " + result1);
+			
+				if(rptDate > 0 && result1 >0) {
+					System.out.println("회원제재 로직 성공");
+				}
+			}
+			
+			
+			return "redirect:/mypage/admin/management?page=" + currentPage;
+		}
+		
 		
 		// 결제일순으로 보기
 		// 환불신청한것부터 보기

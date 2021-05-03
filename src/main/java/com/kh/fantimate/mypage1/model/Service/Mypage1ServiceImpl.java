@@ -281,5 +281,15 @@ public class Mypage1ServiceImpl implements Mypage1Service{
 		return mDao.updateTableStatus(report);
 	}
 
+	@Override
+	public int deleteUserRDate(String parameterUserId) {
+		return mDao.deleteUserRDate(parameterUserId);
+	}
+
+	@Override
+	public int updateUserStatusY(String parameterUserId) {
+		return mDao.updateUserStatusY(parameterUserId);
+	}
+
 
 }

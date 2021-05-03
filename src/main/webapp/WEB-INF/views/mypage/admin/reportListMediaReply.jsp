@@ -140,12 +140,6 @@
             </div>
         </article>
     </section>
-    <script>
-    	function selectNotice(nid){
-    		//게시판 pk값과 현재 페이지값 파라미터로 넘겨주기 
-//     		location.href='${contextPath}/notice/detail?nid=' + nid + '&page=${ pi.currentPage }';
-    	}
-    </script>
     </c:if>
     <c:if test="${ loginUser.classifyMem != '4' }">
     	<jsp:include page="errorpage.jsp"></jsp:include>
