@@ -249,11 +249,11 @@
 					} else if(data[i].refAlCode == 2 || data[i].refAlCode == 3){
 						// 팬피드 디테일 
 						//<input type="hidden" name="challNo" value="">
-						alarmList.append("<div class='divSec'><li class='alarm-content' onclick='fanFeed(" + data[i].ref_id + ")'>"+ data[i].alContent +"<p class='alarm-time'></p></li><img src='${ contextPath }/resources/icon/trash.png' alt='' onclick='trash(" + data[i].alCode + ")' id='sample' class='trash-btn'></div>");
+						alarmList.append("<div class='divSec'><li class='alarm-content'>"+ data[i].alContent +"<p class='alarm-time'></p></li><img src='${ contextPath }/resources/icon/trash.png' alt='' onclick='trash(" + data[i].alCode + ")' id='sample' class='trash-btn'></div>");
 						alarmList.append("<hr>");
 					} else if (data[i].refAlCode == 1){
 						// 아티스트피드 디테일 
-						alarmList.append("<div class='divSec'><li class='alarm-content' onclick='artistFeed(" + data[i].ref_id + ")'>"+ data[i].alContent +"<p class='alarm-time'></p></li><img src='${ contextPath }/resources/icon/trash.png' alt='' onclick='trash(" + data[i].alCode + ")' class='trash-btn'></div>");
+						alarmList.append("<div class='divSec'><li class='alarm-content'>"+ data[i].alContent +"<p class='alarm-time'></p></li><img src='${ contextPath }/resources/icon/trash.png' alt='' onclick='trash(" + data[i].alCode + ")' class='trash-btn'></div>");
 						alarmList.append("<hr>");
 					} else if(data[i].refAlCode == 6 || data[i].refAlCode == 7 || data[i].refAlCode == 11 || data[i].refAlCode == 13 || data[i].refAlCode == 14 || data[i].refAlCode == 15){
 						// 신고 디테일
@@ -375,11 +375,11 @@
 					} else if(data.alist[i].refAlCode == 2 || data.alist[i].refAlCode == 3){
 						// 팬피드 디테일 
 						//<input type="hidden" name="challNo" value="">
-						alarmList.append("<div class='divSec'><li class='alarm-content' onclick='fanFeed(" + data.alist[i].ref_id + ")'>"+ data.alist[i].alContent +"<p class='alarm-time'></p></li><img src='${ contextPath }/resources/icon/trash.png' alt='' onclick='trash(" + data.alist[i].alCode + ")' id='sample' class='trash-btn'></div>");
+						alarmList.append("<div class='divSec'><li class='alarm-content'>"+ data.alist[i].alContent +"<p class='alarm-time'></p></li><img src='${ contextPath }/resources/icon/trash.png' alt='' onclick='trash(" + data.alist[i].alCode + ")' id='sample' class='trash-btn'></div>");
 						alarmList.append("<hr>");
 					} else if (data.alist[i].refAlCode == 1){
 						// 아티스트피드 디테일 
-						alarmList.append("<div class='divSec'><li class='alarm-content' onclick='artistFeed(" + data.alist[i].ref_id + ")'>"+ data.alist[i].alContent +"<p class='alarm-time'></p></li><img src='${ contextPath }/resources/icon/trash.png' alt='' onclick='trash(" + data.alist[i].alCode + ")' class='trash-btn'></div>");
+						alarmList.append("<div class='divSec'><li class='alarm-content'>"+ data.alist[i].alContent +"<p class='alarm-time'></p></li><img src='${ contextPath }/resources/icon/trash.png' alt='' onclick='trash(" + data.alist[i].alCode + ")' class='trash-btn'></div>");
 						alarmList.append("<hr>");
 					} else if(data.alist[i].refAlCode == 6 || data.alist[i].refAlCode == 7 || data.alist[i].refAlCode == 11 || data.alist[i].refAlCode == 13 || data.alist[i].refAlCode == 14 || data.alist[i].refAlCode == 15){
 						// 신고 디테일
@@ -467,22 +467,13 @@
 		location.href='${contextPath}/main/declineFriend?alCode=' + alCode + "&sendId=" + sendId;
     }
     
-    function fanFeed(refId){
-    	// refId 추후 수정 
-		location.href='${contextPath}/fanfeed/detailView?fid=' + refId;
-    }
-    
-    function artistFeed(refId){
-    	// refId 추후 수정 
-		location.href='${contextPath}/artistfeed/detailView?fid=' + refId;
-    }
     
     function reportDetail(){
 		location.href='${contextPath}/mypage/admin/report';
     }
     
     function mediaDetail(mediaNum){
-		location.href='${contextPath}/official/detail?mediaNum=' + mediaNum;
+		location.href='${contextPath}/official/media/detail?mediaNum=' + mediaNum;
     }
     
     function schedule(sendArtiName){
