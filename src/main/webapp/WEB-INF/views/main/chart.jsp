@@ -94,7 +94,7 @@
 						
 						j++;
 						
-						var length = 20; // 표시할 글자수 기준
+						var length = 13; // 표시할 글자수 기준
              			if (data[i].of.mediaTtl.length > length) {
              				data[i].of.mediaTtl = data[i].of.mediaTtl.substr(0, length-2) + '...';
              			}
@@ -269,7 +269,7 @@
 						
 						j++;
 						
-						var length = 20; // 표시할 글자수 기준
+						var length = 13; // 표시할 글자수 기준
              			if (data[i].of.mediaTtl.length > length) {
              				data[i].of.mediaTtl = data[i].of.mediaTtl.substr(0, length-2) + '...';
              			}
