@@ -116,7 +116,7 @@
                        
                         <td>
                             <div class="board-menu">
-                                <p onclick="showUpdateFeed(${f.fid});">수정하기</p>
+                                <p onclick="">수정하기</p>
                                 <p onclick="deleteFeed(${f.fid});">삭제하기</p>
                             </div>
                             
@@ -195,7 +195,7 @@
                             
                             <td id="likeCount${f.fid}">${f.flike}<!-- 카운트 ajax --></td>
                             <td class="reply-info">댓글</td>
-                            <td class="reply-count">2,300</td>
+                            <td class="reply-count"></td>
                         </tr>
                     </table>
                     <hr width="90%">

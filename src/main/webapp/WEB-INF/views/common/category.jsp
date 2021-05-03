@@ -190,7 +190,7 @@
 			location.href="${ contextPath }/artistfeed/artistFeedList?artNameEn=${artiName}"
 		} if( check == 2){
 			location.href="${ contextPath }/artistfeed/artistFeedList?artNameEn=${artiName}"
-		}
+		} 
     });
      </script>
      
