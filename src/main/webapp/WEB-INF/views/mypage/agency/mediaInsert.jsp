@@ -61,7 +61,7 @@
 	                <tr class="nanumsquare">
 	                	<td>썸네일&nbsp;&nbsp;</td>
 	                	<td>
-	                		<input class="sub-button" type="text" disabled="disabled">
+	                		<input id="thumbLabel" type="text" disabled="disabled">
 							<label class="upload-label nanumsqure" for="thumbnail">찾아보기</label>
 	                		<input id="thumbnail" type="file" class="file-input" name="picName">
 	                	</td>
@@ -69,7 +69,7 @@
 	                <tr class="nanumsquare">
 	                	<td>첨부영상&nbsp;&nbsp;</td>
 	                	<td>
-	                		<input class="sub-button" type="text" disabled="disabled">
+	                		<input id="videoLabel" type="text" disabled="disabled">
 							<label class="upload-label nanumsqure" for="video">찾아보기</label>
 	                		<input id="video" type="file" class="file-input" name="vidName">
 	                	</td>
@@ -77,8 +77,8 @@
 	                <tr class="nanumsquare">
 	                	<td>세부 설명&nbsp;&nbsp;</td>
 	                	<td>
-	                		<textarea name="mediaCtt" class="media-text" style="resize:none;"></textarea>
-                            <span class="count-num">/1000</span><span class="text-count count-num">0</span>
+	                		<textarea name="mediaCtt" class="media-text nanumsquare" style="resize:none;"></textarea>
+                            <span class="count-num count-right">/1000</span><span class="text-count count-num">0</span>
 	                	</td>
 	                </tr>
 	            </table>
@@ -114,6 +114,9 @@
  		} else if($("#insertMediaCategory").val() == $("input[name=addCate]").val()) {
  			alert("존재하는 카테고리입니다.");
  			return false;
+ 		} else if($("#insertMediaCategory").val() != "" && $("input[name=addCate]").val() != "") {
+ 			alert("카테고리를 하나만 입력해주세요.");
+ 			return false;
  		}
  		
  		if($("input[name=mediaTtl]").val() == "") {
@@ -136,6 +139,8 @@
  			alert("세부 설명을 입력해주세요.");
  			return false;
  		}
+ 		
+ 		alert("미디어가 정상적으로 등록되었습니다");
  	}
     </script>
 </body>

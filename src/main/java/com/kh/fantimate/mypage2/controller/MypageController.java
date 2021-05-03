@@ -739,8 +739,12 @@ public class MypageController {
 		// System.out.println(picName.getOriginalFilename());
 		// System.out.println(vidName.getOriginalFilename());
 		
+		System.out.println("official: " + o + "MediaCategory : " + mc);
+		System.out.println("addCate : " + addCate);
+		
 		// 카테고리 추가가 있을 경우
-		if(addCate != "") {
+		if(addCate != null && !addCate.equals("")) {
+			
 			// 카테고리 중복 등록을 막기 위해 확인
 			int cateCheck = 0;
 			List<MediaCategory> cate = mService.selectCategory(mc.getArtiNameEn());
@@ -756,6 +760,7 @@ public class MypageController {
 				// 카테고리 대문자로 변환
 				mc.setCateName(addCate.toUpperCase());
 				// 카테고리 등록
+				System.out.println("tngod");
 				int result1 = mService.insertMediaCategory(mc);
 				
 				if(result1 > 0) {
@@ -776,15 +781,20 @@ public class MypageController {
 		
 		// 카테고리 번호 연결
 		int cateCode = 0;
+		
 		List<MediaCategory> cate = mService.selectCategory(mc.getArtiNameEn());
 		
 		for(int i=0; i < cate.size(); i++) {
-			if(addCate.equals(cate.get(i).getCateName())) {
+			if(mc.getCateName().equals(cate.get(i).getCateName())) {
 				cateCode = cate.get(i).getCateCode();
+				o.setCateCode(cateCode);
+				
+				System.out.println("for문 catecode : " + cateCode);
 			}
 		}
 		
 		o.setCateCode(cateCode);
+		System.out.println("catecode : " + cateCode);
 		
 		int result2 = mService.insertOfficial(o);
 		
