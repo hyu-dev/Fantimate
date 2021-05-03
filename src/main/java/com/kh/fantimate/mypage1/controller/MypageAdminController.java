@@ -227,6 +227,7 @@ public class MypageAdminController {
 			// 유저정보 업데이트
 				
 			report.setReportDate(rptDate*24);
+			System.out.println("신고전 report : " + report);
 			int result1 = mService.updateUserReport(report);
 			
 				if(rptDate > 0 && result1 >0) {
@@ -235,7 +236,7 @@ public class MypageAdminController {
 			// 해당 게시글 비활성화 처리	
 //				rptTable
 				//RPT_FREPLY가 아니라면(status가 없음)
-				if(report.getIsReported() != "RPT_FREPLY") {
+				if(!report.getIsReported().equals("RPT_FREPLY")) {
 				int result = mService.updateTableStatus(report);
 				System.out.println("updateTableStatus 결과 : " + result);
 				}

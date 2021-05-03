@@ -1893,7 +1893,7 @@ UPDATE
             SET
     			BR_STATUS = 'N'
 	        </when>
-	        <when test="isReported == 'MESSAGE'">
+	        <when test="isReported == 'RPT_MESSAGE'">
 		        SELECT
 		                MESS_NO
 		              , MESS_STATUS
