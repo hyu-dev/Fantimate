@@ -138,7 +138,7 @@
                             <td>품절</td>
                             </c:otherwise>
                             </c:choose>
-                            <td><button type="button" class="store-link-Btn">이동하기</button></td>
+                            <td><button type="button" class="store-link-Btn" onclick="storeLink(${ s.store.pcode });">이동하기</button></td>
                         </tr>
                         </c:forEach>
                     </tbody>
@@ -154,6 +154,11 @@
     </section>
 	<!-- 본문 끝 -->
 	<script>
+	// 이동하기 버튼 클릭할 때
+	function storeLink(pcode) {
+		location.href = "${ contextPath }/store/detail?pcode=" + pcode;
+	}
+	
 	// 스토어 + 버튼 클릭할 때
 	$(".store-plus").click(function() {
 		var artiName = "${ artiName }";

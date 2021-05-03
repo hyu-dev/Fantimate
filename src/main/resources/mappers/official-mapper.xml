@@ -380,7 +380,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	     , MEDIA_CTT
 	     , MEDIA_DATE
 	     , MEDIA_COUNT
-         , CATE_NAME
+         , CATE_CODE
          , ARTI_NAME_EN
 	     , VID_SV_NAME
 		 , PIC_SV_NAME
@@ -504,6 +504,34 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
            A.CMT_STATUS = 'Y'
   ORDER BY
            CMT_DATE DESC
+	</select>
+	
+	<!-- 추천 영상 리스트 -->
+	<select id="selectRecommend" parameterType="hashMap" resultMap="mediaCollResultSet">
+	SELECT 
+           MEDIA_NUM
+	     , MEDIA_TTL
+	     , MEDIA_DATE
+         , ARTI_NAME_EN
+		 , PIC_SV_NAME
+	  FROM 
+	       MEDIA
+	  JOIN
+           M_CATEGORY USING(CATE_CODE)
+      JOIN
+	       MD_FILE USING(MEDIA_NUM)
+	 WHERE
+	 	   CATE_CODE = #{category}
+	   AND
+	   	   NOT MEDIA_NUM = ${mediaNum}
+	   AND
+           ARTI_NAME_EN = #{artiName}
+       AND
+       	   IS_PAY = 'N'
+       AND
+	       MEDIA_STATUS = 'Y'
+	   AND
+	       ATT_STATUS = 'Y'
 	</select>
 	
 	<!-- 새 댓글 입력 -->
@@ -725,4 +753,24 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	     , #{refId}
 	       )	
 	</insert>
+	
+	<!-- 좋아요 카운트 증가 -->
+	<update id="plusLikeCount" parameterType="hashMap">
+	UPDATE 
+		   MD_CMT
+	   SET
+	       LIKE_COUNT = LIKE_COUNT + 1
+     WHERE
+           CMT_NUM = #{rid}
+	</update>
+	
+	<!-- 좋아요 카운트 감소 -->
+	<update id="minusLikeCount" parameterType="hashMap">
+	UPDATE 
+		   MD_CMT
+	   SET
+	       LIKE_COUNT= LIKE_COUNT - 1
+     WHERE
+           CMT_NUM = #{rid}
+	</update>
 </mapper>

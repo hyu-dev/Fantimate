@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kh.fantimate.common.model.vo.BookMark;
+import com.kh.fantimate.common.model.vo.Like;
 import com.kh.fantimate.common.model.vo.Reply;
 import com.kh.fantimate.common.model.vo.ReplyCollection;
 import com.kh.fantimate.member.model.vo.Member;
@@ -104,6 +105,12 @@ public class OfficialDaoImpl implements OfficialDao{
 	public List<ReplyCollection> selectReplyList(Map<Object, Object> map) {
 		return sqlSession.selectList("officialMapper.selectReplyList", map);
 	}
+	
+	// 추천 영상 리스트
+	@Override
+	public List<MediaCollection> selectRecommend(Map<Object, Object> map2) {
+		return sqlSession.selectList("officialMapper.selectRecommend", map2);
+	}
 
 	// 새 댓글 입력
 	@Override
@@ -139,11 +146,23 @@ public class OfficialDaoImpl implements OfficialDao{
 	public int deleteBookmark(Map<Object, Object> map) {
 		return sqlSession.update("officialMapper.deleteBookmark", map);
 	}
+	
+	// 좋아요 카운트 증가
+	@Override
+	public void plusLikeCount(int rid) {
+		sqlSession.update("officialMapper.plusLikeCount", rid);
+	}
 
 	// 좋아요 +1
 	@Override
 	public int insertLike(Map<Object, Object> map) {
 		return sqlSession.update("officialMapper.insertLike", map);
+	}
+
+	// 좋아요 카운트 감소
+	@Override
+	public void minusLikeCount(int rid) {
+		sqlSession.update("officialMapper.minusLikeCount", rid);
 	}
 
 	// 좋아요 -1

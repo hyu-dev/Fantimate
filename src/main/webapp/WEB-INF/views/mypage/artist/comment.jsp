@@ -53,7 +53,7 @@
                                 </td>
                                 <td>
                                     <div>
-                                        <button class="comment-btn" type="button" onclick="deleteMyComment(this, ${ c.feedReply.rid })">삭제하기</button>
+                                        <button class="comment-btn" type="button" onclick="deleteMyComment(this, '${ c.feedReply.category }', ${ c.feedReply.rid })">삭제하기</button>
                                     </div>
                                 </td>
                             </tr>
@@ -78,13 +78,13 @@
 	
 	<script>
     // 댓글 삭제하기
-    function deleteMyComment(e, rid) {
+    function deleteMyComment(e, category, rid) {
     	if(confirm("댓글을 삭제하시겠습니까?")) {
     		$(e).parent().parent().parent(".comment-line").css("display", "none");
     		
     		$.ajax({
     			url : "${ contextPath }/mypage/deleteMyReply",
-    			data : { rid : rid },
+    			data : { rid : rid , category : category },
     			type : "post",
     			dataType : "json",
     			success : function() {
