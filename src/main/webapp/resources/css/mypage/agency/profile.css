@@ -51,6 +51,10 @@
     margin-left: 10px;
 }
 
+#artistBtn {
+	display: none;
+}
+
 .btn-group {
     border: none;
     width: 150px;
@@ -58,4 +62,5 @@
     background: #E5D2D2;
     font-size: 16px;
     margin-left: 40px;
+    cursor: pointer;
 }

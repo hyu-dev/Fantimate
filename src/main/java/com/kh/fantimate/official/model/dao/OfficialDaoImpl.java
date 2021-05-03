@@ -13,6 +13,7 @@ import com.kh.fantimate.common.model.vo.Friend;
 import com.kh.fantimate.common.model.vo.Like;
 import com.kh.fantimate.common.model.vo.Reply;
 import com.kh.fantimate.common.model.vo.ReplyCollection;
+import com.kh.fantimate.common.model.vo.Subscribe;
 import com.kh.fantimate.member.model.vo.Member;
 import com.kh.fantimate.official.model.vo.MediaCategory;
 import com.kh.fantimate.official.model.vo.MediaCollection;
@@ -190,6 +191,12 @@ public class OfficialDaoImpl implements OfficialDao{
 		return sqlSession.insert("officialMapper.insertUserReplyAlarm", map);
 	}
 
+	// 구독자 리스트 불러오기
+	@Override
+	public List<Subscribe> selectsblist(String artiName) {
+		return sqlSession.selectList("officialMapper.selectsblist", artiName);
+	}
+	
 	// 아티스트 댓글 알림 입력
 	@Override
 	public int insertArtistReplyAlarm(Map<Object, Object> map) {
@@ -225,4 +232,5 @@ public class OfficialDaoImpl implements OfficialDao{
 	public int deleteSchedule(Date scheDate) {
 		return sqlSession.delete("officialMapper.deleteSchedule", scheDate);
 	}
+
 }

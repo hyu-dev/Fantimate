@@ -38,6 +38,7 @@
                 <button id="profileBtn" type="button">수정하기</button>
             </div>
             <div class="profile-right">
+            	<button id="artistBtn" class="btn-group" type="button">아티스트 관리</button>
                 <button id="storeBtn" class="btn-group" type="button">스토어 관리</button>
                 <button id="officialBtn" class="btn-group" type="button">오피셜 관리</button>
             </div>

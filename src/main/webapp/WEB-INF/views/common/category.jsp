@@ -156,6 +156,8 @@
 		// 오피셜 페이지를 클릭 시
 	    $(".official-url").click(function() {
 	    	// 미디어 데이터가 존재하는지 확인
+	    	var artiNameEn = "${ artiName }";
+	    	
 	    	$.ajax({
 	    		url : "${ contextPath }/official/countMedia",
 	    		data : {},
@@ -167,7 +169,7 @@
 						console.log(data);
 					} else {
 						alert("미디어가 존재하지 않습니다.");
-						location.href = "${ contextPath }/official/schedule";
+						location.href = "${ contextPath }/fanfeed/fanFeedList?artNameEn=" + artiNameEn;
 					}
 				},
 				error : function(e) {
