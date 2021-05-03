@@ -11,7 +11,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="${ contextPath }/resources/css/common/font.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css">
-    <link rel="stylesheet" href="${ contextPath }/resources/css/feed/artistFeedList.css?asfsr">
+    <link rel="stylesheet" href="${ contextPath }/resources/css/feed/artistFeedList.css?asssr">
     <link rel="icon" type="image/png" sizes="16x16" href="${ contextPath }/resources/icon/faviconF.png">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 <title>Insert title here</title>
@@ -52,7 +52,7 @@
                 <button class="selectAll" name="artNameEn" onclick="feedAll('${ artiName }')" >모두보기</button>
             </div>
 
-            <div class="member-profileArea">
+            
                 <table class="profileTable">
                 
                     <tr>
@@ -70,7 +70,7 @@
                     
                 </table>
             </div>
-           </div>
+           
             
             
              <!-- 로그인 유저가 아티스트면서 들어간 피드가 자신의 피드일때 포스트 작성 보이게 하기 -->
@@ -90,17 +90,17 @@
                     <col width="15%"/>
                     <col width="15%"/>
                     <tr>
+                        <td>
                     <c:forEach var="ap" items="${ aplist }">
                      		<c:if test="${ ap.refuid eq f.writer }">
-                        <td>
                             <div class="profile-bubble">
                                 <p class="friend-application">친구 신청</p>
                                 <p class="send-message">쪽지 보내기</p>
                             </div>
                              <img class="profile-picture" src="${ contextPath }/resources/uploadFiles/${ ap.attSvName }" onclick="profilePage()">
-                        </td>
                         </c:if>
                         </c:forEach>
+                        </td>
                         <td> 
                         	 <c:forEach var="a" items="${ alist }">
                         	 <c:if test="${ f.writer eq a.artiId }">
@@ -123,6 +123,7 @@
                             <img class="board-more-icon" src="../resources/images/feed/board-more-icon.png">
                         </td>
                         </c:if>
+                        <td></td>
                          
                     </tr>
                 </table>
