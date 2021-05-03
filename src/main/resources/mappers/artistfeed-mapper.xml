@@ -257,7 +257,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	ORDER BY SUB_CODE
 	</select>
 	
-	<!-- 아티스트가 새 글 작성 시 구독자들에게 알람 (수정)-->
+	<!-- 아티스트가 새 글 작성 시 구독자들에게 알람 -->
 	<insert id="insertsubAlarm" parameterType="list">
 		INSERT
 		INTO ALARM

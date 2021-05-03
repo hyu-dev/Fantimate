@@ -216,14 +216,12 @@ public class ArtistFeedController {
 				System.out.println("아티스트사진이름4 : " + four.getOriginalFilename());
 				System.out.println("아티스트게시글사진 리스트 : " + attList);
 		
-				// 1. 게시글내용과 첨부사진이 둘다 등록되거나
-				// 2. 게시글은 없고 첨부사진만 등록되거나
-				// 3. 게시글은 있고 첨부사진은 없거나
+				
 				
 				
 			
 				
-				// 1. 알람 받을 구독자들 (먼저 해당 아티스트 구독한 유저 조회) 
+				//알람 받을 구독자들 (먼저 해당 아티스트 구독한 유저 조회) 
 				
 				List<Subscribe> sblist = aService.selectsblist(artiName);
 				System.out.println("구독자 리스트 : " + sblist);
