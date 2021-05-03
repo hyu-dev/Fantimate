@@ -39,14 +39,14 @@
     <form action="${ contextPath }/artistfeed/reportReply" method="post">
     <h4 class="first">사유 선택</h4>
     <span>
-        <input type="radio" class="rpt-reason" name="rptType" value="비속어 사용">비속어 사용
+        <input type="radio" class="rpt-reason" name="rptType" value="비속어 사용" required>비속어 사용
         <input type="radio" class="rpt-reason" name="rptType" value="스팸 및 광고성">스팸 및 광고성
         <input type="radio" class="rpt-reason" name="rptType" value="도배">도배
         <input type="radio" class="rpt-reason" name="rptType" value="기타">기타
     </span>
     <br>
     <h4 class="second">내용 입력</h4>
-    <textarea id="test" class="rpt-content" placeholder="구체적인 내용을 300자 이내로 적어주세요" name="rptReason"></textarea>
+    <textarea id="test" class="rpt-content" placeholder="구체적인 내용을 300자 이내로 적어주세요" name="rptReason" required></textarea>
     
     <input type="hidden" name="rptId" value="${ loginUser.id }">
     <input type="hidden" name="refId" value="${ param.rid }">
@@ -58,7 +58,7 @@
     <br><br>
     <div class="btnArea">
         <button type="submit" class="insert-report">신고하기</button>&nbsp;&nbsp;
-        <button class="cancel-report" onclick="">취소하기</button>
+        <button type="button" class="cancel-report" onclick="window.close()">취소하기</button>
     </div>
     </form>
     <!-- 글자 수 제한 -->

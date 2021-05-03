@@ -367,7 +367,7 @@
                      <input type="hidden" name="id" value="${ f.writer }">
                         <div class="replyArea">
                             <div class="insert-reply">
-                                <textarea class="nanumsquare" name="rcontent" style="resize: none;" rows="1" placeholder="댓글을 입력하세요..."></textarea>
+                                <textarea class="nanumsquare" name="rcontent" style="resize: none;" rows="1" placeholder="댓글을 입력하세요..." required></textarea>
                             </div>&nbsp;&nbsp;&nbsp;
                             <button type="submit" class="insert-replyBtn"><img id="addReply" src="../resources/icon/send.png" onclick="insertReply();"></button>
                             

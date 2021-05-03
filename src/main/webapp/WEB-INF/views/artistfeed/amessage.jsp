@@ -23,7 +23,7 @@
 			 <c:when test="${ msg eq 'success'}">
 			 	<script>
 				    alert("쪽지를 전송하였습니다.");
-					opener.location.href="${ contextPath }";
+					opener.location.href="${ contextPath }/fanfeed/fanFeedList?artNameEn=${artiName}";
 					window.close();
 			    </script>
 			 </c:when>
@@ -38,12 +38,12 @@
         </div>
         <!-- 제목 영역 -->
         <div>
-            <input type="text" class="titleArea" name="messTitle" placeholder="제목을 입력하세요">
+            <input type="text" class="titleArea" name="messTitle" placeholder="제목을 입력하세요" required>
         </div>
         <br>
         <!-- 내용 영역 -->
         <div>
-            <textarea class="contentArea" name="messContent" placeholder="내용을 입력하세요"></textarea>
+            <textarea class="contentArea" name="messContent" placeholder="내용을 입력하세요" required></textarea>
         </div>
         <br><br>
         <!-- 쪽지 보내는 사람 -->
@@ -52,7 +52,7 @@
         <!-- 버튼 영역 -->
         <div class="btnArea">
         <button type="submit" class="insert-message">보내기</button>&nbsp;&nbsp;
-        <button class="cancel-message">취소하기</button>
+        <button type="button" class="cancel-message" onclick="window.close()">취소하기</button>
         </div>
     </form>
 </body>
