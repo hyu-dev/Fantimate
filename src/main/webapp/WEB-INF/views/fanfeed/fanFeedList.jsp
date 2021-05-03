@@ -138,8 +138,9 @@ a { text-decoration:none }
                         </td>
                         </c:if>
                       
-                        
+                        <c:if test="${ loginUser.id ne f.writer }">
                         <td><img class="report-icon" src="../resources/images/feed/report-icon.png" id="siren" onclick="reportFeed(${f.fid});"></td>   
+                   		</c:if>
                     </tr>
                 </table>
                     <!-- 게시글 컨텐츠 영역 -->
