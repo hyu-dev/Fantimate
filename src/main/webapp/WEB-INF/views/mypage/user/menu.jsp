@@ -18,13 +18,13 @@
         <article id="mypageMenu">
             <h3 id="mypageMenuTop">MENU</h3>
             <div id="mypageMenuBtn">
-                <button type="button" class="mypage-menu-Btn" onclick="javascript:location.href='${contextPath}/mypage/user/feed'">My Feed</button>
+<%--                 <button type="button" class="mypage-menu-Btn" onclick="javascript:location.href='${contextPath}/mypage/user/feed'">My Feed</button> --%>
                 <button type="button" class="mypage-menu-Btn" onclick="javascript:location.href='${contextPath}/mypage/user/subscribes'">My Subscribes</button>
-                <button type="button" class="mypage-menu-Btn" onclick="javascript:location.href='${contextPath}/mypage/user/dibs'">My Dibs</button>
+<%--                 <button type="button" class="mypage-menu-Btn" onclick="javascript:location.href='${contextPath}/mypage/user/dibs'">My Dibs</button> --%>
                 <button type="button" class="mypage-menu-Btn" onclick="javascript:location.href='${contextPath}/mypage/user/friends'">My Friends</button>
                 <button type="button" class="mypage-menu-Btn" onclick="javascript:location.href='${contextPath}/mypage/user/comments'">My Comments</button>
-                <button type="button" class="mypage-menu-Btn" onclick="javascript:location.href='${contextPath}/mypage/user/bookmarks'">My Bookmarks</button>
-                <button type="button" class="mypage-menu-Btn" onclick="javascript:location.href='${contextPath}/mypage/user/fanStore'">My FanStore</button>
+<%--                 <button type="button" class="mypage-menu-Btn" onclick="javascript:location.href='${contextPath}/mypage/user/bookmarks'">My Bookmarks</button> --%>
+<%--                 <button type="button" class="mypage-menu-Btn" onclick="javascript:location.href='${contextPath}/mypage/user/fanStore'">My FanStore</button> --%>
                 <button type="button" class="mypage-menu-Btn" onclick="javascript:location.href='${contextPath}/mypage/user/payments'">PayMents</button>
             </div>
         </article>

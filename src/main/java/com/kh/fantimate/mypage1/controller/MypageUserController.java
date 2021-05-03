@@ -521,7 +521,7 @@ public class MypageUserController {
 				// 업데이트 성공시
 				if(result > 0) {
 					mv.addObject("message", "친구정보가 수정되었습니다.");
-					mv.setViewName("mypage/user/friends");
+					mv.setViewName("redirect:/mypage/user/friends");
 					
 				// 업데이트 실패시
 				}else {

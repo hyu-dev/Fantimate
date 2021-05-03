@@ -72,18 +72,18 @@
 <!-- 	메뉴 -->
 	<jsp:include page="menu.jsp"/>
 	</section>
-<script>
-    $(document).ready(function(){
-            console.log("메소드 동작");
+<!-- <script> -->
+//     $(document).ready(function(){
+//             console.log("메소드 동작");
             
-            $("#mypageMenuBtn").children().removeClass("mypage-btn-DN");
-            console.log("removeClass 동작");
+//             $("#mypageMenuBtn").children().removeClass("mypage-btn-DN");
+//             console.log("removeClass 동작");
             
-            $("#mypageMenuBtn").children().eq(6).addClass("mypage-btn-DN");
-            console.log("addClass 동작");
+//             $("#mypageMenuBtn").children().eq(6).addClass("mypage-btn-DN");
+//             console.log("addClass 동작");
             
-    });
+//     });
 
-</script>	
+<!-- </script>	 -->
 </body>
 </html>

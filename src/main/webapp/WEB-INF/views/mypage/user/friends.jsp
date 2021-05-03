@@ -56,10 +56,7 @@
 					
                 	<c:forEach var="f" items="${ list }">
                 		<div class="mypage-content-friends">
-<%--f.attachment.attMain => 친구아이디 --%>
-<%-- 	                        <img src="${ contextPath }/resources/images/mypage/user/profile/${ f.attachment.attMain }/${ f.attachment.attSvName }"> --%>
 	                        <img src="${ contextPath }/resources/uploadFiles/${ f.attachment.attSvName }">
-<%--                 			<img src="${  }"> --%>
                 			<h3>${ f.attachment.attMain }</h3>
                 			<button type="button" onclick="deleteFriend('${f.attachment.attMain}');">친구삭제</button>
                 		</div>
@@ -113,15 +110,15 @@
 	</section>
 <script>
 	// 
-    $(document).ready(function(){
-            console.log("메소드 동작");
+//     $(document).ready(function(){
+//             console.log("메소드 동작");
             
-            $("#mypageMenuBtn").children().removeClass("mypage-btn-DN");
-            console.log("removeClass 동작");
+//             $("#mypageMenuBtn").children().removeClass("mypage-btn-DN");
+//             console.log("removeClass 동작");
             
-            $("#mypageMenuBtn").children().eq(3).addClass("mypage-btn-DN");
-            console.log("addClass 동작");
-    });
+//             $("#mypageMenuBtn").children().eq(3).addClass("mypage-btn-DN");
+//             console.log("addClass 동작");
+//     });
     
     // Alert
     $(function(){

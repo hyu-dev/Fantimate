@@ -189,16 +189,16 @@
 	<jsp:include page="menu.jsp"/>
 	</section>
 <script>
-$(document).ready(function(){
-    console.log("메소드 동작");
+// $(document).ready(function(){
+//     console.log("메소드 동작");
     
-    $("#mypageMenuBtn").children().removeClass("mypage-btn-DN");
-    console.log("removeClass 동작");
+//     $("#mypageMenuBtn").children().removeClass("mypage-btn-DN");
+//     console.log("removeClass 동작");
     
-    $("#mypageMenuBtn").children().eq(7).addClass("mypage-btn-DN");
-    console.log("addClass 동작");
+//     $("#mypageMenuBtn").children().eq(7).addClass("mypage-btn-DN");
+//     console.log("addClass 동작");
     
-});
+// });
 
 $(document).ready
 // 구매확정 (store)
@@ -236,25 +236,6 @@ function confirmSStatus(Cartcode,isBought){
 function confirmMStatus(Cartcode,isBought){
 	// bcode받아서 해당 글 업데이트  
 	// 단, 결제완료(1)인 상태와 환불진행중인 경우에만 가능
-// 	if(payStatus == 1){
-// 		if(confirm("구매확정을 하시겠습니까?")){
-// 			console.log("구매확정 " + Cartcode);
-			
-// 			location.href='${contextPath}/mypage/user/payments/update?Cartcode=' + 'M-' + Cartcode + '&isBought=C';
-// 			console.log("구매확정 완료")
-// 			// 확정으로 업데이트 하기
-			
-// 			alert("구매가 확정되었습니다.");
-// 		}else{
-// 			console.log("구매확정 취소");
-// 			alert("구매확정이 취소되었습니다.");
-// 		}
-		
-// 	}else if(payStatus == 2){
-// 		alert("이미 구매확정된 상품입니다.")
-// 	}else {
-// 		alert("구매확정이 불가능한 상품입니다.");
-// 	}
 	if(isBought == 'Y'){
 		if(confirm("구매확정을 하시겠습니까?")){
 			console.log("구매확정 " + Cartcode);

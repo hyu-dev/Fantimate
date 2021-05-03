@@ -36,7 +36,7 @@
                         <a href="#">
                             <div id="mypageUserCommentsLeft">
                                 <img src="${ contextPath }/resources/images/mypage/user/subscribes/henry.png">
-                                <span>▶ Henry</span>
+                                <span>▶ AKMYU</span>
                                 <span>Feed</span>
                                 <span>2021.03.13</span>
                                 <span>김밥 좋아하시면 이번에 밥차로 김밥차를 보내드리고 싶어요
@@ -60,11 +60,10 @@
                                 <span>▶ IU</span>
                                 <span>Feed</span>
                                 <span>2021.03.13</span>
-                                <span>김밥 좋아하시면 이번에 밥차로 김밥차를 보내드리고 싶어요
-                                    연락처를 알려주실 수 있나요?김밥 좋아하시면 이번에 밥차로 김밥차를 보내드리고 싶어요
-                                    연락처를 알려주실 수 있나요?김밥 좋아하시면 이번에 밥차로 김밥차를 보내드리고 싶어요
-                                    연락처를 알려주실 수 있나요?김밥 좋아하시면 이번에 밥차로 김밥차를 보내드리고 싶어요
-                                    연락처를 알려주실 수 있나요?</span>
+                                <span>아이유님 안녕하세요 저는 김밥을 좋아하는 김밥왕입
+                                    니다. 다름이아니라 김밥을 좋아하신다면 김밥차를 촬영장으로 보내드리고 싶어서그런데
+                                    연락처를 알려주실 수 있나요? 김밥이 싫다면 커피차를 보내드릴 수 도 있습니다.
+                                    </span>
                             </div>
                         </a>
                         <div id="mypageUserCommentsRight">
@@ -80,18 +79,18 @@
 <!-- 	메뉴 -->
 	<jsp:include page="menu.jsp"/>
 	</section>
-<script>
-    $(document).ready(function(){
-            console.log("메소드 동작");
+<!-- <script> -->
+//     $(document).ready(function(){
+//             console.log("메소드 동작");
             
-            $("#mypageMenuBtn").children().removeClass("mypage-btn-DN");
-            console.log("removeClass 동작");
+//             $("#mypageMenuBtn").children().removeClass("mypage-btn-DN");
+//             console.log("removeClass 동작");
             
-            $("#mypageMenuBtn").children().eq(4).addClass("mypage-btn-DN");
-            console.log("addClass 동작");
+//             $("#mypageMenuBtn").children().eq(4).addClass("mypage-btn-DN");
+//             console.log("addClass 동작");
             
-    });
+//     });
 
-</script>	
+<!-- </script>	 -->
 </body>
 </html>
