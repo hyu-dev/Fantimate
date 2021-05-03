@@ -466,7 +466,7 @@ a { text-decoration:none }
 
 
          <!-- 오른쪽 영역 -->
-         <aside class="main-contents-right">
+         <!-- <aside class="main-contents-right">
             <div class="toggle-area">
                 <div class="toggle-switch" tabindex="0">
                     <input type="checkbox" name="my_checkbox" value="yes" id="checkbox-id" />
@@ -480,7 +480,7 @@ a { text-decoration:none }
                     </label>
                   </div>
             </div>
-         </aside>
+         </aside> -->
     </section>
     
      <!-- 포스트 작성 첨부파일 아이콘 클릭 시 이벤트 -->
