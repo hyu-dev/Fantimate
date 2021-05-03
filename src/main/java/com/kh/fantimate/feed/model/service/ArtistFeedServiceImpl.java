@@ -37,6 +37,7 @@ public class ArtistFeedServiceImpl implements ArtistFeedService {
 		if(attList.size() > 0) {
 			result = aDao.insertFeedAtt(attList);
 		}
+		result = aDao.insertsubAlarm(sblist);
 		 
   return result;
 	}

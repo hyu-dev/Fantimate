@@ -130,8 +130,8 @@ a { text-decoration:none }
                         <td>
                         	
                             <div class="board-menu">
-                                <p onclick="showUpdateFeed(${f.fid},${pt.refId});">수정하기</p>
-                                
+                                <p onclick="">수정하기</p>
+           
                                 <p onclick="deleteFeed(${f.fid});">삭제하기</p>
                             </div>
                             <img class="board-more-icon" src="../resources/images/feed/board-more-icon.png">
@@ -228,8 +228,9 @@ a { text-decoration:none }
                          
                            
                             <td id="likeCount${f.fid}">${f.flike}<!-- 카운트 ajax --></td>
+                            
                             <td class="reply-info">댓글</td>
-                            <td class="reply-count">2,300</td>
+                            <td class="reply-count"></td>
                         </tr>
                     </table>
                     <hr width="90%">
@@ -392,7 +393,7 @@ a { text-decoration:none }
 							<c:forEach var="art" items="${ artist }">
 							<c:if test="${r.writer eq art.artiId }">
 							<div id="ex1" class="modal" style="width:500px; height:300px;">
-								 <h3>아티스트 프로필</h3>
+								 <h3>프로필</h3>
 							  <hr width="95%">
 							  <br><br>
 							 <table 
@@ -402,7 +403,7 @@ a { text-decoration:none }
 							      <c:if test="${r.writer eq ap.refuid }">
 							      <td rowspan="3" colspan="2" width="150px">
 							      <img class="profile-picture" src="${ contextPath }/resources/uploadFiles/${ ap.attSvName }" 
-							       style="border-radius:0; width:150px; height:80px" >    
+							       style="border-radius:0; width:120px; height:80px" >    
    	      						  </td>
 							      </c:if>
 							      </c:forEach>
