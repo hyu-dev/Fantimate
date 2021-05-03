@@ -14,7 +14,42 @@
     <link rel="stylesheet" href="${ contextPath }/resources/css/feed/artistFeedList.css?asssr">
     <link rel="icon" type="image/png" sizes="16x16" href="${ contextPath }/resources/icon/faviconF.png">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <!-- 모달  -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
 <title>Insert title here</title>
+<style>
+/* 모달 */
+a { text-decoration:none }
+
+#ex2 {
+    display: none;
+    vertical-align: middle;
+    position: relative;
+    z-index: 2;
+    max-width: 1000px;
+    box-sizing: border-box;
+    width: 100%;
+    background: #2c2828;
+    padding: 15px 30px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    -o-border-radius: 8px;
+    -ms-border-radius: 8px;
+    border-radius: 8px;
+    -webkit-box-shadow: 0 0 10px #000;
+    -moz-box-shadow: 0 0 10px #000;
+    -o-box-shadow: 0 0 10px #000;
+    -ms-box-shadow: 0 0 10px #000;
+    box-shadow: 0 0 10px #000;
+    text-align: left;
+    max-height: 510px;
+    height: 100%;
+} 
+
+
+</style>
 </head>
 <body>
 <c:if test="${ !empty msg }">
@@ -275,10 +310,10 @@
                                <c:forEach var="ap" items="${ aplist }">
                      	 		<c:if test="${ ap.refuid eq r.writer }">
                             <td>
-                            <c:if test="${ loginUser.id ne r.writer }">
+                            <c:if test="${ loginUser.id ne r.writer || loginUser.classifyMem == 2 }">
                                 <div class="profile-bubble">
-                                    <p onclick="">프로필 보기</p>
-                                    
+                                    <!-- <p onclick="">프로필 보기</p> -->
+                                    <p><a href="#ex1" rel="modal:open" style="color:#5C5F78">프로필 보기</a></p>
                                 </div>
                             </c:if>
                              
@@ -352,6 +387,49 @@
                                 	    	<span id="likeRCount${r.rid}"> ${ r.likeCount } </span>
                                     		<span class="comment-date"><fmt:formatDate value="${ r.rcreate }" pattern="yyyy.MM.dd HH:mm"/></span>
                                 </div>
+                               
+                                 <!-- 프로필 모달************************ -->
+							
+							<c:forEach var="a" items="${ alist }">
+							<c:if test="${r.writer eq a.artiId }">
+							<div id="ex1" class="modal" style="width:500px; height:300px;">
+								 <h3>프로필</h3>
+							  <hr width="95%">
+							  <br><br>
+							 <table 
+ 							style="border-right:none; border-left:none; border-top:none; border-bottom:none;">
+							  <tr>
+							  	  <c:forEach var="ap" items="${ aplist }">
+							      <c:if test="${r.writer eq ap.refuid }">
+							      <td rowspan="3" colspan="2" width="150px">
+							      <img class="profile-picture" src="${ contextPath }/resources/uploadFiles/${ ap.attSvName }" 
+							       style="border-radius:0; width:120px; height:80px" >    
+   	      						  </td>
+							      </c:if>
+							      </c:forEach>
+							      <td colspan="2" width="100px">이름</td>
+							      <td colspan="3">${ a.artiName }</td>
+							      
+							  </tr>
+							  <tr>
+							      <td colspan="2">SNS주소</td>
+							      <td><a href="${a.artiFacebook}" target='_blank'><img src="../resources/images/mypage/artist/facebook.png" style="width:50px; height:32px"></a></td>
+							      
+							      <td><a href="${a.artiInsta}" target='_blank'><img src="../resources/images/mypage/artist/인스타그램.png" style="width:50px; height:32px"></a></td>
+							      <td><a href="${a.artiTwitter}" target='_blank'><img src="../resources/images/mypage/artist/twitter.png" style="width:50px; height:32px"></a></td>
+							  </tr>
+							  <tr>
+							      <td colspan="2">상태 메세지</td>
+							      <td colspan="3" width="">${ a.artiDailymsg }</td>
+							  </tr>
+							 </table>
+							 
+								<a href="#" rel="modal:close" style="color:black"></a>
+							</div>
+							</c:if>
+							</c:forEach>	
+  
+                    <!-- 프로필 모달끝 -->       
                                
                        
                  	</c:if>

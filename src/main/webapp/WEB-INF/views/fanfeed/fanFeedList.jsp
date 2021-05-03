@@ -309,7 +309,7 @@ a { text-decoration:none }
                                <c:forEach var="ap" items="${ aplist }">
                      	 		<c:if test="${ ap.refuid eq r.writer }">
                             <td>
-                            <c:if test="${ loginUser.id ne r.writer }">
+                            <c:if test="${ loginUser.id ne r.writer || loginUser.classifyMem == 2 }">
                                 <div class="profile-bubble">
                                     <!-- <p onclick="">프로필 보기</p> -->
                                     
