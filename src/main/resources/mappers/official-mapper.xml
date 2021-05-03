@@ -137,7 +137,6 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		<collection property="artiAttach" resultMap="artiAttachResultSet"/>
 		<collection property="userAttach" resultMap="userAttachResultSet"/>
 		<collection property="mediaLike" resultMap="mediaLikeResultSet"/>
-		<collection property="friend" resultMap="friendResultSet"/>
 	</resultMap>
 
 	<!-- 미디어 개수 조회하기 -->
@@ -469,9 +468,6 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
          , D.UP_SV_NAME
          , E.ATT_SV_NAME
          , IS_LIKED
-         , U_ID_SEND
-         , U_ID_RECEIVE
-         , FR_STATUS
 	  FROM
 	       MD_CMT A
  LEFT JOIN
@@ -484,15 +480,13 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
            ART_PIC E ON(A.ID = E.ARTI_ID)
  LEFT JOIN
            MD_CMT_LIKE F ON(A.CMT_NUM = F.CMT_NUM)
- LEFT JOIN
-           FRIEND G ON(A.ID = G.U_ID_SEND OR A.ID = U_ID_RECEIVE)
 	 WHERE
-	       MEDIA_NUM = #{mediaNum}
+	       MEDIA_NUM = 35
 	   AND
           (
-           B.ARTI_NAME_EN = #{artiName}
+           B.ARTI_NAME_EN = 'DAVICHI'
         OR
-           C.ARTI_NAME_EN = #{artiName}
+           C.ARTI_NAME_EN = 'DAVICHI'
           )
        AND
           (
@@ -532,6 +526,18 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	       MEDIA_STATUS = 'Y'
 	   AND
 	       ATT_STATUS = 'Y'
+	</select>
+	
+	<!-- 친구 신청 호출 -->
+	<select id="selectFriend" parameterType="hashMap" resultType="string">
+    SELECT 
+	       U_NICKNAME
+	  FROM 
+	       ATT_SUBSCRIBE
+	 WHERE
+	       ARTI_NAME_EN = #{artiName}
+	   AND
+	       U_ID = #{id}
 	</select>
 	
 	<!-- 새 댓글 입력 -->

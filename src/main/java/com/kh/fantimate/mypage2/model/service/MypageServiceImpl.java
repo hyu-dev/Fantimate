@@ -297,4 +297,10 @@ public class MypageServiceImpl implements MypageService{
 		return mDao.selectCategory(artiName);
 	}
 
+	// 미디어 삭제
+	@Override
+	public int deleteMediaItem(String mediaTtl) {
+		return mDao.deleteMediaItem(mediaTtl);
+	}
+
 }

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kh.fantimate.common.model.vo.BookMark;
+import com.kh.fantimate.common.model.vo.Friend;
 import com.kh.fantimate.common.model.vo.Like;
 import com.kh.fantimate.common.model.vo.Reply;
 import com.kh.fantimate.common.model.vo.ReplyCollection;
@@ -110,6 +111,12 @@ public class OfficialDaoImpl implements OfficialDao{
 	@Override
 	public List<MediaCollection> selectRecommend(Map<Object, Object> map2) {
 		return sqlSession.selectList("officialMapper.selectRecommend", map2);
+	}
+	
+	// 친구 신청 호출
+	@Override
+	public List<Friend> selectFriend(String id) {
+		return sqlSession.selectList("officialMapper.selectFriend", id);
 	}
 
 	// 새 댓글 입력

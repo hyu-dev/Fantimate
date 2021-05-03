@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.kh.fantimate.common.model.vo.BookMark;
+import com.kh.fantimate.common.model.vo.Friend;
 import com.kh.fantimate.common.model.vo.Like;
 import com.kh.fantimate.common.model.vo.Reply;
 import com.kh.fantimate.common.model.vo.ReplyCollection;
@@ -61,6 +62,9 @@ public interface OfficialService {
 	// 추천 영상 리스트
 	public List<MediaCollection> selectRecommend(Map<Object, Object> map2);
 	
+	// 친구 신청 호출
+	public List<Friend> selectFriend(String id);
+	
 	// 새 댓글 입력
 	public int insertReply(Reply r);
 	
@@ -108,6 +112,4 @@ public interface OfficialService {
 	
 	// 스케줄 삭제
 	public int deleteSchedule(Date scheDate);
-
-	
 }

@@ -165,4 +165,7 @@ public interface MypageDao {
 
 	// 미디어 파일 등록
 	int insertMediaFile(MediaFile att);
+
+	// 미디어 삭제
+	int deleteMediaItem(String mediaTtl);
 }

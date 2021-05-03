@@ -318,4 +318,10 @@ public class MypageDaoImpl implements MypageDao{
 		return sqlSession.insert("mypage2Mapper.insertMediaFile", att);
 	}
 
+	// 미디어 삭제
+	@Override
+	public int deleteMediaItem(String mediaTtl) {
+		return sqlSession.update("mypage2Mapper.deleteMediaItem", mediaTtl);
+	}
+
 }
