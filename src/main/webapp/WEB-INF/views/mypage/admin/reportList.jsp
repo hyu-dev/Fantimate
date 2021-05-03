@@ -86,7 +86,7 @@
                 		 	<c:set var="date" value="<%= new Date() %>"/>
                 			<td><fmt:formatDate type="date" value="${ r.report.rptDate }"/></td>	<!-- 3 -->
                 			<td>${ r.report.rptId }</td>		<!-- 4 --><!-- 여기선 3임 display:none때매  -->
-                			<td>${ r.messSendId }</td>
+                			<td>${ r.messRecId }</td>
                 			<td>${ r.messTitle }</td>
                				<td>${ r.report.rptType }</td>				<!-- 7 -->
 <!-- 수정하기 -->               				

@@ -1893,6 +1893,17 @@ UPDATE
             SET
     			BR_STATUS = 'N'
 	        </when>
+	        <when test="isReported == 'MESSAGE'">
+		        SELECT
+		                MESS_NO
+		              , MESS_STATUS
+		        FROM
+		            	MESSAGE
+		        WHERE 	MESS_NO = ${refId}
+		        )
+            SET
+    			MESS_STATUS = 'N'
+	        </when>
         </choose>
 </update>
 </mapper>
