@@ -220,7 +220,6 @@ ul li.top3-info{
 }
 
 ul.rest-info-section{
-    display: flex;
     flex-wrap: wrap;
 }
 ul li.rest-info{
