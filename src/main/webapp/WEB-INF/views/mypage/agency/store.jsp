@@ -225,6 +225,8 @@
     				td2.append(btn);
     				
     				tr.append(td2);
+    				
+    				alert("스토어가 정상적으로 삭제되었습니다.");
     			} 
     		});
     	} else {

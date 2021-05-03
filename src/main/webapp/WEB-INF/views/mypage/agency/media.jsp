@@ -144,59 +144,16 @@
 	// 미디어 삭제 팝업 확인 버튼 클릭할 때
 	$("#mediaDeleteBtn").click(function() {
 		var mediaTtl = $("#mediaCategory").val();
-		var artiName = "${ artiName }";
 		
-		if(artiName != "") {
-			$.ajax({
-    			url : "${ contextPath }/mypage/deleteMediaItem",
-    			data : { mediaTtl : mediaTtl, artiName : artiName },
-    			type : "post",
-    			dataType : "json",
-    			success : function(data) {
-    				console.log(data);	// 상품 리스트 새로 받아오기
-    				console.log(data[i]);
-    				
-    				storeList = $(".store-list tbody");			
-    				storeList.html("");
-    				colgroup = $("<colgroup>");
-    				col1 = $("<col width='7%'/>");
-    				col2 = $("<col width='10%'/>");
-    				col3 = $("<col width='63%'/>");
-    				col4 = $("<col width='10%'/>");
-    				col5 = $("<col width='10%'/>");
-    				
-    				colgroup.append(col1);
-    				colgroup.append(col2);
-    				colgroup.append(col3);
-    				colgroup.append(col4);
-    				colgroup.append(col5);
-    				
-    				storeList.append(colgroup);
-
-    				for(var i in data.length-1){
-    					var tr = $("<tr>");
-    					
-    					for(var i in 5) {
-    						var td = $("<td>").text(data[i]);
-    						
-    						tr.append(td);
-    					}
-    					
-    					var td = $("<td>").text(data[i]);
-    					
-    					tr.append(td);
-    				}
-
-    				var td2 = $("<td>");
-    				var btn = $("<button type='button' class='store-link-Btn'>");
-    				td2.append(btn);
-    				
-    				tr.append(td2);
-    			} 
-    		});
-    	} else {
-    		alert("미디어명을 선택해주세요");
-    	}
+		$.ajax({
+			url : "${ contextPath }/mypage/deleteMediaItem",
+			data : { mediaTtl : mediaTtl },
+			type : "post",
+			dataType : "json",
+			success : function(data) {
+				alert(data.msg);
+			} 
+		});
 	});
 	
 	var mediaName = [];

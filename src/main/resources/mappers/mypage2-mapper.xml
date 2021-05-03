@@ -1187,4 +1187,14 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
         , #{picSvName}
           )	
 	</insert>
+	
+	<!-- 미디어 삭제하기 -->
+	<update id="deleteMediaItem" parameterType="string">
+	UPDATE
+	       MEDIA
+	   SET
+	       MEDIA_STATUS = 'N'
+	 WHERE
+	 	   MEDIA_TTL = #{mediaTtl}
+	</update>
 </mapper>

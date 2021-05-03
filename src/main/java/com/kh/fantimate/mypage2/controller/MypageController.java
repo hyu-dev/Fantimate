@@ -880,4 +880,30 @@ public class MypageController {
 		
 		return renameFileName;
 	}
+	
+	// 미디어 삭제하기
+	@PostMapping(value="/deleteMediaItem", produces="application/json; charset=utf-8")
+	public @ResponseBody Map<String, String> deleteMediaItem(String mediaTtl, HttpServletRequest request) {
+		
+		// 미디어 삭제하기
+		int result = mService.deleteMediaItem(mediaTtl);
+		boolean flag = true;
+		
+		if(result > 0) {
+			System.out.println("미디어 삭제 성공");
+		} else {
+			System.out.println("미디어 삭제 실패");
+			flag = false;
+		}
+
+		String msg = "";
+		if(flag) 
+			msg = "미디어가 정상적으로 삭제되었습니다."; 
+		else 
+			msg = "미디어 삭제에 실패하였습니다";
+		
+		Map<String, String> map2 = new HashMap<>();
+		map2.put("msg", msg);
+		return map2;
+	}
 }

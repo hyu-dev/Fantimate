@@ -771,7 +771,6 @@ a { text-decoration:none }
 	 	});
      	
 	 	// 신고하기의 신고하기버튼 클릭시
-	 	/*
 	 	$("#reportBtn").click(function() {
 	 		var rptType = $(".radio-area:checked").val()
 	 		var rptReason = $(".report-write").val()
@@ -803,7 +802,7 @@ a { text-decoration:none }
 				}
 			});
 	 		
-	 	});*/
+	 	});
         
         // 클릭한 프로필 풍선을 제외한 나머지 프로필 닫기
         /*

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.fantimate.common.model.vo.BookMark;
+import com.kh.fantimate.common.model.vo.Friend;
 import com.kh.fantimate.common.model.vo.Like;
 import com.kh.fantimate.common.model.vo.Reply;
 import com.kh.fantimate.common.model.vo.ReplyCollection;
@@ -104,6 +105,12 @@ public class OfficialServiceImpl implements OfficialService{
 	@Override
 	public List<ReplyCollection> selectReplyList(Map<Object, Object> map) {
 		return oDao.selectReplyList(map);
+	}
+	
+	// 친구 신청 호출
+	@Override
+	public List<Friend> selectFriend(String id) {
+		return oDao.selectFriend(id);
 	}
 	
 	// 추천 영상 리스트
@@ -210,5 +217,4 @@ public class OfficialServiceImpl implements OfficialService{
 	public int deleteSchedule(Date scheDate) {
 		return oDao.deleteSchedule(scheDate);
 	}
-
 }

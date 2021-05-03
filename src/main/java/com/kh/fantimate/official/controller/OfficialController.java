@@ -23,6 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
 import com.kh.fantimate.common.model.vo.BookMark;
+import com.kh.fantimate.common.model.vo.Friend;
 import com.kh.fantimate.common.model.vo.Like;
 import com.kh.fantimate.common.model.vo.Reply;
 import com.kh.fantimate.common.model.vo.ReplyCollection;
@@ -233,6 +234,8 @@ public class OfficialController {
 			int rcount = oService.countReply(mediaNum);
 			// 댓글 리스트 호출
 			List<ReplyCollection> comment = oService.selectReplyList(map);
+			// 친구 신청 호출
+			List<Friend> friend = oService.selectFriend(loginUser.getId());
 			
 			// System.out.println("댓글 리스트 : " + comment);
 			// System.out.println("댓글 개수 : " + rcount);
@@ -244,6 +247,7 @@ public class OfficialController {
 				System.out.println("조회수 추가 실패");
 			}
 			
+			mv.addObject("friend", friend);
 			mv.addObject("comment", comment);
 			mv.addObject("rcount", rcount);
  		} 
