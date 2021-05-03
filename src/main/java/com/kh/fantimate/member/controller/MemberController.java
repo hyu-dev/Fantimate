@@ -225,14 +225,17 @@ public class MemberController {
 	@GetMapping("/sub")
 	public String sub(HttpSession session, SubscribeArtist sb) {
 		
+		
 		SubscribeArtist s = new SubscribeArtist();
 		Member loginUser = (Member)session.getAttribute("loginUser");
 		String user = loginUser.getId();
 		
-		// 회원의 구독 정보 (세션에 담기) --> 널 && 유저 1일 경우 슬라이드 안 보이게 
-		List<SubscribeArtist> subArtist = (ArrayList<SubscribeArtist>)mService.selectSubA(loginUser.getId());
-		System.out.println("회원 구독 정보오오:" + subArtist);
-		session.setAttribute("subArtist", subArtist);
+		if(loginUser != null) {
+			// 회원의 구독 정보 (세션에 담기) --> 널 && 유저 1일 경우 슬라이드 안 보이게 
+			List<SubscribeArtist> subArtist = (ArrayList<SubscribeArtist>)mService.selectSubA(loginUser.getId());
+			System.out.println("회원 구독 정보오오:" + subArtist);
+			session.setAttribute("subArtist", subArtist);
+		}
 		
 		return "common/main"; 
 		
