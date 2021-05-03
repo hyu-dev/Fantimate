@@ -24,25 +24,10 @@
         </div>
         <div class="category">
         	
-            <a href="${ contextPath }/fanfeed/fanFeedList?artNameEn=${artiName}">FAN</a> 
-             <%-- <a onclick="checkMembership('${loginUser.id}');">ARTIST</a> --%>
+            <a href="${ contextPath }/fanfeed/fanFeedList?artNameEn=${artiName}">FAN</a>  
+            <a class="membership" style="cursor:pointer;">ARTIST</a> 
              
-             <%-- <a href="${ contextPath }/artistfeed/artistFeedList?artNameEn=${artiName}">ARTIST</a> --%>
              
-              <c:if test="${ loginUser.classifyMem == 2 }">   
-            <a href="${ contextPath }/artistfeed/artistFeedList?artNameEn=${artiName}">ARTIST</a>
-             </c:if>
-             <c:choose>
-             <c:when test="${ loginUser.classifyMem == 1  && Membership eq 'Y'}">
-            
-           
-             <a href="${ contextPath }/artistfeed/artistFeedList?artNameEn=${artiName}">ARTIST</a>
-             </c:when>
-             <c:otherwise>
-             <a href="${ contextPath }/pay/plan">ARTIST</a>
-             
-             </c:otherwise>
-             </c:choose> 
               
             <a class="official-url" href="${ contextPath }/official/media/main">OFFICIAL</a>
             <a href="${ contextPath }/store/storeList">STORE</a>
@@ -192,34 +177,24 @@
 		});
      </script>
      
-     <!-- 아티스트 피드 이동 시 멤버십 판별 -->
-     <!--  <script>
-     // 아티스트 피드 클릭 시 멤버십 여부 판별 -> N = "멤버십 회원만 가능한 서비스입니다.멤버십 가입을 하시려면 확인을 눌러주세요" -> 확인 ->pay/plan
-     //																					   -> 취소 -> fanfeedList
-     //							 -> Y = href="${ contextPath }/artistfeed/artistFeedList?artNameEn=${artiName}"
-     function checkMembership(){
-    	var id="${loginUser.id}";
-    	var check="${loginUser.classifyMem}";
-    	var ms = "${Membership}";
-    	var artNameEn = "${artiName}";
-    	
-    	if( check == 1 && ms == 'N'  ) {
-    		if(confirm("멤버십 회원만 이용 가능한 서비스입니다. 가입하시겠습니까?") == true){
-    			location.href='${contextPath}/pay/plan';
-    		} 
-    			/* location.href='${contextPath}/artistfeed/artistFeedList?artNameEn=' + artNameEn;		
-    			 */
-    		
-    	}
-    	
-    		/* else {
-    			location.href='${contextPath}/artistfeed/artistFeedList?artNameEn='${artiName};
-    		} */
-    	
-    		
-    	
-     }
-     </script>  -->
+     <script>
+    $(".membership").click(function(){
+    var check = "${loginUser.classifyMem}";
+    var ms = "${Membership}";
+    if( check == 1 && ms == 'N'  ) {
+		if(confirm("멤버십 회원만 이용 가능한 서비스입니다. 가입하시겠습니까?")){
+			location.href='${contextPath}/pay/plan';
+		} 
+			
+		} if( check == 1 && ms == 'Y'){
+			location.href="${ contextPath }/artistfeed/artistFeedList?artNameEn=${artiName}"
+		} if( check == 2){
+			location.href="${ contextPath }/artistfeed/artistFeedList?artNameEn=${artiName}"
+		}
+    });
+     </script>
+     
+     
      
    
      

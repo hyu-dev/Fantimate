@@ -144,7 +144,7 @@ a { text-decoration:none }
                 </table>
                     <!-- 게시글 컨텐츠 영역 -->
      
-      				  <p><a href="#ex2" rel="modal:open">상세보기</a></p>
+      				  <!-- <p><a href="#ex2" rel="modal:open">상세보기</a></p> -->
                     <div class="contentArea">
                         <!-- 텍스트 영역 -->
                         <div>
