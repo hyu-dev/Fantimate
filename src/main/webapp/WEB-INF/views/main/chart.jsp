@@ -93,14 +93,21 @@
 					for(var i in data){
 						
 						j++;
-						
+						/* 
 						var length = 20; // 표시할 글자수 기준
              			if (data[i].of.mediaTtl.length > length) {
              				data[i].of.mediaTtl = data[i].of.mediaTtl.substr(0, length-2) + '...';
-             			}
+             			} */
 						
 						
 						if(i < 3){
+							
+
+							var length = 20; // 표시할 글자수 기준
+	             			if (data[i].of.mediaTtl.length > length) {
+	             				data[i].of.mediaTtl = data[i].of.mediaTtl.substr(0, length-2) + '...';
+	             			}
+							
 							var li = $("<li class='top3-info'>");
 	     					var video1 = $("<video src='${ contextPath }/resources/uploadFiles/"+ data[i].mf.vidSvName+"' controls='controls' poster='${ contextPath }/resources/uploadFiles/"+ data[i].mf.picSvName+"' class='artist-media'></video>");
 							var divSec = $("<div class='media-info'>");
@@ -269,12 +276,14 @@
 						
 						j++;
 						
-						var length = 20; // 표시할 글자수 기준
-             			if (data[i].of.mediaTtl.length > length) {
-             				data[i].of.mediaTtl = data[i].of.mediaTtl.substr(0, length-2) + '...';
-             			}
+					
 						
 						if(i < 3){
+							
+							var length = 20; // 표시할 글자수 기준
+	             			if (data[i].of.mediaTtl.length > length) {
+	             				data[i].of.mediaTtl = data[i].of.mediaTtl.substr(0, length-2) + '...';
+	             			}
 							
 							var li = $("<li class='top3-info'>");
 	     					var video1 = $("<video src='${ contextPath }/resources/uploadFiles/"+ data[i].mf.vidSvName+"' controls='controls' poster='${ contextPath }/resources/uploadFiles/"+ data[i].mf.picSvName+"' class='artist-media'></video>");
