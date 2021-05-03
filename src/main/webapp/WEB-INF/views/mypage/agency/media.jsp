@@ -128,6 +128,14 @@
 		$(".media-form-container").css("display", "none");
 	});
 	
+	$("[type=file]").change(function() {
+		var thumb = $("#thumbnail").val();
+		$("#thumbLabel").val(thumb);
+		
+		var video = $("#video").val();
+		$("#videoLabel").val(video);
+	});
+	
 	// 미디어 -버튼 클릭할 때
 	$(".official-minus").click(function() {
 		$(".media-delete-form-container").css("display", "block");

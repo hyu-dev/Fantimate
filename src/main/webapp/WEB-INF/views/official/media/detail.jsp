@@ -46,6 +46,10 @@ a { text-decoration:none }
 <body>
 	<!-- 네비바 인클루드 -->
 	<jsp:include page="../../common/navbar.jsp"/>
+	<!-- 신고창 인클루드 -->
+	<jsp:include page="../../common/report.jsp"/>
+	<!-- 쪽지창 인클루드 -->
+	<jsp:include page="../../common/messageSend2.jsp"/>
 	
 	<!-- 본문 시작 -->
     <section class="main-section">
@@ -216,13 +220,13 @@ a { text-decoration:none }
 			                            					   <c:choose>
 			                            					   <c:when test="${ r.friend.frStatus eq 1 || r.friend.frStatus eq 3 }">
 			                            					   	<div class="re-profile-bubble">
-								                                    <p>쪽지 보내기</p>
+								                                    <p onclick="sendMsg('${ r.mediaReply.writer }');">쪽지 보내기</p>
 								                                </div>
 			                            					   </c:when>
 			                            					   <c:when test="${ r.friend.frStatus eq 2 }">
 			                            					   	<div class="re-profile-bubble">
 								                                    <p>친구 피드로 이동</p>
-								                                    <p>쪽지 보내기</p>
+								                                    <p onclick="sendMsg('${ r.mediaReply.writer }');">쪽지 보내기</p>
 								                                </div>
 			                            					   </c:when>
 			                            					   </c:choose>
@@ -230,7 +234,7 @@ a { text-decoration:none }
 					                            		<c:when test="${ r.friend.frStatus eq '' }">
 					                            		<div class="re-profile-bubble">
 						                                    <p onclick="applyFriend(this, '${ r.mediaReply.nickname }', '${ r.mediaReply.writer }');">친구 신청</p>
-						                                    <p>쪽지 보내기</p>
+						                                    <p onclick="sendMsg('${ r.mediaReply.writer }');">쪽지 보내기</p>
 						                                </div>
 					                            		</c:when>
 					                            		</c:choose>
@@ -288,13 +292,13 @@ a { text-decoration:none }
                            					   <c:choose>
                            					   <c:when test="${ c.friend.frStatus eq 1 || c.friend.frStatus eq 3 }">
                            					   	<div class="re-profile-bubble">
-				                                    <p>쪽지 보내기</p>
+				                                    <p onclick="sendMsg('${ c.mediaReply.writer }');">쪽지 보내기</p>
 				                                </div>
                            					   </c:when>
                            					   <c:when test="${ c.friend.frStatus eq 2 }">
                            					   	<div class="re-profile-bubble">
 				                                    <p>친구 피드로 이동</p>
-				                                    <p>쪽지 보내기</p>
+				                                    <p onclick="sendMsg('${ c.mediaReply.writer }');">쪽지 보내기</p>
 				                                </div>
                            					   </c:when>
                            					   </c:choose>
@@ -302,7 +306,7 @@ a { text-decoration:none }
                             		<c:when test="${ c.friend.frStatus eq '' }">
                             		<div class="re-profile-bubble">
 	                                    <p onclick="applyFriend(this, '${ c.mediaReply.nickname }', '${ c.mediaReply.writer }');">친구 신청</p>
-	                                    <p>쪽지 보내기</p>
+	                                    <p onclick="sendMsg('${ c.mediaReply.writer }');">쪽지 보내기</p>
 	                                </div>
                             		</c:when>
                             		</c:choose>
@@ -418,13 +422,13 @@ a { text-decoration:none }
 		                            					   <c:choose>
 		                            					   <c:when test="${ r.friend.frStatus eq 1 || r.friend.frStatus eq 3 }">
 		                            					   	<div class="re-profile-bubble">
-							                                    <p>쪽지 보내기</p>
+							                                    <p onclick="sendMsg('${ r.mediaReply.writer }');">쪽지 보내기</p>
 							                                </div>
 		                            					   </c:when>
 		                            					   <c:when test="${ r.friend.frStatus eq 2 }">
 		                            					   	<div class="re-profile-bubble">
 							                                    <p>친구 피드로 이동</p>
-							                                    <p>쪽지 보내기</p>
+							                                    <p onclick="sendMsg('${ r.mediaReply.writer }');">쪽지 보내기</p>
 							                                </div>
 		                            					   </c:when>
 		                            					   </c:choose>
@@ -432,7 +436,7 @@ a { text-decoration:none }
 				                            		<c:when test="${ r.friend.frStatus eq '' }">
 				                            		<div class="re-profile-bubble">
 					                                    <p onclick="applyFriend(this, '${ r.mediaReply.nickname }', '${ r.mediaReply.writer }');">친구 신청</p>
-					                                    <p>쪽지 보내기</p>
+					                                    <p onclick="sendMsg('${ r.mediaReply.writer }');">쪽지 보내기</p>
 					                                </div>
 				                            		</c:when>
 				                            		</c:choose>
@@ -755,7 +759,54 @@ a { text-decoration:none }
         	}
         }
         
+        // 쪽지 보내기 클릭
+        function sendMsg(messRecId) {
+        	$(".to-id2").text(messRecId);
+        }
+        
+     	// 신고하기 클릭시
+	 	$(".report-btn").click(function() {
+	 		reportType = "오피셜";
+	 		$(".form-report").css("display", "block");
+	 	});
+     	
+	 	// 신고하기의 신고하기버튼 클릭시
+	 	/*
+	 	$("#reportBtn").click(function() {
+	 		var rptType = $(".radio-area:checked").val()
+	 		var rptReason = $(".report-write").val()
+	 		var rptId = "${ loginUser.id }";
+	 		var refId = "${ fanStore.get(0).fstore.fcode }";
+	 		if(reportType == '댓글') {
+	 			refId = rid;
+	 		}
+	 		console.log(rptType, rptReason, rptId, refId);
+	 		var data = {
+	 				rptType : rptType,
+	 				rptReason : rptReason,
+	 				rptId : rptId,
+	 				refId : refId,
+	 				reportType : reportType
+	 		}
+			$.ajax({
+				url : "${pageContext.request.contextPath}/fanStore/reportFanStore",
+				method : "post",
+				data : data,
+				dataType : "json",
+				success : function(data) {
+					alert(data.msg)
+					var fcode = "${ fanStore.get(0).fstore.fcode }";
+					location.href="${ pageContext.request.contextPath }/fanStore/detail?fcode=" + fcode;
+				},
+				error : function(e) {
+					alert(e)
+				}
+			});
+	 		
+	 	});*/
+        
         // 클릭한 프로필 풍선을 제외한 나머지 프로필 닫기
+        /*
         $('.profile-picture').click(function () {
         	var me = $(this).siblings('profile-bubble');
         	console.log(me);
@@ -797,7 +848,7 @@ a { text-decoration:none }
         	$('.comment-bubble').css("display", "none");
         	$('.profile-bubble').css("display", "none");
         });
-        
+        */
 
         // 댓글 프로필 클릭했을 때 프로필 풍선 생성
         $('.profile-picture').click(function () {
