@@ -906,7 +906,7 @@ html, body {
 /* 게시글 사진 개수당 다르게 세팅*/
 .photo-area {
     /* border: 1px solid red; */
-    width: 100%;
+    width: 85%;
     height: auto;
     display: grid;
     /* flex-wrap : wrap;

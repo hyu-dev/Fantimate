@@ -381,7 +381,7 @@ public class ArtistFeedController {
 			mv.addObject("aclist", aclist);
 			mv.setViewName("artistfeed/artistFeedList");
 		} else {
-			request.getSession().setAttribute("msg", "존재하는 게시글이 없습니다.");
+			mv.addObject("msg", "조회된 리스트가 없습니다.");
 			
 		}
 		return mv;

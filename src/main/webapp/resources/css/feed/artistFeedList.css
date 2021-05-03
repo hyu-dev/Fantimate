@@ -191,14 +191,16 @@ html, body {
 }
 
 .member-profileArea {
-    margin-left: 8%;
+    margin-left: 0;
 }
 
 .profileTable {
-    border-spacing: 4em 1.5em;
+    border-spacing: 17em 0.5em;
     padding: 0 2em 1em 0;
     
 }
+
+
 
 /* 포스트 작성 */
 .post-outer {
@@ -934,7 +936,7 @@ html, body {
   /* 게시글 사진 개수당 다르게 세팅*/
 .photo-area {
     /* border: 1px solid red; */
-    width: 100%;
+    width: 85%;
     height: auto;
     display: grid;
     /* flex-wrap : wrap;
