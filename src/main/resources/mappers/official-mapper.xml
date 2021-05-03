@@ -437,7 +437,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	</select>
 	
 	<!-- 댓글 개수 조회하기 -->
-	<select id="countReply" parameterType="_int" resultType="int">
+	<select id="countReply" parameterType="_int" resultType="_int">
 	SELECT 
 	       COUNT(*)
 	  FROM 
@@ -481,12 +481,12 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
  LEFT JOIN
            MD_CMT_LIKE F ON(A.CMT_NUM = F.CMT_NUM)
 	 WHERE
-	       MEDIA_NUM = 35
+	       MEDIA_NUM = #{mediaNum}
 	   AND
           (
-           B.ARTI_NAME_EN = 'DAVICHI'
+           B.ARTI_NAME_EN = #{artiName}
         OR
-           C.ARTI_NAME_EN = 'DAVICHI'
+           C.ARTI_NAME_EN = #{artiName}
           )
        AND
           (

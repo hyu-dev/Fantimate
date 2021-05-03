@@ -668,10 +668,10 @@ a { text-decoration:none }
         			data : { refId : refId },
         			type : "post",
         			success : function(data) {
-        				alert(data.msg);
+        				console.log(data);
         			},
         			error : function(e) {
-        				alert(e);
+        				console.log(e);
         			}
         		});
         	}
