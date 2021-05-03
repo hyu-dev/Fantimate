@@ -159,6 +159,8 @@ input:checked + label .area p {
 
 .product-background img {
 	width: 220px;
+	max-height: 290px;
+	object-fit: cover;
 }
 
 .product-info {

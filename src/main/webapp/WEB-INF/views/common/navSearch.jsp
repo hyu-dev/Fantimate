@@ -55,7 +55,7 @@
      function showJoinPage(){
 
          // 팝업 가운데에 띄우기
-         var popupWidth = 550;
+         var popupWidth = 600;
          var popupHeight = 710;
 
          var popupX = Math.ceil((window.screen.width - popupWidth)/2);
@@ -73,7 +73,7 @@
 	function showLoginPage() {
 
 		// 팝업 가운데에 띄우기
-		var popupWidth = 550;
+		var popupWidth = 600;
          var popupHeight = 710;
 
 		var popupX = Math
