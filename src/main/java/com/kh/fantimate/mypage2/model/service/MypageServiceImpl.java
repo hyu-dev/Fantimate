@@ -114,10 +114,16 @@ public class MypageServiceImpl implements MypageService{
 		return mDao.selectMyCommentList(id);
 	}
 
-	// 내 댓글 삭제하기
+	// 내 피드 댓글 삭제하기
 	@Override
-	public int deleteMyReply(Reply r) {
-		return mDao.deleteMyReply(r);
+	public int deleteMyReply(int rid) {
+		return mDao.deleteMyReply(rid);
+	}
+	
+	// 내 미디어 댓글 삭제하기
+	@Override
+	public int deleteMyMediaReply(int rid) {
+		return mDao.deleteMyMediaReply(rid);
 	}
 
 	/* 소속사 메인 페이지 */
@@ -290,4 +296,5 @@ public class MypageServiceImpl implements MypageService{
 	public List<MediaCategory> selectCategory(String artiName) {
 		return mDao.selectCategory(artiName);
 	}
+
 }

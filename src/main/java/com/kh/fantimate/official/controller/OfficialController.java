@@ -23,6 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
 import com.kh.fantimate.common.model.vo.BookMark;
+import com.kh.fantimate.common.model.vo.Like;
 import com.kh.fantimate.common.model.vo.Reply;
 import com.kh.fantimate.common.model.vo.ReplyCollection;
 import com.kh.fantimate.member.model.vo.Admin;
@@ -34,6 +35,7 @@ import com.kh.fantimate.member.model.vo.UserCollection;
 import com.kh.fantimate.official.model.service.OfficialService;
 import com.kh.fantimate.official.model.vo.MediaCategory;
 import com.kh.fantimate.official.model.vo.MediaCollection;
+import com.kh.fantimate.official.model.vo.Official;
 import com.kh.fantimate.pay.model.vo.Cart;
 
 @Controller
@@ -193,12 +195,31 @@ public class OfficialController {
 		
 		// 클릭한 미디어 호출
 		MediaCollection media = oService.selectMedia(map);
-		System.out.println("클릭한 미디어 호출 : " + media);
+		// System.out.println("클릭한 미디어 호출 : " + media);
 		
 		if(media != null) {
 			mv.addObject("media", media);
 			mv.setViewName("official/media/detail");
 			mv.addObject("loginUser", loginUser);
+			
+			// 해당 미디어의 카테고리 추출
+			int category = media.getCategory().getCateCode();
+			
+			System.out.println("카테고리 코드 : " + category);
+			System.out.println("아티스트 이름 : " + artiName);
+			
+			Map<Object, Object> map2 = new HashMap<>();
+			map2.put("category", category);
+			map2.put("artiName", artiName);
+			map2.put("mediaNum", mediaNum);
+			
+			// 추천 영상 리스트 호출
+			List<MediaCollection> rcmd = oService.selectRecommend(map2);
+			System.out.println("추천 영상 리스트 : " + rcmd);
+			
+			if(rcmd != null) {
+				mv.addObject("rcmd", rcmd);
+			}
 			
 			// 클릭한 미디어 조회수 추가
 			int count = oService.insertHitCount(mediaNum);
@@ -213,9 +234,9 @@ public class OfficialController {
 			// 댓글 리스트 호출
 			List<ReplyCollection> comment = oService.selectReplyList(map);
 			
-			System.out.println("댓글 리스트 : " + comment);
-			System.out.println("댓글 개수 : " + rcount);
-			System.out.println("북마크 여부 : " + bmark);
+			// System.out.println("댓글 리스트 : " + comment);
+			// System.out.println("댓글 개수 : " + rcount);
+			// System.out.println("북마크 여부 : " + bmark);
 			
 			if(count > 0) {
 				System.out.println("조회수 추가 성공");
@@ -366,7 +387,7 @@ public class OfficialController {
 			msg = "댓글 삭제에 실패하였습니다";
 		
 		Map<String, String> map2 = new HashMap<>();
-		map.put("msg", msg);
+		map2.put("msg", msg);
 		return map2;
 	}
 	
@@ -383,20 +404,21 @@ public class OfficialController {
 		boolean flag = true;
 		
 		if(result > 0) {
-			System.out.println("좋아요 추가 성공");
+			System.out.println("북마크 추가 성공");
 		} else {
-			System.out.println("좋아요 추가 실패");
+			System.out.println("북마크 추가 실패");
 			flag = false;
 		}
 		
 		String msg = "";
 		if(flag) 
-			msg = "좋아요 추가 성공"; 
+			msg = "북마크 추가 성공했습니다"; 
 		else 
-			msg = "좋아요 추가 실패";
+			msg = "북마크 추가 실패했습니다";
 		
+		System.out.println(msg);
 		Map<String, String> map2 = new HashMap<>();
-		map.put("msg", msg);
+		map2.put("msg", msg);
 		return map2;
 	}
 	
@@ -413,20 +435,21 @@ public class OfficialController {
 		boolean flag = true;
 		
 		if(result > 0) {
-			System.out.println("좋아요 삭제 성공");
+			System.out.println("북마크 삭제 성공");
 		} else {
-			System.out.println("좋아요 삭제 실패");
+			System.out.println("북마크 삭제 실패");
 			flag = false;
 		}
 		
 		String msg = "";
 		if(flag) 
-			msg = "좋아요 삭제 성공"; 
+			msg = "북마크 삭제 성공"; 
 		else 
-			msg = "좋아요 삭제 실패";
+			msg = "북마크 삭제 실패";
 		
+		System.out.println(msg);
 		Map<String, String> map2 = new HashMap<>();
-		map.put("msg", msg);
+		map2.put("msg", msg);
 		return map2;
 	}
 	
@@ -451,12 +474,14 @@ public class OfficialController {
 		
 		String msg = "";
 		if(flag) 
-			msg = "좋아요 추가 성공"; 
+			msg = "좋아요 추가 성공했습니다"; 
 		else 
-			msg = "좋아요 추가 실패";
+			msg = "좋아요 추가 실패했습니다";
+		
+		System.out.println("msg : " + msg);
 		
 		Map<String, String> map2 = new HashMap<>();
-		map.put("msg", msg);
+		map2.put("msg", msg);
 		return map2;
 	}
 	
@@ -486,7 +511,7 @@ public class OfficialController {
 			msg = "좋아요 삭제 실패";
 		
 		Map<String, String> map2 = new HashMap<>();
-		map.put("msg", msg);
+		map2.put("msg", msg);
 		return map2;
 	}
 	
@@ -516,7 +541,7 @@ public class OfficialController {
 			msg = "유저 댓글 알림 실패";
 		
 		Map<String, String> map2 = new HashMap<>();
-		map.put("msg", msg);
+		map2.put("msg", msg);
 		return map2;
 	}
 	
@@ -546,7 +571,7 @@ public class OfficialController {
 			msg = "아티스트 댓글 알림 실패";
 		
 		Map<String, String> map2 = new HashMap<>();
-		map.put("msg", msg);
+		map2.put("msg", msg);
 		return map2;
 	}
 	/*

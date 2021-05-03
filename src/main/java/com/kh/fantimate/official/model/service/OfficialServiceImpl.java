@@ -9,11 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.fantimate.common.model.vo.BookMark;
+import com.kh.fantimate.common.model.vo.Like;
 import com.kh.fantimate.common.model.vo.Reply;
 import com.kh.fantimate.common.model.vo.ReplyCollection;
 import com.kh.fantimate.official.model.dao.OfficialDao;
 import com.kh.fantimate.official.model.vo.MediaCategory;
 import com.kh.fantimate.official.model.vo.MediaCollection;
+import com.kh.fantimate.official.model.vo.Official;
 import com.kh.fantimate.official.model.vo.Schedule;
 import com.kh.fantimate.pay.model.vo.Cart;
 
@@ -103,19 +105,14 @@ public class OfficialServiceImpl implements OfficialService{
 	public List<ReplyCollection> selectReplyList(Map<Object, Object> map) {
 		return oDao.selectReplyList(map);
 	}
-
-	// 새 댓글 입력
-	/*
+	
+	// 추천 영상 리스트
 	@Override
-	public List<ReplyCollection> insertReply(Reply r, String artiName) {
-		oDao.insertReply(r);
-		
-		Map<Object, Object> map = new HashMap<>();
-		map.put("mediaNum", r.getRefId());
-		map.put("artiName", artiName);
-		
-		return oDao.selectReplyList(map);
-	}*/
+	public List<MediaCollection> selectRecommend(Map<Object, Object> map2) {
+		return oDao.selectRecommend(map2);
+	}
+
+	// 댓글 입력
 	@Override
 	public int insertReply(Reply r) {
 		return oDao.insertReply(r);
@@ -155,12 +152,14 @@ public class OfficialServiceImpl implements OfficialService{
 	// 좋아요 +1
 	@Override
 	public int insertLike(Map<Object, Object> map) {
+		oDao.plusLikeCount((int)map.get("rid"));
 		return oDao.insertLike(map);
 	}
 
 	// 좋아요 -1
 	@Override
 	public int deleteLike(Map<Object, Object> map) {
+		oDao.minusLikeCount((int)map.get("rid"));
 		return oDao.deleteLike(map);
 	}
 
@@ -211,4 +210,5 @@ public class OfficialServiceImpl implements OfficialService{
 	public int deleteSchedule(Date scheDate) {
 		return oDao.deleteSchedule(scheDate);
 	}
+
 }

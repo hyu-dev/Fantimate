@@ -54,12 +54,6 @@
                 <h3 class="mypage-friend-list" style="font-weight:700; font-size:15px;" onclick="javascript:location.href='${contextPath}/mypage/user/friends'">친구목록 / </h3>
                 <h3 class="mypage-friend-list" onclick="javascript:location.href='${contextPath}/mypage/user/friendsReq'">친구 요청 목록</h3>
 					
-<!--                     <div class="mypage-content-friends"> -->
-<%--                         <img src="${ contextPath }/resources/images/mypage/user/profile/user/user.png"> --%>
-<!--                         <h3>ManSik</h3> -->
-<!--                         <button>친구삭제</button> -->
-<!--                     </div> -->
-
                 	<c:forEach var="f" items="${ list }">
                 		<div class="mypage-content-friends">
 <%--f.attachment.attMain => 친구아이디 --%>
@@ -71,15 +65,6 @@
                 		</div>
                 	</c:forEach>
                 	
-<%--                 	<C:FOREACH VAR="F" ITEMS="${ LIST }"> --%>
-<!--                 		<DIV CLASS="MYPAGE-CONTENT-FRIENDS"> -->
-<%-- 							<C:IF TEST="${ PI.ID NE F.ATTACHMENT.ID }"> --%>
-<%-- 	                        <IMG SRC="${ CONTEXTPATH }/RESOURCES/IMAGES/MYPAGE/USER/PROFILE/${ F.FRIEND.FRSEND }/${ F.ATTACHMENT.ATTSVNAME }"> --%>
-<%--                 			<H3>${ F.FRIEND.FRSEND }</H3> --%>
-<%--                 			<BUTTON TYPE="BUTTON" ONCLICK="DELETEFRIEND(${F.FRIEND.FRSEND});">친구삭제</BUTTON> --%>
-<%-- 							</C:IF> --%>
-<!--                 		</DIV> -->
-<%--                 	</C:FOREACH> --%>
                 <!-- 나중에 페이징처리 따로 -->
             <div class="mypage-pagination-area">
 						<!-- [이전] -->

@@ -32,12 +32,10 @@ public class ArtistFeedServiceImpl implements ArtistFeedService {
 	public int insertFeed(Feed f, List<AttachmentF> attList, List<Subscribe> sblist) {
 		
 		int result = 0;
-		aDao.insertFeed(f);
+		result = aDao.insertFeed(f);
 			
 		if(attList.size() > 0) {
-			aDao.insertFeedAtt(attList);
-		}if(sblist.size() > 0) {
-			aDao.insertsubAlarm(sblist);
+			result = aDao.insertFeedAtt(attList);
 		}
 		 
   return result;
@@ -219,5 +217,11 @@ public class ArtistFeedServiceImpl implements ArtistFeedService {
 	public int insertFriend(Friend f, Alarm a) {
 		 aDao.insertFriend(f);
 		  return aDao.insertAlarm(a);
+	}
+
+	// 로그인한 아티스트 정보 조회
+	@Override
+	public List<Artist> selectaList(String artiId) {
+		return aDao.selectaList(artiId);
 	}
 }

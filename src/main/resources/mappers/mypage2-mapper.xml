@@ -718,14 +718,24 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 		           BRCREATE DESC
 	</select>
 	
-	<!-- 내 댓글 삭제하기 -->
-	<update id="deleteMyReply" parameterType="Reply">
+	<!-- 내 피드 댓글 삭제하기 -->
+	<update id="deleteMyReply" parameterType="_int">
 	UPDATE 
 		   B_REPLY
 	   SET
 	       BR_STATUS = 'N'
      WHERE
            BRID = #{rid}
+	</update>
+	
+	<!-- 내 미디어 댓글 삭제하기 -->
+	<update id="deleteMyMediaReply" parameterType="_int">
+	UPDATE 
+		   MD_CMT
+	   SET
+	       CMT_STATUS = 'N'
+     WHERE
+           CMT_NUM = #{rid}
 	</update>
 	
 	<!-- 아티스트 목록 불러오기 -->

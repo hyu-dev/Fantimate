@@ -203,13 +203,24 @@ public class MypageController {
 		r.setWriter(arti.getArtist().getArtiId());
 		System.out.println("전송할 댓글 : " + r);
 		
-		// 댓글 삭제하기
-		int result = mService.deleteMyReply(r);
-		
-		if(result > 0) {
-			System.out.println("내 댓글 삭제 성공");
+		if(r.getCategory().equals("OFFICIAL")) {
+			// 미디어 댓글 삭제하기
+			int result = mService.deleteMyMediaReply(r.getRid());
+			
+			if(result > 0) {
+				System.out.println("내 댓글 삭제 성공");
+			} else {
+				System.out.println("내 댓글 삭제 실패");
+			}
 		} else {
-			System.out.println("내 댓글 삭제 실패");
+			// 보드 댓글 삭제하기
+			int result = mService.deleteMyReply(r.getRid());
+			
+			if(result > 0) {
+				System.out.println("내 댓글 삭제 성공");
+			} else {
+				System.out.println("내 댓글 삭제 실패");
+			}
 		}
 	}
 	

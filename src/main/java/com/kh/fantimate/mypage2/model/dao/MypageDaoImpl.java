@@ -123,11 +123,18 @@ public class MypageDaoImpl implements MypageDao{
 		return sqlSession.selectList("mypage2Mapper.selectMyCommentList", id);
 	}
 
-	// 내 댓글 삭제하기
+	// 내 피드 댓글 삭제하기
 	@Override
-	public int deleteMyReply(Reply r) {
-		return sqlSession.update("mypage2Mapper.deleteMyReply", r);
+	public int deleteMyReply(int rid) {
+		return sqlSession.update("mypage2Mapper.deleteMyReply", rid);
 	}
+	
+	// 내 미디어 댓글 삭제하기
+	@Override
+	public int deleteMyMediaReply(int rid) {
+		return sqlSession.update("mypage2Mapper.deleteMyMediaReply", rid);
+	}
+
 
 	/* 소속사 메인 페이지 */
 	

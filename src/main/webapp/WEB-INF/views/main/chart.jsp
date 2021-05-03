@@ -91,15 +91,7 @@
 					var ul1 = $("<ul class='rest-info-section'>");
 					
 					for(var i in data){
-						
 						j++;
-						/* 
-						var length = 20; // 표시할 글자수 기준
-             			if (data[i].of.mediaTtl.length > length) {
-             				data[i].of.mediaTtl = data[i].of.mediaTtl.substr(0, length-2) + '...';
-             			} */
-						
-						
 						if(i < 3){
 							
 
@@ -275,9 +267,6 @@
 					for(var i in data){
 						
 						j++;
-						
-					
-						
 						if(i < 3){
 							
 							var length = 20; // 표시할 글자수 기준
@@ -354,7 +343,5 @@
             Copyright Fantimate <br>
         </div>   
     </footer>
-
-
 </body>
 </html>

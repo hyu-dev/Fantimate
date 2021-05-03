@@ -97,5 +97,8 @@ public interface ArtistFeedService {
 
 	// 친구신청
 	public int insertFriend(Friend f, Alarm a);
+
+	// 로그인한 아티스트 정보 조회
+	public List<Artist> selectaList(String artiId);
 	
 }

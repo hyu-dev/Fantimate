@@ -614,7 +614,7 @@ button:hover{
 }
 
 #mypageAdminMenuDiv a{
-		
+	font-size : 16px;
 	cursor : pointer;
     padding: 10px 0;
     width: 100%;

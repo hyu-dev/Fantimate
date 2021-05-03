@@ -745,4 +745,23 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 			,	#{id}
 		)
 	</insert>
+	
+	<!-- 로그인한 아티스트 정보 조회 -->
+	<select id="selectLoginArtist" resultMap="artiinfoRresultSet">
+	SELECT
+					ARTI_ID
+				,	ARTI_ONE_NAME
+				,	NICKNAME
+				,	FACEBOOK
+				,	INSTAGRAM
+				,	TWITTER
+				,	DAILY_MSG
+				,	IS_TEAM
+				,	ID
+				,	ARTI_NAME_EN
+	FROM
+					ART_PERSON
+	WHERE			
+					ARTI_ID = #{artiId}	
+	</select>
 </mapper>

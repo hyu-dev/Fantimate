@@ -216,7 +216,7 @@ ul li.top3-info{
 .rest-media{
     /*219 * 160*/
     height: 160px;
-    width:290px;
+    width: 290px;
 }
 
 ul.rest-info-section{
@@ -229,7 +229,7 @@ ul li.rest-info{
 }
 
 .rest-media-info{
-    width: 280px;
+    width: 260px;
     background: #fff;
 }
 
@@ -250,7 +250,7 @@ ul li.rest-info{
 	font-family: 'Wemakeprice';
     font-style: normal;
     font-weight: normal;
-    font-size: 18px;
+    font-size: 15px;
     line-height: 22px;
     color: #9e9d9d;
 }
