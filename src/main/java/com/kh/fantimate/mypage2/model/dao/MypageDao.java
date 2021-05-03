@@ -68,8 +68,11 @@ public interface MypageDao {
 	// 내 댓글 리스트 가져오기
 	List<ReplyCollection> selectMyCommentList(String id);
 
-	// 내 댓글 삭제하기
-	int deleteMyReply(Reply r);
+	// 내 피드 댓글 삭제하기
+	int deleteMyReply(int rid);
+	
+	// 내 미디어 댓글 삭제하기
+	int deleteMyMediaReply(int rid);
 	
 	/* 소속사 메인 페이지 */
 

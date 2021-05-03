@@ -9,7 +9,6 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link rel="stylesheet" href="${ contextPath }/resources/css/official/mediaDetail.css">
-<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 <!-- 모달  -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
@@ -105,7 +104,7 @@ a { text-decoration:none }
 	                            	<c:if test="${ loginUser.id ne c.mediaReply.writer }">
 	                                <div class="profile-bubble">
 	                                    <p><a href="#ex1" rel="modal:open" style="color:#5C5F78">프로필 보기</a></p>
-	                                    <p onclick="artistFeed(${ c.artist.artiId });">피드로 이동</p>
+	                                    <p onclick="artistFeed('${ c.artist.artiId }');">피드로 이동</p>
 	                                </div>
 	                                </c:if>
 	                                <img class="profile-picture" src="${ contextPath }/resources/uploadFiles/${ c.artiAttach.attSvName }">
@@ -174,7 +173,7 @@ a { text-decoration:none }
 					                            	<c:if test="${ loginUser.id ne r.mediaReply.writer }">
 					                                <div class="re-profile-bubble">
 					                                    <p><a href="#ex1" rel="modal:open" style="color:#5C5F78">프로필 보기</a></p>
-					                                    <p onclick="artistFeed(${ r.artist.artiId });">피드로 이동</p>
+					                                    <p onclick="artistFeed('${ r.artist.artiId }');">피드로 이동</p>
 					                                </div>
 					                                </c:if>
 		                                            <img class="re-profile-picture" src="${ contextPath }/resources/uploadFiles/${ r.artiAttach.attSvName }">
@@ -187,13 +186,13 @@ a { text-decoration:none }
 		                                                        <div class="comment-content">${ r.mediaReply.rcontent }</div>
 		                                                    </div>
 		                                                </div>
+		                                                <c:if test="${ loginUser.id eq r.mediaReply.writer }">
 		                                                <div class="re-comment-etc">···
-					                                        <c:if test="${ loginUser.id eq r.mediaReply.writer }">
 		                                                    <div class="re-comment-bubble">
 					                                            <p class="delete-comment" onclick="deleteComment(this, ${ r.mediaReply.rid });">댓글 삭제</p>
 		                                                    </div>
-					                                        </c:if>
 		                                                </div>
+		                                                </c:if>
 		                                            </div>
 		                                            <div class="re-comment-info comment-center nanumsquare">
 		                                            	<c:if test="${ r.mediaLike.lstatus eq 'N' || r.mediaLike.lstatus eq null }">
@@ -230,7 +229,7 @@ a { text-decoration:none }
 					                            		</c:when>
 					                            		<c:when test="${ r.friend.frStatus eq '' }">
 					                            		<div class="re-profile-bubble">
-						                                    <p>친구 신청</p>
+						                                    <p onclick="applyFriend(this, '${ r.mediaReply.nickname }', '${ r.mediaReply.writer }');">친구 신청</p>
 						                                    <p>쪽지 보내기</p>
 						                                </div>
 					                            		</c:when>
@@ -284,8 +283,8 @@ a { text-decoration:none }
 	                            <td>
 	                                <c:if test="${ loginUser.id ne c.mediaReply.writer }">
 	                                <c:choose>
-                            		<c:when test="${ (loginUser.id eq c.friend.frSend && r.mediaReply.writer eq c.friend.frRecId)
-                           					   || (loginUser.id eq c.friend.frRecId && r.mediaReply.writer eq c.friend.frSend) }">
+                            		<c:when test="${ (loginUser.id eq c.friend.frSend && c.mediaReply.writer eq c.friend.frRecId)
+                           					   || (loginUser.id eq c.friend.frRecId && c.mediaReply.writer eq c.friend.frSend) }">
                            					   <c:choose>
                            					   <c:when test="${ c.friend.frStatus eq 1 || c.friend.frStatus eq 3 }">
                            					   	<div class="re-profile-bubble">
@@ -300,9 +299,9 @@ a { text-decoration:none }
                            					   </c:when>
                            					   </c:choose>
                             		</c:when>
-                            		<c:when test="${ r.friend.frStatus eq '' }">
+                            		<c:when test="${ c.friend.frStatus eq '' }">
                             		<div class="re-profile-bubble">
-	                                    <p>친구 신청</p>
+	                                    <p onclick="applyFriend(this, '${ c.mediaReply.nickname }', '${ c.mediaReply.writer }');">친구 신청</p>
 	                                    <p>쪽지 보내기</p>
 	                                </div>
                             		</c:when>
@@ -375,7 +374,7 @@ a { text-decoration:none }
 					                            	<c:if test="${ loginUser.id ne r.mediaReply.writer }">
 					                                <div class="re-profile-bubble">
 					                                    <p><a href="#ex1" rel="modal:open" style="color:#5C5F78">프로필 보기</a></p>
-					                                    <p onclick="artistFeed(${ r.artist.artiId });">피드로 이동</p>
+					                                    <p onclick="artistFeed('${ r.artist.artiId }');">피드로 이동</p>
 					                                </div>
 					                                </c:if>
 		                                            <img class="re-profile-picture" src="${ contextPath }/resources/uploadFiles/${ r.artiAttach.attSvName }">
@@ -388,13 +387,13 @@ a { text-decoration:none }
 		                                                        <div class="comment-content">${ r.mediaReply.rcontent }</div>
 		                                                    </div>
 		                                                </div>
+		                                                <c:if test="${ loginUser.id eq r.mediaReply.writer }">
 		                                                <div class="re-comment-etc">···
 		                                                    <div class="re-comment-bubble">
-					                                            <c:if test="${ loginUser.id eq r.mediaReply.writer }">
 					                                            <p class="delete-comment" onclick="deleteComment(this, ${ r.mediaReply.rid });">댓글 삭제</p>
-					                                            </c:if>
 		                                                    </div>
 		                                                </div>
+		                                                </c:if>
 		                                            </div>
 		                                            <div class="re-comment-info comment-center nanumsquare">
 		                                                <c:if test="${ r.mediaLike.lstatus eq 'N' || r.mediaLike.lstatus eq null }">
@@ -414,15 +413,15 @@ a { text-decoration:none }
 		                                        <td>
 					                                <c:if test="${ loginUser.id ne r.mediaReply.writer }">
 					                                <c:choose>
-				                            		<c:when test="${ (loginUser.id eq c.friend.frSend && r.mediaReply.writer eq c.friend.frRecId)
-		                            					   || (loginUser.id eq c.friend.frRecId && r.mediaReply.writer eq c.friend.frSend) }">
+				                            		<c:when test="${ (loginUser.id eq r.friend.frSend && r.mediaReply.writer eq r.friend.frRecId)
+		                            					   || (loginUser.id eq r.friend.frRecId && r.mediaReply.writer eq r.friend.frSend) }">
 		                            					   <c:choose>
-		                            					   <c:when test="${ c.friend.frStatus eq 1 || c.friend.frStatus eq 3 }">
+		                            					   <c:when test="${ r.friend.frStatus eq 1 || r.friend.frStatus eq 3 }">
 		                            					   	<div class="re-profile-bubble">
 							                                    <p>쪽지 보내기</p>
 							                                </div>
 		                            					   </c:when>
-		                            					   <c:when test="${ c.friend.frStatus eq 2 }">
+		                            					   <c:when test="${ r.friend.frStatus eq 2 }">
 		                            					   	<div class="re-profile-bubble">
 							                                    <p>친구 피드로 이동</p>
 							                                    <p>쪽지 보내기</p>
@@ -432,7 +431,7 @@ a { text-decoration:none }
 								                    </c:when>
 				                            		<c:when test="${ r.friend.frStatus eq '' }">
 				                            		<div class="re-profile-bubble">
-					                                    <p>친구 신청</p>
+					                                    <p onclick="applyFriend(this, '${ r.mediaReply.nickname }', '${ r.mediaReply.writer }');">친구 신청</p>
 					                                    <p>쪽지 보내기</p>
 					                                </div>
 				                            		</c:when>
@@ -572,13 +571,21 @@ a { text-decoration:none }
         
         // 좋아요 여부 확인하기
         function checkLike(e, rid) {
+        	var likeCount = $(e).siblings(".like-count").text();
+        	console.log(e);
+        	console.log("라이크카운트" + likeCount);
+        	
         	if($(e).attr("src") == "${ contextPath }/resources/images/official/like.svg") {
 				$(e).attr("src","${ contextPath }/resources/images/official/like-black.svg");
+				likeCount2 = parseInt(likeCount) + 1;
+				$(e).siblings(".like-count").text(likeCount2);
 				
 				return insertLike(rid);
 				
             } else {
             	$(e).attr("src","${ contextPath }/resources/images/official/like.svg");
+            	likeCount2 = parseInt(likeCount) - 1;
+            	$(e).siblings(".like-count").text(likeCount2);
             	
             	return deleteLike(rid);
             }
@@ -747,6 +754,50 @@ a { text-decoration:none }
         		});
         	}
         }
+        
+        // 클릭한 프로필 풍선을 제외한 나머지 프로필 닫기
+        $('.profile-picture').click(function () {
+        	var me = $(this).siblings('profile-bubble');
+        	console.log(me);
+        	
+        	$('.profile-bubble').removeClass("open-area");
+        	$('.re-profile-bubble').removeClass("open-area");
+        	$('.comment-bubble').removeClass("open-area");
+        	$('.re-comment-bubble').removeClass("open-area");
+        	me.css("display", "block");
+        });
+        
+        $('.re-profile-picture').click(function () {
+        	var me = $(this).children('re-profile-bubble');
+        	console.log(me);
+        	
+        	$('.re-profile-bubble').not(me).css("display", "none");
+        	$('.profile-bubble').css("display", "none");
+        	$('.comment-bubble').css("display", "none");
+        	$('.re-comment-bubble').css("display", "none");
+        });
+        
+        // 클릭한 댓글 풍선을 제외한 나머지 프로필 닫기
+        $('.comment-etc').click(function () {
+        	var me = $(this).children('comment-bubble');
+        	console.log(me);
+        	
+        	$('.comment-bubble').not(me).css("display", "none");
+        	$('.re-profile-bubble').removeClass("open-area");
+        	$('.profile-bubble').removeClass("open-area");
+        	$('.re-comment-bubble').removeClass("open-area");
+        });
+        
+        $('.re-comment-etc').click(function () {
+        	var me = $(this).siblings('comment-bubble');
+        	console.log(me);
+        	
+        	$('.re-comment-bubble').not(me).css("display", "none");
+        	$('.re-profile-bubble').css("display", "none");
+        	$('.comment-bubble').css("display", "none");
+        	$('.profile-bubble').css("display", "none");
+        });
+        
 
         // 댓글 프로필 클릭했을 때 프로필 풍선 생성
         $('.profile-picture').click(function () {
@@ -815,6 +866,15 @@ a { text-decoration:none }
             }
         });
 		
+		// 친구 신청
+		function applyFriend(e, nickname, frRecId) {
+		   var frSend = "${loginUser.id}";
+		   
+		   if(confirm(nickname + "님에게 친구신청을 하시겠습니까?")){
+		    	location.href='${contextPath}/fanfeed/insertFriend?frRecId=' + frRecId + '&frSend=' + frSend;
+	    	}
+		}
+		
 		// 아티스트 피드로 이동
 		function artistFeed(writer) {
 			location.href="${contextPath}/artistfeed/selectMember?writer=" + writer;
@@ -836,24 +896,19 @@ a { text-decoration:none }
                     </label>
                   </div>
             </div>
+            <c:if test="${ rcmd ne '' }">
             <p id="recommendTitle">추천 영상</p>
             <div class="recommend-container">
+            	<c:forEach var="rcmd" items="${ rcmd }">
                 <div class="recommend-media">
-                    <img src="${ contextPath }/resources/images/official/category-media.jpg">
-                    <div class="media-title nanumsquare">BREAK THE SILENCE : THE MOVIE COMMENTARY</div>
-                    <div class="media-date nanumsquare">2021.03.21</div>
+                    <img src="${ contextPath }/resources/uploadFiles/${ rcmd.mediaFile.picSvName }">
+                    <div class="media-title nanumsquare">${ rcmd.official.mediaTtl }</div>
+                    <div class="media-date nanumsquare">
+                    <fmt:formatDate value="${ rcmd.official.mediaDate }" pattern="yyyy.MM.dd"/></div>
                 </div>
-                <div class="recommend-media">
-                    <img src="${ contextPath }/resources/images/official/category-media.jpg">
-                    <div class="media-title nanumsquare">BREAK THE SILENCE : THE MOVIE COMMENTARY</div>
-                    <div class="media-date nanumsquare">2021.03.21</div>
-                </div>
-                <div class="recommend-media">
-                    <img src="${ contextPath }/resources/images/official/category-media.jpg">
-                    <div class="media-title nanumsquare">BREAK THE SILENCE : THE MOVIE COMMENTARY</div>
-                    <div class="media-date nanumsquare">2021.03.21</div>
-                </div>
+                </c:forEach>
             </div>
+            </c:if>
         </aside>
         
 	    <script>
@@ -863,8 +918,10 @@ a { text-decoration:none }
 		});
 	    
 	 	// 토글 스위치 클릭할 때 스케줄 페이지로 이동
+	 	var artiName = "${ media.category.artiNameEn }";
+	 	
 	    $(".toggle-switch").click(function() {
-		    location.href="${ contextPath }/official/schedule";
+		    location.href="${ contextPath }/official/schedule?artiName=" + artiName;
 		});
 	    </script>
    </section>

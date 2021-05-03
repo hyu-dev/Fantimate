@@ -222,8 +222,10 @@
 		});
 	    
 	 	// 토글 스위치 클릭할 때 스케줄 페이지로 이동
+	 	var artiName = "${ artiName }";
+	 	
 	    $(".toggle-switch").click(function() {
-		    location.href="${ contextPath }/official/schedule";
+	    	location.href="${ contextPath }/official/schedule?artiName=" + artiName;
 		});
 	    </script>
    </section>

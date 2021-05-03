@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.kh.fantimate.common.model.vo.BookMark;
+import com.kh.fantimate.common.model.vo.Like;
 import com.kh.fantimate.common.model.vo.Reply;
 import com.kh.fantimate.common.model.vo.ReplyCollection;
 import com.kh.fantimate.member.model.vo.Member;
@@ -57,6 +58,9 @@ public interface OfficialDao {
 	
 	// 댓글 리스트 호출
 	List<ReplyCollection> selectReplyList(Map<Object, Object> map);
+	
+	// 추천 영상 리스트
+	public List<MediaCollection> selectRecommend(Map<Object, Object> map2);
 
 	// 새 댓글 입력
 	int insertReply(Reply r);
@@ -78,9 +82,15 @@ public interface OfficialDao {
 
 	// 좋아요 +1
 	int insertLike(Map<Object, Object> map);
+	
+	// 좋아요 카운트 증가
+	void plusLikeCount(int rid);
 
 	// 좋아요 -1
 	int deleteLike(Map<Object, Object> map);
+	
+	// 좋아요 카운트 감소
+	void minusLikeCount(int rid);
 
 	// 댓글 신고
 	int insertReport(Map<Object, Object> map);
