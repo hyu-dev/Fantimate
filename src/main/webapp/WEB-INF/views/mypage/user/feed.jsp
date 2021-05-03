@@ -1287,19 +1287,19 @@ html, body {
 <!-- 	메뉴 -->
 	<jsp:include page="menu.jsp"/>
 	</section>
-<script>
-//유저 팝업
-    $(document).ready(function(){
-            console.log("메소드 동작");
+<!-- <script> -->
+// //유저 팝업
+//     $(document).ready(function(){
+//             console.log("메소드 동작");
             
-            $("#mypageMenuBtn").children().removeClass("mypage-btn-DN");
-            console.log("removeClass 동작");
+//             $("#mypageMenuBtn").children().removeClass("mypage-btn-DN");
+//             console.log("removeClass 동작");
             
-            $("#mypageMenuBtn").children().eq(0).addClass("mypage-btn-DN");
-            console.log("addClass 동작");
+//             $("#mypageMenuBtn").children().eq(0).addClass("mypage-btn-DN");
+//             console.log("addClass 동작");
             
-    });
-</script>
+//     });
+<!-- </script> -->
 	    <!-- 포스트 작성 첨부파일 아이콘 클릭 시 이벤트 -->
     <script>
     $('.photo-icon').click(function(){
