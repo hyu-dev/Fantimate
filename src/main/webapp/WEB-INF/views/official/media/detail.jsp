@@ -407,7 +407,7 @@ a { text-decoration:none }
 		                                                <img class="likeBtn" src="${ contextPath }/resources/images/official/like-black.svg" onclick="checkLike(this, ${ r.mediaReply.rid });">
 		                                                </c:if>
 		                                                <span class="like-count">${ r.mediaReply.likeCount }</span>
-		                                                <span class="comment-date">${ r.mediaReply.rcreate }</span>
+		                                                <span class="comment-date"><fmt:formatDate value="${ r.mediaReply.rcreate }" pattern="yyyy.MM.dd HH:mm"/></span>
 		                                            </div>
 		                                        </td>
 		                                    </tr>
@@ -472,7 +472,7 @@ a { text-decoration:none }
 		                                                <img class="likeBtn" src="${ contextPath }/resources/images/official/like-black.svg" onclick="checkLike(this, ${ r.mediaReply.rid });">
 		                                                </c:if>
 		                                                <span class="like-count">${ r.mediaReply.likeCount }</span>
-		                                                <span class="comment-date">${ r.mediaReply.rcreate }</span>
+		                                                <span class="comment-date"><fmt:formatDate value="${ r.mediaReply.rcreate }" pattern="yyyy.MM.dd HH:mm"/></span>
 		                                            </div>
 		                                        </td>
 		                                    </tr>

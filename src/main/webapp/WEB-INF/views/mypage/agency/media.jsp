@@ -144,6 +144,7 @@
 	// 미디어 삭제 팝업 확인 버튼 클릭할 때
 	$("#mediaDeleteBtn").click(function() {
 		var mediaTtl = $("#mediaCategory").val();
+		var artiName = '${ artiName }';
 		
 		$.ajax({
 			url : "${ contextPath }/mypage/deleteMediaItem",
@@ -152,6 +153,7 @@
 			dataType : "json",
 			success : function(data) {
 				alert(data.msg);
+				location.href = "${ contextPath }/mypage/agency/media?artiName=" + artiName;
 			} 
 		});
 	});

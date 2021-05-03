@@ -513,6 +513,8 @@
     	
     	if(artiName != "") {
     		location.href="${ contextPath }/mypage/agency/store?artiName=" + artiName;
+    		$("#storeBtn").css("display", "none");
+        	$("#artistBtn").css("display", "block");
     	} else {
     		alert("아티스트를 선택해주세요");
     	}
@@ -529,9 +531,21 @@
     	
     	if(artiName != "") {
     		location.href="${ contextPath }/mypage/agency/media?artiName=" + artiName;
+    		$("#officialBtn").css("display", "none");
+        	$("#artistBtn").css("display", "block");
     	} else {
     		alert("아티스트를 선택해주세요");
     	}
+    });
+    
+    // 아티스트관리 버튼 눌렀을 때
+    $("#artistBtn").click(function() {
+    	var artiName = "${ artiName }";
+    	
+    	location.href="${ contextPath }/mypage/agency/main";
+    	$("#artistBtn").css("display", "none");
+    	$("#storeBtn").css("display", "block");
+    	$("#officialBtn").css("display", "block");
     });
     
     // 오피셜 스케줄 버튼 눌렀을 때

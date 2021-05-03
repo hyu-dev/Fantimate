@@ -27,6 +27,7 @@ import com.kh.fantimate.common.model.vo.Friend;
 import com.kh.fantimate.common.model.vo.Like;
 import com.kh.fantimate.common.model.vo.Reply;
 import com.kh.fantimate.common.model.vo.ReplyCollection;
+import com.kh.fantimate.common.model.vo.Subscribe;
 import com.kh.fantimate.member.model.vo.Admin;
 import com.kh.fantimate.member.model.vo.Agency;
 import com.kh.fantimate.member.model.vo.ArtistCollection;
@@ -541,14 +542,26 @@ public class OfficialController {
 	
 	// 아티스트 유저 알림
 	@PostMapping(value="/insertArtistReplyAlarm", produces="application/json; charset=utf-8")
-	public @ResponseBody void insertArtistReplyAlarm(int refId, HttpSession session) {
+	public @ResponseBody void insertArtistReplyAlarm(int refId, HttpSession session,
+													 HttpServletRequest request) {
 		Member loginUser = (Member)session.getAttribute("loginUser");
+		String artiName = (String)request.getSession().getAttribute("artiName");
+		
+		// 구독회원 리스트 불러오기
+		List<Subscribe> sblist = oService.selectsblist(artiName);
+		
+		System.out.println(sblist);
 		
 		Map<Object, Object> map = new HashMap<>();
-		map.put("id", loginUser.getId());
+		map.put("sblist", sblist);
 		map.put("refId", refId);
 		
+		for(int i = 0; i <= sblist.size(); i++) {
+			sblist.get(i).setArtiname(loginUser.getId());
+		}
+		
 		int result = oService.insertArtistReplyAlarm(map);
+		
 		
 		if(result > 0) {
 			System.out.println("아티스트 댓글 알림 성공");

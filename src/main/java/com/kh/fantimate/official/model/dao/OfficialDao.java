@@ -9,6 +9,7 @@ import com.kh.fantimate.common.model.vo.Friend;
 import com.kh.fantimate.common.model.vo.Like;
 import com.kh.fantimate.common.model.vo.Reply;
 import com.kh.fantimate.common.model.vo.ReplyCollection;
+import com.kh.fantimate.common.model.vo.Subscribe;
 import com.kh.fantimate.member.model.vo.Member;
 import com.kh.fantimate.official.model.vo.MediaCategory;
 import com.kh.fantimate.official.model.vo.MediaCollection;
@@ -101,6 +102,9 @@ public interface OfficialDao {
 
 	// 회원 댓글 알림 입력
 	int insertUserReplyAlarm(Map<Object, Object> map);
+	
+	// 구독자 리스트 불러오기
+	List<Subscribe> selectsblist(String artiName);
 
 	// 아티스트 댓글 알림 입력
 	int insertArtistReplyAlarm(Map<Object, Object> map);

@@ -19,5 +19,4 @@ public class Subscribe {
 	private String unickname;	// 유저 닉네임
 	private String subStatus;	// 구독 취소여부
 	private String artiname;	// 아티스트명
-
 }

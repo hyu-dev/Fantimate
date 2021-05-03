@@ -443,7 +443,9 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	  FROM 
 	       MD_CMT
 	 WHERE
-	       MEDIA_NUM = #{mediaNum}	
+	       MEDIA_NUM = #{mediaNum}
+	   AND
+	       CMT_STATUS = 'Y'
 	</select>
 	
 	<!-- 댓글 리스트 호출 -->
@@ -691,7 +693,7 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
     	)
     VALUES
     	(
-    	 SEQ_MD_BMARK.NEXTVAL
+    	 'Y'
 	   , SYSDATE
 	   , #{id}
 	   , #{mediaNum}
@@ -735,8 +737,21 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	       )	
 	</insert>
 	
+	<!-- 구독자 리스트 불러오기 -->
+	<select id="selectsbList" resultMap="subscribe">
+   SELECT 	
+	      U_ID
+	FROM 		
+	      ATT_SUBSCRIBE
+	WHERE
+	      ARTI_NAME_EN = #{artiName} 
+ ORDER BY 
+          SUB_CODE
+	</select>
+	
 	<!-- 아티스트 댓글 알림 -->
 	<insert id="insertArtistReplyAlarm" parameterType="hashMap">
+	<foreach collection="sblist" item="i">
     INSERT
 	  INTO ALARM
 	      (
@@ -751,13 +766,14 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	VALUES
 	      (
 	       SEQ_ALARM.NEXTVAL
-	     , #{id} || '(아티스트)님이 댓글을 달았습니다.'
+	     , #{i.artiname} || '(아티스트)님이 댓글을 달았습니다.'
 	     , SYSDATE
 	     , DEFAULT
 	     , 8
-	     , #{id}
+	     , #{i.uid}
 	     , #{refId}
-	       )	
+	       )
+	</foreach>
 	</insert>
 	
 	<!-- 좋아요 카운트 증가 -->
