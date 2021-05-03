@@ -133,12 +133,14 @@ public class MypageUserController {
 						String fileName = userAtt.getAttClName();
 						File deleteFile = new File(savePath + "\\" + fileName);
 
-						if(!(fileName.equals("profile1.svg") && fileName.equals("profile2.svg") && fileName.equals("profile3.svg"))) {
+						if((fileName.equals("profile1.svg") || fileName.equals("profile2.svg") || fileName.equals("profile3.svg"))) {
+						}else {
 							// 기존 파일 삭제
 							if(deleteFile.exists()) {
 								deleteFile.delete();
 								System.out.println("기존 프로필 삭제 완료");
 							}
+							
 						}
 					}
 					// 혹시 처음 업로드라면 경로생성
