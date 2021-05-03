@@ -76,21 +76,29 @@ public class FanFeedController {
 		
 		String id = ((Member)request.getSession().getAttribute("loginUser")).getId(); 
 		System.out.println("로그인 유저  : " + id);
+		int classify = ((Member)request.getSession().getAttribute("loginUser")).getClassifyMem();
+		System.out.println("회원 분류 : " + classify);
 		
-	
-		
-		u.setIsMembership(id);
+		if(classify == 1) {
+			u.setIsMembership(id);
+			
+			User ms = fService.selectUser(id);
+			System.out.println("유저정보?? : " + ms);
+			String Membership = ms.getIsMembership();
+			HttpSession session = request.getSession();
+			session.setAttribute("Membership", Membership);
+		}
 		// 로그인 유저의 멤버십여부
 
-		User ms = fService.selectUser(id);
-		System.out.println("멤버십이니?? : " + ms);
+		// 여기서 아티스트 가 접속하면 오류걸림
+//		User ms = fService.selectUser(id);
+//		System.out.println("유저정보?? : " + ms);
 		
-		String Membership = ms.getIsMembership();
-		
-	
 //		String Membership = ms.getIsMembership();
 		
-		System.out.println("멤버십이냐? : " + Membership);
+//		System.out.println("멤버십이냐? : " + Membership);
+	
+
 		
 		f.setArtiName(artNameEn);
 		s.setArtiname(artNameEn);
@@ -167,7 +175,7 @@ public class FanFeedController {
 		
 		// 아티스트가 로그인하면 세션에 저장하지마라
 		
-		session.setAttribute("Membership", Membership);
+	//	session.setAttribute("Membership", Membership);
 		
 		
 		if(subList != null && !subList.isEmpty()) {
