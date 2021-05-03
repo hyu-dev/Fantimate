@@ -179,7 +179,7 @@
 							var media = $("<div class='category-media'>");
 							var pay = $("<div class='media-pay-sign'>").text("유료");
 							var img = $("<img onclick='selectMedia(" + data[i].official.mediaNum + "," + data[i].official.isPay + "," + data[i].official.mediaPay + ")'>")
-							img.attr("src", "${contextPath}/resources/images/official/" + data[i].mediaFile.picSvName);
+							img.attr("src", "${contextPath}/resources/uploadFiles/" + data[i].mediaFile.picSvName);
 							var title = $("<div class='media-title nanumsquare'>").text(data[i].official.mediaTtl);
 							var date = $("<div class='media-date nanumsquare'>").text(data[i].official.mediaDate);
 							

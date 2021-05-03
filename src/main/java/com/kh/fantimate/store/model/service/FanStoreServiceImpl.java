@@ -216,7 +216,6 @@ public class FanStoreServiceImpl implements FanStoreService{
 					fDao.updateEnrollTag(tc);
 				}
 			}
-			
 			// 중복데이터가 아닌 태그명 매칭등록
 			for(String t : tag) {
 				fDao.insertHashTag(t);
@@ -232,9 +231,6 @@ public class FanStoreServiceImpl implements FanStoreService{
 
 	@Override
 	public int updateFanStore(FanStore fstore, List<Attachment> attList, String[] tagName) {
-		for(int i = 0; i < tagName.length; i++) {
-			System.out.println("서비스 : " + tagName[i]);
-		}
 		// 기존에 등록된 태그명 불러오기
 		List<HashTag> originTagList = fDao.selectOriginTagList(fstore.getFcode());
 		for(HashTag origin : originTagList) {
@@ -250,11 +246,10 @@ public class FanStoreServiceImpl implements FanStoreService{
 			for(int i = 0; i < tagName.length; i++) {
 				tag.add(tagName[i]);
 			}
-			System.out.println("삭제된 태그명 확인");
-			// tagName에 있는 태그리스트 불러오기
-			List<HashTag> newTagList = fDao.checkDuplicationUpdate(tag);
+			// tagName에 있는 중복태그리스트 불러오기
+			List<HashTag> isDup = fDao.checkDuplicationUpdate(tag);
 			// 삭제된 태그명 확인
-			for(HashTag dt : newTagList) {
+			for(HashTag dt : isDup) {
 				for(int i = 0; i < originTagList.size(); i++) {
 					if(dt.getTagName().equals(originTagList.get(i).getTagName())) {
 						originTagList.remove(i);
@@ -262,7 +257,7 @@ public class FanStoreServiceImpl implements FanStoreService{
 				}
 			}
 			
-			for(HashTag newt : newTagList) {
+			for(HashTag newt : isDup) {
 				System.out.println("변경 후 테이블 불러오기 : " + newt);
 			}
 			for(HashTag origin : originTagList) {
@@ -278,7 +273,6 @@ public class FanStoreServiceImpl implements FanStoreService{
 			
 			System.out.println("태그 중복 확인");
 			// 태그중복확인
-			List<HashTag> isDup = fDao.checkDuplicationUpdate(tag);
 			if(isDup.size() > 0 || !isDup.isEmpty()) {
 				// 중복태그가 있다면 삭제
 				for(HashTag d : isDup) {
