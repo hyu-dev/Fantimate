@@ -283,7 +283,6 @@ public class MypageController {
 		// 소속 아티스트 목록 전체 불러오기(관리 페이지로 넘어가기 위해)
 		List<ArtistGroup> artist = mService.selectArtistList(id);
 		// System.out.println("아티스트 전체 목록 : " + artist);
-
 		
 		// 솔로 아티스트 불러오기
 		List<ArtistGroup> solo = mService.selectSolo(id);
@@ -308,6 +307,111 @@ public class MypageController {
 			mv.setViewName("mypage/agency/main");
 			System.out.println(agency);
 		}
+		
+		return mv;
+	}
+	
+	// 마이페이지 소속사 스토어 관리 페이지 & 스토어 관리 페이지에 뿌려질 전체 리스트 출력
+	@GetMapping("/agency/store")
+	public ModelAndView agencyStoreAdmin(String artiName, String category, String search,
+										 ModelAndView mv, HttpServletRequest request) {
+		Agency agency = (Agency)request.getSession().getAttribute("agency");
+		
+		// 소속 아티스트 목록 전체 불러오기(관리 페이지로 넘어가기 위해)
+		List<ArtistGroup> artist = mService.selectArtistList(agency.getAgId());
+		
+		mv.addObject("agency", agency);
+		mv.addObject("artist", artist);
+		mv.addObject("artiName", artiName);
+		
+		if(category == "" && search == "") {
+			// 스토어 리스트 가져오기
+			List<StoreCollection> store = mService.selectStoreList(artiName);
+			mv.addObject("store", store);
+			
+		} else if(category != "" && search == "") {
+			
+			Map<String, String> map = new HashMap<>();
+			map.put("artiName", artiName);
+			map.put("category", category);
+			
+			// 카테고리 검색 결과 가져오기
+			List<StoreCollection> store = mService.selectCategoryStoreList(map);
+			
+			mv.addObject("store", store);
+			mv.addObject("category", category);
+
+		} else if(category == "" && search != "") {
+			
+			Map<String, String> map = new HashMap<>();
+			map.put("artiName", artiName);
+			map.put("search", search);
+			
+			// 카테고리 검색 결과 가져오기
+			List<StoreCollection> store = mService.selectSearchStoreList(map);
+			
+			mv.addObject("store", store);
+			mv.addObject("search", search);
+
+		} else {
+			// 스토어 리스트 가져오기
+			List<StoreCollection> store = mService.selectStoreList(artiName);
+			mv.addObject("store", store);
+		}
+		
+		mv.setViewName("mypage/agency/store");
+		
+		return mv;
+	}
+		
+	// 마이페이지 소속사 미디어 관리 페이지 & 미디어 관리 페이지에 뿌려질 전체 리스트 출력
+	@GetMapping("/agency/media")
+	public ModelAndView agencyMediaAdmin(String artiName, String category, String search,
+										 ModelAndView mv, HttpServletRequest request) {
+		Agency agency = (Agency)request.getSession().getAttribute("agency");
+		
+		// 소속 아티스트 목록 전체 불러오기(관리 페이지로 넘어가기 위해)
+		List<ArtistGroup> artist = mService.selectArtistList(agency.getAgId());
+		// 카테고리 목록 불러오기
+		List<MediaCategory> cate = mService.selectCategory(artiName);
+		
+		mv.addObject("artist", artist);
+		mv.addObject("agency", agency);
+		mv.addObject("cate", cate);
+		mv.addObject("artiName", artiName);
+		
+		if(category == "" && search == "") {
+			// 미디어 리스트 가져오기
+			List<MediaCollection> media = mService.selectMediaAdminList(artiName);
+			mv.addObject("media", media);
+			
+		} else if(category != "" && search == "") {
+			Map<String, String> map = new HashMap<>();
+			map.put("artiName", artiName);
+			map.put("category", category);
+			
+			// 카테고리 검색 결과 가져오기
+			//List<MediaCollection> media = mService.selectCategoryMediaList(map);
+			//mv.addObject("media", media);
+			mv.addObject("category", category);
+			
+		} else if(category == "" && search != "") {
+			Map<String, String> map = new HashMap<>();
+			map.put("artiName", artiName);
+			map.put("search", search);
+			
+			// 카테고리 검색 결과 가져오기
+			//List<MediaCollection> media = mService.selectSearchMediaList(map);
+			//mv.addObject("media", media);
+			mv.addObject("search", search);
+			
+		} else {
+			// 미디어 리스트 가져오기
+			List<MediaCollection> media = mService.selectMediaAdminList(artiName);
+			mv.addObject("media", media);
+		}
+		
+		mv.setViewName("mypage/agency/media");
 		
 		return mv;
 	}
@@ -436,6 +540,58 @@ public class MypageController {
 		Map<String, String> resultMsg = new HashMap<>();
 		resultMsg.put("msg", msg);
 		return resultMsg;
+	}
+	
+	// 솔로 아이디 확인
+	@PostMapping(value="/checkSoloId", produces="application/json; charset=utf-8")
+	public @ResponseBody Map<String, String> checkSoloId(String id, HttpServletRequest request) {
+		
+		String soloId = mService.checkMemberId(id);
+		boolean flag = true;
+		
+		if(soloId != null || !soloId.equals("")) {
+			System.out.println("아이디 존재");
+			flag = false;
+		} else {
+			System.out.println("아이디 없음");
+		}
+
+		String msg = "";
+		
+		if(flag) 
+			msg = "사용가능한 아이디입니다"; 
+		else 
+			msg = "이미 존재하는 아이디입니다";
+		
+		Map<String, String> map = new HashMap<>();
+		map.put("msg", msg);
+		return map;
+	}
+	
+	// 개인 아이디 확인
+	@PostMapping(value="/checkOneId", produces="application/json; charset=utf-8")
+	public @ResponseBody Map<String, String> checkOneId(String id, HttpServletRequest request) {
+		
+		String oneId = mService.checkMemberId(id);
+		boolean flag = true;
+		
+		if(oneId != null || !oneId.equals("")) {
+			System.out.println("아이디 존재");
+			flag = false;
+		} else {
+			System.out.println("아이디 없음");
+		}
+
+		String msg = "";
+		
+		if(flag) 
+			msg = "사용가능한 아이디입니다"; 
+		else 
+			msg = "이미 존재하는 아이디입니다";
+		
+		Map<String, String> map = new HashMap<>();
+		map.put("msg", msg);
+		return map;
 	}
 	
 	// 아티스트 솔로 등록하기
@@ -605,56 +761,6 @@ public class MypageController {
 		return map;
 	}
 	
-	
-	
-	// 마이페이지 소속사 스토어 관리 페이지 & 스토어 관리 페이지에 뿌려질 전체 리스트 출력
-	@GetMapping("/agency/store")
-	public ModelAndView agencyStoreAdmin(String artiName, String category, String search,
-										 ModelAndView mv, HttpServletRequest request) {
-		Agency agency = (Agency)request.getSession().getAttribute("agency");
-		mv.addObject("agency", agency);
-		mv.addObject("artiName", artiName);
-		
-		if(category == "" && search == "") {
-			// 스토어 리스트 가져오기
-			List<StoreCollection> store = mService.selectStoreList(artiName);
-			mv.addObject("store", store);
-			
-		} else if(category != "" && search == "") {
-			
-			Map<String, String> map = new HashMap<>();
-			map.put("artiName", artiName);
-			map.put("category", category);
-			
-			// 카테고리 검색 결과 가져오기
-			List<StoreCollection> store = mService.selectCategoryStoreList(map);
-			
-			mv.addObject("store", store);
-			mv.addObject("category", category);
-
-		} else if(category == "" && search != "") {
-			
-			Map<String, String> map = new HashMap<>();
-			map.put("artiName", artiName);
-			map.put("search", search);
-			
-			// 카테고리 검색 결과 가져오기
-			List<StoreCollection> store = mService.selectSearchStoreList(map);
-			
-			mv.addObject("store", store);
-			mv.addObject("search", search);
-
-		} else {
-			// 스토어 리스트 가져오기
-			List<StoreCollection> store = mService.selectStoreList(artiName);
-			mv.addObject("store", store);
-		}
-		
-		mv.setViewName("mypage/agency/store");
-		
-		return mv;
-	}
-	
 	// 스토어 삭제하기
 	@PostMapping(value="/deleteStoreItem", produces="application/json; charset=utf-8")
 	public @ResponseBody String deleteStoreItem(String pname, String artiName, HttpServletRequest request) {
@@ -674,58 +780,6 @@ public class MypageController {
 		List<StoreCollection> store = mService.selectStoreList(artiName);
 		
 		return new Gson().toJson(store);
-	}
-	
-	// 마이페이지 소속사 미디어 관리 페이지 & 미디어 관리 페이지에 뿌려질 전체 리스트 출력
-	@GetMapping("/agency/media")
-	public ModelAndView agencyMediaAdmin(String artiName, String category, String search,
-										 ModelAndView mv, HttpServletRequest request) {
-		Agency agency = (Agency)request.getSession().getAttribute("agency");
-		
-		// 소속 아티스트 목록 전체 불러오기(관리 페이지로 넘어가기 위해)
-		List<ArtistGroup> artist = mService.selectArtistList(agency.getAgId());
-		// 카테고리 목록 불러오기
-		List<MediaCategory> cate = mService.selectCategory(artiName);
-		
-		mv.addObject("artist", artist);
-		mv.addObject("agency", agency);
-		mv.addObject("cate", cate);
-		mv.addObject("artiName", artiName);
-		
-		if(category == "" && search == "") {
-			// 미디어 리스트 가져오기
-			List<MediaCollection> media = mService.selectMediaAdminList(artiName);
-			mv.addObject("media", media);
-			
-		} else if(category != "" && search == "") {
-			Map<String, String> map = new HashMap<>();
-			map.put("artiName", artiName);
-			map.put("category", category);
-			
-			// 카테고리 검색 결과 가져오기
-			//List<MediaCollection> media = mService.selectCategoryMediaList(map);
-			//mv.addObject("media", media);
-			mv.addObject("category", category);
-			
-		} else if(category == "" && search != "") {
-			Map<String, String> map = new HashMap<>();
-			map.put("artiName", artiName);
-			map.put("search", search);
-			
-			// 카테고리 검색 결과 가져오기
-			//List<MediaCollection> media = mService.selectSearchMediaList(map);
-			//mv.addObject("media", media);
-			mv.addObject("search", search);
-			
-		} else {
-			// 미디어 리스트 가져오기
-			List<MediaCollection> media = mService.selectMediaAdminList(artiName);
-			mv.addObject("media", media);
-		}
-		
-		mv.setViewName("mypage/agency/media");
-		
-		return mv;
 	}
 	
 	// 미디어 등록하기

@@ -303,4 +303,10 @@ public class MypageServiceImpl implements MypageService{
 		return mDao.deleteMediaItem(mediaTtl);
 	}
 
+	// 존재하는 아이디 확인
+	@Override
+	public String checkMemberId(String id) {
+		return mDao.checkMemberId(id);
+	}
+
 }

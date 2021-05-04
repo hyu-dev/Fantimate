@@ -25,7 +25,7 @@ button {
 
 .pop-up-form {
     height: 267px;
-    width: 500px;
+    width: 300px;
     background: #FBF6F6;
     padding: 20px 30px 20px 30px;
     box-sizing: border-box;
@@ -36,35 +36,6 @@ button {
     bottom: 0;
     margin: auto;
     z-index: 2;
-}
-
-.pop-up-text {
-    font-weight: 900;
-    font-size: 25px;
-}
-
-.choose-artist, .move-text {
-	/* border: 1px solid red; */
-	width: 100%;
-    margin: auto;
-    text-align: center;
-    font-weight: 700;
-    font-size: 20px;
-}
-
-.select-area {
-    /* border: 1px solid red; */
-    width: 200px;
-    height: 100px;
-    margin: auto;
-}
-
-.form-category {
-    width: 200px;
-    height: 35px;
-    outline-style: none;
-    margin: auto;
-    text-align: center;
 }
 
 .btn-area {
@@ -103,7 +74,7 @@ button {
 }
 
 .artist-form {
-    width: 676px;
+    width: 300px;
     background: white;
     padding: 20px 30px 20px 30px;
     box-sizing: border-box;
@@ -118,10 +89,6 @@ button {
 
 .solo-artist-form {
 	height: 530px;
-}
-
-.profile-form {
-	height: 400px;
 }
 
 .team-artist-form {
@@ -149,32 +116,23 @@ button {
 	margin-top: 20px;
 }
 
-.agency-table {
-	width: 100%;
-	height: 60%;
-	margin-top: 20px;
-}
-
 .artist-table tr {
+	border: 1px solid red;
 	height: 40px;
 	font-size: 20px;
 }
 
 .team-artist-table tr {
+	border: 1px solid red;s
 	height: 30px;
 	font-size: 20px;
 }
 
-.agency-table tr {
-	height: 40px;
-	font-size: 20px;
-}
-
-.artist-table td:first-of-type, .team-artist-table td:first-of-type, .agency-table td:first-of-type {
+.artist-table td:first-of-type, .team-artist-table td:first-of-type {
 	text-align: right;
 }
 
-.artist-table input, .team-artist-table input, .agency-table input {
+.artist-table input, .team-artist-table input {
 	height: 20px;
 	border: 1px solid #ACACAC;
 	outline: none;
@@ -189,12 +147,6 @@ button {
 	font-size: 15px !important;
 }
 
-.arti-btn-area{
-	margin-top: 30px;
-	display: flex;
-	justify-content: center;
-}
-
 .enroll-cancel-btn {
 	width: 100px;
     height: 30px;
@@ -203,12 +155,10 @@ button {
     outline-style: none;
 }
 
-#passwordBtn {
-	width: 110px;
-    height: 25px;
-    border: none;
-    font-size: 15px;
-    outline-style: none;
+.arti-btn-area{
+	margin-top: 30px;
+	display: flex;
+	justify-content: center;
 }
 
 /* 메인 */

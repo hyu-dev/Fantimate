@@ -5,6 +5,10 @@
     font-family: 'NanumSquare', sans-serif !important;
 }
 
+button {
+	cursor: pointer;
+}
+
 /* 프로필 */
 .profile-container {
     border-bottom: 1px solid #828282;
@@ -63,4 +67,159 @@
     font-size: 16px;
     margin-left: 40px;
     cursor: pointer;
+}
+
+/* 프로필 수정, 스토어, 오피셜 관리 */
+.pop-up {
+	display: none;
+}
+
+.black-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: black;
+    opacity: 0.2;
+    z-index: 1;
+}
+
+.pop-up-form {
+    height: 267px;
+    width: 500px;
+    background: #FBF6F6;
+    padding: 20px 30px 20px 30px;
+    box-sizing: border-box;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    z-index: 2;
+}
+
+.artist-form {
+    width: 676px;
+    background: white;
+    padding: 20px 30px 20px 30px;
+    box-sizing: border-box;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    z-index: 2;
+}
+
+.profile-form {
+	height: 400px;
+}
+
+
+.agency-table {
+	width: 100%;
+	height: 60%;
+	margin-top: 20px;
+}
+
+.agency-table tr {
+	height: 40px;
+	font-size: 20px;
+}
+
+.agency-table td:first-of-type {
+	text-align: right;
+}
+
+.agency-table input {
+	height: 20px;
+	border: 1px solid #ACACAC;
+	outline: none;
+}
+
+.pop-up-text {
+    font-weight: 900;
+    font-size: 25px;
+}
+
+.artist-text {
+	font-size: 23px;
+	font-weight: 700;
+}
+
+.choose-artist, .move-text {
+	/* border: 1px solid red; */
+	width: 100%;
+    margin: auto;
+    text-align: center;
+    font-weight: 700;
+    font-size: 20px;
+}
+
+.select-area {
+    /* border: 1px solid red; */
+    width: 200px;
+    height: 100px;
+    margin: auto;
+}
+
+.form-category {
+    width: 200px;
+    height: 35px;
+    outline-style: none;
+    margin: auto;
+    text-align: center;
+}
+
+.button-area {
+    display: flex;
+}
+
+.arti-button-area{
+	margin-top: 30px;
+	display: flex;
+	justify-content: center;
+}
+
+.sub-button-area, .move-text {
+	display: none;
+}
+
+.arti-button-area button, #profileCancelBtn {
+	width: 100px;
+    height: 25px;
+    border: none;
+    font-size: 16px;
+    outline-style: none;
+}
+
+.button-area button, .sub-button-area button {
+    width: 130px;
+    height: 30px;
+    border: none;
+    font-size: 16px;
+    outline-style: none;
+}
+
+#passwordBtn {
+	width: 110px;
+    height: 25px;
+    border: none;
+    font-size: 15px;
+    outline-style: none;
+}
+
+.pink-btn {
+    background: #F4D4D4;
+}
+
+.blue-btn {
+    background: #5C5F78;
+    color: white;
+    cursor: pointer;
+}
+
+#scheduleBtn, #passwordBtn {
+    background: #E5D2D2;
 }

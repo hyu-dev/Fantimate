@@ -148,4 +148,7 @@ public interface MypageService {
 
 	// 미디어 삭제
 	int deleteMediaItem(String mediaTtl);
+
+	// 존재하는 아이디 확인
+	String checkMemberId(String id);
 }

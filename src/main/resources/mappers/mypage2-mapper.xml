@@ -1197,4 +1197,14 @@ PUBLIC "-//mybatis.org//DTD Mapepr 3.0//EN"
 	 WHERE
 	 	   MEDIA_TTL = #{mediaTtl}
 	</update>
+	
+	<!-- 존재하는 아이디 확인 -->
+	<select id="checkMemberId" parameterType="string" resultType="string">
+	SELECT
+	       ID
+	  FROM 
+	       COMMON
+	 WHERE
+	       ID = #{id}
+	</select>
 </mapper>

@@ -100,6 +100,7 @@
         
         <!-- 오른쪽 -->
         <aside class="main-contents-right">
+        <!--  
             <div class="toggle-area">
                 <div class="toggle-switch" tabindex="0">
                     <input type="checkbox" name="my_checkbox" value="yes" id="checkbox-id" />
@@ -113,6 +114,7 @@
                     </label>
                   </div>
             </div>
+        -->
         </aside>
         
 	    <script>
