@@ -82,8 +82,6 @@ a { text-decoration:none }
                                 <option>&nbsp;최신순</option>
                                 <option>&nbsp;인기순</option>
                             </select>
-                            <input type="checkbox" id="myComment" name="myComment" value="myComment">
-                            <label for="myComment">내 댓글만</label>
                             <span class="watching-count">${ media.official.mediaCount }</span><span class="watching-count">조회수&nbsp;</span>
                         </div>
                     </div>
@@ -933,6 +931,7 @@ a { text-decoration:none }
         
         <!-- 오른쪽 -->
         <aside class="main-contents-right">
+        	<!-- 
             <div class="toggle-area">
                 <div class="toggle-switch" tabindex="0">
                     <input type="checkbox" name="my_checkbox" value="yes" id="checkbox-id" />
@@ -946,6 +945,7 @@ a { text-decoration:none }
                     </label>
                   </div>
             </div>
+             -->
             <c:if test="${ rcmd ne '' }">
             <p id="recommendTitle">추천 영상</p>
             <div class="recommend-container">

@@ -108,6 +108,11 @@
 	
 	<!-- 본문 끝 -->
 	<script>
+	$(document).ready(function() {
+		$("#officialBtn").css("display", "none");
+    	$("#artistBtn").css("display", "block");
+    });
+	
 	// 이동하기 버튼 클릭할 때
 	function mediaLink(mediaNum) {
 		location.href = "${ contextPath }/official/media/detail?mediaNum=" + mediaNum;
@@ -116,16 +121,6 @@
 	// 미디어 +버튼 클릭할 때
 	$(".official-plus").click(function() {
 		$(".media-form-container").css("display", "block");
-	});
-	
-	// 미디어 등록하기 팝업 등록하기 버튼 클릭할 때
-	$("#mediaInsertBtn").click(function() {
-		$(".media-form-container").css("display", "block");
-	});
-	
-	// 미디어 등록하기 팝업 취소하기 버튼 클릭할 때
-	$("#mediaInsertCancelBtn").click(function() {
-		$(".media-form-container").css("display", "none");
 	});
 	
 	$("[type=file]").change(function() {

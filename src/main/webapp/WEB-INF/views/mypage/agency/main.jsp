@@ -15,108 +15,6 @@
     <title>Fantimate</title>
 </head>
 <body>
-	<!-- 프로필 수정 -->
-    <section class="profile-form-container pop-up">
-        <div class="black-back"></div>
-        <form class="profile-form artist-form">
-            <span class="artist-text nanumsquare">프로필 수정</span>
-            <hr>
-            <table class="profile-table agency-table" class="nanumsquare">
-            	<colgroup>
-                    <col width="30%"/>
-                    <col width="70%"/>
-                </colgroup>
-                <tr class="nanumsquare">
-                	<td>아이디&nbsp;&nbsp;</td>
-                	<td>
-                		<span id="agencyId">${ agency.agId }</span>&nbsp;
-                	</td>
-                </tr>
-                <tr class="nanumsquare">
-                	<td>비밀번호&nbsp;&nbsp;</td>
-                	<td>
-                		<input type="password" name="agPwd">&nbsp;<button id="passwordBtn" class="nanumsquare" type="button">비밀번호 변경</button>
-                	</td>
-                </tr>
-                <tr class="nanumsquare">
-                	<td>소속사명&nbsp;&nbsp;</td>
-                	<td>
-                		<input type="text" name="agName" value="${ agency.agName }">
-                	</td>
-                </tr>
-                <tr class="nanumsquare">
-                	<td>연락처&nbsp;&nbsp;</td>
-                	<td>
-                		<input type="text" name="agPhone" value="${ agency.agPhone }">
-                	</td>
-                </tr>
-                <tr class="nanumsquare">
-                	<td>이메일&nbsp;&nbsp;</td>
-                	<td>
-                		<input type="text" name="agEmail" value="${ agency.agEmail }">
-                	</td>
-                </tr>
-            </table>
-            <div class="arti-btn-area">
-                <button id="profileEditBtn" class="enroll-cancel-btn pink-btn nanumsquare" type="button">등록하기</button>&nbsp;&nbsp;&nbsp;&nbsp;
-                <input id="profileCancelBtn" class="enroll-cancel-btn blue-btn nanumsquare" type="reset" value="취소하기">
-            </div>
-        </form>
-    </section>
-
-	<!-- 스토어 관리 팝업 -->
-    <section class="store-form-container pop-up">
-        <div class="black-back"></div>
-        <div class="store-admin-form pop-up-form">
-            <span class="pop-up-text nanumsquare">스토어 관리</span>
-            <br><br>
-            <div class="choose-artist nanumsquare">아티스트를 선택하세요</div>
-            <br>
-            <div class="select-area">
-                <select id="storeCategory" class="form-category" name="artiName">
-                    <option value="">검색</option>
-                    <c:forEach var="arti" items="${ artist }">
-                    <option class="search-value" value="${ arti.artNameEn }">${ arti.artNameEn }</option>
-                    </c:forEach>
-                </select>
-                <br><br>
-                <div class="btn-area">
-                    <button id="storeAdminBtn" class="pink-btn nanumsquare">확인</button>&nbsp;&nbsp;
-                    <button id="storeCancelBtn" class="blue-btn nanumsquare" type="button">취소</button>
-                </div>
-            </div>
-        </div>
-    </section>
-    
-    <!-- 오피셜 관리 팝업 -->
-    <section class="official-form-container pop-up">
-        <div class="black-back"></div>
-        <div class="official-admin-form pop-up-form">
-            <span class="pop-up-text nanumsquare">오피셜 관리</span>
-            <br><br>
-            <div class="choose-artist nanumsquare">아티스트를 선택하세요</div>
-            <br>
-            <div class="select-area">
-                <select id="officialCategory" class="form-category" name="artiName">
-                    <option value="">검색</option>
-                    <c:forEach var="arti" items="${ artist }">
-                    <option class="search-value" value="${ arti.artNameEn }">${ arti.artNameEn }</option>
-                    </c:forEach>
-                </select>
-                <div class="move-text nanumsquare">오피셜 스케줄 페이지로 이동합니다</div>
-                <br><br>
-                <div class="btn-area">
-                    <button id="mediaAdminBtn" class="pink-btn nanumsquare" type="button">미디어</button>&nbsp;&nbsp;
-                    <button id="scheduleAdminBtn" class="blue-btn nanumsquare" type="button">스케줄</button>
-                </div>
-                <div class="sub-btn-area">
-                    <button id="scheduleBtn" class="nanumsquare" type="button">확인</button>&nbsp;&nbsp;
-                    <button id="scheduleCancelBtn" class="blue-btn nanumsquare" type="button">취소</button>
-                </div>
-            </div>
-        </div>
-    </section>
-    
     <!-- 솔로 아티스트 등록 -->
     <section class="solo-form-container pop-up">
         <div class="black-back"></div>
@@ -126,29 +24,29 @@
             <hr>
             <table class="artist-table" class="nanumsquare">
             	<colgroup>
-                    <col width="30%"/>
-                    <col width="70%"/>
+                    <col width="45%"/>
+                    <col width="55%"/>
                 </colgroup>
                 <tr class="nanumsquare">
                 	<td>아이디&nbsp;&nbsp;</td>
                 	<td>
-                		<input type="text" name="id" id="input-id">&nbsp;
+                		<input class="check-id" type="text" name="id" id="input-id">&nbsp;
                 		<input type="hidden" name="artiId" id="input-artiId">
-                		<span class="check-text">중복된 아이디입니다.</span>
+                		<span class="check-text"></span>
                 	</td>
                 </tr>
                 <tr class="nanumsquare">
                 	<td>비밀번호&nbsp;&nbsp;</td>
                 	<td>
                 		<input type="password" name="pwd">&nbsp;
-                		<span class="check-text">비밀번호 형식이 맞지 않습니다.</span>
+                		<span class="check-text"></span>
                 	</td>
                 </tr>
                 <tr class="nanumsquare">
                 	<td>비밀번호 확인&nbsp;&nbsp;</td>
                 	<td>
                 		<input type="password" name="soloRePwd">&nbsp;
-                		<span class="check-text">비밀번호가 일치하지 않습니다.</span>
+                		<span class="check-text"></span>
                 	</td>
                 </tr>
                 <tr class="nanumsquare">
@@ -170,7 +68,7 @@
                 	<td>닉네임&nbsp;&nbsp;</td>
                 	<td>
                 		<input type="text" name="artiNickname">
-                		<span class="check-text">중복된 닉네임입니다.</span>
+                		<span class="check-text"></span>
                 	</td>
                 </tr>
                 <tr class="nanumsquare">
@@ -196,21 +94,21 @@
             <hr>
             <table class="team-artist-table" class="nanumsquare">
             	<colgroup>
-                    <col width="30%"/>
-                    <col width="70%"/>
+                    <col width="45%"/>
+                    <col width="55%"/>
                 </colgroup>
                 <tr class="nanumsquare">
                 	<td>그룹명(영어)&nbsp;&nbsp;</td>
                 	<td>
                 		<input type="text" name="artNameEn">&nbsp;
-                		<span class="check-text">중복된 이름입니다.</span>
+                		<span class="check-text"></span>
                 	</td>
                 </tr>
                 <tr class="nanumsquare">
                 	<td>그룹명(한글)&nbsp;&nbsp;</td>
                 	<td>
                 		<input type="text" name="artNameKr">&nbsp;
-                		<span class="check-text">중복된 이름입니다.</span>
+                		<span class="check-text"></span>
                 	</td>
                 </tr>
                 <tr class="nanumsquare">
@@ -235,8 +133,8 @@
             <hr>
             <table class="artist-table" class="nanumsquare">
             	<colgroup>
-                    <col width="30%"/>
-                    <col width="70%"/>
+                    <col width="45%"/>
+                    <col width="55%"/>
                 </colgroup>
                 <tr class="nanumsquare">
                 	<td>그룹명&nbsp;&nbsp;</td>
@@ -248,23 +146,23 @@
                 <tr class="nanumsquare">
                 	<td>아이디&nbsp;&nbsp;</td>
                 	<td>
-                		<input type="text" name="id" id="input-one-id">&nbsp;
+                		<input class="check-id" type="text" name="id" id="input-one-id">&nbsp;
                 		<input type="hidden" name="artiId" id="input-one-artiId">
-                		<span class="check-text">중복된 아이디입니다.</span>
+                		<span class="check-text"></span>
                 	</td>
                 </tr>
                 <tr class="nanumsquare">
                 	<td>비밀번호&nbsp;&nbsp;</td>
                 	<td>
                 		<input type="password" name="pwd">&nbsp;
-                		<span class="check-text">중복된 아이디입니다.</span>
+                		<span class="check-text"></span>
                 	</td>
                 </tr>
                 <tr class="nanumsquare">
                 	<td>비밀번호 확인&nbsp;&nbsp;</td>
                 	<td>
                 		<input type="password">&nbsp;
-                		<span class="check-text">비밀번호가 일치하지 않습니다.</span>
+                		<span class="check-text"></span>
                 	</td>
                 </tr>
                 <tr class="nanumsquare">
@@ -348,7 +246,6 @@
             </div>
         </div>
     </section>
-    
 	<!-- 네비바 인클루드 -->
 	<jsp:include page="../../common/navbar.jsp"/>
 	
@@ -417,181 +314,10 @@
 	<!-- 본문 끝 -->
 	
     <script>
-    // 프로필 수정 버튼 눌렀을 때
-    $('#profileBtn').click(function () {
-        $(".profile-form-container").css("display", "block");
-    });
-    
-    // 프로필 수정 팝업 등록하기 버튼 눌렀을 때
-    $('#profileEditBtn').click(function () {
-        var pwd = $("input[name=agPwd]").val();
-        var agName = $("input[name=agName]").val();
-        var agPhone = $("input[name=agPhone]").val();
-        var agEmail = $("input[name=agEmail]").val();
-    		
-   		$.ajax({
-   			url : "${ contextPath }/mypage/updateAgencyProfile",
-   			data : { pwd : pwd, agName : agName, agPhone : agPhone, agEmail : agEmail},
-   			type : "post",
-   			dataType : "json",
-   			success : function(data) {
-				console.log("data : " + data);	// 프로필 데이터 받아오기
-				if(data != null) {
-					alert("프로필 수정이 완료되었습니다.");
-				}
-				
-				profileArea = $(".profile-area");			
-				profileArea.html("");
-				
-				var colgroup = $("<colgroup>");
-				var col1 = $("<col width='40%'/>");
-				var col2 = $("<col width='60%'/>");
-				
-				colgroup.append(col1);
-				colgroup.append(col2);
-				
-				profileArea.append(colgroup);
-
-				for(var i in data){
-					console.log(data[i]);
-					
-					var tr = $("<tr>");
-					var td1 = $("<td class='info-title'></td>");
-					var td2 = $("<td class='info-content'>").text(data[i]);
-					
-					tr.append(td1);
-					tr.append(td2);
-					profileArea.append(tr);
-				}
-				
-				$(".info-title:nth-child(1)").text("소속사명");
-				$(".info-title:nth-child(2)").text("사업자등록번호");
-				$(".info-title:nth-child(3)").text("연락처");
-				$(".info-title:nth-child(4)").text("이메일");
-   			} 
-   		});
-   		
-   		$("#agencyId").text("");
-   		$("input[name=agPwd]").val("");
-        $("input[name=agRePwd]").val("");
-        $("input[name=agName]").val("");
-        $("input[name=agPhone]").val("");
-        $("input[name=agEmail]").val("");
-        
-        $(".profile-form-container").css("display", "none");
-    });
-    
- 	// 프로필 수정 팝업 취소하기 버튼 눌렀을 때
- 	$("#profileCancelBtn").click(function() {
- 		$(".profile-form-container").css("display", "none");
-    });
-    
- 	// ---------------------------------------------------------------------------
-    
-    var artistName = [];
-    
-    // 스토어 관리 창 눌렀을 때
-    $("#storeBtn").click(function() {
-    	 $(".store-form-container").css("display", "block");
-    });
-    
-    // 스토어 관리 취소 버튼 눌렀을 때
-	$("#storeCancelBtn").click(unselect1);
-    
-    function unselect1() {
-    	$(".store-form-container").css("display", "none");
-    	
-        $.each($("#storeCategory option:selected"), function () {
-        	artistName.push($(this).val());
-            $(this).prop('selected', false);
-        });
-    }
-    
-    // 스토어 관리 확인 버튼 눌렀을 때
-    $("#storeAdminBtn").click(function() {
-    	var artiName = $("#storeCategory").val();
-    	
-    	if(artiName != "") {
-    		location.href="${ contextPath }/mypage/agency/store?artiName=" + artiName;
-    		$("#storeBtn").css("display", "none");
-        	$("#artistBtn").css("display", "block");
-    	} else {
-    		alert("아티스트를 선택해주세요");
-    	}
-    });
-    
- 	// 오피셜 관리 창 눌렀을 때
-    $("#officialBtn").click(function() {
-    	 $(".official-form-container").css("display", "block");
-    });
-    
-    // 오피셜 미디어 버튼 눌렀을 때
-    $("#mediaAdminBtn").click(function() {
-    	var artiName = $("#officialCategory").val();
-    	
-    	if(artiName != "") {
-    		location.href="${ contextPath }/mypage/agency/media?artiName=" + artiName;
-    		$("#officialBtn").css("display", "none");
-        	$("#artistBtn").css("display", "block");
-    	} else {
-    		alert("아티스트를 선택해주세요");
-    	}
-    });
-    
-    // 아티스트관리 버튼 눌렀을 때
-    $("#artistBtn").click(function() {
-    	var artiName = "${ artiName }";
-    	
-    	location.href="${ contextPath }/mypage/agency/main";
-    	$("#artistBtn").css("display", "none");
-    	$("#storeBtn").css("display", "block");
+    $(document).ready(function() {
+		$("#storeBtn").css("display", "block");
     	$("#officialBtn").css("display", "block");
     });
-    
-    // 오피셜 스케줄 버튼 눌렀을 때
-    $("#scheduleAdminBtn").click(function() {
-    	var artiName = $("#officialCategory").val();
-    	
-    	if(artiName == "") {
-    		alert("아티스트를 선택해주세요");
-    	} else {
-    		$("#officialCategory").css("display", "none");
-         	$(".choose-artist").css("display", "none");
-         	$(".btn-area").css("display", "none");
-         	$(".move-text").css("display", "block");
-         	$(".sub-btn-area").css("display", "flex");
-    	}
-    });
-    
- 	// 오피셜 스케줄 확인 버튼 눌렀을 때
-    $("#scheduleBtn").click(function() {
-    	var artiName = $("#officialCategory").val();
-    	
-    	if(artiName != "") {
-    		location.href="${ contextPath }/official/schedule?artiName=" + artiName;
-    	} else {
-    		alert("아티스트를 선택해주세요");
-    	}
-    });
-    
-    // 오피셜 스케줄 취소 버튼 눌렀을 때    
-    $("#scheduleCancelBtn").click(unselect2);
-    
-    function unselect2() {
-    	$(".official-form-container").css("display", "none");
-    	$("#officialCategory").css("display", "block");
-     	$(".choose-artist").css("display", "block");
-     	$(".btn-area").css("display", "flex");
-     	$(".move-text").css("display", "none");
-    	$(".sub-btn-area").css("display", "none");
-    	
-        $.each($("#officialCategory option:selected"), function () {
-        	artistName.push($(this).val());
-            $(this).prop('selected', false);
-        });
-    }
-    
- 	// ---------------------------------------------------------------------------
     
     // 그룹 아티스트 이름 클릭할 때 개인 아티스트 등록창 생성
     function enrollOne(artNameEn) {
@@ -788,6 +514,58 @@
             $(this).prop('selected', false);
         });
     }
+    
+ 	// ---------------------------------------------------------------------------
+ 	// 유효성 검사
+ 	/*
+    $('.check-id').on('keyup', function(){
+    	if($(this).attr('id') == 'input-id') {
+    		if(event.keyCode == 13) { 
+    			sid_check(); 
+    		} else {
+    			//$(this).removeClass('chked');
+    			//validate( $(this) );
+    		}
+    	} else {
+    		if(event.keyCode == 13) { 
+    			oid_check(); 
+    		} else {
+    			//$(this).removeClass('chked');
+    			//validate( $(this) );
+    		}
+    	}
+    });
+ 	
+ 	function sid_check() {
+ 		var id = $("#input-id").val();
+ 		var textSI = $("#input-id").siblings("span");
+ 		
+ 		$.ajax({
+			url : "${ contextPath }/mypage/checkSoloId",
+			data : { id : id },
+			type : "post",
+			dataType : "json",
+			success : function(data) {
+				textSI.text(data.msg);
+			} 
+		});
+ 	}
+ 	
+ 	function oid_check() {
+ 		var id = $("#input-one-id").val();
+ 		var textOI = $("#input-one-id").siblings("span");
+ 		
+ 		$.ajax({
+			url : "${ contextPath }/mypage/checkOneId",
+			data : { id : id },
+			type : "post",
+			dataType : "json",
+			success : function(data) {
+				textOI.text(data.msg);
+			} 
+		});
+ 	}
+ 	*/
     </script>
 </body>
 </html>

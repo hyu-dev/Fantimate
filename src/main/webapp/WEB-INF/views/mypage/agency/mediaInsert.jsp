@@ -142,6 +142,11 @@
  		
  		alert("미디어가 정상적으로 등록되었습니다");
  	}
+	
+	// 미디어 등록하기 팝업 취소하기 버튼 클릭할 때
+	$("#mediaInsertCancelBtn").click(function() {
+		$(".media-form-container").css("display", "none");
+	});
     </script>
 </body>
 </html>

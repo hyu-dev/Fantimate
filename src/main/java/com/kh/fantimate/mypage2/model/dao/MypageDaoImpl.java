@@ -324,4 +324,10 @@ public class MypageDaoImpl implements MypageDao{
 		return sqlSession.update("mypage2Mapper.deleteMediaItem", mediaTtl);
 	}
 
+	// 존재하는 아이디 확인
+	@Override
+	public String checkMemberId(String id) {
+		return sqlSession.selectOne("mypage2Mapper.checkMemberId", id);
+	}
+
 }

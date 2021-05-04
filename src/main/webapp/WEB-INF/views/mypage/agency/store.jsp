@@ -25,7 +25,7 @@
             <div class="choose-item nanumsquare">상품명을 선택하세요</div>
             <br>
             <div class="select-area">
-                <select id="storeCategory" class="form-category" name="artiName">
+                <select id="storeItemCategory" class="form-category" name="artiName">
                     <option value="">검색</option>
                     <c:forEach var="ss" items="${ store }">
                     <option class="search-value" value="${ ss.store.pname }">${ ss.store.pname }</option>
@@ -33,8 +33,8 @@
                 </select>
                 <br><br>
                 <div class="form-btn-area">
-                    <button id="storeDeleteBtn" class="pink-btn nanumsquare">확인</button>&nbsp;&nbsp;
-                    <button id="storeCancelBtn" class="blue-btn nanumsquare" type="button">취소</button>
+                    <button id="storeItemDeleteBtn" class="pink-btn nanumsquare">확인</button>&nbsp;&nbsp;
+                    <button id="storeItemCancelBtn" class="blue-btn nanumsquare" type="button">취소</button>
                 </div>
             </div>
         </div>
@@ -154,6 +154,11 @@
     </section>
 	<!-- 본문 끝 -->
 	<script>
+	$(document).ready(function() {
+		$("#storeBtn").css("display", "none");
+    	$("#artistBtn").css("display", "block");
+    });
+	
 	// 이동하기 버튼 클릭할 때
 	function storeLink(pcode) {
 		location.href = "${ contextPath }/store/detail?pcode=" + pcode;
@@ -175,8 +180,8 @@
 	});
 	
 	// 스토어 삭제 팝업 확인 버튼 클릭할 때
-	$("#storeDeleteBtn").click(function() {
-		var pname = $("#storeCategory").val();
+	$("#storeItemDeleteBtn").click(function() {
+		var pname = $("#storeItemCategory").val();
 		var artiName = "${ artiName }";
 		
 		if(artiName != "") {
@@ -237,12 +242,12 @@
 	var storeName = [];
 	
 	// 스토어 삭제 팝업 취소 버튼 클릭할 때
-	$("#storeCancelBtn").click(storeDeleteReturn);
+	$("#storeItemCancelBtn").click(storeDeleteReturn);
 	
 	function storeDeleteReturn() {
     	$(".store-delete-form-container").css("display", "none");
     	
-        $.each($("#storeCategory option:selected"), function () {
+        $.each($("#storeItemCategory option:selected"), function () {
         	storeName.push($(this).val());
             $(this).prop('selected', false);
         });
