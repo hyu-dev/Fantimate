@@ -97,7 +97,12 @@
       - 선택한 요금제 결제
   - 컬렉션
       - 구입한 스토어, 유료미디어 조회
-      - 구입한 스토어에 한하여 리뷰 작성, 작성한 리뷰 보기
+      - 구입한 스토어에 한하여 리뷰 작성, 작성한 리뷰 보기  
+  - 코드링크  
+    [JAVA Controller & Model Code_요금플랜,장바구니,컬렉션](https://github.com/hyu-dev/Fantimate/tree/master/src/main/java/com/kh/fantimate/pay)  
+    [JSP Code_요금플랜,장바구니,컬렉션](https://github.com/hyu-dev/Fantimate/tree/master/src/main/webapp/WEB-INF/views/pay)  
+    [JAVA Controller & Model Code_스토어,팬스토어](https://github.com/hyu-dev/Fantimate/tree/master/src/main/java/com/kh/fantimate/store)  
+    [JSP Code_스토어,팬스토어](https://github.com/hyu-dev/Fantimate/tree/master/src/main/webapp/WEB-INF/views/store)  
       
 ## 참고문서
    [기획서](https://drive.google.com/drive/u/0/folders/1u86iemOZwXJl182LX2CgMw9cjTFonK-9)
