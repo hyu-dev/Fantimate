@@ -42,6 +42,7 @@
                 </thead>
 
                 <tbody>
+<%-- ?? list.size() --%>                
                 <c:if test="${ list.size() } == 0">
                 	<div>
                 		등록된 공지사항이 없습니다.
@@ -58,7 +59,9 @@
 <%--                			<td>${ n.ncreate }</td> --%>
                		</tr>
                	</c:forEach>
-               	
+               	<c:if test="${ empty list }">
+               		<tr><td colspan=3>등록된 공지사항이 없습니다.</td></tr>
+               	</c:if>               	
                	
                 </tbody>
             </table>

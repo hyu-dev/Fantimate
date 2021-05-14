@@ -96,7 +96,9 @@
                 			<input type="hidden" value="RPT_FREPLY" style="display:none;">	<!-- 11 -->
                 		</tr>
                 	</c:forEach>
-                	
+                	<c:if test="${ empty list }">
+                		<tr><td colspan=6>신고된 리스트가 없습니다.</td></tr>
+                	</c:if>                      	
                 </tbody>
             </table>
             <!-- 나중에 페이징처리 따로 -->

@@ -49,53 +49,49 @@
 						<button onclick="cancel('${ s.user.id }', '${ s.subati.subCode }')">구독취소</button>
 					</div>
 				</c:forEach>   
-<!--                     <div class="mypage-content-subscribes"> -->
-<%--                         <img src="${ contextPath }/resources/images/mypage/user/Dibs1.png"> --%>
-<!--                         <h3>Henry</h3> -->
-<!-- 이미지 경로도 EL태그                 -->
-<!-- 버튼 onclick="javascript:location.href='mypage/user/feed';" -->
-<!--                         <button>구독취소</button> -->
-<!--                     </div> -->
-<!--                 <div class="mypage-content-subscribes"> -->
-<%--                     <img src="${ contextPath }/resources/images/mypage/user/subscribes/henry.png"> --%>
-<!--                     <h3>Henry</h3> -->
-<!--                     <button>구독취소</button> -->
-<!--                 </div> -->
-<!--                 <div class="mypage-content-subscribes"> -->
-<%--                     <img src="${ contextPath }/resources/images/mypage/user/subscribes/iu.png"> --%>
-<!--                     <h3>IU</h3> -->
-<!--                     <button>구독취소</button> -->
-<!--                 </div> -->
-<!--                 <div class="mypage-content-subscribes"> -->
-<%--                     <img src="${ contextPath }/resources/images/mypage/user/subscribes/henry.png"> --%>
-<!--                     <h3>Henry</h3> -->
-<!--                     <button>구독취소</button> -->
-<!--                 </div> -->
-<!--                 <div class="mypage-content-subscribes"> -->
-<%--                     <img src="${ contextPath }/resources/images/mypage/user/subscribes/henry.png"> --%>
-<!--                     <h3>Henry</h3> -->
-<!--                     <button>구독취소</button> -->
-<!--                 </div> -->
-<!--                 <div class="mypage-content-subscribes"> -->
-<%--                     <img src="${ contextPath }/resources/images/mypage/user/subscribes/henry.png"> --%>
-<!--                     <h3>Henry</h3> -->
-<!--                     <button>구독취소</button> -->
-<!--                 </div> -->
-<!--                 <div class="mypage-content-subscribes"> -->
-<%--                     <img src="${ contextPath }/resources/images/mypage/user/subscribes/henry.png"> --%>
-<!--                     <h3>Henry</h3> -->
-<!--                     <button>구독취소</button> -->
-<!--                 </div> -->
-<!--                 <div class="mypage-content-subscribes"> -->
-<%--                     <img src="${ contextPath }/resources/images/mypage/user/subscribes/henry.png"> --%>
-<!--                     <h3>Henry</h3> -->
-<!--                     <button>구독취소</button> -->
-<!--                 </div> -->
-<!--                 <div class="mypage-content-subscribes"> -->
-<%--                     <img src="${ contextPath }/resources/images/mypage/user/subscribes/henry.png"> --%>
-<!--                     <h3>Henry</h3> -->
-<!--                     <button>구독취소</button> -->
-<!--                 </div> -->
+				<c:if test="${ empty list }">
+                    <div class="mypage-content-subscribes">
+						<h3>구독한 아티스가 없습니다.</h3>
+					</div>
+				</c:if>
+          		<!-- 나중에 페이징처리 따로 -->
+            		<div class="mypage-pagination-area">
+						<!-- [이전] -->
+						<c:if test="${ pi.currentPage <= 1 }">
+							&lt; &nbsp;
+						</c:if>
+<!-- 숨기면안되나?						 -->
+						<c:if test="${ pi.currentPage > 1 }">
+							<c:url var="before" value="/mypage/user/subscribes">
+								<c:param name="page" value="${ pi.currentPage - 1 }"/>
+							</c:url>
+							<a href="${ before }"> &lt; </a> &nbsp;
+						</c:if>
+						
+						<!-- 페이지 숫자 -->
+						<c:forEach var="p" begin="${ pi.startPage }" end="${ pi.endPage }">
+							<c:if test="${ p eq pi.currentPage }">
+								<b>[${ p }]</b>								
+							</c:if>
+							<c:if test="${ p ne pi.currentPage }">
+								<c:url var="pagination" value="/mypage/user/subscribes">
+									<c:param name="page" value="${ p }"/>
+								</c:url>
+								<a href="${ pagination }">${ p }</a>
+							</c:if>
+						</c:forEach>
+						
+						<!-- [다음] -->
+						<c:if test="${ pi.currentPage >= pi.maxPage }">
+							&nbsp; &gt;
+						</c:if>
+						<c:if test="${ pi.currentPage < pi.maxPage }">
+							<c:url var="after" value="/mypage/user/subscribes">
+								<c:param name="page" value="${ pi.currentPage + 1 }" />
+							</c:url>
+							<a href="${ after }">&gt;</a>
+						</c:if>
+            		</div>
             </div>
         </article>
 	

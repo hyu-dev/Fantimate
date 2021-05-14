@@ -94,6 +94,9 @@
                     	
                 	</tr>
                 	</c:forEach>
+                	<c:if test="${ empty list }">
+                		<tr><td colspan=7>결제내역이 없습니다.</td></tr>
+                	</c:if>
                 </tbody>
             </table>
                     <!-- 나중에 페이징처리 따로 -->

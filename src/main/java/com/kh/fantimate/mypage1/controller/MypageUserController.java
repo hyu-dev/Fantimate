@@ -355,7 +355,7 @@ public class MypageUserController {
 			if(list != null) {
 				mv.addObject("list", list);
 				mv.addObject("pi", pi);
-				mv.setViewName("mypage/user/subscribes");
+				mv.setViewName("mypage/user/subscribes?page=" + currentPage);
 			}else{
 				mv.addObject("msg", "조회에 실패하였습니다.");
 				mv.setViewName("mypage/admin/errorpage");
@@ -437,7 +437,7 @@ public class MypageUserController {
 			if(list != null) {
 				mv.addObject("list", list);
 				mv.addObject("pi", pi);
-				mv.setViewName("mypage/user/friends");
+				mv.setViewName("mypage/user/friends?page=" + currentPage);
 			}else{
 				mv.addObject("msg", "조회에 실패하였습니다.");
 				mv.setViewName("mypage/admin/errorpage");
@@ -470,7 +470,7 @@ public class MypageUserController {
 			if(list != null) {
 				mv.addObject("list", list);
 				mv.addObject("pi", pi);
-				mv.setViewName("mypage/user/friendsReq");
+				mv.setViewName("mypage/user/friendsReq?page=" + currentPage);
 			}else{
 				mv.addObject("msg", "조회에 실패하였습니다.");
 				mv.setViewName("mypage/admin/errorpage");
@@ -492,6 +492,8 @@ public class MypageUserController {
 			f.setFrStatus(stat);
 			System.out.println("혹시나 객체값 출력 : " + f);
 			System.out.println("페이지 수 url : " + url);
+			
+			
 			
 			// 받아온 값들로 해당 유저의 정보를 업데이트 해야함.(추후에 -1로 아예 컬럼 삭제할 경우 대비
 			if(stat > 0) {	// 친구를 수락(2) 거절(3) 삭제도일단 (3)
@@ -521,7 +523,7 @@ public class MypageUserController {
 				// 업데이트 성공시
 				if(result > 0) {
 					mv.addObject("message", "친구정보가 수정되었습니다.");
-					mv.setViewName("redirect:/mypage/user/friends");
+					mv.setViewName("redirect:/mypage/user" + url);
 					
 				// 업데이트 실패시
 				}else {

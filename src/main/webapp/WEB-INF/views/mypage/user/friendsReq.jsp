@@ -17,6 +17,16 @@
 <title>Friends</title>
 </head>
 <body>
+<!-- 알람 -->
+<script>
+    $(function(){
+        var responseMessage = "<c:out value="${ message }" />";
+        if(responseMessage != ""){
+            alert(responseMessage)
+        }
+    }) 
+</script>
+
 <!-- 네비바 -->
 	<jsp:include page="../../common/navbar.jsp"/>
 
@@ -27,7 +37,7 @@
 	<section id="mypageUserProfile">
 		<jsp:include page="userDiv.jsp"/>
     </section>
-    
+
     <!-- 프로필 밑에 섹션 -->
     <section id="mypageUserSection">
          <article id="mypageUserContent">
@@ -35,20 +45,6 @@
                 <!-- <h2 id="mypageUserContentDivTitle">My Subscribes</h2> -->
                 <h2>My Friends</h2>
                 
-<!--                 <div class="toggle-area"> -->
-<!--                     <div class="toggle-switch" tabindex="0"> -->
-<!--                         <input type="checkbox" name="my_checkbox" value="yes" id="checkbox-id" /> -->
-<!--                         <label for="checkbox-id"> -->
-<!--                             <div class="area" aria-hidden="true"> -->
-<!--                                 <div class="background"> -->
-<!--                                     <div class="handle"></div> -->
-<!--                                 </div> -->
-<!--                                 <p>NEW</p> -->
-<!--                             </div> -->
-<!--                         </label> -->
-<!--                     </div> -->
-<!--                 </div> -->
-
                 <!-- 토글으로 대체.
                  -->
                 <h3 class="mypage-friend-list" onclick="javascript:location.href='${contextPath}/mypage/user/friends'">친구목록 / </h3>
@@ -64,7 +60,11 @@
                 			<button type="button" onclick="rejectFriend('${f.friend.frSend}');">거절하기</button>
                 		</div>
                 	</c:forEach>
-                	
+                	<c:if test="${ empty list }">
+                		<div class="mypage-content-friends">
+                			<h3 style="text-align: center;">친구요청목록이 없습니다.</h3>
+                		</div>
+                	</c:if>                	
                 <!-- 나중에 페이징처리 따로 -->
             <div class="mypage-pagination-area">
 						<!-- [이전] -->
@@ -114,20 +114,20 @@ function deleteFriend(fid){
     //		= 2 : 신청완료
     //		= 3 : 거절 or 삭제
 	console.log("넘겨지는 id값");
-	location.href='${contextPath}/mypage/user/friends/update?fid=' + fid + '&url=/friends=${ pi.currentPage }&stat=3';
+	location.href='${contextPath}/mypage/user/friends/update?fid=' + fid + '&url=/friends?page=${ pi.currentPage }&stat=3';
 	console.log(deleteId);
 }
 // 친구 수락
 function acceptFriend(fid){
 	console.log("수락버튼 정상작동, 전달받은 아이디값");
 	console.log(fid);
-	location.href='${contextPath}/mypage/user/friends/update?fid=' + fid + '&url=/friendsReq=${ pi.currentPage }&stat=2';
+	location.href='${contextPath}/mypage/user/friends/update?fid=' + fid + '&url=/friendsReq?page=${ pi.currentPage }&stat=2';
 }
 // 친구거절
 function rejectFriend(fid){
 	console.log("수락버튼 정상작동, 전달받은 아이디값");
 	console.log(fid);
-	location.href='${contextPath}/mypage/user/friends/update?fid=' + fid + '&url=/friendsReq=${ pi.currentPage }&stat=3';
+	location.href='${contextPath}/mypage/user/friends/update?fid=' + fid + '&url=/friendsReq?page=${ pi.currentPage }&stat=3';
 }
 </script>
 	

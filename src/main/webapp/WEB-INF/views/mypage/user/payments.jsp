@@ -136,6 +136,9 @@
                     		
                     	</tr>
                     	</c:forEach>
+                    	<c:if test="${ empty list }">
+                    		<tr><td colspan="6" style="padding-bottom: 12px;padding-top: 12px;">결제내역이 없습니다.</td></tr>
+                    	</c:if>
 <!--                         하나라도 구매한 제품이있다면 c:if문안에 for문 바깥에 리뷰작성 테이블도 같이 생성. -->
                         <tr>
                             <td colspan="6" ><button type="button" onclick="javascript:location.href='${contextPath}/store/collectionStore'">리뷰작성</button></td>

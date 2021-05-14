@@ -61,7 +61,11 @@
                 			<button type="button" onclick="deleteFriend('${f.attachment.attMain}');">친구삭제</button>
                 		</div>
                 	</c:forEach>
-                	
+                	<c:if test="${ empty list }">
+                		<div class="mypage-content-friends">
+                			<h3 style="text-align: center;">친구목록이 없습니다.</h3>
+                		</div>
+                	</c:if>
                 <!-- 나중에 페이징처리 따로 -->
             <div class="mypage-pagination-area">
 						<!-- [이전] -->
@@ -133,7 +137,7 @@
 function deleteFriend(fid){
 	// 친구아이디, 페이지 값 넘겨주기 
 	console.log("넘겨지는 id값");
-	location.href='${contextPath}/mypage/user/friends/update?fid=' + fid + '&url=/friends=${ pi.currentPage }&stat=3';
+	location.href='${contextPath}/mypage/user/friends/update?fid=' + fid + '&url=/friends?page=${ pi.currentPage }&stat=3';
 	console.log(deleteId);
 }
 </script>
