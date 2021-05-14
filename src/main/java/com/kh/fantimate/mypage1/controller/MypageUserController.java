@@ -433,7 +433,6 @@ public class MypageUserController {
 			List<Friend> list = mService.requestFriendList(pi);	// 아직
 			System.out.println("읽어온 친구 : " + list);
 			
-			
 			if(list != null) {
 				mv.addObject("list", list);
 				mv.addObject("pi", pi);
