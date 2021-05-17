@@ -1,7 +1,6 @@
 package com.kh.fantimate.mypage1.controller;
 
 import java.io.IOException;
-
 import java.io.PrintWriter;
 import java.util.List;
 
@@ -25,7 +24,6 @@ import com.kh.fantimate.member.model.service.MemberService;
 import com.kh.fantimate.member.model.vo.Agency;
 import com.kh.fantimate.member.model.vo.Member;
 import com.kh.fantimate.mypage1.model.Service.Mypage1Service;
-import com.kh.fantimate.mypage1.model.vo.FriendPageInfo;
 import com.kh.fantimate.mypage1.model.vo.ReportAdmin;
 import com.kh.fantimate.mypage1.model.vo.ReportPageInfo;
 import com.kh.fantimate.mypage1.model.vo.UserPaymentCol2;
@@ -271,7 +269,7 @@ public class MypageAdminController {
 		public String memberManagement(@RequestParam(value="page", required=false, defaultValue="1") int currentPage,
 				@RequestParam(value="userid", required=true) String parameterUserId,
 				@RequestParam(value="status", required=true) String status,
-				@RequestParam(value="reportDate", required=false, defaultValue="") String reportDate,
+				@RequestParam(value="reportDate", required=false, defaultValue="0") String reportDate,
 				HttpSession session) {
 			
 			// parameterUserId라는 userid 받아서 정지 or 정지해제하기

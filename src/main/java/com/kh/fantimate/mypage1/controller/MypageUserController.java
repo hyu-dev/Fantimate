@@ -128,7 +128,7 @@ public class MypageUserController {
 						}
 
 					}
-					//			// 기존 프로필(userAtt) 파일 삭제하기
+					// 기존 프로필(userAtt) 파일 삭제하기
 					if(userAtt != null) {
 						String fileName = userAtt.getAttClName();
 						File deleteFile = new File(savePath + "\\" + fileName);
